@@ -15,7 +15,9 @@
 #include <QVariant>
 #include <QKeyEvent>
 #include <QDebug>
+#include <QPalette>
 #include <QRectF>
+#include <QVBoxLayout>
 
 class CustomGraphicsItemGroup : public QObject, public QGraphicsItemGroup {
     Q_OBJECT

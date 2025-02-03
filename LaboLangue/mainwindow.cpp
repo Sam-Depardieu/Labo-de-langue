@@ -11,6 +11,61 @@ MainWindow::MainWindow(QWidget *parent)
 
     scene = new QGraphicsScene(0, 0, 381, 361, this);
     ui->PlanClasse->setScene(scene);
+    ui->Parametrage1->setVisible(false);
+    ui->PlanClasse->setVisible(false);
+
+    ui->PlanButton->setEnabled(false);
+    ui->PlanButton->setStyleSheet(
+        "background-color: #cccccc;"  // lighter gray to indicate disable
+        "font: 9pt \"Segoe UI\";"
+        "color: #999999;"             // lighter text color
+        "border: 1px solid #999999;"  // lighter border color
+        "border-radius: 10px;"
+        );
+
+    ui->PresenceButton->setEnabled(false);
+    ui->PresenceButton->setStyleSheet(
+        "background-color: #cccccc;"  // lighter gray to indicate disable
+        "font: 9pt \"Segoe UI\";"
+        "color: #999999;"             // lighter text color
+        "border: 1px solid #999999;"  // lighter border color
+        "border-radius: 10px;"
+        );
+
+    ui->EnregistrementButton->setEnabled(false);
+    ui->EnregistrementButton->setStyleSheet(
+        "background-color: #cccccc;"  // lighter gray to indicate disable
+        "font: 9pt \"Segoe UI\";"
+        "color: #999999;"             // lighter text color
+        "border: 1px solid #999999;"  // lighter border color
+        "border-radius: 10px;"
+        );
+
+    ui->AppelButton->setEnabled(false);
+    ui->AppelButton->setStyleSheet(
+        "background-color: #cccccc;"  // lighter gray to indicate disable
+        "font: 9pt \"Segoe UI\";"
+        "color: #999999;"             // lighter text color
+        "border: 1px solid #999999;"  // lighter border color
+        "border-radius: 10px;"
+        );
+
+    ui->StatutButton->setEnabled(false);
+    ui->StatutButton->setStyleSheet(
+        "background-color: #cccccc;"  // lighter gray to indicate disable
+        "font: 9pt \"Segoe UI\";"
+        "color: #999999;"             // lighter text color
+        "border: 1px solid #999999;"  // lighter border color
+        "border-radius: 10px;"
+        );
+
+    // Créez un layout vertical pour organiser les labels
+    QVBoxLayout *layout = new QVBoxLayout();
+    layout->addWidget(ui->NameLabel);
+    layout->addWidget(ui->NameLineEdit);
+
+    // Appliquez le layout à Parametrage1
+    ui->Parametrage1->setLayout(layout);
 
     loadImagesFromDB();
 }
@@ -33,12 +88,22 @@ void MainWindow::on_PlanButton_clicked()
     ui->PlanClasse->setVisible(!ui->PlanClasse->isVisible());
 }
 
-void MainWindow::loadImagesFromDB() {
+void MainWindow::loadImagesFromDB()
+{
     if (!connectToDatabase()) {
         return;
     }
 
-    QSqlQuery query("SELECT Id_Eleve, Activite.Id_Classe, Raspberry.IP FROM SessionEleve, Activite, Raspberry WHERE Activite.Id_Activite = 1 AND Activite.Id_Classe = SessionEleve.Id_Classe AND Raspberry.Id_Raspberry = SessionEleve.Id_Raspberry");
+    QSqlQuery query;
+    query.prepare("SELECT SessionEleve.Id_Eleve, Activite.Id_Classe, Raspberry.IP, Placement.X, Placement.Y "
+                  "FROM SessionEleve "
+                  "JOIN Activite ON Activite.Id_Classe = SessionEleve.Id_Classe "
+                  "JOIN Raspberry ON Raspberry.Id_Raspberry = SessionEleve.Id_Raspberry "
+                  "JOIN Placement ON Placement.NumPoste = Raspberry.NumPoste "
+                  "WHERE Activite.Id_Activite = :idActivite");
+
+    query.bindValue(":idActivite", 1);  // ID de l'activité sélectionnée
+
     if (!query.exec()) {
         qDebug() << "Erreur lors de l'exécution de la requête :" << query.lastError();
         return;
@@ -50,10 +115,10 @@ void MainWindow::loadImagesFromDB() {
         return;
     }
 
-    int column = 0;       // Compteur pour savoir quand passer à la ligne suivante
-    int row = 0;          // Compteur de ligne
-    int spacing = 10;     // Espacement entre les images
-    int maxPerRow = 7;    // Nombre max d'images par ligne
+    int column = 0;
+    int row = 0;
+    int spacing = 10;
+    int maxPerRow = 7;
 
     int imageWidth = pixmap.width();
     int imageHeight = pixmap.height();
@@ -62,37 +127,34 @@ void MainWindow::loadImagesFromDB() {
     while (query.next()) {
         int id_eleve = query.value(0).toInt();
         QString ip = query.value(2).toString();
+        int x = query.value(3).toInt();
+        int y = query.value(4).toInt();
 
-        // Ajouter l'image
         QGraphicsPixmapItem *imageItem = new QGraphicsPixmapItem(pixmap);
         imageItem->setFlag(QGraphicsItem::ItemIsMovable);
 
-        // Ajouter le texte avec le numéro de l'élève
         QGraphicsTextItem *textItem = new QGraphicsTextItem(QString::number(id));
-        textItem->setPos(16, pixmap.height()); // Positionner le texte en dessous de l'image
+        textItem->setPos(16, pixmap.height());
 
-        // Créer un groupe pour regrouper l'image et le texte
         CustomGraphicsItemGroup *group = new CustomGraphicsItemGroup(id, id_eleve, ip);
         group->addToGroup(imageItem);
         group->addToGroup(textItem);
         group->setFlag(QGraphicsItem::ItemIsMovable);
 
-        // Calculer la position pour garantir 6 colonnes max par ligne
-        int x = column * (imageWidth + spacing);
-        int y = row * (imageHeight + spacing +10);
+        if (x == 0 || y == 0) {
+            x = column * (imageWidth + spacing);
+            y = row * (imageHeight + spacing + 10);
+        }
         group->setPos(x, y);
 
         listeElve.push_back(group);
 
-        // Connecter le signal doubleClicked à un slot
         connect(group, &CustomGraphicsItemGroup::doubleClicked, this, &MainWindow::onImageGroupDoubleClicked);
 
-        // Ajouter le groupe à la scène
         scene->addItem(group);
 
-        // Mettre à jour la colonne et la ligne
         column++;
-        if (column >= maxPerRow) { // Si on atteint 6 colonnes, passer à la ligne suivante
+        if (column >= maxPerRow) {
             column = 0;
             row++;
         }
@@ -101,9 +163,6 @@ void MainWindow::loadImagesFromDB() {
 
     ui->PlanClasse->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
 }
-
-
-
 
 
 bool MainWindow::connectToDatabase() {
@@ -129,8 +188,8 @@ void MainWindow::onImageGroupDoubleClicked() {
     // Ajoutez ici le code à exécuter lors du double-clic sur un groupe
 }
 
-void MainWindow::on_NewButton_clicked()
+void MainWindow::on_SessionButton_clicked()
 {
-    ui->Parametrage->setVisible(!ui->Parametrage->isVisible());
+    ui->Parametrage1->setVisible(!ui->Parametrage1->isVisible());
 }
 

@@ -30,7 +30,7 @@ private slots:
     bool connectToDatabase();
     void onImageGroupDoubleClicked();
 
-    void on_NewButton_clicked();
+    void on_SessionButton_clicked();
 
 private:
     Ui::MainWindow *ui;

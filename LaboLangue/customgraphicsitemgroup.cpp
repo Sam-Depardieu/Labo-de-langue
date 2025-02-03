@@ -45,17 +45,12 @@ QVariant CustomGraphicsItemGroup::itemChange(GraphicsItemChange change, const QV
         query.prepare("UPDATE Placement SET X = :x, Y = :y WHERE NumPoste = :numPoste");
         query.bindValue(":x", newPos.x());
         query.bindValue(":y", newPos.y());
-        query.bindValue(":numPoste", numero);  // Remplacer data(0) par l'identifiant approprié
+        query.bindValue(":numPoste", numero);  // Utiliser l'identifiant de la poste
         if (!query.exec()) {
             qDebug() << "Erreur lors de la mise à jour de la position :" << query.lastError();
         }
 
         return newPos;
-    }
-    QSqlQuery query("SELECT Id_Eleve, Activite.Id_Classe, Raspberry.IP FROM SessionEleve, Activite, Raspberry WHERE Activite.Id_Activite = 1 AND Activite.Id_Classe = SessionEleve.Id_Classe AND Raspberry.Id_Raspberry = SessionEleve.Id_Raspberry");
-    if (!query.exec()) {
-        qDebug() << "Erreur lors de l'exécution de la requête :" << query.lastError();
-        return NULL;
     }
 
     return QGraphicsItemGroup::itemChange(change, value);
