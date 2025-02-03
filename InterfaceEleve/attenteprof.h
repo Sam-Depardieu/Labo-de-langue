@@ -21,6 +21,9 @@ private slots:
 private:
     Ui::AttenteProf *ui;
     QMovie *loadingMovie;
+
+    void startLoading();
+    void stopLoading();
 };
 
 #endif // ATTENTEPROF_H
