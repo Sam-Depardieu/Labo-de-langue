@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
     this->setWindowTitle("Page de Connexion");
 
     this->setStatusBar(nullptr);
+    connectToDatabase();
 
 }
 
@@ -33,6 +34,7 @@ bool MainWindow::connectToDatabase() {
         qDebug() << "Impossible de se connecter à la base de données :" << db.lastError();
         return false;
     }
+    qDebug() << "Connecté à la base de données :";
     return true;
 }
 

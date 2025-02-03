@@ -8,13 +8,8 @@ InterfaceVideo::InterfaceVideo(QWidget *parent)
     ui->setupUi(this);
 
     setFixedSize(800,480);
-<<<<<<< HEAD
-    this->setWindowTitle("Page de Video");
-=======
-
     this->setWindowTitle("Page de Video");
 
->>>>>>> 0be1c50fad725fb1405ebe0deb65c19bbfe93ec2
     player = new QMediaPlayer(this);
     videoWidget = new QVideoWidget(this);
 
