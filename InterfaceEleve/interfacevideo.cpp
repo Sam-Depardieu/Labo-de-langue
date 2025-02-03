@@ -8,9 +8,9 @@ InterfaceVideo::InterfaceVideo(QWidget *parent)
     ui->setupUi(this);
 
     setFixedSize(800,480);
-<<<<<<< HEAD
+
     this->setWindowTitle("Page de Video");
-=======
+
     player = new QMediaPlayer(this);
     videoWidget = new QVideoWidget(this);
 
@@ -25,7 +25,7 @@ InterfaceVideo::InterfaceVideo(QWidget *parent)
 
     this->setWindowTitle("Interface Vidéo");
 
-    QPixmap imagePlay(":/image/Play"); // Charge l'image
+    QPixmap imagePlay(":/images/Play"); // Charge l'image
     if (imagePlay.isNull()) {
         qWarning() << "Erreur : image non trouvée !";
     } else {
@@ -33,7 +33,7 @@ InterfaceVideo::InterfaceVideo(QWidget *parent)
         ui->pushButton_Play->setIcon(icone); // Définit l'icône du bouton
         ui->pushButton_Play->setIconSize(ui->pushButton_Play->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
     }
-    QPixmap imagePause(":/image/Pause"); // Charge l'image
+    QPixmap imagePause(":/images/Pause"); // Charge l'image
     if (imagePause.isNull()) {
         qWarning() << "Erreur : image non trouvée !";
     } else {
@@ -41,7 +41,7 @@ InterfaceVideo::InterfaceVideo(QWidget *parent)
         ui->pushButton_Pause->setIcon(icone); // Définit l'icône du bouton
         ui->pushButton_Pause->setIconSize(ui->pushButton_Pause->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
     }
-    QPixmap imageAvant10(":/image/Avant10"); // Charge l'image
+    QPixmap imageAvant10(":/images/Avant10"); // Charge l'image
     if (imageAvant10.isNull()) {
         qWarning() << "Erreur : image non trouvée !";
     } else {
@@ -49,7 +49,7 @@ InterfaceVideo::InterfaceVideo(QWidget *parent)
         ui->pushButton_Avant10->setIcon(icone); // Définit l'icône du bouton
         ui->pushButton_Avant10->setIconSize(ui->pushButton_Avant10->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
     }
-    QPixmap imageApres10(":/image/Apres10"); // Charge l'image
+    QPixmap imageApres10(":/images/Apres10"); // Charge l'image
     if (imageApres10.isNull()) {
         qWarning() << "Erreur : image non trouvée !";
     } else {
@@ -57,7 +57,7 @@ InterfaceVideo::InterfaceVideo(QWidget *parent)
         ui->pushButton_Apres10->setIcon(icone); // Définit l'icône du bouton
         ui->pushButton_Apres10->setIconSize(ui->pushButton_Apres10->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
     }
->>>>>>> 5c12ccdf8074ac1d036c17f86bca92b8c70192df
+
 }
 
 InterfaceVideo::~InterfaceVideo()
@@ -68,36 +68,57 @@ InterfaceVideo::~InterfaceVideo()
 void InterfaceVideo::on_pushButton_SelectVideo_clicked()
 {
 
+        QString fileName = QFileDialog::getOpenFileName(
+            this,
+            "Sélectionner une vidéo",
+            "C:\\Documents",  // Définit C:\Documents comme dossier de départ
+            "Videos (*.mp4 *.avi *.mkv)"  // Filtre pour les fichiers vidéo
+            );
+
+        if (!fileName.isEmpty()) {
+            player->setSource(QUrl::fromLocalFile(fileName));  // Charger la vidéo
+            videoWidget->show();  // Afficher le widget vidéo
+            player->play();  // Lancer la lecture
+            qDebug() << "Fichier sélectionné : " << fileName;
+        }
 }
 
 
 void InterfaceVideo::on_pushButton_Avant10_clicked()
 {
+    qint64 currentPosition = player->position();
 
+    // Rewind by 10 seconds (10000 milliseconds)
+    qint64 newPosition = currentPosition - 10000;
+
+    // Ensure we don't go below 0 (start of the video)
+    if (newPosition < 0)
+        newPosition = 0;
+    player->setPosition(newPosition);
 }
 
 
 void InterfaceVideo::on_pushButton_Play_clicked()
 {
-
+    player->play();
 }
 
 
 void InterfaceVideo::on_pushButton_Pause_clicked()
 {
-
+    player->pause();
 }
 
 
 void InterfaceVideo::on_pushButton_Apres10_clicked()
 {
-    QString fileName = QFileDialog::getOpenFileName(
-        this,
-        "Sélectionner une vidéo",
-        "C:\\",  // Définit C:\ comme dossier par défaut
-        "Videos (*.mp4 *.avi *.mkv)"
-        );
+    qint64 currentPosition = player->position();
 
+    // Advance by 10 seconds (10000 milliseconds)
+    qint64 newPosition = currentPosition + 10000;
+
+    // Set the new position
+    player->setPosition(newPosition);
 }
 
 
