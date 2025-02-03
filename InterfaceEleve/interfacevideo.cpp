@@ -8,9 +8,7 @@ InterfaceVideo::InterfaceVideo(QWidget *parent)
     ui->setupUi(this);
 
     setFixedSize(800,480);
-<<<<<<< HEAD
     this->setWindowTitle("Page de Video");
-=======
     player = new QMediaPlayer(this);
     videoWidget = new QVideoWidget(this);
 
@@ -57,7 +55,7 @@ InterfaceVideo::InterfaceVideo(QWidget *parent)
         ui->pushButton_Apres10->setIcon(icone); // Définit l'icône du bouton
         ui->pushButton_Apres10->setIconSize(ui->pushButton_Apres10->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
     }
->>>>>>> 5c12ccdf8074ac1d036c17f86bca92b8c70192df
+
 }
 
 InterfaceVideo::~InterfaceVideo()

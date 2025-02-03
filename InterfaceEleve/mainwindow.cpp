@@ -14,6 +14,8 @@ MainWindow::MainWindow(QWidget *parent)
     setFixedSize(800,480);
     this->setWindowTitle("Page de Connexion");
 
+    this->setStatusBar(nullptr);
+
 }
 
 bool MainWindow::connectToDatabase() {
