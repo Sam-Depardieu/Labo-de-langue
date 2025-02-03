@@ -6,6 +6,7 @@ InterfaceQCM::InterfaceQCM(QWidget *parent)
     , ui(new Ui::InterfaceQCM)
 {
     ui->setupUi(this);
+    setFixedSize(800,480);
 }
 
 InterfaceQCM::~InterfaceQCM()

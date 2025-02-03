@@ -6,6 +6,7 @@ InterfaceVideo::InterfaceVideo(QWidget *parent)
     , ui(new Ui::InterfaceVideo)
 {
     ui->setupUi(this);
+    setFixedSize(800,480);
 }
 
 InterfaceVideo::~InterfaceVideo()

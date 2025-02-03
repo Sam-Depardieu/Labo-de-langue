@@ -6,6 +6,7 @@ InterfaceAudio::InterfaceAudio(QWidget *parent)
     , ui(new Ui::InterfaceAudio)
 {
     ui->setupUi(this);
+    setFixedSize(800,480);
 }
 
 InterfaceAudio::~InterfaceAudio()
