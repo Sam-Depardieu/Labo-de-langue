@@ -15,6 +15,7 @@
 #include <QVariant>
 #include <QKeyEvent>
 #include <QDebug>
+#include <QRectF>
 
 class CustomGraphicsItemGroup : public QObject, public QGraphicsItemGroup {
     Q_OBJECT

@@ -12,7 +12,6 @@
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QGraphicsView>
-#include <QtWidgets/QListWidget>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QWidget>
@@ -32,8 +31,8 @@ public:
     QPushButton *StatutButton;
     QPushButton *AideButton;
     QPushButton *EnregistrementButton;
-    QListWidget *listWidget_2;
     QGraphicsView *PlanClasse;
+    QGraphicsView *Parametrage;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -137,14 +136,14 @@ public:
 "color: white;\n"
 "border: 1px solid white;\n"
 "border-radius: 10px;"));
-        listWidget_2 = new QListWidget(centralwidget);
-        listWidget_2->setObjectName("listWidget_2");
-        listWidget_2->setGeometry(QRect(410, 70, 371, 361));
-        listWidget_2->setStyleSheet(QString::fromUtf8("background-color: white;"));
         PlanClasse = new QGraphicsView(centralwidget);
         PlanClasse->setObjectName("PlanClasse");
         PlanClasse->setGeometry(QRect(10, 70, 381, 361));
         PlanClasse->setStyleSheet(QString::fromUtf8("background-color: white;"));
+        Parametrage = new QGraphicsView(centralwidget);
+        Parametrage->setObjectName("Parametrage");
+        Parametrage->setGeometry(QRect(410, 70, 381, 361));
+        Parametrage->setStyleSheet(QString::fromUtf8("background-color: white;"));
         MainWindow->setCentralWidget(centralwidget);
 
         retranslateUi(MainWindow);

@@ -58,7 +58,8 @@ QVariant CustomGraphicsItemGroup::itemChange(GraphicsItemChange change, const QV
         return NULL;
     }
 
-    return QGraphicsItemGroup::itemChange(change,
+    return QGraphicsItemGroup::itemChange(change, value);
+}
 
 
 QRectF CustomGraphicsItemGroup::boundingRect() const

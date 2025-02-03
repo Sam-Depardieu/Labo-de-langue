@@ -7,7 +7,7 @@ CONFIG += c++17
 QT += core network
 CONFIG += console
 CONFIG -= app_bundle
-TARGET = IPChecker
+TARGET = LaboLangue
 TEMPLATE = app
 
 # You can make your code fail to compile if it uses deprecated APIs.

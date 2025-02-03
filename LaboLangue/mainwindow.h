@@ -30,6 +30,8 @@ private slots:
     bool connectToDatabase();
     void onImageGroupDoubleClicked();
 
+    void on_NewButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     QGraphicsScene *scene;

@@ -128,3 +128,9 @@ void MainWindow::onImageGroupDoubleClicked() {
     qDebug() << "Slot onImageGroupDoubleClicked() exécuté !";
     // Ajoutez ici le code à exécuter lors du double-clic sur un groupe
 }
+
+void MainWindow::on_NewButton_clicked()
+{
+    ui->Parametrage->setVisible(!ui->Parametrage->isVisible());
+}
+
