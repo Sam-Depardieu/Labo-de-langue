@@ -1,0 +1,28 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Image/AppelProf.png</file>
+        <file>Image/Son.png</file>
+        <file>Image/Surveiller.png</file>
+        <file>Image/Start.png</file>
+        <file>Image/Signet.png</file>
+        <file>Image/Effacer.png</file>
+        <file>Image/Enregistrement.png</file>
+        <file>Image/Favoris.png</file>
+        <file>Image/PasSurveiller.png</file>
+        <file>Image/Pause.png</file>
+        <file>Image/Repeter.png</file>
+        <file>Image/RevenirALaPhrasePrecedente.png</file>
+        <file>Image/RevenirArriere.png</file>
+        <file>Image/Avancer.png</file>
+        <file>Image/SonSysteme.png</file>
+        <file>Image/SonEleve.png</file>
+        <file>Image/1.png</file>
+        <file>Image/2.png</file>
+        <file>Image/3.png</file>
+        <file>Image/4.png</file>
+        <file>Image/1Selec.png</file>
+        <file>Image/2Selec.png</file>
+        <file>Image/3Selec.png</file>
+        <file>Image/4Selec.png</file>
+    </qresource>
+</RCC>

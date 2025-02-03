@@ -1,0 +1,10 @@
+release/interfaceaudioco.o
+release/interfaceenregistrement.o
+release/main.o
+release/mainwindow.o
+release/volumecontroldialog.o
+release/qrc_Image.o
+release/moc_interfaceaudioco.o
+release/moc_interfaceenregistrement.o
+release/moc_mainwindow.o
+release/moc_volumecontroldialog.o
