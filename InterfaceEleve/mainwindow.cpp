@@ -1,5 +1,10 @@
 #include "mainwindow.h"
+#include "interfaceaudio.h"
+#include "interfaceenregistrement.h"
+#include "interfaceqcm.h"
+#include "interfacevideo.h"
 #include "ui_mainwindow.h"
+#include "attenteprof.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -7,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     setFixedSize(800,480);
+    this->setWindowTitle("Page de Connexion");
 
 }
 
@@ -28,7 +34,45 @@ bool MainWindow::connectToDatabase() {
     return true;
 }
 
+void MainWindow::on_pushButtonConnexion_clicked()
+{
+    AttenteProf *attenteProf = new AttenteProf(this);
+    attenteProf->show();
+}
+
+void MainWindow::on_pushButtonEnregistrement_clicked()
+{
+    InterfaceEnregistrement *interfaceEnregistrement = new InterfaceEnregistrement(this);
+    interfaceEnregistrement->show();
+}
+
+
 MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+
+
+
+
+void MainWindow::on_pushButtonInterfaceQCM_clicked()
+{
+    InterfaceQCM *interfaceQCM = new InterfaceQCM(this);
+    interfaceQCM->show();
+}
+
+
+void MainWindow::on_pushButtonInterfaceAudio_clicked()
+{
+    InterfaceAudio *interfaceAudio = new InterfaceAudio(this);
+    interfaceAudio->show();
+}
+
+
+void MainWindow::on_pushButtonInterfaceVideo_clicked()
+{
+    InterfaceVideo *interfaceVideo = new InterfaceVideo(this);
+    interfaceVideo->show();
+}
+

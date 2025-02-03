@@ -63,7 +63,7 @@
    <widget class="QPushButton" name="pushButtonEnregistrement">
     <property name="geometry">
      <rect>
-      <x>120</x>
+      <x>10</x>
       <y>400</y>
       <width>161</width>
       <height>51</height>
@@ -98,7 +98,7 @@
    <widget class="QPushButton" name="pushButtonInterfaceQCM">
     <property name="geometry">
      <rect>
-      <x>460</x>
+      <x>180</x>
       <y>400</y>
       <width>161</width>
       <height>51</height>
@@ -106,6 +106,32 @@
     </property>
     <property name="text">
      <string>Interface QCM</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonInterfaceAudio">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>400</y>
+      <width>161</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Interface Audio</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonInterfaceVideo">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>400</y>
+      <width>161</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Interface Video</string>
     </property>
    </widget>
   </widget>

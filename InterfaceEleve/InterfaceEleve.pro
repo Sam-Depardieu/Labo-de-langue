@@ -7,7 +7,11 @@ CONFIG += c++17
 QT += core network
 CONFIG += console
 CONFIG -= app_bundle
+CONFIG += console
+CONFIG -= windows
 TEMPLATE = app
+
+
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.

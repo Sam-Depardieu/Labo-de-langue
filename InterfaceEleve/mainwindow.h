@@ -22,6 +22,16 @@ public:
 private slots:
     bool connectToDatabase();
 
+    void on_pushButtonEnregistrement_clicked();
+
+    void on_pushButtonConnexion_clicked();
+
+    void on_pushButtonInterfaceQCM_clicked();
+
+    void on_pushButtonInterfaceAudio_clicked();
+
+    void on_pushButtonInterfaceVideo_clicked();
+
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db;

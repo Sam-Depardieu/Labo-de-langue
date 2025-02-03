@@ -7,6 +7,7 @@ InterfaceVideo::InterfaceVideo(QWidget *parent)
 {
     ui->setupUi(this);
     setFixedSize(800,480);
+    this->setWindowTitle("Page de Video");
 }
 
 InterfaceVideo::~InterfaceVideo()

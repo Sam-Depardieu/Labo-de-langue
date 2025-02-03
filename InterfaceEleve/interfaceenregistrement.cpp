@@ -7,6 +7,7 @@ InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
 {
     ui->setupUi(this);
     setFixedSize(800,480);
+    this->setWindowTitle("Page d'Enregistrement");
 }
 
 InterfaceEnregistrement::~InterfaceEnregistrement()
