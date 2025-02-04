@@ -1,6 +1,7 @@
 #include "interfacevideo.h"
 #include "ui_interfacevideo.h"
 #include <QAudioOutput>
+#include <QStandardPaths>
 InterfaceVideo::InterfaceVideo(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::InterfaceVideo)
@@ -67,19 +68,22 @@ InterfaceVideo::~InterfaceVideo()
 void InterfaceVideo::on_pushButton_SelectVideo_clicked()
 {
 
-        QString fileName = QFileDialog::getOpenFileName(
-            this,
-            "Sélectionner une vidéo",
-            "C:\\Documents",  // Définit C:\Documents comme dossier de départ
-            "Videos (*.mp4 *.avi *.mkv)"  // Filtre pour les fichiers vidéo
-            );
+    // Récupère le chemin du dossier "Documents" de l'utilisateur
+    QString documentsPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
 
-        if (!fileName.isEmpty()) {
-            player->setSource(QUrl::fromLocalFile(fileName));  // Charger la vidéo
-            videoWidget->show();  // Afficher le widget vidéo
-            player->play();  // Lancer la lecture
-            qDebug() << "Fichier sélectionné : " << fileName;
-        }
+    QString fileName = QFileDialog::getOpenFileName(
+        this,
+        "Sélectionner une vidéo",
+        documentsPath,  // Ouvre le dossier "Documents"
+        "Vidéos (*.mp4 *.avi *.mkv *.mov *.wmv)"  // Filtrer les fichiers vidéo
+        );
+
+    if (!fileName.isEmpty()) {
+        player->setSource(QUrl::fromLocalFile(fileName));  // Charger la vidéo
+        videoWidget->show();  // Afficher le widget vidéo
+        player->play();  // Lancer la lecture
+        qDebug() << "Fichier sélectionné : " << fileName;
+    }
 }
 
 
