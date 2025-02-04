@@ -17,9 +17,9 @@
    <property name="geometry">
     <rect>
      <x>360</x>
-     <y>200</y>
-     <width>80</width>
-     <height>80</height>
+     <y>160</y>
+     <width>70</width>
+     <height>70</height>
     </rect>
    </property>
    <property name="text">
@@ -29,10 +29,10 @@
   <widget class="QPushButton" name="pushButton4">
    <property name="geometry">
     <rect>
-     <x>270</x>
-     <y>290</y>
-     <width>80</width>
-     <height>80</height>
+     <x>290</x>
+     <y>230</y>
+     <width>70</width>
+     <height>70</height>
     </rect>
    </property>
    <property name="text">
@@ -42,10 +42,10 @@
   <widget class="QPushButton" name="pushButtonQuestionSuivante">
    <property name="geometry">
     <rect>
-     <x>450</x>
-     <y>110</y>
-     <width>80</width>
-     <height>80</height>
+     <x>470</x>
+     <y>403</y>
+     <width>75</width>
+     <height>75</height>
     </rect>
    </property>
    <property name="text">
@@ -55,10 +55,10 @@
   <widget class="QPushButton" name="pushButtonEffacerReponse">
    <property name="geometry">
     <rect>
-     <x>660</x>
-     <y>200</y>
-     <width>80</width>
-     <height>80</height>
+     <x>700</x>
+     <y>403</y>
+     <width>75</width>
+     <height>75</height>
     </rect>
    </property>
    <property name="text">
@@ -68,10 +68,10 @@
   <widget class="QPushButton" name="pushButton2">
    <property name="geometry">
     <rect>
-     <x>450</x>
-     <y>290</y>
-     <width>80</width>
-     <height>80</height>
+     <x>430</x>
+     <y>230</y>
+     <width>70</width>
+     <height>70</height>
     </rect>
    </property>
    <property name="text">
@@ -82,9 +82,9 @@
    <property name="geometry">
     <rect>
      <x>360</x>
-     <y>380</y>
-     <width>80</width>
-     <height>80</height>
+     <y>300</y>
+     <width>70</width>
+     <height>70</height>
     </rect>
    </property>
    <property name="text">
@@ -94,16 +94,69 @@
   <widget class="QPushButton" name="pushButtonQuestionPrecedente">
    <property name="geometry">
     <rect>
-     <x>270</x>
-     <y>110</y>
-     <width>80</width>
-     <height>80</height>
+     <x>290</x>
+     <y>403</y>
+     <width>75</width>
+     <height>75</height>
     </rect>
    </property>
    <property name="text">
     <string/>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>80</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+    background-color: rgb(0, 151, 178); /* Fond bleu */
+    color: white; /* Texte en blanc */
+    border: none; /* Enlever le contour si nécessaire */
+    border-radius: 5px; /* Optionnel : coins arrondis */
+    font-weight: bold; /* Optionnel : texte en gras */
+}</string>
+   </property>
+   <property name="text">
+    <string>Bienvenue sur l'interface de Question à choix multiple</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>400</y>
+     <width>801</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+    background-color: rgb(0, 151, 178); /* Fond bleu */
+    color: white; /* Texte en blanc */
+    border: none; /* Enlever le contour si nécessaire */
+    border-radius: 5px; /* Optionnel : coins arrondis */
+    font-weight: bold; /* Optionnel : texte en gras */
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <zorder>pushButton_2</zorder>
+  <zorder>pushButton1</zorder>
+  <zorder>pushButton4</zorder>
+  <zorder>pushButtonQuestionSuivante</zorder>
+  <zorder>pushButtonEffacerReponse</zorder>
+  <zorder>pushButton2</zorder>
+  <zorder>pushButton3</zorder>
+  <zorder>pushButtonQuestionPrecedente</zorder>
+  <zorder>pushButton</zorder>
  </widget>
  <resources/>
  <connections/>
