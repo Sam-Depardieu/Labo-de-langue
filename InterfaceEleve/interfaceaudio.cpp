@@ -1,6 +1,8 @@
 #include "interfaceaudio.h"
 #include "ui_interfaceaudio.h"
 #include <QAudioOutput>
+#include <QStandardPaths>
+
 InterfaceAudio::InterfaceAudio(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::InterfaceAudio)
@@ -51,18 +53,64 @@ InterfaceAudio::~InterfaceAudio()
 
 void InterfaceAudio::on_pushButton_Avant_clicked()
 {
+    qint64 currentPosition = player->position();
 
+    // Rewind by 10 seconds (10000 milliseconds)
+    qint64 newPosition = currentPosition - 10000;
+
+    // Ensure we don't go below 0 (start of the video)
+    if (newPosition < 0)
+        newPosition = 0;
+    player->setPosition(newPosition);
 }
 
 
 void InterfaceAudio::on_pushButton_Play_clicked()
 {
-
+    player->play();
 }
 
 
 void InterfaceAudio::on_pushButton_Pause_clicked()
 {
+     player->pause();
+}
 
+
+void InterfaceAudio::on_pushButton_SelectAudio_clicked()
+{
+    QString documentsPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation); // Récupère le dossier Documents
+
+    QString fileName = QFileDialog::getOpenFileName(
+        this,
+        "Sélectionner un fichier audio",
+        documentsPath,  // Définit "Documents" comme dossier par défaut
+        "Audio Files (*.mp3 *.wav *.ogg *.flac *.aac)"  // Filtre uniquement les fichiers audio
+        );
+
+    if (!fileName.isEmpty()) {
+        player->setSource(QUrl::fromLocalFile(fileName));  // Charger le fichier audio
+        player->play();  // Lancer la lecture
+        qDebug() << "Fichier sélectionné : " << fileName;
+    }
+}
+
+
+void InterfaceAudio::on_horizontalSliderSon_actionTriggered(int action)
+{
+    int volume = ui->horizontalSliderSon->value();  // Récupère la valeur du slider
+    audioOutput->setVolume(volume / 100.0);
+}
+
+
+void InterfaceAudio::on_pushButton_Apres_clicked()
+{
+    qint64 currentPosition = player->position();
+
+    // Advance by 10 seconds (10000 milliseconds)
+    qint64 newPosition = currentPosition + 10000;
+
+    // Set the new position
+    player->setPosition(newPosition);
 }
 

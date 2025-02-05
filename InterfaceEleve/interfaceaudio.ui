@@ -65,7 +65,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QSlider" name="horizontalSlider">
+  <widget class="QSlider" name="horizontalSliderSon">
    <property name="geometry">
     <rect>
      <x>580</x>
@@ -81,10 +81,17 @@
   <widget class="QPushButton" name="pushButton_2">
    <property name="geometry">
     <rect>
+<<<<<<< HEAD
      <x>0</x>
      <y>400</y>
      <width>801</width>
      <height>81</height>
+=======
+     <x>-10</x>
+     <y>390</y>
+     <width>811</width>
+     <height>90</height>
+>>>>>>> 56c4941f08c16325266934dedcdb43a82c461402
     </rect>
    </property>
    <property name="styleSheet">
@@ -100,12 +107,45 @@
     <string/>
    </property>
   </widget>
+<<<<<<< HEAD
+=======
+  <widget class="QPushButton" name="pushButton_SelectAudio">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>111</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Selectionner Audio</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="horizontalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>9</x>
+     <y>30</y>
+     <width>781</width>
+     <height>341</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout"/>
+  </widget>
+>>>>>>> 56c4941f08c16325266934dedcdb43a82c461402
   <zorder>pushButton_2</zorder>
   <zorder>pushButton_Play</zorder>
   <zorder>pushButton_Avant</zorder>
   <zorder>pushButton_Apres</zorder>
   <zorder>pushButton_Pause</zorder>
+<<<<<<< HEAD
   <zorder>horizontalSlider</zorder>
+=======
+  <zorder>horizontalSliderSon</zorder>
+  <zorder>pushButton_SelectAudio</zorder>
+  <zorder>horizontalLayoutWidget</zorder>
+>>>>>>> 56c4941f08c16325266934dedcdb43a82c461402
  </widget>
  <resources/>
  <connections/>
