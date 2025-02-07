@@ -1,4 +1,6 @@
 #include "interfaceenregistrement.h"
+#include "qstandardpaths.h"
+#include "qtimer.h"
 #include "ui_interfaceenregistrement.h"
 
 InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
@@ -12,6 +14,16 @@ InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
     //Pour fixer la taille de la page et le titre
     setFixedSize(800,480);
     this->setWindowTitle("Page d'Enregistrement");
+
+    // Initialiser les variables
+    timer = new QTimer(this);
+    rewindTimer = new QTimer(this);
+    player = new QMediaPlayer(this);
+    isRewinding = false;
+    speakButtonClicked = false;
+    totalSecondes = 0;
+    pausedSecondes = 0;
+    isPaused = false;
 
 
     //Affichage des Images
@@ -130,7 +142,7 @@ InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
         ui->pushButtonAppelProf->setIcon(icone); // Définit l'icône du bouton
         ui->pushButtonAppelProf->setIconSize(ui->pushButtonAppelProf->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
     }
-
+    connect(rewindTimer, &QTimer::timeout, this, &InterfaceEnregistrement::updateChrono);
 }
 
 InterfaceEnregistrement::~InterfaceEnregistrement()
@@ -179,18 +191,41 @@ void InterfaceEnregistrement::on_pushButtonSurveiller_clicked()
 
 }
 
-
 void InterfaceEnregistrement::on_pushButtonRetourArriere_clicked()
 {
-
+    if (totalSecondes > 0 && !isRewinding) {
+        isRewinding = true;
+        rewindTimer->start(100); // Défile rapidement (toutes les 100 ms)
+    }
 }
 
 
 void InterfaceEnregistrement::on_pushButtonPause_clicked()
 {
-
+    if (timer->isActive()) {
+        timer->stop();
+        qDebug() << "Chronomètre arrêté";
+    }
 }
 
+void InterfaceEnregistrement::on_pushButtonSpeak_clicked()
+{
+    if (!speakButtonClicked) {
+        // Démarrer le chrono
+        connect(timer, &QTimer::timeout, this, &InterfaceEnregistrement::updateChrono);
+        totalSecondes = 0; // Réinitialiser le chronomètre
+        timer->start(1000);
+
+        ui->labelChrono->setText("00:00:00"); // Initialiser le label du chronomètre à 0
+        ui->labelChrono->show();
+        ui->pushButtonSpeak->setEnabled(false);
+        speakButtonClicked = true;
+
+        // Simuler un enregistrement (mettre votre code d'enregistrement ici)
+        audioFilePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/recording.wav";
+        qDebug() << "Enregistrement sauvegardé à :" << audioFilePath;
+    }
+}
 
 void InterfaceEnregistrement::on_pushButtonAvancer_clicked()
 {
@@ -198,17 +233,24 @@ void InterfaceEnregistrement::on_pushButtonAvancer_clicked()
 }
 
 
-void InterfaceEnregistrement::on_pushButtonSpeak_clicked()
-{
 
-}
 
 
 void InterfaceEnregistrement::on_pushButtonPlay_clicked()
 {
+    if (!isRewinding) { // Vérifie que le retour arrière est terminé
+        if (!timer->isActive()) {
+            timer->start(1000);
+            qDebug() << "Chrono redémarré à partir de " << totalSecondes;
 
+            // Lire l'audio enregistré depuis le début
+            player->setSource(QUrl::fromLocalFile(audioFilePath));
+            player->play();
+        } else {
+            qDebug() << "Le chrono est déjà en cours";
+        }
+    }
 }
-
 
 void InterfaceEnregistrement::on_pushButtonAppelProf_clicked()
 {
@@ -218,4 +260,24 @@ void InterfaceEnregistrement::on_pushButtonAppelProf_clicked()
     qWarning() << "Label Appel Prof affiche";
 
 }
+void InterfaceEnregistrement::updateChrono()
+{
+    if (totalSecondes > 0 && isRewinding) {
+        totalSecondes--;
+    } else {
+        totalSecondes++;
+    }
 
+    int heures = totalSecondes / 3600;
+    int minutes = (totalSecondes % 3600) / 60;
+    int secondes = totalSecondes % 60;
+
+    ui->labelChrono->setText(QString::number(heures).rightJustified(2, '0') + ":" +
+                             QString::number(minutes).rightJustified(2, '0') + ":" +
+                             QString::number(secondes).rightJustified(2, '0'));
+
+    if (totalSecondes == 0 && isRewinding) {
+        rewindTimer->stop();
+        isRewinding = false;
+    }
+}
