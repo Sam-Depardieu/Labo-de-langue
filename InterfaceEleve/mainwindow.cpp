@@ -5,8 +5,6 @@
 #include "interfacevideo.h"
 #include "ui_mainwindow.h"
 #include "attenteprof.h"
-#include <QSqlError>
-#include <QSqlQuery>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -15,13 +13,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     setFixedSize(800,480);
     this->setWindowTitle("Page de Connexion");
-    connect(ui->pushButtonConnexion, &QPushButton::clicked, this, &MainWindow::on_pushButtonConnexion_clicked);
-
-    this->setStatusBar(nullptr);
     connectToDatabase();
 }
-
-
 bool MainWindow::connectToDatabase() {
     if (QSqlDatabase::contains("qt_sql_default_connection")) {
         return true; // La connexion existe déjà
