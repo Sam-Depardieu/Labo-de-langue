@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     scene = new QGraphicsScene(0, 0, 381, 361, this);
     ui->PlanClasse->setScene(scene);
+
     ui->Parametrage1->setVisible(false);
     ui->PlanClasse->setVisible(false);
 

@@ -55,7 +55,7 @@ public:
         LigneHaut = new QPushButton(centralwidget);
         LigneHaut->setObjectName("LigneHaut");
         LigneHaut->setEnabled(false);
-        LigneHaut->setGeometry(QRect(-10, -10, 821, 71));
+        LigneHaut->setGeometry(QRect(0, 0, 821, 71));
         LigneHaut->setAutoFillBackground(false);
         LigneHaut->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 151, 178);"));
         PlanButton = new QPushButton(centralwidget);
