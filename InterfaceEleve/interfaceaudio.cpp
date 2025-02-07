@@ -11,11 +11,6 @@ InterfaceAudio::InterfaceAudio(QWidget *parent)
     setFixedSize(800,480);
     this->setWindowTitle("Page de Comprehension Orale");
 
-    player = new QMediaPlayer(this);
-    audioOutput = new QAudioOutput(this);
-    player->setAudioOutput(audioOutput);
-    audioOutput->setVolume(0.5);  // Volume initial à 50%
-
 
     QPixmap imagePlay(":/images/Play"); // Charge l'image
     if (imagePlay.isNull()) {
@@ -101,6 +96,11 @@ void InterfaceAudio::on_pushButton_SelectAudio_clicked()
 }
 
 
+void InterfaceAudio::on_horizontalSliderSon_actionTriggered(int action)
+{
+    int volume = ui->horizontalSliderSon->value();  // Récupère la valeur du slider
+    audioOutput->setVolume(volume / 100.0);
+}
 
 
 void InterfaceAudio::on_pushButton_Apres_clicked()
@@ -112,13 +112,5 @@ void InterfaceAudio::on_pushButton_Apres_clicked()
 
     // Set the new position
     player->setPosition(newPosition);
-}
-
-
-void InterfaceAudio::on_horizontalSliderSon_actionTriggered()
-{
-    if (!audioOutput) return;  // Sécurité : éviter le crash si audioOutput est NULL
-    int volume = ui->horizontalSliderSon->value();
-    audioOutput->setVolume(volume / 100.0);
 }
 
