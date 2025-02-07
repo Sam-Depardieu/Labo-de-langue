@@ -4,6 +4,7 @@
 #include "qmediaplayer.h"
 #include <QDialog>
 #include <QTimer>
+#include <QFile>
 
 namespace Ui {
 class InterfaceEnregistrement;
@@ -44,6 +45,8 @@ private slots:
 
     void on_pushButtonAppelProf_clicked();
     void updateChrono();
+    void checkPlaybackPosition();
+    void rewindChrono();
 
 private:
     Ui::InterfaceEnregistrement *ui;
