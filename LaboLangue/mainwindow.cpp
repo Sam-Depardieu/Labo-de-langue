@@ -10,81 +10,36 @@ MainWindow::MainWindow(QWidget *parent)
     showFullScreen();
     connectToDatabase();
 
+    // Création de la scène
     scene = new QGraphicsScene(0, 0, 381, 361, this);
     ui->PlanClasse->setScene(scene);
     ui->Parametrage1->setVisible(false);
-    //ui->PlanClasse->setVisible(false);
 
-    ui->PlanButton->setEnabled(false);
-    ui->PlanButton->setStyleSheet(
-        "background-color: #cccccc;"  // lighter gray to indicate disable
-        "font: 9pt \"Segoe UI\";"
-        "color: #999999;"             // lighter text color
-        "border: 1px solid #999999;"  // lighter border color
-        "border-radius: 10px;"
-        );
+    // Désactivation des boutons
+    editStatusButton(ui->PlanButton, false);
+    editStatusButton(ui->PresenceButton, false);
+    editStatusButton(ui->EnregistrementButton, false);
+    editStatusButton(ui->AppelButton, false);
+    editStatusButton(ui->StatutButton, false);
 
-    ui->PresenceButton->setEnabled(false);
-    ui->PresenceButton->setStyleSheet(
-        "background-color: #cccccc;"  // lighter gray to indicate disable
-        "font: 9pt \"Segoe UI\";"
-        "color: #999999;"             // lighter text color
-        "border: 1px solid #999999;"  // lighter border color
-        "border-radius: 10px;"
-        );
-
-    ui->EnregistrementButton->setEnabled(false);
-    ui->EnregistrementButton->setStyleSheet(
-        "background-color: #cccccc;"  // lighter gray to indicate disable
-        "font: 9pt \"Segoe UI\";"
-        "color: #999999;"             // lighter text color
-        "border: 1px solid #999999;"  // lighter border color
-        "border-radius: 10px;"
-        );
-
-    ui->AppelButton->setEnabled(false);
-    ui->AppelButton->setStyleSheet(
-        "background-color: #cccccc;"  // lighter gray to indicate disable
-        "font: 9pt \"Segoe UI\";"
-        "color: #999999;"             // lighter text color
-        "border: 1px solid #999999;"  // lighter border color
-        "border-radius: 10px;"
-        );
-
-    ui->StatutButton->setEnabled(false);
-    ui->StatutButton->setStyleSheet(
-        "background-color: #cccccc;"  // lighter gray to indicate disable
-        "font: 9pt \"Segoe UI\";"
-        "color: #999999;"             // lighter text color
-        "border: 1px solid #999999;"  // lighter border color
-        "border-radius: 10px;"
-        );
-
-    // Créez un layout vertical pour organiser les labels
-    // Créez un QHBoxLayout pour les éléments sur la même ligne
-    QHBoxLayout *horizontalLayout = new QHBoxLayout();
-    horizontalLayout->addWidget(ui->NameLabel);
-    horizontalLayout->addWidget(ui->NameLineEdit);
-
-    // Créez le QVBoxLayout principal
+    // Créer le layout principal avec les éléments disposés
     QVBoxLayout *layout = new QVBoxLayout();
-    layout->setContentsMargins(20, 30, 20, 10);  // Ajoute des marges
-    layout->setAlignment(Qt::AlignCenter);       // Centre tout le layout
-    layout->setAlignment(Qt::AlignTop);
+    layout->setContentsMargins(20, 30, 20, 10);
+    layout->setAlignment(Qt::AlignCenter | Qt::AlignTop);
 
-    // Ajoutez le QHBoxLayout et les autres widgets
-    layout->addLayout(horizontalLayout); // Ajoute les widgets sur la même ligne
-    layout->addSpacing(15);  // Espacement entre les sections
-
-    horizontalLayout = new QHBoxLayout();
-    horizontalLayout->addWidget(ui->ChoixActLabel);
-    horizontalLayout->addWidget(ui->ChoixActivite);
-
-    layout->addLayout(horizontalLayout);
+    // Ajout des sections dans le layout
+    addHorizontalLayout(layout, ui->NameLabel, ui->NameLineEdit);
+    addHorizontalLayout(layout, ui->ChoixActLabel, ui->ChoixActivite);
+    addHorizontalLayout(layout, ui->DureeLabel, ui->DureeActivite);
+    addHorizontalLayout(layout, ui->ClasseLabel, ui->ChoixClasse);
+    addHorizontalLayout(layout, ui->ParticipantsLabel, ui->selectAll, ui->selectManuel);
+    addHorizontalLayout(layout, ui->ConsigneLabel, ui->ConsigneTextEdit);
+    addButtonRow(layout, ui->delButton, ui->echapButton, ui->validButton);
 
     // Appliquez le layout à Parametrage1
     ui->Parametrage1->setLayout(layout);
 
+    // Initialiser les ComboBoxes et charger les images depuis la base de données
     setupClassesComboBox();
     setupActivitiesComboBox();
     loadImagesFromDB();
@@ -197,7 +152,6 @@ void MainWindow::on_SessionButton_clicked()
 {
     ui->Parametrage1->setVisible(!ui->Parametrage1->isVisible());
     ui->PlanClasse->setVisible(true);
-    loadImagesFromDB();
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
@@ -283,3 +237,48 @@ void MainWindow::on_selectAll_clicked()
     listeParticipant = listeRasp;
 }
 
+void MainWindow::editStatusButton(QPushButton *button, bool status)
+{
+    button->setEnabled(status);
+    if(status == false)
+    {
+        button->setStyleSheet(
+            "background-color: #cccccc; font: 9pt \"Segoe UI\"; color: #999999; "
+            "border: 1px solid #999999; border-radius: 10px;"
+            );
+    }
+    else
+    {
+        button->setStyleSheet("background-color: black;\nfont: 9pt \"Segoe UI\";\ncolor: white;\nborder: 1px solid white;\nborder-radius:10px;");
+    }
+
+}
+
+void MainWindow::addHorizontalLayout(QVBoxLayout *layout, QWidget *widget1, QWidget *widget2)
+{
+    QHBoxLayout *hLayout = new QHBoxLayout();
+    hLayout->addWidget(widget1);
+    hLayout->addWidget(widget2);
+    layout->addLayout(hLayout);
+    layout->addSpacing(15);
+}
+
+void MainWindow::addHorizontalLayout(QVBoxLayout *layout, QWidget *widget1, QWidget *widget2, QWidget *widget3)
+{
+    QHBoxLayout *hLayout = new QHBoxLayout();
+    hLayout->addWidget(widget1);
+    hLayout->addWidget(widget2);
+    hLayout->addWidget(widget3);
+    layout->addLayout(hLayout);
+    layout->addSpacing(15);
+}
+
+void MainWindow::addButtonRow(QVBoxLayout *layout, QWidget *button1, QWidget *button2, QWidget *button3)
+{
+    QHBoxLayout *hLayout = new QHBoxLayout();
+    hLayout->addWidget(button1);
+    hLayout->addWidget(button2);
+    hLayout->addWidget(button3);
+    layout->addLayout(hLayout);
+    layout->addSpacing(15);
+}

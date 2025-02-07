@@ -51,6 +51,9 @@ public:
     QLabel *ParticipantsLabel;
     QPushButton *selectAll;
     QPushButton *selectManuel;
+    QPushButton *validButton;
+    QPushButton *echapButton;
+    QPushButton *delButton;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -165,48 +168,60 @@ public:
         NameLabel = new QLabel(centralwidget);
         NameLabel->setObjectName("NameLabel");
         NameLabel->setGeometry(QRect(430, 90, 81, 21));
-        NameLabel->setStyleSheet(QString::fromUtf8("background-color: black; color: white;"));
+        NameLabel->setStyleSheet(QString::fromUtf8(""));
         NameLineEdit = new QLineEdit(centralwidget);
         NameLineEdit->setObjectName("NameLineEdit");
         NameLineEdit->setGeometry(QRect(530, 90, 221, 21));
         ChoixActLabel = new QLabel(centralwidget);
         ChoixActLabel->setObjectName("ChoixActLabel");
         ChoixActLabel->setGeometry(QRect(430, 130, 81, 21));
-        ChoixActLabel->setStyleSheet(QString::fromUtf8("background-color: black; color: white;"));
+        ChoixActLabel->setStyleSheet(QString::fromUtf8(""));
         ChoixActivite = new QComboBox(centralwidget);
         ChoixActivite->setObjectName("ChoixActivite");
         ChoixActivite->setGeometry(QRect(530, 130, 221, 21));
         DureeLabel = new QLabel(centralwidget);
         DureeLabel->setObjectName("DureeLabel");
         DureeLabel->setGeometry(QRect(430, 170, 81, 21));
-        DureeLabel->setStyleSheet(QString::fromUtf8("background-color: black; color: white;"));
+        DureeLabel->setStyleSheet(QString::fromUtf8(""));
         DureeActivite = new QTimeEdit(centralwidget);
         DureeActivite->setObjectName("DureeActivite");
         DureeActivite->setGeometry(QRect(530, 170, 221, 22));
         ConsigneLabel = new QLabel(centralwidget);
         ConsigneLabel->setObjectName("ConsigneLabel");
         ConsigneLabel->setGeometry(QRect(430, 290, 81, 21));
-        ConsigneLabel->setStyleSheet(QString::fromUtf8("background-color: black; color: white;"));
+        ConsigneLabel->setStyleSheet(QString::fromUtf8(""));
         ConsigneTextEdit = new QTextEdit(centralwidget);
         ConsigneTextEdit->setObjectName("ConsigneTextEdit");
         ConsigneTextEdit->setGeometry(QRect(530, 290, 221, 51));
         ClasseLabel = new QLabel(centralwidget);
         ClasseLabel->setObjectName("ClasseLabel");
         ClasseLabel->setGeometry(QRect(430, 210, 81, 21));
-        ClasseLabel->setStyleSheet(QString::fromUtf8("background-color: black; color: white;"));
+        ClasseLabel->setStyleSheet(QString::fromUtf8(""));
         ChoixClasse = new QComboBox(centralwidget);
         ChoixClasse->setObjectName("ChoixClasse");
         ChoixClasse->setGeometry(QRect(530, 210, 221, 21));
         ParticipantsLabel = new QLabel(centralwidget);
         ParticipantsLabel->setObjectName("ParticipantsLabel");
         ParticipantsLabel->setGeometry(QRect(430, 250, 81, 21));
-        ParticipantsLabel->setStyleSheet(QString::fromUtf8("background-color: black; color: white;"));
+        ParticipantsLabel->setStyleSheet(QString::fromUtf8(""));
         selectAll = new QPushButton(centralwidget);
         selectAll->setObjectName("selectAll");
         selectAll->setGeometry(QRect(530, 250, 101, 24));
         selectManuel = new QPushButton(centralwidget);
         selectManuel->setObjectName("selectManuel");
         selectManuel->setGeometry(QRect(650, 250, 101, 24));
+        validButton = new QPushButton(centralwidget);
+        validButton->setObjectName("validButton");
+        validButton->setGeometry(QRect(690, 390, 75, 24));
+        validButton->setStyleSheet(QString::fromUtf8("background-color: green;"));
+        echapButton = new QPushButton(centralwidget);
+        echapButton->setObjectName("echapButton");
+        echapButton->setGeometry(QRect(560, 390, 75, 24));
+        echapButton->setStyleSheet(QString::fromUtf8("background-color: red;"));
+        delButton = new QPushButton(centralwidget);
+        delButton->setObjectName("delButton");
+        delButton->setGeometry(QRect(430, 390, 75, 24));
+        delButton->setStyleSheet(QString::fromUtf8("background-color: red;"));
         MainWindow->setCentralWidget(centralwidget);
 
         retranslateUi(MainWindow);
@@ -234,6 +249,9 @@ public:
         ParticipantsLabel->setText(QCoreApplication::translate("MainWindow", "Participants :", nullptr));
         selectAll->setText(QCoreApplication::translate("MainWindow", "S\303\251lectionner tous", nullptr));
         selectManuel->setText(QCoreApplication::translate("MainWindow", "Personnaliser", nullptr));
+        validButton->setText(QCoreApplication::translate("MainWindow", "Valider", nullptr));
+        echapButton->setText(QCoreApplication::translate("MainWindow", "Annuler", nullptr));
+        delButton->setText(QCoreApplication::translate("MainWindow", "Supprimer", nullptr));
     } // retranslateUi
 
 };

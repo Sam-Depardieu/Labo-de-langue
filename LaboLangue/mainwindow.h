@@ -33,6 +33,10 @@ private slots:
     void on_SessionButton_clicked();
     void on_ChoixActivite_currentIndexChanged(int index);
     void on_selectManuel_clicked();
+    void editStatusButton(QPushButton *button, bool status);
+    void addHorizontalLayout(QVBoxLayout *layout, QWidget *widget1, QWidget *widget2);
+    void addHorizontalLayout(QVBoxLayout *layout, QWidget *widget1, QWidget *widget2, QWidget *widget3);
+    void addButtonRow(QVBoxLayout *layout, QWidget *button1, QWidget *button2, QWidget *button3);
 
     void on_selectAll_clicked();
 
