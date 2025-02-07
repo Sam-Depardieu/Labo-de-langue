@@ -30,6 +30,7 @@ public:
     QPushButton *pushButtonSpeak;
     QPushButton *pushButton;
     QPushButton *pushButtonPause;
+    QPushButton *pushButtonRepeter;
     QPushButton *pushButtonSignet;
     QLabel *labelAppelProf;
     QPushButton *pushButtonFavoris;
@@ -103,6 +104,11 @@ public:
         pushButtonPause->setObjectName("pushButtonPause");
         pushButtonPause->setGeometry(QRect(370, 160, 70, 70));
         pushButtonPause->setStyleSheet(QString::fromUtf8(""));
+        pushButtonRepeter = new QPushButton(InterfaceEnregistrement);
+        pushButtonRepeter->setObjectName("pushButtonRepeter");
+        pushButtonRepeter->setGeometry(QRect(520, 405, 90, 70));
+        pushButtonRepeter->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
+"    border: none;"));
         pushButtonSignet = new QPushButton(InterfaceEnregistrement);
         pushButtonSignet->setObjectName("pushButtonSignet");
         pushButtonSignet->setGeometry(QRect(130, 400, 60, 80));
@@ -139,6 +145,7 @@ public:
         labelChrono->raise();
         pushButtonSpeak->raise();
         pushButtonPause->raise();
+        pushButtonRepeter->raise();
         pushButtonSignet->raise();
         labelAppelProf->raise();
         pushButtonFavoris->raise();
@@ -164,6 +171,7 @@ public:
         pushButtonSpeak->setText(QString());
         pushButton->setText(QCoreApplication::translate("InterfaceEnregistrement", "Bienvenue sur l'interface pour un Enregistrement", nullptr));
         pushButtonPause->setText(QString());
+        pushButtonRepeter->setText(QString());
         pushButtonSignet->setText(QString());
         labelAppelProf->setText(QCoreApplication::translate("InterfaceEnregistrement", "Le prof a \303\251t\303\251 appel\303\251", nullptr));
         pushButtonFavoris->setText(QString());

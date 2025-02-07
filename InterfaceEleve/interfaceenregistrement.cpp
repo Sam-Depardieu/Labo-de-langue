@@ -24,7 +24,6 @@ InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
     totalSecondes = 0;
     pausedSecondes = 0;
     isPaused = false;
-    maxSeconds=0;
 
 
     //Affichage des Images
@@ -118,6 +117,14 @@ InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
         ui->pushButtonRevenirALaPhrasePrecedente->setIconSize(ui->pushButtonRevenirALaPhrasePrecedente->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
     }
 
+    QPixmap imageRepeter(":/images/Repeter"); // Charge l'image
+    if (imageRepeter.isNull()) {
+        qWarning() << "Erreur : image non trouvée !";
+    } else {
+        QIcon icone(imageRepeter); // Crée une icône
+        ui->pushButtonRepeter->setIcon(icone); // Définit l'icône du bouton
+        ui->pushButtonRepeter->setIconSize(ui->pushButtonRepeter->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
+    }
 
     QPixmap imageEffacer(":/images/Effacer"); // Charge l'image
     if (imageEffacer.isNull()) {
@@ -167,6 +174,10 @@ void InterfaceEnregistrement::on_pushButtonRevenirALaPhrasePrecedente_clicked()
 }
 
 
+void InterfaceEnregistrement::on_pushButtonRepeter_clicked()
+{
+
+}
 
 
 void InterfaceEnregistrement::on_pushButtonClear_clicked()
@@ -200,39 +211,61 @@ void InterfaceEnregistrement::on_pushButtonPause_clicked()
 void InterfaceEnregistrement::on_pushButtonSpeak_clicked()
 {
     if (!speakButtonClicked) {
+        // Démarrer le chrono
+        connect(timer, &QTimer::timeout, this, &InterfaceEnregistrement::updateChrono);
+        totalSecondes = 0; // Réinitialiser le chronomètre
+        timer->start(1000);
+
+        ui->labelChrono->setText("00:00:00"); // Initialiser le label du chronomètre à 0
+        ui->labelChrono->show();
+        ui->pushButtonSpeak->setEnabled(false);
+        speakButtonClicked = true;
+
+        // Simuler un enregistrement (mettre votre code d'enregistrement ici)
+        audioFilePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/recording.wav";
+        qDebug() << "Enregistrement sauvegardé à :" << audioFilePath;
+    }
+}
+
+void InterfaceEnregistrement::on_pushButtonAvancer_clicked()
+{
+
+}
+
+
+
+
+
+void InterfaceEnregistrement::on_pushButtonPlay_clicked()
+{
+    if (!isRewinding) { // Vérifie que le retour arrière est terminé
         if (!timer->isActive()) {
-            // Démarrer le chrono
-            connect(timer, &QTimer::timeout, this, &InterfaceEnregistrement::updateChrono);
-            totalSecondes = 0; // Réinitialiser le chronomètre
-            maxSeconds = 0;
             timer->start(1000);
-            ui->labelChrono->setText("00:00:00"); // Initialiser le label du chronomètre à 0
-            ui->labelChrono->show();
+            qDebug() << "Chrono redémarré à partir de " << totalSecondes;
 
-            // Simuler un enregistrement (mettre votre code d'enregistrement ici)
-            audioFilePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/recording.wav";
-            qDebug() << "Enregistrement sauvegardé à :" << audioFilePath;
-
-            // Vérifier si le fichier existe
-            QFile file(audioFilePath);
-            if (file.exists()) {
-                qDebug() << "Le fichier audio existe.";
-            } else {
-                qDebug() << "Le fichier audio n'existe pas.";
-            }
+            // Lire l'audio enregistré depuis le début
+            player->setSource(QUrl::fromLocalFile(audioFilePath));
+            player->play();
         } else {
-            qDebug() << "L'enregistrement est déjà en cours";
+            qDebug() << "Le chrono est déjà en cours";
         }
     }
 }
 
+void InterfaceEnregistrement::on_pushButtonAppelProf_clicked()
+{
+    ui->pushButtonAppelProf->setStyleSheet("QPushButton { background-color: none; border: none; }");
+    // Faire apparaître le label instantanément
+    ui->labelAppelProf->show();
+    qWarning() << "Label Appel Prof affiche";
+
+}
 void InterfaceEnregistrement::updateChrono()
 {
     if (totalSecondes > 0 && isRewinding) {
         totalSecondes--;
     } else {
         totalSecondes++;
-        maxSeconds = totalSecondes;
     }
 
     int heures = totalSecondes / 3600;
@@ -247,54 +280,4 @@ void InterfaceEnregistrement::updateChrono()
         rewindTimer->stop();
         isRewinding = false;
     }
-}
-void InterfaceEnregistrement::on_pushButtonPlay_clicked()
-{
-    if (totalSecondes > 0) {
-        // Vérifier si le fichier existe avant de démarrer la lecture
-        QFile file(audioFilePath);
-        if (!file.exists()) {
-            qDebug() << "Le fichier audio n'existe pas.";
-            return;
-        }
-
-        // Configurer le lecteur audio
-        player->setSource(QUrl::fromLocalFile(audioFilePath)); // Utilisez setSource pour Qt 6
-        player->play();
-
-        // Connecter le signal errorOccurred pour capturer les erreurs
-        connect(player, &QMediaPlayer::errorOccurred, this, [this]() {
-            qDebug() << "Erreur lors de la lecture audio :" << player->errorString();
-        });
-
-        // Connecter le signal positionChanged pour surveiller la lecture
-        connect(player, &QMediaPlayer::positionChanged, this, &InterfaceEnregistrement::checkPlaybackPosition);
-
-        qDebug() << "Lecture audio démarrée.";
-    } else {
-        qDebug() << "Chronomètre en pause ou à zéro, lecture non autorisée";
-    }
-}
-
-void InterfaceEnregistrement::checkPlaybackPosition()
-{
-    if (player->position() / 1000 >= totalSecondes) {
-        player->stop();
-        qDebug() << "Lecture arrêtée car elle a dépassé le temps du chronomètre";
-    }
-}
-
-void InterfaceEnregistrement::on_pushButtonAvancer_clicked()
-{
-
-}
-
-
-void InterfaceEnregistrement::on_pushButtonAppelProf_clicked()
-{
-    ui->pushButtonAppelProf->setStyleSheet("QPushButton { background-color: none; border: none; }");
-    // Faire apparaître le label instantanément
-    ui->labelAppelProf->show();
-    qWarning() << "Label Appel Prof affiche";
-
 }
