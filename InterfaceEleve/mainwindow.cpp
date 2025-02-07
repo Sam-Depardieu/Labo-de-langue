@@ -24,7 +24,7 @@ QString getLocalIPAddress() {
             return address.toString();
         }
     }
-    return "0.0.0.0"; // Valeur par défaut si aucune adresse trouvée
+    return "0.0.0.0";
 }
 
 QString getMacAddress() {
@@ -41,8 +41,8 @@ bool MainWindow::connectToDatabase() {
     }
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("192.168.64.36");
-    db.setDatabaseName("LaboLangue");
+    db.setHostName("192.168.64.36"); // Votre adresse de serveur MySQL
+    db.setDatabaseName("LaboLangue"); // Nom de votre base de données
     db.setPassword("okokok"); // Remplacez par votre mot de passe
 
     if (!db.open()) {
@@ -52,7 +52,6 @@ bool MainWindow::connectToDatabase() {
     qDebug() << "Connecté à la base de données :";
     return true;
 }
-
 void MainWindow::on_pushButtonConnexion_clicked()
 {
     AttenteProf *attenteProf = new AttenteProf(this);
@@ -63,18 +62,8 @@ void MainWindow::on_pushButtonConnexion_clicked()
     qDebug() << "Adresse IP:" << ipAddress;
     qDebug() << "Adresse MAC:" << macAddress;
 
-    // 2️⃣ Connexion à la base de données
-    QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL"); // Adapter au type de BDD utilisé
-    db.setHostName("localhost");
-    db.setDatabaseName("LaboLangue");  // Nom de votre base
-    db.setUserName("root");  // Remplacez par votre utilisateur SQL
-    db.setPassword("okokok");  // Mot de passe si nécessaire
-
-    if (!db.open()) {
-        qDebug() << "Échec de la connexion:" << db.lastError().text();
-        ui->pushButtonConnexion->setText("Connexion échouée ");
-        return;
-    }
+    // Connexion à la base de données
+    QSqlDatabase db = QSqlDatabase::database(); // Utilisez la connexion ouverte précédemment
 
     // 3️⃣ Mettre à jour le statut dans la base
     QSqlQuery query;
@@ -88,13 +77,10 @@ void MainWindow::on_pushButtonConnexion_clicked()
     if (query.exec()) {
         qDebug() << "Connexion enregistrée avec succès ";
         ui->pushButtonConnexion->setText("Connecté ");
-
     } else {
         qDebug() << "Erreur lors de l'insertion:" << query.lastError().text();
         ui->pushButtonConnexion->setText("Échec ");
     }
-
-    db.close();
 
 }
 void MainWindow::on_pushButtonEnregistrement_clicked()
