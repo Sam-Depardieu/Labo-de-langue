@@ -113,7 +113,7 @@ border-radius: 10px;</string>
      <string>Présence</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="NewButton">
+   <widget class="QPushButton" name="SessionButton">
     <property name="geometry">
      <rect>
       <x>300</x>
@@ -265,7 +265,7 @@ border-radius: 10px;</string>
      <string notr="true">background-color: white;</string>
     </property>
    </widget>
-   <widget class="QGraphicsView" name="Parametrage">
+   <widget class="QGraphicsView" name="Parametrage1">
     <property name="geometry">
      <rect>
       <x>410</x>
@@ -276,6 +276,32 @@ border-radius: 10px;</string>
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: white;</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="NameLabel">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>90</y>
+      <width>71</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: black; color: white;</string>
+    </property>
+    <property name="text">
+     <string>Votre Nom :</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="NameLineEdit">
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>90</y>
+      <width>221</width>
+      <height>21</height>
+     </rect>
     </property>
    </widget>
   </widget>

@@ -18,7 +18,9 @@
 #include <QVariant>
 #include <QKeyEvent>
 #include <QDebug>
+#include <QPalette>
 #include <QRectF>
+#include <QVBoxLayout>
 
 #include <QtMultimedia>
 #include <QtMultimediaWidgets>

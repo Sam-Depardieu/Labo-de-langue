@@ -12,6 +12,8 @@
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QGraphicsView>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QWidget>
@@ -26,13 +28,15 @@ public:
     QPushButton *LigneHaut;
     QPushButton *PlanButton;
     QPushButton *PresenceButton;
-    QPushButton *NewButton;
+    QPushButton *SessionButton;
     QPushButton *AppelButton;
     QPushButton *StatutButton;
     QPushButton *AideButton;
     QPushButton *EnregistrementButton;
     QGraphicsView *PlanClasse;
-    QGraphicsView *Parametrage;
+    QGraphicsView *Parametrage1;
+    QLabel *NameLabel;
+    QLineEdit *NameLineEdit;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -77,12 +81,12 @@ public:
 "color: white;\n"
 "border: 1px solid white;\n"
 "border-radius: 10px;"));
-        NewButton = new QPushButton(centralwidget);
-        NewButton->setObjectName("NewButton");
-        NewButton->setGeometry(QRect(300, 10, 91, 41));
-        sizePolicy.setHeightForWidth(NewButton->sizePolicy().hasHeightForWidth());
-        NewButton->setSizePolicy(sizePolicy);
-        NewButton->setStyleSheet(QString::fromUtf8("background-color: black;\n"
+        SessionButton = new QPushButton(centralwidget);
+        SessionButton->setObjectName("SessionButton");
+        SessionButton->setGeometry(QRect(300, 10, 91, 41));
+        sizePolicy.setHeightForWidth(SessionButton->sizePolicy().hasHeightForWidth());
+        SessionButton->setSizePolicy(sizePolicy);
+        SessionButton->setStyleSheet(QString::fromUtf8("background-color: black;\n"
 "font: 9pt \"Segoe UI\";\n"
 "color: white;\n"
 "border: 1px solid white;\n"
@@ -140,10 +144,17 @@ public:
         PlanClasse->setObjectName("PlanClasse");
         PlanClasse->setGeometry(QRect(10, 70, 381, 361));
         PlanClasse->setStyleSheet(QString::fromUtf8("background-color: white;"));
-        Parametrage = new QGraphicsView(centralwidget);
-        Parametrage->setObjectName("Parametrage");
-        Parametrage->setGeometry(QRect(410, 70, 381, 361));
-        Parametrage->setStyleSheet(QString::fromUtf8("background-color: white;"));
+        Parametrage1 = new QGraphicsView(centralwidget);
+        Parametrage1->setObjectName("Parametrage1");
+        Parametrage1->setGeometry(QRect(410, 70, 381, 361));
+        Parametrage1->setStyleSheet(QString::fromUtf8("background-color: white;"));
+        NameLabel = new QLabel(centralwidget);
+        NameLabel->setObjectName("NameLabel");
+        NameLabel->setGeometry(QRect(430, 90, 71, 21));
+        NameLabel->setStyleSheet(QString::fromUtf8("background-color: black; color: white;"));
+        NameLineEdit = new QLineEdit(centralwidget);
+        NameLineEdit->setObjectName("NameLineEdit");
+        NameLineEdit->setGeometry(QRect(530, 90, 221, 21));
         MainWindow->setCentralWidget(centralwidget);
 
         retranslateUi(MainWindow);
@@ -158,11 +169,12 @@ public:
         LigneHaut->setText(QString());
         PlanButton->setText(QCoreApplication::translate("MainWindow", "Plan de classe", nullptr));
         PresenceButton->setText(QCoreApplication::translate("MainWindow", "Pr\303\251sence", nullptr));
-        NewButton->setText(QCoreApplication::translate("MainWindow", "Nouv. Session", nullptr));
+        SessionButton->setText(QCoreApplication::translate("MainWindow", "Nouv. Session", nullptr));
         AppelButton->setText(QCoreApplication::translate("MainWindow", "Appeler tous", nullptr));
         StatutButton->setText(QCoreApplication::translate("MainWindow", "Statut", nullptr));
         AideButton->setText(QCoreApplication::translate("MainWindow", "Aide", nullptr));
         EnregistrementButton->setText(QCoreApplication::translate("MainWindow", "Enregistrement", nullptr));
+        NameLabel->setText(QCoreApplication::translate("MainWindow", "Votre Nom :", nullptr));
     } // retranslateUi
 
 };
