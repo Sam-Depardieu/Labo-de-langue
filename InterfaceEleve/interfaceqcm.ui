@@ -18,9 +18,12 @@
     <rect>
      <x>360</x>
      <y>160</y>
-     <width>70</width>
-     <height>70</height>
+     <width>65</width>
+     <height>65</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
    </property>
    <property name="text">
     <string/>
@@ -31,8 +34,8 @@
     <rect>
      <x>290</x>
      <y>230</y>
-     <width>70</width>
-     <height>70</height>
+     <width>65</width>
+     <height>65</height>
     </rect>
    </property>
    <property name="text">
@@ -42,11 +45,14 @@
   <widget class="QPushButton" name="pushButtonQuestionSuivante">
    <property name="geometry">
     <rect>
-     <x>470</x>
+     <x>430</x>
      <y>403</y>
      <width>75</width>
      <height>75</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
    </property>
    <property name="text">
     <string/>
@@ -55,11 +61,14 @@
   <widget class="QPushButton" name="pushButtonEffacerReponse">
    <property name="geometry">
     <rect>
-     <x>700</x>
+     <x>670</x>
      <y>403</y>
      <width>75</width>
      <height>75</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
    </property>
    <property name="text">
     <string/>
@@ -70,8 +79,8 @@
     <rect>
      <x>430</x>
      <y>230</y>
-     <width>70</width>
-     <height>70</height>
+     <width>65</width>
+     <height>65</height>
     </rect>
    </property>
    <property name="text">
@@ -83,8 +92,8 @@
     <rect>
      <x>360</x>
      <y>300</y>
-     <width>70</width>
-     <height>70</height>
+     <width>65</width>
+     <height>65</height>
     </rect>
    </property>
    <property name="text">
@@ -99,6 +108,9 @@
      <width>75</width>
      <height>75</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
    </property>
    <property name="text">
     <string/>
@@ -148,6 +160,26 @@
     <string/>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButtonSon">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>240</y>
+     <width>80</width>
+     <height>80</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: transparent;
+    border: none;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
   <zorder>pushButton_2</zorder>
   <zorder>pushButton1</zorder>
   <zorder>pushButton4</zorder>
@@ -157,6 +189,7 @@
   <zorder>pushButton3</zorder>
   <zorder>pushButtonQuestionPrecedente</zorder>
   <zorder>pushButton</zorder>
+  <zorder>pushButtonSon</zorder>
  </widget>
  <resources/>
  <connections/>
