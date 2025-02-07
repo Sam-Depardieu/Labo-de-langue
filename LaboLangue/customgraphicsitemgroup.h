@@ -1,6 +1,9 @@
 #ifndef CUSTOMGRAPHICSITEMGROUP_H
 #define CUSTOMGRAPHICSITEMGROUP_H
 
+//#include <QAudioOutput>
+//#include <QMediaPlayer>
+
 #include <QObject>
 #include <QMainWindow>
 #include <QApplication>
@@ -18,6 +21,8 @@
 #include <QPalette>
 #include <QRectF>
 #include <QVBoxLayout>
+#include <QtMultimedia>
+#include <QtMultimediaWidgets>
 
 class MainWindow;
 
