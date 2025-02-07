@@ -25,6 +25,9 @@ void CustomGraphicsItemGroup::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *ev
     }
 
     QGraphicsItemGroup::mouseDoubleClickEvent(event);
+
+    // 🔹 Remplacez l'IP et les ports pour correspondre à votre réseau
+    VoiceChat chat(QHostAddress("192.168.64.16"), 12345, 12346);
 }
 
 QVariant CustomGraphicsItemGroup::itemChange(GraphicsItemChange change, const QVariant &value)

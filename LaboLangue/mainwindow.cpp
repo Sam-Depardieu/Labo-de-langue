@@ -191,6 +191,7 @@ bool MainWindow::connectToDatabase() {
 
 void MainWindow::onImageGroupDoubleClicked() {
     qDebug() << "Slot onImageGroupDoubleClicked() exécuté !";
+
     // Ajoutez ici le code à exécuter lors du double-clic sur un groupe
 }
 
@@ -198,7 +199,6 @@ void MainWindow::on_SessionButton_clicked()
 {
     ui->Parametrage1->setVisible(!ui->Parametrage1->isVisible());
     ui->PlanClasse->setVisible(true);
-    loadImagesFromDB();
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
