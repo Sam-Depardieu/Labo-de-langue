@@ -19,10 +19,12 @@
 #include <QRectF>
 #include <QVBoxLayout>
 
+class MainWindow;
+
 class CustomGraphicsItemGroup : public QObject, public QGraphicsItemGroup {
     Q_OBJECT
     public:
-        CustomGraphicsItemGroup(int numero, int id_eleve, QString ip);
+        CustomGraphicsItemGroup(int numero, QString ip, MainWindow* parentWindow);
 
     protected:
         void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;
@@ -31,10 +33,9 @@ class CustomGraphicsItemGroup : public QObject, public QGraphicsItemGroup {
         int getId() const;
 
     private:
+        MainWindow* mainWindow;
         int numero = 0;
-        int id_eleve;
         QString IP;
-        int affiliate = {};
 
     signals:
         void doubleClicked();

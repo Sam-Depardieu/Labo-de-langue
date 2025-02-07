@@ -1,15 +1,29 @@
 #include "customgraphicsitemgroup.h"
+#include "mainwindow.h"
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
 
-CustomGraphicsItemGroup::CustomGraphicsItemGroup(int numero, int id_eleve, QString ip) : QGraphicsItemGroup(), numero(numero), id_eleve(id_eleve), IP(ip) {
+CustomGraphicsItemGroup::CustomGraphicsItemGroup(int numero, QString ip, MainWindow* parentWindow) : QGraphicsItemGroup(), numero(numero), IP(ip), mainWindow(parentWindow) {
     setFlag(QGraphicsItem::ItemSendsGeometryChanges);
 }
 
 void CustomGraphicsItemGroup::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
-
+    if(mainWindow->selectionParticipants)
+    {
+        auto it = std::find(mainWindow->listeParticipant.begin(), mainWindow->listeParticipant.end(), this);
+        if (it == mainWindow->listeParticipant.end()) {
+            // L'élément n'est pas dans la liste, on l'ajoute
+            mainWindow->listeParticipant.push_back(this);
+        }
+    }
     qDebug() << IP;
     emit doubleClicked();
+
+    for (CustomGraphicsItemGroup* group : mainWindow->listeParticipant) {
+        // Affichage de l'ID et de l'IP
+        qDebug() << "ID: " << group->getId() << ", IP: " << group->IP;
+    }
+
     QGraphicsItemGroup::mouseDoubleClickEvent(event);
 }
 
@@ -42,7 +56,7 @@ QVariant CustomGraphicsItemGroup::itemChange(GraphicsItemChange change, const QV
 
         // Mettre à jour la position dans la base de données
         QSqlQuery query;
-        query.prepare("UPDATE Placement SET X = :x, Y = :y WHERE NumPoste = :numPoste");
+        query.prepare("UPDATE Raspberry SET X = :x, Y = :y WHERE Id_Raspberry = :numPoste");
         query.bindValue(":x", newPos.x());
         query.bindValue(":y", newPos.y());
         query.bindValue(":numPoste", numero);  // Utiliser l'identifiant de la poste
