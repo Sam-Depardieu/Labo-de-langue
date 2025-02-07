@@ -29,9 +29,9 @@ private slots:
 
     void on_pushButton_SelectAudio_clicked();
 
-    void on_horizontalSliderSon_actionTriggered(int action);
-
     void on_pushButton_Apres_clicked();
+
+    void on_horizontalSliderSon_actionTriggered();
 
 private:
     Ui::InterfaceAudio *ui;
