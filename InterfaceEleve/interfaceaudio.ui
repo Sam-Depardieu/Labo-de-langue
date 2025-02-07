@@ -65,33 +65,13 @@
     <string/>
    </property>
   </widget>
-  <widget class="QSlider" name="horizontalSliderSon">
-   <property name="geometry">
-    <rect>
-     <x>580</x>
-     <y>430</y>
-     <width>160</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-  </widget>
   <widget class="QPushButton" name="pushButton_2">
    <property name="geometry">
     <rect>
-<<<<<<< HEAD
-     <x>0</x>
-     <y>400</y>
-     <width>801</width>
-     <height>81</height>
-=======
      <x>-10</x>
      <y>390</y>
      <width>811</width>
      <height>90</height>
->>>>>>> 56c4941f08c16325266934dedcdb43a82c461402
     </rect>
    </property>
    <property name="styleSheet">
@@ -107,8 +87,6 @@
     <string/>
    </property>
   </widget>
-<<<<<<< HEAD
-=======
   <widget class="QPushButton" name="pushButton_SelectAudio">
    <property name="geometry">
     <rect>
@@ -133,19 +111,27 @@
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout"/>
   </widget>
->>>>>>> 56c4941f08c16325266934dedcdb43a82c461402
+  <widget class="QSlider" name="horizontalSliderSon">
+   <property name="geometry">
+    <rect>
+     <x>570</x>
+     <y>430</y>
+     <width>160</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
   <zorder>pushButton_2</zorder>
   <zorder>pushButton_Play</zorder>
   <zorder>pushButton_Avant</zorder>
   <zorder>pushButton_Apres</zorder>
   <zorder>pushButton_Pause</zorder>
-<<<<<<< HEAD
-  <zorder>horizontalSlider</zorder>
-=======
-  <zorder>horizontalSliderSon</zorder>
   <zorder>pushButton_SelectAudio</zorder>
   <zorder>horizontalLayoutWidget</zorder>
->>>>>>> 56c4941f08c16325266934dedcdb43a82c461402
+  <zorder>horizontalSliderSon</zorder>
  </widget>
  <resources/>
  <connections/>
