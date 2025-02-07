@@ -198,23 +198,6 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButtonRepeter">
-   <property name="geometry">
-    <rect>
-     <x>520</x>
-     <y>405</y>
-     <width>90</width>
-     <height>70</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: transparent;
-    border: none;</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
   <widget class="QPushButton" name="pushButtonSignet">
    <property name="geometry">
     <rect>
@@ -321,7 +304,6 @@
   <zorder>labelChrono</zorder>
   <zorder>pushButtonSpeak</zorder>
   <zorder>pushButtonPause</zorder>
-  <zorder>pushButtonRepeter</zorder>
   <zorder>pushButtonSignet</zorder>
   <zorder>labelAppelProf</zorder>
   <zorder>pushButtonFavoris</zorder>
