@@ -8,11 +8,12 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint);  // Supprime la barre de titre et les boutons
     showFullScreen();
+    connectToDatabase();
 
     scene = new QGraphicsScene(0, 0, 381, 361, this);
     ui->PlanClasse->setScene(scene);
     ui->Parametrage1->setVisible(false);
-    ui->PlanClasse->setVisible(false);
+    //ui->PlanClasse->setVisible(false);
 
     ui->PlanButton->setEnabled(false);
     ui->PlanButton->setStyleSheet(
@@ -60,13 +61,32 @@ MainWindow::MainWindow(QWidget *parent)
         );
 
     // Créez un layout vertical pour organiser les labels
+    // Créez un QHBoxLayout pour les éléments sur la même ligne
+    QHBoxLayout *horizontalLayout = new QHBoxLayout();
+    horizontalLayout->addWidget(ui->NameLabel);
+    horizontalLayout->addWidget(ui->NameLineEdit);
+
+    // Créez le QVBoxLayout principal
     QVBoxLayout *layout = new QVBoxLayout();
-    layout->addWidget(ui->NameLabel);
-    layout->addWidget(ui->NameLineEdit);
+    layout->setContentsMargins(20, 30, 20, 10);  // Ajoute des marges
+    layout->setAlignment(Qt::AlignCenter);       // Centre tout le layout
+    layout->setAlignment(Qt::AlignTop);
+
+    // Ajoutez le QHBoxLayout et les autres widgets
+    layout->addLayout(horizontalLayout); // Ajoute les widgets sur la même ligne
+    layout->addSpacing(15);  // Espacement entre les sections
+
+    horizontalLayout = new QHBoxLayout();
+    horizontalLayout->addWidget(ui->ChoixActLabel);
+    horizontalLayout->addWidget(ui->ChoixActivite);
+
+    layout->addLayout(horizontalLayout);
 
     // Appliquez le layout à Parametrage1
     ui->Parametrage1->setLayout(layout);
 
+    setupClassesComboBox();
+    setupActivitiesComboBox();
     loadImagesFromDB();
 }
 
@@ -77,41 +97,21 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::keyPressEvent(QKeyEvent *event) {
-    if (event->key() == Qt::Key_Escape) {
-        close();  // Ferme l'application quand on appuie sur Échap
-    }
-}
-
-void MainWindow::on_PlanButton_clicked()
-{
-    ui->PlanClasse->setVisible(!ui->PlanClasse->isVisible());
-}
-
 void MainWindow::loadImagesFromDB()
 {
     if (!connectToDatabase()) {
+        qDebug() << "Erreur de connexion à la base de données.";
         return;
     }
 
-    QSqlQuery query;
-    query.prepare("SELECT SessionEleve.Id_Eleve, Activite.Id_Classe, Raspberry.IP, Placement.X, Placement.Y "
-                  "FROM SessionEleve "
-                  "JOIN Activite ON Activite.Id_Classe = SessionEleve.Id_Classe "
-                  "JOIN Raspberry ON Raspberry.Id_Raspberry = SessionEleve.Id_Raspberry "
-                  "JOIN Placement ON Placement.NumPoste = Raspberry.NumPoste "
-                  "WHERE Activite.Id_Activite = :idActivite");
+    QSqlQuery query("SELECT IP, X, Y FROM Raspberry");
 
-    query.bindValue(":idActivite", 1);  // ID de l'activité sélectionnée
-
-    if (!query.exec()) {
-        qDebug() << "Erreur lors de l'exécution de la requête :" << query.lastError();
-        return;
-    }
+    // Revenir à la première ligne de la requête
+    query.first();
 
     QPixmap pixmap("../img/person.png");
     if (pixmap.isNull()) {
-        qWarning("L'image n'a pas pu être chargée.");
+        qWarning("L'image n'a pas pu être chargée. Vérifiez le chemin.");
         return;
     }
 
@@ -124,11 +124,19 @@ void MainWindow::loadImagesFromDB()
     int imageHeight = pixmap.height();
 
     int id = 1;
-    while (query.next()) {
-        int id_eleve = query.value(0).toInt();
-        QString ip = query.value(2).toString();
-        int x = query.value(3).toInt();
-        int y = query.value(4).toInt();
+    do {
+        QString ip = query.value(0).toString();
+        int x = query.value(1).toInt();
+        int y = query.value(2).toInt();
+
+        // Vérification des valeurs x et y
+        if (query.value(1).isNull() || query.value(2).isNull()) {
+            x = column * (imageWidth + spacing);
+            y = row * (imageHeight + spacing + 10);
+        } else {
+            x = query.value(1).toInt();
+            y = query.value(2).toInt();
+        }
 
         QGraphicsPixmapItem *imageItem = new QGraphicsPixmapItem(pixmap);
         imageItem->setFlag(QGraphicsItem::ItemIsMovable);
@@ -136,18 +144,13 @@ void MainWindow::loadImagesFromDB()
         QGraphicsTextItem *textItem = new QGraphicsTextItem(QString::number(id));
         textItem->setPos(16, pixmap.height());
 
-        CustomGraphicsItemGroup *group = new CustomGraphicsItemGroup(id, id_eleve, ip);
+        CustomGraphicsItemGroup *group = new CustomGraphicsItemGroup(id, ip, this);
         group->addToGroup(imageItem);
         group->addToGroup(textItem);
         group->setFlag(QGraphicsItem::ItemIsMovable);
 
-        if (x == 0 || y == 0) {
-            x = column * (imageWidth + spacing);
-            y = row * (imageHeight + spacing + 10);
-        }
         group->setPos(x, y);
-
-        listeElve.push_back(group);
+        listeRasp.push_back(group);
 
         connect(group, &CustomGraphicsItemGroup::doubleClicked, this, &MainWindow::onImageGroupDoubleClicked);
 
@@ -159,10 +162,12 @@ void MainWindow::loadImagesFromDB()
             row++;
         }
         id++;
-    }
+
+    } while (query.next());  // Assurez-vous que vous traitez tous les résultats.
 
     ui->PlanClasse->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
 }
+
 
 
 bool MainWindow::connectToDatabase() {
@@ -191,5 +196,90 @@ void MainWindow::onImageGroupDoubleClicked() {
 void MainWindow::on_SessionButton_clicked()
 {
     ui->Parametrage1->setVisible(!ui->Parametrage1->isVisible());
+    ui->PlanClasse->setVisible(true);
+    loadImagesFromDB();
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *event) {
+    if (event->key() == Qt::Key_Escape) {
+        close();  // Ferme l'application quand on appuie sur Échap
+    }
+}
+
+void MainWindow::on_PlanButton_clicked()
+{
+    ui->PlanClasse->setVisible(!ui->PlanClasse->isVisible());
+}
+
+void MainWindow::setupActivitiesComboBox()
+{
+    // Supposons que tu as un QComboBox nommé activityComboBox dans ton UI
+    QComboBox *activityComboBox = ui->ChoixActivite;
+
+    // Liste des activités à ajouter
+    QStringList activities = {
+        "📢 Audio - Écoute simple",
+        "🎤 Audio - Écoute et répétition",
+        "📜 Audio - Dicter et répéter",
+        "🎙 Audio - Enregistrement libre",
+        "📖 Audio - Lecture orale",
+
+        "🎬 Vidéo - Regarder et répondre",
+        "📹 Vidéo - Description d’une scène",
+        "🎙 Vidéo - Doublage",
+        "📺 Vidéo - Vidéo interactive",
+
+        "🎭 Interactif - Jeux de rôles",
+        "🗣 Interactif - Débats enregistrés",
+
+        "🤝 Collaboratif - Travail en binôme",
+        "🎙 Collaboratif - Chat écrit/audio",
+        "👥 Collaboratif - Exercices en groupe",
+
+        "🎮 Gamification - Quiz interactif",
+        "🏆 Gamification - QCM en temps réel",
+    };
+
+    // Ajouter toutes les activités dans le QComboBox
+    activityComboBox->addItems(activities);
+
+    return;
+}
+
+void MainWindow::setupClassesComboBox()
+{
+    QSqlQuery query;
+    query.prepare("SELECT Nom FROM Classe");
+
+    if (!query.exec()) {
+        qDebug() << "Erreur lors de l'exécution de la requête :" << query.lastError();
+        return;
+    }
+
+    while (query.next()) {
+        QString nom = query.value(0).toString();
+
+        ui->ChoixClasse->addItem(nom);
+    }
+
+    return;
+}
+
+void MainWindow::on_ChoixActivite_currentIndexChanged(int index)
+{
+    QString selectedActivity = ui->ChoixActivite->itemText(index);
+    typeActivite = index;
+}
+
+
+void MainWindow::on_selectManuel_clicked()
+{
+    selectionParticipants = true;
+}
+
+
+void MainWindow::on_selectAll_clicked()
+{
+    listeParticipant = listeRasp;
 }
 

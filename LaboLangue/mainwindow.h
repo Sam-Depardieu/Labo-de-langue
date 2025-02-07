@@ -1,8 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-
-
 #include "customgraphicsitemgroup.h"
 
 QT_BEGIN_NAMESPACE
@@ -19,7 +17,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
 
     int idActivite = 0;
-    std::vector<CustomGraphicsItemGroup*> listeElve = {};
+    std::vector<CustomGraphicsItemGroup*> listeRasp = {};
+    std::vector<CustomGraphicsItemGroup*> listeParticipant = {};
 
     ~MainWindow();
 
@@ -29,13 +28,23 @@ private slots:
     void loadImagesFromDB();
     bool connectToDatabase();
     void onImageGroupDoubleClicked();
-
+    void setupActivitiesComboBox();
+    void setupClassesComboBox();
     void on_SessionButton_clicked();
+    void on_ChoixActivite_currentIndexChanged(int index);
+    void on_selectManuel_clicked();
+
+    void on_selectAll_clicked();
 
 private:
     Ui::MainWindow *ui;
     QGraphicsScene *scene;
     QSqlDatabase db;
     QGraphicsPixmapItem *item;
+    int typeActivite;
+
+public:
+    bool selectionParticipants;
+
 };
 #endif // MAINWINDOW_H

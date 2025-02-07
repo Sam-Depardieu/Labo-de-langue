@@ -7,6 +7,10 @@
 *****************************************************************************/
 
 #include "../../../mainwindow.h"
+#include <QtGui/qtextcursor.h>
+#include <QtGui/qscreen.h>
+#include <QtNetwork/QSslPreSharedKeyAuthenticator>
+#include <QtNetwork/QSslError>
 #include <QtCore/qmetatype.h>
 
 #include <QtCore/qtmochelpers.h>
@@ -44,7 +48,7 @@ constexpr auto qt_meta_stringdata_CLASSMainWindowENDCLASS = QtMocHelpers::string
     "loadImagesFromDB",
     "connectToDatabase",
     "onImageGroupDoubleClicked",
-    "on_NewButton_clicked"
+    "on_SessionButton_clicked"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
 #error "qtmochelpers.h not found or too old."
@@ -103,7 +107,7 @@ Q_CONSTINIT const QMetaObject MainWindow::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<bool, std::false_type>,
         // method 'onImageGroupDoubleClicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'on_NewButton_clicked'
+        // method 'on_SessionButton_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
@@ -121,7 +125,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 3: { bool _r = _t->connectToDatabase();
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
         case 4: _t->onImageGroupDoubleClicked(); break;
-        case 5: _t->on_NewButton_clicked(); break;
+        case 5: _t->on_SessionButton_clicked(); break;
         default: ;
         }
     }

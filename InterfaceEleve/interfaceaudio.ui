@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>300</x>
-     <y>420</y>
+     <y>430</y>
      <width>45</width>
      <height>45</height>
     </rect>
@@ -30,7 +30,7 @@
    <property name="geometry">
     <rect>
      <x>240</x>
-     <y>420</y>
+     <y>430</y>
      <width>45</width>
      <height>45</height>
     </rect>
@@ -43,7 +43,7 @@
    <property name="geometry">
     <rect>
      <x>420</x>
-     <y>420</y>
+     <y>430</y>
      <width>45</width>
      <height>45</height>
     </rect>
@@ -56,32 +56,10 @@
    <property name="geometry">
     <rect>
      <x>360</x>
-     <y>420</y>
+     <y>430</y>
      <width>45</width>
      <height>45</height>
     </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton_2">
-   <property name="geometry">
-    <rect>
-     <x>-10</x>
-     <y>390</y>
-     <width>811</width>
-     <height>90</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QPushButton {
-    background-color: rgb(0, 151, 178); /* Fond bleu */
-    color: white; /* Texte en blanc */
-    border: none; /* Enlever le contour si nécessaire */
-    border-radius: 5px; /* Optionnel : coins arrondis */
-    font-weight: bold; /* Optionnel : texte en gras */
-}</string>
    </property>
    <property name="text">
     <string/>
@@ -106,7 +84,7 @@
      <x>9</x>
      <y>30</y>
      <width>781</width>
-     <height>341</height>
+     <height>381</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout"/>
@@ -115,13 +93,35 @@
    <property name="geometry">
     <rect>
      <x>570</x>
-     <y>430</y>
+     <y>450</y>
      <width>160</width>
      <height>16</height>
     </rect>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="geometry">
+    <rect>
+     <x>-10</x>
+     <y>415</y>
+     <width>831</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+    background-color: rgb(0, 151, 178); /* Fond bleu */
+    color: white; /* Texte en blanc */
+    border: none; /* Enlever le contour si nécessaire */
+    border-radius: 5px; /* Optionnel : coins arrondis */
+    font-weight: bold; /* Optionnel : texte en gras */
+}</string>
+   </property>
+   <property name="text">
+    <string/>
    </property>
   </widget>
   <zorder>pushButton_2</zorder>

@@ -11,11 +11,14 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QComboBox>
 #include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QTextEdit>
+#include <QtWidgets/QTimeEdit>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -37,6 +40,17 @@ public:
     QGraphicsView *Parametrage1;
     QLabel *NameLabel;
     QLineEdit *NameLineEdit;
+    QLabel *ChoixActLabel;
+    QComboBox *ChoixActivite;
+    QLabel *DureeLabel;
+    QTimeEdit *DureeActivite;
+    QLabel *ConsigneLabel;
+    QTextEdit *ConsigneTextEdit;
+    QLabel *ClasseLabel;
+    QComboBox *ChoixClasse;
+    QLabel *ParticipantsLabel;
+    QPushButton *selectAll;
+    QPushButton *selectManuel;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -150,11 +164,49 @@ public:
         Parametrage1->setStyleSheet(QString::fromUtf8("background-color: white;"));
         NameLabel = new QLabel(centralwidget);
         NameLabel->setObjectName("NameLabel");
-        NameLabel->setGeometry(QRect(430, 90, 71, 21));
+        NameLabel->setGeometry(QRect(430, 90, 81, 21));
         NameLabel->setStyleSheet(QString::fromUtf8("background-color: black; color: white;"));
         NameLineEdit = new QLineEdit(centralwidget);
         NameLineEdit->setObjectName("NameLineEdit");
         NameLineEdit->setGeometry(QRect(530, 90, 221, 21));
+        ChoixActLabel = new QLabel(centralwidget);
+        ChoixActLabel->setObjectName("ChoixActLabel");
+        ChoixActLabel->setGeometry(QRect(430, 130, 81, 21));
+        ChoixActLabel->setStyleSheet(QString::fromUtf8("background-color: black; color: white;"));
+        ChoixActivite = new QComboBox(centralwidget);
+        ChoixActivite->setObjectName("ChoixActivite");
+        ChoixActivite->setGeometry(QRect(530, 130, 221, 21));
+        DureeLabel = new QLabel(centralwidget);
+        DureeLabel->setObjectName("DureeLabel");
+        DureeLabel->setGeometry(QRect(430, 170, 81, 21));
+        DureeLabel->setStyleSheet(QString::fromUtf8("background-color: black; color: white;"));
+        DureeActivite = new QTimeEdit(centralwidget);
+        DureeActivite->setObjectName("DureeActivite");
+        DureeActivite->setGeometry(QRect(530, 170, 221, 22));
+        ConsigneLabel = new QLabel(centralwidget);
+        ConsigneLabel->setObjectName("ConsigneLabel");
+        ConsigneLabel->setGeometry(QRect(430, 290, 81, 21));
+        ConsigneLabel->setStyleSheet(QString::fromUtf8("background-color: black; color: white;"));
+        ConsigneTextEdit = new QTextEdit(centralwidget);
+        ConsigneTextEdit->setObjectName("ConsigneTextEdit");
+        ConsigneTextEdit->setGeometry(QRect(530, 290, 221, 51));
+        ClasseLabel = new QLabel(centralwidget);
+        ClasseLabel->setObjectName("ClasseLabel");
+        ClasseLabel->setGeometry(QRect(430, 210, 81, 21));
+        ClasseLabel->setStyleSheet(QString::fromUtf8("background-color: black; color: white;"));
+        ChoixClasse = new QComboBox(centralwidget);
+        ChoixClasse->setObjectName("ChoixClasse");
+        ChoixClasse->setGeometry(QRect(530, 210, 221, 21));
+        ParticipantsLabel = new QLabel(centralwidget);
+        ParticipantsLabel->setObjectName("ParticipantsLabel");
+        ParticipantsLabel->setGeometry(QRect(430, 250, 81, 21));
+        ParticipantsLabel->setStyleSheet(QString::fromUtf8("background-color: black; color: white;"));
+        selectAll = new QPushButton(centralwidget);
+        selectAll->setObjectName("selectAll");
+        selectAll->setGeometry(QRect(530, 250, 101, 24));
+        selectManuel = new QPushButton(centralwidget);
+        selectManuel->setObjectName("selectManuel");
+        selectManuel->setGeometry(QRect(650, 250, 101, 24));
         MainWindow->setCentralWidget(centralwidget);
 
         retranslateUi(MainWindow);
@@ -175,6 +227,13 @@ public:
         AideButton->setText(QCoreApplication::translate("MainWindow", "Aide", nullptr));
         EnregistrementButton->setText(QCoreApplication::translate("MainWindow", "Enregistrement", nullptr));
         NameLabel->setText(QCoreApplication::translate("MainWindow", "Votre Nom :", nullptr));
+        ChoixActLabel->setText(QCoreApplication::translate("MainWindow", "Type activit\303\251 :", nullptr));
+        DureeLabel->setText(QCoreApplication::translate("MainWindow", "Dur\303\251e activit\303\251 :", nullptr));
+        ConsigneLabel->setText(QCoreApplication::translate("MainWindow", "Consigne :", nullptr));
+        ClasseLabel->setText(QCoreApplication::translate("MainWindow", "Classe :", nullptr));
+        ParticipantsLabel->setText(QCoreApplication::translate("MainWindow", "Participants :", nullptr));
+        selectAll->setText(QCoreApplication::translate("MainWindow", "S\303\251lectionner tous", nullptr));
+        selectManuel->setText(QCoreApplication::translate("MainWindow", "Personnaliser", nullptr));
     } // retranslateUi
 
 };
