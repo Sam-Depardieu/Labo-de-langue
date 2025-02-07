@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>InterfaceEnregistrement</class>
+ <widget class="QDialog" name="InterfaceEnregistrement">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>480</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QPushButton" name="pushButtonSon">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>400</y>
+     <width>80</width>
+     <height>80</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: transparent;
+    border: none;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonSurveiller">
+   <property name="geometry">
+    <rect>
+     <x>710</x>
+     <y>410</y>
+     <width>80</width>
+     <height>60</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: transparent;
+    border: none;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonAvancer">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
+     <y>160</y>
+     <width>70</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonClear">
+   <property name="geometry">
+    <rect>
+     <x>630</x>
+     <y>405</y>
+     <width>70</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: transparent;
+    border: none;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonAppelProf">
+   <property name="geometry">
+    <rect>
+     <x>710</x>
+     <y>3</y>
+     <width>60</width>
+     <height>75</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: transparent;
+    border: none;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>400</y>
+     <width>801</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+    background-color: rgb(0, 151, 178); /* Fond bleu */
+    color: white; /* Texte en blanc */
+    border: none; /* Enlever le contour si nécessaire */
+    border-radius: 5px; /* Optionnel : coins arrondis */
+    font-weight: bold; /* Optionnel : texte en gras */
+}</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelChrono">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>100</y>
+     <width>181</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>20</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonSpeak">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>290</y>
+     <width>70</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>80</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+    background-color: rgb(0, 151, 178); /* Fond bleu */
+    color: white; /* Texte en blanc */
+    border: none; /* Enlever le contour si nécessaire */
+    border-radius: 5px; /* Optionnel : coins arrondis */
+    font-weight: bold; /* Optionnel : texte en gras */
+}</string>
+   </property>
+   <property name="text">
+    <string>Bienvenue sur l'interface pour un Enregistrement</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonPause">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>160</y>
+     <width>70</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonSignet">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>400</y>
+     <width>60</width>
+     <height>80</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: transparent;
+    border: none;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labelAppelProf">
+   <property name="geometry">
+    <rect>
+     <x>690</x>
+     <y>80</y>
+     <width>111</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Le prof a été appelé</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonFavoris">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>400</y>
+     <width>80</width>
+     <height>80</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: transparent;
+    border: none;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonPlay">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>290</y>
+     <width>70</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonRevenirALaPhrasePrecedente">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>405</y>
+     <width>90</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: transparent;
+    border: none;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButtonRetourArriere">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>160</y>
+     <width>70</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <zorder>pushButton</zorder>
+  <zorder>pushButton_2</zorder>
+  <zorder>pushButtonSon</zorder>
+  <zorder>pushButtonSurveiller</zorder>
+  <zorder>pushButtonAvancer</zorder>
+  <zorder>pushButtonClear</zorder>
+  <zorder>pushButtonAppelProf</zorder>
+  <zorder>labelChrono</zorder>
+  <zorder>pushButtonSpeak</zorder>
+  <zorder>pushButtonPause</zorder>
+  <zorder>pushButtonSignet</zorder>
+  <zorder>labelAppelProf</zorder>
+  <zorder>pushButtonFavoris</zorder>
+  <zorder>pushButtonPlay</zorder>
+  <zorder>pushButtonRevenirALaPhrasePrecedente</zorder>
+  <zorder>pushButtonRetourArriere</zorder>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

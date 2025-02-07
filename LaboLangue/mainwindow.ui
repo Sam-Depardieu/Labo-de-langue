@@ -283,7 +283,7 @@ border-radius: 10px;</string>
      <rect>
       <x>430</x>
       <y>90</y>
-      <width>71</width>
+      <width>81</width>
       <height>21</height>
      </rect>
     </property>
@@ -302,6 +302,152 @@ border-radius: 10px;</string>
       <width>221</width>
       <height>21</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ChoixActLabel">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>130</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: black; color: white;</string>
+    </property>
+    <property name="text">
+     <string>Type activité :</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="ChoixActivite">
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>130</y>
+      <width>221</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="DureeLabel">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>170</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: black; color: white;</string>
+    </property>
+    <property name="text">
+     <string>Durée activité :</string>
+    </property>
+   </widget>
+   <widget class="QTimeEdit" name="DureeActivite">
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>170</y>
+      <width>221</width>
+      <height>22</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ConsigneLabel">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>290</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: black; color: white;</string>
+    </property>
+    <property name="text">
+     <string>Consigne :</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="ConsigneTextEdit">
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>290</y>
+      <width>221</width>
+      <height>51</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ClasseLabel">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>210</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: black; color: white;</string>
+    </property>
+    <property name="text">
+     <string>Classe :</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="ChoixClasse">
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>210</y>
+      <width>221</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ParticipantsLabel">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>250</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: black; color: white;</string>
+    </property>
+    <property name="text">
+     <string>Participants :</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="selectAll">
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>250</y>
+      <width>101</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Sélectionner tous</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="selectManuel">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>250</y>
+      <width>101</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Personnaliser</string>
     </property>
    </widget>
   </widget>
