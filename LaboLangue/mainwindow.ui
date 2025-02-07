@@ -288,7 +288,7 @@ border-radius: 10px;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: black; color: white;</string>
+     <string notr="true"/>
     </property>
     <property name="text">
      <string>Votre Nom :</string>
@@ -314,7 +314,7 @@ border-radius: 10px;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: black; color: white;</string>
+     <string notr="true"/>
     </property>
     <property name="text">
      <string>Type activité :</string>
@@ -340,7 +340,7 @@ border-radius: 10px;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: black; color: white;</string>
+     <string notr="true"/>
     </property>
     <property name="text">
      <string>Durée activité :</string>
@@ -366,7 +366,7 @@ border-radius: 10px;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: black; color: white;</string>
+     <string notr="true"/>
     </property>
     <property name="text">
      <string>Consigne :</string>
@@ -392,7 +392,7 @@ border-radius: 10px;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: black; color: white;</string>
+     <string notr="true"/>
     </property>
     <property name="text">
      <string>Classe :</string>
@@ -418,7 +418,7 @@ border-radius: 10px;</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: black; color: white;</string>
+     <string notr="true"/>
     </property>
     <property name="text">
      <string>Participants :</string>
@@ -448,6 +448,54 @@ border-radius: 10px;</string>
     </property>
     <property name="text">
      <string>Personnaliser</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="validButton">
+    <property name="geometry">
+     <rect>
+      <x>690</x>
+      <y>390</y>
+      <width>75</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: green;</string>
+    </property>
+    <property name="text">
+     <string>Valider</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="echapButton">
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>390</y>
+      <width>75</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: red;</string>
+    </property>
+    <property name="text">
+     <string>Annuler</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="delButton">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>390</y>
+      <width>75</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: red;</string>
+    </property>
+    <property name="text">
+     <string>Supprimer</string>
     </property>
    </widget>
   </widget>

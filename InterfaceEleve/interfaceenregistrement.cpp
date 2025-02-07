@@ -24,7 +24,6 @@ InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
     totalSecondes = 0;
     pausedSecondes = 0;
     isPaused = false;
-    maxSeconds=0;
 
 
     //Affichage des Images
@@ -118,6 +117,14 @@ InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
         ui->pushButtonRevenirALaPhrasePrecedente->setIconSize(ui->pushButtonRevenirALaPhrasePrecedente->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
     }
 
+    QPixmap imageRepeter(":/images/Repeter"); // Charge l'image
+    if (imageRepeter.isNull()) {
+        qWarning() << "Erreur : image non trouvée !";
+    } else {
+        QIcon icone(imageRepeter); // Crée une icône
+        ui->pushButtonRepeter->setIcon(icone); // Définit l'icône du bouton
+        ui->pushButtonRepeter->setIconSize(ui->pushButtonRepeter->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
+    }
 
     QPixmap imageEffacer(":/images/Effacer"); // Charge l'image
     if (imageEffacer.isNull()) {
@@ -167,6 +174,10 @@ void InterfaceEnregistrement::on_pushButtonRevenirALaPhrasePrecedente_clicked()
 }
 
 
+void InterfaceEnregistrement::on_pushButtonRepeter_clicked()
+{
+
+}
 
 
 void InterfaceEnregistrement::on_pushButtonClear_clicked()
@@ -202,9 +213,7 @@ void InterfaceEnregistrement::on_pushButtonSpeak_clicked()
     if (!speakButtonClicked) {
         if (!timer->isActive()) {
             // Démarrer le chrono
-            connect(timer, &QTimer::timeout, this, &InterfaceEnregistrement::updateChrono);
             totalSecondes = 0; // Réinitialiser le chronomètre
-            maxSeconds = 0;
             timer->start(1000);
             ui->labelChrono->setText("00:00:00"); // Initialiser le label du chronomètre à 0
             ui->labelChrono->show();
@@ -220,34 +229,23 @@ void InterfaceEnregistrement::on_pushButtonSpeak_clicked()
             } else {
                 qDebug() << "Le fichier audio n'existe pas.";
             }
+
+            speakButtonClicked = true;
         } else {
             qDebug() << "L'enregistrement est déjà en cours";
         }
     }
 }
 
-void InterfaceEnregistrement::updateChrono()
+void InterfaceEnregistrement::on_pushButtonAvancer_clicked()
 {
-    if (totalSecondes > 0 && isRewinding) {
-        totalSecondes--;
-    } else {
-        totalSecondes++;
-        maxSeconds = totalSecondes;
-    }
 
-    int heures = totalSecondes / 3600;
-    int minutes = (totalSecondes % 3600) / 60;
-    int secondes = totalSecondes % 60;
-
-    ui->labelChrono->setText(QString::number(heures).rightJustified(2, '0') + ":" +
-                             QString::number(minutes).rightJustified(2, '0') + ":" +
-                             QString::number(secondes).rightJustified(2, '0'));
-
-    if (totalSecondes == 0 && isRewinding) {
-        rewindTimer->stop();
-        isRewinding = false;
-    }
 }
+
+
+
+
+
 void InterfaceEnregistrement::on_pushButtonPlay_clicked()
 {
     if (totalSecondes > 0) {
@@ -275,7 +273,6 @@ void InterfaceEnregistrement::on_pushButtonPlay_clicked()
         qDebug() << "Chronomètre en pause ou à zéro, lecture non autorisée";
     }
 }
-
 void InterfaceEnregistrement::checkPlaybackPosition()
 {
     if (player->position() / 1000 >= totalSecondes) {
@@ -283,13 +280,6 @@ void InterfaceEnregistrement::checkPlaybackPosition()
         qDebug() << "Lecture arrêtée car elle a dépassé le temps du chronomètre";
     }
 }
-
-void InterfaceEnregistrement::on_pushButtonAvancer_clicked()
-{
-
-}
-
-
 void InterfaceEnregistrement::on_pushButtonAppelProf_clicked()
 {
     ui->pushButtonAppelProf->setStyleSheet("QPushButton { background-color: none; border: none; }");
@@ -297,4 +287,36 @@ void InterfaceEnregistrement::on_pushButtonAppelProf_clicked()
     ui->labelAppelProf->show();
     qWarning() << "Label Appel Prof affiche";
 
+}
+void InterfaceEnregistrement::updateChrono()
+{
+    if (isRewinding) {
+        return; // Ne pas mettre à jour le chrono pendant le retour arrière
+    }
+
+    totalSecondes++;
+
+    int heures = totalSecondes / 3600;
+    int minutes = (totalSecondes % 3600) / 60;
+    int secondes = totalSecondes % 60;
+
+    ui->labelChrono->setText(QString::number(heures).rightJustified(2, '0') + ":" +
+                             QString::number(minutes).rightJustified(2, '0') + ":" +
+                             QString::number(secondes).rightJustified(2, '0'));
+}
+void InterfaceEnregistrement::rewindChrono()
+{
+    if (totalSecondes > 0) {
+        totalSecondes--;
+        int heures = totalSecondes / 3600;
+        int minutes = (totalSecondes % 3600) / 60;
+        int secondes = totalSecondes % 60;
+
+        ui->labelChrono->setText(QString::number(heures).rightJustified(2, '0') + ":" +
+                                 QString::number(minutes).rightJustified(2, '0') + ":" +
+                                 QString::number(secondes).rightJustified(2, '0'));
+    } else {
+        rewindTimer->stop();
+        isRewinding = false;
+    }
 }

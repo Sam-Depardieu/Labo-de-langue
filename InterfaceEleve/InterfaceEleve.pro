@@ -1,17 +1,22 @@
 QT       += core gui multimedia multimediawidgets
-QT += core gui sql
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+QT += sql
 CONFIG += c++17
+QT += core network
 CONFIG += console
 CONFIG -= app_bundle
+CONFIG += console
 CONFIG -= windows
-QT += core
-
-
 TEMPLATE = app
 
-# Sources
+
+
+# You can make your code fail to compile if it uses deprecated APIs.
+# In order to do so, uncomment the following line.
+#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
+
 SOURCES += \
     attenteprof.cpp \
     interfaceaudio.cpp \
@@ -21,7 +26,6 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp
 
-# Headers
 HEADERS += \
     attenteprof.h \
     interfaceaudio.h \
@@ -30,7 +34,6 @@ HEADERS += \
     interfacevideo.h \
     mainwindow.h
 
-# Forms
 FORMS += \
     attenteprof.ui \
     interfaceaudio.ui \
@@ -39,12 +42,11 @@ FORMS += \
     interfacevideo.ui \
     mainwindow.ui
 
-# Resources
-RESOURCES += \
-    images.qrc \
-    videos.qrc
-
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    images.qrc \
+    videos.qrc
