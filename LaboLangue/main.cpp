@@ -1,16 +1,86 @@
 #include "mainwindow.h"
 
-#include <QApplication>
+#include <QtMultimedia>
+#include <QtMultimediaWidgets>
+#include <QAudioInput>
+#include <QAudioOutput>
+#include <QUdpSocket>
+#include <QIODevice>
 #include <QMediaPlayer>
 #include <QVideoWidget>
 #include <QUrl>
-
 #include <QApplication>
 #include <QCoreApplication>
 #include <QNetworkInterface>
 #include <QDebug>
 #include <QHostInfo>
 #include <QProcess>
+
+class VoiceChat : public QObject {
+    Q_OBJECT
+public:
+    VoiceChat(const QHostAddress &peerAddress, quint16 peerPort, quint16 localPort, QObject *parent = nullptr)
+        : QObject(parent), peerAddress(peerAddress), peerPort(peerPort) {
+
+        // 📌 Définition des paramètres audio
+        QAudioFormat format;
+        format.setSampleRate(44100);
+        format.setChannelCount(1);  // Mono pour économiser la bande passante
+        format.setSampleFormat(QAudioFormat::Int16); // Format PCM 16 bits
+
+        // 📌 Vérifier si le format est supporté
+        QAudioDevice inputDevice = QMediaDevices::defaultAudioInput();
+        QAudioDevice outputDevice = QMediaDevices::defaultAudioOutput();
+        if (!inputDevice.isFormatSupported(format) || !outputDevice.isFormatSupported(format)) {
+            qWarning() << "Format audio non supporté";
+            return;
+        }
+
+        // 🎤 Configurer la source audio (microphone)
+        audioSource = new QAudioSource(inputDevice, format, this);
+        audioDeviceIn = audioSource->start();  // Démarrer la capture
+
+        // 🔊 Configurer la sortie audio (haut-parleur)
+        audioSink = new QAudioSink(outputDevice, format, this);
+        audioDeviceOut = audioSink->start(); // Préparer la lecture
+
+        // 📡 Initialiser le socket UDP
+        udpSocket = new QUdpSocket(this);
+        udpSocket->bind(QHostAddress::AnyIPv4, localPort); // Écoute sur un port local
+
+        // 🔄 Connecter les signaux
+        connect(audioDeviceIn, &QIODevice::readyRead, this, &VoiceChat::sendAudioData);
+        connect(udpSocket, &QUdpSocket::readyRead, this, &VoiceChat::receiveAudioData);
+    }
+
+public slots:
+    // Envoie l'audio
+    void sendAudioData() {
+        QByteArray data = audioDeviceIn->readAll();  // Lire les données du micro
+        udpSocket->writeDatagram(data, peerAddress, peerPort);  // Envoyer via UDP
+    }
+    // Lecture de l'audio reçu
+    void receiveAudioData() {
+        while (udpSocket->hasPendingDatagrams()) {
+            QByteArray buffer;
+            buffer.resize(udpSocket->pendingDatagramSize());
+            QHostAddress sender;
+            quint16 senderPort;
+            udpSocket->readDatagram(buffer.data(), buffer.size(), &sender, &senderPort);
+            audioDeviceOut->write(buffer);  // Jouer l'audio reçu en temps réel
+        }
+    }
+
+private:
+    QAudioSource *audioSource;
+    QAudioSink *audioSink;
+    QIODevice *audioDeviceIn;
+    QIODevice *audioDeviceOut;
+    QUdpSocket *udpSocket;
+    QHostAddress peerAddress;
+    quint16 peerPort;
+};
+
 
 void pingAndInsertAddress(const QString &address, QSqlDatabase &db)
 {

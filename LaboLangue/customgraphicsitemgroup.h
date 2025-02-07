@@ -21,7 +21,6 @@
 #include <QPalette>
 #include <QRectF>
 #include <QVBoxLayout>
-
 #include <QtMultimedia>
 #include <QtMultimediaWidgets>
 
