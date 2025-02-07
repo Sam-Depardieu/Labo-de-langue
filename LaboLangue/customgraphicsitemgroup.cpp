@@ -16,18 +16,12 @@ void CustomGraphicsItemGroup::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *ev
             mainWindow->listeParticipant.push_back(this);
         }
     }
-    qDebug() << IP;
-    emit doubleClicked();
-
-    for (CustomGraphicsItemGroup* group : mainWindow->listeParticipant) {
-        // Affichage de l'ID et de l'IP
-        qDebug() << "ID: " << group->getId() << ", IP: " << group->IP;
-    }
 
     QGraphicsItemGroup::mouseDoubleClickEvent(event);
 
     // 🔹 Remplacez l'IP et les ports pour correspondre à votre réseau
-    VoiceChat chat(QHostAddress("192.168.64.16"), 12345, 12346);
+    VoiceChat chat(QHostAddress("192.168.88.150"), 12345, 12346);
+
 }
 
 QVariant CustomGraphicsItemGroup::itemChange(GraphicsItemChange change, const QVariant &value)

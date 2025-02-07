@@ -54,6 +54,9 @@ public:
     QPushButton *validButton;
     QPushButton *echapButton;
     QPushButton *delButton;
+    QLabel *errorLabel;
+    QLabel *SourceLabel;
+    QPushButton *SourceButton;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -72,7 +75,7 @@ public:
         LigneHaut = new QPushButton(centralwidget);
         LigneHaut->setObjectName("LigneHaut");
         LigneHaut->setEnabled(false);
-        LigneHaut->setGeometry(QRect(0, 0, 821, 71));
+        LigneHaut->setGeometry(QRect(0, 0, 821, 61));
         LigneHaut->setAutoFillBackground(false);
         LigneHaut->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 151, 178);"));
         PlanButton = new QPushButton(centralwidget);
@@ -192,7 +195,7 @@ public:
         ConsigneLabel->setStyleSheet(QString::fromUtf8(""));
         ConsigneTextEdit = new QTextEdit(centralwidget);
         ConsigneTextEdit->setObjectName("ConsigneTextEdit");
-        ConsigneTextEdit->setGeometry(QRect(530, 290, 221, 51));
+        ConsigneTextEdit->setGeometry(QRect(530, 290, 221, 31));
         ClasseLabel = new QLabel(centralwidget);
         ClasseLabel->setObjectName("ClasseLabel");
         ClasseLabel->setGeometry(QRect(430, 210, 81, 21));
@@ -212,16 +215,27 @@ public:
         selectManuel->setGeometry(QRect(650, 250, 101, 24));
         validButton = new QPushButton(centralwidget);
         validButton->setObjectName("validButton");
-        validButton->setGeometry(QRect(690, 390, 75, 24));
+        validButton->setGeometry(QRect(690, 400, 75, 24));
         validButton->setStyleSheet(QString::fromUtf8("background-color: green;"));
         echapButton = new QPushButton(centralwidget);
         echapButton->setObjectName("echapButton");
-        echapButton->setGeometry(QRect(560, 390, 75, 24));
+        echapButton->setGeometry(QRect(560, 400, 75, 24));
         echapButton->setStyleSheet(QString::fromUtf8("background-color: red;"));
         delButton = new QPushButton(centralwidget);
         delButton->setObjectName("delButton");
-        delButton->setGeometry(QRect(430, 390, 75, 24));
+        delButton->setGeometry(QRect(430, 400, 75, 24));
         delButton->setStyleSheet(QString::fromUtf8("background-color: red;"));
+        errorLabel = new QLabel(centralwidget);
+        errorLabel->setObjectName("errorLabel");
+        errorLabel->setGeometry(QRect(430, 370, 321, 20));
+        errorLabel->setStyleSheet(QString::fromUtf8("color: red;"));
+        SourceLabel = new QLabel(centralwidget);
+        SourceLabel->setObjectName("SourceLabel");
+        SourceLabel->setGeometry(QRect(430, 340, 81, 21));
+        SourceLabel->setStyleSheet(QString::fromUtf8(""));
+        SourceButton = new QPushButton(centralwidget);
+        SourceButton->setObjectName("SourceButton");
+        SourceButton->setGeometry(QRect(590, 340, 91, 24));
         MainWindow->setCentralWidget(centralwidget);
 
         retranslateUi(MainWindow);
@@ -252,6 +266,9 @@ public:
         validButton->setText(QCoreApplication::translate("MainWindow", "Valider", nullptr));
         echapButton->setText(QCoreApplication::translate("MainWindow", "Annuler", nullptr));
         delButton->setText(QCoreApplication::translate("MainWindow", "Supprimer", nullptr));
+        errorLabel->setText(QString());
+        SourceLabel->setText(QCoreApplication::translate("MainWindow", "Source :", nullptr));
+        SourceButton->setText(QCoreApplication::translate("MainWindow", "Selection fichier", nullptr));
     } // retranslateUi
 
 };

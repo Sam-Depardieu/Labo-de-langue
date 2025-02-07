@@ -37,6 +37,105 @@ QT_WARNING_DISABLE_GCC("-Wuseless-cast")
 namespace {
 
 #ifdef QT_MOC_HAS_STRINGDATA
+struct qt_meta_stringdata_CLASSVoiceChatENDCLASS_t {};
+constexpr auto qt_meta_stringdata_CLASSVoiceChatENDCLASS = QtMocHelpers::stringData(
+    "VoiceChat",
+    "sendAudioData",
+    "",
+    "receiveAudioData"
+);
+#else  // !QT_MOC_HAS_STRINGDATA
+#error "qtmochelpers.h not found or too old."
+#endif // !QT_MOC_HAS_STRINGDATA
+} // unnamed namespace
+
+Q_CONSTINIT static const uint qt_meta_data_CLASSVoiceChatENDCLASS[] = {
+
+ // content:
+      12,       // revision
+       0,       // classname
+       0,    0, // classinfo
+       2,   14, // methods
+       0,    0, // properties
+       0,    0, // enums/sets
+       0,    0, // constructors
+       0,       // flags
+       0,       // signalCount
+
+ // slots: name, argc, parameters, tag, flags, initial metatype offsets
+       1,    0,   26,    2, 0x0a,    1 /* Public */,
+       3,    0,   27,    2, 0x0a,    2 /* Public */,
+
+ // slots: parameters
+    QMetaType::Void,
+    QMetaType::Void,
+
+       0        // eod
+};
+
+Q_CONSTINIT const QMetaObject VoiceChat::staticMetaObject = { {
+    QMetaObject::SuperData::link<QObject::staticMetaObject>(),
+    qt_meta_stringdata_CLASSVoiceChatENDCLASS.offsetsAndSizes,
+    qt_meta_data_CLASSVoiceChatENDCLASS,
+    qt_static_metacall,
+    nullptr,
+    qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSVoiceChatENDCLASS_t,
+        // Q_OBJECT / Q_GADGET
+        QtPrivate::TypeAndForceComplete<VoiceChat, std::true_type>,
+        // method 'sendAudioData'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'receiveAudioData'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>
+    >,
+    nullptr
+} };
+
+void VoiceChat::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
+{
+    if (_c == QMetaObject::InvokeMetaMethod) {
+        auto *_t = static_cast<VoiceChat *>(_o);
+        (void)_t;
+        switch (_id) {
+        case 0: _t->sendAudioData(); break;
+        case 1: _t->receiveAudioData(); break;
+        default: ;
+        }
+    }
+    (void)_a;
+}
+
+const QMetaObject *VoiceChat::metaObject() const
+{
+    return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
+}
+
+void *VoiceChat::qt_metacast(const char *_clname)
+{
+    if (!_clname) return nullptr;
+    if (!strcmp(_clname, qt_meta_stringdata_CLASSVoiceChatENDCLASS.stringdata0))
+        return static_cast<void*>(this);
+    return QObject::qt_metacast(_clname);
+}
+
+int VoiceChat::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+{
+    _id = QObject::qt_metacall(_c, _id, _a);
+    if (_id < 0)
+        return _id;
+    if (_c == QMetaObject::InvokeMetaMethod) {
+        if (_id < 2)
+            qt_static_metacall(this, _c, _id, _a);
+        _id -= 2;
+    } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
+        if (_id < 2)
+            *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
+        _id -= 2;
+    }
+    return _id;
+}
+namespace {
+
+#ifdef QT_MOC_HAS_STRINGDATA
 struct qt_meta_stringdata_CLASSMainWindowENDCLASS_t {};
 constexpr auto qt_meta_stringdata_CLASSMainWindowENDCLASS = QtMocHelpers::stringData(
     "MainWindow",
@@ -54,9 +153,10 @@ constexpr auto qt_meta_stringdata_CLASSMainWindowENDCLASS = QtMocHelpers::string
     "on_ChoixActivite_currentIndexChanged",
     "index",
     "on_selectManuel_clicked",
-    "disableButton",
+    "editStatusButton",
     "QPushButton*",
     "button",
+    "status",
     "addHorizontalLayout",
     "QVBoxLayout*",
     "layout",
@@ -68,7 +168,11 @@ constexpr auto qt_meta_stringdata_CLASSMainWindowENDCLASS = QtMocHelpers::string
     "button1",
     "button2",
     "button3",
-    "on_selectAll_clicked"
+    "on_selectAll_clicked",
+    "on_validButton_clicked",
+    "on_SourceButton_clicked",
+    "on_delButton_clicked",
+    "on_echapButton_clicked"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
 #error "qtmochelpers.h not found or too old."
@@ -81,7 +185,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSMainWindowENDCLASS[] = {
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-      15,   14, // methods
+      19,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -89,21 +193,25 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSMainWindowENDCLASS[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    0,  104,    2, 0x08,    1 /* Private */,
-       3,    1,  105,    2, 0x08,    2 /* Private */,
-       6,    0,  108,    2, 0x08,    4 /* Private */,
-       7,    0,  109,    2, 0x08,    5 /* Private */,
-       8,    0,  110,    2, 0x08,    6 /* Private */,
-       9,    0,  111,    2, 0x08,    7 /* Private */,
-      10,    0,  112,    2, 0x08,    8 /* Private */,
-      11,    0,  113,    2, 0x08,    9 /* Private */,
-      12,    1,  114,    2, 0x08,   10 /* Private */,
-      14,    0,  117,    2, 0x08,   12 /* Private */,
-      15,    1,  118,    2, 0x08,   13 /* Private */,
-      18,    3,  121,    2, 0x08,   15 /* Private */,
-      18,    4,  128,    2, 0x08,   19 /* Private */,
-      25,    4,  137,    2, 0x08,   24 /* Private */,
-      29,    0,  146,    2, 0x08,   29 /* Private */,
+       1,    0,  128,    2, 0x08,    1 /* Private */,
+       3,    1,  129,    2, 0x08,    2 /* Private */,
+       6,    0,  132,    2, 0x08,    4 /* Private */,
+       7,    0,  133,    2, 0x08,    5 /* Private */,
+       8,    0,  134,    2, 0x08,    6 /* Private */,
+       9,    0,  135,    2, 0x08,    7 /* Private */,
+      10,    0,  136,    2, 0x08,    8 /* Private */,
+      11,    0,  137,    2, 0x08,    9 /* Private */,
+      12,    1,  138,    2, 0x08,   10 /* Private */,
+      14,    0,  141,    2, 0x08,   12 /* Private */,
+      15,    2,  142,    2, 0x08,   13 /* Private */,
+      19,    3,  147,    2, 0x08,   16 /* Private */,
+      19,    4,  154,    2, 0x08,   20 /* Private */,
+      26,    4,  163,    2, 0x08,   25 /* Private */,
+      30,    0,  172,    2, 0x08,   30 /* Private */,
+      31,    0,  173,    2, 0x08,   31 /* Private */,
+      32,    0,  174,    2, 0x08,   32 /* Private */,
+      33,    0,  175,    2, 0x08,   33 /* Private */,
+      34,    0,  176,    2, 0x08,   34 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -116,10 +224,14 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSMainWindowENDCLASS[] = {
     QMetaType::Void,
     QMetaType::Void, QMetaType::Int,   13,
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 16,   17,
-    QMetaType::Void, 0x80000000 | 19, 0x80000000 | 21, 0x80000000 | 21,   20,   22,   23,
-    QMetaType::Void, 0x80000000 | 19, 0x80000000 | 21, 0x80000000 | 21, 0x80000000 | 21,   20,   22,   23,   24,
-    QMetaType::Void, 0x80000000 | 19, 0x80000000 | 21, 0x80000000 | 21, 0x80000000 | 21,   20,   26,   27,   28,
+    QMetaType::Void, 0x80000000 | 16, QMetaType::Bool,   17,   18,
+    QMetaType::Void, 0x80000000 | 20, 0x80000000 | 22, 0x80000000 | 22,   21,   23,   24,
+    QMetaType::Void, 0x80000000 | 20, 0x80000000 | 22, 0x80000000 | 22, 0x80000000 | 22,   21,   23,   24,   25,
+    QMetaType::Void, 0x80000000 | 20, 0x80000000 | 22, 0x80000000 | 22, 0x80000000 | 22,   21,   27,   28,   29,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
     QMetaType::Void,
 
        0        // eod
@@ -156,9 +268,10 @@ Q_CONSTINIT const QMetaObject MainWindow::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<int, std::false_type>,
         // method 'on_selectManuel_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'disableButton'
+        // method 'editStatusButton'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<QPushButton *, std::false_type>,
+        QtPrivate::TypeAndForceComplete<bool, std::false_type>,
         // method 'addHorizontalLayout'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<QVBoxLayout *, std::false_type>,
@@ -177,6 +290,14 @@ Q_CONSTINIT const QMetaObject MainWindow::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<QWidget *, std::false_type>,
         QtPrivate::TypeAndForceComplete<QWidget *, std::false_type>,
         // method 'on_selectAll_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_validButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_SourceButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_delButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_echapButton_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
@@ -199,11 +320,15 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 7: _t->on_SessionButton_clicked(); break;
         case 8: _t->on_ChoixActivite_currentIndexChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
         case 9: _t->on_selectManuel_clicked(); break;
-        case 10: _t->disableButton((*reinterpret_cast< std::add_pointer_t<QPushButton*>>(_a[1]))); break;
+        case 10: _t->editStatusButton((*reinterpret_cast< std::add_pointer_t<QPushButton*>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<bool>>(_a[2]))); break;
         case 11: _t->addHorizontalLayout((*reinterpret_cast< std::add_pointer_t<QVBoxLayout*>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QWidget*>>(_a[2])),(*reinterpret_cast< std::add_pointer_t<QWidget*>>(_a[3]))); break;
         case 12: _t->addHorizontalLayout((*reinterpret_cast< std::add_pointer_t<QVBoxLayout*>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QWidget*>>(_a[2])),(*reinterpret_cast< std::add_pointer_t<QWidget*>>(_a[3])),(*reinterpret_cast< std::add_pointer_t<QWidget*>>(_a[4]))); break;
         case 13: _t->addButtonRow((*reinterpret_cast< std::add_pointer_t<QVBoxLayout*>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QWidget*>>(_a[2])),(*reinterpret_cast< std::add_pointer_t<QWidget*>>(_a[3])),(*reinterpret_cast< std::add_pointer_t<QWidget*>>(_a[4]))); break;
         case 14: _t->on_selectAll_clicked(); break;
+        case 15: _t->on_validButton_clicked(); break;
+        case 16: _t->on_SourceButton_clicked(); break;
+        case 17: _t->on_delButton_clicked(); break;
+        case 18: _t->on_echapButton_clicked(); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
@@ -271,13 +396,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 15)
+        if (_id < 19)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 15;
+        _id -= 19;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 15)
+        if (_id < 19)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 15;
+        _id -= 19;
     }
     return _id;
 }

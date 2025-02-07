@@ -23,8 +23,10 @@
 #include <QVBoxLayout>
 #include <QtMultimedia>
 #include <QtMultimediaWidgets>
+#include <QDate>
 
 class MainWindow;
+class VoiceChat;
 
 class CustomGraphicsItemGroup : public QObject, public QGraphicsItemGroup {
     Q_OBJECT

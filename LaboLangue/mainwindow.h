@@ -6,6 +6,7 @@
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
+class VoiceChat;
 }
 QT_END_NAMESPACE
 
@@ -94,18 +95,25 @@ private slots:
     void addHorizontalLayout(QVBoxLayout *layout, QWidget *widget1, QWidget *widget2);
     void addHorizontalLayout(QVBoxLayout *layout, QWidget *widget1, QWidget *widget2, QWidget *widget3);
     void addButtonRow(QVBoxLayout *layout, QWidget *button1, QWidget *button2, QWidget *button3);
-
     void on_selectAll_clicked();
+    void on_validButton_clicked();
+
+    void on_SourceButton_clicked();
+
+    void on_delButton_clicked();
+
+    void on_echapButton_clicked();
 
 private:
     Ui::MainWindow *ui;
     QGraphicsScene *scene;
     QSqlDatabase db;
     QGraphicsPixmapItem *item;
+    QString source;
     int typeActivite;
 
 public:
-    bool selectionParticipants;
+    bool selectionParticipants =false;
 
 };
 #endif // MAINWINDOW_H

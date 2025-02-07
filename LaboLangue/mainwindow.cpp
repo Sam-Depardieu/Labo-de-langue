@@ -25,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Créer le layout principal avec les éléments disposés
     QVBoxLayout *layout = new QVBoxLayout();
-    layout->setContentsMargins(20, 30, 20, 10);
+    layout->setContentsMargins(10, 10, 20, 10);
     layout->setAlignment(Qt::AlignCenter | Qt::AlignTop);
 
     // Ajout des sections dans le layout
@@ -34,8 +34,14 @@ MainWindow::MainWindow(QWidget *parent)
     addHorizontalLayout(layout, ui->DureeLabel, ui->DureeActivite);
     addHorizontalLayout(layout, ui->ClasseLabel, ui->ChoixClasse);
     addHorizontalLayout(layout, ui->ParticipantsLabel, ui->selectAll, ui->selectManuel);
+    addHorizontalLayout(layout, ui->SourceLabel, ui->SourceButton);
     addHorizontalLayout(layout, ui->ConsigneLabel, ui->ConsigneTextEdit);
+    QHBoxLayout *hLayout = new QHBoxLayout();
+    hLayout->addWidget(ui->errorLabel);
+    layout->addLayout(hLayout);
+    layout->addSpacing(15);
     addButtonRow(layout, ui->delButton, ui->echapButton, ui->validButton);
+
 
     // Appliquez le layout à Parametrage1
     ui->Parametrage1->setLayout(layout);
@@ -173,28 +179,17 @@ void MainWindow::setupActivitiesComboBox()
     QComboBox *activityComboBox = ui->ChoixActivite;
 
     // Liste des activités à ajouter
-    QStringList activities = {
-        "📢 Audio - Écoute simple",
-        "🎤 Audio - Écoute et répétition",
-        "📜 Audio - Dicter et répéter",
-        "🎙 Audio - Enregistrement libre",
-        "📖 Audio - Lecture orale",
+    QStringList activities = {};
 
-        "🎬 Vidéo - Regarder et répondre",
-        "📹 Vidéo - Description d’une scène",
-        "🎙 Vidéo - Doublage",
-        "📺 Vidéo - Vidéo interactive",
+    QSqlQuery query("SELECT * FROM TypeActivite");
+    if (!query.exec()) {
+        qDebug() << "Erreur lors de l'exécution de la requête :" << query.lastError();
+        return;
+    }
 
-        "🎭 Interactif - Jeux de rôles",
-        "🗣 Interactif - Débats enregistrés",
-
-        "🤝 Collaboratif - Travail en binôme",
-        "🎙 Collaboratif - Chat écrit/audio",
-        "👥 Collaboratif - Exercices en groupe",
-
-        "🎮 Gamification - Quiz interactif",
-        "🏆 Gamification - QCM en temps réel",
-    };
+    while (query.next()) {
+        activities.append(query.value("Nom").toString());
+    }
 
     // Ajouter toutes les activités dans le QComboBox
     activityComboBox->addItems(activities);
@@ -284,3 +279,127 @@ void MainWindow::addButtonRow(QVBoxLayout *layout, QWidget *button1, QWidget *bu
     layout->addLayout(hLayout);
     layout->addSpacing(15);
 }
+
+void MainWindow::on_validButton_clicked()
+{
+    ui->errorLabel->clear();
+
+    if (ui->NameLineEdit->text().isEmpty()) {
+        ui->errorLabel->setText("Veuillez indiquer votre nom!");
+        return;
+    }
+    if (ui->ChoixActivite->currentText().isEmpty()) {
+        ui->errorLabel->setText("Veuillez indiquer une activité!");
+        return;
+    }
+    if (ui->DureeActivite->time().isNull()) {
+        ui->errorLabel->setText("Veuillez indiquer une durée!");
+        return;
+    }
+    if (ui->ChoixClasse->currentText().isEmpty()) {
+        ui->errorLabel->setText("Veuillez indiquer une classe!");
+        return;
+    }
+    if (listeParticipant.empty()) {
+        ui->errorLabel->setText("Veuillez indiquer des participants!");
+        return;
+    }
+
+    QSqlQuery query;
+
+    // 🔹 Récupérer les IDs nécessaires en une seule requête par table
+    int idTypeActivite = -1, idClasse = -1, idProf = -1;
+
+    query.prepare("SELECT Id_TypeActivite FROM TypeActivite WHERE Nom = :nom");
+    query.bindValue(":nom", ui->ChoixActivite->currentText());
+    if (query.exec() && query.next()) {
+        idTypeActivite = query.value(0).toInt();
+    } else {
+        qDebug() << "Erreur lors de la récupération de l'ID d'activité :" << query.lastError();
+    }
+
+    query.prepare("SELECT Id_Classe FROM Classe WHERE Nom = :nom");
+    query.bindValue(":nom", ui->ChoixClasse->currentText());
+    if (query.exec() && query.next()) {
+        idClasse = query.value(0).toInt();
+    } else {
+        qDebug() << "Erreur lors de la récupération de l'ID de classe :" << query.lastError();
+    }
+
+    query.prepare("SELECT Id_Prof FROM Prof WHERE Nom = :nom");
+    query.bindValue(":nom", ui->NameLineEdit->text());
+    if (query.exec() && query.next()) {
+        idProf = query.value(0).toInt();
+    } else {
+        QSqlQuery query;
+
+        // Si le prof n'existe pas encore, on l'insère
+        query.prepare("INSERT INTO SessionProf (Nom, Date_Session) VALUES (:nom, :date)");
+        query.bindValue(":nom", ui->NameLineEdit->text());
+        query.bindValue(":date", QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss"));
+
+        if (query.exec()) {
+            idProf = query.lastInsertId().toInt();  // Récupérer l'ID généré
+        } else {
+            qDebug() << "Erreur lors de l'insertion du professeur :" << query.lastError().text();
+            return; // Stopper l'exécution si l'insertion échoue
+        }
+    }
+
+    // 🔹 Vérifier si on a bien récupéré les IDs avant d'insérer l'activité
+    if (idTypeActivite == -1 || idClasse == -1 || idProf == -1) {
+        qDebug() << "Erreur : Impossible de récupérer tous les identifiants nécessaires.";
+        return;
+    }
+
+    // 🔹 Insérer l'activité
+    query.prepare("INSERT INTO Activite (Source, Consigne, Duree_Activite, DateActivite, Id_TypeActivite, Id_Classe, Id_Prof) "
+                  "VALUES (:source, :consigne, :duree, :date, :type, :classe, :prof)");
+    query.bindValue(":source", source);
+    query.bindValue(":consigne", ui->ConsigneTextEdit->toPlainText());
+    query.bindValue(":duree", ui->DureeActivite->time().toString("HH:mm:ss"));
+    query.bindValue(":date", QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss"));
+    query.bindValue(":type", idTypeActivite);
+    query.bindValue(":classe", idClasse);
+    query.bindValue(":prof", idProf);
+
+    if (!query.exec()) {
+        qDebug() << "Erreur lors de l'insertion de l'activité :" << query.lastError();
+    } else {
+        qDebug() << "Insertion de l'activité réussie !";
+    }
+
+    on_echapButton_clicked();
+}
+
+
+void MainWindow::on_SourceButton_clicked()
+{
+    QString documentsPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation); // Récupère le dossier Documents
+
+    QString fileName = QFileDialog::getOpenFileName(
+        this,
+        "Sélectionner un fichier audio",
+        documentsPath,  // Définit "Documents" comme dossier par défaut
+        "Audio Files (*.mp3 *.wav *.ogg *.flac *.aac), Vidéos (*.mp4 *.avi *.mkv *.mov *.wmv)"        // Filtre uniquement les fichiers audio
+        );
+    source = fileName;
+}
+
+
+void MainWindow::on_delButton_clicked()
+{
+    ui->NameLineEdit->setText("");
+    ui->DureeActivite->setTime(QTime::fromString("00:00:00"));
+    ui->ConsigneTextEdit->setText("");
+    listeParticipant = {};
+    selectionParticipants = false;
+}
+
+
+void MainWindow::on_echapButton_clicked()
+{
+    on_delButton_clicked();
+    ui->Parametrage1->setVisible(false);
+}
+

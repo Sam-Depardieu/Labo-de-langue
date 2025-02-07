@@ -48,7 +48,7 @@
       <x>0</x>
       <y>0</y>
       <width>821</width>
-      <height>71</height>
+      <height>61</height>
      </rect>
     </property>
     <property name="autoFillBackground">
@@ -378,7 +378,7 @@ border-radius: 10px;</string>
       <x>530</x>
       <y>290</y>
       <width>221</width>
-      <height>51</height>
+      <height>31</height>
      </rect>
     </property>
    </widget>
@@ -454,7 +454,7 @@ border-radius: 10px;</string>
     <property name="geometry">
      <rect>
       <x>690</x>
-      <y>390</y>
+      <y>400</y>
       <width>75</width>
       <height>24</height>
      </rect>
@@ -470,7 +470,7 @@ border-radius: 10px;</string>
     <property name="geometry">
      <rect>
       <x>560</x>
-      <y>390</y>
+      <y>400</y>
       <width>75</width>
       <height>24</height>
      </rect>
@@ -486,7 +486,7 @@ border-radius: 10px;</string>
     <property name="geometry">
      <rect>
       <x>430</x>
-      <y>390</y>
+      <y>400</y>
       <width>75</width>
       <height>24</height>
      </rect>
@@ -496,6 +496,51 @@ border-radius: 10px;</string>
     </property>
     <property name="text">
      <string>Supprimer</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="errorLabel">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>370</y>
+      <width>321</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: red;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="SourceLabel">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>340</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string>Source :</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="SourceButton">
+    <property name="geometry">
+     <rect>
+      <x>590</x>
+      <y>340</y>
+      <width>91</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Selection fichier</string>
     </property>
    </widget>
   </widget>
