@@ -1,6 +1,11 @@
 #include "mainwindow.h"
 
 #include <QApplication>
+#include <QMediaPlayer>
+#include <QVideoWidget>
+#include <QUrl>
+
+#include <QApplication>
 #include <QCoreApplication>
 #include <QNetworkInterface>
 #include <QDebug>
@@ -77,7 +82,6 @@ int main(int argc, char *argv[])
     }
 
     db.close();*/
-
 
     return a.exec();
 }

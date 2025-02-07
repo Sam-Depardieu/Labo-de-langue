@@ -1,6 +1,9 @@
 #ifndef CUSTOMGRAPHICSITEMGROUP_H
 #define CUSTOMGRAPHICSITEMGROUP_H
 
+//#include <QAudioOutput>
+//#include <QMediaPlayer>
+
 #include <QObject>
 #include <QMainWindow>
 #include <QApplication>
@@ -16,6 +19,9 @@
 #include <QKeyEvent>
 #include <QDebug>
 #include <QRectF>
+
+#include <QtMultimedia>
+#include <QtMultimediaWidgets>
 
 class CustomGraphicsItemGroup : public QObject, public QGraphicsItemGroup {
     Q_OBJECT
