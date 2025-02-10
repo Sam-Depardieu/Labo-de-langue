@@ -14,7 +14,8 @@ MainWindow::MainWindow(QWidget *parent)
     scene = new QGraphicsScene(0, 0, 381, 361, this);
     ui->PlanClasse->setScene(scene);
 
-    ui->Parametrage1->setVisible(false);
+    ui->ParametrageSession->setVisible(false);
+    ui->ParametrageEleve->setVisible(false);
 
     // Désactivation des boutons
     editStatusButton(ui->PlanButton, false);
@@ -44,7 +45,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     // Appliquez le layout à Parametrage1
-    ui->Parametrage1->setLayout(layout);
+    ui->ParametrageSession->setLayout(layout);
 
     // Initialiser les ComboBoxes et charger les images depuis la base de données
     setupClassesComboBox();
@@ -68,12 +69,22 @@ void MainWindow::loadImagesFromDB()
 
     QSqlQuery query("SELECT IP, X, Y FROM Raspberry");
 
-    // Revenir à la première ligne de la requête
-    query.first();
+    if (!query.exec()) {
+        qDebug() << "Erreur lors de l'exécution de la requête :" << query.lastError();
+        return;
+    }
 
-    QPixmap pixmap("../img/person.png");
-    if (pixmap.isNull()) {
-        qWarning("L'image n'a pas pu être chargée. Vérifiez le chemin.");
+    // Vérifier si on a des résultats
+    if (!query.first()) {
+        qDebug() << "Aucun Raspberry trouvé dans la base de données.";
+        return;
+    }
+
+    QPixmap personPixmap("../img/person.png");
+    QPixmap checkPixmap("../img/check.png");
+
+    if (personPixmap.isNull() || checkPixmap.isNull()) {
+        qWarning("Une ou plusieurs images n'ont pas pu être chargées. Vérifiez les chemins.");
         return;
     }
 
@@ -82,8 +93,8 @@ void MainWindow::loadImagesFromDB()
     int spacing = 10;
     int maxPerRow = 7;
 
-    int imageWidth = pixmap.width();
-    int imageHeight = pixmap.height();
+    int imageWidth = personPixmap.width();
+    int imageHeight = personPixmap.height();
 
     int id = 1;
     do {
@@ -91,33 +102,46 @@ void MainWindow::loadImagesFromDB()
         int x = query.value(1).toInt();
         int y = query.value(2).toInt();
 
-        // Vérification des valeurs x et y
+        // Vérification et position par défaut si nécessaire
         if (query.value(1).isNull() || query.value(2).isNull()) {
             x = column * (imageWidth + spacing);
             y = row * (imageHeight + spacing + 10);
-        } else {
-            x = query.value(1).toInt();
-            y = query.value(2).toInt();
         }
 
-        QGraphicsPixmapItem *imageItem = new QGraphicsPixmapItem(pixmap);
+        // Création des éléments graphiques
+        QGraphicsPixmapItem *imageItem = new QGraphicsPixmapItem(personPixmap);
         imageItem->setFlag(QGraphicsItem::ItemIsMovable);
 
         QGraphicsTextItem *textItem = new QGraphicsTextItem(QString::number(id));
-        textItem->setPos(16, pixmap.height());
+        textItem->setDefaultTextColor(Qt::black);
+        textItem->setPos(16, personPixmap.height());
 
+        // Création du groupe personnalisé
         CustomGraphicsItemGroup *group = new CustomGraphicsItemGroup(id, ip, this);
         group->addToGroup(imageItem);
         group->addToGroup(textItem);
         group->setFlag(QGraphicsItem::ItemIsMovable);
 
+        // Création des icônes Check et Cross
+        QGraphicsPixmapItem *checkItem = new QGraphicsPixmapItem(checkPixmap);
+        checkItem->setPos(imageItem->boundingRect().right() - checkPixmap.width(), imageItem->boundingRect().top());
+        checkItem->setVisible(false); // Caché par défaut
+
+        // Ajout des icônes au groupe
+        group->addToGroup(checkItem);
+
+        // Sauvegarde des icônes dans l'objet pour pouvoir les modifier après
+        group->setCheckItem(checkItem);
+
+        // Positionnement et ajout à la scène
         group->setPos(x, y);
         listeRasp.push_back(group);
-
-        connect(group, &CustomGraphicsItemGroup::doubleClicked, this, &MainWindow::onImageGroupDoubleClicked);
-
         scene->addItem(group);
 
+        // Connexion du signal double-clic
+        connect(group, &CustomGraphicsItemGroup::doubleClicked, this, &MainWindow::onImageGroupDoubleClicked);
+
+        // Gestion du placement
         column++;
         if (column >= maxPerRow) {
             column = 0;
@@ -125,9 +149,23 @@ void MainWindow::loadImagesFromDB()
         }
         id++;
 
-    } while (query.next());  // Assurez-vous que vous traitez tous les résultats.
+    } while (query.next());
 
     ui->PlanClasse->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
+}
+
+void MainWindow::showCheckIconOnGroup(CustomGraphicsItemGroup *group)
+{
+    if (!group) return;
+
+    // Récupérer l'icône check du groupe
+    QGraphicsPixmapItem *checkItem = group->getCheckItem();
+
+    if (checkItem) {
+        checkItem->setVisible(true); // Afficher l'icône check
+    } else {
+        qDebug() << "L'icône check est introuvable pour ce groupe.";
+    }
 }
 
 
@@ -138,7 +176,7 @@ bool MainWindow::connectToDatabase() {
     }
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("192.168.64.36");
+    db.setHostName("localhost");
     db.setDatabaseName("LaboLangue");
     db.setUserName("prof"); // Remplacez par votre nom d'utilisateur
     db.setPassword("okokok"); // Remplacez par votre mot de passe
@@ -158,7 +196,7 @@ void MainWindow::onImageGroupDoubleClicked() {
 
 void MainWindow::on_SessionButton_clicked()
 {
-    ui->Parametrage1->setVisible(!ui->Parametrage1->isVisible());
+    ui->ParametrageSession->setVisible(!ui->ParametrageSession->isVisible());
     ui->PlanClasse->setVisible(true);
 }
 
@@ -175,24 +213,20 @@ void MainWindow::on_PlanButton_clicked()
 
 void MainWindow::setupActivitiesComboBox()
 {
-    // Supposons que tu as un QComboBox nommé activityComboBox dans ton UI
-    QComboBox *activityComboBox = ui->ChoixActivite;
+    QSqlQuery query("SELECT Nom FROM TypeActivite");
 
-    // Liste des activités à ajouter
-    QStringList activities = {};
-
-    QSqlQuery query("SELECT * FROM TypeActivite");
     if (!query.exec()) {
         qDebug() << "Erreur lors de l'exécution de la requête :" << query.lastError();
         return;
     }
 
     while (query.next()) {
-        activities.append(query.value("Nom").toString());
+        QString nom = query.value(0).toString();
+
+        ui->ChoixActivite->addItem(nom);
     }
 
-    // Ajouter toutes les activités dans le QComboBox
-    activityComboBox->addItems(activities);
+
 
     return;
 }
@@ -231,7 +265,11 @@ void MainWindow::on_selectManuel_clicked()
 
 void MainWindow::on_selectAll_clicked()
 {
-    listeParticipant = listeRasp;
+
+    for(unsigned int i=0; i!=listeRasp.size(); i++) {
+        showCheckIconOnGroup(listeRasp[i]);
+        listeParticipant.push_back(listeRasp[i]);
+    }
 }
 
 void MainWindow::editStatusButton(QPushButton *button, bool status)
@@ -278,6 +316,19 @@ void MainWindow::addButtonRow(QVBoxLayout *layout, QWidget *button1, QWidget *bu
     hLayout->addWidget(button3);
     layout->addLayout(hLayout);
     layout->addSpacing(15);
+}
+
+void MainWindow::on_SourceButton_clicked()
+{
+    QString documentsPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation); // Récupère le dossier Documents
+
+    QString fileName = QFileDialog::getOpenFileName(
+        this,
+        "Sélectionner un fichier audio",
+        documentsPath,  // Définit "Documents" comme dossier par défaut
+        "Audio Files (*.mp3 *.wav *.ogg *.flac *.aac), Vidéos (*.mp4 *.avi *.mkv *.mov *.wmv)"        // Filtre uniquement les fichiers audio
+        );
+    source = fileName;
 }
 
 void MainWindow::on_validButton_clicked()
@@ -370,22 +421,13 @@ void MainWindow::on_validButton_clicked()
     }
 
     on_echapButton_clicked();
+
+    editStatusButton(ui->PlanButton, true);
+    editStatusButton(ui->PresenceButton, true);
+    editStatusButton(ui->EnregistrementButton, true);
+    editStatusButton(ui->AppelButton, true);
+    editStatusButton(ui->StatutButton, true);
 }
-
-
-void MainWindow::on_SourceButton_clicked()
-{
-    QString documentsPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation); // Récupère le dossier Documents
-
-    QString fileName = QFileDialog::getOpenFileName(
-        this,
-        "Sélectionner un fichier audio",
-        documentsPath,  // Définit "Documents" comme dossier par défaut
-        "Audio Files (*.mp3 *.wav *.ogg *.flac *.aac), Vidéos (*.mp4 *.avi *.mkv *.mov *.wmv)"        // Filtre uniquement les fichiers audio
-        );
-    source = fileName;
-}
-
 
 void MainWindow::on_delButton_clicked()
 {
@@ -394,12 +436,28 @@ void MainWindow::on_delButton_clicked()
     ui->ConsigneTextEdit->setText("");
     listeParticipant = {};
     selectionParticipants = false;
+    for(unsigned int i=0; i!=listeRasp.size(); i++) {
+        if (!listeRasp[i]) return;
+
+        // Récupérer l'icône check du groupe
+        QGraphicsPixmapItem *checkItem = listeRasp[i]->getCheckItem();
+
+        if (checkItem) {
+            checkItem->setVisible(false); // Afficher l'icône check
+        } else {
+            qDebug() << "L'icône check est introuvable pour ce groupe.";
+        }
+    }
 }
 
 
 void MainWindow::on_echapButton_clicked()
 {
     on_delButton_clicked();
-    ui->Parametrage1->setVisible(false);
+    ui->ParametrageSession->setVisible(false);
 }
 
+void MainWindow::openParametrageEleve()
+{
+    ui->ParametrageEleve->setVisible(true);
+}

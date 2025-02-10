@@ -7,6 +7,7 @@ QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
 class VoiceChat;
+class CustomGraphicsItemGroup;
 }
 QT_END_NAMESPACE
 
@@ -77,6 +78,9 @@ public:
     int idActivite = 0;
     std::vector<CustomGraphicsItemGroup*> listeRasp = {};
     std::vector<CustomGraphicsItemGroup*> listeParticipant = {};
+    bool selectionParticipants =false;
+
+    void openParametrageEleve();
 
     ~MainWindow();
 
@@ -97,7 +101,7 @@ private slots:
     void addButtonRow(QVBoxLayout *layout, QWidget *button1, QWidget *button2, QWidget *button3);
     void on_selectAll_clicked();
     void on_validButton_clicked();
-
+    void showCheckIconOnGroup(CustomGraphicsItemGroup *group);
     void on_SourceButton_clicked();
 
     void on_delButton_clicked();
@@ -112,8 +116,6 @@ private:
     QString source;
     int typeActivite;
 
-public:
-    bool selectionParticipants =false;
 
 };
 #endif // MAINWINDOW_H

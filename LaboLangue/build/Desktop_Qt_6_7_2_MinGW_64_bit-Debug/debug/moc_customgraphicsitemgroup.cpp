@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'customgraphicsitemgroup.h'
 **
-** Created by: The Qt Meta Object Compiler version 68 (Qt 6.7.2)
+** Created by: The Qt Meta Object Compiler version 68 (Qt 6.8.1)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -22,7 +22,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'customgraphicsitemgroup.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 68
-#error "This file was generated using the moc from 6.7.2. It"
+#error "This file was generated using the moc from 6.8.1. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -35,10 +35,12 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 QT_WARNING_DISABLE_GCC("-Wuseless-cast")
 namespace {
+struct qt_meta_tag_ZN23CustomGraphicsItemGroupE_t {};
+} // unnamed namespace
+
 
 #ifdef QT_MOC_HAS_STRINGDATA
-struct qt_meta_stringdata_CLASSCustomGraphicsItemGroupENDCLASS_t {};
-constexpr auto qt_meta_stringdata_CLASSCustomGraphicsItemGroupENDCLASS = QtMocHelpers::stringData(
+static constexpr auto qt_meta_stringdata_ZN23CustomGraphicsItemGroupE = QtMocHelpers::stringData(
     "CustomGraphicsItemGroup",
     "doubleClicked",
     ""
@@ -46,9 +48,8 @@ constexpr auto qt_meta_stringdata_CLASSCustomGraphicsItemGroupENDCLASS = QtMocHe
 #else  // !QT_MOC_HAS_STRINGDATA
 #error "qtmochelpers.h not found or too old."
 #endif // !QT_MOC_HAS_STRINGDATA
-} // unnamed namespace
 
-Q_CONSTINIT static const uint qt_meta_data_CLASSCustomGraphicsItemGroupENDCLASS[] = {
+Q_CONSTINIT static const uint qt_meta_data_ZN23CustomGraphicsItemGroupE[] = {
 
  // content:
       12,       // revision
@@ -72,11 +73,11 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSCustomGraphicsItemGroupENDCLASS[
 
 Q_CONSTINIT const QMetaObject CustomGraphicsItemGroup::staticMetaObject = { {
     QMetaObject::SuperData::link<QObject::staticMetaObject>(),
-    qt_meta_stringdata_CLASSCustomGraphicsItemGroupENDCLASS.offsetsAndSizes,
-    qt_meta_data_CLASSCustomGraphicsItemGroupENDCLASS,
+    qt_meta_stringdata_ZN23CustomGraphicsItemGroupE.offsetsAndSizes,
+    qt_meta_data_ZN23CustomGraphicsItemGroupE,
     qt_static_metacall,
     nullptr,
-    qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSCustomGraphicsItemGroupENDCLASS_t,
+    qt_incomplete_metaTypeArray<qt_meta_tag_ZN23CustomGraphicsItemGroupE_t,
         // Q_OBJECT / Q_GADGET
         QtPrivate::TypeAndForceComplete<CustomGraphicsItemGroup, std::true_type>,
         // method 'doubleClicked'
@@ -87,24 +88,23 @@ Q_CONSTINIT const QMetaObject CustomGraphicsItemGroup::staticMetaObject = { {
 
 void CustomGraphicsItemGroup::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
+    auto *_t = static_cast<CustomGraphicsItemGroup *>(_o);
     if (_c == QMetaObject::InvokeMetaMethod) {
-        auto *_t = static_cast<CustomGraphicsItemGroup *>(_o);
-        (void)_t;
         switch (_id) {
         case 0: _t->doubleClicked(); break;
         default: ;
         }
-    } else if (_c == QMetaObject::IndexOfMethod) {
+    }
+    if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
         {
-            using _t = void (CustomGraphicsItemGroup::*)();
-            if (_t _q_method = &CustomGraphicsItemGroup::doubleClicked; *reinterpret_cast<_t *>(_a[1]) == _q_method) {
+            using _q_method_type = void (CustomGraphicsItemGroup::*)();
+            if (_q_method_type _q_method = &CustomGraphicsItemGroup::doubleClicked; *reinterpret_cast<_q_method_type *>(_a[1]) == _q_method) {
                 *result = 0;
                 return;
             }
         }
     }
-    (void)_a;
 }
 
 const QMetaObject *CustomGraphicsItemGroup::metaObject() const
@@ -115,7 +115,7 @@ const QMetaObject *CustomGraphicsItemGroup::metaObject() const
 void *CustomGraphicsItemGroup::qt_metacast(const char *_clname)
 {
     if (!_clname) return nullptr;
-    if (!strcmp(_clname, qt_meta_stringdata_CLASSCustomGraphicsItemGroupENDCLASS.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_ZN23CustomGraphicsItemGroupE.stringdata0))
         return static_cast<void*>(this);
     if (!strcmp(_clname, "QGraphicsItemGroup"))
         return static_cast< QGraphicsItemGroup*>(this);
@@ -131,7 +131,8 @@ int CustomGraphicsItemGroup::qt_metacall(QMetaObject::Call _c, int _id, void **_
         if (_id < 1)
             qt_static_metacall(this, _c, _id, _a);
         _id -= 1;
-    } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
+    }
+    if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
         if (_id < 1)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
         _id -= 1;

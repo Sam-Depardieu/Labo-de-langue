@@ -32,6 +32,8 @@ class CustomGraphicsItemGroup : public QObject, public QGraphicsItemGroup {
     Q_OBJECT
     public:
         CustomGraphicsItemGroup(int numero, QString ip, MainWindow* parentWindow);
+        void setCheckItem(QGraphicsPixmapItem *item) { checkItem = item; }
+        QGraphicsPixmapItem* getCheckItem() { return checkItem; }
 
     protected:
         void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;
@@ -43,6 +45,7 @@ class CustomGraphicsItemGroup : public QObject, public QGraphicsItemGroup {
         MainWindow* mainWindow;
         int numero = 0;
         QString IP;
+        QGraphicsPixmapItem *checkItem = nullptr;
 
     signals:
         void doubleClicked();

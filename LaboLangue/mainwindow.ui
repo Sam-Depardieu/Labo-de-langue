@@ -14,7 +14,9 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: #7D7D7D;</string>
+   <string notr="true">background-color: #7D7D7D;
+color: black;
+</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QPushButton" name="LigneBas">
@@ -265,7 +267,10 @@ border-radius: 10px;</string>
      <string notr="true">background-color: white;</string>
     </property>
    </widget>
-   <widget class="QGraphicsView" name="Parametrage1">
+   <widget class="QGraphicsView" name="ParametrageSession">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>410</x>
@@ -279,6 +284,9 @@ border-radius: 10px;</string>
     </property>
    </widget>
    <widget class="QLabel" name="NameLabel">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>430</x>
@@ -295,6 +303,9 @@ border-radius: 10px;</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="NameLineEdit">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>530</x>
@@ -305,6 +316,9 @@ border-radius: 10px;</string>
     </property>
    </widget>
    <widget class="QLabel" name="ChoixActLabel">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>430</x>
@@ -321,6 +335,9 @@ border-radius: 10px;</string>
     </property>
    </widget>
    <widget class="QComboBox" name="ChoixActivite">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>530</x>
@@ -329,8 +346,14 @@ border-radius: 10px;</string>
       <height>21</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
    </widget>
    <widget class="QLabel" name="DureeLabel">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>430</x>
@@ -347,6 +370,9 @@ border-radius: 10px;</string>
     </property>
    </widget>
    <widget class="QTimeEdit" name="DureeActivite">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>530</x>
@@ -357,6 +383,9 @@ border-radius: 10px;</string>
     </property>
    </widget>
    <widget class="QLabel" name="ConsigneLabel">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>430</x>
@@ -373,6 +402,9 @@ border-radius: 10px;</string>
     </property>
    </widget>
    <widget class="QTextEdit" name="ConsigneTextEdit">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>530</x>
@@ -383,6 +415,9 @@ border-radius: 10px;</string>
     </property>
    </widget>
    <widget class="QLabel" name="ClasseLabel">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>430</x>
@@ -399,6 +434,9 @@ border-radius: 10px;</string>
     </property>
    </widget>
    <widget class="QComboBox" name="ChoixClasse">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>530</x>
@@ -409,6 +447,9 @@ border-radius: 10px;</string>
     </property>
    </widget>
    <widget class="QLabel" name="ParticipantsLabel">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>430</x>
@@ -425,6 +466,9 @@ border-radius: 10px;</string>
     </property>
    </widget>
    <widget class="QPushButton" name="selectAll">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>530</x>
@@ -433,11 +477,17 @@ border-radius: 10px;</string>
       <height>24</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: gray;</string>
+    </property>
     <property name="text">
      <string>Sélectionner tous</string>
     </property>
    </widget>
    <widget class="QPushButton" name="selectManuel">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>650</x>
@@ -446,11 +496,17 @@ border-radius: 10px;</string>
       <height>24</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: gray;</string>
+    </property>
     <property name="text">
      <string>Personnaliser</string>
     </property>
    </widget>
    <widget class="QPushButton" name="validButton">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>690</x>
@@ -467,6 +523,9 @@ border-radius: 10px;</string>
     </property>
    </widget>
    <widget class="QPushButton" name="echapButton">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>560</x>
@@ -483,6 +542,9 @@ border-radius: 10px;</string>
     </property>
    </widget>
    <widget class="QPushButton" name="delButton">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>430</x>
@@ -499,6 +561,9 @@ border-radius: 10px;</string>
     </property>
    </widget>
    <widget class="QLabel" name="errorLabel">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>430</x>
@@ -515,6 +580,9 @@ border-radius: 10px;</string>
     </property>
    </widget>
    <widget class="QLabel" name="SourceLabel">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>430</x>
@@ -531,6 +599,9 @@ border-radius: 10px;</string>
     </property>
    </widget>
    <widget class="QPushButton" name="SourceButton">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>590</x>
@@ -539,10 +610,60 @@ border-radius: 10px;</string>
       <height>24</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: gray;</string>
+    </property>
     <property name="text">
      <string>Selection fichier</string>
     </property>
    </widget>
+   <widget class="QGraphicsView" name="ParametrageEleve">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>70</y>
+      <width>381</width>
+      <height>361</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: white;</string>
+    </property>
+   </widget>
+   <zorder>ParametrageEleve</zorder>
+   <zorder>LigneBas</zorder>
+   <zorder>LigneHaut</zorder>
+   <zorder>PlanButton</zorder>
+   <zorder>PresenceButton</zorder>
+   <zorder>SessionButton</zorder>
+   <zorder>AppelButton</zorder>
+   <zorder>StatutButton</zorder>
+   <zorder>AideButton</zorder>
+   <zorder>EnregistrementButton</zorder>
+   <zorder>PlanClasse</zorder>
+   <zorder>ParametrageSession</zorder>
+   <zorder>NameLabel</zorder>
+   <zorder>NameLineEdit</zorder>
+   <zorder>ChoixActLabel</zorder>
+   <zorder>ChoixActivite</zorder>
+   <zorder>DureeLabel</zorder>
+   <zorder>DureeActivite</zorder>
+   <zorder>ConsigneLabel</zorder>
+   <zorder>ConsigneTextEdit</zorder>
+   <zorder>ClasseLabel</zorder>
+   <zorder>ChoixClasse</zorder>
+   <zorder>ParticipantsLabel</zorder>
+   <zorder>selectAll</zorder>
+   <zorder>selectManuel</zorder>
+   <zorder>validButton</zorder>
+   <zorder>echapButton</zorder>
+   <zorder>delButton</zorder>
+   <zorder>errorLabel</zorder>
+   <zorder>SourceLabel</zorder>
+   <zorder>SourceButton</zorder>
   </widget>
  </widget>
  <resources/>

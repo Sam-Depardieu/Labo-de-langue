@@ -8,13 +8,13 @@ CustomGraphicsItemGroup::CustomGraphicsItemGroup(int numero, QString ip, MainWin
 }
 
 void CustomGraphicsItemGroup::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
-    if(mainWindow->selectionParticipants)
-    {
+    if (mainWindow->selectionParticipants) {
         auto it = std::find(mainWindow->listeParticipant.begin(), mainWindow->listeParticipant.end(), this);
         if (it == mainWindow->listeParticipant.end()) {
-            // L'élément n'est pas dans la liste, on l'ajoute
             mainWindow->listeParticipant.push_back(this);
         }
+        // Afficher/Masquer le check
+        if (checkItem) checkItem->setVisible(!checkItem->isVisible());
     }
 
     QGraphicsItemGroup::mouseDoubleClickEvent(event);
