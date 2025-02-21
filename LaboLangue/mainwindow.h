@@ -75,12 +75,16 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
 
-    int idActivite = 0;
+    int idTypeActivite = -1;
     std::vector<CustomGraphicsItemGroup*> listeRasp = {};
-    std::vector<CustomGraphicsItemGroup*> listeParticipant = {};
-    bool selectionParticipants =false;
+    std::vector<CustomGraphicsItemGroup*> listeParticipant;
+    std::vector<int> listeEleveParticipant = {};
 
-    void openParametrageEleve();
+    bool selectionParticipants =false;
+    bool parametrageEleve = false;
+
+    void openSettingEleve(CustomGraphicsItemGroup *group);
+    void closeSettingEleve(CustomGraphicsItemGroup *group);
 
     ~MainWindow();
 
@@ -103,7 +107,6 @@ private slots:
     void on_validButton_clicked();
     void showCheckIconOnGroup(CustomGraphicsItemGroup *group);
     void on_SourceButton_clicked();
-
     void on_delButton_clicked();
 
     void on_echapButton_clicked();
@@ -114,6 +117,12 @@ private:
     QSqlDatabase db;
     QGraphicsPixmapItem *item;
     QString source;
+    QString nomProf;
+    QString duree;
+    QString nomTypeActivite;
+    bool allSelected = false;
+    int idClasse = -1;
+    bool runningSession;
     int typeActivite;
 
 

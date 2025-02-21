@@ -6,8 +6,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    setWindowFlags(Qt::FramelessWindowHint);  // Supprime la barre de titre et les boutons
-    showFullScreen();
+    //setWindowFlags(Qt::FramelessWindowHint);  // Supprime la barre de titre et les boutons
+    //showFullScreen();
     connectToDatabase();
 
     // Création de la scène
@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     addHorizontalLayout(layout, ui->DureeLabel, ui->DureeActivite);
     addHorizontalLayout(layout, ui->ClasseLabel, ui->ChoixClasse);
     addHorizontalLayout(layout, ui->ParticipantsLabel, ui->selectAll, ui->selectManuel);
-    addHorizontalLayout(layout, ui->SourceLabel, ui->SourceButton);
+    addHorizontalLayout(layout, ui->SourceLabel, ui->NameSourceLabel, ui->SourceButton);
     addHorizontalLayout(layout, ui->ConsigneLabel, ui->ConsigneTextEdit);
     QHBoxLayout *hLayout = new QHBoxLayout();
     hLayout->addWidget(ui->errorLabel);
@@ -58,6 +58,16 @@ MainWindow::~MainWindow()
     ui->PlanClasse->setScene(nullptr); // Déconnecter la scène avant de la supprimer
     delete scene;
     delete ui;
+}
+
+void MainWindow::openSettingEleve(CustomGraphicsItemGroup *group)
+{
+    ui->ParametrageEleve->setVisible(true);
+}
+
+void MainWindow::closeSettingEleve(CustomGraphicsItemGroup *group)
+{
+    ui->ParametrageEleve->setVisible(false);
 }
 
 void MainWindow::loadImagesFromDB()
@@ -196,8 +206,16 @@ void MainWindow::onImageGroupDoubleClicked() {
 
 void MainWindow::on_SessionButton_clicked()
 {
+
     ui->ParametrageSession->setVisible(!ui->ParametrageSession->isVisible());
     ui->PlanClasse->setVisible(true);
+
+    for(unsigned int i=0; i!=listeParticipant.size(); i++)
+    {
+        listeParticipant[i]->getCheckItem()->setVisible(!listeParticipant[i]->getCheckItem()->isVisible());
+        showCheckIconOnGroup(listeParticipant[i]);
+    }
+
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
@@ -259,16 +277,46 @@ void MainWindow::on_ChoixActivite_currentIndexChanged(int index)
 
 void MainWindow::on_selectManuel_clicked()
 {
-    selectionParticipants = true;
+    if(selectionParticipants)
+    {
+        selectionParticipants = false;
+        ui->selectManuel->setStyleSheet("background-color: gray;");
+    }
+    else{
+        selectionParticipants = true;
+        ui->selectManuel->setStyleSheet("background-color: blue; color: white; font-weight: bold;");
+        ui->selectAll->setStyleSheet("background-color: gray;");
+    }
+
 }
 
 
 void MainWindow::on_selectAll_clicked()
 {
+    if (selectionParticipants) {
+        selectionParticipants = false;
+        ui->selectManuel->setStyleSheet("background-color: gray;");
+        ui->selectAll->setStyleSheet("background-color: blue; color: white; font-weight: bold;");
+    }
 
-    for(unsigned int i=0; i!=listeRasp.size(); i++) {
-        showCheckIconOnGroup(listeRasp[i]);
-        listeParticipant.push_back(listeRasp[i]);
+    // Vérification de la couleur du bouton pour désélectionner
+    if (allSelected) { // Si tout est déjà sélectionné, on désélectionne
+        allSelected = false;
+        ui->selectAll->setStyleSheet("background-color: gray;");
+
+        for (unsigned int i = 0; i < listeRasp.size(); i++) {
+            listeRasp[i]->getCheckItem()->setVisible(false);  // Masquer les icônes
+        }
+        listeParticipant.clear();  // Réinitialiser la liste
+    } else { // Sinon, on sélectionne tout
+        allSelected = true;
+        ui->selectAll->setStyleSheet("background-color: blue; color: white; font-weight: bold;");
+
+        listeParticipant.clear(); // Assurer qu'il n'y a pas de doublons
+        for (unsigned int i = 0; i < listeRasp.size(); i++) {
+            showCheckIconOnGroup(listeRasp[i]);
+            listeParticipant.push_back(listeRasp[i]);
+        }
     }
 }
 
@@ -329,6 +377,8 @@ void MainWindow::on_SourceButton_clicked()
         "Audio Files (*.mp3 *.wav *.ogg *.flac *.aac), Vidéos (*.mp4 *.avi *.mkv *.mov *.wmv)"        // Filtre uniquement les fichiers audio
         );
     source = fileName;
+    QFileInfo fileInfo(fileName);
+    ui->NameSourceLabel->setText(fileInfo.fileName());
 }
 
 void MainWindow::on_validButton_clicked()
@@ -359,7 +409,7 @@ void MainWindow::on_validButton_clicked()
     QSqlQuery query;
 
     // 🔹 Récupérer les IDs nécessaires en une seule requête par table
-    int idTypeActivite = -1, idClasse = -1, idProf = -1;
+    int idProf = -1;
 
     query.prepare("SELECT Id_TypeActivite FROM TypeActivite WHERE Nom = :nom");
     query.bindValue(":nom", ui->ChoixActivite->currentText());
@@ -379,6 +429,7 @@ void MainWindow::on_validButton_clicked()
 
     query.prepare("SELECT Id_Prof FROM Prof WHERE Nom = :nom");
     query.bindValue(":nom", ui->NameLineEdit->text());
+    nomProf = ui->NameLineEdit->text();
     if (query.exec() && query.next()) {
         idProf = query.value(0).toInt();
     } else {
@@ -403,12 +454,14 @@ void MainWindow::on_validButton_clicked()
         return;
     }
 
+    duree = ui->DureeActivite->time().toString("HH:mm:ss");
+
     // 🔹 Insérer l'activité
     query.prepare("INSERT INTO Activite (Source, Consigne, Duree_Activite, DateActivite, Id_TypeActivite, Id_Classe, Id_Prof) "
                   "VALUES (:source, :consigne, :duree, :date, :type, :classe, :prof)");
     query.bindValue(":source", source);
     query.bindValue(":consigne", ui->ConsigneTextEdit->toPlainText());
-    query.bindValue(":duree", ui->DureeActivite->time().toString("HH:mm:ss"));
+    query.bindValue(":duree", duree);
     query.bindValue(":date", QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss"));
     query.bindValue(":type", idTypeActivite);
     query.bindValue(":classe", idClasse);
@@ -420,6 +473,29 @@ void MainWindow::on_validButton_clicked()
         qDebug() << "Insertion de l'activité réussie !";
     }
 
+    qDebug() << "Après boucle - Nombre de participants sélectionnés : " << listeParticipant.size(); // Ici ça vaut 5
+
+    for (unsigned int i = 0; i < listeParticipant.size(); i++)
+    {
+        int idRaspberry = listeParticipant[i]->getId(); // Récupération de l'ID du Raspberry Pi
+
+        query.prepare("INSERT INTO SessionEleve (Date_Session, Id_Raspberry, Id_Classe) "
+                      "VALUES (:date, :raspberry, :classe)");
+        query.bindValue(":date", QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss"));
+        query.bindValue(":raspberry", idRaspberry);
+        query.bindValue(":classe", idClasse);
+        listeEleveParticipant.push_back(query.lastInsertId().toInt());
+        if (!query.exec()) {
+            qDebug() << "Erreur lors de l'insertion du participant" << idRaspberry << ":" << query.lastError();
+
+        } else {
+            qDebug() << "Participant ajouté avec succès :" << idRaspberry;
+        }
+
+    }
+
+    qDebug() << "Après boucle - Nombre de participants sélectionnés : " << listeParticipant.size(); // Ici ça vaut 5
+
     on_echapButton_clicked();
 
     editStatusButton(ui->PlanButton, true);
@@ -427,14 +503,12 @@ void MainWindow::on_validButton_clicked()
     editStatusButton(ui->EnregistrementButton, true);
     editStatusButton(ui->AppelButton, true);
     editStatusButton(ui->StatutButton, true);
+    ui->SessionButton->setText("Session \nen cours");
+    runningSession = true;
 }
 
 void MainWindow::on_delButton_clicked()
 {
-    ui->NameLineEdit->setText("");
-    ui->DureeActivite->setTime(QTime::fromString("00:00:00"));
-    ui->ConsigneTextEdit->setText("");
-    listeParticipant = {};
     selectionParticipants = false;
     for(unsigned int i=0; i!=listeRasp.size(); i++) {
         if (!listeRasp[i]) return;
@@ -444,8 +518,6 @@ void MainWindow::on_delButton_clicked()
 
         if (checkItem) {
             checkItem->setVisible(false); // Afficher l'icône check
-        } else {
-            qDebug() << "L'icône check est introuvable pour ce groupe.";
         }
     }
 }
@@ -455,9 +527,4 @@ void MainWindow::on_echapButton_clicked()
 {
     on_delButton_clicked();
     ui->ParametrageSession->setVisible(false);
-}
-
-void MainWindow::openParametrageEleve()
-{
-    ui->ParametrageEleve->setVisible(true);
 }

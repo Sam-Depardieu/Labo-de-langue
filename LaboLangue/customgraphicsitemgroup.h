@@ -24,28 +24,33 @@
 #include <QtMultimedia>
 #include <QtMultimediaWidgets>
 #include <QDate>
+#include <QFileInfo>
 
 class MainWindow;
 class VoiceChat;
 
 class CustomGraphicsItemGroup : public QObject, public QGraphicsItemGroup {
     Q_OBJECT
-    public:
-        CustomGraphicsItemGroup(int numero, QString ip, MainWindow* parentWindow);
-        void setCheckItem(QGraphicsPixmapItem *item) { checkItem = item; }
-        QGraphicsPixmapItem* getCheckItem() { return checkItem; }
 
     protected:
         void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;
         QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
         QRectF boundingRect()const override;
-        int getId() const;
+
 
     private:
         MainWindow* mainWindow;
+        QString nom;
+        std::vector<CustomGraphicsItemGroup*> affiliate = {};
         int numero = 0;
         QString IP;
         QGraphicsPixmapItem *checkItem = nullptr;
+
+    public:
+        CustomGraphicsItemGroup(int numero, QString ip, MainWindow* parentWindow);
+        void setCheckItem(QGraphicsPixmapItem *item) { checkItem = item; }
+        QGraphicsPixmapItem* getCheckItem() { return checkItem; }
+        int getId() const;
 
     signals:
         void doubleClicked();

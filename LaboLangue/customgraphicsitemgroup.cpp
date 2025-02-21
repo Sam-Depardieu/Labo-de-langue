@@ -10,17 +10,38 @@ CustomGraphicsItemGroup::CustomGraphicsItemGroup(int numero, QString ip, MainWin
 void CustomGraphicsItemGroup::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
     if (mainWindow->selectionParticipants) {
         auto it = std::find(mainWindow->listeParticipant.begin(), mainWindow->listeParticipant.end(), this);
-        if (it == mainWindow->listeParticipant.end()) {
-            mainWindow->listeParticipant.push_back(this);
-        }
-        // Afficher/Masquer le check
-        if (checkItem) checkItem->setVisible(!checkItem->isVisible());
-    }
 
+        if (it == mainWindow->listeParticipant.end()) {
+            // Ajouter l'élément s'il n'est pas présent
+            mainWindow->listeParticipant.push_back(this);
+        } else {
+            // Supprimer l'élément s'il est déjà présent
+            mainWindow->listeParticipant.erase(it);
+        }
+
+        // Afficher/Masquer l'icône check
+        if (checkItem) {
+            checkItem->setVisible(!checkItem->isVisible());
+        }
+    }
+    else {
+        if(!mainWindow->parametrageEleve)
+        {
+            mainWindow->openSettingEleve(this);
+
+            mainWindow->parametrageEleve = true;
+        }
+        else
+        {
+            mainWindow->closeSettingEleve(this);
+
+            mainWindow->parametrageEleve = false;
+        }
+    }
     QGraphicsItemGroup::mouseDoubleClickEvent(event);
 
     // 🔹 Remplacez l'IP et les ports pour correspondre à votre réseau
-    VoiceChat chat(QHostAddress("192.168.88.150"), 12345, 12346);
+    // VoiceChat chat(QHostAddress("192.168.88.150"), 12345, 12346);
 
 }
 
