@@ -504,23 +504,68 @@ void MainWindow::on_validButton_clicked()
     editStatusButton(ui->AppelButton, true);
     editStatusButton(ui->StatutButton, true);
     ui->SessionButton->setText("Session \nen cours");
+    ui->delButton->setText("Fin session");
     runningSession = true;
 }
 
 void MainWindow::on_delButton_clicked()
 {
-    selectionParticipants = false;
-    for(unsigned int i=0; i!=listeRasp.size(); i++) {
-        if (!listeRasp[i]) return;
+    if (!runningSession) {
+        selectionParticipants = false;
+        for (unsigned int i = 0; i < listeRasp.size(); i++) {
+            if (!listeRasp[i]) return;
 
-        // Récupérer l'icône check du groupe
-        QGraphicsPixmapItem *checkItem = listeRasp[i]->getCheckItem();
+            // Récupérer l'icône check du groupe
+            QGraphicsPixmapItem *checkItem = listeRasp[i]->getCheckItem();
 
-        if (checkItem) {
-            checkItem->setVisible(false); // Afficher l'icône check
+            if (checkItem) {
+                checkItem->setVisible(false); // Masquer l'icône check
+            }
+        }
+    }
+    else
+    {
+        // 🔹 Vérifier si nomProf est vide
+        if (nomProf.isEmpty()) {
+            qDebug() << "Erreur : Le nom du professeur est vide.";
+            return;
+        }
+
+        // 🔹 Nettoyer nomProf pour éviter les erreurs de fichier
+        QString sanitizedName = nomProf;
+        sanitizedName.replace(" ", "_");  // Remplace les espaces par "_"
+        sanitizedName.remove(QRegularExpression("[^a-zA-Z0-9_-]"));  // Supprime les caractères spéciaux
+
+        // 🔹 Récupérer le chemin du Bureau
+        QString desktopPath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
+        QString folderPath = desktopPath + "/Activites"; // Nom du dossier à créer
+
+        QDir dir;
+        if (!dir.exists(folderPath)) {
+            if (dir.mkdir(folderPath)) {
+            } else {
+                qDebug() << "Erreur lors de la création du dossier.";
+            }
+        }
+
+        // 🔹 Construire le nom du fichier
+        QString nameFile = folderPath + "/" + sanitizedName + "_" +
+                           QDateTime::currentDateTime().toString("yyyy-MM-dd_HH-mm") + ".txt";
+
+        QFile file(nameFile); // Crée le fichier sur le Bureau
+
+        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) { // Ouvre en écriture
+            QTextStream stream(&file);
+            stream << "Ceci est une ligne de texte.\n";
+            stream << "Deuxième ligne dans le fichier.\n";
+            file.close();
+            qDebug() << "Fichier créé avec succès :" << nameFile;
+        } else {
+            qDebug() << "Erreur lors de la création du fichier :" << file.errorString();
         }
     }
 }
+
 
 
 void MainWindow::on_echapButton_clicked()

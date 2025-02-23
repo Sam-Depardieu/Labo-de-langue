@@ -25,6 +25,8 @@
 #include <QtMultimediaWidgets>
 #include <QDate>
 #include <QFileInfo>
+#include <QFile>
+#include <QRegularExpression>
 
 class MainWindow;
 class VoiceChat;
