@@ -35,6 +35,7 @@ void MainWindow::on_pushButtonConnexion_clicked()
 {
     AttenteProf *attenteProf = new AttenteProf(this);
     attenteProf->show();
+    this->hide();
 }
 void MainWindow::on_pushButtonEnregistrement_clicked()
 {
