@@ -119,6 +119,7 @@ private:
     QGraphicsPixmapItem *item;
     QString source;
     QString nomProf;
+    int idProf;
     QString duree;
     QString nomTypeActivite;
     int idClasse = -1;
