@@ -20,9 +20,9 @@ bool MainWindow::connectToDatabase() {
         return true; // La connexion existe déjà
     }
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("localhost");
+    db.setHostName("192.168.64.36");
     db.setDatabaseName("LaboLangue");
-    db.setUserName("root");
+    db.setUserName("prof");
     db.setPassword("okokok");
 
     if (!db.open()) {
@@ -35,6 +35,7 @@ void MainWindow::on_pushButtonConnexion_clicked()
 {
     AttenteProf *attenteProf = new AttenteProf(this);
     attenteProf->show();
+    this->hide();
 }
 void MainWindow::on_pushButtonEnregistrement_clicked()
 {
