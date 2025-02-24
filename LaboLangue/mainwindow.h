@@ -81,7 +81,8 @@ public:
     std::vector<int> listeEleveParticipant = {};
 
     bool parametrageSession = false;
-    bool selectionParticipants =false;
+    bool selectionParticipants = false;
+    bool selectAllParticipants = false;
     bool parametrageEleve = false;
 
     void openSettingEleve(CustomGraphicsItemGroup *group);
