@@ -26,6 +26,9 @@
 #include <QDate>
 #include <QFileInfo>
 #include <QFile>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
 #include <QRegularExpression>
 
 class MainWindow;

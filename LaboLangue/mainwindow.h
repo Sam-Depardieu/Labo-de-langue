@@ -80,6 +80,7 @@ public:
     std::vector<CustomGraphicsItemGroup*> listeParticipant;
     std::vector<int> listeEleveParticipant = {};
 
+    bool parametrageSession = false;
     bool selectionParticipants =false;
     bool parametrageEleve = false;
 
@@ -118,9 +119,9 @@ private:
     QGraphicsPixmapItem *item;
     QString source;
     QString nomProf;
+    int idProf;
     QString duree;
     QString nomTypeActivite;
-    bool allSelected = false;
     int idClasse = -1;
     bool runningSession;
     int typeActivite;

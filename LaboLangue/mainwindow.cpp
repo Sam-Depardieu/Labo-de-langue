@@ -172,7 +172,8 @@ void MainWindow::showCheckIconOnGroup(CustomGraphicsItemGroup *group)
     QGraphicsPixmapItem *checkItem = group->getCheckItem();
 
     if (checkItem) {
-        checkItem->setVisible(true); // Afficher l'icône check
+        if(checkItem->isVisible()) checkItem->setVisible(false);
+        if(!checkItem->isVisible()) checkItem->setVisible(true);// Afficher l'icône check
     } else {
         qDebug() << "L'icône check est introuvable pour ce groupe.";
     }
@@ -186,7 +187,7 @@ bool MainWindow::connectToDatabase() {
     }
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("localhost");
+    db.setHostName("192.168.64.36");
     db.setDatabaseName("LaboLangue");
     db.setUserName("prof"); // Remplacez par votre nom d'utilisateur
     db.setPassword("okokok"); // Remplacez par votre mot de passe
@@ -206,7 +207,7 @@ void MainWindow::onImageGroupDoubleClicked() {
 
 void MainWindow::on_SessionButton_clicked()
 {
-
+    parametrageSession = true;
     ui->ParametrageSession->setVisible(!ui->ParametrageSession->isVisible());
     ui->PlanClasse->setVisible(true);
 
@@ -298,10 +299,10 @@ void MainWindow::on_selectAll_clicked()
         ui->selectManuel->setStyleSheet("background-color: gray;");
         ui->selectAll->setStyleSheet("background-color: blue; color: white; font-weight: bold;");
     }
+    selectionParticipants = true;
 
     // Vérification de la couleur du bouton pour désélectionner
-    if (allSelected) { // Si tout est déjà sélectionné, on désélectionne
-        allSelected = false;
+    if (listeParticipant.size() == listeRasp.size()) { // Si tout est déjà sélectionné, on désélectionne
         ui->selectAll->setStyleSheet("background-color: gray;");
 
         for (unsigned int i = 0; i < listeRasp.size(); i++) {
@@ -309,7 +310,6 @@ void MainWindow::on_selectAll_clicked()
         }
         listeParticipant.clear();  // Réinitialiser la liste
     } else { // Sinon, on sélectionne tout
-        allSelected = true;
         ui->selectAll->setStyleSheet("background-color: blue; color: white; font-weight: bold;");
 
         listeParticipant.clear(); // Assurer qu'il n'y a pas de doublons
@@ -408,9 +408,6 @@ void MainWindow::on_validButton_clicked()
 
     QSqlQuery query;
 
-    // 🔹 Récupérer les IDs nécessaires en une seule requête par table
-    int idProf = -1;
-
     query.prepare("SELECT Id_TypeActivite FROM TypeActivite WHERE Nom = :nom");
     query.bindValue(":nom", ui->ChoixActivite->currentText());
     if (query.exec() && query.next()) {
@@ -469,11 +466,7 @@ void MainWindow::on_validButton_clicked()
 
     if (!query.exec()) {
         qDebug() << "Erreur lors de l'insertion de l'activité :" << query.lastError();
-    } else {
-        qDebug() << "Insertion de l'activité réussie !";
     }
-
-    qDebug() << "Après boucle - Nombre de participants sélectionnés : " << listeParticipant.size(); // Ici ça vaut 5
 
     for (unsigned int i = 0; i < listeParticipant.size(); i++)
     {
@@ -487,14 +480,9 @@ void MainWindow::on_validButton_clicked()
         listeEleveParticipant.push_back(query.lastInsertId().toInt());
         if (!query.exec()) {
             qDebug() << "Erreur lors de l'insertion du participant" << idRaspberry << ":" << query.lastError();
-
-        } else {
-            qDebug() << "Participant ajouté avec succès :" << idRaspberry;
         }
 
     }
-
-    qDebug() << "Après boucle - Nombre de participants sélectionnés : " << listeParticipant.size(); // Ici ça vaut 5
 
     on_echapButton_clicked();
 
@@ -522,46 +510,76 @@ void MainWindow::on_delButton_clicked()
                 checkItem->setVisible(false); // Masquer l'icône check
             }
         }
+        listeParticipant.clear();
     }
     else
     {
-        // 🔹 Vérifier si nomProf est vide
         if (nomProf.isEmpty()) {
             qDebug() << "Erreur : Le nom du professeur est vide.";
             return;
         }
 
-        // 🔹 Nettoyer nomProf pour éviter les erreurs de fichier
         QString sanitizedName = nomProf;
-        sanitizedName.replace(" ", "_");  // Remplace les espaces par "_"
-        sanitizedName.remove(QRegularExpression("[^a-zA-Z0-9_-]"));  // Supprime les caractères spéciaux
+        sanitizedName.replace(" ", "_").remove(QRegularExpression("[^a-zA-Z0-9_-]"));
 
-        // 🔹 Récupérer le chemin du Bureau
+        // 📌 🔹 Définir le chemin du dossier partagé sur le réseau
         QString desktopPath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
-        QString folderPath = desktopPath + "/Activites"; // Nom du dossier à créer
+        QString networkPath = "//localhost/Activites";
+        QString folderPath = networkPath + "/" + sanitizedName + "_" + QDateTime::currentDateTime().toString("yyyy-MM-dd_HH-mm");
 
+        // 📌 🔹 Créer le dossier sur le réseau
         QDir dir;
-        if (!dir.exists(folderPath)) {
-            if (dir.mkdir(folderPath)) {
-            } else {
-                qDebug() << "Erreur lors de la création du dossier.";
-            }
+        if (!dir.exists(folderPath) && !dir.mkpath(folderPath)) {
+            qDebug() << "Erreur : Impossible de créer le dossier réseau.";
+            return;
         }
 
-        // 🔹 Construire le nom du fichier
-        QString nameFile = folderPath + "/" + sanitizedName + "_" +
-                           QDateTime::currentDateTime().toString("yyyy-MM-dd_HH-mm") + ".txt";
+        QString jsonPath = folderPath + "/config.labo";
 
-        QFile file(nameFile); // Crée le fichier sur le Bureau
+        QJsonObject sessionObject;
+        sessionObject["nomProf"] = nomProf;
+        sessionObject["idTypeActivite"] = idTypeActivite;
+        sessionObject["idClasse"] = idClasse;
+        sessionObject["dateSession"] = QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss");
 
-        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) { // Ouvre en écriture
-            QTextStream stream(&file);
-            stream << "Ceci est une ligne de texte.\n";
-            stream << "Deuxième ligne dans le fichier.\n";
-            file.close();
-            qDebug() << "Fichier créé avec succès :" << nameFile;
+        // Sauvegarde de la liste des participants
+        QJsonArray participantsArray;
+        for (unsigned int i=1; i!=listeParticipant.size(); i++) {
+            participantsArray.append(listeParticipant[i]->getId());
+        }
+        sessionObject["participants"] = participantsArray;
+
+        // Convertir en JSON et écrire dans un fichier
+        QJsonDocument jsonDoc(sessionObject);
+        QFile json(jsonPath);
+
+        if (json.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            json.write(jsonDoc.toJson(QJsonDocument::Indented)); // Indentation pour meilleure lisibilité
+            json.close();
         } else {
-            qDebug() << "Erreur lors de la création du fichier :" << file.errorString();
+            qDebug() << "❌ Erreur lors de la sauvegarde de la session :" << json.errorString();
+        }
+
+        // 📌 🔹 Construire le fichier à enregistrer
+        QString nameFile = folderPath + "/bilan.txt";
+
+        QFile file(nameFile);
+        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            QTextStream stream(&file);
+            stream << "Session créée par " << nomProf << "\n";
+            stream << "Classe : " << ui->ChoixClasse->itemText(idClasse-1);
+            stream << "Date : " << QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss");
+            stream << "\nId Session Prof: " << idProf;
+            stream << "\nActivite:";
+            stream << "\n\tNom Activité : " << nomTypeActivite;
+            stream << "\n\tSource : " << source;
+            stream << "\n\tConsigne : " << ui->ConsigneTextEdit;
+            stream << "\n\tDuree de l'activité : " << duree;
+            stream << "Nombre participants : " << listeParticipant.size();
+            stream << "\n";
+            file.close();
+        } else {
+            qDebug() << "❌ Impossible d'écrire sur le réseau :" << file.errorString();
         }
     }
 }
