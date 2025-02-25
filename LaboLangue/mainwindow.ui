@@ -604,7 +604,7 @@ border-radius: 10px;</string>
     </property>
     <property name="geometry">
      <rect>
-      <x>590</x>
+      <x>660</x>
       <y>340</y>
       <width>91</width>
       <height>24</height>
@@ -633,7 +633,25 @@ border-radius: 10px;</string>
      <string notr="true">background-color: white;</string>
     </property>
    </widget>
-   <zorder>ParametrageEleve</zorder>
+   <widget class="QLabel" name="NameSourceLabel">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>340</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
    <zorder>LigneBas</zorder>
    <zorder>LigneHaut</zorder>
    <zorder>PlanButton</zorder>
@@ -664,6 +682,8 @@ border-radius: 10px;</string>
    <zorder>errorLabel</zorder>
    <zorder>SourceLabel</zorder>
    <zorder>SourceButton</zorder>
+   <zorder>NameSourceLabel</zorder>
+   <zorder>ParametrageEleve</zorder>
   </widget>
  </widget>
  <resources/>

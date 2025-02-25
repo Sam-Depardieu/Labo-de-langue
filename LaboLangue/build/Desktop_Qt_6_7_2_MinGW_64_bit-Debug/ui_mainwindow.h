@@ -58,6 +58,7 @@ public:
     QLabel *SourceLabel;
     QPushButton *SourceButton;
     QGraphicsView *ParametrageEleve;
+    QLabel *NameSourceLabel;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -261,15 +262,19 @@ public:
         SourceButton = new QPushButton(centralwidget);
         SourceButton->setObjectName("SourceButton");
         SourceButton->setEnabled(true);
-        SourceButton->setGeometry(QRect(590, 340, 91, 24));
+        SourceButton->setGeometry(QRect(660, 340, 91, 24));
         SourceButton->setStyleSheet(QString::fromUtf8("background-color: gray;"));
         ParametrageEleve = new QGraphicsView(centralwidget);
         ParametrageEleve->setObjectName("ParametrageEleve");
         ParametrageEleve->setEnabled(true);
         ParametrageEleve->setGeometry(QRect(410, 70, 381, 361));
         ParametrageEleve->setStyleSheet(QString::fromUtf8("background-color: white;"));
+        NameSourceLabel = new QLabel(centralwidget);
+        NameSourceLabel->setObjectName("NameSourceLabel");
+        NameSourceLabel->setEnabled(true);
+        NameSourceLabel->setGeometry(QRect(530, 340, 81, 21));
+        NameSourceLabel->setStyleSheet(QString::fromUtf8(""));
         MainWindow->setCentralWidget(centralwidget);
-        ParametrageEleve->raise();
         LigneBas->raise();
         LigneHaut->raise();
         PlanButton->raise();
@@ -300,6 +305,8 @@ public:
         errorLabel->raise();
         SourceLabel->raise();
         SourceButton->raise();
+        NameSourceLabel->raise();
+        ParametrageEleve->raise();
 
         retranslateUi(MainWindow);
 
@@ -332,6 +339,7 @@ public:
         errorLabel->setText(QString());
         SourceLabel->setText(QCoreApplication::translate("MainWindow", "Source :", nullptr));
         SourceButton->setText(QCoreApplication::translate("MainWindow", "Selection fichier", nullptr));
+        NameSourceLabel->setText(QString());
     } // retranslateUi
 
 };
