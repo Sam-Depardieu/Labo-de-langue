@@ -198,12 +198,12 @@ public:
         ConsigneLabel = new QLabel(centralwidget);
         ConsigneLabel->setObjectName("ConsigneLabel");
         ConsigneLabel->setEnabled(true);
-        ConsigneLabel->setGeometry(QRect(430, 290, 81, 21));
+        ConsigneLabel->setGeometry(QRect(430, 330, 81, 21));
         ConsigneLabel->setStyleSheet(QString::fromUtf8(""));
         ConsigneTextEdit = new QTextEdit(centralwidget);
         ConsigneTextEdit->setObjectName("ConsigneTextEdit");
         ConsigneTextEdit->setEnabled(true);
-        ConsigneTextEdit->setGeometry(QRect(530, 290, 221, 31));
+        ConsigneTextEdit->setGeometry(QRect(530, 330, 221, 31));
         ClasseLabel = new QLabel(centralwidget);
         ClasseLabel->setObjectName("ClasseLabel");
         ClasseLabel->setEnabled(true);
@@ -251,12 +251,12 @@ public:
         SourceLabel = new QLabel(centralwidget);
         SourceLabel->setObjectName("SourceLabel");
         SourceLabel->setEnabled(true);
-        SourceLabel->setGeometry(QRect(430, 340, 81, 21));
+        SourceLabel->setGeometry(QRect(430, 290, 81, 21));
         SourceLabel->setStyleSheet(QString::fromUtf8(""));
         SourceButton = new QPushButton(centralwidget);
         SourceButton->setObjectName("SourceButton");
         SourceButton->setEnabled(true);
-        SourceButton->setGeometry(QRect(660, 340, 91, 24));
+        SourceButton->setGeometry(QRect(660, 290, 91, 24));
         SourceButton->setStyleSheet(QString::fromUtf8("background-color: gray;"));
         ParametrageEleve = new QGraphicsView(centralwidget);
         ParametrageEleve->setObjectName("ParametrageEleve");
@@ -266,7 +266,7 @@ public:
         NameSourceLabel = new QLabel(centralwidget);
         NameSourceLabel->setObjectName("NameSourceLabel");
         NameSourceLabel->setEnabled(true);
-        NameSourceLabel->setGeometry(QRect(530, 340, 81, 21));
+        NameSourceLabel->setGeometry(QRect(530, 290, 81, 21));
         NameSourceLabel->setStyleSheet(QString::fromUtf8(""));
         loadSession = new QPushButton(centralwidget);
         loadSession->setObjectName("loadSession");

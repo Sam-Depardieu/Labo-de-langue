@@ -211,6 +211,8 @@ void MainWindow::on_SessionButton_clicked()
 
 }
 
+void MainWindow::onImageGroupDoubleClicked() {}
+
 void MainWindow::keyPressEvent(QKeyEvent *event) {
     if (event->key() == Qt::Key_Escape) {
         close();  // Ferme l'application quand on appuie sur Échap
