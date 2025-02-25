@@ -2,6 +2,8 @@
 #include "ui_interfaceaudio.h"
 #include <QAudioOutput>
 #include <QStandardPaths>
+#include <QMediaRecorder>
+
 
 InterfaceAudio::InterfaceAudio(QWidget *parent)
     : QDialog(parent)

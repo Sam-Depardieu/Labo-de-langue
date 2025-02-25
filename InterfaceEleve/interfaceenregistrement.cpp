@@ -1,13 +1,21 @@
 #include "interfaceenregistrement.h"
-#include "qstandardpaths.h"
-#include "qtimer.h"
+#include <QMediaRecorder>
+#include <QMediaPlayer>
+#include <QAudioOutput>  // Utiliser QAudioOutput pour la sortie audio
+#include <QUrl>
+#include <QStandardPaths>
+#include <QFile>
+#include <QTimer>
+#include <QDebug>
+#include <QMediaFormat>
 #include "ui_interfaceenregistrement.h"
 
 InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
-    : QDialog(parent)
-    , ui(new Ui::InterfaceEnregistrement)
+    : QDialog(parent),
+    ui(new Ui::InterfaceEnregistrement)
 {
     ui->setupUi(this);
+
     //Pour cacher quelque chose
     ui->labelAppelProf->hide();
 
@@ -15,16 +23,36 @@ InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
     setFixedSize(800,480);
     this->setWindowTitle("Page d'Enregistrement");
 
-    // Initialiser les variables
-    timer = new QTimer(this);
-    rewindTimer = new QTimer(this);
-    player = new QMediaPlayer(this);
-    isRewinding = false;
-    speakButtonClicked = false;
-    totalSecondes = 0;
-    pausedSecondes = 0;
-    isPaused = false;
+    // Initialisation des autres composants et variables
+    mediaRecorder = new QMediaRecorder(this);  // Remplacer audioRecorder par mediaRecorder
+    player = new QMediaPlayer(this);           // Initialisation correcte de QMediaPlayer
+    audioInput = new QAudioInput(this);      // Instancier QAudioOutput ici
+    player->setAudioOutput(audioOutput);       // Configurer QAudioOutput pour le player
 
+    timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &InterfaceEnregistrement::updateChrono);
+
+    rewindTimer = new QTimer(this);
+    connect(rewindTimer, &QTimer::timeout, this, &InterfaceEnregistrement::rewindChrono);
+
+    isRewinding = false;
+    totalSecondes = 0;
+    speakButtonClicked = false;
+
+    // Configuration de l'enregistrement
+    audioFilePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/audio.mp3";  // Changé en mp3
+    mediaRecorder->setOutputLocation(QUrl::fromLocalFile(audioFilePath));
+
+    // Définir les paramètres d'enregistrement avec la nouvelle API Qt 6
+    QMediaFormat format;
+    format.setFileFormat(QMediaFormat::FileFormat::MP3);
+    format.setAudioCodec(QMediaFormat::AudioCodec::MP3);
+
+    mediaRecorder->setMediaFormat(format);
+    mediaRecorder->setQuality(QMediaRecorder::HighQuality);
+    mediaRecorder->setAudioSampleRate(44100);
+    mediaRecorder->setAudioBitRate(128000);
+    mediaRecorder->setAudioChannelCount(2);
 
     //Affichage des Images
     QPixmap imageSon(":/images/Son"); // Charge l'image
@@ -142,63 +170,45 @@ InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
         ui->pushButtonAppelProf->setIcon(icone); // Définit l'icône du bouton
         ui->pushButtonAppelProf->setIconSize(ui->pushButtonAppelProf->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
     }
-    connect(rewindTimer, &QTimer::timeout, this, &InterfaceEnregistrement::updateChrono);
+
+    // Connexions des signaux
+    connect(mediaRecorder, &QMediaRecorder::recorderStateChanged, this, &InterfaceEnregistrement::onRecorderStateChanged);
+    connect(mediaRecorder, &QMediaRecorder::errorOccurred, this, &InterfaceEnregistrement::onRecorderErrorOccurred);
 }
 
 InterfaceEnregistrement::~InterfaceEnregistrement()
 {
     delete ui;
+    delete mediaRecorder;
+    delete player;  // N'oublie pas de supprimer les objets alloués dynamiquement
+    delete audioInput;  // Libérer l'objet QAudioOutput
+    delete timer;
+    delete rewindTimer;  // Nettoyer rewindTimer
 }
 
-void InterfaceEnregistrement::on_pushButtonSon_clicked()
+void InterfaceEnregistrement::on_pushButtonSpeak_clicked()
 {
+    if (!speakButtonClicked) {
+        if (!timer->isActive()) {
+            // Démarrer l'enregistrement
+            totalSecondes = 0; // Réinitialiser le chronomètre
+            timer->start(1000);
+            ui->labelChrono->setText("00:00:00");
+            ui->labelChrono->show();
 
-}
+            // Démarrer l'enregistrement
+            qDebug() << "Enregistrement démarré";
 
-
-void InterfaceEnregistrement::on_pushButtonSignet_clicked()
-{
-
-}
-
-
-void InterfaceEnregistrement::on_pushButtonFavoris_clicked()
-{
-
-}
-
-
-void InterfaceEnregistrement::on_pushButtonRevenirALaPhrasePrecedente_clicked()
-{
-
-}
-
-
-void InterfaceEnregistrement::on_pushButtonRepeter_clicked()
-{
-
-}
-
-
-void InterfaceEnregistrement::on_pushButtonClear_clicked()
-{
-
-}
-
-
-void InterfaceEnregistrement::on_pushButtonSurveiller_clicked()
-{
-
-}
-
-void InterfaceEnregistrement::on_pushButtonRetourArriere_clicked()
-{
-    if (totalSecondes > 0 && !isRewinding) {
-        isRewinding = true;
-        rewindTimer->start(100); // Défile rapidement (toutes les 100 ms)
+            // Démarrer le QMediaRecorder
+            mediaRecorder->record();  // Utiliser mediaRecorder ici
+            speakButtonClicked = true;
+        } else {
+            qDebug() << "L'enregistrement est déjà en cours";
+        }
+    } else {
+        qDebug() << "L'enregistrement est déjà terminé, vous pouvez jouer le fichier.";
     }
 }
-
 
 void InterfaceEnregistrement::on_pushButtonPause_clicked()
 {
@@ -206,47 +216,14 @@ void InterfaceEnregistrement::on_pushButtonPause_clicked()
         timer->stop();
         qDebug() << "Chronomètre arrêté";
     }
-}
 
-void InterfaceEnregistrement::on_pushButtonSpeak_clicked()
-{
-    if (!speakButtonClicked) {
-        if (!timer->isActive()) {
-            // Démarrer le chrono
-            totalSecondes = 0; // Réinitialiser le chronomètre
-            timer->start(1000);
-            ui->labelChrono->setText("00:00:00"); // Initialiser le label du chronomètre à 0
-            ui->labelChrono->show();
-
-            // Simuler un enregistrement (mettre votre code d'enregistrement ici)
-            audioFilePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/recording.wav";
-            qDebug() << "Enregistrement sauvegardé à :" << audioFilePath;
-
-            // Vérifier si le fichier existe
-            QFile file(audioFilePath);
-            if (file.exists()) {
-                qDebug() << "Le fichier audio existe.";
-            } else {
-                qDebug() << "Le fichier audio n'existe pas.";
-            }
-
-            speakButtonClicked = true;
-        } else {
-            qDebug() << "L'enregistrement est déjà en cours";
-        }
+    if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState) {  // Utiliser recorderState() au lieu de state() dans Qt 6
+        mediaRecorder->pause();  // Pause l'enregistrement si il est en cours
+        qDebug() << "Enregistrement en pause";
     }
 }
 
-void InterfaceEnregistrement::on_pushButtonAvancer_clicked()
-{
-
-}
-
-
-
-
-
-void InterfaceEnregistrement::on_pushButtonPlay_clicked()
+void InterfaceEnregistrement::on_pushButtonClear_clicked()
 {
     if (totalSecondes > 0) {
         // Vérifier si le fichier existe avant de démarrer la lecture
@@ -257,12 +234,12 @@ void InterfaceEnregistrement::on_pushButtonPlay_clicked()
         }
 
         // Configurer le lecteur audio
-        player->setSource(QUrl::fromLocalFile(audioFilePath)); // Utilisez setSource pour Qt 6
+        player->setSource(QUrl::fromLocalFile(audioFilePath));  // Utilisez setSource pour Qt 6
         player->play();
 
         // Connecter le signal errorOccurred pour capturer les erreurs
-        connect(player, &QMediaPlayer::errorOccurred, this, [this]() {
-            qDebug() << "Erreur lors de la lecture audio :" << player->errorString();
+        connect(player, &QMediaPlayer::errorOccurred, this, [](QMediaPlayer::Error error, const QString &errorString) {
+            qDebug() << "Erreur lors de la lecture audio :" << errorString;
         });
 
         // Connecter le signal positionChanged pour surveiller la lecture
@@ -273,21 +250,23 @@ void InterfaceEnregistrement::on_pushButtonPlay_clicked()
         qDebug() << "Chronomètre en pause ou à zéro, lecture non autorisée";
     }
 }
-void InterfaceEnregistrement::checkPlaybackPosition()
+
+void InterfaceEnregistrement::on_pushButtonSon_clicked()
 {
     if (player->position() / 1000 >= totalSecondes) {
         player->stop();
         qDebug() << "Lecture arrêtée car elle a dépassé le temps du chronomètre";
     }
 }
-void InterfaceEnregistrement::on_pushButtonAppelProf_clicked()
-{
-    ui->pushButtonAppelProf->setStyleSheet("QPushButton { background-color: none; border: none; }");
-    // Faire apparaître le label instantanément
-    ui->labelAppelProf->show();
-    qWarning() << "Label Appel Prof affiche";
 
+void InterfaceEnregistrement::on_pushButtonRetourArriere_clicked()
+{
+    if (totalSecondes > 0 && !isRewinding) {
+        isRewinding = true;
+        rewindTimer->start(100); // Défile rapidement (toutes les 100 ms)
+    }
 }
+
 void InterfaceEnregistrement::updateChrono()
 {
     if (isRewinding) {
@@ -304,6 +283,7 @@ void InterfaceEnregistrement::updateChrono()
                              QString::number(minutes).rightJustified(2, '0') + ":" +
                              QString::number(secondes).rightJustified(2, '0'));
 }
+
 void InterfaceEnregistrement::rewindChrono()
 {
     if (totalSecondes > 0) {
@@ -319,4 +299,44 @@ void InterfaceEnregistrement::rewindChrono()
         rewindTimer->stop();
         isRewinding = false;
     }
+}
+
+void InterfaceEnregistrement::on_pushButtonAppelProf_clicked()
+{
+    ui->pushButtonAppelProf->setStyleSheet("QPushButton { background-color: none; border: none; }");
+    // Faire apparaître le label instantanément
+    ui->labelAppelProf->show();
+    qWarning() << "Label Appel Prof affiche";
+}
+
+// Ajouter ces deux fonctions nécessaires pour Qt 6
+void InterfaceEnregistrement::checkPlaybackPosition(qint64 position)
+{
+    // Cette méthode surveille la position de lecture
+    if (position / 1000 >= totalSecondes) {
+        player->stop();
+        qDebug() << "Lecture arrêtée car elle a dépassé le temps du chronomètre";
+    }
+}
+
+void InterfaceEnregistrement::onRecorderStateChanged(QMediaRecorder::RecorderState state)
+{
+    // Gérer les changements d'état de l'enregistreur
+    switch (state) {
+    case QMediaRecorder::RecordingState:
+        qDebug() << "État de l'enregistreur: Enregistrement en cours";
+        break;
+    case QMediaRecorder::PausedState:
+        qDebug() << "État de l'enregistreur: En pause";
+        break;
+    case QMediaRecorder::StoppedState:
+        qDebug() << "État de l'enregistreur: Arrêté";
+        break;
+    }
+}
+
+void InterfaceEnregistrement::onRecorderErrorOccurred(QMediaRecorder::Error error, const QString &errorString)
+{
+    // Gérer les erreurs d'enregistrement
+    qDebug() << "Erreur d'enregistrement:" << errorString;
 }

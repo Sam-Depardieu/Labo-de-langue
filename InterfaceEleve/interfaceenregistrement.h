@@ -1,10 +1,12 @@
 #ifndef INTERFACEENREGISTREMENT_H
 #define INTERFACEENREGISTREMENT_H
 
-#include "qmediaplayer.h"
 #include <QDialog>
 #include <QTimer>
 #include <QFile>
+#include <QMediaPlayer>
+#include <QMediaRecorder>
+#include <QAudioInput>
 
 namespace Ui {
 class InterfaceEnregistrement;
@@ -19,49 +21,30 @@ public:
     ~InterfaceEnregistrement();
 
 private slots:
-    void on_pushButtonSon_clicked();
-
-    void on_pushButtonSignet_clicked();
-
-    void on_pushButtonFavoris_clicked();
-
-    void on_pushButtonRevenirALaPhrasePrecedente_clicked();
-
-    void on_pushButtonRepeter_clicked();
-
-    void on_pushButtonClear_clicked();
-
-    void on_pushButtonSurveiller_clicked();
-
-    void on_pushButtonRetourArriere_clicked();
-
-    void on_pushButtonPause_clicked();
-
-    void on_pushButtonAvancer_clicked();
-
     void on_pushButtonSpeak_clicked();
-
-    void on_pushButtonPlay_clicked();
-
+    void on_pushButtonPause_clicked();
+    void on_pushButtonClear_clicked();
+    void on_pushButtonSon_clicked();
+    void on_pushButtonRetourArriere_clicked();
     void on_pushButtonAppelProf_clicked();
     void updateChrono();
-    void checkPlaybackPosition();
     void rewindChrono();
+    void checkPlaybackPosition(qint64 position);
+    void onRecorderStateChanged(QMediaRecorder::RecorderState state);
+    void onRecorderErrorOccurred(QMediaRecorder::Error error, const QString &errorString);
 
 private:
     Ui::InterfaceEnregistrement *ui;
-    QTimer *timer;
-    int initialSecondes;
-    int pauseClickCount;
-    int pausedSecondes;
-    int totalSecondes = 0;
-    bool speakButtonClicked = false;
-    QString audioFilePath;
+    QMediaRecorder *mediaRecorder;
     QMediaPlayer *player;
-    bool isRewinding = false;
+    QAudioOutput *audioOutput;  // Déclaration de QAudioOutput ici
+    QAudioInput *audioInput;    // Optionnel, si vous en avez besoin pour l'entrée audio
+    QTimer *timer;
     QTimer *rewindTimer;
-    bool isPaused = false;
-
+    bool isRewinding;
+    int totalSecondes;
+    bool speakButtonClicked;
+    QString audioFilePath;
 };
 
 #endif // INTERFACEENREGISTREMENT_H
