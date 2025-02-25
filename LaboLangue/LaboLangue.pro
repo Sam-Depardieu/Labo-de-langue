@@ -19,11 +19,13 @@ QT += multimedia multimediawidgets
 SOURCES += \
     customgraphicsitemgroup.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    qcm.cpp
 
 HEADERS += \
     customgraphicsitemgroup.h \
-    mainwindow.h
+    mainwindow.h \
+    qcm.h
 
 FORMS += \
     mainwindow.ui
