@@ -175,7 +175,11 @@ constexpr auto qt_meta_stringdata_CLASSMainWindowENDCLASS = QtMocHelpers::string
     "group",
     "on_SourceButton_clicked",
     "on_delButton_clicked",
-    "on_echapButton_clicked"
+    "saveSessionData",
+    "isNewSession",
+    "on_echapButton_clicked",
+    "resetSession",
+    "on_loadSession_clicked"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
 #error "qtmochelpers.h not found or too old."
@@ -188,7 +192,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSMainWindowENDCLASS[] = {
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-      20,   14, // methods
+      23,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -196,26 +200,29 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSMainWindowENDCLASS[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    0,  134,    2, 0x08,    1 /* Private */,
-       3,    1,  135,    2, 0x08,    2 /* Private */,
-       6,    0,  138,    2, 0x08,    4 /* Private */,
-       7,    0,  139,    2, 0x08,    5 /* Private */,
-       8,    0,  140,    2, 0x08,    6 /* Private */,
-       9,    0,  141,    2, 0x08,    7 /* Private */,
-      10,    0,  142,    2, 0x08,    8 /* Private */,
-      11,    0,  143,    2, 0x08,    9 /* Private */,
-      12,    1,  144,    2, 0x08,   10 /* Private */,
-      14,    0,  147,    2, 0x08,   12 /* Private */,
-      15,    2,  148,    2, 0x08,   13 /* Private */,
-      19,    3,  153,    2, 0x08,   16 /* Private */,
-      19,    4,  160,    2, 0x08,   20 /* Private */,
-      26,    4,  169,    2, 0x08,   25 /* Private */,
-      30,    0,  178,    2, 0x08,   30 /* Private */,
-      31,    0,  179,    2, 0x08,   31 /* Private */,
-      32,    1,  180,    2, 0x08,   32 /* Private */,
-      35,    0,  183,    2, 0x08,   34 /* Private */,
-      36,    0,  184,    2, 0x08,   35 /* Private */,
-      37,    0,  185,    2, 0x08,   36 /* Private */,
+       1,    0,  152,    2, 0x08,    1 /* Private */,
+       3,    1,  153,    2, 0x08,    2 /* Private */,
+       6,    0,  156,    2, 0x08,    4 /* Private */,
+       7,    0,  157,    2, 0x08,    5 /* Private */,
+       8,    0,  158,    2, 0x08,    6 /* Private */,
+       9,    0,  159,    2, 0x08,    7 /* Private */,
+      10,    0,  160,    2, 0x08,    8 /* Private */,
+      11,    0,  161,    2, 0x08,    9 /* Private */,
+      12,    1,  162,    2, 0x08,   10 /* Private */,
+      14,    0,  165,    2, 0x08,   12 /* Private */,
+      15,    2,  166,    2, 0x08,   13 /* Private */,
+      19,    3,  171,    2, 0x08,   16 /* Private */,
+      19,    4,  178,    2, 0x08,   20 /* Private */,
+      26,    4,  187,    2, 0x08,   25 /* Private */,
+      30,    0,  196,    2, 0x08,   30 /* Private */,
+      31,    0,  197,    2, 0x08,   31 /* Private */,
+      32,    1,  198,    2, 0x08,   32 /* Private */,
+      35,    0,  201,    2, 0x08,   34 /* Private */,
+      36,    0,  202,    2, 0x08,   35 /* Private */,
+      37,    1,  203,    2, 0x08,   36 /* Private */,
+      39,    0,  206,    2, 0x08,   38 /* Private */,
+      40,    0,  207,    2, 0x08,   39 /* Private */,
+      41,    0,  208,    2, 0x08,   40 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -235,6 +242,9 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSMainWindowENDCLASS[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, 0x80000000 | 33,   34,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::Bool,   38,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -305,7 +315,14 @@ Q_CONSTINIT const QMetaObject MainWindow::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_delButton_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'saveSessionData'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<bool, std::false_type>,
         // method 'on_echapButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'resetSession'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_loadSession_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
@@ -337,7 +354,10 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 16: _t->showCheckIconOnGroup((*reinterpret_cast< std::add_pointer_t<CustomGraphicsItemGroup*>>(_a[1]))); break;
         case 17: _t->on_SourceButton_clicked(); break;
         case 18: _t->on_delButton_clicked(); break;
-        case 19: _t->on_echapButton_clicked(); break;
+        case 19: _t->saveSessionData((*reinterpret_cast< std::add_pointer_t<bool>>(_a[1]))); break;
+        case 20: _t->on_echapButton_clicked(); break;
+        case 21: _t->resetSession(); break;
+        case 22: _t->on_loadSession_clicked(); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
@@ -412,13 +432,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 20)
+        if (_id < 23)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 20;
+        _id -= 23;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 20)
+        if (_id < 23)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 20;
+        _id -= 23;
     }
     return _id;
 }

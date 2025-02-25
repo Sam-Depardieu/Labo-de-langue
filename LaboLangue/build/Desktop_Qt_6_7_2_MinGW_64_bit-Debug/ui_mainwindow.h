@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 6.8.1
+** Created by: Qt User Interface Compiler version 6.7.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -27,7 +27,6 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralwidget;
-    QPushButton *LigneBas;
     QPushButton *LigneHaut;
     QPushButton *PlanButton;
     QPushButton *PresenceButton;
@@ -59,6 +58,7 @@ public:
     QPushButton *SourceButton;
     QGraphicsView *ParametrageEleve;
     QLabel *NameSourceLabel;
+    QPushButton *loadSession;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -70,12 +70,6 @@ public:
 ""));
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
-        LigneBas = new QPushButton(centralwidget);
-        LigneBas->setObjectName("LigneBas");
-        LigneBas->setEnabled(false);
-        LigneBas->setGeometry(QRect(-10, 440, 821, 51));
-        LigneBas->setAutoFillBackground(false);
-        LigneBas->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 151, 178);"));
         LigneHaut = new QPushButton(centralwidget);
         LigneHaut->setObjectName("LigneHaut");
         LigneHaut->setEnabled(false);
@@ -166,12 +160,12 @@ public:
 "border-radius: 10px;"));
         PlanClasse = new QGraphicsView(centralwidget);
         PlanClasse->setObjectName("PlanClasse");
-        PlanClasse->setGeometry(QRect(10, 70, 381, 361));
+        PlanClasse->setGeometry(QRect(10, 70, 381, 391));
         PlanClasse->setStyleSheet(QString::fromUtf8("background-color: white;"));
         ParametrageSession = new QGraphicsView(centralwidget);
         ParametrageSession->setObjectName("ParametrageSession");
         ParametrageSession->setEnabled(true);
-        ParametrageSession->setGeometry(QRect(410, 70, 381, 361));
+        ParametrageSession->setGeometry(QRect(410, 70, 381, 391));
         ParametrageSession->setStyleSheet(QString::fromUtf8("background-color: white;"));
         NameLabel = new QLabel(centralwidget);
         NameLabel->setObjectName("NameLabel");
@@ -267,15 +261,18 @@ public:
         ParametrageEleve = new QGraphicsView(centralwidget);
         ParametrageEleve->setObjectName("ParametrageEleve");
         ParametrageEleve->setEnabled(true);
-        ParametrageEleve->setGeometry(QRect(410, 70, 381, 361));
+        ParametrageEleve->setGeometry(QRect(20, 80, 381, 391));
         ParametrageEleve->setStyleSheet(QString::fromUtf8("background-color: white;"));
         NameSourceLabel = new QLabel(centralwidget);
         NameSourceLabel->setObjectName("NameSourceLabel");
         NameSourceLabel->setEnabled(true);
         NameSourceLabel->setGeometry(QRect(530, 340, 81, 21));
         NameSourceLabel->setStyleSheet(QString::fromUtf8(""));
+        loadSession = new QPushButton(centralwidget);
+        loadSession->setObjectName("loadSession");
+        loadSession->setGeometry(QRect(420, 60, 131, 24));
+        loadSession->setStyleSheet(QString::fromUtf8("background-color: gray;"));
         MainWindow->setCentralWidget(centralwidget);
-        LigneBas->raise();
         LigneHaut->raise();
         PlanButton->raise();
         PresenceButton->raise();
@@ -307,6 +304,7 @@ public:
         SourceButton->raise();
         NameSourceLabel->raise();
         ParametrageEleve->raise();
+        loadSession->raise();
 
         retranslateUi(MainWindow);
 
@@ -316,7 +314,6 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
-        LigneBas->setText(QString());
         LigneHaut->setText(QString());
         PlanButton->setText(QCoreApplication::translate("MainWindow", "Plan de classe", nullptr));
         PresenceButton->setText(QCoreApplication::translate("MainWindow", "Pr\303\251sence", nullptr));
@@ -340,6 +337,7 @@ public:
         SourceLabel->setText(QCoreApplication::translate("MainWindow", "Source :", nullptr));
         SourceButton->setText(QCoreApplication::translate("MainWindow", "Selection fichier", nullptr));
         NameSourceLabel->setText(QString());
+        loadSession->setText(QCoreApplication::translate("MainWindow", "Charger une session", nullptr));
     } // retranslateUi
 
 };

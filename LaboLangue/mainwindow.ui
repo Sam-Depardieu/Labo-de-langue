@@ -19,28 +19,6 @@ color: black;
 </string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="LigneBas">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>-10</x>
-      <y>440</y>
-      <width>821</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="autoFillBackground">
-     <bool>false</bool>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(0, 151, 178);</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
    <widget class="QPushButton" name="LigneHaut">
     <property name="enabled">
      <bool>false</bool>
@@ -260,7 +238,7 @@ border-radius: 10px;</string>
       <x>10</x>
       <y>70</y>
       <width>381</width>
-      <height>361</height>
+      <height>391</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -276,7 +254,7 @@ border-radius: 10px;</string>
       <x>410</x>
       <y>70</y>
       <width>381</width>
-      <height>361</height>
+      <height>391</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -623,10 +601,10 @@ border-radius: 10px;</string>
     </property>
     <property name="geometry">
      <rect>
-      <x>410</x>
-      <y>70</y>
+      <x>20</x>
+      <y>80</y>
       <width>381</width>
-      <height>361</height>
+      <height>391</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -652,7 +630,22 @@ border-radius: 10px;</string>
      <string/>
     </property>
    </widget>
-   <zorder>LigneBas</zorder>
+   <widget class="QPushButton" name="loadSession">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>60</y>
+      <width>131</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: gray;</string>
+    </property>
+    <property name="text">
+     <string>Charger une session</string>
+    </property>
+   </widget>
    <zorder>LigneHaut</zorder>
    <zorder>PlanButton</zorder>
    <zorder>PresenceButton</zorder>
@@ -684,6 +677,7 @@ border-radius: 10px;</string>
    <zorder>SourceButton</zorder>
    <zorder>NameSourceLabel</zorder>
    <zorder>ParametrageEleve</zorder>
+   <zorder>loadSession</zorder>
   </widget>
  </widget>
  <resources/>

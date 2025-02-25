@@ -77,7 +77,7 @@ public:
 
     int idTypeActivite = -1;
     std::vector<CustomGraphicsItemGroup*> listeRasp = {};
-    std::vector<CustomGraphicsItemGroup*> listeParticipant;
+    std::vector<CustomGraphicsItemGroup*> listeParticipant = {};
     std::vector<int> listeEleveParticipant = {};
 
     bool parametrageSession = false;
@@ -110,8 +110,10 @@ private slots:
     void showCheckIconOnGroup(CustomGraphicsItemGroup *group);
     void on_SourceButton_clicked();
     void on_delButton_clicked();
-
+    void saveSessionData(bool isNewSession);
     void on_echapButton_clicked();
+    void resetSession();
+    void on_loadSession_clicked();
 
 private:
     Ui::MainWindow *ui;
