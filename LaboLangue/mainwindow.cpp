@@ -92,8 +92,9 @@ void MainWindow::loadImagesFromDB()
 
     QPixmap personPixmap("../img/person.png");
     QPixmap checkPixmap("../img/check.png");
+    QPixmap microPixmap("../img/micro.png");
 
-    if (personPixmap.isNull() || checkPixmap.isNull()) {
+    if (personPixmap.isNull() || checkPixmap.isNull() || microPixmap.isNull()) {
         qWarning("Une ou plusieurs images n'ont pas pu être chargées. Vérifiez les chemins.");
         return;
     }
@@ -136,6 +137,10 @@ void MainWindow::loadImagesFromDB()
         QGraphicsPixmapItem *checkItem = new QGraphicsPixmapItem(checkPixmap);
         checkItem->setPos(imageItem->boundingRect().right() - checkPixmap.width(), imageItem->boundingRect().top());
         checkItem->setVisible(false); // Caché par défaut
+
+        QGraphicsPixmapItem *micro = new QGraphicsPixmapItem(microPixmap);
+        micro->setPos(imageItem->boundingRect().left() + microPixmap.width(), imageItem->boundingRect().top());
+        micro->setVisible(false); // Caché par défaut
 
         // Ajout des icônes au groupe
         group->addToGroup(checkItem);
@@ -462,6 +467,7 @@ void MainWindow::on_validButton_clicked()
         if (!query.exec()) {
             qDebug() << "Erreur insertion participant" << idRaspberry << ":" << query.lastError();
         }
+        participant->getMicro()->setVisible(true);
     }
 
     // Activation des boutons
