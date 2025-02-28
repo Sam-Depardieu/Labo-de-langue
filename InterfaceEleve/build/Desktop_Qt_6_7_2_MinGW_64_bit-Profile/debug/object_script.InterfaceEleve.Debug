@@ -1,0 +1,15 @@
+debug/attenteprof.o
+debug/interfaceaudio.o
+debug/interfaceenregistrement.o
+debug/interfaceqcm.o
+debug/interfacevideo.o
+debug/main.o
+debug/mainwindow.o
+debug/qrc_images.o
+debug/qrc_videos.o
+debug/moc_attenteprof.o
+debug/moc_interfaceaudio.o
+debug/moc_interfaceenregistrement.o
+debug/moc_interfaceqcm.o
+debug/moc_interfacevideo.o
+debug/moc_mainwindow.o

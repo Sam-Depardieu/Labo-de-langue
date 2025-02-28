@@ -59,6 +59,7 @@ private:
     int totalSecondes;
     bool speakButtonClicked;
     QString audioFilePath;
+    int studentId;
 };
 
 #endif // INTERFACEENREGISTREMENT_H

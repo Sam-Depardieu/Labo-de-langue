@@ -1,0 +1,15 @@
+release/attenteprof.o
+release/interfaceaudio.o
+release/interfaceenregistrement.o
+release/interfaceqcm.o
+release/interfacevideo.o
+release/main.o
+release/mainwindow.o
+release/qrc_images.o
+release/qrc_videos.o
+release/moc_attenteprof.o
+release/moc_interfaceaudio.o
+release/moc_interfaceenregistrement.o
+release/moc_interfaceqcm.o
+release/moc_interfacevideo.o
+release/moc_mainwindow.o
