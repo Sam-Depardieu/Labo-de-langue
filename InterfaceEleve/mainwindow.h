@@ -33,9 +33,14 @@ private slots:
 
     void on_pushButtonInterfaceVideo_clicked();
 
+    void keyPressEvent(QKeyEvent *event) override;
+    void keyReleaseEvent(QKeyEvent *event) override;
+
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db;
+    bool isCtrlPressed = false;  // 🔹 Stocke l'état de Ctrl
+    bool isF1Pressed = false;
 
 };
 #endif // MAINWINDOW_H

@@ -1,13 +1,4 @@
 #include "interfaceenregistrement.h"
-#include <QMediaRecorder>
-#include <QMediaPlayer>
-#include <QAudioOutput>  // Utiliser QAudioOutput pour la sortie audio
-#include <QUrl>
-#include <QStandardPaths>
-#include <QFile>
-#include <QTimer>
-#include <QDebug>
-#include <QMediaFormat>
 #include "ui_interfaceenregistrement.h"
 
 InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
@@ -307,6 +298,20 @@ void InterfaceEnregistrement::on_pushButtonAppelProf_clicked()
     // Faire apparaître le label instantanément
     ui->labelAppelProf->show();
     qWarning() << "Label Appel Prof affiche";
+
+    QUdpSocket *udpSocket = new QUdpSocket(this);
+
+    QJsonObject message;
+    message["type"] = "call_request";
+    message["id_eleve"] = studentId;
+
+    QJsonDocument doc(message);
+    QByteArray data = doc.toJson();
+
+    QHostAddress profAddress("192.168.88.216");  // Adresse IP de l'appli Prof
+    quint16 profPort = 45454;  // Port d'écoute de l'appli Prof
+
+    udpSocket->writeDatagram(data, profAddress, profPort);
 }
 
 // Ajouter ces deux fonctions nécessaires pour Qt 6

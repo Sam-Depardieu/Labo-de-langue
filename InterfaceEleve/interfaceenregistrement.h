@@ -7,6 +7,20 @@
 #include <QMediaPlayer>
 #include <QMediaRecorder>
 #include <QAudioInput>
+#include <QKeyEvent>
+#include <QDebug>
+#include <QMediaRecorder>
+#include <QMediaPlayer>
+#include <QAudioOutput>  // Utiliser QAudioOutput pour la sortie audio
+#include <QUrl>
+#include <QStandardPaths>
+#include <QFile>
+#include <QTimer>
+#include <QDebug>
+#include <QMediaFormat>
+#include <QUdpSocket>
+#include <QJsonDocument>
+#include <QJsonObject>
 
 namespace Ui {
 class InterfaceEnregistrement;

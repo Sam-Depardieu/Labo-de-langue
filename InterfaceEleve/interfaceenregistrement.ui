@@ -86,8 +86,8 @@
   <widget class="QPushButton" name="pushButtonAppelProf">
    <property name="geometry">
     <rect>
-     <x>710</x>
-     <y>3</y>
+     <x>730</x>
+     <y>0</y>
      <width>60</width>
      <height>75</height>
     </rect>
@@ -98,6 +98,9 @@
    </property>
    <property name="text">
     <string/>
+   </property>
+   <property name="icon">
+    <iconset theme="call-start"/>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton_2">
@@ -317,7 +320,6 @@
   <zorder>pushButtonSurveiller</zorder>
   <zorder>pushButtonAvancer</zorder>
   <zorder>pushButtonClear</zorder>
-  <zorder>pushButtonAppelProf</zorder>
   <zorder>labelChrono</zorder>
   <zorder>pushButtonSpeak</zorder>
   <zorder>pushButtonPause</zorder>
@@ -328,6 +330,7 @@
   <zorder>pushButtonPlay</zorder>
   <zorder>pushButtonRevenirALaPhrasePrecedente</zorder>
   <zorder>pushButtonRetourArriere</zorder>
+  <zorder>pushButtonAppelProf</zorder>
  </widget>
  <resources/>
  <connections/>

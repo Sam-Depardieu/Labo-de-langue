@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'interfaceenregistrement.ui'
 **
-** Created by: Qt User Interface Compiler version 6.8.2
+** Created by: Qt User Interface Compiler version 6.7.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -10,6 +10,7 @@
 #define UI_INTERFACEENREGISTREMENT_H
 
 #include <QtCore/QVariant>
+#include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QLabel>
@@ -65,9 +66,11 @@ public:
 "    border: none;"));
         pushButtonAppelProf = new QPushButton(InterfaceEnregistrement);
         pushButtonAppelProf->setObjectName("pushButtonAppelProf");
-        pushButtonAppelProf->setGeometry(QRect(710, 3, 60, 75));
+        pushButtonAppelProf->setGeometry(QRect(730, 0, 60, 75));
         pushButtonAppelProf->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
 "    border: none;"));
+        QIcon icon(QIcon::fromTheme(QString::fromUtf8("call-start")));
+        pushButtonAppelProf->setIcon(icon);
         pushButton_2 = new QPushButton(InterfaceEnregistrement);
         pushButton_2->setObjectName("pushButton_2");
         pushButton_2->setGeometry(QRect(0, 400, 801, 81));
@@ -141,7 +144,6 @@ public:
         pushButtonSurveiller->raise();
         pushButtonAvancer->raise();
         pushButtonClear->raise();
-        pushButtonAppelProf->raise();
         labelChrono->raise();
         pushButtonSpeak->raise();
         pushButtonPause->raise();
@@ -152,6 +154,7 @@ public:
         pushButtonPlay->raise();
         pushButtonRevenirALaPhrasePrecedente->raise();
         pushButtonRetourArriere->raise();
+        pushButtonAppelProf->raise();
 
         retranslateUi(InterfaceEnregistrement);
 
