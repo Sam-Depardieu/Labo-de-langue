@@ -50,11 +50,18 @@ class CustomGraphicsItemGroup : public QObject, public QGraphicsItemGroup {
         int numero = 0;
         QString IP;
         QGraphicsPixmapItem *checkItem = nullptr;
+        QGraphicsPixmapItem *micro = nullptr;
+        QGraphicsPixmapItem *sound = nullptr;
 
     public:
         CustomGraphicsItemGroup(int numero, QString ip, MainWindow* parentWindow);
         void setCheckItem(QGraphicsPixmapItem *item) { checkItem = item; }
+        void setMicro(QGraphicsPixmapItem *item) { micro = item; }
+        void setSound(QGraphicsPixmapItem *item) { sound = item; }
+
         QGraphicsPixmapItem* getCheckItem() { return checkItem; }
+        QGraphicsPixmapItem* getMicro() { return micro; }
+        QGraphicsPixmapItem* getSound() { return sound; }
         int getId() const;
 
     signals:

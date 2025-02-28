@@ -92,8 +92,9 @@ void MainWindow::loadImagesFromDB()
 
     QPixmap personPixmap("../img/person.png");
     QPixmap checkPixmap("../img/check.png");
+    QPixmap microPixmap("../img/micro.png");
 
-    if (personPixmap.isNull() || checkPixmap.isNull()) {
+    if (personPixmap.isNull() || checkPixmap.isNull() || microPixmap.isNull()) {
         qWarning("Une ou plusieurs images n'ont pas pu être chargées. Vérifiez les chemins.");
         return;
     }
@@ -137,11 +138,17 @@ void MainWindow::loadImagesFromDB()
         checkItem->setPos(imageItem->boundingRect().right() - checkPixmap.width(), imageItem->boundingRect().top());
         checkItem->setVisible(false); // Caché par défaut
 
+        QGraphicsPixmapItem *micro = new QGraphicsPixmapItem(microPixmap);
+        micro->setPos(imageItem->boundingRect().left(), imageItem->boundingRect().top());
+        micro->setVisible(false); // Caché par défaut
+
         // Ajout des icônes au groupe
         group->addToGroup(checkItem);
+        group->addToGroup(micro);
 
         // Sauvegarde des icônes dans l'objet pour pouvoir les modifier après
         group->setCheckItem(checkItem);
+        group->setMicro(micro);
 
         // Positionnement et ajout à la scène
         group->setPos(x, y);
@@ -184,7 +191,7 @@ bool MainWindow::connectToDatabase() {
     }
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("192.168.64.36");
+    db.setHostName("localhost");
     db.setDatabaseName("LaboLangue");
     db.setUserName("prof"); // Remplacez par votre nom d'utilisateur
     db.setPassword("okokok"); // Remplacez par votre mot de passe
@@ -198,7 +205,6 @@ bool MainWindow::connectToDatabase() {
 
 void MainWindow::on_SessionButton_clicked()
 {
-    loadImagesFromDB();
     parametrageSession = !parametrageSession;
     ui->ParametrageSession->setVisible(!ui->ParametrageSession->isVisible());
     ui->PlanClasse->setVisible(true);
@@ -210,6 +216,8 @@ void MainWindow::on_SessionButton_clicked()
     }
 
 }
+
+void MainWindow::onImageGroupDoubleClicked() {}
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
     if (event->key() == Qt::Key_Escape) {
@@ -460,6 +468,7 @@ void MainWindow::on_validButton_clicked()
         if (!query.exec()) {
             qDebug() << "Erreur insertion participant" << idRaspberry << ":" << query.lastError();
         }
+        participant->getMicro()->setVisible(true);
     }
 
     // Activation des boutons
@@ -498,7 +507,7 @@ void MainWindow::saveSessionData(bool isNewSession)
     QString sanitizedName = nomProf;
     sanitizedName.replace(" ", "_").remove(QRegularExpression("[^a-zA-Z0-9_-]"));
 
-    QString networkPath = "\\\\192.168.88.216\\Activites"; //Dossier du partage SMB
+    QString networkPath = "\\\\localhost\\Users\\samde\\Desktop\\Activites"; //Dossier du partage SMB
     QString sessionFolder = (nomProf != "" ? networkPath + "/" + sanitizedName + "_" + QDateTime::currentDateTime().toString("yyyy-MM-dd_HH-mm"): "");
 
     // Créer le dossier pour la session
@@ -624,6 +633,7 @@ void MainWindow::resetSession()
     //Réinitialisation de la scène graphique (si nécessaire)
     if (scene) {
         scene->clear();
+        loadImagesFromDB();
     }
 }
 
