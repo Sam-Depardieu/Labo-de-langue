@@ -24,12 +24,6 @@ bool MainWindow::connectToDatabase() {
     db.setDatabaseName("LaboLangue");
     db.setUserName("prof");
     db.setPassword("okokok");
-    qDebug() << "Drivers disponibles:" << QSqlDatabase::drivers();
-
-    if (!db.isValid()) {
-        qDebug() << "Driver MySQL invalide !";
-    }
-
     if (!db.open()) {
         qDebug() << "Erreur de connexion à la base de données:" << db.lastError().text();
         return false;
