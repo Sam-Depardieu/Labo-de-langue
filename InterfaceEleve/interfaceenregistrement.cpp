@@ -308,7 +308,7 @@ void InterfaceEnregistrement::on_pushButtonAppelProf_clicked()
     QJsonDocument doc(message);
     QByteArray data = doc.toJson();
 
-    QHostAddress profAddress("192.168.88.216");  // Adresse IP de l'appli Prof
+    QHostAddress profAddress("192.168.64.36");  // Adresse IP de l'appli Prof
     quint16 profPort = 45454;  // Port d'écoute de l'appli Prof
 
     udpSocket->writeDatagram(data, profAddress, profPort);
