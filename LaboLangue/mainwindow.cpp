@@ -51,6 +51,25 @@ MainWindow::MainWindow(QWidget *parent)
     setupClassesComboBox();
     setupActivitiesComboBox();
     loadImagesFromDB();
+    connectToMumble("Professeur");
+}
+
+void MainWindow::connectToMumble(QString username)
+{
+    QString mumblePath = "C:/Program Files/Mumble/mumble.exe";  // Chemin sous Windows
+    QString serverAddress = "192.168.64.36";  // Adresse du serveur
+    QString port = "64738";
+    QString password = "";  // Si besoin
+
+    QString command = QString("\"%1\" mumble://%2@%3:%4")
+                          .arg(mumblePath)
+                          .arg(username)
+                          .arg(serverAddress)
+                          .arg(port);
+
+    qDebug() << "Connexion à Mumble :" << command;
+
+    QProcess::startDetached(command);
 }
 
 MainWindow::~MainWindow()
