@@ -30,6 +30,9 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QRegularExpression>
+#include <portaudio.h>
+#include <QtWebSockets/QWebSocket>
+
 
 class MainWindow;
 class VoiceChat;

@@ -6,6 +6,8 @@
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlError>
 #include <QDebug>
+#include <QProcess>
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -24,7 +26,7 @@ private slots:
 
     bool connectToDatabase();
     void on_pushButtonEnregistrement_clicked();
-
+    void connectToMumble(QString username);
     void on_pushButtonConnexion_clicked();
 
     void on_pushButtonInterfaceQCM_clicked();

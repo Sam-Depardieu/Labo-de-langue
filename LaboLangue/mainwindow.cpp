@@ -43,7 +43,6 @@ MainWindow::MainWindow(QWidget *parent)
     layout->addSpacing(10);
     addButtonRow(layout, ui->delButton, ui->echapButton, ui->validButton);
 
-
     // Appliquez le layout à Parametrage1
     ui->ParametrageSession->setLayout(layout);
 
@@ -191,7 +190,7 @@ bool MainWindow::connectToDatabase() {
     }
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("localhost");
+    db.setHostName("192.168.64.36");
     db.setDatabaseName("LaboLangue");
     db.setUserName("prof"); // Remplacez par votre nom d'utilisateur
     db.setPassword("okokok"); // Remplacez par votre mot de passe

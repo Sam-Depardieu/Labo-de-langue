@@ -1,8 +1,11 @@
-QT       += core gui
+QT       += core gui websockets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 QT += sql
+QT += websockets
+QT += multimedia
+
 CONFIG += c++17
 QT += core network
 CONFIG += console
@@ -23,6 +26,7 @@ SOURCES += \
     qcm.cpp
 
 HEADERS += \
+    AudioCommunicator.h \
     customgraphicsitemgroup.h \
     mainwindow.h \
     qcm.h
