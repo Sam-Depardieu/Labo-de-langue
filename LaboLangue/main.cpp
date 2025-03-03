@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "AudioCommunicator.h"
 
 #include <QtMultimedia>
 #include <QtMultimediaWidgets>
@@ -72,6 +73,13 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
+
+    AudioCommunicator communicator;
+
+    // Envoi des données audio toutes les 100ms
+    QTimer timer;
+    QObject::connect(&timer, &QTimer::timeout, &communicator, &AudioCommunicator::sendAudioData);
+    timer.start(100); // Envoie les données audio toutes les 100ms
 
     /*QString baseNetwork = "192.168.64.";
 

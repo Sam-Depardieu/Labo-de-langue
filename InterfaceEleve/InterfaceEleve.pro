@@ -6,6 +6,8 @@ CONFIG += c++17
 CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= windows
+QT += websockets
+QT += multimedia
 
 TEMPLATE = app
 
@@ -24,6 +26,7 @@ SOURCES += \
 
 HEADERS += \
     attenteprof.h \
+    audioCommunicator.h \
     interfaceaudio.h \
     interfaceenregistrement.h \
     interfaceqcm.h \

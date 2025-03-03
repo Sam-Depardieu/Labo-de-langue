@@ -35,7 +35,6 @@ public:
 private slots:
     void on_PlanButton_clicked();
     void keyPressEvent(QKeyEvent *event);
-    void connectToMumble(QString username);
     void loadImagesFromDB();
     bool connectToDatabase();
     void onImageGroupDoubleClicked();
