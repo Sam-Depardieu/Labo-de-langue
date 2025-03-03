@@ -53,15 +53,6 @@ public:
         }
     }
 
-private slots:
-    void onConnected() {
-        qDebug() << "WebSocket connecté!";
-    }
-
-    void onDisconnected() {
-        qDebug() << "WebSocket déconnecté!";
-    }
-
     void onAudioReceived(const QByteArray &data) {
         if (!data.isEmpty()) {
             qDebug() << "Received audio data size: " << data.size();
@@ -72,6 +63,15 @@ private slots:
         } else {
             qWarning() << "Received empty audio data";
         }
+    }
+
+private slots:
+    void onConnected() {
+        qDebug() << "WebSocket connecté!";
+    }
+
+    void onDisconnected() {
+        qDebug() << "WebSocket déconnecté!";
     }
 
 private:

@@ -79,6 +79,7 @@ int main(int argc, char *argv[])
     // Envoi des données audio toutes les 100ms
     QTimer timer;
     QObject::connect(&timer, &QTimer::timeout, &communicator, &AudioCommunicator::sendAudioData);
+    QObject::connect(&timer, &QTimer::timeout, &communicator, &AudioCommunicator::onAudioReceived);
     timer.start(100); // Envoie les données audio toutes les 100ms
 
     /*QString baseNetwork = "192.168.64.";
