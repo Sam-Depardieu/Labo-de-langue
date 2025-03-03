@@ -8,6 +8,7 @@ debug/mainwindow.o
 debug/qrc_images.o
 debug/qrc_videos.o
 debug/moc_attenteprof.o
+debug/moc_audioCommunicator.o
 debug/moc_interfaceaudio.o
 debug/moc_interfaceenregistrement.o
 debug/moc_interfaceqcm.o

@@ -30,7 +30,6 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QRegularExpression>
-#include <portaudio.h>
 #include <QtWebSockets/QWebSocket>
 
 
