@@ -18,7 +18,11 @@ InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
     mediaRecorder = new QMediaRecorder(this);  // Remplacer audioRecorder par mediaRecorder
     player = new QMediaPlayer(this);           // Initialisation correcte de QMediaPlayer
     audioInput = new QAudioInput(this);      // Instancier QAudioOutput ici
+<<<<<<< HEAD
     audioOutput = new QAudioOutput(this);  // Instancier QAudioOutput
+=======
+    audioOutput = new QAudioOutput(this);
+>>>>>>> 64b7569d2d382efdbabb604fa13e996a72e94031
     player->setAudioOutput(audioOutput);       // Configurer QAudioOutput pour le player
 
     timer = new QTimer(this);
