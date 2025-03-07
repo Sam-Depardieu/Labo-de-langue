@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
-    AudioCommunicator communicator;
+    TeamSpeakCommunicator tsCommunicator;
 
     /*QString baseNetwork = "192.168.64.";
 

@@ -49,10 +49,10 @@ private slots:
 
 private:
     Ui::InterfaceEnregistrement *ui;
+    QAudioInput *audioInput;
+    QAudioOutput *audioOutput;  // Ajoutez cette ligne
     QMediaRecorder *mediaRecorder;
-    QMediaPlayer *player;
-    QAudioOutput *audioOutput;  // Déclaration de QAudioOutput ici
-    QAudioInput *audioInput;    // Optionnel, si vous en avez besoin pour l'entrée audio
+    QMediaPlayer *player; // Optionnel, si vous en avez besoin pour l'entrée audio
     QTimer *timer;
     QTimer *rewindTimer;
     bool isRewinding;

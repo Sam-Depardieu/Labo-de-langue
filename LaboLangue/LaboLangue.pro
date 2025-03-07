@@ -12,6 +12,8 @@ CONFIG += console
 CONFIG -= app_bundle
 TARGET = LaboLangue
 TEMPLATE = app
+INCLUDEPATH += $$PWD/ts_sdk/include
+LIBS += $$PWD/ts_sdk/lib
 
 QT += multimedia multimediawidgets
 
