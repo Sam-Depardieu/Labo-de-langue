@@ -1,84 +1,102 @@
 #include <QCoreApplication>
-#include <QWebSocket>
-#include <QAudioFormat>
+#include <QDebug>
 #include <QAudioSource>
 #include <QAudioSink>
-#include <QByteArray>
 #include <QIODevice>
 #include <QTimer>
-#include <QDebug>
+#include "teamspeak/public_errors.h"
+#include "teamspeak/public_definitions.h"
+#include "teamspeak/clientlib.h"
 
-class AudioCommunicator : public QObject {
+
+class TeamSpeakAudio : public QObject {
     Q_OBJECT
 public:
-    AudioCommunicator(QObject* parent = nullptr) : QObject(parent) {
-        // Initialisation du WebSocket
-        webSocket = new QWebSocket();
-        webSocket->open(QUrl("ws://192.168.64.36:12345")); // Connexion au serveur WebSocket
+    TeamSpeakAudio(QObject* parent = nullptr) : QObject(parent) {
+        if (ts3client_initClientLib(nullptr, nullptr, LogType_FILE, nullptr, nullptr) != ERROR_ok) {
+            qCritical() << "Erreur lors de l'initialisation du client TeamSpeak!";
+            return;
+        }
 
-        connect(webSocket, &QWebSocket::connected, this, &AudioCommunicator::onConnected);
-        connect(webSocket, &QWebSocket::disconnected, this, &AudioCommunicator::onDisconnected);
-        connect(webSocket, &QWebSocket::binaryMessageReceived, this, &AudioCommunicator::onAudioReceived);
+        uint64 scHandlerID;
+        if (ts3client_spawnNewServerConnectionHandler(0, &scHandlerID) != ERROR_ok) {
+            qCritical() << "Impossible de créer un gestionnaire de connexion!";
+            return;
+        }
 
-        // Configuration de l'audio (capture et sortie)
+        serverConnectionHandlerID = scHandlerID;
+
+        // Connexion au serveur
+        char* version;
+        ts3client_getClientLibVersion(&version);
+        qDebug() << "Version du SDK TeamSpeak:" << version;
+        ts3client_freeMemory(version);
+
+        const char* defaultChannels[] = { nullptr }; // Tableau NULL car aucun canal spécifique n'est demandé
+
+        if (ts3client_startConnection(
+                serverConnectionHandlerID,
+                "",                 // Identité (laisser vide pour que TS la génère)
+                "192.168.88.150",    // IP du serveur TeamSpeak
+                9987,               // Port par défaut de TeamSpeak
+                "QtBot",            // Pseudo du bot
+                defaultChannels,    // Tableau NULL car aucun canal spécifique n'est demandé
+                nullptr,            // Mot de passe du canal (aucun dans ce cas)
+                nullptr             // Callback pour l'état de connexion (ajouter si nécessaire)
+                ) != ERROR_ok) {
+            qCritical() << "Échec de la connexion au serveur TeamSpeak!";
+        }
+
+        qDebug() << "Connexion en cours...";
+
+        // Configurer l'audio
+        setupAudio();
+    }
+
+    void setupAudio() {
         QAudioFormat format;
-        format.setSampleRate(16000);              // Fréquence d'échantillonnage (16 kHz)
-        format.setChannelCount(1);                // Mono
-        format.setSampleFormat(QAudioFormat::Int32);                 // Taille de l'échantillon (16 bits)
-        format.setSampleRate(16000); // Type d'échantillon : entier signé
+        format.setSampleRate(48000);
+        format.setChannelCount(1);
+        format.setSampleFormat(QAudioFormat::Int16);
 
-        // Créer l'input et output pour la capture et la lecture audio
         audioSource = new QAudioSource(format, this);
         audioSink = new QAudioSink(format, this);
 
-        // Démarrer la capture et la lecture
-        audioDevice = audioSource->start();  // Démarre l'enregistrement audio
-        outputDevice = audioSink->start();   // Démarre la lecture audio
+        audioInputDevice = audioSource->start();
+        audioOutputDevice = audioSink->start();
 
-        // Timer pour envoyer des données audio à intervalles réguliers
-        timer = new QTimer(this);
-        connect(timer, &QTimer::timeout, this, &AudioCommunicator::sendAudioData);
-        timer->start(50);  // Envoie les données toutes les 50ms (20 Hz)
+        connect(audioInputDevice, &QIODevice::readyRead, this, &TeamSpeakAudio::sendAudioData);
+
+        qDebug() << "Audio configuré!";
     }
 
     void sendAudioData() {
-        QByteArray audioData = audioDevice->readAll();
+        QByteArray audioData = audioInputDevice->readAll();
         if (!audioData.isEmpty()) {
-            int chunkSize = 1024;  // Par exemple, envoyer 1024 octets à la fois
-            while (!audioData.isEmpty()) {
-                QByteArray chunk = audioData.left(chunkSize);
-                webSocket->sendBinaryMessage(chunk);
-                audioData = audioData.mid(chunkSize);
-            }
+            // Placeholder : Ici, remplacez par une fonction valide de l'API TeamSpeak pour gérer l'audio
+            qDebug() << "Données audio prêtes à être envoyées : taille =" << audioData.size();
+
+            // Exemple de journalisation (remplacez par le traitement réel des données)
+            qDebug() << "Envoyer des données audio n'est pas encore implémenté dans ce SDK.";
         }
     }
 
-    void onAudioReceived(const QByteArray &data) {
+
+
+
+
+
+
+    void receiveAudioData(const QByteArray& data) {
         if (!data.isEmpty()) {
-            qDebug() << "Received audio data size: " << data.size();
-            qint64 bytesWritten = outputDevice->write(data);  // Écrire les données dans le périphérique audio
-            if (bytesWritten == -1) {
-                qWarning() << "Error writing to output device";
-            }
-        } else {
-            qWarning() << "Received empty audio data";
+            audioOutputDevice->write(data);
         }
-    }
-
-private slots:
-    void onConnected() {
-        qDebug() << "WebSocket connecté!";
-    }
-
-    void onDisconnected() {
-        qDebug() << "WebSocket déconnecté!";
     }
 
 private:
-    QWebSocket *webSocket;
-    QAudioSource *audioSource;  // Utilisation de QAudioSource pour capturer l'audio
-    QAudioSink *audioSink;      // Utilisation de QAudioSink pour la sortie audio
-    QIODevice *audioDevice;     // Le périphérique pour lire les données audio
-    QIODevice *outputDevice;    // Le périphérique pour écrire les données audio
-    QTimer *timer;             // Timer pour envoyer les données audio à intervalles réguliers
+    uint64 serverConnectionHandlerID;
+    QAudioSource* audioSource;
+    QAudioSink* audioSink;
+    QIODevice* audioInputDevice;
+    QIODevice* audioOutputDevice;
 };
