@@ -8,12 +8,14 @@
 InterfaceAudio::InterfaceAudio(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::InterfaceAudio)
+    , player(new QMediaPlayer(this))
+    ,audioOutput(new QAudioOutput(this))
 {
     ui->setupUi(this);
     setFixedSize(800,480);
     this->setWindowTitle("Page de Comprehension Orale");
 
-
+    player->setAudioOutput(audioOutput);
     QPixmap imagePlay(":/images/Play"); // Charge l'image
     if (imagePlay.isNull()) {
         qWarning() << "Erreur : image non trouvée !";
@@ -91,6 +93,10 @@ void InterfaceAudio::on_pushButton_SelectAudio_clicked()
         );
 
     if (!fileName.isEmpty()) {
+        if(!player){
+            player = new QMediaPlayer(this);
+            player->setAudioOutput(audioOutput);
+        }
         player->setSource(QUrl::fromLocalFile(fileName));  // Charger le fichier audio
         player->play();  // Lancer la lecture
         qDebug() << "Fichier sélectionné : " << fileName;

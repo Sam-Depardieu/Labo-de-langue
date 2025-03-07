@@ -24,6 +24,7 @@ private:
 
     void startLoading();
     void stopLoading();
+
 };
 
 #endif // ATTENTEPROF_H
