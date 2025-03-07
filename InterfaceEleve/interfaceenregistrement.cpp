@@ -18,6 +18,7 @@ InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
     mediaRecorder = new QMediaRecorder(this);  // Remplacer audioRecorder par mediaRecorder
     player = new QMediaPlayer(this);           // Initialisation correcte de QMediaPlayer
     audioInput = new QAudioInput(this);      // Instancier QAudioOutput ici
+    audioOutput = new QAudioOutput(this);  // Instancier QAudioOutput
     player->setAudioOutput(audioOutput);       // Configurer QAudioOutput pour le player
 
     timer = new QTimer(this);
@@ -206,17 +207,23 @@ void InterfaceEnregistrement::on_pushButtonPause_clicked()
     if (timer->isActive()) {
         timer->stop();
         qDebug() << "Chronomètre arrêté";
+    } else {
+        timer->start(1000);
+        qDebug() << "Chronomètre relancé";
     }
 
-    if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState) {  // Utiliser recorderState() au lieu de state() dans Qt 6
-        mediaRecorder->pause();  // Pause l'enregistrement si il est en cours
+    if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState) {
+        mediaRecorder->pause();
         qDebug() << "Enregistrement en pause";
+    } else if (mediaRecorder->recorderState() == QMediaRecorder::PausedState) {
+        mediaRecorder->record();
+        qDebug() << "Enregistrement relancé";
     }
 }
 
 void InterfaceEnregistrement::on_pushButtonClear_clicked()
 {
-    if (totalSecondes > 0) {
+    /*if (totalSecondes > 0) {
         // Vérifier si le fichier existe avant de démarrer la lecture
         QFile file(audioFilePath);
         if (!file.exists()) {
@@ -239,15 +246,12 @@ void InterfaceEnregistrement::on_pushButtonClear_clicked()
         qDebug() << "Lecture audio démarrée.";
     } else {
         qDebug() << "Chronomètre en pause ou à zéro, lecture non autorisée";
-    }
+    }*/
 }
 
 void InterfaceEnregistrement::on_pushButtonSon_clicked()
 {
-    if (player->position() / 1000 >= totalSecondes) {
-        player->stop();
-        qDebug() << "Lecture arrêtée car elle a dépassé le temps du chronomètre";
-    }
+
 }
 
 void InterfaceEnregistrement::on_pushButtonRetourArriere_clicked()

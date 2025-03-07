@@ -1,18 +1,13 @@
 /****************************************************************************
 ** Resource object code
 **
-** Created by: The Resource Compiler for Qt version 6.8.2
+** Created by: The Resource Compiler for Qt version 6.7.2
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#ifdef _MSC_VER
-// disable informational message "function ... selected for automatic inline expansion"
-#pragma warning (disable: 4711)
-#endif
-
 static const unsigned char qt_resource_data[] = {
-  // loading.gif
+  // E:/Documents/Projet/Labo-de-langue/InterfaceEleve/videos/loading.gif
   0x0,0x1,0xe6,0xc6,
   0x47,
   0x49,0x46,0x38,0x39,0x61,0xc8,0x0,0xc8,0x0,0x0,0x0,0x0,0x21,0xff,0xb,0x4e,
@@ -7830,7 +7825,7 @@ static const unsigned char qt_resource_struct[] = {
 0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,
   // :/videos/loading.gif
   0x0,0x0,0x0,0x12,0x0,0x0,0x0,0x0,0x0,0x1,0x0,0x0,0x0,0x0,
-0x0,0x0,0x1,0x94,0xf4,0x90,0xd9,0xab,
+0x0,0x0,0x1,0x94,0xe0,0x31,0xb1,0x1b,
 
 };
 
@@ -7846,9 +7841,7 @@ static const unsigned char qt_resource_struct[] = {
 #   define QT_RCC_MANGLE_NAMESPACE(name) name
 #endif
 
-#if defined(QT_INLINE_NAMESPACE)
-inline namespace QT_NAMESPACE {
-#elif defined(QT_NAMESPACE)
+#ifdef QT_NAMESPACE
 namespace QT_NAMESPACE {
 #endif
 

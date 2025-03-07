@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'interfacevideo.h'
 **
-** Created by: The Qt Meta Object Compiler version 68 (Qt 6.8.2)
+** Created by: The Qt Meta Object Compiler version 68 (Qt 6.7.2)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -18,7 +18,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'interfacevideo.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 68
-#error "This file was generated using the moc from 6.8.2. It"
+#error "This file was generated using the moc from 6.7.2. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -31,12 +31,10 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 QT_WARNING_DISABLE_GCC("-Wuseless-cast")
 namespace {
-struct qt_meta_tag_ZN14InterfaceVideoE_t {};
-} // unnamed namespace
-
 
 #ifdef QT_MOC_HAS_STRINGDATA
-static constexpr auto qt_meta_stringdata_ZN14InterfaceVideoE = QtMocHelpers::stringData(
+struct qt_meta_stringdata_CLASSInterfaceVideoENDCLASS_t {};
+constexpr auto qt_meta_stringdata_CLASSInterfaceVideoENDCLASS = QtMocHelpers::stringData(
     "InterfaceVideo",
     "on_pushButton_SelectVideo_clicked",
     "",
@@ -50,8 +48,9 @@ static constexpr auto qt_meta_stringdata_ZN14InterfaceVideoE = QtMocHelpers::str
 #else  // !QT_MOC_HAS_STRINGDATA
 #error "qtmochelpers.h not found or too old."
 #endif // !QT_MOC_HAS_STRINGDATA
+} // unnamed namespace
 
-Q_CONSTINIT static const uint qt_meta_data_ZN14InterfaceVideoE[] = {
+Q_CONSTINIT static const uint qt_meta_data_CLASSInterfaceVideoENDCLASS[] = {
 
  // content:
       12,       // revision
@@ -85,11 +84,11 @@ Q_CONSTINIT static const uint qt_meta_data_ZN14InterfaceVideoE[] = {
 
 Q_CONSTINIT const QMetaObject InterfaceVideo::staticMetaObject = { {
     QMetaObject::SuperData::link<QDialog::staticMetaObject>(),
-    qt_meta_stringdata_ZN14InterfaceVideoE.offsetsAndSizes,
-    qt_meta_data_ZN14InterfaceVideoE,
+    qt_meta_stringdata_CLASSInterfaceVideoENDCLASS.offsetsAndSizes,
+    qt_meta_data_CLASSInterfaceVideoENDCLASS,
     qt_static_metacall,
     nullptr,
-    qt_incomplete_metaTypeArray<qt_meta_tag_ZN14InterfaceVideoE_t,
+    qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSInterfaceVideoENDCLASS_t,
         // Q_OBJECT / Q_GADGET
         QtPrivate::TypeAndForceComplete<InterfaceVideo, std::true_type>,
         // method 'on_pushButton_SelectVideo_clicked'
@@ -111,8 +110,9 @@ Q_CONSTINIT const QMetaObject InterfaceVideo::staticMetaObject = { {
 
 void InterfaceVideo::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
-    auto *_t = static_cast<InterfaceVideo *>(_o);
     if (_c == QMetaObject::InvokeMetaMethod) {
+        auto *_t = static_cast<InterfaceVideo *>(_o);
+        (void)_t;
         switch (_id) {
         case 0: _t->on_pushButton_SelectVideo_clicked(); break;
         case 1: _t->on_pushButton_Avant10_clicked(); break;
@@ -133,7 +133,7 @@ const QMetaObject *InterfaceVideo::metaObject() const
 void *InterfaceVideo::qt_metacast(const char *_clname)
 {
     if (!_clname) return nullptr;
-    if (!strcmp(_clname, qt_meta_stringdata_ZN14InterfaceVideoE.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_CLASSInterfaceVideoENDCLASS.stringdata0))
         return static_cast<void*>(this);
     return QDialog::qt_metacast(_clname);
 }
@@ -147,8 +147,7 @@ int InterfaceVideo::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         if (_id < 6)
             qt_static_metacall(this, _c, _id, _a);
         _id -= 6;
-    }
-    if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
+    } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
         if (_id < 6)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
         _id -= 6;

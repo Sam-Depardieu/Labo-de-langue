@@ -14,7 +14,7 @@ public:
     AudioCommunicator(QObject* parent = nullptr) : QObject(parent) {
         // Initialisation du WebSocket
         webSocket = new QWebSocket();
-        webSocket->open(QUrl("ws://192.168.64.36:12345")); // Connexion au serveur WebSocket
+        webSocket->open(QUrl("ws://192.168.89.42:12345")); // Connexion au serveur WebSocket
 
         connect(webSocket, &QWebSocket::connected, this, &AudioCommunicator::onConnected);
         connect(webSocket, &QWebSocket::disconnected, this, &AudioCommunicator::onDisconnected);
@@ -22,10 +22,10 @@ public:
 
         // Configuration de l'audio (capture et sortie)
         QAudioFormat format;
-        format.setSampleRate(16000);              // Fréquence d'échantillonnage (16 kHz)
+        format.setSampleRate(4410);              // Fréquence d'échantillonnage (16 kHz)
         format.setChannelCount(1);                // Mono
         format.setSampleFormat(QAudioFormat::Int32);                 // Taille de l'échantillon (16 bits)
-        format.setSampleRate(16000); // Type d'échantillon : entier signé
+        format.setSampleRate(4410); // Type d'échantillon : entier signé
 
         // Créer l'input et output pour la capture et la lecture audio
         audioSource = new QAudioSource(format, this);
@@ -38,7 +38,7 @@ public:
         // Timer pour envoyer des données audio à intervalles réguliers
         timer = new QTimer(this);
         connect(timer, &QTimer::timeout, this, &AudioCommunicator::sendAudioData);
-        timer->start(50);  // Envoie les données toutes les 50ms (20 Hz)
+        timer->start(100);  // Envoie les données toutes les 50ms (20 Hz)
     }
 
     void sendAudioData() {
