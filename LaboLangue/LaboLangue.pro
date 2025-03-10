@@ -16,7 +16,6 @@ TEMPLATE = app
 INCLUDEPATH += C:/msys64/mingw64/include
 LIBS += -L C:/msys64/mingw64/lib -l zmq
 
-
 INCLUDEPATH += C:\Users\SNIR2\vcpkg\packages\cppzmq_x64-windows\include
 LIBS += -L C:\Users\SNIR2\vcpkg\packages\cppzmq_x64-windows\lib -l zmq
 
