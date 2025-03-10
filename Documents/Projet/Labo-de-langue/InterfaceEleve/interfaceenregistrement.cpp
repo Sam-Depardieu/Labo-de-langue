@@ -213,8 +213,6 @@ void InterfaceEnregistrement::on_pushButtonPause_clicked()
         timer->start();
         qDebug() << "Enregistrement démarré";
     }
-
-
 }
 
 void InterfaceEnregistrement::on_pushButtonClear_clicked()
