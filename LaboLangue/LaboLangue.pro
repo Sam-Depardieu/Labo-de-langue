@@ -12,8 +12,14 @@ CONFIG += console
 CONFIG -= app_bundle
 TARGET = LaboLangue
 TEMPLATE = app
-INCLUDEPATH += $$PWD/ts_sdk/include
-LIBS += $$PWD/ts_sdk/lib
+
+INCLUDEPATH += C:/msys64/mingw64/include
+LIBS += -L C:/msys64/mingw64/lib -l zmq
+
+
+INCLUDEPATH += C:\Users\SNIR2\vcpkg\packages\cppzmq_x64-windows\include
+LIBS += -L C:\Users\SNIR2\vcpkg\packages\cppzmq_x64-windows\lib -l zmq
+
 
 QT += multimedia multimediawidgets
 
@@ -22,10 +28,12 @@ QT += multimedia multimediawidgets
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    AudioCommunicator.cpp \
     customgraphicsitemgroup.cpp \
     main.cpp \
     mainwindow.cpp \
     qcm.cpp
+    src/zmp.cpp
 
 HEADERS += \
     AudioCommunicator.h \

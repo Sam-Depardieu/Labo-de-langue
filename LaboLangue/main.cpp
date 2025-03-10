@@ -72,7 +72,18 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
-    TeamSpeakCommunicator tsCommunicator;
+    QProcess process;
+    QString pythonExecutable = "python";  // Ou "python3" selon ton OS
+    QString scriptPath = "C:/chemin/vers/mon_script.py";  // Chemin du script Python
+
+    process.start(pythonExecutable, QStringList() << scriptPath);
+
+    if (!process.waitForStarted()) {
+        qDebug() << "❌ Erreur lors du lancement du script Python!";
+        return 0;
+    }
+
+    qDebug() << "✅ Script Python exécuté avec succès!";
 
     /*QString baseNetwork = "192.168.64.";
 
