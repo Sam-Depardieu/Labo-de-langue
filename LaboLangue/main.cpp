@@ -72,6 +72,7 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
+    // Exécution du script Python
     QProcess process;
     QString pythonExecutable = "python";  // Ou "python3" selon ton OS
     QString scriptPath = "C:/chemin/vers/mon_script.py";  // Chemin du script Python
@@ -85,24 +86,20 @@ int main(int argc, char *argv[])
 
     qDebug() << "✅ Script Python exécuté avec succès!";
 
-    /*QString baseNetwork = "192.168.64.";
+    Professor profAudio;
 
-    // Connexion à la base de données SQLite
-    if (!connectToDatabase()) {
-        return -1;
-    }
+    // Utiliser un timer pour envoyer et recevoir l'audio
+    QTimer timer;
+    QObject::connect(&timer, &QTimer::timeout, &profAudio, &Professor::sendAudioData);
+    timer.start(100);  // Envoie des données toutes les 100 ms
 
-    QSqlDatabase db = QSqlDatabase::database();
-
-    // Ping et insertion des adresses IP actives
-    for (int i = 1; i < 255; ++i) { // Commencer à 1 et aller jusqu'à 254
-        QString currIp = QString("%1%2").arg(baseNetwork).arg(i);
-        pingAndInsertAddress(currIp, db);
-    }
-
-    db.close();*/
+    // Vous pouvez également configurer un timer pour recevoir l'audio si nécessaire
+    QTimer receiveAudioTimer;
+    QObject::connect(&receiveAudioTimer, &QTimer::timeout, &profAudio, &Professor::receiveAudioData);
+    receiveAudioTimer.start(100);  // Recevoir des données toutes les 100 ms
 
     return a.exec();
 }
+
 
 

@@ -1,13 +1,10 @@
-QT       += core gui websockets
+QT       += core gui websockets core network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 QT += sql
-QT += websockets
-QT += multimedia
 
 CONFIG += c++17
-QT += core network
 CONFIG += console
 CONFIG -= app_bundle
 TARGET = LaboLangue
@@ -32,7 +29,6 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     qcm.cpp
-    src/zmp.cpp
 
 HEADERS += \
     AudioCommunicator.h \
