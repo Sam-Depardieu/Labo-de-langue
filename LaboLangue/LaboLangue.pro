@@ -13,11 +13,11 @@ CONFIG -= app_bundle
 TARGET = LaboLangue
 TEMPLATE = app
 
-INCLUDEPATH += C:/msys64/mingw64/include
-LIBS += -L C:/msys64/mingw64/lib -l zmq
+INCLUDEPATH += mingw64/include
+LIBS += -L mingw64/lib -l zmq
 
-INCLUDEPATH += C:\Users\SNIR2\vcpkg\packages\cppzmq_x64-windows\include
-LIBS += -L C:\Users\SNIR2\vcpkg\packages\cppzmq_x64-windows\lib -l zmq
+
+INCLUDEPATH += cppzmq\include
 
 
 QT += multimedia multimediawidgets
