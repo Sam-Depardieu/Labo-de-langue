@@ -3,19 +3,20 @@
 #include <QAudioOutput>
 #include <QStandardPaths>
 #include <QMediaRecorder>
+#include <QCloseEvent>
 
 
 InterfaceAudio::InterfaceAudio(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::InterfaceAudio)
-    , player(new QMediaPlayer(this))
-    ,audioOutput(new QAudioOutput(this))
+    , player(new QMediaPlayer(this))  // 🔹 Initialisation de player
+    , audioOutput(new QAudioOutput(this)) // 🔹 Initialisation de audioOutput
 {
     ui->setupUi(this);
     setFixedSize(800,480);
     this->setWindowTitle("Page de Comprehension Orale");
 
-    player->setAudioOutput(audioOutput);
+     player->setAudioOutput(audioOutput);
     QPixmap imagePlay(":/images/Play"); // Charge l'image
     if (imagePlay.isNull()) {
         qWarning() << "Erreur : image non trouvée !";
@@ -83,22 +84,23 @@ void InterfaceAudio::on_pushButton_Pause_clicked()
 
 void InterfaceAudio::on_pushButton_SelectAudio_clicked()
 {
-    QString documentsPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation); // Récupère le dossier Documents
+    QString documentsPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
 
     QString fileName = QFileDialog::getOpenFileName(
         this,
         "Sélectionner un fichier audio",
-        documentsPath,  // Définit "Documents" comme dossier par défaut
-        "Audio Files (*.mp3 *.wav *.ogg *.flac *.aac)"  // Filtre uniquement les fichiers audio
+        documentsPath,
+        "Audio Files (*.mp3 *.wav *.ogg *.flac *.aac)"
         );
 
     if (!fileName.isEmpty()) {
-        if(!player){
+        if (!player) {
             player = new QMediaPlayer(this);
             player->setAudioOutput(audioOutput);
         }
-        player->setSource(QUrl::fromLocalFile(fileName));  // Charger le fichier audio
-        player->play();  // Lancer la lecture
+
+        player->setSource(QUrl::fromLocalFile(fileName));
+        player->play();
         qDebug() << "Fichier sélectionné : " << fileName;
     }
 }
@@ -122,3 +124,11 @@ void InterfaceAudio::on_pushButton_Apres_clicked()
     player->setPosition(newPosition);
 }
 
+void InterfaceAudio::closeEvent(QCloseEvent *event) {
+    if (player) {
+        player->stop();  // 🔹 Arrêter la lecture
+        delete player;   // 🔹 Libérer la mémoire
+        player = nullptr;
+    }
+    event->accept();  // Accepter la fermeture
+}

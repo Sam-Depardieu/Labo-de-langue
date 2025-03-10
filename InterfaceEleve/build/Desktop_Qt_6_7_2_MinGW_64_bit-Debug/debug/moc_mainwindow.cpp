@@ -170,12 +170,8 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         if (_id < 9)
             qt_static_metacall(this, _c, _id, _a);
         _id -= 9;
-<<<<<<< HEAD
-    } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-=======
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
->>>>>>> 64b7569d2d382efdbabb604fa13e996a72e94031
         if (_id < 9)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
         _id -= 9;
