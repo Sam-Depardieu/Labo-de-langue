@@ -11,7 +11,7 @@
 #include <QDebug>
 #include <QMediaRecorder>
 #include <QMediaPlayer>
-#include <QAudioOutput>  // Utiliser QAudioOutput pour la sortie audio
+#include <QAudioOutput>
 #include <QUrl>
 #include <QStandardPaths>
 #include <QFile>
@@ -26,8 +26,7 @@ namespace Ui {
 class InterfaceEnregistrement;
 }
 
-class InterfaceEnregistrement : public QDialog
-{
+class InterfaceEnregistrement : public QDialog {
     Q_OBJECT
 
 public:
@@ -46,13 +45,15 @@ private slots:
     void checkPlaybackPosition(qint64 position);
     void onRecorderStateChanged(QMediaRecorder::RecorderState state);
     void onRecorderErrorOccurred(QMediaRecorder::Error error, const QString &errorString);
+    void on_pushButtonPlay_clicked();
+    void on_pushButtonAvancer_clicked();
 
 private:
     Ui::InterfaceEnregistrement *ui;
     QMediaRecorder *mediaRecorder;
     QMediaPlayer *player;
-    QAudioOutput *audioOutput;  // Déclaration de QAudioOutput ici
-    QAudioInput *audioInput;    // Optionnel, si vous en avez besoin pour l'entrée audio
+    QAudioOutput *audioOutput;
+    QAudioInput *audioInput;
     QTimer *timer;
     QTimer *rewindTimer;
     bool isRewinding;
@@ -60,6 +61,9 @@ private:
     bool speakButtonClicked;
     QString audioFilePath;
     int studentId;
+    int lastRecordedTime = 0;
+
+    void resetTimer();  // Déclaration de la fonction resetTimer
 };
 
 #endif // INTERFACEENREGISTREMENT_H
