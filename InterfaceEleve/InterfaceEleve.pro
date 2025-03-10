@@ -2,6 +2,7 @@ QT += core gui sql multimedia multimediawidgets network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+CONFIG += debug_and_release
 CONFIG += c++17
 CONFIG += console
 CONFIG -= app_bundle

@@ -208,10 +208,10 @@ void InterfaceEnregistrement::on_pushButtonPause_clicked()
         timer->stop();
         qDebug() << "Chronomètre arrêté";
     }
-     else {
-        mediaRecorder->record();
-        timer->start();
-        qDebug() << "Enregistrement démarré";
+
+    if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState) {  // Utiliser recorderState() au lieu de state() dans Qt 6
+        mediaRecorder->pause();  // Pause l'enregistrement si il est en cours
+        qDebug() << "Enregistrement en pause";
     }
 }
 

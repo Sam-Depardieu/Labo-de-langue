@@ -32,7 +32,8 @@ private slots:
     void on_horizontalSliderSon_actionTriggered(int action);
 
     void on_pushButton_Apres_clicked();
-
+protected:
+    void closeEvent(QCloseEvent *event) override;
 private:
     Ui::InterfaceAudio *ui;
     QMediaPlayer *player;
