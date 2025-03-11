@@ -1,4 +1,5 @@
 release/attenteprof.o
+release/audioCommunicator.o
 release/interfaceaudio.o
 release/interfaceenregistrement.o
 release/interfaceqcm.o
@@ -8,7 +9,6 @@ release/mainwindow.o
 release/qrc_images.o
 release/qrc_videos.o
 release/moc_attenteprof.o
-release/moc_audioCommunicator.o
 release/moc_interfaceaudio.o
 release/moc_interfaceenregistrement.o
 release/moc_interfaceqcm.o

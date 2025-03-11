@@ -8,9 +8,13 @@ CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= windows
 QT += websockets
-QT += multimedia
 
 TEMPLATE = app
+
+INCLUDEPATH += mingw64/include
+LIBS += -L mingw64/lib -l zmq
+
+INCLUDEPATH += cppzmq\include
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -18,6 +22,7 @@ TEMPLATE = app
 
 SOURCES += \
     attenteprof.cpp \
+    audioCommunicator.cpp \
     interfaceaudio.cpp \
     interfaceenregistrement.cpp \
     interfaceqcm.cpp \

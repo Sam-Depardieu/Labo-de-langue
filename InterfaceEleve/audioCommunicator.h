@@ -1,84 +1,41 @@
-#include <QCoreApplication>
-#include <QWebSocket>
-#include <QAudioFormat>
+#ifndef AUDIOCOMMUNICATOR_H
+#define AUDIOCOMMUNICATOR_H
+
+#include <QObject>
+#include <QAudioInput>
+#include <QAudioOutput>
 #include <QAudioSource>
 #include <QAudioSink>
-#include <QByteArray>
 #include <QIODevice>
-#include <QTimer>
+#include <QString>
 #include <QDebug>
+#include <QMediaDevices>
+#include <QTimer>
+#include <zmq.hpp>
 
-class AudioCommunicator : public QObject {
+class Student: public QObject {
     Q_OBJECT
 public:
-    AudioCommunicator(QObject* parent = nullptr) : QObject(parent) {
-        // Initialisation du WebSocket
-        webSocket = new QWebSocket();
-        webSocket->open(QUrl("ws://192.168.64.36:12345")); // Connexion au serveur WebSocket
+    Student();
 
-        connect(webSocket, &QWebSocket::connected, this, &AudioCommunicator::onConnected);
-        connect(webSocket, &QWebSocket::disconnected, this, &AudioCommunicator::onDisconnected);
-        connect(webSocket, &QWebSocket::binaryMessageReceived, this, &AudioCommunicator::onAudioReceived);
+    void toggleMute(bool mute);
 
-        // Configuration de l'audio (capture et sortie)
-        QAudioFormat format;
-        format.setSampleRate(16000);              // Fréquence d'échantillonnage (16 kHz)
-        format.setChannelCount(1);                // Mono
-        format.setSampleFormat(QAudioFormat::Int32);                 // Taille de l'échantillon (16 bits)
-        format.setSampleRate(16000); // Type d'échantillon : entier signé
-
-        // Créer l'input et output pour la capture et la lecture audio
-        audioSource = new QAudioSource(format, this);
-        audioSink = new QAudioSink(format, this);
-
-        // Démarrer la capture et la lecture
-        audioDevice = audioSource->start();  // Démarre l'enregistrement audio
-        outputDevice = audioSink->start();   // Démarre la lecture audio
-
-        // Timer pour envoyer des données audio à intervalles réguliers
-        timer = new QTimer(this);
-        connect(timer, &QTimer::timeout, this, &AudioCommunicator::sendAudioData);
-        timer->start(50);  // Envoie les données toutes les 50ms (20 Hz)
-    }
-
-    void sendAudioData() {
-        QByteArray audioData = audioDevice->readAll();
-        if (!audioData.isEmpty()) {
-            int chunkSize = 1024;  // Par exemple, envoyer 1024 octets à la fois
-            while (!audioData.isEmpty()) {
-                QByteArray chunk = audioData.left(chunkSize);
-                webSocket->sendBinaryMessage(chunk);
-                audioData = audioData.mid(chunkSize);
-            }
-        }
-    }
-
-    void onAudioReceived(const QByteArray &data) {
-        if (!data.isEmpty()) {
-            qDebug() << "Received audio data size: " << data.size();
-            qint64 bytesWritten = outputDevice->write(data);  // Écrire les données dans le périphérique audio
-            if (bytesWritten == -1) {
-                qWarning() << "Error writing to output device";
-            }
-        } else {
-            qWarning() << "Received empty audio data";
-        }
-    }
-
-private slots:
-    void onConnected() {
-        qDebug() << "WebSocket connecté!";
-    }
-
-    void onDisconnected() {
-        qDebug() << "WebSocket déconnecté!";
-    }
+public slots:  // Déclaration des slots ici
+    void sendAudioData();  // Méthode qui sera appelée toutes les 100 ms
+    void receiveAudioData();  // Méthode pour recevoir l'audio des étudiants
 
 private:
-    QWebSocket *webSocket;
-    QAudioSource *audioSource;  // Utilisation de QAudioSource pour capturer l'audio
-    QAudioSink *audioSink;      // Utilisation de QAudioSink pour la sortie audio
-    QIODevice *audioDevice;     // Le périphérique pour lire les données audio
-    QIODevice *outputDevice;    // Le périphérique pour écrire les données audio
-    QTimer *timer;             // Timer pour envoyer les données audio à intervalles réguliers
+    QString serverIp = "localhost"; // L'adresse IP du serveur
+    zmq::context_t context;  // Contexte ZeroMQ
+    zmq::socket_t *pushSocket;  // Socket pour envoyer l'audio
+    zmq::socket_t *pullSocket;  // Socket pour recevoir l'audio
+
+    QAudioSource *audioSource;  // Source audio pour capter l'audio du professeur
+    QAudioSink *audioSink;  // Sortie audio pour jouer l'audio des étudiants
+    QIODevice *audioSourceDevice;  // Dispositif pour lire les données audio du professeur
+    QIODevice *audioSinkDevice;  // Dispositif pour écrire les données audio dans les haut-parleurs
+    QAudioDevice inputDeviceInfo;
+    QAudioDevice outputDeviceInfo;
 };
+
+#endif // AUDIOCOMMUNICATOR_H
