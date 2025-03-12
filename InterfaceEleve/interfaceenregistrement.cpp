@@ -208,39 +208,39 @@ void InterfaceEnregistrement::on_pushButtonPause_clicked()
         timer->stop();
         qDebug() << "Chronomètre arrêté";
     }
-
-    if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState) {  // Utiliser recorderState() au lieu de state() dans Qt 6
-        mediaRecorder->pause();  // Pause l'enregistrement si il est en cours
-        qDebug() << "Enregistrement en pause";
+}
+void InterfaceEnregistrement::on_pushButtonPlay_clicked()
+{
+    if (mediaRecorder->recorderState() != QMediaRecorder::RecordingState) {
+        mediaRecorder->record();
+        timer->start();
+        qDebug() << "Enregistrement démarré";
     }
 }
 
+
 void InterfaceEnregistrement::on_pushButtonClear_clicked()
 {
-    if (totalSecondes > 0) {
-        // Vérifier si le fichier existe avant de démarrer la lecture
-        QFile file(audioFilePath);
-        if (!file.exists()) {
-            qDebug() << "Le fichier audio n'existe pas.";
-            return;
-        }
-
-        // Configurer le lecteur audio
-        player->setSource(QUrl::fromLocalFile(audioFilePath));  // Utilisez setSource pour Qt 6
-        player->play();
-
-        // Connecter le signal errorOccurred pour capturer les erreurs
-        connect(player, &QMediaPlayer::errorOccurred, this, [](QMediaPlayer::Error error, const QString &errorString) {
-            qDebug() << "Erreur lors de la lecture audio :" << errorString;
-        });
-
-        // Connecter le signal positionChanged pour surveiller la lecture
-        connect(player, &QMediaPlayer::positionChanged, this, &InterfaceEnregistrement::checkPlaybackPosition);
-
-        qDebug() << "Lecture audio démarrée.";
-    } else {
-        qDebug() << "Chronomètre en pause ou à zéro, lecture non autorisée";
+    // Arrêter l'enregistrement
+    if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState ||
+        mediaRecorder->recorderState() == QMediaRecorder::PausedState) {
+        mediaRecorder->stop();
+        qDebug() << "Enregistrement arrêté et effacé";
     }
+
+    // Arrêter le chronomètre
+    if (timer->isActive()) {
+        timer->stop();
+        qDebug() << "Chronomètre arrêté";
+    }
+
+    // Réinitialiser le chronomètre
+    timer->setInterval(0);
+    timer->start();
+
+    // Optionnel : Effacer les fichiers d'enregistrement
+    // Assurez-vous d'avoir les permissions nécessaires pour supprimer les fichiers
+    QFile::remove("path/to/your/recording/file.mp4");
 }
 
 void InterfaceEnregistrement::on_pushButtonSon_clicked()
@@ -253,11 +253,31 @@ void InterfaceEnregistrement::on_pushButtonSon_clicked()
 
 void InterfaceEnregistrement::on_pushButtonRetourArriere_clicked()
 {
+    if (totalSecondes == 0 && lastRecordedTime > 0) {
+        totalSecondes = lastRecordedTime;  // Restaurer le dernier temps enregistré
+        int heures = totalSecondes / 3600;
+        int minutes = (totalSecondes % 3600) / 60;
+        int secondes = totalSecondes % 60;
+
+        ui->labelChrono->setText(QString::number(heures).rightJustified(2, '0') + ":" +
+                                 QString::number(minutes).rightJustified(2, '0') + ":" +
+                                 QString::number(secondes).rightJustified(2, '0'));
+
+        qDebug() << "Retour au dernier temps enregistré : " << totalSecondes;
+    } else if (totalSecondes > 0 && !isRewinding) {
+        isRewinding = true;
+        rewindTimer->start(100);  // Défile rapidement
+        qDebug() << "Retour arrière en cours";
+    }
+}
+void InterfaceEnregistrement::on_pushButtonAvancer_clicked()
+{
     if (totalSecondes > 0 && !isRewinding) {
         isRewinding = true;
         rewindTimer->start(100); // Défile rapidement (toutes les 100 ms)
     }
 }
+
 
 void InterfaceEnregistrement::updateChrono()
 {
@@ -278,6 +298,10 @@ void InterfaceEnregistrement::updateChrono()
 
 void InterfaceEnregistrement::rewindChrono()
 {
+    if (totalSecondes > 1) {
+        lastRecordedTime = totalSecondes;  // Sauvegarde correcte du dernier temps avant 0
+    }
+
     if (totalSecondes > 0) {
         totalSecondes--;
         int heures = totalSecondes / 3600;
@@ -288,6 +312,7 @@ void InterfaceEnregistrement::rewindChrono()
                                  QString::number(minutes).rightJustified(2, '0') + ":" +
                                  QString::number(secondes).rightJustified(2, '0'));
     } else {
+        qDebug() << "Chrono à zéro, dernier temps enregistré : " << lastRecordedTime;
         rewindTimer->stop();
         isRewinding = false;
     }
@@ -346,3 +371,5 @@ void InterfaceEnregistrement::onRecorderErrorOccurred(QMediaRecorder::Error erro
     // Gérer les erreurs d'enregistrement
     qDebug() << "Erreur d'enregistrement:" << errorString;
 }
+
+
