@@ -10,12 +10,8 @@ CONFIG -= app_bundle
 TARGET = LaboLangue
 TEMPLATE = app
 
-INCLUDEPATH += mingw64/include
-LIBS += -L mingw64/lib -l zmq
-
-
-INCLUDEPATH += cppzmq\include
-
+INCLUDEPATH += $$PWD/zmq/include
+LIBS += $$PWD/zmq/libzmq.lib  # MSVC
 
 QT += multimedia multimediawidgets
 
@@ -34,7 +30,8 @@ HEADERS += \
     AudioCommunicator.h \
     customgraphicsitemgroup.h \
     mainwindow.h \
-    qcm.h
+    qcm.h \
+    zmq.h
 
 FORMS += \
     mainwindow.ui \
