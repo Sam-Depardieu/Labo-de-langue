@@ -11,8 +11,8 @@ QT += websockets
 
 TEMPLATE = app
 
-INCLUDEPATH += mingw64/include
-LIBS += -L mingw64/lib -l zmq
+INCLUDEPATH += C:/msys64/mingw64/include
+LIBS += -L C:/msys64/mingw64/lib -lzmq
 
 INCLUDEPATH += cppzmq\include
 
