@@ -4,8 +4,8 @@
 #include <QDebug>
 
 Student::Student()
-    : audioSourceDevice(nullptr), audioSinkDevice(nullptr),
-    pushSocket(nullptr), pullSocket(nullptr) {
+    : pushSocket(nullptr), pullSocket(nullptr),
+    audioSourceDevice(nullptr), audioSinkDevice(nullptr) {
     // Initialize or allocate resources here if needed
 }
 
@@ -28,7 +28,6 @@ void Student::sendAudioData() {
 void Student::receiveAudioData() {
     zmq::message_t reply;
     pullSocket->recv(reply);
-
     QByteArray audioData(static_cast<char*>(reply.data()), reply.size());
     if (!audioData.isEmpty()) {
         audioSinkDevice->write(audioData);  // Lecture de l'audio reçu
