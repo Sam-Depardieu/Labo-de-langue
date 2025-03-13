@@ -5,6 +5,9 @@
 InterfaceVideo::InterfaceVideo(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::InterfaceVideo)
+    , player(new QMediaPlayer(this))  // 🔹 Initialisation de player
+    , audioOutput(new QAudioOutput(this))
+
 {
     ui->setupUi(this);
 
@@ -129,5 +132,14 @@ void InterfaceVideo::on_horizontalSlider_sonVideo_actionTriggered(int action)
 {
     int volume = ui->horizontalSlider_sonVideo->value();  // Récupère la valeur du slider
     audioOutput->setVolume(volume / 100.0);
+}
+void InterfaceVideo::closeEvent(QCloseEvent *event)
+{
+    if (player) {
+        player->stop();  // 🔹 Arrêter la lecture
+        delete player;   // 🔹 Libérer la mémoire
+        player = nullptr;
+    }
+    event->accept();  // Accepter la fermeture
 }
 
