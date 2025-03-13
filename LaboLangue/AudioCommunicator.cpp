@@ -3,7 +3,7 @@
 #include <QAudioSource>
 #include <QAudioSink>
 
-Professor::Professor() {
+Professor::Professor() : context(1) {
 
     QAudioFormat format;
     format.setSampleRate(16000);               // Fréquence d'échantillonnage (16 kHz)
@@ -21,6 +21,20 @@ Professor::Professor() {
     // Audio sink pour jouer l'audio des étudiants (haut-parleurs)
     audioSink = new QAudioSink(format, nullptr);
     audioSinkDevice = audioSink->start();
+
+    pushSocket = new zmq::socket_t(context, ZMQ_PUSH);
+    pullSocket = new zmq::socket_t(context, ZMQ_PULL);
+
+    // Connexion des timers aux slots
+    connect(&sendAudioTimer, &QTimer::timeout, this, &Professor::sendAudioData);
+    connect(&receiveAudioTimer, &QTimer::timeout, this, &Professor::receiveAudioData);
+
+    sendAudioTimer.moveToThread(this->thread());
+    receiveAudioTimer.moveToThread(this->thread());
+
+    // Démarrer les timers
+    sendAudioTimer.start(100);
+    receiveAudioTimer.start(100);
 }
 
 void Professor::sendCommandToStudent(const QString& studentIp, const QString& command) {
@@ -62,24 +76,67 @@ QString Professor::getStudentStatus(const QString& studentIp) {
 }
 // Envoi de l'audio capturé du professeur
 void Professor::sendAudioData() {
-    QByteArray audioData = audioSourceDevice->readAll();
-    if (!audioData.isEmpty()) {
-        zmq::message_t request(audioData.size());
-        memcpy(request.data(), audioData.constData(), audioData.size());
+    qDebug() << "🔹 Début sendAudioData()";
 
-        pushSocket->send(request, zmq::send_flags::none);
-        qDebug() << "🎙 Audio envoyé, taille =" << audioData.size();
+    if (!pushSocket) {
+        qDebug() << "⚠️ pushSocket non initialisé";
+        return;
     }
+
+    if (!audioSourceDevice) {
+        qDebug() << "⚠️ audioSourceDevice non initialisé";
+        return;
+    }
+
+    QByteArray data = audioSourceDevice->read(4096); // Lit 4KB de données
+    qDebug() << "🔹 Audio lu, taille :" << data.size();
+
+    if (data.isEmpty()) {
+        qDebug() << "⚠️ Aucune donnée audio à envoyer";
+        return;
+    }
+
+    int rc = zmq_send(*pushSocket, data.data(), data.size(), 0);
+    if (rc == -1) {
+        qDebug() << "❌ Erreur zmq_send:" << zmq_strerror(zmq_errno());
+    } else {
+        qDebug() << "✅ Audio envoyé, taille :" << rc;
+    }
+
+    qDebug() << "🔹 Fin sendAudioData()";
 }
+
 
 // Fonction pour recevoir l'audio des étudiants (par exemple, d'un autre socket)
 void Professor::receiveAudioData() {
-    zmq::message_t reply;
-    pullSocket->recv(reply);
+    qDebug() << "🔹 Début receiveAudioData()";
 
-    QByteArray audioData(static_cast<char*>(reply.data()), reply.size());
-    if (!audioData.isEmpty()) {
-        audioSinkDevice->write(audioData);  // Lecture de l'audio reçu
-        qDebug() << "🔊 Audio reçu et joué, taille =" << audioData.size();
+    if (!pullSocket) {
+        qDebug() << "⚠️ pullSocket non initialisé";
+        return;
     }
+
+    if (!audioSinkDevice) {
+        qDebug() << "⚠️ audioSinkDevice non initialisé";
+        return;
+    }
+
+    char buffer[4096];
+    int rc = zmq_recv(*pullSocket, buffer, sizeof(buffer), ZMQ_DONTWAIT); // Réception non bloquante
+
+    if (rc == -1) {
+        if (zmq_errno() != EAGAIN) {  // Ignorer l'erreur si aucune donnée n'est dispo
+            qDebug() << "❌ Erreur zmq_recv:" << zmq_strerror(zmq_errno());
+        } else {
+            qDebug() << "⚠️ Pas de données audio disponibles";
+        }
+        return;
+    }
+
+    QByteArray data(buffer, rc);
+    qDebug() << "✅ Audio reçu, taille :" << data.size();
+
+    audioSinkDevice->write(data);
+    qDebug() << "🔹 Fin receiveAudioData()";
 }
+

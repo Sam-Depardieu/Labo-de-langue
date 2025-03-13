@@ -38,6 +38,8 @@ private:
     QIODevice *audioSinkDevice;  // Dispositif pour écrire les données audio dans les haut-parleurs
     QAudioDevice inputDeviceInfo;
     QAudioDevice outputDeviceInfo;
+    QTimer sendAudioTimer;
+    QTimer receiveAudioTimer;
 
 };
 

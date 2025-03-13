@@ -88,16 +88,6 @@ int main(int argc, char *argv[])
 
     Professor profAudio;
 
-    // Utiliser un timer pour envoyer et recevoir l'audio
-    QTimer timer;
-    QObject::connect(&timer, &QTimer::timeout, &profAudio, &Professor::sendAudioData);
-    timer.start(100);  // Envoie des données toutes les 100 ms
-
-    // Vous pouvez également configurer un timer pour recevoir l'audio si nécessaire
-    QTimer receiveAudioTimer;
-    QObject::connect(&receiveAudioTimer, &QTimer::timeout, &profAudio, &Professor::receiveAudioData);
-    receiveAudioTimer.start(100);  // Recevoir des données toutes les 100 ms
-
     return a.exec();
 }
 

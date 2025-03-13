@@ -11,7 +11,7 @@ TARGET = LaboLangue
 TEMPLATE = app
 
 INCLUDEPATH += $$PWD/zmq/include
-LIBS += $$PWD/zmq/libzmq.lib  # MSVC
+LIBS += -L$$PWD/zmq/ -lzmq  # MSVC
 
 QT += multimedia multimediawidgets
 
@@ -30,8 +30,7 @@ HEADERS += \
     AudioCommunicator.h \
     customgraphicsitemgroup.h \
     mainwindow.h \
-    qcm.h \
-    zmq.h
+    qcm.h
 
 FORMS += \
     mainwindow.ui \
