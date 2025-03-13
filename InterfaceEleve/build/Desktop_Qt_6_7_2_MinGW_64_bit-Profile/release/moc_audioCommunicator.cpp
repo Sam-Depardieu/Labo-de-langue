@@ -33,19 +33,19 @@ QT_WARNING_DISABLE_GCC("-Wuseless-cast")
 namespace {
 
 #ifdef QT_MOC_HAS_STRINGDATA
-struct qt_meta_stringdata_CLASSAudioCommunicatorENDCLASS_t {};
-constexpr auto qt_meta_stringdata_CLASSAudioCommunicatorENDCLASS = QtMocHelpers::stringData(
-    "AudioCommunicator",
-    "onConnected",
+struct qt_meta_stringdata_CLASSStudentENDCLASS_t {};
+constexpr auto qt_meta_stringdata_CLASSStudentENDCLASS = QtMocHelpers::stringData(
+    "Student",
+    "sendAudioData",
     "",
-    "onDisconnected"
+    "receiveAudioData"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
 #error "qtmochelpers.h not found or too old."
 #endif // !QT_MOC_HAS_STRINGDATA
 } // unnamed namespace
 
-Q_CONSTINIT static const uint qt_meta_data_CLASSAudioCommunicatorENDCLASS[] = {
+Q_CONSTINIT static const uint qt_meta_data_CLASSStudentENDCLASS[] = {
 
  // content:
       12,       // revision
@@ -59,8 +59,8 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSAudioCommunicatorENDCLASS[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    0,   26,    2, 0x08,    1 /* Private */,
-       3,    0,   27,    2, 0x08,    2 /* Private */,
+       1,    0,   26,    2, 0x0a,    1 /* Public */,
+       3,    0,   27,    2, 0x0a,    2 /* Public */,
 
  // slots: parameters
     QMetaType::Void,
@@ -69,51 +69,51 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSAudioCommunicatorENDCLASS[] = {
        0        // eod
 };
 
-Q_CONSTINIT const QMetaObject AudioCommunicator::staticMetaObject = { {
+Q_CONSTINIT const QMetaObject Student::staticMetaObject = { {
     QMetaObject::SuperData::link<QObject::staticMetaObject>(),
-    qt_meta_stringdata_CLASSAudioCommunicatorENDCLASS.offsetsAndSizes,
-    qt_meta_data_CLASSAudioCommunicatorENDCLASS,
+    qt_meta_stringdata_CLASSStudentENDCLASS.offsetsAndSizes,
+    qt_meta_data_CLASSStudentENDCLASS,
     qt_static_metacall,
     nullptr,
-    qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSAudioCommunicatorENDCLASS_t,
+    qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSStudentENDCLASS_t,
         // Q_OBJECT / Q_GADGET
-        QtPrivate::TypeAndForceComplete<AudioCommunicator, std::true_type>,
-        // method 'onConnected'
+        QtPrivate::TypeAndForceComplete<Student, std::true_type>,
+        // method 'sendAudioData'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'onDisconnected'
+        // method 'receiveAudioData'
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
 } };
 
-void AudioCommunicator::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
+void Student::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
-        auto *_t = static_cast<AudioCommunicator *>(_o);
+        auto *_t = static_cast<Student *>(_o);
         (void)_t;
         switch (_id) {
-        case 0: _t->onConnected(); break;
-        case 1: _t->onDisconnected(); break;
+        case 0: _t->sendAudioData(); break;
+        case 1: _t->receiveAudioData(); break;
         default: ;
         }
     }
     (void)_a;
 }
 
-const QMetaObject *AudioCommunicator::metaObject() const
+const QMetaObject *Student::metaObject() const
 {
     return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
 }
 
-void *AudioCommunicator::qt_metacast(const char *_clname)
+void *Student::qt_metacast(const char *_clname)
 {
     if (!_clname) return nullptr;
-    if (!strcmp(_clname, qt_meta_stringdata_CLASSAudioCommunicatorENDCLASS.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_CLASSStudentENDCLASS.stringdata0))
         return static_cast<void*>(this);
     return QObject::qt_metacast(_clname);
 }
 
-int AudioCommunicator::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int Student::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
     _id = QObject::qt_metacall(_c, _id, _a);
     if (_id < 0)

@@ -1,4 +1,5 @@
 debug/attenteprof.o
+debug/audioCommunicator.o
 debug/interfaceaudio.o
 debug/interfaceenregistrement.o
 debug/interfaceqcm.o

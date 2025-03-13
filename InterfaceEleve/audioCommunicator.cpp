@@ -1,7 +1,21 @@
 #include "audioCommunicator.h"
+#include <QIODevice>
+#include <zmq.hpp>
+#include <QDebug>
 
-// Envoi de l'audio capturé par l'élève
+Student::Student()
+    : audioSourceDevice(nullptr), audioSinkDevice(nullptr),
+    pushSocket(nullptr), pullSocket(nullptr) {
+    // Initialize or allocate resources here if needed
+}
+
+// Your existing methods
 void Student::sendAudioData() {
+    if (!audioSourceDevice) {
+        qDebug() << "Error: audioSourceDevice is null.";
+        return;
+    }
+
     QByteArray audioData = audioSourceDevice->readAll();
     if (!audioData.isEmpty()) {
         zmq::message_t request(audioData.size());
@@ -11,8 +25,6 @@ void Student::sendAudioData() {
         qDebug() << "🎙 Audio envoyé, taille =" << audioData.size();
     }
 }
-
-// Fonction pour recevoir l'audio des autres étudiants
 void Student::receiveAudioData() {
     zmq::message_t reply;
     pullSocket->recv(reply);
