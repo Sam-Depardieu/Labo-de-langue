@@ -1,4 +1,5 @@
 release/attenteprof.o
+release/audioCommunicator.o
 release/interfaceaudio.o
 release/interfaceenregistrement.o
 release/interfaceqcm.o

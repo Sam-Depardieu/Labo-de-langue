@@ -26,7 +26,6 @@ private slots:
 
     bool connectToDatabase();
     void on_pushButtonEnregistrement_clicked();
-    void connectToMumble(QString username);
     void on_pushButtonConnexion_clicked();
 
     void on_pushButtonInterfaceQCM_clicked();

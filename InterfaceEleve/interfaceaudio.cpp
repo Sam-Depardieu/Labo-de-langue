@@ -74,14 +74,10 @@ void InterfaceAudio::on_pushButton_Play_clicked()
 {
     player->play();
 }
-
-
 void InterfaceAudio::on_pushButton_Pause_clicked()
 {
      player->pause();
 }
-
-
 void InterfaceAudio::on_pushButton_SelectAudio_clicked()
 {
     QString documentsPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
@@ -104,8 +100,6 @@ void InterfaceAudio::on_pushButton_SelectAudio_clicked()
         qDebug() << "Fichier sélectionné : " << fileName;
     }
 }
-
-
 void InterfaceAudio::on_horizontalSliderSon_actionTriggered(int action)
 {
     int volume = ui->horizontalSliderSon->value();  // Récupère la valeur du slider

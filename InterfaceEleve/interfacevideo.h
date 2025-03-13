@@ -7,6 +7,7 @@
 #include <QFileDialog>
 #include <QMediaPlayer>
 #include <QAudioOutput>
+#include <QCloseEvent>
 
 namespace Ui {
 class InterfaceVideo;
@@ -32,6 +33,8 @@ private slots:
     void on_pushButton_Apres10_clicked();
 
     void on_horizontalSlider_sonVideo_actionTriggered(int action);
+protected:
+    void closeEvent(QCloseEvent *event);
 
 private:
     Ui::InterfaceVideo *ui;
