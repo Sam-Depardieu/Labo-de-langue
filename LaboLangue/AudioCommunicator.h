@@ -11,7 +11,7 @@
 #include <QDebug>
 #include <QMediaDevices>
 #include <QTimer>
-#include <zmq.hpp>
+#include <zmq/zmq.hpp>
 
 class Professor: public QObject {
     Q_OBJECT
