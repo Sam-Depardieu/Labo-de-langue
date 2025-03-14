@@ -9,7 +9,7 @@
 
 Student::Student(QObject *parent) : QObject(parent), context(1) {
     QAudioFormat format;
-    format.setSampleRate(44100);  // 44.1 kHz standard
+    format.setSampleRate(16000);  // 44.1 kHz standard
     format.setChannelCount(1);  // Mono
     format.setSampleFormat(QAudioFormat::Int16);  // Format 16-bit
 

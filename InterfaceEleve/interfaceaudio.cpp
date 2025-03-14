@@ -80,22 +80,16 @@ void InterfaceAudio::on_pushButton_Pause_clicked()
 }
 void InterfaceAudio::on_pushButton_SelectAudio_clicked()
 {
-    QString documentsPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+    QString videoPath ="\\\\192.168.64.36\\Activites";  // Chemin réseau de la Raspberry Pi
 
     QString fileName = QFileDialog::getOpenFileName(
         this,
-        "Sélectionner un fichier audio",
-        documentsPath,
-        "Audio Files (*.mp3 *.wav *.ogg *.flac *.aac)"
+        "Sélectionner une audio",
+        videoPath,  // Ouvre directement le dossier réseau
+       "Audio Files (*.mp3 *.wav *.ogg *.flac *.aac)"
         );
-
     if (!fileName.isEmpty()) {
-        if (!player) {
-            player = new QMediaPlayer(this);
-            player->setAudioOutput(audioOutput);
-        }
-
-        player->setSource(QUrl::fromLocalFile(fileName));
+        player->setSource(QUrl::fromLocalFile(fileName));  // Charger et lire la vidéo
         player->play();
         qDebug() << "Fichier sélectionné : " << fileName;
     }

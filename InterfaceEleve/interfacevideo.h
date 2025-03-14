@@ -8,6 +8,7 @@
 #include <QMediaPlayer>
 #include <QAudioOutput>
 #include <QCloseEvent>
+#include <QProcess>
 
 namespace Ui {
 class InterfaceVideo;
