@@ -16,7 +16,7 @@
 class Student: public QObject {
     Q_OBJECT
 public:
-    Student();
+    Student(QObject *parent = nullptr);
 
     void toggleMute(bool mute);
 
@@ -36,6 +36,8 @@ private:
     QIODevice *audioSinkDevice;  // Dispositif pour écrire les données audio dans les haut-parleurs
     QAudioDevice inputDeviceInfo;
     QAudioDevice outputDeviceInfo;
+    QTimer sendAudioTimer;
+    QTimer receiveAudioTimer;
 };
 
 #endif // AUDIOCOMMUNICATOR_H

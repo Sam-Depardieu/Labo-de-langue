@@ -16,7 +16,7 @@
 class Professor: public QObject {
     Q_OBJECT
 public:
-    Professor();
+    Professor(QObject *parent = nullptr);
     void muteStudent(const QString& studentIp);
     void unmuteStudent(const QString& studentIp);
     void sendCommandToStudent(const QString& studentIp, const QString& command);

@@ -30,7 +30,8 @@ HEADERS += \
     AudioCommunicator.h \
     customgraphicsitemgroup.h \
     mainwindow.h \
-    qcm.h
+    qcm.h \
+    portaudio.h
 
 FORMS += \
     mainwindow.ui \
