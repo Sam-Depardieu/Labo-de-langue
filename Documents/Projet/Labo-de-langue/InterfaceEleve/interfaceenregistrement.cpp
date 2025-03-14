@@ -1,5 +1,6 @@
 #include "interfaceenregistrement.h"
 #include "ui_interfaceenregistrement.h"
+#include <minwindef.h>
 
 InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
     : QDialog(parent),
@@ -243,13 +244,78 @@ void InterfaceEnregistrement::on_pushButtonClear_clicked()
     }
 }
 
+
+
 void InterfaceEnregistrement::on_pushButtonSon_clicked()
 {
-    if (player->position() / 1000 >= totalSecondes) {
-        player->stop();
-        qDebug() << "Lecture arrêtée car elle a dépassé le temps du chronomètre";
-    }
+    // Création de la boîte de dialogue
+    QDialog dialog(this);
+    dialog.setWindowTitle("Réglage du Son");
+    dialog.setMinimumSize(300, 250);
+
+    // Création du lecteur audio et de la sortie audio
+    QMediaPlayer* player = new QMediaPlayer(&dialog);
+    QAudioOutput* audioOutput = new QAudioOutput(&dialog);
+    player->setAudioOutput(audioOutput);
+
+    // Charger un fichier audio (remplace par un chemin valide)
+    player->setSource(QUrl::fromLocalFile("C:/chemin/vers/ton/fichier.mp3"));
+    audioOutput->setVolume(0.5); // Volume initial (50%)
+    player->play();
+
+    // Layout principal (horizontal)
+    QHBoxLayout mainLayout(&dialog);
+
+    // Layout pour le premier slider (Volume Gauche)
+    QVBoxLayout layoutLeft;
+    QLabel* labelSystème = new QLabel("Volume Système", &dialog);
+    labelSystème->setAlignment(Qt::AlignHCenter);
+    QSlider* sliderSystème = new QSlider(Qt::Vertical, &dialog);
+    sliderSystème->setRange(0, 100);
+    sliderSystème->setValue(50);
+    layoutLeft.addWidget(labelSystème, 0, Qt::AlignHCenter);
+    layoutLeft.addWidget(sliderSystème, 0, Qt::AlignHCenter);
+
+    // Layout pour le second slider (Volume Droit)
+    QVBoxLayout layoutRight;
+    QLabel* labelUtilisateur = new QLabel("Volume Utilisateur", &dialog);
+    labelUtilisateur->setAlignment(Qt::AlignHCenter);
+    QSlider* sliderUtilisateur = new QSlider(Qt::Vertical, &dialog);
+    sliderUtilisateur->setRange(0, 100);
+    sliderUtilisateur->setValue(50);
+    layoutRight.addWidget(labelUtilisateur, 0, Qt::AlignHCenter);
+    layoutRight.addWidget(sliderUtilisateur, 0, Qt::AlignHCenter);
+
+    // Ajouter les layouts verticaux dans le layout principal
+    mainLayout.addLayout(&layoutLeft);
+    mainLayout.addLayout(&layoutRight);
+
+    // Ajouter un bouton "Fermer"
+    QPushButton* closeButton = new QPushButton("Fermer", &dialog);
+    QVBoxLayout* bottomLayout = new QVBoxLayout();
+    bottomLayout->addWidget(closeButton, 0, Qt::AlignHCenter);
+    mainLayout.addLayout(bottomLayout);
+
+    // Connecter le bouton "Fermer"
+    QObject::connect(closeButton, &QPushButton::clicked, &dialog, &QDialog::accept);
+
+    // Connecter les sliders au volume avec affichage de debug
+    QObject::connect(sliderSystème, &QSlider::valueChanged, [=](int value) {
+        float volume = value / 100.0f;
+        audioOutput->setVolume(volume);  // Modifie le volume
+        qDebug() << "Volume Gauche changé :" << volume;
+    });
+
+    QObject::connect(sliderUtilisateur, &QSlider::valueChanged, [=](int value) {
+        float volume = value / 100.0f;
+        audioOutput->setVolume(volume);  // Simule la balance droite
+        qDebug() << "Volume Droit changé :" << volume;
+    });
+
+    // Affichage de la boîte de dialogue
+    dialog.exec();
 }
+
 
 void InterfaceEnregistrement::on_pushButtonRetourArriere_clicked()
 {

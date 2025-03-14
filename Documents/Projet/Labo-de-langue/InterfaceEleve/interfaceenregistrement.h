@@ -11,6 +11,7 @@
 #include <QDebug>
 #include <QMediaRecorder>
 #include <QMediaPlayer>
+#include <QMessageBox>
 #include <QAudioOutput>  // Utiliser QAudioOutput pour la sortie audio
 #include <QUrl>
 #include <QStandardPaths>
@@ -21,6 +22,13 @@
 #include <QUdpSocket>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QApplication>
+#include <QVBoxLayout>
+#include <QSlider>
+#include <windows.h>  // Nécessaire pour modifier le volume système
+#include <mmsystem.h> // 📌 Nécessaire pour waveOutSetVolume
+#pragma comment(lib, "winmm.lib") // 📌 Ajoute la bibliothèque winmm.lib
+
 
 namespace Ui {
 class InterfaceEnregistrement;
@@ -60,6 +68,7 @@ private:
     bool speakButtonClicked;
     QString audioFilePath;
     int studentId;
+    static void setSystemVolume(int volume); // 🔹 Déclaration de la fonction ici
 };
 
 #endif // INTERFACEENREGISTREMENT_H
