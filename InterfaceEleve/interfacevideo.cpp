@@ -70,23 +70,21 @@ InterfaceVideo::~InterfaceVideo()
 
 void InterfaceVideo::on_pushButton_SelectVideo_clicked()
 {
-
-    // Récupère le chemin du dossier "Documents" de l'utilisateur
-    QString documentsPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+    QString videoPath = "\\\\192.168.64.36\\Activites";  // Chemin réseau de la Raspberry Pi
 
     QString fileName = QFileDialog::getOpenFileName(
         this,
         "Sélectionner une vidéo",
-        documentsPath,  // Ouvre le dossier "Documents"
-        "Vidéos (*.mp4 *.avi *.mkv *.mov *.wmv)"  // Filtrer les fichiers vidéo
+        videoPath,  // Ouvre directement le dossier réseau
+        "Vidéos (*.mp4 *.avi *.mkv *.mov *.wmv)"  // Filtre les fichiers vidéo
         );
 
     if (!fileName.isEmpty()) {
-        player->setSource(QUrl::fromLocalFile(fileName));  // Charger la vidéo
-        videoWidget->show();  // Afficher le widget vidéo
-        player->play();  // Lancer la lecture
+        player->setSource(QUrl::fromLocalFile(fileName));  // Charger et lire la vidéo
+        player->play();
         qDebug() << "Fichier sélectionné : " << fileName;
     }
+
 }
 
 

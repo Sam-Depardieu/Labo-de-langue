@@ -7,6 +7,9 @@
 #include <QtSql/QSqlError>
 #include <QDebug>
 #include <QProcess>
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QNetworkInterface>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {

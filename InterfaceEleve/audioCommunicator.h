@@ -25,7 +25,7 @@ public slots:  // Déclaration des slots ici
     void receiveAudioData();  // Méthode pour recevoir l'audio des étudiants
 
 private:
-    QString serverIp = "localhost"; // L'adresse IP du serveur
+    QString serverIp = "192.168.89.42"; // L'adresse IP du serveur
     zmq::context_t context;  // Contexte ZeroMQ
     zmq::socket_t *pushSocket;  // Socket pour envoyer l'audio
     zmq::socket_t *pullSocket;  // Socket pour recevoir l'audio
