@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
     connectToDatabase();
 
     // Création de la scène
-    scene = new QGraphicsScene(0, 0, 381, 361, this);
+    scene = new QGraphicsScene(0, 0, 631, 681, this);
     ui->PlanClasse->setScene(scene);
 
     ui->ParametrageSession->setVisible(false);
@@ -124,7 +124,7 @@ void MainWindow::loadImagesFromDB()
 
         QGraphicsTextItem *textItem = new QGraphicsTextItem(QString::number(id));
         textItem->setDefaultTextColor(Qt::black);
-        textItem->setPos(16, personPixmap.height());
+        textItem->setPos(18, personPixmap.height());
 
         // Création du groupe personnalisé
         CustomGraphicsItemGroup *group = new CustomGraphicsItemGroup(id, ip, this);
@@ -649,5 +649,12 @@ void MainWindow::on_loadSession_clicked()
         );
     source = fileName;
     QFileInfo fileInfo(fileName);
+}
+
+
+void MainWindow::on_CreationButton_clicked()
+{
+    QCM *qcmWindow = new QCM(this);
+    qcmWindow->show();
 }
 

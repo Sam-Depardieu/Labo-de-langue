@@ -74,8 +74,8 @@ int main(int argc, char *argv[])
 
     // Exécution du script Python
     QProcess process;
-    QString pythonExecutable = "python";  // Ou "python3" selon ton OS
-    QString scriptPath = "C:/chemin/vers/mon_script.py";  // Chemin du script Python
+    QString pythonExecutable = "python3";  // Ou "python3" selon ton OS
+    QString scriptPath = "E:/Documents/Projet/Labo-de-langue/LaboLangue/serveur.py";  // Chemin du script Python
 
     process.start(pythonExecutable, QStringList() << scriptPath);
 
@@ -86,7 +86,7 @@ int main(int argc, char *argv[])
 
     qDebug() << "✅ Script Python exécuté avec succès!";
 
-    Professor profAudio;
+    //Professor profAudio;
 
     return a.exec();
 }

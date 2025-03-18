@@ -2,11 +2,13 @@
 #define MAINWINDOW_H
 
 #include "customgraphicsitemgroup.h"
+#include "qcm.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
 class CustomGraphicsItemGroup;
+class QCM;
 }
 QT_END_NAMESPACE
 
@@ -56,6 +58,8 @@ private slots:
     void on_echapButton_clicked();
     void resetSession();
     void on_loadSession_clicked();
+
+    void on_CreationButton_clicked();
 
 private:
     Ui::MainWindow *ui;

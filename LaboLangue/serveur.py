@@ -10,7 +10,7 @@ pub_socket.bind("tcp://*:5555")  # Écoute sur le port 5555
 
 # 🔹 Socket REQ-REP pour gérer l’état des élèves
 rep_socket = context.socket(zmq.REP)
-rep_socket.bind("tcp://*:5556")  # Écoute les demandes d'état
+rep_socket.bind("tcp://*:5559")  # Écoute les demandes d'état
 
 # 🔹 Socket PUB pour envoyer les données audio
 audio_pub_socket = context.socket(zmq.PUB)
@@ -27,7 +27,7 @@ print("🔵 Serveur en attente des commandes Qt...")
 CHUNK = 1024
 FORMAT = pyaudio.paInt16
 CHANNELS = 1
-RATE = 44100
+RATE = 16000
 
 audio = pyaudio.PyAudio()
 
@@ -36,20 +36,26 @@ def send_audio():
     stream = audio.open(format=FORMAT, channels=CHANNELS,
                         rate=RATE, input=True,
                         frames_per_buffer=CHUNK)
+    print("🔊 Audio capture started...")
 
     while True:
         data = stream.read(CHUNK)
         audio_pub_socket.send(data)
+        if data:
+            print(f"🗣️ Envoi des données audio, taille: {len(data)} bytes")
 
 # 🔹 Fonction pour recevoir et jouer l'audio
 def receive_audio():
     stream = audio.open(format=FORMAT, channels=CHANNELS,
                         rate=RATE, output=True,
                         frames_per_buffer=CHUNK)
+    print("🔉 Audio playback started...")
 
     while True:
         data = audio_sub_socket.recv()
         stream.write(data)
+        if data:
+            print(f"🔈 Réception des données audio, taille: {len(data)} bytes")
 
 import threading
 send_audio_thread = threading.Thread(target=send_audio)
@@ -67,6 +73,7 @@ while True:
         # 🔹 Envoie la commande à tous les élèves
         pub_socket.send_string(message)
         rep_socket.send_string("OK")
+        print(f"🔹 Commande envoyée à tous les élèves: {message}")
 
     except zmq.Again:
         pass  # Aucune commande reçue

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>480</height>
+    <width>1300</width>
+    <height>760</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,7 +27,7 @@ color: black;
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>821</width>
+      <width>1601</width>
       <height>61</height>
      </rect>
     </property>
@@ -44,7 +44,7 @@ color: black;
    <widget class="QPushButton" name="PlanButton">
     <property name="geometry">
      <rect>
-      <x>100</x>
+      <x>250</x>
       <y>10</y>
       <width>91</width>
       <height>41</height>
@@ -70,7 +70,7 @@ border-radius: 10px;</string>
    <widget class="QPushButton" name="PresenceButton">
     <property name="geometry">
      <rect>
-      <x>200</x>
+      <x>350</x>
       <y>10</y>
       <width>91</width>
       <height>41</height>
@@ -96,7 +96,7 @@ border-radius: 10px;</string>
    <widget class="QPushButton" name="SessionButton">
     <property name="geometry">
      <rect>
-      <x>300</x>
+      <x>450</x>
       <y>10</y>
       <width>91</width>
       <height>41</height>
@@ -122,7 +122,7 @@ border-radius: 10px;</string>
    <widget class="QPushButton" name="AppelButton">
     <property name="geometry">
      <rect>
-      <x>500</x>
+      <x>650</x>
       <y>10</y>
       <width>91</width>
       <height>41</height>
@@ -151,7 +151,7 @@ border-radius: 10px;</string>
    <widget class="QPushButton" name="StatutButton">
     <property name="geometry">
      <rect>
-      <x>600</x>
+      <x>750</x>
       <y>10</y>
       <width>91</width>
       <height>41</height>
@@ -180,7 +180,7 @@ border-radius: 10px;</string>
    <widget class="QPushButton" name="AideButton">
     <property name="geometry">
      <rect>
-      <x>700</x>
+      <x>850</x>
       <y>10</y>
       <width>91</width>
       <height>41</height>
@@ -209,7 +209,7 @@ border-radius: 10px;</string>
    <widget class="QPushButton" name="EnregistrementButton">
     <property name="geometry">
      <rect>
-      <x>400</x>
+      <x>550</x>
       <y>10</y>
       <width>91</width>
       <height>41</height>
@@ -237,8 +237,8 @@ border-radius: 10px;</string>
      <rect>
       <x>10</x>
       <y>70</y>
-      <width>381</width>
-      <height>391</height>
+      <width>631</width>
+      <height>681</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -251,10 +251,10 @@ border-radius: 10px;</string>
     </property>
     <property name="geometry">
      <rect>
-      <x>410</x>
+      <x>660</x>
       <y>70</y>
-      <width>381</width>
-      <height>391</height>
+      <width>631</width>
+      <height>681</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -267,7 +267,7 @@ border-radius: 10px;</string>
     </property>
     <property name="geometry">
      <rect>
-      <x>430</x>
+      <x>880</x>
       <y>90</y>
       <width>81</width>
       <height>21</height>
@@ -286,7 +286,7 @@ border-radius: 10px;</string>
     </property>
     <property name="geometry">
      <rect>
-      <x>530</x>
+      <x>980</x>
       <y>90</y>
       <width>221</width>
       <height>21</height>
@@ -299,7 +299,7 @@ border-radius: 10px;</string>
     </property>
     <property name="geometry">
      <rect>
-      <x>430</x>
+      <x>880</x>
       <y>130</y>
       <width>81</width>
       <height>21</height>
@@ -318,7 +318,7 @@ border-radius: 10px;</string>
     </property>
     <property name="geometry">
      <rect>
-      <x>530</x>
+      <x>980</x>
       <y>130</y>
       <width>221</width>
       <height>21</height>
@@ -334,7 +334,7 @@ border-radius: 10px;</string>
     </property>
     <property name="geometry">
      <rect>
-      <x>430</x>
+      <x>880</x>
       <y>170</y>
       <width>81</width>
       <height>21</height>
@@ -353,7 +353,7 @@ border-radius: 10px;</string>
     </property>
     <property name="geometry">
      <rect>
-      <x>530</x>
+      <x>980</x>
       <y>170</y>
       <width>221</width>
       <height>22</height>
@@ -366,7 +366,7 @@ border-radius: 10px;</string>
     </property>
     <property name="geometry">
      <rect>
-      <x>430</x>
+      <x>880</x>
       <y>330</y>
       <width>81</width>
       <height>21</height>
@@ -385,7 +385,7 @@ border-radius: 10px;</string>
     </property>
     <property name="geometry">
      <rect>
-      <x>530</x>
+      <x>980</x>
       <y>330</y>
       <width>221</width>
       <height>31</height>
@@ -398,7 +398,7 @@ border-radius: 10px;</string>
     </property>
     <property name="geometry">
      <rect>
-      <x>430</x>
+      <x>880</x>
       <y>210</y>
       <width>81</width>
       <height>21</height>
@@ -417,7 +417,7 @@ border-radius: 10px;</string>
     </property>
     <property name="geometry">
      <rect>
-      <x>530</x>
+      <x>980</x>
       <y>210</y>
       <width>221</width>
       <height>21</height>
@@ -430,7 +430,7 @@ border-radius: 10px;</string>
     </property>
     <property name="geometry">
      <rect>
-      <x>430</x>
+      <x>880</x>
       <y>250</y>
       <width>81</width>
       <height>21</height>
@@ -449,7 +449,7 @@ border-radius: 10px;</string>
     </property>
     <property name="geometry">
      <rect>
-      <x>530</x>
+      <x>980</x>
       <y>250</y>
       <width>101</width>
       <height>24</height>
@@ -468,7 +468,7 @@ border-radius: 10px;</string>
     </property>
     <property name="geometry">
      <rect>
-      <x>650</x>
+      <x>1100</x>
       <y>250</y>
       <width>101</width>
       <height>24</height>
@@ -487,7 +487,7 @@ border-radius: 10px;</string>
     </property>
     <property name="geometry">
      <rect>
-      <x>690</x>
+      <x>1140</x>
       <y>400</y>
       <width>75</width>
       <height>24</height>
@@ -506,7 +506,7 @@ border-radius: 10px;</string>
     </property>
     <property name="geometry">
      <rect>
-      <x>560</x>
+      <x>1010</x>
       <y>400</y>
       <width>75</width>
       <height>24</height>
@@ -525,7 +525,7 @@ border-radius: 10px;</string>
     </property>
     <property name="geometry">
      <rect>
-      <x>430</x>
+      <x>880</x>
       <y>400</y>
       <width>75</width>
       <height>24</height>
@@ -544,7 +544,7 @@ border-radius: 10px;</string>
     </property>
     <property name="geometry">
      <rect>
-      <x>430</x>
+      <x>880</x>
       <y>370</y>
       <width>321</width>
       <height>20</height>
@@ -563,7 +563,7 @@ border-radius: 10px;</string>
     </property>
     <property name="geometry">
      <rect>
-      <x>430</x>
+      <x>880</x>
       <y>290</y>
       <width>81</width>
       <height>21</height>
@@ -582,7 +582,7 @@ border-radius: 10px;</string>
     </property>
     <property name="geometry">
      <rect>
-      <x>660</x>
+      <x>1110</x>
       <y>290</y>
       <width>91</width>
       <height>24</height>
@@ -595,29 +595,13 @@ border-radius: 10px;</string>
      <string>Selection fichier</string>
     </property>
    </widget>
-   <widget class="QGraphicsView" name="ParametrageEleve">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>80</y>
-      <width>381</width>
-      <height>391</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: white;</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="NameSourceLabel">
     <property name="enabled">
      <bool>true</bool>
     </property>
     <property name="geometry">
      <rect>
-      <x>530</x>
+      <x>980</x>
       <y>290</y>
       <width>81</width>
       <height>21</height>
@@ -633,8 +617,8 @@ border-radius: 10px;</string>
    <widget class="QPushButton" name="loadSession">
     <property name="geometry">
      <rect>
-      <x>420</x>
-      <y>60</y>
+      <x>1000</x>
+      <y>80</y>
       <width>131</width>
       <height>24</height>
      </rect>
@@ -646,38 +630,45 @@ border-radius: 10px;</string>
      <string>Charger une session</string>
     </property>
    </widget>
-   <zorder>LigneHaut</zorder>
-   <zorder>PlanButton</zorder>
-   <zorder>PresenceButton</zorder>
-   <zorder>SessionButton</zorder>
-   <zorder>AppelButton</zorder>
-   <zorder>StatutButton</zorder>
-   <zorder>AideButton</zorder>
-   <zorder>EnregistrementButton</zorder>
-   <zorder>PlanClasse</zorder>
-   <zorder>ParametrageSession</zorder>
-   <zorder>NameLabel</zorder>
-   <zorder>NameLineEdit</zorder>
-   <zorder>ChoixActLabel</zorder>
-   <zorder>ChoixActivite</zorder>
-   <zorder>DureeLabel</zorder>
-   <zorder>DureeActivite</zorder>
-   <zorder>ConsigneLabel</zorder>
-   <zorder>ConsigneTextEdit</zorder>
-   <zorder>ClasseLabel</zorder>
-   <zorder>ChoixClasse</zorder>
-   <zorder>ParticipantsLabel</zorder>
-   <zorder>selectAll</zorder>
-   <zorder>selectManuel</zorder>
-   <zorder>validButton</zorder>
-   <zorder>echapButton</zorder>
-   <zorder>delButton</zorder>
-   <zorder>errorLabel</zorder>
-   <zorder>SourceLabel</zorder>
-   <zorder>SourceButton</zorder>
-   <zorder>NameSourceLabel</zorder>
-   <zorder>ParametrageEleve</zorder>
-   <zorder>loadSession</zorder>
+   <widget class="QGraphicsView" name="ParametrageEleve">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>250</y>
+      <width>631</width>
+      <height>681</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: white;</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="CreationButton">
+    <property name="geometry">
+     <rect>
+      <x>950</x>
+      <y>10</y>
+      <width>91</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Preferred" vsizetype="Ignored">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: black;
+font: 9pt &quot;Segoe UI&quot;;
+color: white;
+border: 1px solid white;
+border-radius: 10px;</string>
+    </property>
+    <property name="text">
+     <string>Creation</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources/>

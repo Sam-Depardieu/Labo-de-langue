@@ -4,9 +4,8 @@
 #include <QAudioSink>
 
 Professor::Professor(QObject *parent) : QObject(parent), context(1) {
-
     QAudioFormat format;
-    format.setSampleRate(44100);  // 44.1 kHz standard
+    format.setSampleRate(16000);  // 44.1 kHz standard
     format.setChannelCount(1);  // Mono
     format.setSampleFormat(QAudioFormat::Int16);  // Format 16-bit
 
@@ -39,8 +38,8 @@ Professor::Professor(QObject *parent) : QObject(parent), context(1) {
     connect(&sendAudioTimer, &QTimer::timeout, this, &Professor::sendAudioData);
     connect(&receiveAudioTimer, &QTimer::timeout, this, &Professor::receiveAudioData);
 
-    sendAudioTimer.start(100);  // Intervalle en millisecondes
-    receiveAudioTimer.start(100);
+    //sendAudioTimer.start(100);  // Intervalle en millisecondes
+    //receiveAudioTimer.start(100);
 }
 
 void Professor::sendCommandToStudent(const QString& studentIp, const QString& command) {
@@ -106,6 +105,7 @@ void Professor::sendAudioData() {
     try {
         zmq::message_t message(data.constData(), data.size());
         pushSocket->send(message, zmq::send_flags::none);
+        qDebug() << "🗣️ Professeur parle, taille des données envoyées:" << data.size();
     } catch (const std::runtime_error &e) {
         qDebug() << "❌ Erreur lors de l'envoi des données audio:" << e.what();
     }

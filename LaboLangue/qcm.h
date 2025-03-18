@@ -1,19 +1,26 @@
 #ifndef QCM_H
 #define QCM_H
 
-#include <QWidget>
+#include <QDialog>
 #include <QVBoxLayout>
-#include <QPushButton>
+#include <QHBoxLayout>
 #include <QLineEdit>
-#include <QVector>
+#include <QPushButton>
+#include <QLabel>
+#include <QSpinBox>
+#include <QCheckBox>
+#include <QMessageBox>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QFile>
 #include <QStandardPaths>
-#include <QMessageBox>
 
-class QCM : public QWidget
+namespace Ui {
+class QCM;
+}
+
+class QCM : public QDialog
 {
     Q_OBJECT
 
@@ -27,13 +34,18 @@ private slots:
     void saveQuestion();
 
 private:
+    Ui::QCM *ui;
     QVBoxLayout *mainLayout;
     QVBoxLayout *answersLayout;
     QLineEdit *questionEdit;
-    QVector<QLineEdit*> answerFields;
+    QSpinBox *questionNumberSpin;
+    QSpinBox *choiceCountSpin;
     QPushButton *addButton;
     QPushButton *removeButton;
     QPushButton *saveButton;
+    QList<QHBoxLayout *> answerLayouts;
+    QList<QLineEdit *> answerFields;
+    QList<QCheckBox *> correctAnswers;
 };
 
 #endif // QCM_H

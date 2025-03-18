@@ -1,14 +1,35 @@
 #include "qcm.h"
+#include "ui_qcm.h"
 
-QCM::QCM(QWidget *parent) : QWidget(parent)
+QCM::QCM(QWidget *parent)
+    : QDialog(parent), ui(new Ui::QCM)
 {
+    ui->setupUi(this);
+    setWindowTitle("Création de QCM");
+    setAttribute(Qt::WA_DeleteOnClose);
+
     // Layout principal
     mainLayout = new QVBoxLayout(this);
 
-    // Champ pour la question
+    // Numéro de la question
+    QLabel *questionNumberLabel = new QLabel("Numéro de question :", this);
+    questionNumberSpin = new QSpinBox(this);
+    questionNumberSpin->setMinimum(1);
+    mainLayout->addWidget(questionNumberLabel);
+    mainLayout->addWidget(questionNumberSpin);
+
+    // Champ de la question
+    QLabel *questionLabel = new QLabel("Question :", this);
     questionEdit = new QLineEdit(this);
-    questionEdit->setPlaceholderText("Entrez votre question ici...");
+    mainLayout->addWidget(questionLabel);
     mainLayout->addWidget(questionEdit);
+
+    // Nombre de choix possibles
+    QLabel *choiceCountLabel = new QLabel("Nombre de choix possibles :", this);
+    choiceCountSpin = new QSpinBox(this);
+    choiceCountSpin->setRange(1, 4);
+    mainLayout->addWidget(choiceCountLabel);
+    mainLayout->addWidget(choiceCountSpin);
 
     // Layout pour les réponses
     answersLayout = new QVBoxLayout();
@@ -23,7 +44,6 @@ QCM::QCM(QWidget *parent) : QWidget(parent)
     connect(removeButton, &QPushButton::clicked, this, &QCM::removeAnswer);
     connect(saveButton, &QPushButton::clicked, this, &QCM::saveQuestion);
 
-    // Ajouter les boutons dans un layout
     QHBoxLayout *buttonLayout = new QHBoxLayout();
     buttonLayout->addWidget(addButton);
     buttonLayout->addWidget(removeButton);
@@ -38,7 +58,6 @@ QCM::QCM(QWidget *parent) : QWidget(parent)
     setLayout(mainLayout);
 }
 
-// Ajouter une réponse (max 4)
 void QCM::addAnswer()
 {
     if (answerFields.size() >= 4) {
@@ -46,13 +65,22 @@ void QCM::addAnswer()
         return;
     }
 
+    // Créer le layout pour la réponse
+    QHBoxLayout *answerLayout = new QHBoxLayout();
     QLineEdit *answerEdit = new QLineEdit(this);
     answerEdit->setPlaceholderText("Réponse " + QString::number(answerFields.size() + 1));
-    answersLayout->addWidget(answerEdit);
+    QCheckBox *correctAnswerCheck = new QCheckBox("Bonne réponse", this);
+
+    answerLayout->addWidget(answerEdit);
+    answerLayout->addWidget(correctAnswerCheck);
+    answersLayout->addLayout(answerLayout);
+
+    // Ajouter aux listes pour gestion mémoire
     answerFields.append(answerEdit);
+    correctAnswers.append(correctAnswerCheck);
+    answerLayouts.append(answerLayout);
 }
 
-// Supprimer une réponse (min 2)
 void QCM::removeAnswer()
 {
     if (answerFields.size() <= 2) {
@@ -60,12 +88,15 @@ void QCM::removeAnswer()
         return;
     }
 
-    QLineEdit *answerEdit = answerFields.takeLast();
-    answersLayout->removeWidget(answerEdit);
-    delete answerEdit;
+    // Supprimer proprement le dernier élément ajouté
+    delete answerFields.takeLast();
+    delete correctAnswers.takeLast();
+
+    // Supprimer le layout associé
+    QLayout *layout = answerLayouts.takeLast();
+    delete layout;
 }
 
-// Sauvegarde de la question et des réponses
 void QCM::saveQuestion()
 {
     if (questionEdit->text().isEmpty()) {
@@ -74,21 +105,29 @@ void QCM::saveQuestion()
     }
 
     QJsonObject questionData;
+    questionData["number"] = questionNumberSpin->value();
     questionData["question"] = questionEdit->text();
+    questionData["choicesAllowed"] = choiceCountSpin->value();
 
     QJsonArray answersArray;
-    for (auto answerEdit : answerFields) {
-        if (!answerEdit->text().isEmpty()) {
-            answersArray.append(answerEdit->text());
+    QJsonArray correctArray;
+
+    for (int i = 0; i < answerFields.size(); i++) {
+        if (!answerFields[i]->text().isEmpty()) {
+            answersArray.append(answerFields[i]->text());
+            if (correctAnswers[i]->isChecked()) {
+                correctArray.append(i);
+            }
         }
     }
 
-    if (answersArray.size() < 2) {
-        QMessageBox::warning(this, "Erreur", "Veuillez entrer au moins 2 réponses !");
+    if (answersArray.size() < 2 || correctArray.size() == 0) {
+        QMessageBox::warning(this, "Erreur", "Veuillez entrer au moins 2 réponses et sélectionner au moins une bonne réponse !");
         return;
     }
 
     questionData["answers"] = answersArray;
+    questionData["correct"] = correctArray;
 
     QJsonDocument jsonDoc(questionData);
     QFile file(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/question.json");
@@ -102,4 +141,11 @@ void QCM::saveQuestion()
     }
 }
 
-QCM::~QCM() {}
+QCM::~QCM()
+{
+    delete ui;
+    // Nettoyage mémoire des réponses
+    for (auto layout : answerLayouts) {
+        delete layout;
+    }
+}
