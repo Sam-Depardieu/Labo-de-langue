@@ -186,26 +186,33 @@ void InterfaceEnregistrement::on_pushButtonPlay_clicked()
 
 void InterfaceEnregistrement::on_pushButtonClear_clicked()
 {
-    // Arrêter l'enregistrement
+    // Arrêter l'enregistrement si en cours
     if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState ||
         mediaRecorder->recorderState() == QMediaRecorder::PausedState) {
         mediaRecorder->stop();
-        qDebug() << "Enregistrement arrêté et effacé";
+        qDebug() << "Enregistrement arrêté";
     }
 
-    // Arrêter le chronomètre
-    if (timer->isActive()) {
-        timer->stop();
-        qDebug() << "Chronomètre arrêté";
-    }
+    // Réinitialiser les variables
+    totalSecondes = 0;
+    speakButtonClicked = false;
 
     // Réinitialiser le chronomètre
-    timer->setInterval(0);
-    timer->start();
+    if (timer->isActive()) {
+        timer->stop();
+    }
+    ui->labelChrono->setText("00:00:00");
 
-    // Optionnel : Effacer les fichiers d'enregistrement
-    // Assurez-vous d'avoir les permissions nécessaires pour supprimer les fichiers
-    QFile::remove("path/to/your/recording/file.mp4");
+    // Supprimer le fichier d'enregistrement
+    if (QFile::exists(audioFilePath)) {
+        if (QFile::remove(audioFilePath)) {
+            qDebug() << "Fichier supprimé avec succès: " << audioFilePath;
+        } else {
+            qWarning() << "Erreur lors de la suppression du fichier: " << audioFilePath;
+        }
+    } else {
+        qDebug() << "Aucun fichier à supprimer.";
+    }
 }
 
 void InterfaceEnregistrement::on_pushButtonSon_clicked()
