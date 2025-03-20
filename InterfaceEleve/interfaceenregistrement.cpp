@@ -56,24 +56,6 @@ InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
         ui->pushButtonSon->setIconSize(ui->pushButtonSon->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
     }
 
-    QPixmap imageFavoris(":/images/Favoris"); // Charge l'image
-    if (imageFavoris.isNull()) {
-        qWarning() << "Erreur : image non trouvée !";
-    } else {
-        QIcon icone(imageFavoris); // Crée une icône
-        ui->pushButtonFavoris->setIcon(icone); // Définit l'icône du bouton
-        ui->pushButtonFavoris->setIconSize(ui->pushButtonFavoris->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
-    }
-
-    QPixmap imageSignet(":/images/Signet"); // Charge l'image
-    if (imageSignet.isNull()) {
-        qWarning() << "Erreur : image non trouvée !";
-    } else {
-        QIcon icone(imageSignet); // Crée une icône
-        ui->pushButtonSignet->setIcon(icone); // Définit l'icône du bouton
-        ui->pushButtonSignet->setIconSize(ui->pushButtonSignet->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
-    }
-
     QPixmap imagePasSurveiller(":/images/PasSurveiller"); // Charge l'image
     if (imagePasSurveiller.isNull()) {
         qWarning() << "Erreur : image non trouvée !";
@@ -128,23 +110,6 @@ InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
         ui->pushButtonPlay->setIconSize(ui->pushButtonPlay->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
     }
 
-    QPixmap imageRevenirALaPhrasePrecedente(":/images/RevenirALaPhrasePrecedente"); // Charge l'image
-    if (imageRevenirALaPhrasePrecedente.isNull()) {
-        qWarning() << "Erreur : image non trouvée !";
-    } else {
-        QIcon icone(imageRevenirALaPhrasePrecedente); // Crée une icône
-        ui->pushButtonRevenirALaPhrasePrecedente->setIcon(icone); // Définit l'icône du bouton
-        ui->pushButtonRevenirALaPhrasePrecedente->setIconSize(ui->pushButtonRevenirALaPhrasePrecedente->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
-    }
-
-    QPixmap imageRepeter(":/images/Repeter"); // Charge l'image
-    if (imageRepeter.isNull()) {
-        qWarning() << "Erreur : image non trouvée !";
-    } else {
-        QIcon icone(imageRepeter); // Crée une icône
-        ui->pushButtonRepeter->setIcon(icone); // Définit l'icône du bouton
-        ui->pushButtonRepeter->setIconSize(ui->pushButtonRepeter->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
-    }
 
     QPixmap imageEffacer(":/images/Effacer"); // Charge l'image
     if (imageEffacer.isNull()) {

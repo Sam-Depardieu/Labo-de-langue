@@ -31,12 +31,8 @@ public:
     QPushButton *pushButtonSpeak;
     QPushButton *pushButton;
     QPushButton *pushButtonPause;
-    QPushButton *pushButtonRepeter;
-    QPushButton *pushButtonSignet;
     QLabel *labelAppelProf;
-    QPushButton *pushButtonFavoris;
     QPushButton *pushButtonPlay;
-    QPushButton *pushButtonRevenirALaPhrasePrecedente;
     QPushButton *pushButtonRetourArriere;
 
     void setupUi(QDialog *InterfaceEnregistrement)
@@ -57,7 +53,7 @@ public:
 "    border: none;"));
         pushButtonAvancer = new QPushButton(InterfaceEnregistrement);
         pushButtonAvancer->setObjectName("pushButtonAvancer");
-        pushButtonAvancer->setGeometry(QRect(470, 160, 70, 70));
+        pushButtonAvancer->setGeometry(QRect(480, 160, 70, 70));
         pushButtonAvancer->setStyleSheet(QString::fromUtf8(""));
         pushButtonClear = new QPushButton(InterfaceEnregistrement);
         pushButtonClear->setObjectName("pushButtonClear");
@@ -105,41 +101,21 @@ public:
 "}"));
         pushButtonPause = new QPushButton(InterfaceEnregistrement);
         pushButtonPause->setObjectName("pushButtonPause");
-        pushButtonPause->setGeometry(QRect(370, 160, 70, 70));
+        pushButtonPause->setGeometry(QRect(380, 160, 70, 70));
         pushButtonPause->setStyleSheet(QString::fromUtf8(""));
-        pushButtonRepeter = new QPushButton(InterfaceEnregistrement);
-        pushButtonRepeter->setObjectName("pushButtonRepeter");
-        pushButtonRepeter->setGeometry(QRect(520, 405, 90, 70));
-        pushButtonRepeter->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
-"    border: none;"));
-        pushButtonSignet = new QPushButton(InterfaceEnregistrement);
-        pushButtonSignet->setObjectName("pushButtonSignet");
-        pushButtonSignet->setGeometry(QRect(130, 400, 60, 80));
-        pushButtonSignet->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
-"    border: none;"));
         labelAppelProf = new QLabel(InterfaceEnregistrement);
         labelAppelProf->setObjectName("labelAppelProf");
         labelAppelProf->setGeometry(QRect(690, 80, 111, 21));
-        pushButtonFavoris = new QPushButton(InterfaceEnregistrement);
-        pushButtonFavoris->setObjectName("pushButtonFavoris");
-        pushButtonFavoris->setGeometry(QRect(220, 400, 80, 80));
-        pushButtonFavoris->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
-"    border: none;"));
         pushButtonPlay = new QPushButton(InterfaceEnregistrement);
         pushButtonPlay->setObjectName("pushButtonPlay");
         pushButtonPlay->setGeometry(QRect(420, 290, 70, 70));
         pushButtonPlay->setStyleSheet(QString::fromUtf8(""));
-        pushButtonRevenirALaPhrasePrecedente = new QPushButton(InterfaceEnregistrement);
-        pushButtonRevenirALaPhrasePrecedente->setObjectName("pushButtonRevenirALaPhrasePrecedente");
-        pushButtonRevenirALaPhrasePrecedente->setGeometry(QRect(420, 405, 90, 70));
-        pushButtonRevenirALaPhrasePrecedente->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
-"    border: none;"));
         pushButtonRetourArriere = new QPushButton(InterfaceEnregistrement);
         pushButtonRetourArriere->setObjectName("pushButtonRetourArriere");
         pushButtonRetourArriere->setGeometry(QRect(270, 160, 70, 70));
         pushButtonRetourArriere->setStyleSheet(QString::fromUtf8(""));
-        pushButton->raise();
         pushButton_2->raise();
+        pushButton->raise();
         pushButtonSon->raise();
         pushButtonSurveiller->raise();
         pushButtonAvancer->raise();
@@ -147,12 +123,8 @@ public:
         labelChrono->raise();
         pushButtonSpeak->raise();
         pushButtonPause->raise();
-        pushButtonRepeter->raise();
-        pushButtonSignet->raise();
         labelAppelProf->raise();
-        pushButtonFavoris->raise();
         pushButtonPlay->raise();
-        pushButtonRevenirALaPhrasePrecedente->raise();
         pushButtonRetourArriere->raise();
         pushButtonAppelProf->raise();
 
@@ -174,12 +146,8 @@ public:
         pushButtonSpeak->setText(QString());
         pushButton->setText(QCoreApplication::translate("InterfaceEnregistrement", "Bienvenue sur l'interface pour un Enregistrement", nullptr));
         pushButtonPause->setText(QString());
-        pushButtonRepeter->setText(QString());
-        pushButtonSignet->setText(QString());
         labelAppelProf->setText(QCoreApplication::translate("InterfaceEnregistrement", "Le prof a \303\251t\303\251 appel\303\251", nullptr));
-        pushButtonFavoris->setText(QString());
         pushButtonPlay->setText(QString());
-        pushButtonRevenirALaPhrasePrecedente->setText(QString());
         pushButtonRetourArriere->setText(QString());
     } // retranslateUi
 

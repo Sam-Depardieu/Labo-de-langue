@@ -3,12 +3,12 @@
 
 #include <QDialog>
 #include <QMediaPlayer>
-#include <QVideoWidget>
 #include <QFileDialog>
 #include <QMediaPlayer>
 #include <QAudioOutput>
 #include <QCloseEvent>
 #include <QProcess>
+#include <QVideoWidget>
 
 namespace Ui {
 class InterfaceVideo;
