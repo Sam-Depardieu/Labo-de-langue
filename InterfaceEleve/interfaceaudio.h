@@ -3,7 +3,6 @@
 
 #include <QDialog>
 #include <QMediaPlayer>
-#include <QVideoWidget>
 #include <QFileDialog>
 #include <QMediaPlayer>
 #include <QAudioOutput>
@@ -37,7 +36,6 @@ protected:
 private:
     Ui::InterfaceAudio *ui;
     QMediaPlayer *player;
-    QVideoWidget *videoWidget;
     QAudioOutput *audioOutput;
 
 };
