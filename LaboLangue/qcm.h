@@ -15,10 +15,13 @@
 #include <QJsonArray>
 #include <QFile>
 #include <QStandardPaths>
+#include <QScrollArea>
 
+QT_BEGIN_NAMESPACE
 namespace Ui {
 class QCM;
 }
+QT_END_NAMESPACE
 
 class QCM : public QDialog
 {
@@ -29,23 +32,33 @@ public:
     ~QCM();
 
 private slots:
-    void addAnswer();
-    void removeAnswer();
-    void saveQuestion();
+    void addQuestion();
+    void removeQuestion();
+    void saveQuestions();
 
 private:
     Ui::QCM *ui;
     QVBoxLayout *mainLayout;
-    QVBoxLayout *answersLayout;
-    QLineEdit *questionEdit;
-    QSpinBox *questionNumberSpin;
-    QSpinBox *choiceCountSpin;
-    QPushButton *addButton;
-    QPushButton *removeButton;
+    QScrollArea *scrollArea;
+    QWidget *scrollWidget;
+    QVBoxLayout *questionsLayout;
+    QPushButton *addQuestionButton;
+    QPushButton *removeQuestionButton;
     QPushButton *saveButton;
-    QList<QHBoxLayout *> answerLayouts;
-    QList<QLineEdit *> answerFields;
-    QList<QCheckBox *> correctAnswers;
+
+    struct QuestionWidget {
+        QSpinBox *questionNumberSpin;
+        QLineEdit *questionEdit;
+        QSpinBox *choiceCountSpin;
+        QVBoxLayout *answersLayout;
+        QList<QLineEdit *> answerFields;
+        QList<QCheckBox *> correctAnswers;
+        QHBoxLayout *buttonLayout;
+        QPushButton *addAnswerButton;
+        QPushButton *removeAnswerButton;
+    };
+
+    QList<QuestionWidget *> questionWidgets;
 };
 
 #endif // QCM_H
