@@ -6,8 +6,6 @@ InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
     ui(new Ui::InterfaceEnregistrement)
 {
     ui->setupUi(this);
-
-    //Pour cacher quelque chose
     ui->labelAppelProf->hide();
 
     //Pour fixer la taille de la page et le titre
@@ -20,40 +18,26 @@ InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
     audioInput = new QAudioInput(this);      // Instancier QAudioOutput ici
     audioOutput = new QAudioOutput(this);
     player->setAudioOutput(audioOutput);       // Configurer QAudioOutput pour le player
-
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &InterfaceEnregistrement::updateChrono);
+    AudioRecorder = new QAudioRecorder(this);
+    AudioProbe = new QAudioProbe(this);
+    AudioProbe->setSource(AudioRecorder);
+
 
     rewindTimer = new QTimer(this);
     connect(rewindTimer, &QTimer::timeout, this, &InterfaceEnregistrement::rewindChrono);
     audioInput = new QAudioInput(this);
-
     // Création du média recorder
     mediaRecorder = new QMediaRecorder(this);
     captureSession.setAudioInput(audioInput);
     captureSession.setRecorder(mediaRecorder);
 
-    // Définition du fichier de sortie
-    mediaRecorder->setOutputLocation(QUrl::fromLocalFile("test_audio.wav"));
-
     isRewinding = false;
     totalSecondes = 0;
     speakButtonClicked = false;
 
-    // Configuration de l'enregistrement
-    audioFilePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/audio.mp3";  // Changé en mp3
-    mediaRecorder->setOutputLocation(QUrl::fromLocalFile(audioFilePath));
 
-    // Définir les paramètres d'enregistrement avec la nouvelle API Qt 6
-    QMediaFormat format;
-    format.setFileFormat(QMediaFormat::FileFormat::MP3);
-    format.setAudioCodec(QMediaFormat::AudioCodec::MP3);
-
-    mediaRecorder->setMediaFormat(format);
-    mediaRecorder->setQuality(QMediaRecorder::HighQuality);
-    mediaRecorder->setAudioSampleRate(44100);
-    mediaRecorder->setAudioBitRate(128000);
-    mediaRecorder->setAudioChannelCount(2);
 
 
     //Affichage des Images
@@ -156,7 +140,6 @@ InterfaceEnregistrement::~InterfaceEnregistrement()
 
 void InterfaceEnregistrement::on_pushButtonSpeak_clicked()
 {
-
     if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState) {
         qWarning() << "L'enregistrement est déjà en cours.";
         return;
@@ -180,7 +163,6 @@ void InterfaceEnregistrement::on_pushButtonSpeak_clicked()
     // Démarrer l'enregistrement
     mediaRecorder->record();
     isRecordingPaused = false;
-
     qDebug() << "Nouvel enregistrement démarré.";
 }
 void InterfaceEnregistrement::on_pushButtonPause_clicked()
@@ -224,8 +206,6 @@ void InterfaceEnregistrement::on_pushButtonPlay_clicked()
     }
 
 }
-
-
 void InterfaceEnregistrement::on_pushButtonClear_clicked()
 {
     // Arrêter l'enregistrement s'il est en cours

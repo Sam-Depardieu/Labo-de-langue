@@ -22,6 +22,11 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QMediaCaptureSession>
+#include <QAudioRecorder>
+#include <QAudioProbe>
+#include <QAudioEncoderSettings>
+#include <QMultimedia>
+#include <QDebug>
 
 namespace Ui {
 class InterfaceEnregistrement;
