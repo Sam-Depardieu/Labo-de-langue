@@ -16,6 +16,9 @@
 #include <QFile>
 #include <QStandardPaths>
 #include <QScrollArea>
+#include <QGroupBox>
+#include <QPropertyAnimation>
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -35,13 +38,15 @@ private slots:
     void addQuestion();
     void removeQuestion();
     void saveQuestions();
+    void addBoxAddQuestion();
 
 private:
     Ui::QCM *ui;
     QVBoxLayout *mainLayout;
+    int col;
     QScrollArea *scrollArea;
     QWidget *scrollWidget;
-    QVBoxLayout *questionsLayout;
+    QGridLayout *questionsLayout;
     QPushButton *addQuestionButton;
     QPushButton *removeQuestionButton;
     QPushButton *saveButton;

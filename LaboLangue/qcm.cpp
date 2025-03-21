@@ -15,7 +15,7 @@ QCM::QCM(QWidget *parent)
     scrollArea = new QScrollArea(this);
     scrollArea->setWidgetResizable(true);
     scrollWidget = new QWidget();
-    questionsLayout = new QVBoxLayout(scrollWidget);
+    questionsLayout = new QGridLayout(scrollWidget);
     scrollWidget->setLayout(questionsLayout);
     scrollArea->setWidget(scrollWidget);
 
@@ -42,66 +42,57 @@ QCM::QCM(QWidget *parent)
 
 void QCM::addQuestion()
 {
-    // Créer un widget pour la nouvelle question
+    int row = questionWidgets.size() / 2;
+    int col = questionWidgets.size() % 2;
+
     QuestionWidget *question = new QuestionWidget;
 
-    QVBoxLayout *questionLayout = new QVBoxLayout();
+    QGroupBox *questionBox = new QGroupBox("Question " + QString::number(questionWidgets.size() + 1), this);
+    QVBoxLayout *questionBoxLayout = new QVBoxLayout();
+    questionBox->setLayout(questionBoxLayout);
+    questionBox->setStyleSheet("border: 1px solid gray; border-radius: 5px; padding: 10px;");
 
-    // **Séparateur**
-    QFrame *separator = new QFrame(this);
-    separator->setFrameShape(QFrame::HLine);
-    separator->setFrameShadow(QFrame::Sunken);
-    separator->setStyleSheet("background-color: gray; height: 2px;");
-
-    // **Nouvelle ligne pour Numéro + Question**
     QHBoxLayout *questionHeaderLayout = new QHBoxLayout();
     QHBoxLayout *nbChoixLayout = new QHBoxLayout();
 
-    // Numéro de la question (petit sur la gauche)
     question->questionNumberSpin = new QSpinBox(this);
     question->questionNumberSpin->setMinimum(1);
     question->questionNumberSpin->setMaximum(100);
-    question->questionNumberSpin->setFixedWidth(50);  // Réduit la largeur du spinbox
+    question->questionNumberSpin->setFixedWidth(50);
 
-    // Label du numéro de question
     QLabel *questionNumberLabel = new QLabel("N° :", this);
-
-    // Champ de la question
     QLabel *questionLabel = new QLabel("Question :", this);
     question->questionEdit = new QLineEdit(this);
+    question->questionEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
-    // **Ajout des éléments dans le layout horizontal**
     questionHeaderLayout->addWidget(questionNumberLabel);
     questionHeaderLayout->addWidget(question->questionNumberSpin);
     questionHeaderLayout->addWidget(questionLabel);
     questionHeaderLayout->addWidget(question->questionEdit);
-    questionHeaderLayout->addStretch();  // Ajoute un espace flexible à droite
+    questionHeaderLayout->addStretch();
 
-    questionLayout->addLayout(questionHeaderLayout);
+    questionBoxLayout->addLayout(questionHeaderLayout);
 
-    // Nombre de choix possibles
     QLabel *choiceCountLabel = new QLabel("Nombre de choix possibles :", this);
     question->choiceCountSpin = new QSpinBox(this);
     question->choiceCountSpin->setRange(1, 4);
 
     nbChoixLayout->addWidget(choiceCountLabel);
     nbChoixLayout->addWidget(question->choiceCountSpin);
+    questionBoxLayout->addLayout(nbChoixLayout);
 
-    questionLayout->addLayout(nbChoixLayout);
-
-    // Layout pour les réponses
     question->answersLayout = new QVBoxLayout();
-    questionLayout->addLayout(question->answersLayout);
+    questionBoxLayout->addLayout(question->answersLayout);
 
-    // Boutons pour ajouter/supprimer une réponse
     question->addAnswerButton = new QPushButton("+", this);
-    question->addAnswerButton->setStyleSheet("background-color: green;");
+    question->addAnswerButton->setStyleSheet("background-color: #28a745; color: white; border-radius: 5px;");
     question->removeAnswerButton = new QPushButton("-", this);
-    question->removeAnswerButton->setStyleSheet("background-color: red;");
+    question->removeAnswerButton->setStyleSheet("background-color: #dc3545; color: white; border-radius: 5px;");
+
     question->buttonLayout = new QHBoxLayout();
     question->buttonLayout->addWidget(question->addAnswerButton);
     question->buttonLayout->addWidget(question->removeAnswerButton);
-    questionLayout->addLayout(question->buttonLayout);
+    questionBoxLayout->addLayout(question->buttonLayout);
 
     connect(question->addAnswerButton, &QPushButton::clicked, [=]() {
         if (question->answerFields.size() >= 4) {
@@ -122,27 +113,9 @@ void QCM::addQuestion()
         question->correctAnswers.append(correctAnswerCheck);
     });
 
-    connect(question->removeAnswerButton, &QPushButton::clicked, [=]() {
-        if (question->answerFields.size() <= 2) {
-            QMessageBox::warning(this, "Minimum atteint", "Vous devez avoir au moins 2 réponses !");
-            return;
-        }
-
-        delete question->answerFields.takeLast();
-        delete question->correctAnswers.takeLast();
-    });
-
-    // Ajouter 2 réponses par défaut
-    for (int i = 0; i < 2; i++) {
-        question->addAnswerButton->click();
-    }
-
-    // **Ajout du layout de la question et du séparateur**
-    questionsLayout->addWidget(separator);  // Ajoute le séparateur entre les questions
-    questionsLayout->addLayout(questionLayout);
+    questionsLayout->addWidget(questionBox);
     questionWidgets.append(question);
 
-    // Mise à jour du scroll
     scrollWidget->adjustSize();
 }
 
@@ -155,24 +128,7 @@ void QCM::removeQuestion()
 
     QuestionWidget *question = questionWidgets.takeLast();
 
-    // Nettoyage mémoire
-    delete question->questionNumberSpin;
-    delete question->questionEdit;
-    delete question->choiceCountSpin;
-    delete question->addAnswerButton;
-    delete question->removeAnswerButton;
-    delete question->buttonLayout;
-
-    for (auto answer : question->answerFields) {
-        delete answer;
-    }
-    for (auto correct : question->correctAnswers) {
-        delete correct;
-    }
-
-    delete question->answersLayout;
     delete question;
-
     scrollWidget->adjustSize();
 }
 
