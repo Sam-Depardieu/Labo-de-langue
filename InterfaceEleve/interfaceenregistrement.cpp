@@ -26,6 +26,15 @@ InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
 
     rewindTimer = new QTimer(this);
     connect(rewindTimer, &QTimer::timeout, this, &InterfaceEnregistrement::rewindChrono);
+    audioInput = new QAudioInput(this);
+
+    // Création du média recorder
+    mediaRecorder = new QMediaRecorder(this);
+    captureSession.setAudioInput(audioInput);
+    captureSession.setRecorder(mediaRecorder);
+
+    // Définition du fichier de sortie
+    mediaRecorder->setOutputLocation(QUrl::fromLocalFile("test_audio.wav"));
 
     isRewinding = false;
     totalSecondes = 0;
@@ -45,6 +54,7 @@ InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
     mediaRecorder->setAudioSampleRate(44100);
     mediaRecorder->setAudioBitRate(128000);
     mediaRecorder->setAudioChannelCount(2);
+
 
     //Affichage des Images
     QPixmap imageSon(":/images/Son"); // Charge l'image
@@ -131,6 +141,7 @@ InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
     // Connexions des signaux
     connect(mediaRecorder, &QMediaRecorder::recorderStateChanged, this, &InterfaceEnregistrement::onRecorderStateChanged);
     connect(mediaRecorder, &QMediaRecorder::errorOccurred, this, &InterfaceEnregistrement::onRecorderErrorOccurred);
+
 }
 
 InterfaceEnregistrement::~InterfaceEnregistrement()
@@ -145,74 +156,102 @@ InterfaceEnregistrement::~InterfaceEnregistrement()
 
 void InterfaceEnregistrement::on_pushButtonSpeak_clicked()
 {
-    if (!speakButtonClicked) {
-        if (!timer->isActive()) {
-            // Démarrer l'enregistrement
-            totalSecondes = 0; // Réinitialiser le chronomètre
-            timer->start(1000);
-            ui->labelChrono->setText("00:00:00");
-            ui->labelChrono->show();
 
-            // Démarrer l'enregistrement
-            qDebug() << "Enregistrement démarré";
-
-            // Démarrer le QMediaRecorder
-            mediaRecorder->record();  // Utiliser mediaRecorder ici
-            speakButtonClicked = true;
-        } else {
-            qDebug() << "L'enregistrement est déjà en cours";
-        }
-    } else {
-        qDebug() << "L'enregistrement est déjà terminé, vous pouvez jouer le fichier.";
+    if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState) {
+        qWarning() << "L'enregistrement est déjà en cours.";
+        return;
     }
-}
 
+    if (QFile::exists(audioFilePath)) {
+        QFile::remove(audioFilePath);
+        qDebug() << "Ancien enregistrement supprimé.";
+    }
+
+    // Réinitialiser le chrono
+    totalSecondes = 0;
+    ui->labelChrono->setText("00:00:00");
+
+    // Assurer que le MediaRecorder est prêt à enregistrer
+    mediaRecorder->setOutputLocation(QUrl::fromLocalFile(audioFilePath));
+
+    // Démarrer le chrono
+    timer->start(1000);
+
+    // Démarrer l'enregistrement
+    mediaRecorder->record();
+    isRecordingPaused = false;
+
+    qDebug() << "Nouvel enregistrement démarré.";
+}
 void InterfaceEnregistrement::on_pushButtonPause_clicked()
 {
-    if (timer->isActive()) {
-        timer->stop();
-        qDebug() << "Chronomètre arrêté";
+    if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState) {
+        mediaRecorder->pause(); // Met en pause l'enregistrement
+        isRecordingPaused = true;
+        pausedTime = totalSecondes; // Sauvegarde le temps actuel
+        timer->stop(); // Met en pause le chrono
+        qDebug() << "Enregistrement et chrono mis en pause.";
+    } else if (player->playbackState() == QMediaPlayer::PlayingState) {
+        player->pause();
+        qDebug() << "Lecture mise en pause.";
     }
 }
 void InterfaceEnregistrement::on_pushButtonPlay_clicked()
 {
-    if (mediaRecorder->recorderState() != QMediaRecorder::RecordingState) {
+    if (isRecordingPaused) {
+        // Reprendre l'enregistrement
         mediaRecorder->record();
-        timer->start();
-        qDebug() << "Enregistrement démarré";
+        isRecordingPaused = false;
+        totalSecondes = pausedTime; // Reprend le chrono là où on l'avait arrêté
+        timer->start(1000);  // Redémarrer le chrono
+        qDebug() << "Reprise de l'enregistrement et du chrono.";
+        return;
     }
+
+    if (!player) return;
+
+    player->setSource(QUrl::fromLocalFile(audioFilePath));
+
+    if (player->playbackState() == QMediaPlayer::PausedState) {
+        player->play();
+        totalSecondes = pausedTime; // Reprend là où on s'était arrêté
+        timer->start(1000);
+        qDebug() << "Reprise de la lecture et du chrono.";
+    } else if (player->playbackState() == QMediaPlayer::StoppedState) {
+        player->setPosition(0);
+        player->play();
+        qDebug() << "Lecture redémarrée depuis le début.";
+    }
+
 }
 
 
 void InterfaceEnregistrement::on_pushButtonClear_clicked()
 {
-    // Arrêter l'enregistrement si en cours
-    if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState ||
-        mediaRecorder->recorderState() == QMediaRecorder::PausedState) {
+    // Arrêter l'enregistrement s'il est en cours
+    if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState) {
         mediaRecorder->stop();
-        qDebug() << "Enregistrement arrêté";
+        qDebug() << "Enregistrement arrêté.";
+    }
+
+    // Arrêter le lecteur s'il joue l'audio
+    if (player->playbackState() == QMediaPlayer::PlayingState) {
+        player->stop();
+        qDebug() << "Lecture stoppée.";
+    }
+
+    // Supprimer le fichier enregistré
+    if (QFile::exists(audioFilePath)) {
+        QFile::remove(audioFilePath);
+        qDebug() << "Enregistrement supprimé.";
     }
 
     // Réinitialiser les variables
     totalSecondes = 0;
+    ui->labelChrono->setText("00:00:00");
     speakButtonClicked = false;
 
-    // Réinitialiser le chronomètre
-    if (timer->isActive()) {
-        timer->stop();
-    }
-    ui->labelChrono->setText("00:00:00");
-
-    // Supprimer le fichier d'enregistrement
-    if (QFile::exists(audioFilePath)) {
-        if (QFile::remove(audioFilePath)) {
-            qDebug() << "Fichier supprimé avec succès: " << audioFilePath;
-        } else {
-            qWarning() << "Erreur lors de la suppression du fichier: " << audioFilePath;
-        }
-    } else {
-        qDebug() << "Aucun fichier à supprimer.";
-    }
+    qDebug() << "Tout a été réinitialisé.";
 }
 
 void InterfaceEnregistrement::on_pushButtonSon_clicked()
@@ -244,9 +283,12 @@ void InterfaceEnregistrement::on_pushButtonRetourArriere_clicked()
 }
 void InterfaceEnregistrement::on_pushButtonAvancer_clicked()
 {
-    if (totalSecondes > 0 && !isRewinding) {
-        isRewinding = true;
-        rewindTimer->start(100); // Défile rapidement (toutes les 100 ms)
+    if (player && player->playbackState() == QMediaPlayer::PlayingState) {
+        qint64 newPosition = player->position() + 5000; // Avancer de 5 secondes
+        if (newPosition < player->duration()) {
+            player->setPosition(newPosition);
+            qDebug() << "Avancé de 5 secondes.";
+        }
     }
 }
 
