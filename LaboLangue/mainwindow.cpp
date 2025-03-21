@@ -23,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
     editStatusButton(ui->EnregistrementButton, false);
     editStatusButton(ui->AppelButton, false);
     editStatusButton(ui->StatutButton, false);
+    editStatusButton(ui->CreationButton, false);
 
     // Créer le layout principal avec les éléments disposés
     QVBoxLayout *layout = new QVBoxLayout();

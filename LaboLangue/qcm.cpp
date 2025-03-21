@@ -47,7 +47,8 @@ QCM::QCM(QWidget *parent)
 void QCM::addQuestion()
 {
     QuestionWidget *question = new QuestionWidget;
-    QGroupBox *questionBox = new QGroupBox("Question " + QString::number(questionWidgets.size() + 1), this);
+    QString nbQ = QString::number(questionWidgets.size() + 1);
+    QGroupBox *questionBox = new QGroupBox("Question " + nbQ, this);
     QVBoxLayout *questionBoxLayout = new QVBoxLayout();
     questionBox->setLayout(questionBoxLayout);
     questionBox->setStyleSheet("border: 1px solid gray; border-radius: 5px; padding: 10px;");
@@ -58,7 +59,8 @@ void QCM::addQuestion()
     question->questionNumberSpin = new QSpinBox(this);
     question->questionNumberSpin->setMinimum(1);
     question->questionNumberSpin->setMaximum(100);
-    question->questionNumberSpin->setFixedWidth(50);
+    question->questionNumberSpin->setFixedWidth(75);
+    question->questionNumberSpin->setValue(nbQ.toInt());
 
     QLabel *questionNumberLabel = new QLabel("N° :", this);
     QLabel *questionLabel = new QLabel("Question :", this);
@@ -110,6 +112,19 @@ void QCM::addQuestion()
 
         question->answerFields.append(answerEdit);
         question->correctAnswers.append(correctAnswerCheck);
+    });
+
+    connect(question->removeAnswerButton, &QPushButton::clicked, [=]() {
+        if(question->answerFields.size() <= 2){
+            QMessageBox::warning(this, "Limite atteinte", "Vous ne pouvez pas avoir moins de 2 questions !");
+            return;
+        }
+
+        delete question->answerFields.takeLast();
+        delete question->correctAnswers.takeLast();
+
+        scrollWidget->adjustSize();
+        scrollWidget->update();
     });
 
     // Calculer la ligne et la colonne pour ajouter dans le QGridLayout
@@ -168,11 +183,40 @@ void QCM::removeQuestion()
         return;
     }
 
+    // Récupérer la dernière question et son QGroupBox
     QuestionWidget *question = questionWidgets.takeLast();
+    QGroupBox *questionBox = nullptr;
 
+    // Trouver le QGroupBox correspondant à la dernière question
+    for (int i = 0; i < questionsLayout->count(); ++i) {
+        QLayoutItem *item = questionsLayout->itemAt(i);
+        QWidget *widget = item->widget();
+
+        if (QGroupBox *box = qobject_cast<QGroupBox*>(widget)) {
+            if (box->title().contains("Question")) {  // Identifier un QGroupBox question
+                questionBox = box;
+            }
+        }
+    }
+
+    if (questionBox) {
+        questionsLayout->removeWidget(questionBox);
+        delete questionBox;  // Supprimer l'affichage de la question
+    }
+
+    // Supprimer l'objet question
     delete question;
+
+    // Repositionner la boîte d'ajout de question
+    addBoxAddQuestion();
+
+    // Mise à jour de l'affichage
     scrollWidget->adjustSize();
+    scrollWidget->update();
 }
+
+
+
 
 void QCM::saveQuestions()
 {
