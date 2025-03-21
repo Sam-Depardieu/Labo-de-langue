@@ -37,10 +37,10 @@ namespace {
 struct qt_meta_stringdata_CLASSQCMENDCLASS_t {};
 constexpr auto qt_meta_stringdata_CLASSQCMENDCLASS = QtMocHelpers::stringData(
     "QCM",
-    "addAnswer",
+    "addQuestion",
     "",
-    "removeAnswer",
-    "saveQuestion"
+    "removeQuestion",
+    "saveQuestions"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
 #error "qtmochelpers.h not found or too old."
@@ -82,11 +82,11 @@ Q_CONSTINIT const QMetaObject QCM::staticMetaObject = { {
     qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSQCMENDCLASS_t,
         // Q_OBJECT / Q_GADGET
         QtPrivate::TypeAndForceComplete<QCM, std::true_type>,
-        // method 'addAnswer'
+        // method 'addQuestion'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'removeAnswer'
+        // method 'removeQuestion'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'saveQuestion'
+        // method 'saveQuestions'
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
@@ -98,9 +98,9 @@ void QCM::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **
         auto *_t = static_cast<QCM *>(_o);
         (void)_t;
         switch (_id) {
-        case 0: _t->addAnswer(); break;
-        case 1: _t->removeAnswer(); break;
-        case 2: _t->saveQuestion(); break;
+        case 0: _t->addQuestion(); break;
+        case 1: _t->removeQuestion(); break;
+        case 2: _t->saveQuestions(); break;
         default: ;
         }
     }
