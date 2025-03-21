@@ -47,6 +47,7 @@ private:
     QScrollArea *scrollArea;
     QWidget *scrollWidget;
     QGridLayout *questionsLayout;
+    QGroupBox *addQuestionBox = nullptr;
     QPushButton *addQuestionButton;
     QPushButton *removeQuestionButton;
     QPushButton *saveButton;

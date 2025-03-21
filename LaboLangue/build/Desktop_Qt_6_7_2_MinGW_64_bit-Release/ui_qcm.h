@@ -23,7 +23,7 @@ public:
     {
         if (QCM->objectName().isEmpty())
             QCM->setObjectName("QCM");
-        QCM->resize(400, 300);
+        QCM->resize(1000, 560);
         QCM->setStyleSheet(QString::fromUtf8("QDialog {\n"
 "        background-color: #f5f5f5;\n"
 "    }\n"

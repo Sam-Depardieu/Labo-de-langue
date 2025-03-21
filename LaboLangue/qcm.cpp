@@ -1,4 +1,5 @@
 #include "qcm.h"
+#include "qscrollbar.h"
 #include "ui_qcm.h"
 
 QCM::QCM(QWidget *parent)
@@ -15,6 +16,8 @@ QCM::QCM(QWidget *parent)
     scrollArea = new QScrollArea(this);
     scrollArea->setWidgetResizable(true);
     scrollWidget = new QWidget();
+
+    // Utilisation du QGridLayout pour les questions
     questionsLayout = new QGridLayout(scrollWidget);
     scrollWidget->setLayout(questionsLayout);
     scrollArea->setWidget(scrollWidget);
@@ -37,16 +40,13 @@ QCM::QCM(QWidget *parent)
     // Ajouter une première question par défaut
     addQuestion();
 
+
     setLayout(mainLayout);
 }
 
 void QCM::addQuestion()
 {
-    int row = questionWidgets.size() / 2;
-    int col = questionWidgets.size() % 2;
-
     QuestionWidget *question = new QuestionWidget;
-
     QGroupBox *questionBox = new QGroupBox("Question " + QString::number(questionWidgets.size() + 1), this);
     QVBoxLayout *questionBoxLayout = new QVBoxLayout();
     questionBox->setLayout(questionBoxLayout);
@@ -69,7 +69,6 @@ void QCM::addQuestion()
     questionHeaderLayout->addWidget(question->questionNumberSpin);
     questionHeaderLayout->addWidget(questionLabel);
     questionHeaderLayout->addWidget(question->questionEdit);
-    questionHeaderLayout->addStretch();
 
     questionBoxLayout->addLayout(questionHeaderLayout);
 
@@ -113,11 +112,54 @@ void QCM::addQuestion()
         question->correctAnswers.append(correctAnswerCheck);
     });
 
-    questionsLayout->addWidget(questionBox);
-    questionWidgets.append(question);
+    // Calculer la ligne et la colonne pour ajouter dans le QGridLayout
+    int row = questionWidgets.size() / 2;  // Ligne (deux questions par ligne)
+    int column = questionWidgets.size() % 2;  // Colonne (alternance entre 0 et 1)
 
+    questionsLayout->addWidget(questionBox, row, column);
+
+    questionWidgets.append(question);
+    scrollWidget->adjustSize();
+
+    // Descendre la scrollbar jusqu'à la dernière question ajoutée
+    scrollArea->verticalScrollBar()->setValue(scrollArea->verticalScrollBar()->maximum());
+
+    addBoxAddQuestion();
+}
+
+void QCM::addBoxAddQuestion()
+{
+    // Si la boîte existe déjà, la supprimer avant de la recréer
+    if (addQuestionBox != nullptr) {
+        questionsLayout->removeWidget(addQuestionBox);
+        delete addQuestionBox;
+    }
+
+    // Créer la boîte d'ajout de question
+    addQuestionBox = new QGroupBox(this);
+    addQuestionBox->setStyleSheet("border: 2px dashed rgb(0, 151, 178); border-radius: 5px; padding: 20px;");
+
+    QVBoxLayout *boxLayout = new QVBoxLayout(addQuestionBox);
+    QLabel *descriptionLabel = new QLabel("Cliquez pour ajouter une nouvelle question", this);
+    QPushButton *addButton = new QPushButton("+", this);
+    addButton->setStyleSheet("font-size: 24px; font-weight: bold; padding: 10px; background-color: transparent; border: none;");
+
+    boxLayout->addWidget(addButton, 0, Qt::AlignCenter);
+    boxLayout->addWidget(descriptionLabel, 0, Qt::AlignCenter);
+
+    connect(addButton, &QPushButton::clicked, this, &QCM::addQuestion);
+
+    // Calculer la ligne et la colonne où la boîte doit être placée
+    int row = questionWidgets.size() / 2;  // Chaque ligne contient 2 questions
+    int column = questionWidgets.size() % 2;  // Alternance entre 0 et 1 (deux colonnes par ligne)
+
+    // Ajouter la boîte d'ajout de question dans le layout, après la dernière question
+    questionsLayout->addWidget(addQuestionBox, row, column);
+
+    // Ajuster la taille du widget après ajout
     scrollWidget->adjustSize();
 }
+
 
 void QCM::removeQuestion()
 {
