@@ -21,6 +21,7 @@
 #include <QUdpSocket>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QMediaCaptureSession>
 
 namespace Ui {
 class InterfaceEnregistrement;
@@ -56,12 +57,18 @@ private:
     QAudioInput *audioInput;
     QTimer *timer;
     QTimer *rewindTimer;
+    QMediaCaptureSession captureSession;
     bool isRewinding;
     int totalSecondes;
     bool speakButtonClicked;
     QString audioFilePath;
     int studentId;
+    bool isPaused = false;  // Indique si la lecture est en pause
+    qint64 pauseTime = 0;
     int lastRecordedTime = 0;
+    bool isRecordingPaused = false;  // Indique si l'enregistrement est en pause
+    qint64 pausedTime = 0;           // Sauvegarde le temps de pause
+
 
     void resetTimer();  // Déclaration de la fonction resetTimer
 };
