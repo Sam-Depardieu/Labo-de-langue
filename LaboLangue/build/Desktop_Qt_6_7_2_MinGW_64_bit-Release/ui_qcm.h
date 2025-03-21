@@ -23,7 +23,39 @@ public:
     {
         if (QCM->objectName().isEmpty())
             QCM->setObjectName("QCM");
-        QCM->resize(400, 300);
+        QCM->resize(1000, 560);
+        QCM->setStyleSheet(QString::fromUtf8("QDialog {\n"
+"        background-color: #f5f5f5;\n"
+"    }\n"
+"    QLabel {\n"
+"        font-size: 14px;\n"
+"        font-weight: bold;\n"
+"        color: #333;\n"
+"    }\n"
+"    QSpinBox, QLineEdit {\n"
+"        border: 1px solid #ccc;\n"
+"        border-radius: 4px;\n"
+"        padding: 5px;\n"
+"        background: white;\n"
+"    }\n"
+"    QPushButton {\n"
+"        background-color: #007BFF;\n"
+"        color: white;\n"
+"        border-radius: 5px;\n"
+"        padding: 7px;\n"
+"    }\n"
+"    QPushButton:hover {\n"
+"        background-color: #0056b3;\n"
+"    }\n"
+"    QPushButton#removeQuestionButton {\n"
+"        background-color: #dc3545;\n"
+"    }\n"
+"    QPushButton#removeQuestionButton:hover {\n"
+"        background-color: #a71d2a;\n"
+"    }\n"
+"    QFrame {\n"
+"        background-color: #ccc;\n"
+"    }"));
 
         retranslateUi(QCM);
 

@@ -16,6 +16,9 @@
 #include <QFile>
 #include <QStandardPaths>
 #include <QScrollArea>
+#include <QGroupBox>
+#include <QPropertyAnimation>
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -31,17 +34,16 @@ public:
     explicit QCM(QWidget *parent = nullptr);
     ~QCM();
 
-private slots:
-    void addQuestion();
-    void removeQuestion();
-    void saveQuestions();
+
 
 private:
     Ui::QCM *ui;
     QVBoxLayout *mainLayout;
+    int col;
     QScrollArea *scrollArea;
     QWidget *scrollWidget;
-    QVBoxLayout *questionsLayout;
+    QGridLayout *questionsLayout;
+    QGroupBox *addQuestionBox = nullptr;
     QPushButton *addQuestionButton;
     QPushButton *removeQuestionButton;
     QPushButton *saveButton;
@@ -59,6 +61,13 @@ private:
     };
 
     QList<QuestionWidget *> questionWidgets;
+
+private slots:
+    void addQuestion();
+    void removeQuestion();
+    void saveQuestions();
+    void addBoxAddQuestion();
+    void addAnswers(QuestionWidget* question);
 };
 
 #endif // QCM_H
