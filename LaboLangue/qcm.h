@@ -34,11 +34,7 @@ public:
     explicit QCM(QWidget *parent = nullptr);
     ~QCM();
 
-private slots:
-    void addQuestion();
-    void removeQuestion();
-    void saveQuestions();
-    void addBoxAddQuestion();
+
 
 private:
     Ui::QCM *ui;
@@ -65,6 +61,13 @@ private:
     };
 
     QList<QuestionWidget *> questionWidgets;
+
+private slots:
+    void addQuestion();
+    void removeQuestion();
+    void saveQuestions();
+    void addBoxAddQuestion();
+    void addAnswers(QuestionWidget* question);
 };
 
 #endif // QCM_H

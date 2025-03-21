@@ -95,28 +95,15 @@ void QCM::addQuestion()
     question->buttonLayout->addWidget(question->removeAnswerButton);
     questionBoxLayout->addLayout(question->buttonLayout);
 
-    connect(question->addAnswerButton, &QPushButton::clicked, [=]() {
-        if (question->answerFields.size() >= 4) {
-            QMessageBox::warning(this, "Limite atteinte", "Vous ne pouvez pas ajouter plus de 4 réponses !");
-            return;
-        }
+    addAnswers(question);
+    addAnswers(question);
 
-        QLineEdit *answerEdit = new QLineEdit(this);
-        answerEdit->setPlaceholderText("Réponse " + QString::number(question->answerFields.size() + 1));
-        QCheckBox *correctAnswerCheck = new QCheckBox("Bonne réponse", this);
-
-        QHBoxLayout *answerLayout = new QHBoxLayout();
-        answerLayout->addWidget(answerEdit);
-        answerLayout->addWidget(correctAnswerCheck);
-        question->answersLayout->addLayout(answerLayout);
-
-        question->answerFields.append(answerEdit);
-        question->correctAnswers.append(correctAnswerCheck);
-    });
+    // Correction de la connexion du bouton d'ajout de réponse
+    connect(question->addAnswerButton, &QPushButton::clicked, this, [=]() { addAnswers(question); });
 
     connect(question->removeAnswerButton, &QPushButton::clicked, [=]() {
-        if(question->answerFields.size() <= 2){
-            QMessageBox::warning(this, "Limite atteinte", "Vous ne pouvez pas avoir moins de 2 questions !");
+        if (question->answerFields.size() <= 2) {
+            QMessageBox::warning(this, "Limite atteinte", "Vous ne pouvez pas avoir moins de 2 réponses !");
             return;
         }
 
@@ -140,6 +127,26 @@ void QCM::addQuestion()
     scrollArea->verticalScrollBar()->setValue(scrollArea->verticalScrollBar()->maximum());
 
     addBoxAddQuestion();
+}
+
+void QCM::addAnswers(QuestionWidget* question)
+{
+    if (question->answerFields.size() >= 4) {
+        QMessageBox::warning(this, "Limite atteinte", "Vous ne pouvez pas ajouter plus de 4 réponses !");
+        return;
+    }
+
+    QLineEdit *answerEdit = new QLineEdit(this);
+    answerEdit->setPlaceholderText("Réponse " + QString::number(question->answerFields.size() + 1));
+    QCheckBox *correctAnswerCheck = new QCheckBox("Bonne réponse", this);
+
+    QHBoxLayout *answerLayout = new QHBoxLayout();
+    answerLayout->addWidget(answerEdit);
+    answerLayout->addWidget(correctAnswerCheck);
+    question->answersLayout->addLayout(answerLayout);
+
+    question->answerFields.append(answerEdit);
+    question->correctAnswers.append(correctAnswerCheck);
 }
 
 void QCM::addBoxAddQuestion()
