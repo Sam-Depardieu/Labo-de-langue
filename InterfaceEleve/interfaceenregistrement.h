@@ -22,10 +22,10 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QMediaCaptureSession>
-#include <QAudioRecorder>
-#include <QAudioProbe>
-#include <QAudioEncoderSettings>
-#include <QMultimedia>
+//#include <QAudioRecorder>
+//#include <QAudioProbe>
+//#include <QAudioEncoderSettings>
+//#include <QtMultimedia>
 #include <QDebug>
 
 namespace Ui {

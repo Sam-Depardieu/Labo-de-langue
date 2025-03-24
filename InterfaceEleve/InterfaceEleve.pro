@@ -1,4 +1,4 @@
-QT += core gui sql multimedia widgets network
+QT += core gui sql multimedia widgets network #multimediawidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -11,10 +11,10 @@ QT += websockets
 
 TEMPLATE = app
 
-INCLUDEPATH += C:/msys64/mingw64/include
-LIBS += -L C:/msys64/mingw64/lib -lzmq
+#INCLUDEPATH += C:/msys64/mingw64/include
+#LIBS += -L C:/msys64/mingw64/lib -lzmq
 
-INCLUDEPATH += cppzmq\include
+#INCLUDEPATH += cppzmq\include
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.

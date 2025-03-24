@@ -20,9 +20,10 @@ InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
     player->setAudioOutput(audioOutput);       // Configurer QAudioOutput pour le player
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &InterfaceEnregistrement::updateChrono);
-    AudioRecorder = new QAudioRecorder(this);
-    AudioProbe = new QAudioProbe(this);
-    AudioProbe->setSource(AudioRecorder);
+    mediaRecorder = new QMediaRecorder(this);
+    audioInput = new QAudioInput(this);
+    captureSession.setAudioInput(audioInput);
+    captureSession.setRecorder(mediaRecorder);
 
 
     rewindTimer = new QTimer(this);
