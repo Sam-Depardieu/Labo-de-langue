@@ -18,7 +18,13 @@
 #include <QScrollArea>
 #include <QGroupBox>
 #include <QPropertyAnimation>
+#include <QFileInfo>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QFileDialog>
 
+using namespace std;
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -47,6 +53,12 @@ private:
     QPushButton *addQuestionButton;
     QPushButton *removeQuestionButton;
     QPushButton *saveButton;
+    QPushButton *importQuestionButton;
+    QLabel *nomQCMLabel;
+    QLineEdit *nomQCM;
+
+    std::array<std::array<QString, 2>, 4> choices = {{{QString("")}}};
+
 
     struct QuestionWidget {
         QSpinBox *questionNumberSpin;
@@ -63,11 +75,13 @@ private:
     QList<QuestionWidget *> questionWidgets;
 
 private slots:
-    void addQuestion();
+    void addQuestion(QString *nomQ = new QString("Test"), QString *numQ = new QString("1"), QString *nbRep = new QString("2"));
     void removeQuestion();
     void saveQuestions();
     void addBoxAddQuestion();
-    void addAnswers(QuestionWidget* question);
+    void addAnswers(QuestionWidget* question, QString *choix, QString *correct);
+
+    void importQCM();
 };
 
 #endif // QCM_H

@@ -24,27 +24,120 @@ QCM::QCM(QWidget *parent)
 
     mainLayout->addWidget(scrollArea);
 
+    // Layouts pour le footer
+    QVBoxLayout *footer = new QVBoxLayout();
+    QHBoxLayout *footerButton = new QHBoxLayout();
+    QHBoxLayout *footerInformation = new QHBoxLayout();
+    QVBoxLayout *footerInformationNom = new QVBoxLayout();
+
     // Boutons pour gérer les questions
     addQuestionButton = new QPushButton("Ajouter une question", this);
+    addQuestionButton->setStyleSheet("background-color: #28a745");
     removeQuestionButton = new QPushButton("Supprimer la dernière question", this);
+    removeQuestionButton->setStyleSheet("background-color: #dc3545");
+    importQuestionButton = new QPushButton("Importer un QCM", this);
     saveButton = new QPushButton("Enregistrer", this);
 
-    connect(addQuestionButton, &QPushButton::clicked, this, &QCM::addQuestion);
+    footerButton->addWidget(addQuestionButton);
+    footerButton->addWidget(removeQuestionButton);
+    footerButton->addWidget(importQuestionButton);
+
+    nomQCMLabel = new QLabel("Nom du QCM :");
+    nomQCM = new QLineEdit(this);
+    footerInformationNom->addWidget(nomQCMLabel);
+    footerInformationNom->addWidget(nomQCM);
+    footerInformation->addLayout(footerInformationNom);
+
+    footer->addLayout(footerButton);
+    footer->addLayout(footerInformation);
+
+    // Connexions des signaux
+    connect(addQuestionButton, &QPushButton::clicked, this, [this]() {
+
+        this->addQuestion(nullptr, nullptr, nullptr);
+    });
     connect(removeQuestionButton, &QPushButton::clicked, this, &QCM::removeQuestion);
     connect(saveButton, &QPushButton::clicked, this, &QCM::saveQuestions);
+    connect(importQuestionButton, &QPushButton::clicked, this, &QCM::importQCM);
 
-    mainLayout->addWidget(addQuestionButton);
-    mainLayout->addWidget(removeQuestionButton);
-    mainLayout->addWidget(saveButton);
+    // Ajout du boutton save en dessous de tout
+    footer->addWidget(saveButton);
+
+    // Ajout du footer au layout principal
+    mainLayout->addLayout(footer);
 
     // Ajouter une première question par défaut
-    addQuestion();
+    addQuestion(nullptr);
 
-
+    // Définir le layout principal
     setLayout(mainLayout);
 }
 
-void QCM::addQuestion()
+void QCM::importQCM()
+{
+    QString documentsPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+
+    QString fileName = QFileDialog::getOpenFileName(
+        this,
+        "Sélectionner un fichier QCM",
+        documentsPath,
+        "Labo QCM (*.qcmlabo)"
+        );
+
+    if (!fileName.isNull()) {
+        QFile file(fileName);
+
+        if (!file.open(QIODevice::ReadOnly)) {
+            QMessageBox::critical(this, "Erreur", "Impossible d'ouvrir le fichier sélectionné !");
+            return;
+        }
+
+        QByteArray fileContent = file.readAll();
+        file.close();
+
+        QJsonDocument jsonDoc = QJsonDocument::fromJson(fileContent);
+        if (jsonDoc.isNull()) {
+            QMessageBox::critical(this, "Erreur", "Le fichier n'est pas un format JSON valide !");
+            return;
+        }
+
+        if (!jsonDoc.isObject()) {
+            QMessageBox::critical(this, "Erreur", "Le fichier JSON doit être un objet !");
+            return;
+        }
+
+        QJsonObject rootObj = jsonDoc.object();
+
+        if (!rootObj.contains("questions") || !rootObj.value("questions").isArray()) {
+            QMessageBox::critical(this, "Erreur", "Le fichier JSON doit contenir un tableau de questions !");
+            return;
+        }
+
+        QJsonArray questionsArray = rootObj.value("questions").toArray();
+
+        for (const QJsonValue &questionValue : questionsArray) {
+            QJsonObject questionObj = questionValue.toObject();
+            QString questionText = questionObj.value("text").toString();
+            QString numberQuestion = questionObj.value("number").toString();
+            QString numberChoice = questionObj.value("choicesAllowed").toString();
+            QJsonArray answersArray = questionObj.value("answers").toArray();
+
+            for (int i = 0; i < answersArray.size() && i < 4; ++i) {
+                QJsonObject answerObj = answersArray[i].toObject();
+                choices[i][0] = answerObj.value("text").toString();
+                choices[i][1] = answerObj.value("isCorrect").toBool() ? "true" : "false";
+            }
+
+            addQuestion(&questionText, &numberQuestion, &numberChoice); // Ajoute la question
+        }
+
+        QMessageBox::information(this, "Importation terminée", "Les questions ont été importées avec succès !");
+    }
+}
+
+
+
+void QCM::addQuestion(QString *nomQ, QString *numQ, QString *nbRep)
 {
     QuestionWidget *question = new QuestionWidget;
     QString nbQ = QString::number(questionWidgets.size() + 1);
@@ -60,11 +153,12 @@ void QCM::addQuestion()
     question->questionNumberSpin->setMinimum(1);
     question->questionNumberSpin->setMaximum(100);
     question->questionNumberSpin->setFixedWidth(75);
-    question->questionNumberSpin->setValue(nbQ.toInt());
+    question->questionNumberSpin->setValue((numQ && !numQ->isEmpty() ? *numQ : nbQ ).toInt());
 
     QLabel *questionNumberLabel = new QLabel("N° :", this);
     QLabel *questionLabel = new QLabel("Question :", this);
     question->questionEdit = new QLineEdit(this);
+    question->questionEdit->setText((nomQ && !nomQ->isEmpty() ? *nomQ : "" ));
     question->questionEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
     questionHeaderLayout->addWidget(questionNumberLabel);
@@ -77,6 +171,7 @@ void QCM::addQuestion()
     QLabel *choiceCountLabel = new QLabel("Nombre de choix possibles :", this);
     question->choiceCountSpin = new QSpinBox(this);
     question->choiceCountSpin->setRange(1, 4);
+    question->choiceCountSpin->setValue((nbRep && !nbRep->isEmpty() ? *nbRep : "2" ).toInt());
 
     nbChoixLayout->addWidget(choiceCountLabel);
     nbChoixLayout->addWidget(question->choiceCountSpin);
@@ -95,11 +190,14 @@ void QCM::addQuestion()
     question->buttonLayout->addWidget(question->removeAnswerButton);
     questionBoxLayout->addLayout(question->buttonLayout);
 
-    addAnswers(question);
-    addAnswers(question);
+    int i = 0;
+    while (i < 4 && (choices[i][0] != QString("") || i < 2)) {
+        addAnswers(question, &choices[i][0], &choices[i][1]);
+        i++;
+    }
 
     // Correction de la connexion du bouton d'ajout de réponse
-    connect(question->addAnswerButton, &QPushButton::clicked, this, [=]() { addAnswers(question); });
+    connect(question->addAnswerButton, &QPushButton::clicked, this, [=]() { addAnswers(question, new QString(""), new QString("")); });
 
     connect(question->removeAnswerButton, &QPushButton::clicked, [=]() {
         if (question->answerFields.size() <= 2) {
@@ -123,22 +221,26 @@ void QCM::addQuestion()
     questionWidgets.append(question);
     scrollWidget->adjustSize();
 
+    addBoxAddQuestion();
+
     // Descendre la scrollbar jusqu'à la dernière question ajoutée
     scrollArea->verticalScrollBar()->setValue(scrollArea->verticalScrollBar()->maximum());
-
-    addBoxAddQuestion();
 }
 
-void QCM::addAnswers(QuestionWidget* question)
-{
-    if (question->answerFields.size() >= 4) {
+void QCM::addAnswers(QuestionWidget* question, QString *choix, QString *correct) {
+    if (!question || question->answerFields.size() >= 4) {
         QMessageBox::warning(this, "Limite atteinte", "Vous ne pouvez pas ajouter plus de 4 réponses !");
         return;
     }
 
     QLineEdit *answerEdit = new QLineEdit(this);
+    answerEdit->setText(choix ? *choix : QString(""));
     answerEdit->setPlaceholderText("Réponse " + QString::number(question->answerFields.size() + 1));
+
+    bool statusCorrect = (correct->toLower() == "true" ? true : false);
+
     QCheckBox *correctAnswerCheck = new QCheckBox("Bonne réponse", this);
+    correctAnswerCheck->setChecked(statusCorrect);
 
     QHBoxLayout *answerLayout = new QHBoxLayout();
     answerLayout->addWidget(answerEdit);
@@ -148,6 +250,7 @@ void QCM::addAnswers(QuestionWidget* question)
     question->answerFields.append(answerEdit);
     question->correctAnswers.append(correctAnswerCheck);
 }
+
 
 void QCM::addBoxAddQuestion()
 {
@@ -169,7 +272,9 @@ void QCM::addBoxAddQuestion()
     boxLayout->addWidget(addButton, 0, Qt::AlignCenter);
     boxLayout->addWidget(descriptionLabel, 0, Qt::AlignCenter);
 
-    connect(addButton, &QPushButton::clicked, this, &QCM::addQuestion);
+    connect(addButton, &QPushButton::clicked, this, [this]() {
+        this->addQuestion(nullptr, nullptr, nullptr);
+    });
 
     // Calculer la ligne et la colonne où la boîte doit être placée
     int row = questionWidgets.size() / 2;  // Chaque ligne contient 2 questions
@@ -229,6 +334,11 @@ void QCM::saveQuestions()
 {
     QJsonArray questionsArray;
 
+    // Tri des questions par leur numéro, si nécessaire
+    std::sort(questionWidgets.begin(), questionWidgets.end(), [](const QuestionWidget *a, const QuestionWidget *b) {
+        return a->questionNumberSpin->value() < b->questionNumberSpin->value();
+    });
+
     for (const auto &question : questionWidgets) {
         if (question->questionEdit->text().isEmpty()) {
             QMessageBox::warning(this, "Erreur", "Veuillez entrer une question !");
@@ -236,34 +346,50 @@ void QCM::saveQuestions()
         }
 
         QJsonObject questionData;
-        questionData["number"] = question->questionNumberSpin->value();
-        questionData["question"] = question->questionEdit->text();
-        questionData["choicesAllowed"] = question->choiceCountSpin->value();
+        questionData["number"] = question->questionNumberSpin->value(); // Numéro de la question
+        questionData["text"] = question->questionEdit->text();          // Texte de la question
+        questionData["choicesAllowed"] = question->choiceCountSpin->value(); // Nombre de choix possibles
 
-        QJsonArray answersArray;
-        QJsonArray correctArray;
+        QJsonArray answersArray; // Contient les réponses (avec "text" et "isCorrect")
 
         for (int i = 0; i < question->answerFields.size(); i++) {
             if (!question->answerFields[i]->text().isEmpty()) {
-                answersArray.append(question->answerFields[i]->text());
-                if (question->correctAnswers[i]->isChecked()) {
-                    correctArray.append(i);
-                }
+                QJsonObject answerData;
+                answerData["isCorrect"] = question->correctAnswers[i]->isChecked(); // Bonne réponse ou non
+                answerData["text"] = question->answerFields[i]->text();             // Texte de la réponse
+                answersArray.append(answerData); // Ajoute la réponse au tableau
             }
         }
 
-        questionData["answers"] = answersArray;
-        questionData["correct"] = correctArray;
-        questionsArray.append(questionData);
+        questionData["answers"] = answersArray; // Ajoute les réponses à la question
+        questionsArray.append(questionData);   // Ajoute la question au tableau des questions
     }
 
-    QFile file(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/questions.json");
-    file.open(QIODevice::WriteOnly | QIODevice::Text);
-    file.write(QJsonDocument(questionsArray).toJson(QJsonDocument::Indented));
+    // Crée un objet principal pour inclure les questions
+    QJsonObject rootObject;
+    rootObject["questions"] = questionsArray;
+
+    // Chemin du fichier de sauvegarde
+    QString savePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/questions.qcmlabo";
+    QFile file(savePath);
+
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QMessageBox::critical(this, "Erreur", "Impossible de sauvegarder les questions !");
+        return;
+    }
+
+    // Sauvegarde du JSON formaté avec indentation
+    file.write(QJsonDocument(rootObject).toJson(QJsonDocument::Indented));
     file.close();
+
+    QMessageBox::information(this, "Sauvegarde terminée", "Les questions ont été sauvegardées avec succès dans :\n" + savePath);
 }
+
+
+
 
 QCM::~QCM()
 {
     delete ui;
+
 }
