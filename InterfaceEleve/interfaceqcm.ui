@@ -180,6 +180,23 @@
     <string/>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButtonEnregistrer">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>405</y>
+     <width>70</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: transparent;
+    border: none;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
   <zorder>pushButton_2</zorder>
   <zorder>pushButton1</zorder>
   <zorder>pushButton4</zorder>
@@ -190,6 +207,7 @@
   <zorder>pushButtonQuestionPrecedente</zorder>
   <zorder>pushButton</zorder>
   <zorder>pushButtonSon</zorder>
+  <zorder>pushButtonEnregistrer</zorder>
  </widget>
  <resources/>
  <connections/>

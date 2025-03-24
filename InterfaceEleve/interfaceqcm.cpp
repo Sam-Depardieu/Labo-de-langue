@@ -86,6 +86,16 @@ InterfaceQCM::InterfaceQCM(QWidget *parent)
         ui->pushButtonEffacerReponse->setStyleSheet("QPushButton { text-align: center; padding: 0px; }");
     }
 
+    QPixmap imageEnregistrer(":/images/Enregistrer"); // Charge l'image
+    if (imageEnregistrer.isNull()) {
+        qWarning() << "Erreur : image non trouvée !";
+    } else {
+        qDebug() << "Image chargée avec succès !";
+        QIcon icone(imageEnregistrer); // Crée une icône
+        ui->pushButtonEnregistrer->setIcon(icone); // Définit l'icône du bouton
+        ui->pushButtonEnregistrer->setIconSize(ui->pushButtonEnregistrer->size());
+        qDebug() << "Icône définie sur le bouton.";
+    }
 
 }
 
@@ -233,6 +243,8 @@ void InterfaceQCM::on_pushButtonEffacerReponse_clicked()
         ui->pushButton3->setIconSize(ui->pushButton3->size());
     }
 
+
+
     // Change l'image de pushButton4
     QPixmap image4(":/images/4"); // Chemin vers l'image de base pour pushButton4
     if (image4.isNull()) {
@@ -242,3 +254,9 @@ void InterfaceQCM::on_pushButtonEffacerReponse_clicked()
         ui->pushButton4->setIcon(icone);
         ui->pushButton4->setIconSize(ui->pushButton4->size());
     }}
+
+void InterfaceQCM::on_pushButtonEnregistrer_clicked()
+{
+    qDebug() << "Bouton Enregistrer cliqué";
+}
+

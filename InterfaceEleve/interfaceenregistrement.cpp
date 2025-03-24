@@ -20,9 +20,10 @@ InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
     player->setAudioOutput(audioOutput);       // Configurer QAudioOutput pour le player
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &InterfaceEnregistrement::updateChrono);
-    AudioRecorder = new QAudioRecorder(this);
-    AudioProbe = new QAudioProbe(this);
-    AudioProbe->setSource(AudioRecorder);
+    mediaRecorder = new QMediaRecorder(this);
+    audioInput = new QAudioInput(this);
+    captureSession.setAudioInput(audioInput);
+    captureSession.setRecorder(mediaRecorder);
 
 
     rewindTimer = new QTimer(this);
@@ -36,6 +37,8 @@ InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
     isRewinding = false;
     totalSecondes = 0;
     speakButtonClicked = false;
+
+
 
 
 
@@ -58,6 +61,17 @@ InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
         ui->pushButtonSurveiller->setIcon(icone); // Définit l'icône du bouton
         ui->pushButtonSurveiller->setIconSize(ui->pushButtonSurveiller->size());
     }
+    QPixmap imageEnregistrer(":/images/Enregistrer"); // Charge l'image
+    if (imageEnregistrer.isNull()) {
+        qWarning() << "Erreur : image non trouvée !";
+    } else {
+        qDebug() << "Image chargée avec succès !";
+        QIcon icone(imageEnregistrer); // Crée une icône
+        ui->pushButtonEnregistrer->setIcon(icone); // Définit l'icône du bouton
+        ui->pushButtonEnregistrer->setIconSize(ui->pushButtonEnregistrer->size());
+        qDebug() << "Icône définie sur le bouton.";
+    }
+
 
     QPixmap imageRevenirArriere(":/images/RevenirArriere"); // Charge l'image
     if (imageRevenirArriere.isNull()) {
@@ -236,11 +250,45 @@ void InterfaceEnregistrement::on_pushButtonClear_clicked()
 
 void InterfaceEnregistrement::on_pushButtonSon_clicked()
 {
-    if (player->position() / 1000 >= totalSecondes) {
-        player->stop();
-        qDebug() << "Lecture arrêtée car elle a dépassé le temps du chronomètre";
-    }
+    // Création de la fenêtre popup
+    QDialog popup(this);
+    popup.setWindowTitle("Réglages du Son");
+    popup.setModal(true);  // Bloque l'interaction avec la fenêtre principale
+
+
+    // Création des sliders
+    QSlider *slider1 = new QSlider(Qt::Vertical);
+    slider1->setRange(0, 100);
+    slider1->setValue(50);  // Valeur par défaut
+
+    // Création des labels
+    QLabel *label1 = new QLabel("Son");
+
+    // Bouton de fermeture
+    QPushButton *closeButton = new QPushButton("Fermer");
+
+    // Layout de la popup
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+
+    // Layout pour les sliders et les labels à mettre horizontalement
+    QHBoxLayout *slidersLayout = new QHBoxLayout;
+    slidersLayout->addWidget(label1);
+    slidersLayout->addWidget(slider1);
+
+    // Ajouter le layout des sliders et labels à celui principal
+    mainLayout->addLayout(slidersLayout);
+    mainLayout->addWidget(closeButton);
+
+    // Appliquer le layout principal à la popup
+    popup.setLayout(mainLayout);
+
+    // Connexion du bouton de fermeture
+    QObject::connect(closeButton, &QPushButton::clicked, &popup, &QDialog::accept);
+
+    // Affichage de la popup
+    popup.exec();
 }
+
 
 void InterfaceEnregistrement::on_pushButtonRetourArriere_clicked()
 {
@@ -366,4 +414,10 @@ void InterfaceEnregistrement::onRecorderErrorOccurred(QMediaRecorder::Error erro
     qDebug() << "Erreur d'enregistrement:" << errorString;
 }
 
+
+
+void InterfaceEnregistrement::on_pushButtonEnregistrer_clicked()
+{
+    qDebug() << "Bouton Enregistrer cliqué";
+}
 

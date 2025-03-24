@@ -26,5 +26,6 @@
         <file>images/SonEleve.png</file>
         <file>images/SonSysteme.png</file>
         <file>images/Surveiller.png</file>
+        <file>images/Enregistrer.png</file>
     </qresource>
 </RCC>

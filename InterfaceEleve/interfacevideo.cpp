@@ -2,12 +2,12 @@
 #include "ui_interfacevideo.h"
 #include <QAudioOutput>
 #include <QStandardPaths>
+
 InterfaceVideo::InterfaceVideo(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::InterfaceVideo)
     , player(new QMediaPlayer(this))  // 🔹 Initialisation de player
     , audioOutput(new QAudioOutput(this))
-
 {
     ui->setupUi(this);
 
@@ -15,16 +15,9 @@ InterfaceVideo::InterfaceVideo(QWidget *parent)
     this->setWindowTitle("Page de Video");
 
     player = new QMediaPlayer(this);
-    videoWidget = new QVideoWidget(this);
-
     audioOutput = new QAudioOutput(this);  // Crée un objet QAudioOutput pour gérer l'audio
     player->setAudioOutput(audioOutput);   // Associe l'objet QAudioOutput au lecteur multimédia
     setFixedSize(800,480);
-    // Ajouter `videoWidget` dans l'interface (si non présent dans `.ui`)
-    ui->verticalLayout->addWidget(videoWidget);
-
-    // Associer le lecteur multimédia au widget vidéo
-    player->setVideoOutput(videoWidget);
 
     this->setWindowTitle("Interface Vidéo");
 
@@ -60,7 +53,6 @@ InterfaceVideo::InterfaceVideo(QWidget *parent)
         ui->pushButton_Apres10->setIcon(icone); // Définit l'icône du bouton
         ui->pushButton_Apres10->setIconSize(ui->pushButton_Apres10->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
     }
-
 }
 
 InterfaceVideo::~InterfaceVideo()
@@ -84,9 +76,7 @@ void InterfaceVideo::on_pushButton_SelectVideo_clicked()
         player->play();
         qDebug() << "Fichier sélectionné : " << fileName;
     }
-
 }
-
 
 void InterfaceVideo::on_pushButton_Avant10_clicked()
 {
@@ -101,18 +91,15 @@ void InterfaceVideo::on_pushButton_Avant10_clicked()
     player->setPosition(newPosition);
 }
 
-
 void InterfaceVideo::on_pushButton_Play_clicked()
 {
     player->play();
 }
 
-
 void InterfaceVideo::on_pushButton_Pause_clicked()
 {
     player->pause();
 }
-
 
 void InterfaceVideo::on_pushButton_Apres10_clicked()
 {
@@ -125,12 +112,12 @@ void InterfaceVideo::on_pushButton_Apres10_clicked()
     player->setPosition(newPosition);
 }
 
-
 void InterfaceVideo::on_horizontalSlider_sonVideo_actionTriggered(int action)
 {
     int volume = ui->horizontalSlider_sonVideo->value();  // Récupère la valeur du slider
     audioOutput->setVolume(volume / 100.0);
 }
+
 void InterfaceVideo::closeEvent(QCloseEvent *event)
 {
     if (player) {
@@ -140,4 +127,3 @@ void InterfaceVideo::closeEvent(QCloseEvent *event)
     }
     event->accept();  // Accepter la fermeture
 }
-
