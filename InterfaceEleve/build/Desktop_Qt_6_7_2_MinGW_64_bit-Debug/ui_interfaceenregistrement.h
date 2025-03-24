@@ -34,6 +34,8 @@ public:
     QLabel *labelAppelProf;
     QPushButton *pushButtonPlay;
     QPushButton *pushButtonRetourArriere;
+    QPushButton *pushButtonEnregistrer;
+    QPushButton *pushButtonEnregistrer_2;
 
     void setupUi(QDialog *InterfaceEnregistrement)
     {
@@ -84,7 +86,7 @@ public:
         font.setPointSize(20);
         font.setBold(true);
         labelChrono->setFont(font);
-        labelChrono->setAlignment(Qt::AlignCenter);
+        labelChrono->setAlignment(Qt::AlignmentFlag::AlignCenter);
         pushButtonSpeak = new QPushButton(InterfaceEnregistrement);
         pushButtonSpeak->setObjectName("pushButtonSpeak");
         pushButtonSpeak->setGeometry(QRect(320, 290, 70, 70));
@@ -114,6 +116,16 @@ public:
         pushButtonRetourArriere->setObjectName("pushButtonRetourArriere");
         pushButtonRetourArriere->setGeometry(QRect(270, 160, 70, 70));
         pushButtonRetourArriere->setStyleSheet(QString::fromUtf8(""));
+        pushButtonEnregistrer = new QPushButton(InterfaceEnregistrement);
+        pushButtonEnregistrer->setObjectName("pushButtonEnregistrer");
+        pushButtonEnregistrer->setGeometry(QRect(500, 405, 70, 70));
+        pushButtonEnregistrer->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
+"    border: none;"));
+        pushButtonEnregistrer_2 = new QPushButton(InterfaceEnregistrement);
+        pushButtonEnregistrer_2->setObjectName("pushButtonEnregistrer_2");
+        pushButtonEnregistrer_2->setGeometry(QRect(550, 450, 70, 70));
+        pushButtonEnregistrer_2->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
+"    border: none;"));
         pushButton_2->raise();
         pushButton->raise();
         pushButtonSon->raise();
@@ -127,6 +139,8 @@ public:
         pushButtonPlay->raise();
         pushButtonRetourArriere->raise();
         pushButtonAppelProf->raise();
+        pushButtonEnregistrer->raise();
+        pushButtonEnregistrer_2->raise();
 
         retranslateUi(InterfaceEnregistrement);
 
@@ -149,6 +163,8 @@ public:
         labelAppelProf->setText(QCoreApplication::translate("InterfaceEnregistrement", "Le prof a \303\251t\303\251 appel\303\251", nullptr));
         pushButtonPlay->setText(QString());
         pushButtonRetourArriere->setText(QString());
+        pushButtonEnregistrer->setText(QString());
+        pushButtonEnregistrer_2->setText(QString());
     } // retranslateUi
 
 };

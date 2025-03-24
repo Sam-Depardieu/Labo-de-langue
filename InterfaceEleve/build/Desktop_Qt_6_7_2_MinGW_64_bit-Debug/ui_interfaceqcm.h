@@ -29,6 +29,7 @@ public:
     QPushButton *pushButton;
     QPushButton *pushButton_2;
     QPushButton *pushButtonSon;
+    QPushButton *pushButtonEnregistrer;
 
     void setupUi(QDialog *InterfaceQCM)
     {
@@ -86,6 +87,11 @@ public:
         pushButtonSon->setAutoFillBackground(false);
         pushButtonSon->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
 "    border: none;"));
+        pushButtonEnregistrer = new QPushButton(InterfaceQCM);
+        pushButtonEnregistrer->setObjectName("pushButtonEnregistrer");
+        pushButtonEnregistrer->setGeometry(QRect(130, 405, 70, 70));
+        pushButtonEnregistrer->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
+"    border: none;"));
         pushButton_2->raise();
         pushButton1->raise();
         pushButton4->raise();
@@ -96,6 +102,7 @@ public:
         pushButtonQuestionPrecedente->raise();
         pushButton->raise();
         pushButtonSon->raise();
+        pushButtonEnregistrer->raise();
 
         retranslateUi(InterfaceQCM);
 
@@ -115,6 +122,7 @@ public:
         pushButton->setText(QCoreApplication::translate("InterfaceQCM", "Bienvenue sur l'interface de Question \303\240 choix multiple", nullptr));
         pushButton_2->setText(QString());
         pushButtonSon->setText(QString());
+        pushButtonEnregistrer->setText(QString());
     } // retranslateUi
 
 };

@@ -26,6 +26,8 @@ private slots:
 
     void on_pushButtonEffacerReponse_clicked();
 
+    void on_pushButtonEnregistrer_clicked();
+
 private:
     Ui::InterfaceQCM *ui;
     bool isButton1Image; // Déclaration pour Button 1

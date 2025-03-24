@@ -22,6 +22,10 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QMediaCaptureSession>
+#include <QSlider>
+#include <QVBoxLayout>
+#include <QWidgetAction>
+#include <QLabel>
 //#include <QAudioRecorder>
 //#include <QAudioProbe>
 //#include <QAudioEncoderSettings>
@@ -54,6 +58,8 @@ private slots:
     void on_pushButtonPlay_clicked();
     void on_pushButtonAvancer_clicked();
 
+    void on_pushButtonEnregistrer_clicked();
+
 private:
     Ui::InterfaceEnregistrement *ui;
     QMediaRecorder *mediaRecorder;
@@ -73,6 +79,10 @@ private:
     int lastRecordedTime = 0;
     bool isRecordingPaused = false;  // Indique si l'enregistrement est en pause
     qint64 pausedTime = 0;           // Sauvegarde le temps de pause
+    QMenu *volumeMenu;  // Menu pour les sliders de volume
+    QSlider *sliderPrincipal;  // Slider pour le volume principal
+    QSlider *sliderSecondaire;  // Slider pour le volume secondaire
+    void setupVolumeMenu();  // Fonction pour configurer le menu de volume
 
 
     void resetTimer();  // Déclaration de la fonction resetTimer

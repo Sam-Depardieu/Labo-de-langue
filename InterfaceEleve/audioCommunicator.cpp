@@ -1,13 +1,13 @@
 #include "audioCommunicator.h"
+#include "qdir.h"
 #include <QIODevice>
-#include <zmq.hpp>
 #include <QDebug>
 #include <QTimer>
 #include <QMediaDevices>
 #include <QAudioSource>
 #include <QAudioSink>
 
-Student::Student(QObject *parent) : QObject(parent), context(1) {
+Student::Student(QObject *parent) : QObject(parent) {
     QAudioFormat format;
     format.setSampleRate(16000);  // 44.1 kHz standard
     format.setChannelCount(1);  // Mono
@@ -31,12 +31,6 @@ Student::Student(QObject *parent) : QObject(parent), context(1) {
     } else {
         qDebug() << "❌ Aucun haut-parleur détecté!";
     }
-
-    pushSocket = new zmq::socket_t(context, ZMQ_PUSH);
-    pushSocket->connect("tcp://localhost:5555");
-
-    pullSocket = new zmq::socket_t(context, ZMQ_PULL);
-    pullSocket->bind("tcp://*:5556");
 
     // Connexion des timers aux slots
     connect(&sendAudioTimer, &QTimer::timeout, this, &Student::sendAudioData);
@@ -63,48 +57,33 @@ void Student::sendAudioData() {
         return;
     }
 
-    if (!pushSocket) {
-        qDebug() << "❌ Erreur: pushSocket est NULL!";
-        return;
-    }
-
-    try {
-        zmq::message_t message(data.constData(), data.size());
-        pushSocket->send(message, zmq::send_flags::none);
-    } catch (const std::runtime_error &e) {
-        qDebug() << "❌ Erreur lors de l'envoi des données audio:" << e.what();
-    }
+    // Ici, vous pouvez ajouter le code pour traiter ou enregistrer les données audio si nécessaire
 }
 
-// Fonction pour recevoir l'audio des étudiants
+// Fonction pour recevoir l'audio
 void Student::receiveAudioData() {
     qDebug() << "🔹 Début receiveAudioData()";
-
-    if (!pullSocket) {
-        qDebug() << "⚠️ pullSocket non initialisé";
-        return;
-    }
 
     if (!audioSinkDevice) {
         qDebug() << "⚠️ audioSinkDevice non initialisé";
         return;
     }
 
-    zmq::message_t message;
-    zmq::recv_result_t result = pullSocket->recv(message, zmq::recv_flags::dontwait); // Réception non bloquante
-
-    if (!result) {
-        if (zmq_errno() != EAGAIN) {  // Ignorer l'erreur si aucune donnée n'est dispo
-            qDebug() << "❌ Erreur zmq_recv:" << zmq_strerror(zmq_errno());
-        } else {
-            qDebug() << "⚠️ Pas de données audio disponibles";
-        }
-        return;
-    }
-
-    QByteArray data(static_cast<char*>(message.data()), message.size());
-    qDebug() << "✅ Audio reçu, taille :" << data.size();
-
-    audioSinkDevice->write(data);
+    // Ici, vous pouvez ajouter le code pour recevoir et jouer des données audio si nécessaire
     qDebug() << "🔹 Fin receiveAudioData()";
+}
+
+void Student::playFeedback() {
+    QAudioFormat format;
+    format.setSampleRate(16000);
+    format.setChannelCount(1);
+    format.setSampleFormat(QAudioFormat::Int16);
+
+    audioSink = new QAudioSink(format, this);
+
+    QFile audioFile("feedback_teacher.wav");
+    if (audioFile.open(QIODevice::ReadOnly)) {
+        QIODevice *device = audioSink->start();
+        device->write(audioFile.readAll());
+    }
 }
