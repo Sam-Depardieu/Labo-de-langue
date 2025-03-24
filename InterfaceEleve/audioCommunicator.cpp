@@ -1,22 +1,16 @@
 #include "audioCommunicator.h"
 #include "qdir.h"
 #include <QIODevice>
-<<<<<<< HEAD
-=======
-//#include <zmq.hpp>
->>>>>>> b58bf215bd779102c84a0b57b95660ad8196f32c
+
 #include <QDebug>
 #include <QTimer>
 #include <QMediaDevices>
 #include <QAudioSource>
 #include <QAudioSink>
 
-<<<<<<< HEAD
+
 Student::Student(QObject *parent) : QObject(parent) {
-=======
-Student::Student(QObject *parent) : QObject(parent){
     udpSocket.bind(serverAddress,audioPort);
->>>>>>> b58bf215bd779102c84a0b57b95660ad8196f32c
     QAudioFormat format;
     format.setSampleRate(16000);  // 44.1 kHz standard
     format.setChannelCount(1);  // Mono
@@ -41,12 +35,8 @@ Student::Student(QObject *parent) : QObject(parent){
         qDebug() << "❌ Aucun haut-parleur détecté!";
     }
 
-<<<<<<< HEAD
-=======
 
     connect(&udpSocket, &QUdpSocket::readyRead, this, &Student::receiveAudioData);
-
->>>>>>> b58bf215bd779102c84a0b57b95660ad8196f32c
     // Connexion des timers aux slots
     connect(&sendAudioTimer, &QTimer::timeout, this, &Student::sendAudioData);
     //connect(&receiveAudioTimer, &QTimer::timeout, this, &Student::receiveAudioData);
@@ -85,9 +75,7 @@ void Student::sendAudioData() {
 
     }
 
-<<<<<<< HEAD
     // Ici, vous pouvez ajouter le code pour traiter ou enregistrer les données audio si nécessaire
-=======
     //QThread::msleep(0);  // Attendre un peu pour que le buffer se remplisse
 
 
@@ -112,14 +100,12 @@ void Student::sendAudioData() {
     else {
         qDebug() << "Aucune donnée capturée, état :" << audioSource->state();
     }
->>>>>>> b58bf215bd779102c84a0b57b95660ad8196f32c
 }
 
 // Fonction pour recevoir l'audio
 void Student::receiveAudioData() {
     qDebug() << "🔹 Début receiveAudioData()";
 
-<<<<<<< HEAD
     if (!audioSinkDevice) {
         qDebug() << "⚠️ audioSinkDevice non initialisé";
         return;
@@ -142,7 +128,6 @@ void Student::playFeedback() {
         QIODevice *device = audioSink->start();
         device->write(audioFile.readAll());
     }
-=======
     while (udpSocket.hasPendingDatagrams()) {
         QByteArray data;
         data.resize(udpSocket.pendingDatagramSize());
@@ -180,5 +165,4 @@ void Student::connectToServer() {
     // Envoie un message pour rejoindre le groupe
     QByteArray joinMessage = "JOIN " + group.toUtf8();
     udpSocket.writeDatagram(joinMessage, serverAddress, serverPort);
->>>>>>> b58bf215bd779102c84a0b57b95660ad8196f32c
 }
