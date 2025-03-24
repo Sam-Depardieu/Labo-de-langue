@@ -1,6 +1,7 @@
 #ifndef AUDIOCOMMUNICATOR_H
 #define AUDIOCOMMUNICATOR_H
 
+#include <QtNetwork>
 #include <QObject>
 #include <QAudioInput>
 #include <QAudioOutput>
@@ -11,7 +12,7 @@
 #include <QDebug>
 #include <QMediaDevices>
 #include <QTimer>
-#include <zmq.hpp>
+//#include <zmq.hpp>
 
 class Student: public QObject {
     Q_OBJECT
@@ -25,10 +26,11 @@ public slots:  // Déclaration des slots ici
     void receiveAudioData();  // Méthode pour recevoir l'audio des étudiants
 
 private:
-    QString serverIp = "192.168.89.42"; // L'adresse IP du serveur
-    zmq::context_t context;  // Contexte ZeroMQ
-    zmq::socket_t *pushSocket;  // Socket pour envoyer l'audio
-    zmq::socket_t *pullSocket;  // Socket pour recevoir l'audio
+    void connectToServer();
+    QUdpSocket udpSocket;
+    quint16 audioPort = 12346;
+    quint16 serverPort = 12345;
+    QHostAddress serverAddress = QHostAddress("127.0.0.1"); // L'adresse IP du serveur
 
     QAudioSource *audioSource;  // Source audio pour capter l'audio du professeur
     QAudioSink *audioSink;  // Sortie audio pour jouer l'audio des étudiants
@@ -38,6 +40,7 @@ private:
     QAudioDevice outputDeviceInfo;
     QTimer sendAudioTimer;
     QTimer receiveAudioTimer;
+    QString group = "groupe1";
 };
 
 #endif // AUDIOCOMMUNICATOR_H

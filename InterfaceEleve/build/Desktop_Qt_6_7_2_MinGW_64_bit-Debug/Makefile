@@ -409,6 +409,7 @@ Makefile: ../../InterfaceEleve.pro C:/Qt/6.7.2/mingw_64/mkspecs/win32-g++/qmake.
 		C:/Qt/6.7.2/mingw_64/mkspecs/features/yacc.prf \
 		C:/Qt/6.7.2/mingw_64/mkspecs/features/lex.prf \
 		../../InterfaceEleve.pro \
+		C:/Qt/6.7.2/mingw_64/lib/Qt6MultimediaWidgets.prl \
 		C:/Qt/6.7.2/mingw_64/lib/Qt6Multimedia.prl \
 		C:/Qt/6.7.2/mingw_64/lib/Qt6Widgets.prl \
 		C:/Qt/6.7.2/mingw_64/lib/Qt6Gui.prl \
@@ -759,6 +760,7 @@ C:/Qt/6.7.2/mingw_64/mkspecs/features/exceptions.prf:
 C:/Qt/6.7.2/mingw_64/mkspecs/features/yacc.prf:
 C:/Qt/6.7.2/mingw_64/mkspecs/features/lex.prf:
 ../../InterfaceEleve.pro:
+C:/Qt/6.7.2/mingw_64/lib/Qt6MultimediaWidgets.prl:
 C:/Qt/6.7.2/mingw_64/lib/Qt6Multimedia.prl:
 C:/Qt/6.7.2/mingw_64/lib/Qt6Widgets.prl:
 C:/Qt/6.7.2/mingw_64/lib/Qt6Gui.prl:
