@@ -16,10 +16,10 @@ CXX           = g++
 DEFINES       = -DUNICODE -D_UNICODE -DWIN32 -DMINGW_HAS_SECURE_API=1 -DQT_NO_DEBUG -DQT_MULTIMEDIAWIDGETS_LIB -DQT_MULTIMEDIA_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WEBSOCKETS_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB
 CFLAGS        = -fno-keep-inline-dllexport -O2 -Wall -Wextra -Wextra $(DEFINES)
 CXXFLAGS      = -fno-keep-inline-dllexport -O2 -std=gnu++1z -Wall -Wextra -Wextra -fexceptions -mthreads $(DEFINES)
-INCPATH       = -I../../../InterfaceEleve -I. -IC:/msys64/mingw64/include -I../../cppzmq/include -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -Irelease -I. -I/include -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ 
+INCPATH       = -I../../../InterfaceEleve -I. -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -Irelease -I. -I/include -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ 
 LINKER      =        g++
 LFLAGS        =        -Wl,-s -Wl,-subsystem,console -mthreads
-LIBS        =        -L C:\msys64\mingw64\lib -lzmq C:\Qt\6.7.2\mingw_64\lib\libQt6MultimediaWidgets.a C:\Qt\6.7.2\mingw_64\lib\libQt6Multimedia.a C:\Qt\6.7.2\mingw_64\lib\libQt6Widgets.a C:\Qt\6.7.2\mingw_64\lib\libQt6Gui.a C:\Qt\6.7.2\mingw_64\lib\libQt6Sql.a C:\Qt\6.7.2\mingw_64\lib\libQt6WebSockets.a C:\Qt\6.7.2\mingw_64\lib\libQt6Network.a C:\Qt\6.7.2\mingw_64\lib\libQt6Core.a   
+LIBS        =        C:\Qt\6.7.2\mingw_64\lib\libQt6MultimediaWidgets.a C:\Qt\6.7.2\mingw_64\lib\libQt6Multimedia.a C:\Qt\6.7.2\mingw_64\lib\libQt6Widgets.a C:\Qt\6.7.2\mingw_64\lib\libQt6Gui.a C:\Qt\6.7.2\mingw_64\lib\libQt6Sql.a C:\Qt\6.7.2\mingw_64\lib\libQt6WebSockets.a C:\Qt\6.7.2\mingw_64\lib\libQt6Network.a C:\Qt\6.7.2\mingw_64\lib\libQt6Core.a   
 QMAKE         = C:\Qt\6.7.2\mingw_64\bin\qmake.exe
 DEL_FILE      = del
 CHK_DIR_EXISTS= if not exist
@@ -390,13 +390,13 @@ release/moc_attenteprof.cpp: ../../attenteprof.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qfactoryinterface.h \
 		release/moc_predefs.h \
 		C:/Qt/6.7.2/mingw_64/bin/moc.exe
-	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include E:/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Release/release/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve -IC:/msys64/mingw64/include -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve/cppzmq/include -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\attenteprof.h -o release\moc_attenteprof.cpp
+	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include E:/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Release/release/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\attenteprof.h -o release\moc_attenteprof.cpp
 
 release/moc_audioCommunicator.cpp: ../../audioCommunicator.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QObject \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qobject.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qobjectdefs.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qnamespace.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QtNetwork \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QtNetworkDepends \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QtCore \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QtCoreDepends \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qglobal.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qtversionchecks.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qtconfiginclude.h \
@@ -441,6 +441,19 @@ release/moc_audioCommunicator.cpp: ../../audioCommunicator.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qtresource.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qttranslation.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qversiontagging.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/q20algorithm.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/q20functional.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/q20chrono.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/q20iterator.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/q20map.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/q20memory.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/q20vector.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/q23functional.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/q23utility.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qabstractanimation.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qobject.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qobjectdefs.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qnamespace.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qtmetamacros.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qobjectdefs_impl.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qfunctionaltools_impl.h \
@@ -455,8 +468,6 @@ release/moc_audioCommunicator.cpp: ../../audioCommunicator.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qarraydataops.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qcontainertools_impl.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qxptype_traits.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/q20functional.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/q20memory.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qbytearrayalgorithms.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qbytearrayview.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qstringfwd.h \
@@ -493,6 +504,229 @@ release/moc_audioCommunicator.cpp: ../../audioCommunicator.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qscopeguard.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qobject_impl.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qbindingstorage.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qabstracteventdispatcher.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qeventloop.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qdeadlinetimer.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qelapsedtimer.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qabstractitemmodel.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qhash.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qvariant.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qdebug.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtextstream.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcontiguouscache.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsharedpointer.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qshareddata.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsharedpointer_impl.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qmap.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qshareddata_impl.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qset.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qvarlengtharray.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qabstractnativeeventfilter.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qabstractproxymodel.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qanimationgroup.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qapplicationstatic.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QMutex \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qmutex.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtsan_impl.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcoreapplication.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qnativeinterface.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcoreapplication_platform.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qfuture.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qfutureinterface.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qresultstore.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qfuture_impl.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qthreadpool.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qthread.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qrunnable.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qexception.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qpromise.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qassociativeiterable.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qatomicscopedvaluerollback.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qbasictimer.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qbitarray.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qbuffer.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qiodevice.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qbytearraymatcher.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcache.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcalendar.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qlocale.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcborarray.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcborvalue.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qdatetime.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcborcommon.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qregularexpression.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qurl.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/quuid.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qendian.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcbormap.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcborstream.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcborstreamreader.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcborstreamwriter.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcollator.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcommandlineoption.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcommandlineparser.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qconcatenatetablesproxymodel.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcryptographichash.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qdir.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qfile.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qfiledevice.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qfileinfo.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtimezone.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qdiriterator.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qeasingcurve.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qfactoryinterface.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qfileselector.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QObject \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QStringList \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qfilesystemwatcher.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qfuturesynchronizer.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qfuturewatcher.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qidentityproxymodel.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qitemselectionmodel.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qjsonarray.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qjsonvalue.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qjsondocument.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qjsonobject.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qlatin1stringmatcher.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qlibrary.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qlibraryinfo.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qversionnumber.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtyperevision.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qline.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qpoint.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qlockfile.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qloggingcategory.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qmargins.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qmessageauthenticationcode.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qmetaobject.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qmimedata.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qmimedatabase.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qmimetype.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qobjectcleanuphandler.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qoperatingsystemversion.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qparallelanimationgroup.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qpauseanimation.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qpermissions.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qplugin.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qpointer.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qpluginloader.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qprocess.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qproperty.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qpropertyprivate.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qpropertyanimation.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qvariantanimation.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qqueue.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qrandom.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qreadwritelock.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qrect.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsize.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qresource.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsavefile.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qscopedvaluerollback.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsemaphore.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsequentialanimationgroup.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsequentialiterable.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsettings.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsharedmemory.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtipccommon.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsignalmapper.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsimd.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsocketnotifier.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsortfilterproxymodel.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qspan.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qstack.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qstandardpaths.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qstaticlatin1stringmatcher.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qstorageinfo.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qstringlistmodel.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsystemsemaphore.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtcoreversion.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtemporarydir.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtemporaryfile.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtextboundaryfinder.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qthreadstorage.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtimeline.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtimer.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtranslator.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtransposeproxymodel.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtsymbolmacros.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qurlquery.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qvarianthash.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QHash \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QString \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qvariantlist.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QList \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qvariantmap.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QMap \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qvector.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qwaitcondition.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QDeadlineTimer \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qwineventnotifier.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qxmlstream.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qxpfunctional.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qtnetworkglobal.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qtnetwork-config.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qtnetworkexports.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qabstractnetworkcache.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkrequest.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QSharedDataPointer \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QUrl \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qabstractsocket.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qhostaddress.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qauthenticator.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qdnslookup.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qdtls.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qsslsocket.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qtcpsocket.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qsslerror.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qsslcertificate.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qssl.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QFlags \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qhostinfo.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qhstspolicy.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qhttp1configuration.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qhttp2configuration.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qhttpheaders.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qhttpmultipart.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QByteArray \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QIODevice \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QNetworkRequest \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qlocalserver.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qlocalsocket.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkaccessmanager.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QSslConfiguration \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qsslconfiguration.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QSslPreSharedKeyAuthenticator \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qsslpresharedkeyauthenticator.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QMetaType \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkcookie.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkcookiejar.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkdatagram.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkdiskcache.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkinformation.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkinterface.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkproxy.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkreply.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QNetworkAccessManager \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkrequestfactory.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qocspresponse.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qpassworddigestor.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QCryptographicHash \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qrestaccessmanager.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qrestreply.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qsslcertificateextension.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qsslcipher.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qssldiffiehellmanparameters.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qsslellipticcurve.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qsslkey.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qsslserver.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QTcpServer \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qtcpserver.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QSslError \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QSslSocket \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qtnetworkversion.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qudpsocket.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QAudioInput \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qaudioinput.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
@@ -507,35 +741,17 @@ release/moc_audioCommunicator.cpp: ../../audioCommunicator.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qaudiooutput.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QAudioSource \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qaudiosource.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qiodevice.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qaudioformat.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qshareddata.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qaudiodevice.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QAudioSink \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qaudiosink.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QIODevice \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QString \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QDebug \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qdebug.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qtextstream.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qcontiguouscache.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qsharedpointer.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qsharedpointer_impl.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qmap.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qshareddata_impl.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qset.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qhash.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qvarlengtharray.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QMediaDevices \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qmediadevices.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QTimer \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qtimer.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qbasictimer.h \
-		../../cppzmq/include/zmq.hpp \
-		C:/msys64/mingw64/include/zmq.h \
 		release/moc_predefs.h \
 		C:/Qt/6.7.2/mingw_64/bin/moc.exe
-	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include E:/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Release/release/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve -IC:/msys64/mingw64/include -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve/cppzmq/include -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\audioCommunicator.h -o release\moc_audioCommunicator.cpp
+	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include E:/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Release/release/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\audioCommunicator.h -o release\moc_audioCommunicator.cpp
 
 release/moc_interfaceaudio.cpp: ../../interfaceaudio.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QDialog \
@@ -734,10 +950,6 @@ release/moc_interfaceaudio.cpp: ../../interfaceaudio.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qmetaobject.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qtaudio.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qaudio.h \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/QVideoWidget \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qvideowidget.h \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qtmultimediawidgetsglobal.h \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qtmultimediawidgetsexports.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QFileDialog \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qfiledialog.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qdir.h \
@@ -751,7 +963,7 @@ release/moc_interfaceaudio.cpp: ../../interfaceaudio.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qaudiooutput.h \
 		release/moc_predefs.h \
 		C:/Qt/6.7.2/mingw_64/bin/moc.exe
-	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include E:/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Release/release/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve -IC:/msys64/mingw64/include -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve/cppzmq/include -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\interfaceaudio.h -o release\moc_interfaceaudio.cpp
+	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include E:/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Release/release/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\interfaceaudio.h -o release\moc_interfaceaudio.cpp
 
 release/moc_interfaceenregistrement.cpp: ../../interfaceenregistrement.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QDialog \
@@ -988,9 +1200,11 @@ release/moc_interfaceenregistrement.cpp: ../../interfaceenregistrement.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/quuid.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QJsonObject \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qjsonobject.h \
+		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QMediaCaptureSession \
+		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qmediacapturesession.h \
 		release/moc_predefs.h \
 		C:/Qt/6.7.2/mingw_64/bin/moc.exe
-	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include E:/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Release/release/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve -IC:/msys64/mingw64/include -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve/cppzmq/include -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\interfaceenregistrement.h -o release\moc_interfaceenregistrement.cpp
+	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include E:/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Release/release/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\interfaceenregistrement.h -o release\moc_interfaceenregistrement.cpp
 
 release/moc_interfaceqcm.cpp: ../../interfaceqcm.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QDialog \
@@ -1182,7 +1396,7 @@ release/moc_interfaceqcm.cpp: ../../interfaceqcm.h \
 		C:/Qt/6.7.2/mingw_64/include/QtGui/qguiapplication_platform.h \
 		release/moc_predefs.h \
 		C:/Qt/6.7.2/mingw_64/bin/moc.exe
-	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include E:/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Release/release/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve -IC:/msys64/mingw64/include -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve/cppzmq/include -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\interfaceqcm.h -o release\moc_interfaceqcm.cpp
+	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include E:/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Release/release/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\interfaceqcm.h -o release\moc_interfaceqcm.cpp
 
 release/moc_interfacevideo.cpp: ../../interfacevideo.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QDialog \
@@ -1381,10 +1595,6 @@ release/moc_interfacevideo.cpp: ../../interfacevideo.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qmetaobject.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qtaudio.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qaudio.h \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/QVideoWidget \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qvideowidget.h \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qtmultimediawidgetsglobal.h \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qtmultimediawidgetsexports.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QFileDialog \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qfiledialog.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qdir.h \
@@ -1397,9 +1607,15 @@ release/moc_interfacevideo.cpp: ../../interfacevideo.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QAudioOutput \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qaudiooutput.h \
 		C:/Qt/6.7.2/mingw_64/include/QtGui/QCloseEvent \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QProcess \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qprocess.h \
+		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/QVideoWidget \
+		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qvideowidget.h \
+		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qtmultimediawidgetsglobal.h \
+		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qtmultimediawidgetsexports.h \
 		release/moc_predefs.h \
 		C:/Qt/6.7.2/mingw_64/bin/moc.exe
-	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include E:/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Release/release/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve -IC:/msys64/mingw64/include -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve/cppzmq/include -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\interfacevideo.h -o release\moc_interfacevideo.cpp
+	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include E:/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Release/release/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\interfacevideo.h -o release\moc_interfacevideo.cpp
 
 release/moc_mainwindow.cpp: ../../mainwindow.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QMainWindow \
@@ -1602,9 +1818,16 @@ release/moc_mainwindow.cpp: ../../mainwindow.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QDebug \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QProcess \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qprocess.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QNetworkInterface \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkinterface.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qtnetworkglobal.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qtnetwork-config.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qtnetworkexports.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qhostaddress.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qabstractsocket.h \
 		release/moc_predefs.h \
 		C:/Qt/6.7.2/mingw_64/bin/moc.exe
-	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include E:/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Release/release/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve -IC:/msys64/mingw64/include -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve/cppzmq/include -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\mainwindow.h -o release\moc_mainwindow.cpp
+	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include E:/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Release/release/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\mainwindow.h -o release\moc_mainwindow.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -1868,10 +2091,10 @@ release/attenteprof.o: ../../attenteprof.cpp ../../attenteprof.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\attenteprof.o ..\..\attenteprof.cpp
 
 release/audioCommunicator.o: ../../audioCommunicator.cpp ../../audioCommunicator.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QObject \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qobject.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qobjectdefs.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qnamespace.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QtNetwork \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QtNetworkDepends \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QtCore \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QtCoreDepends \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qglobal.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qtversionchecks.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qtconfiginclude.h \
@@ -1916,6 +2139,19 @@ release/audioCommunicator.o: ../../audioCommunicator.cpp ../../audioCommunicator
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qtresource.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qttranslation.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qversiontagging.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/q20algorithm.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/q20functional.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/q20chrono.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/q20iterator.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/q20map.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/q20memory.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/q20vector.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/q23functional.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/q23utility.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qabstractanimation.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qobject.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qobjectdefs.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qnamespace.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qtmetamacros.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qobjectdefs_impl.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qfunctionaltools_impl.h \
@@ -1930,8 +2166,6 @@ release/audioCommunicator.o: ../../audioCommunicator.cpp ../../audioCommunicator
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qarraydataops.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qcontainertools_impl.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qxptype_traits.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/q20functional.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/q20memory.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qbytearrayalgorithms.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qbytearrayview.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qstringfwd.h \
@@ -1968,6 +2202,229 @@ release/audioCommunicator.o: ../../audioCommunicator.cpp ../../audioCommunicator
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qscopeguard.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qobject_impl.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qbindingstorage.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qabstracteventdispatcher.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qeventloop.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qdeadlinetimer.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qelapsedtimer.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qabstractitemmodel.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qhash.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qvariant.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qdebug.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtextstream.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcontiguouscache.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsharedpointer.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qshareddata.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsharedpointer_impl.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qmap.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qshareddata_impl.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qset.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qvarlengtharray.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qabstractnativeeventfilter.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qabstractproxymodel.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qanimationgroup.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qapplicationstatic.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QMutex \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qmutex.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtsan_impl.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcoreapplication.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qnativeinterface.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcoreapplication_platform.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qfuture.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qfutureinterface.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qresultstore.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qfuture_impl.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qthreadpool.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qthread.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qrunnable.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qexception.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qpromise.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qassociativeiterable.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qatomicscopedvaluerollback.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qbasictimer.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qbitarray.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qbuffer.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qiodevice.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qbytearraymatcher.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcache.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcalendar.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qlocale.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcborarray.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcborvalue.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qdatetime.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcborcommon.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qregularexpression.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qurl.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/quuid.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qendian.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcbormap.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcborstream.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcborstreamreader.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcborstreamwriter.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcollator.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcommandlineoption.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcommandlineparser.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qconcatenatetablesproxymodel.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcryptographichash.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qdir.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qfile.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qfiledevice.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qfileinfo.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtimezone.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qdiriterator.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qeasingcurve.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qfactoryinterface.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qfileselector.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QObject \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QStringList \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qfilesystemwatcher.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qfuturesynchronizer.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qfuturewatcher.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qidentityproxymodel.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qitemselectionmodel.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qjsonarray.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qjsonvalue.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qjsondocument.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qjsonobject.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qlatin1stringmatcher.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qlibrary.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qlibraryinfo.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qversionnumber.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtyperevision.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qline.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qpoint.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qlockfile.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qloggingcategory.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qmargins.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qmessageauthenticationcode.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qmetaobject.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qmimedata.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qmimedatabase.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qmimetype.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qobjectcleanuphandler.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qoperatingsystemversion.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qparallelanimationgroup.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qpauseanimation.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qpermissions.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qplugin.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qpointer.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qpluginloader.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qprocess.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qproperty.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qpropertyprivate.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qpropertyanimation.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qvariantanimation.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qqueue.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qrandom.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qreadwritelock.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qrect.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsize.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qresource.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsavefile.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qscopedvaluerollback.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsemaphore.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsequentialanimationgroup.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsequentialiterable.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsettings.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsharedmemory.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtipccommon.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsignalmapper.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsimd.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsocketnotifier.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsortfilterproxymodel.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qspan.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qstack.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qstandardpaths.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qstaticlatin1stringmatcher.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qstorageinfo.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qstringlistmodel.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsystemsemaphore.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtcoreversion.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtemporarydir.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtemporaryfile.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtextboundaryfinder.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qthreadstorage.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtimeline.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtimer.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtranslator.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtransposeproxymodel.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtsymbolmacros.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qurlquery.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qvarianthash.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QHash \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QString \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qvariantlist.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QList \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qvariantmap.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QMap \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qvector.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qwaitcondition.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QDeadlineTimer \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qwineventnotifier.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qxmlstream.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qxpfunctional.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qtnetworkglobal.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qtnetwork-config.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qtnetworkexports.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qabstractnetworkcache.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkrequest.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QSharedDataPointer \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QUrl \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qabstractsocket.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qhostaddress.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qauthenticator.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qdnslookup.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qdtls.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qsslsocket.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qtcpsocket.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qsslerror.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qsslcertificate.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qssl.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QFlags \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qhostinfo.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qhstspolicy.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qhttp1configuration.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qhttp2configuration.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qhttpheaders.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qhttpmultipart.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QByteArray \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QIODevice \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QNetworkRequest \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qlocalserver.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qlocalsocket.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkaccessmanager.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QSslConfiguration \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qsslconfiguration.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QSslPreSharedKeyAuthenticator \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qsslpresharedkeyauthenticator.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QMetaType \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkcookie.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkcookiejar.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkdatagram.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkdiskcache.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkinformation.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkinterface.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkproxy.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkreply.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QNetworkAccessManager \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkrequestfactory.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qocspresponse.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qpassworddigestor.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QCryptographicHash \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qrestaccessmanager.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qrestreply.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qsslcertificateextension.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qsslcipher.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qssldiffiehellmanparameters.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qsslellipticcurve.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qsslkey.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qsslserver.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QTcpServer \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qtcpserver.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QSslError \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QSslSocket \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qtnetworkversion.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qudpsocket.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QAudioInput \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qaudioinput.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
@@ -1982,32 +2439,14 @@ release/audioCommunicator.o: ../../audioCommunicator.cpp ../../audioCommunicator
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qaudiooutput.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QAudioSource \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qaudiosource.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qiodevice.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qaudioformat.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qshareddata.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qaudiodevice.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QAudioSink \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qaudiosink.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QIODevice \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QString \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QDebug \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qdebug.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qtextstream.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qcontiguouscache.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qsharedpointer.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qsharedpointer_impl.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qmap.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qshareddata_impl.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qset.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qhash.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qvarlengtharray.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QMediaDevices \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qmediadevices.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QTimer \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qtimer.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qbasictimer.h \
-		../../cppzmq/include/zmq.hpp \
-		C:/msys64/mingw64/include/zmq.h
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QTimer
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\audioCommunicator.o ..\..\audioCommunicator.cpp
 
 release/interfaceaudio.o: ../../interfaceaudio.cpp ../../interfaceaudio.h \
@@ -2207,10 +2646,6 @@ release/interfaceaudio.o: ../../interfaceaudio.cpp ../../interfaceaudio.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qmetaobject.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qtaudio.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qaudio.h \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/QVideoWidget \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qvideowidget.h \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qtmultimediawidgetsglobal.h \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qtmultimediawidgetsexports.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QFileDialog \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qfiledialog.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qdir.h \
@@ -2481,6 +2916,8 @@ release/interfaceenregistrement.o: ../../interfaceenregistrement.cpp ../../inter
 		C:/Qt/6.7.2/mingw_64/include/QtCore/quuid.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QJsonObject \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qjsonobject.h \
+		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QMediaCaptureSession \
+		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qmediacapturesession.h \
 		ui_interfaceenregistrement.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
 		C:/Qt/6.7.2/mingw_64/include/QtGui/QIcon \
@@ -2890,10 +3327,6 @@ release/interfacevideo.o: ../../interfacevideo.cpp ../../interfacevideo.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qmetaobject.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qtaudio.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qaudio.h \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/QVideoWidget \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qvideowidget.h \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qtmultimediawidgetsglobal.h \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qtmultimediawidgetsexports.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QFileDialog \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qfiledialog.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qdir.h \
@@ -2906,6 +3339,12 @@ release/interfacevideo.o: ../../interfacevideo.cpp ../../interfacevideo.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QAudioOutput \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qaudiooutput.h \
 		C:/Qt/6.7.2/mingw_64/include/QtGui/QCloseEvent \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QProcess \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qprocess.h \
+		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/QVideoWidget \
+		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qvideowidget.h \
+		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qtmultimediawidgetsglobal.h \
+		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qtmultimediawidgetsexports.h \
 		ui_interfacevideo.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QApplication \
@@ -3127,7 +3566,201 @@ release/main.o: ../../main.cpp ../../mainwindow.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QDebug \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QProcess \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qprocess.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QNetworkInterface \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkinterface.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qtnetworkglobal.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qtnetwork-config.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qtnetworkexports.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qhostaddress.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qabstractsocket.h \
 		../../audioCommunicator.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QtNetwork \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QtNetworkDepends \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QtCore \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QtCoreDepends \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/q20algorithm.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/q20chrono.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/q20iterator.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/q20map.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/q20vector.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/q23functional.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qabstractanimation.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qabstracteventdispatcher.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qabstractitemmodel.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qabstractnativeeventfilter.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qabstractproxymodel.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qanimationgroup.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qapplicationstatic.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QMutex \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qassociativeiterable.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qatomicscopedvaluerollback.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qbasictimer.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qbitarray.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qbuffer.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qbytearraymatcher.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcache.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcalendar.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcborarray.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcborvalue.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qdatetime.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcborcommon.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qregularexpression.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/quuid.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcbormap.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcborstream.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcborstreamreader.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcborstreamwriter.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcollator.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcommandlineoption.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcommandlineparser.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qconcatenatetablesproxymodel.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qcryptographichash.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qdir.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qfile.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qfiledevice.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qfileinfo.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtimezone.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qdiriterator.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qeasingcurve.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qfactoryinterface.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qfileselector.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QStringList \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qfilesystemwatcher.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qfuturesynchronizer.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qfuturewatcher.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qidentityproxymodel.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qitemselectionmodel.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qjsonarray.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qjsonvalue.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qjsondocument.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qjsonobject.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qlatin1stringmatcher.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qlibrary.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qlibraryinfo.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qversionnumber.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtyperevision.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qlockfile.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qloggingcategory.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qmessageauthenticationcode.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qmetaobject.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qmimedata.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qmimedatabase.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qmimetype.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qobjectcleanuphandler.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qoperatingsystemversion.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qparallelanimationgroup.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qpauseanimation.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qpermissions.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qplugin.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qpointer.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qpluginloader.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qproperty.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qpropertyprivate.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qpropertyanimation.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qvariantanimation.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qqueue.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qrandom.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qreadwritelock.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qresource.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsavefile.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qscopedvaluerollback.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsemaphore.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsequentialanimationgroup.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsequentialiterable.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsettings.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsharedmemory.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtipccommon.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsignalmapper.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsimd.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsocketnotifier.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsortfilterproxymodel.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qspan.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qstack.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qstandardpaths.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qstaticlatin1stringmatcher.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qstorageinfo.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qstringlistmodel.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qsystemsemaphore.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtcoreversion.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtemporarydir.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtemporaryfile.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtextboundaryfinder.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qthreadstorage.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtimeline.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtimer.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtranslator.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtransposeproxymodel.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qtsymbolmacros.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qurlquery.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qvarianthash.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QHash \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QString \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qvariantlist.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qvariantmap.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QMap \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qvector.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qwaitcondition.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QDeadlineTimer \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qwineventnotifier.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qxmlstream.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qxpfunctional.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qabstractnetworkcache.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkrequest.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QSharedDataPointer \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QUrl \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qauthenticator.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qdnslookup.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qdtls.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qsslsocket.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qtcpsocket.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qsslerror.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qsslcertificate.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qssl.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QFlags \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qhostinfo.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qhstspolicy.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qhttp1configuration.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qhttp2configuration.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qhttpheaders.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qhttpmultipart.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QByteArray \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QIODevice \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QNetworkRequest \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qlocalserver.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qlocalsocket.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkaccessmanager.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QSslConfiguration \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qsslconfiguration.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QSslPreSharedKeyAuthenticator \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qsslpresharedkeyauthenticator.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QMetaType \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkcookie.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkcookiejar.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkdatagram.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkdiskcache.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkinformation.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkproxy.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkreply.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QNetworkAccessManager \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkrequestfactory.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qocspresponse.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qpassworddigestor.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QCryptographicHash \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qrestaccessmanager.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qrestreply.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qsslcertificateextension.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qsslcipher.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qssldiffiehellmanparameters.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qsslellipticcurve.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qsslkey.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qsslserver.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QTcpServer \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qtcpserver.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QSslError \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QSslSocket \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qtnetworkversion.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qudpsocket.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QAudioInput \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qaudioinput.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
@@ -3143,15 +3776,9 @@ release/main.o: ../../main.cpp ../../mainwindow.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qaudiodevice.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QAudioSink \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qaudiosink.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QIODevice \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QString \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QMediaDevices \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qmediadevices.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QTimer \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qtimer.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qbasictimer.h \
-		../../cppzmq/include/zmq.hpp \
-		C:/msys64/mingw64/include/zmq.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QApplication \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qapplication.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\main.o ..\..\main.cpp
@@ -3357,6 +3984,13 @@ release/mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QDebug \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QProcess \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qprocess.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QNetworkInterface \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkinterface.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qtnetworkglobal.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qtnetwork-config.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qtnetworkexports.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qhostaddress.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qabstractsocket.h \
 		../../interfaceaudio.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QDialog \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qdialog.h \
@@ -3369,10 +4003,6 @@ release/mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qmetaobject.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qtaudio.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qaudio.h \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/QVideoWidget \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qvideowidget.h \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qtmultimediawidgetsglobal.h \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qtmultimediawidgetsexports.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QFileDialog \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qfiledialog.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qdir.h \
@@ -3402,11 +4032,6 @@ release/mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qmediaformat.h \
 		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QUdpSocket \
 		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qudpsocket.h \
-		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qtnetworkglobal.h \
-		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qtnetwork-config.h \
-		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qtnetworkexports.h \
-		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qabstractsocket.h \
-		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qhostaddress.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QJsonDocument \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qjsondocument.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qjsonvalue.h \
@@ -3416,9 +4041,15 @@ release/mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/quuid.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QJsonObject \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qjsonobject.h \
+		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QMediaCaptureSession \
+		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qmediacapturesession.h \
 		../../interfaceqcm.h \
 		../../interfacevideo.h \
 		C:/Qt/6.7.2/mingw_64/include/QtGui/QCloseEvent \
+		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/QVideoWidget \
+		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qvideowidget.h \
+		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qtmultimediawidgetsglobal.h \
+		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qtmultimediawidgetsexports.h \
 		ui_mainwindow.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QApplication \

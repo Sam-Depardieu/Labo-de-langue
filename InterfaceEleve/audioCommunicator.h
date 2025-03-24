@@ -1,6 +1,7 @@
 #ifndef AUDIOCOMMUNICATOR_H
 #define AUDIOCOMMUNICATOR_H
 
+#include <QtNetwork>
 #include <QObject>
 #include <QAudioInput>
 #include <QAudioOutput>
@@ -11,6 +12,10 @@
 #include <QDebug>
 #include <QMediaDevices>
 #include <QTimer>
+<<<<<<< HEAD
+=======
+//#include <zmq.hpp>
+>>>>>>> b58bf215bd779102c84a0b57b95660ad8196f32c
 
 class Student: public QObject {
     Q_OBJECT
@@ -26,7 +31,15 @@ public slots:  // Déclaration des slots ici
 
 
 private:
+<<<<<<< HEAD
     QString serverIp = "192.168.89.42"; // L'adresse IP du serveur
+=======
+    void connectToServer();
+    QUdpSocket udpSocket;
+    quint16 audioPort = 12346;
+    quint16 serverPort = 12345;
+    QHostAddress serverAddress = QHostAddress("127.0.0.1"); // L'adresse IP du serveur
+>>>>>>> b58bf215bd779102c84a0b57b95660ad8196f32c
 
     QAudioSource *audioSource;  // Source audio pour capter l'audio du professeur
     QAudioSink *audioSink;  // Sortie audio pour jouer l'audio des étudiants
@@ -36,6 +49,7 @@ private:
     QAudioDevice outputDeviceInfo;
     QTimer sendAudioTimer;
     QTimer receiveAudioTimer;
+    QString group = "groupe1";
 };
 
 #endif // AUDIOCOMMUNICATOR_H

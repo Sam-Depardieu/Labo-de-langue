@@ -1,13 +1,22 @@
 #include "audioCommunicator.h"
 #include "qdir.h"
 #include <QIODevice>
+<<<<<<< HEAD
+=======
+//#include <zmq.hpp>
+>>>>>>> b58bf215bd779102c84a0b57b95660ad8196f32c
 #include <QDebug>
 #include <QTimer>
 #include <QMediaDevices>
 #include <QAudioSource>
 #include <QAudioSink>
 
+<<<<<<< HEAD
 Student::Student(QObject *parent) : QObject(parent) {
+=======
+Student::Student(QObject *parent) : QObject(parent){
+    udpSocket.bind(serverAddress,audioPort);
+>>>>>>> b58bf215bd779102c84a0b57b95660ad8196f32c
     QAudioFormat format;
     format.setSampleRate(16000);  // 44.1 kHz standard
     format.setChannelCount(1);  // Mono
@@ -32,38 +41,85 @@ Student::Student(QObject *parent) : QObject(parent) {
         qDebug() << "❌ Aucun haut-parleur détecté!";
     }
 
+<<<<<<< HEAD
+=======
+
+    connect(&udpSocket, &QUdpSocket::readyRead, this, &Student::receiveAudioData);
+
+>>>>>>> b58bf215bd779102c84a0b57b95660ad8196f32c
     // Connexion des timers aux slots
     connect(&sendAudioTimer, &QTimer::timeout, this, &Student::sendAudioData);
-    connect(&receiveAudioTimer, &QTimer::timeout, this, &Student::receiveAudioData);
+    //connect(&receiveAudioTimer, &QTimer::timeout, this, &Student::receiveAudioData);
 
     sendAudioTimer.start(100);  // Intervalle en millisecondes
-    receiveAudioTimer.start(100);
+    //receiveAudioTimer.start(100);
+
+    connectToServer();
 }
 
 // Méthode pour envoyer les données audio
 void Student::sendAudioData() {
     qDebug() << "?? Début sendAudioData()";
 
+    // Démarrer la capture audio
+
+    if (audioSource->state() == QAudio::SuspendedState) {
+        qDebug() << "Reprise de la lecture audio.";
+        audioSource->resume();
+        QThread::msleep(200);
+    } else if (audioSource->state() != QAudio::ActiveState) {
+        qDebug() << "Le périphérique audio n'est pas actif, démarrage.";
+        audioSourceDevice = audioSource->start();
+        QThread::msleep(200);
+    }
+
     if (!audioSourceDevice) {
-        qDebug() << "❌ Erreur: audioSourceDevice est NULL!";
+        qWarning() << "Impossible de démarrer l'enregistrement audio.";
         return;
     }
+    // Assurez-vous que la capture audio est prête avant de démarrer
+    if(audioSource->state() == QAudio::IdleState) {
+        qWarning() << "La source audio n'est pas prête.";
+        audioSourceDevice = audioSource->start();
+        QThread::msleep(200);
 
-    QByteArray data = audioSourceDevice->readAll();
-    qDebug() << "🔹 Audio lu, taille :" << data.size();
-
-    if (data.isEmpty()) {
-        qDebug() << "⚠️ Aucune donnée audio à envoyer";
-        return;
     }
 
+<<<<<<< HEAD
     // Ici, vous pouvez ajouter le code pour traiter ou enregistrer les données audio si nécessaire
+=======
+    //QThread::msleep(0);  // Attendre un peu pour que le buffer se remplisse
+
+
+
+    qint16 availableBytes = audioSource->bytesAvailable();
+    qDebug() << "Octets disponibles :" << availableBytes;
+    if (1){//inputSource->state() == QAudio::ActiveState){
+        if (availableBytes >0) {
+            QByteArray data = audioSourceDevice->read(availableBytes); // Lire les données capturées
+
+            if (!data.isEmpty()) {
+                qDebug() << "Audio capturé, taille :" << data.size();
+                udpSocket.writeDatagram(data, serverAddress, serverPort);
+                qDebug() << "Audio envoyé, taille :" << data.size();
+            } else {
+                qDebug() << "data is empty !.";
+            }
+        } else {
+            qDebug() << "Aucune donnée disponible dans le buffer audio.";
+        }
+    }
+    else {
+        qDebug() << "Aucune donnée capturée, état :" << audioSource->state();
+    }
+>>>>>>> b58bf215bd779102c84a0b57b95660ad8196f32c
 }
 
 // Fonction pour recevoir l'audio
 void Student::receiveAudioData() {
     qDebug() << "🔹 Début receiveAudioData()";
 
+<<<<<<< HEAD
     if (!audioSinkDevice) {
         qDebug() << "⚠️ audioSinkDevice non initialisé";
         return;
@@ -86,4 +142,43 @@ void Student::playFeedback() {
         QIODevice *device = audioSink->start();
         device->write(audioFile.readAll());
     }
+=======
+    while (udpSocket.hasPendingDatagrams()) {
+        QByteArray data;
+        data.resize(udpSocket.pendingDatagramSize());
+        quint16 destinationPort = udpSocket.localPort();
+        qDebug()<< "Port reception : "<< destinationPort;
+        udpSocket.readDatagram(data.data(), data.size()); //&serverAddress, &serverPort
+        qDebug() << "Paquet audio reçu, taille :" << data.size() << " octets";
+
+        if (!data.isEmpty() && audioSink) {
+            // Vérifier si le périphérique est prêt
+            if (audioSink->state() == QAudio::SuspendedState) {
+                qDebug() << "Reprise de la lecture audio.";
+                audioSink->resume();
+            } else if (audioSink->state() != QAudio::ActiveState) {
+                qDebug() << "Le périphérique audio n'est pas actif, démarrage.";
+                audioSinkDevice = audioSink->start();
+            }
+
+            // Écriture des données dans le flux audio
+            if (audioSinkDevice) {
+                audioSinkDevice->write(data);
+                qDebug() << "Lecture audio en cours...:" + QString::number(data.size());
+            } else {
+                qDebug() << "Erreur : Impossible d'écrire dans le périphérique audio.";
+            }
+        } else {
+            qDebug() << "Aucune donnée reçue ou périphérique non initialisé.";
+        }
+    }
+
+    qDebug() << "🔹 Fin receiveAudioData()";
+}
+
+void Student::connectToServer() {
+    // Envoie un message pour rejoindre le groupe
+    QByteArray joinMessage = "JOIN " + group.toUtf8();
+    udpSocket.writeDatagram(joinMessage, serverAddress, serverPort);
+>>>>>>> b58bf215bd779102c84a0b57b95660ad8196f32c
 }
