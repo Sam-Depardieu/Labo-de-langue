@@ -10,9 +10,10 @@
 
 
 Student::Student(QObject *parent) : QObject(parent) {
-    udpSocket.bind(serverAddress,audioPort);
+
+    udpSocket.bind(QHostAddress::Any,audioPort);
     QAudioFormat format;
-    format.setSampleRate(16000);  // 44.1 kHz standard
+    format.setSampleRate(44100);  // 44.1 kHz standard
     format.setChannelCount(1);  // Mono
     format.setSampleFormat(QAudioFormat::Int16);  // Format 16-bit
 

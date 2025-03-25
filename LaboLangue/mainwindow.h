@@ -31,6 +31,7 @@ public:
 
     void openSettingEleve(CustomGraphicsItemGroup *group);
     void closeSettingEleve(CustomGraphicsItemGroup *group);
+    QString getSessionFolder() {return sessionFolder;};
 
     ~MainWindow();
 
@@ -58,7 +59,6 @@ private slots:
     void on_echapButton_clicked();
     void resetSession();
     void on_loadSession_clicked();
-
     void on_CreationButton_clicked();
 
 private:
@@ -67,6 +67,7 @@ private:
     QSqlDatabase db;
     QGraphicsPixmapItem *item;
     QString source;
+    QString sessionFolder;
     QString nomProf;
     int idProf;
     QString duree;
