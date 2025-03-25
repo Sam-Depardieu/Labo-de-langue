@@ -86,6 +86,23 @@ void QCM::importQCM()
         );
 
     if (!fileName.isNull()) {
+        // Demande de confirmation pour écraser les QCM existants
+        QMessageBox::StandardButton reply = QMessageBox::question(
+            this,
+            "Confirmation",
+            "Souhaitez-vous écraser les QCM existants ?",
+            QMessageBox::Yes | QMessageBox::No
+            );
+
+        if (reply == QMessageBox::Yes) {
+            // Supprime les questions existantes
+            for (QuestionWidget *question : questionWidgets) {
+                delete question; // Libère la mémoire pour chaque widget de question
+            }
+            questionWidgets.clear();
+            scrollWidget->adjustSize();
+        }
+
         QFile file(fileName);
 
         if (!file.open(QIODevice::ReadOnly)) {
@@ -135,6 +152,8 @@ void QCM::importQCM()
         QMessageBox::information(this, "Importation terminée", "Les questions ont été importées avec succès !");
     }
 }
+
+
 
 
 
@@ -385,8 +404,6 @@ void QCM::saveQuestions()
 
     QMessageBox::information(this, "Sauvegarde terminée", "Les questions ont été sauvegardées avec succès dans :\n" + savePath);
 }
-
-
 
 
 QCM::~QCM()
