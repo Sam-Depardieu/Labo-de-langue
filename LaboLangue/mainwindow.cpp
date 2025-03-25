@@ -490,9 +490,10 @@ void MainWindow::on_validButton_clicked()
 
 void MainWindow::on_delButton_clicked()
 {
-    if (runningSession){
+    if (!runningSession){
         resetSession();
     }
+
     for (auto rasp : listeRasp) {
         if (rasp) rasp->getCheckItem()->setVisible(false);
     }
@@ -507,8 +508,9 @@ void MainWindow::saveSessionData(bool isNewSession)
     QString sanitizedName = nomProf;
     sanitizedName.replace(" ", "_").remove(QRegularExpression("[^a-zA-Z0-9_-]"));
 
-    QString networkPath = "\\\\localhost\\Users\\samde\\Desktop\\Activites"; //Dossier du partage SMB
-    QString sessionFolder = (nomProf != "" ? networkPath + "/" + sanitizedName + "_" + QDateTime::currentDateTime().toString("yyyy-MM-dd_HH-mm"): "");
+    QString networkPath = "\\\\CIEL-T171-05\\Activites\\"; //Dossier du partage SMB
+    sessionFolder = (nomProf != "" ? networkPath + sanitizedName + "_" + QDateTime::currentDateTime().toString("yyyy-MM-dd_HH-mm"): "");
+    qDebug() << sessionFolder;
 
     // Créer le dossier pour la session
     QDir dir;
@@ -614,8 +616,8 @@ void MainWindow::resetSession()
     ui->NameLineEdit->clear();
     ui->ConsigneTextEdit->clear();
     ui->DureeActivite->setTime(QTime(0, 0, 0));
-    ui->ChoixActivite->setCurrentIndex(-1);
-    ui->ChoixClasse->setCurrentIndex(-1);
+    ui->ChoixActivite->setCurrentIndex(0);
+    ui->ChoixClasse->setCurrentIndex(0);
     ui->ParametrageSession->setVisible(false);
 
     //Réinitialisation des boutons
@@ -655,7 +657,7 @@ void MainWindow::on_loadSession_clicked()
 
 void MainWindow::on_CreationButton_clicked()
 {
-    QCM *qcmWindow = new QCM(this);
+    QCM *qcmWindow = new QCM(this, this);
     qcmWindow->show();
 }
 

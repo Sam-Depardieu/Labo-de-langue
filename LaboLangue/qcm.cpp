@@ -1,9 +1,10 @@
 #include "qcm.h"
 #include "qscrollbar.h"
 #include "ui_qcm.h"
+#include "mainwindow.h"
 
-QCM::QCM(QWidget *parent)
-    : QDialog(parent), ui(new Ui::QCM)
+QCM::QCM(QWidget *parent, MainWindow* parentWindow)
+    : QDialog(parent), ui(new Ui::QCM), mainWindow(parentWindow)
 {
     ui->setupUi(this);
     setWindowTitle("Création de QCM");
@@ -370,7 +371,7 @@ void QCM::saveQuestions()
     rootObject["questions"] = questionsArray;
 
     // Chemin du fichier de sauvegarde
-    QString savePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/questions.qcmlabo";
+    QString savePath = mainWindow->getSessionFolder() + "/questions.qcmlabo";
     QFile file(savePath);
 
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {

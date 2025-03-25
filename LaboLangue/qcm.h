@@ -26,62 +26,63 @@
 
 using namespace std;
 
-QT_BEGIN_NAMESPACE
+class MainWindow;
+
+
 namespace Ui {
 class QCM;
 }
-QT_END_NAMESPACE
 
 class QCM : public QDialog
 {
     Q_OBJECT
 
-public:
-    explicit QCM(QWidget *parent = nullptr);
-    ~QCM();
+    public:
+        QCM(QWidget *parent, MainWindow* parentWindow);
+        ~QCM();
 
 
 
-private:
-    Ui::QCM *ui;
-    QVBoxLayout *mainLayout;
-    int col;
-    QScrollArea *scrollArea;
-    QWidget *scrollWidget;
-    QGridLayout *questionsLayout;
-    QGroupBox *addQuestionBox = nullptr;
-    QPushButton *addQuestionButton;
-    QPushButton *removeQuestionButton;
-    QPushButton *saveButton;
-    QPushButton *importQuestionButton;
-    QLabel *nomQCMLabel;
-    QLineEdit *nomQCM;
+    private:
+        Ui::QCM *ui;
+        MainWindow* mainWindow;
+        QVBoxLayout *mainLayout;
+        int col;
+        QScrollArea *scrollArea;
+        QWidget *scrollWidget;
+        QGridLayout *questionsLayout;
+        QGroupBox *addQuestionBox = nullptr;
+        QPushButton *addQuestionButton;
+        QPushButton *removeQuestionButton;
+        QPushButton *saveButton;
+        QPushButton *importQuestionButton;
+        QLabel *nomQCMLabel;
+        QLineEdit *nomQCM;
 
-    std::array<std::array<QString, 2>, 4> choices = {{{QString("")}}};
+        array<array<QString, 2>, 4> choices = {{{QString("")}}};
 
 
-    struct QuestionWidget {
-        QSpinBox *questionNumberSpin;
-        QLineEdit *questionEdit;
-        QSpinBox *choiceCountSpin;
-        QVBoxLayout *answersLayout;
-        QList<QLineEdit *> answerFields;
-        QList<QCheckBox *> correctAnswers;
-        QHBoxLayout *buttonLayout;
-        QPushButton *addAnswerButton;
-        QPushButton *removeAnswerButton;
-    };
+        struct QuestionWidget {
+            QSpinBox *questionNumberSpin;
+            QLineEdit *questionEdit;
+            QSpinBox *choiceCountSpin;
+            QVBoxLayout *answersLayout;
+            QList<QLineEdit *> answerFields;
+            QList<QCheckBox *> correctAnswers;
+            QHBoxLayout *buttonLayout;
+            QPushButton *addAnswerButton;
+            QPushButton *removeAnswerButton;
+        };
 
-    QList<QuestionWidget *> questionWidgets;
+        QList<QuestionWidget *> questionWidgets;
 
-private slots:
-    void addQuestion(QString *nomQ = new QString("Test"), QString *numQ = new QString("1"), QString *nbRep = new QString("2"));
-    void removeQuestion();
-    void saveQuestions();
-    void addBoxAddQuestion();
-    void addAnswers(QuestionWidget* question, QString *choix, QString *correct);
-
-    void importQCM();
+    private slots:
+        void addQuestion(QString *nomQ = new QString("Test"), QString *numQ = new QString("1"), QString *nbRep = new QString("2"));
+        void removeQuestion();
+        void saveQuestions();
+        void addBoxAddQuestion();
+        void addAnswers(QuestionWidget* question, QString *choix, QString *correct);
+        void importQCM();
 };
 
 #endif // QCM_H
