@@ -174,7 +174,6 @@ void InterfaceEnregistrement::qt_static_metacall(QObject *_o, QMetaObject::Call 
         case 8: _t->checkPlaybackPosition((*reinterpret_cast< std::add_pointer_t<qint64>>(_a[1]))); break;
         case 9: _t->onRecorderStateChanged((*reinterpret_cast< std::add_pointer_t<QMediaRecorder::RecorderState>>(_a[1]))); break;
         case 10: _t->onRecorderErrorOccurred((*reinterpret_cast< std::add_pointer_t<QMediaRecorder::Error>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2]))); break;
-        case 11: _t->on_pushButtonPlay_clicked(); break;
         case 12: _t->on_pushButtonAvancer_clicked(); break;
         case 13: _t->on_pushButtonEnregistrer_clicked(); break;
         default: ;

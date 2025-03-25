@@ -32,7 +32,6 @@ public:
     QPushButton *pushButton;
     QPushButton *pushButtonPause;
     QLabel *labelAppelProf;
-    QPushButton *pushButtonPlay;
     QPushButton *pushButtonRetourArriere;
     QPushButton *pushButtonEnregistrer;
     QPushButton *pushButtonEnregistrer_2;
@@ -55,7 +54,7 @@ public:
 "    border: none;"));
         pushButtonAvancer = new QPushButton(InterfaceEnregistrement);
         pushButtonAvancer->setObjectName("pushButtonAvancer");
-        pushButtonAvancer->setGeometry(QRect(480, 160, 70, 70));
+        pushButtonAvancer->setGeometry(QRect(470, 160, 70, 70));
         pushButtonAvancer->setStyleSheet(QString::fromUtf8(""));
         pushButtonClear = new QPushButton(InterfaceEnregistrement);
         pushButtonClear->setObjectName("pushButtonClear");
@@ -81,7 +80,7 @@ public:
 "}"));
         labelChrono = new QLabel(InterfaceEnregistrement);
         labelChrono->setObjectName("labelChrono");
-        labelChrono->setGeometry(QRect(310, 100, 181, 51));
+        labelChrono->setGeometry(QRect(310, 100, 180, 51));
         QFont font;
         font.setPointSize(20);
         font.setBold(true);
@@ -89,7 +88,7 @@ public:
         labelChrono->setAlignment(Qt::AlignmentFlag::AlignCenter);
         pushButtonSpeak = new QPushButton(InterfaceEnregistrement);
         pushButtonSpeak->setObjectName("pushButtonSpeak");
-        pushButtonSpeak->setGeometry(QRect(320, 290, 70, 70));
+        pushButtonSpeak->setGeometry(QRect(360, 270, 70, 70));
         pushButtonSpeak->setStyleSheet(QString::fromUtf8(""));
         pushButton = new QPushButton(InterfaceEnregistrement);
         pushButton->setObjectName("pushButton");
@@ -103,18 +102,14 @@ public:
 "}"));
         pushButtonPause = new QPushButton(InterfaceEnregistrement);
         pushButtonPause->setObjectName("pushButtonPause");
-        pushButtonPause->setGeometry(QRect(380, 160, 70, 70));
+        pushButtonPause->setGeometry(QRect(360, 160, 70, 70));
         pushButtonPause->setStyleSheet(QString::fromUtf8(""));
         labelAppelProf = new QLabel(InterfaceEnregistrement);
         labelAppelProf->setObjectName("labelAppelProf");
         labelAppelProf->setGeometry(QRect(690, 80, 111, 21));
-        pushButtonPlay = new QPushButton(InterfaceEnregistrement);
-        pushButtonPlay->setObjectName("pushButtonPlay");
-        pushButtonPlay->setGeometry(QRect(420, 290, 70, 70));
-        pushButtonPlay->setStyleSheet(QString::fromUtf8(""));
         pushButtonRetourArriere = new QPushButton(InterfaceEnregistrement);
         pushButtonRetourArriere->setObjectName("pushButtonRetourArriere");
-        pushButtonRetourArriere->setGeometry(QRect(270, 160, 70, 70));
+        pushButtonRetourArriere->setGeometry(QRect(250, 160, 70, 70));
         pushButtonRetourArriere->setStyleSheet(QString::fromUtf8(""));
         pushButtonEnregistrer = new QPushButton(InterfaceEnregistrement);
         pushButtonEnregistrer->setObjectName("pushButtonEnregistrer");
@@ -136,7 +131,6 @@ public:
         pushButtonSpeak->raise();
         pushButtonPause->raise();
         labelAppelProf->raise();
-        pushButtonPlay->raise();
         pushButtonRetourArriere->raise();
         pushButtonAppelProf->raise();
         pushButtonEnregistrer->raise();
@@ -161,7 +155,6 @@ public:
         pushButton->setText(QCoreApplication::translate("InterfaceEnregistrement", "Bienvenue sur l'interface pour un Enregistrement", nullptr));
         pushButtonPause->setText(QString());
         labelAppelProf->setText(QCoreApplication::translate("InterfaceEnregistrement", "Le prof a \303\251t\303\251 appel\303\251", nullptr));
-        pushButtonPlay->setText(QString());
         pushButtonRetourArriere->setText(QString());
         pushButtonEnregistrer->setText(QString());
         pushButtonEnregistrer_2->setText(QString());

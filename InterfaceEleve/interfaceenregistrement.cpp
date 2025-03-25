@@ -109,13 +109,13 @@ InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
         ui->pushButtonSpeak->setIconSize(ui->pushButtonSpeak->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
     }
 
-    QPixmap imagePlay(":/images/Play"); // Charge l'image
-    if (imagePlay.isNull()) {
+    QPixmap imageSpeak(":/images/Enregistrement"); // Charge l'image
+    if (imageSpeak.isNull()) {
         qWarning() << "Erreur : image non trouvée !";
     } else {
-        QIcon icone(imagePlay); // Crée une icône
-        ui->pushButtonPlay->setIcon(icone); // Définit l'icône du bouton
-        ui->pushButtonPlay->setIconSize(ui->pushButtonPlay->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
+        QIcon icone(imageSpeak); // Crée une icône
+        ui->pushButtonSpeak->setIcon(icone); // Définit l'icône du bouton
+        ui->pushButtonSpeak->setIconSize(ui->pushButtonSpeak->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
     }
 
 
@@ -154,6 +154,29 @@ InterfaceEnregistrement::~InterfaceEnregistrement()
 
 void InterfaceEnregistrement::on_pushButtonSpeak_clicked()
 {
+    if (isButtonSpeak) {
+        QPixmap image1(":/images/Enregistrement");
+        if (image1.isNull()) {
+            qWarning() << "Erreur : image non trouvée !";
+        } else {
+            QIcon icone(image1);
+            ui->pushButtonSpeak->setIcon(icone);
+            ui->pushButtonSpeak->setIconSize(ui->pushButtonSpeak->size());
+            qDebug() << "Image 2Selec chargée";
+        }
+    } else {
+        QPixmap Image(":/images/Play");
+        if (Image.isNull()) {
+            qWarning() << "Erreur : image de base non trouvée !";
+        } else {
+            QIcon icone(Image);
+            ui->pushButtonSpeak->setIcon(icone);
+            ui->pushButtonSpeak->setIconSize(ui->pushButtonSpeak->size());
+            qDebug() << "Image 1 de base chargée";
+        }
+    }
+    isButtonSpeak = !isButtonSpeak;
+
     if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState) {
         qWarning() << "L'enregistrement est déjà en cours.";
         return;
@@ -179,6 +202,7 @@ void InterfaceEnregistrement::on_pushButtonSpeak_clicked()
     isRecordingPaused = false;
     qDebug() << "Nouvel enregistrement démarré.";
 }
+
 void InterfaceEnregistrement::on_pushButtonPause_clicked()
 {
     if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState) {
@@ -192,34 +216,7 @@ void InterfaceEnregistrement::on_pushButtonPause_clicked()
         qDebug() << "Lecture mise en pause.";
     }
 }
-void InterfaceEnregistrement::on_pushButtonPlay_clicked()
-{
-    if (isRecordingPaused) {
-        // Reprendre l'enregistrement
-        mediaRecorder->record();
-        isRecordingPaused = false;
-        totalSecondes = pausedTime; // Reprend le chrono là où on l'avait arrêté
-        timer->start(1000);  // Redémarrer le chrono
-        qDebug() << "Reprise de l'enregistrement et du chrono.";
-        return;
-    }
 
-    if (!player) return;
-
-    player->setSource(QUrl::fromLocalFile(audioFilePath));
-
-    if (player->playbackState() == QMediaPlayer::PausedState) {
-        player->play();
-        totalSecondes = pausedTime; // Reprend là où on s'était arrêté
-        timer->start(1000);
-        qDebug() << "Reprise de la lecture et du chrono.";
-    } else if (player->playbackState() == QMediaPlayer::StoppedState) {
-        player->setPosition(0);
-        player->play();
-        qDebug() << "Lecture redémarrée depuis le début.";
-    }
-
-}
 void InterfaceEnregistrement::on_pushButtonClear_clicked()
 {
     // Arrêter l'enregistrement s'il est en cours

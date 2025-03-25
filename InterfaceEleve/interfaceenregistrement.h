@@ -83,6 +83,7 @@ private:
     QSlider *sliderPrincipal;  // Slider pour le volume principal
     QSlider *sliderSecondaire;  // Slider pour le volume secondaire
     void setupVolumeMenu();  // Fonction pour configurer le menu de volume
+    bool isButtonSpeak = false;  // Déclaration et initialisation
 
 
     void resetTimer();  // Déclaration de la fonction resetTimer
