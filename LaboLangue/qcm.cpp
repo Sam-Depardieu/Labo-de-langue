@@ -86,7 +86,6 @@ void QCM::importQCM()
         );
 
     if (!fileName.isNull()) {
-        // Demande de confirmation pour écraser les QCM existants
         QMessageBox::StandardButton reply = QMessageBox::question(
             this,
             "Confirmation",
@@ -97,14 +96,13 @@ void QCM::importQCM()
         if (reply == QMessageBox::Yes) {
             // Supprime les questions existantes
             for (QuestionWidget *question : questionWidgets) {
-                delete question; // Libère la mémoire pour chaque widget de question
+                delete question;
             }
             questionWidgets.clear();
             scrollWidget->adjustSize();
         }
 
         QFile file(fileName);
-
         if (!file.open(QIODevice::ReadOnly)) {
             QMessageBox::critical(this, "Erreur", "Impossible d'ouvrir le fichier sélectionné !");
             return;
@@ -114,18 +112,12 @@ void QCM::importQCM()
         file.close();
 
         QJsonDocument jsonDoc = QJsonDocument::fromJson(fileContent);
-        if (jsonDoc.isNull()) {
+        if (jsonDoc.isNull() || !jsonDoc.isObject()) {
             QMessageBox::critical(this, "Erreur", "Le fichier n'est pas un format JSON valide !");
             return;
         }
 
-        if (!jsonDoc.isObject()) {
-            QMessageBox::critical(this, "Erreur", "Le fichier JSON doit être un objet !");
-            return;
-        }
-
         QJsonObject rootObj = jsonDoc.object();
-
         if (!rootObj.contains("questions") || !rootObj.value("questions").isArray()) {
             QMessageBox::critical(this, "Erreur", "Le fichier JSON doit contenir un tableau de questions !");
             return;
@@ -140,13 +132,16 @@ void QCM::importQCM()
             QString numberChoice = questionObj.value("choicesAllowed").toString();
             QJsonArray answersArray = questionObj.value("answers").toArray();
 
+            // Déclaration locale de choices pour éviter la persistance des données précédentes
+            array<array<QString, 2>, 4> choices = {{{QString(""), QString("")}}};
+
             for (int i = 0; i < answersArray.size() && i < 4; ++i) {
                 QJsonObject answerObj = answersArray[i].toObject();
                 choices[i][0] = answerObj.value("text").toString();
                 choices[i][1] = answerObj.value("isCorrect").toBool() ? "true" : "false";
             }
 
-            addQuestion(&questionText, &numberQuestion, &numberChoice); // Ajoute la question
+            addQuestion(&questionText, &numberQuestion, &numberChoice, choices);
         }
 
         QMessageBox::information(this, "Importation terminée", "Les questions ont été importées avec succès !");
@@ -154,10 +149,7 @@ void QCM::importQCM()
 }
 
 
-
-
-
-void QCM::addQuestion(QString *nomQ, QString *numQ, QString *nbRep)
+void QCM::addQuestion(QString *nomQ, QString *numQ, QString *nbRep, array<array<QString, 2>, 4> choices)
 {
     QuestionWidget *question = new QuestionWidget;
     QString nbQ = QString::number(questionWidgets.size() + 1);
@@ -173,12 +165,12 @@ void QCM::addQuestion(QString *nomQ, QString *numQ, QString *nbRep)
     question->questionNumberSpin->setMinimum(1);
     question->questionNumberSpin->setMaximum(100);
     question->questionNumberSpin->setFixedWidth(75);
-    question->questionNumberSpin->setValue((numQ && !numQ->isEmpty() ? *numQ : nbQ ).toInt());
+    question->questionNumberSpin->setValue((numQ && !numQ->isEmpty() ? numQ->toInt() : nbQ.toInt()));
 
     QLabel *questionNumberLabel = new QLabel("N° :", this);
     QLabel *questionLabel = new QLabel("Question :", this);
     question->questionEdit = new QLineEdit(this);
-    question->questionEdit->setText((nomQ && !nomQ->isEmpty() ? *nomQ : "" ));
+    question->questionEdit->setText(nomQ ? *nomQ : "");
     question->questionEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
     questionHeaderLayout->addWidget(questionNumberLabel);
@@ -191,7 +183,7 @@ void QCM::addQuestion(QString *nomQ, QString *numQ, QString *nbRep)
     QLabel *choiceCountLabel = new QLabel("Nombre de choix possibles :", this);
     question->choiceCountSpin = new QSpinBox(this);
     question->choiceCountSpin->setRange(1, 4);
-    question->choiceCountSpin->setValue((nbRep && !nbRep->isEmpty() ? *nbRep : "2" ).toInt());
+    question->choiceCountSpin->setValue((nbRep && !nbRep->isEmpty() ? nbRep->toInt() : 2));
 
     nbChoixLayout->addWidget(choiceCountLabel);
     nbChoixLayout->addWidget(question->choiceCountSpin);
@@ -210,14 +202,17 @@ void QCM::addQuestion(QString *nomQ, QString *numQ, QString *nbRep)
     question->buttonLayout->addWidget(question->removeAnswerButton);
     questionBoxLayout->addLayout(question->buttonLayout);
 
-    int i = 0;
-    while (i < 4 && (choices[i][0] != QString("") || i < 2)) {
-        addAnswers(question, &choices[i][0], &choices[i][1]);
-        i++;
+    // Ajout des réponses issues de l'import
+    for (int i = 0; i < 4; ++i) {
+        if (!choices[i][0].isEmpty() || i < 2) {
+            addAnswers(question, &choices[i][0], &choices[i][1]);
+        }
     }
 
     // Correction de la connexion du bouton d'ajout de réponse
-    connect(question->addAnswerButton, &QPushButton::clicked, this, [=]() { addAnswers(question, new QString(""), new QString("")); });
+    connect(question->addAnswerButton, &QPushButton::clicked, this, [=]() {
+        addAnswers(question, new QString(""), new QString(""));
+    });
 
     connect(question->removeAnswerButton, &QPushButton::clicked, [=]() {
         if (question->answerFields.size() <= 2) {
@@ -232,20 +227,18 @@ void QCM::addQuestion(QString *nomQ, QString *numQ, QString *nbRep)
         scrollWidget->update();
     });
 
-    // Calculer la ligne et la colonne pour ajouter dans le QGridLayout
-    int row = questionWidgets.size() / 2;  // Ligne (deux questions par ligne)
-    int column = questionWidgets.size() % 2;  // Colonne (alternance entre 0 et 1)
+    int row = questionWidgets.size() / 2;
+    int column = questionWidgets.size() % 2;
 
     questionsLayout->addWidget(questionBox, row, column);
-
     questionWidgets.append(question);
     scrollWidget->adjustSize();
 
     addBoxAddQuestion();
 
-    // Descendre la scrollbar jusqu'à la dernière question ajoutée
     scrollArea->verticalScrollBar()->setValue(scrollArea->verticalScrollBar()->maximum());
 }
+
 
 void QCM::addAnswers(QuestionWidget* question, QString *choix, QString *correct) {
     if (!question || question->answerFields.size() >= 4) {

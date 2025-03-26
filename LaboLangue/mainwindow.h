@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "iconEleveGroupe.h"
+#include "iconEleveGroup.h"
 #include "qcm.h"
 
 QT_BEGIN_NAMESPACE

@@ -1,5 +1,5 @@
-#ifndef ICONELEVEGROUPE_H
-#define ICONELEVEGROUPE_H
+#ifndef ICONELEVEGROUP_H
+#define ICONELEVEGROUP_H
 
 //#include <QAudioOutput>
 //#include <QMediaPlayer>
@@ -31,7 +31,6 @@
 #include <QJsonArray>
 #include <QRegularExpression>
 #include <QtWebSockets/QWebSocket>
-
 
 class MainWindow;
 class VoiceChat;
@@ -70,4 +69,4 @@ class iconEleveGroup : public QObject, public QGraphicsItemGroup {
         void doubleClicked();
 };
 
-#endif // ICONELEVEGROUPE_H
+#endif // ICONELEVEGROUP_H

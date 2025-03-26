@@ -72,7 +72,7 @@ constexpr auto qt_meta_stringdata_CLASSMainWindowENDCLASS = QtMocHelpers::string
     "on_selectAll_clicked",
     "on_validButton_clicked",
     "showCheckIconOnGroup",
-    "CustomGraphicsItemGroup*",
+    "iconEleveGroup*",
     "group",
     "on_SourceButton_clicked",
     "on_delButton_clicked",
@@ -214,7 +214,7 @@ Q_CONSTINIT const QMetaObject MainWindow::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'showCheckIconOnGroup'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        QtPrivate::TypeAndForceComplete<CustomGraphicsItemGroup *, std::false_type>,
+        QtPrivate::TypeAndForceComplete<iconEleveGroup *, std::false_type>,
         // method 'on_SourceButton_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_delButton_clicked'
@@ -257,7 +257,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 13: _t->addButtonRow((*reinterpret_cast< std::add_pointer_t<QVBoxLayout*>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QWidget*>>(_a[2])),(*reinterpret_cast< std::add_pointer_t<QWidget*>>(_a[3])),(*reinterpret_cast< std::add_pointer_t<QWidget*>>(_a[4]))); break;
         case 14: _t->on_selectAll_clicked(); break;
         case 15: _t->on_validButton_clicked(); break;
-        case 16: _t->showCheckIconOnGroup((*reinterpret_cast< std::add_pointer_t<CustomGraphicsItemGroup*>>(_a[1]))); break;
+        case 16: _t->showCheckIconOnGroup((*reinterpret_cast< std::add_pointer_t<iconEleveGroup*>>(_a[1]))); break;
         case 17: _t->on_SourceButton_clicked(); break;
         case 18: _t->on_delButton_clicked(); break;
         case 19: _t->saveSessionData((*reinterpret_cast< std::add_pointer_t<bool>>(_a[1]))); break;
@@ -313,7 +313,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
             case 0:
-                *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType::fromType< CustomGraphicsItemGroup* >(); break;
+                *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType::fromType< iconEleveGroup* >(); break;
             }
             break;
         }
