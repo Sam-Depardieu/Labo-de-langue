@@ -21,14 +21,14 @@ QT += multimedia multimediawidgets
 
 SOURCES += \
     AudioCommunicator.cpp \
-    customgraphicsitemgroup.cpp \
+    iconEleveGroupe.cpp \
     main.cpp \
     mainwindow.cpp \
     qcm.cpp
 
 HEADERS += \
     AudioCommunicator.h \
-    customgraphicsitemgroup.h \
+    iconEleveGroupe.h \
     mainwindow.h \
     qcm.h
 

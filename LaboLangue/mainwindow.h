@@ -1,13 +1,13 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "customgraphicsitemgroup.h"
+#include "iconEleveGroupe.h"
 #include "qcm.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
-class CustomGraphicsItemGroup;
+class iconEleveGroup;
 class QCM;
 }
 QT_END_NAMESPACE
@@ -20,8 +20,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
 
     int idTypeActivite = -1;
-    std::vector<CustomGraphicsItemGroup*> listeRasp = {};
-    std::vector<CustomGraphicsItemGroup*> listeParticipant = {};
+    std::vector<iconEleveGroup*> listeRasp = {};
+    std::vector<iconEleveGroup*> listeParticipant = {};
     std::vector<int> listeEleveParticipant = {};
 
     bool parametrageSession = false;
@@ -29,8 +29,8 @@ public:
     bool selectAllParticipants = false;
     bool parametrageEleve = false;
 
-    void openSettingEleve(CustomGraphicsItemGroup *group);
-    void closeSettingEleve(CustomGraphicsItemGroup *group);
+    void openSettingEleve(iconEleveGroup *group);
+    void closeSettingEleve(iconEleveGroup *group);
     QString getSessionFolder() {return sessionFolder;};
 
     ~MainWindow();
@@ -52,7 +52,7 @@ private slots:
     void addButtonRow(QVBoxLayout *layout, QWidget *button1, QWidget *button2, QWidget *button3);
     void on_selectAll_clicked();
     void on_validButton_clicked();
-    void showCheckIconOnGroup(CustomGraphicsItemGroup *group);
+    void showCheckIconOnGroup(iconEleveGroup *group);
     void on_SourceButton_clicked();
     void on_delButton_clicked();
     void saveSessionData(bool isNewSession);

@@ -1,4 +1,4 @@
-#include "customgraphicsitemgroup.h"
+#include "iconEleveGroupe.h"
 #include "mainwindow.h"
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>

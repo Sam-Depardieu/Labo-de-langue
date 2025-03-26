@@ -60,12 +60,12 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::openSettingEleve(CustomGraphicsItemGroup *group)
+void MainWindow::openSettingEleve(iconEleveGroup *group)
 {
     ui->ParametrageEleve->setVisible(true);
 }
 
-void MainWindow::closeSettingEleve(CustomGraphicsItemGroup *group)
+void MainWindow::closeSettingEleve(iconEleveGroup *group)
 {
     ui->ParametrageEleve->setVisible(false);
 }
@@ -128,7 +128,7 @@ void MainWindow::loadImagesFromDB()
         textItem->setPos(18, personPixmap.height());
 
         // Création du groupe personnalisé
-        CustomGraphicsItemGroup *group = new CustomGraphicsItemGroup(id, ip, this);
+        iconEleveGroup *group = new iconEleveGroup(id, ip, this);
         group->addToGroup(imageItem);
         group->addToGroup(textItem);
         group->setFlag(QGraphicsItem::ItemIsMovable);
@@ -156,7 +156,7 @@ void MainWindow::loadImagesFromDB()
         scene->addItem(group);
 
         // Connexion du signal double-clic
-        connect(group, &CustomGraphicsItemGroup::doubleClicked, this, &MainWindow::onImageGroupDoubleClicked);
+        connect(group, &iconEleveGroup::doubleClicked, this, &MainWindow::onImageGroupDoubleClicked);
 
         // Gestion du placement
         column++;
@@ -171,7 +171,7 @@ void MainWindow::loadImagesFromDB()
     ui->PlanClasse->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
 }
 
-void MainWindow::showCheckIconOnGroup(CustomGraphicsItemGroup *group)
+void MainWindow::showCheckIconOnGroup(iconEleveGroup *group)
 {
     if (!group) return;
 
