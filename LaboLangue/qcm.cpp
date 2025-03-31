@@ -158,16 +158,25 @@ void QCM::addQuestion(QString *nomQ, QString *numQ, QString *nbRep, array<array<
     questionBox->setLayout(questionBoxLayout);
     questionBox->setStyleSheet("border: 1px solid gray; border-radius: 5px; padding: 10px;");
 
-    QHBoxLayout *questionHeaderLayout = new QHBoxLayout();
-    QHBoxLayout *nbChoixLayout = new QHBoxLayout();
+    // ---- Ajout de l'icône croix en haut à droite ----
+    QPixmap crossIcon("../img/cross-qcm.png");
+    QLabel *imageLabel = new QLabel(this);
+    imageLabel->setPixmap(crossIcon.scaled(20, 20, Qt::KeepAspectRatio, Qt::SmoothTransformation));
 
+    QHBoxLayout *iconLayout = new QHBoxLayout();
+    iconLayout->addStretch();  // Pousse l'icône vers la droite
+    iconLayout->addWidget(imageLabel);
+    questionBoxLayout->addLayout(iconLayout);
+
+    // ---- Layout pour le numéro et la question ----
+    QHBoxLayout *questionHeaderLayout = new QHBoxLayout();
+    QLabel *questionNumberLabel = new QLabel("N° :", this);
     question->questionNumberSpin = new QSpinBox(this);
     question->questionNumberSpin->setMinimum(1);
     question->questionNumberSpin->setMaximum(100);
     question->questionNumberSpin->setFixedWidth(75);
-    question->questionNumberSpin->setValue((numQ && !numQ->isEmpty() ? numQ->toInt() : nbQ.toInt()));
+    question->questionNumberSpin->setValue((numQ && !numQ->isEmpty()) ? numQ->toInt() : nbQ.toInt());
 
-    QLabel *questionNumberLabel = new QLabel("N° :", this);
     QLabel *questionLabel = new QLabel("Question :", this);
     question->questionEdit = new QLineEdit(this);
     question->questionEdit->setText(nomQ ? *nomQ : "");
@@ -180,41 +189,45 @@ void QCM::addQuestion(QString *nomQ, QString *numQ, QString *nbRep, array<array<
 
     questionBoxLayout->addLayout(questionHeaderLayout);
 
+    // ---- Nombre de choix possibles ----
+    QHBoxLayout *nbChoixLayout = new QHBoxLayout();
     QLabel *choiceCountLabel = new QLabel("Nombre de choix possibles :", this);
     question->choiceCountSpin = new QSpinBox(this);
     question->choiceCountSpin->setRange(1, 4);
-    question->choiceCountSpin->setValue((nbRep && !nbRep->isEmpty() ? nbRep->toInt() : 2));
+    question->choiceCountSpin->setValue((nbRep && !nbRep->isEmpty()) ? nbRep->toInt() : 2);
 
     nbChoixLayout->addWidget(choiceCountLabel);
     nbChoixLayout->addWidget(question->choiceCountSpin);
     questionBoxLayout->addLayout(nbChoixLayout);
 
+    // ---- Réponses ----
     question->answersLayout = new QVBoxLayout();
     questionBoxLayout->addLayout(question->answersLayout);
 
+    // ---- Boutons d'ajout et suppression de réponses ----
     question->addAnswerButton = new QPushButton("+", this);
     question->addAnswerButton->setStyleSheet("background-color: #28a745; color: white; border-radius: 5px;");
     question->removeAnswerButton = new QPushButton("-", this);
     question->removeAnswerButton->setStyleSheet("background-color: #dc3545; color: white; border-radius: 5px;");
 
-    question->buttonLayout = new QHBoxLayout();
-    question->buttonLayout->addWidget(question->addAnswerButton);
-    question->buttonLayout->addWidget(question->removeAnswerButton);
-    questionBoxLayout->addLayout(question->buttonLayout);
+    QHBoxLayout *buttonLayout = new QHBoxLayout();
+    buttonLayout->addWidget(question->addAnswerButton);
+    buttonLayout->addWidget(question->removeAnswerButton);
+    questionBoxLayout->addLayout(buttonLayout);
 
-    // Ajout des réponses issues de l'import
+    // ---- Ajout des réponses ----
     for (int i = 0; i < 4; ++i) {
         if (!choices[i][0].isEmpty() || i < 2) {
             addAnswers(question, &choices[i][0], &choices[i][1]);
         }
     }
 
-    // Correction de la connexion du bouton d'ajout de réponse
+    // ---- Connexions des boutons ----
     connect(question->addAnswerButton, &QPushButton::clicked, this, [=]() {
         addAnswers(question, new QString(""), new QString(""));
     });
 
-    connect(question->removeAnswerButton, &QPushButton::clicked, [=]() {
+    connect(question->removeAnswerButton, &QPushButton::clicked, this, [=]() {
         if (question->answerFields.size() <= 2) {
             QMessageBox::warning(this, "Limite atteinte", "Vous ne pouvez pas avoir moins de 2 réponses !");
             return;
@@ -227,6 +240,7 @@ void QCM::addQuestion(QString *nomQ, QString *numQ, QString *nbRep, array<array<
         scrollWidget->update();
     });
 
+    // ---- Placement dans la grille ----
     int row = questionWidgets.size() / 2;
     int column = questionWidgets.size() % 2;
 
@@ -235,10 +249,8 @@ void QCM::addQuestion(QString *nomQ, QString *numQ, QString *nbRep, array<array<
     scrollWidget->adjustSize();
 
     addBoxAddQuestion();
-
     scrollArea->verticalScrollBar()->setValue(scrollArea->verticalScrollBar()->maximum());
 }
-
 
 void QCM::addAnswers(QuestionWidget* question, QString *choix, QString *correct) {
     if (!question || question->answerFields.size() >= 4) {

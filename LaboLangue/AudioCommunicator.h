@@ -11,6 +11,7 @@
 #include <QDebug>
 #include <QMediaDevices>
 #include <QTimer>
+#include <QUdpSocket>
 #include <zmq/zmq.hpp>
 
 class Professor: public QObject {
@@ -26,6 +27,17 @@ public slots:  // Déclaration des slots ici
     void sendAudioData();  // Méthode qui sera appelée toutes les 100 ms
     void receiveAudioData();  // Méthode pour recevoir l'audio des étudiants
 
+    void processPendingDatagrams() {
+        while (udpSocket.hasPendingDatagrams()) {
+            QByteArray datagram;
+            datagram.resize(udpSocket.pendingDatagramSize());
+            QHostAddress sender;
+            quint16 senderPort;
+            udpSocket.readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
+            qDebug() << "📩 Commande reçue de" << sender.toString() << ":" << QString::fromUtf8(datagram);
+        }
+    }
+
 private:
     QString serverIp = "localhost"; // L'adresse IP du serveur
     zmq::context_t context;  // Contexte ZeroMQ
@@ -40,6 +52,8 @@ private:
     QAudioDevice outputDeviceInfo;
     QTimer sendAudioTimer;
     QTimer receiveAudioTimer;
+
+    QUdpSocket udpSocket;
 
 };
 
