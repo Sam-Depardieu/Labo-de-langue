@@ -1,13 +1,13 @@
-#include "customgraphicsitemgroup.h"
+#include "iconEleveGroup.h"
 #include "mainwindow.h"
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
 
-CustomGraphicsItemGroup::CustomGraphicsItemGroup(int numero, QString ip, MainWindow* parentWindow) : QGraphicsItemGroup(), numero(numero), IP(ip), mainWindow(parentWindow) {
+iconEleveGroup::iconEleveGroup(int numero, QString ip, MainWindow* parentWindow) : QGraphicsItemGroup(), numero(numero), IP(ip), mainWindow(parentWindow) {
     setFlag(QGraphicsItem::ItemSendsGeometryChanges);
 }
 
-void CustomGraphicsItemGroup::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
+void iconEleveGroup::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
     if (mainWindow->parametrageSession && mainWindow->selectionParticipants) {
         auto it = std::find(mainWindow->listeParticipant.begin(), mainWindow->listeParticipant.end(), this);
 
@@ -45,7 +45,7 @@ void CustomGraphicsItemGroup::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *ev
 
 }
 
-QVariant CustomGraphicsItemGroup::itemChange(GraphicsItemChange change, const QVariant &value)
+QVariant iconEleveGroup::itemChange(GraphicsItemChange change, const QVariant &value)
 {
     if (change == ItemPositionChange) {
         QPointF newPos = value.toPointF();
@@ -89,12 +89,12 @@ QVariant CustomGraphicsItemGroup::itemChange(GraphicsItemChange change, const QV
 }
 
 
-QRectF CustomGraphicsItemGroup::boundingRect() const
+QRectF iconEleveGroup::boundingRect() const
 {
     QRectF rect = childrenBoundingRect();
     return rect;
 }
 
-int CustomGraphicsItemGroup::getId() const{
+int iconEleveGroup::getId() const{
     return numero;
 }

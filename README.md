@@ -1,11 +1,88 @@
-# Labo-de-langue
-Remplacer le système Sanako actuel
+# Projet : Labo de Langue
 
-Rap 4 8gb + écran 7" : https://www.getgoods.com/fr-fr/products/4620521/Raspberry-Pi-Touch-Kit-DIY-Raspberry-Pi-4-B-8-GB-4-x-1.5-GHz-avec-cran-tactile-avec-botier-avec-alimentation-avec-Noobs-OS.html
+## Contexte
+Le Lycée Durzy souhaite développer une solution alternative au système Sanako pour leur laboratoire de langues. Le système actuel, vieillissant et coûteux, doit être remplacé par une solution innovante et économique basée sur des Raspberry Pi.
 
-Adapteur USB C POE 5V/3A 
-  - 46€ : https://amzn.eu/d/e3AAIGR
-  - 12€ : https://amzn.eu/d/fcFKiYs
+---
+
+## Objectifs du projet
+- Remplacer les stations de travail actuelles par des Raspberry Pi avec écrans tactiles.
+- Proposer une interface simple et interactive pour les exercices multimédia (audio, vidéo, texte).
+- Permettre l'enregistrement et le stockage des réponses des étudiants.
+- Offrir un système de gestion centralisé pour les enseignants.
+- Réduire les coûts de mise en œuvre et de maintenance.
+
+---
+
+## Fonctionnalités principales
+### Interface Étudiant
+- Connexion aux sessions d'exercices.
+- Lecture et enregistrement audio/vidéo.
+- Navigation intuitive sur écran tactile.
+- Envoi des réponses à l'enseignant.
+
+### Interface Enseignant
+- Gestion des sessions (création, modification, suivi).
+- Évaluation des réponses des étudiants.
+- Communication et feedback en temps réel.
+
+---
+
+## Environnement technique
+- **Matériel** :
+  - Raspberry Pi 4 (4 Go ou 8 Go de RAM).
+  - Écran tactile (7 à 10 pouces).
+  - Switch réseau 48 ports PoE (ex. : NETGEAR GS748TPS).
+  - [Adapteur USB C RJ45 POE 5V/3A](https://amzn.eu/d/fcFKiYs).
+  - Adapteur USB Jac.
+
+- **Logiciels** :
+  - Développement d'interfaces avec Qt Framework (C++) ou Tkinter/Kivy (Python).
+  - Gestion audio/vidéo avec PyAudio ou PortAudio.
+  - Communication réseau via protocoles TCP/UDP.
+  - OS : Raspberry Pi OS.
+
+- **Base de données** :
+  - Serveur MySQL pour stocker les réponses et les évaluations.
+
+---
+
+## Diagrammes UML et Gantt
+Les diagrammes UML et le planning Gantt sont disponibles dans la documentation du projet.
+
+---
+
+## Équipe
+- Étudiants : Jenarthan, Quentin, Clément, Sam.
+- Encadrants : [Cendrine Arrondeau], [Amélie Malkatan], [Tofirk Soussi].
+
+---
+
+## Livrables attendus
+- Application fonctionnelle pour étudiant et enseignant.
+- Manuels d'installation et d'utilisation.
+- Tests unitaires et d'intégration.
+- Documents de recette.
+
+---
+
+## Planning
+- Début du projet : 20 janvier 2025.
+- Revue 1 : 24 février 2025.
+- Revue 2 : 17 mars 2025.
+- Revue 3 : 28 avril 2025.
+- Fin du projet : 26 mai 2025.
+
+---
+
+## Contact
+Pour toute question, veuillez contacter :  
+- **Chef de projet** : [Sam Depardieu](samdepardieu@hotmail.com).  
+- **Établissement** : Lycée Durzy, 23 rue Léonard de Vinci, 45700 Villemandeur.
+
+---
+
+# Mise en Place et Installation
 
 Installer MSYS2 (si ce n'est pas encore fait)
  - Si MSYS2 n'est pas installé, téléchargez-le depuis :

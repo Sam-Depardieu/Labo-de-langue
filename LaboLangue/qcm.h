@@ -41,8 +41,6 @@ class QCM : public QDialog
         QCM(QWidget *parent, MainWindow* parentWindow);
         ~QCM();
 
-
-
     private:
         Ui::QCM *ui;
         MainWindow* mainWindow;
@@ -58,8 +56,6 @@ class QCM : public QDialog
         QPushButton *importQuestionButton;
         QLabel *nomQCMLabel;
         QLineEdit *nomQCM;
-
-        array<array<QString, 2>, 4> choices = {{{QString("")}}};
 
 
         struct QuestionWidget {
@@ -77,7 +73,7 @@ class QCM : public QDialog
         QList<QuestionWidget *> questionWidgets;
 
     private slots:
-        void addQuestion(QString *nomQ = new QString("Test"), QString *numQ = new QString("1"), QString *nbRep = new QString("2"));
+        void addQuestion(QString *nomQ = new QString("Test"), QString *numQ = new QString("1"), QString *nbRep = new QString("2"), array<array<QString, 2>, 4> choices= {{{QString("")}}});
         void removeQuestion();
         void saveQuestions();
         void addBoxAddQuestion();
