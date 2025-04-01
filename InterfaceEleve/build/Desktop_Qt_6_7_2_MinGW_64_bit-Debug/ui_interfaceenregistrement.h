@@ -35,6 +35,8 @@ public:
     QPushButton *pushButtonRetourArriere;
     QPushButton *pushButtonEnregistrer;
     QPushButton *pushButtonEnregistrer_2;
+    QPushButton *pushButtonEnregistrer_3;
+    QPushButton *pushButtonEnregistrer_4;
 
     void setupUi(QDialog *InterfaceEnregistrement)
     {
@@ -54,11 +56,11 @@ public:
 "    border: none;"));
         pushButtonAvancer = new QPushButton(InterfaceEnregistrement);
         pushButtonAvancer->setObjectName("pushButtonAvancer");
-        pushButtonAvancer->setGeometry(QRect(470, 160, 70, 70));
+        pushButtonAvancer->setGeometry(QRect(460, 160, 70, 70));
         pushButtonAvancer->setStyleSheet(QString::fromUtf8(""));
         pushButtonClear = new QPushButton(InterfaceEnregistrement);
         pushButtonClear->setObjectName("pushButtonClear");
-        pushButtonClear->setGeometry(QRect(630, 405, 70, 70));
+        pushButtonClear->setGeometry(QRect(610, 405, 70, 70));
         pushButtonClear->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
 "    border: none;"));
         pushButtonAppelProf = new QPushButton(InterfaceEnregistrement);
@@ -88,7 +90,7 @@ public:
         labelChrono->setAlignment(Qt::AlignmentFlag::AlignCenter);
         pushButtonSpeak = new QPushButton(InterfaceEnregistrement);
         pushButtonSpeak->setObjectName("pushButtonSpeak");
-        pushButtonSpeak->setGeometry(QRect(360, 270, 70, 70));
+        pushButtonSpeak->setGeometry(QRect(350, 270, 70, 70));
         pushButtonSpeak->setStyleSheet(QString::fromUtf8(""));
         pushButton = new QPushButton(InterfaceEnregistrement);
         pushButton->setObjectName("pushButton");
@@ -102,7 +104,7 @@ public:
 "}"));
         pushButtonPause = new QPushButton(InterfaceEnregistrement);
         pushButtonPause->setObjectName("pushButtonPause");
-        pushButtonPause->setGeometry(QRect(360, 160, 70, 70));
+        pushButtonPause->setGeometry(QRect(350, 160, 70, 70));
         pushButtonPause->setStyleSheet(QString::fromUtf8(""));
         labelAppelProf = new QLabel(InterfaceEnregistrement);
         labelAppelProf->setObjectName("labelAppelProf");
@@ -121,6 +123,16 @@ public:
         pushButtonEnregistrer_2->setGeometry(QRect(550, 450, 70, 70));
         pushButtonEnregistrer_2->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
 "    border: none;"));
+        pushButtonEnregistrer_3 = new QPushButton(InterfaceEnregistrement);
+        pushButtonEnregistrer_3->setObjectName("pushButtonEnregistrer_3");
+        pushButtonEnregistrer_3->setGeometry(QRect(480, 450, 70, 70));
+        pushButtonEnregistrer_3->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
+"    border: none;"));
+        pushButtonEnregistrer_4 = new QPushButton(InterfaceEnregistrement);
+        pushButtonEnregistrer_4->setObjectName("pushButtonEnregistrer_4");
+        pushButtonEnregistrer_4->setGeometry(QRect(350, 405, 70, 70));
+        pushButtonEnregistrer_4->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
+"    border: none;"));
         pushButton_2->raise();
         pushButton->raise();
         pushButtonSon->raise();
@@ -135,6 +147,8 @@ public:
         pushButtonAppelProf->raise();
         pushButtonEnregistrer->raise();
         pushButtonEnregistrer_2->raise();
+        pushButtonEnregistrer_3->raise();
+        pushButtonEnregistrer_4->raise();
 
         retranslateUi(InterfaceEnregistrement);
 
@@ -158,6 +172,8 @@ public:
         pushButtonRetourArriere->setText(QString());
         pushButtonEnregistrer->setText(QString());
         pushButtonEnregistrer_2->setText(QString());
+        pushButtonEnregistrer_3->setText(QString());
+        pushButtonEnregistrer_4->setText(QString());
     } // retranslateUi
 
 };

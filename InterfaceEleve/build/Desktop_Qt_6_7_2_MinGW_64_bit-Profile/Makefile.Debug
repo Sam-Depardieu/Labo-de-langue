@@ -124,7 +124,7 @@ clean: compiler_clean
 	-$(DEL_FILE) debug\attenteprof.o debug\audioCommunicator.o debug\interfaceaudio.o debug\interfaceenregistrement.o debug\interfaceqcm.o debug\interfacevideo.o debug\main.o debug\mainwindow.o debug\qrc_images.o debug\qrc_videos.o debug\moc_attenteprof.o debug\moc_audioCommunicator.o debug\moc_interfaceaudio.o debug\moc_interfaceenregistrement.o debug\moc_interfaceqcm.o debug\moc_interfacevideo.o debug\moc_mainwindow.o
 
 distclean: clean 
-	-$(DEL_FILE) E:\Documents\Projet\Labo-de-langue\InterfaceEleve\build\Desktop_Qt_6_7_2_MinGW_64_bit-Profile\debug\InterfaceEleve.exe.debug .qmake.stash
+	-$(DEL_FILE) C:\Users\Quentin\Documents\Projet\Labo-de-langue\InterfaceEleve\build\Desktop_Qt_6_7_2_MinGW_64_bit-Profile\debug\InterfaceEleve.exe.debug .qmake.stash
 	-$(DEL_FILE) $(DESTDIR_TARGET)
 	-$(DEL_FILE) Makefile.Debug
 
@@ -144,7 +144,6 @@ compiler_rcc_clean:
 debug/qrc_images.cpp: ../../images.qrc \
 		C:/Qt/6.7.2/mingw_64/bin/rcc.exe \
 		../../images/Son.png \
-		../../images/AppelProf.png \
 		../../images/2.png \
 		../../images/Repeter.png \
 		../../images/2Selec.png \
@@ -157,7 +156,10 @@ debug/qrc_images.cpp: ../../images.qrc \
 		../../images/Favoris.png \
 		../../images/Pause.png \
 		../../images/Play.png \
+		../../images/FeedBack.png \
+		../../images/CallProf.png \
 		../../images/PasSurveiller.png \
+		../../images/Enregistrer.png \
 		../../images/Surveiller.png \
 		../../images/4Selec.png \
 		../../images/Enregistrement.png \
@@ -391,7 +393,7 @@ debug/moc_attenteprof.cpp: ../../attenteprof.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qfactoryinterface.h \
 		debug/moc_predefs.h \
 		C:/Qt/6.7.2/mingw_64/bin/moc.exe
-	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include E:/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Profile/debug/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\attenteprof.h -o debug\moc_attenteprof.cpp
+	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include C:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Profile/debug/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IC:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\attenteprof.h -o debug\moc_attenteprof.cpp
 
 debug/moc_audioCommunicator.cpp: ../../audioCommunicator.h \
 		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QtNetwork \
@@ -752,7 +754,7 @@ debug/moc_audioCommunicator.cpp: ../../audioCommunicator.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QTimer \
 		debug/moc_predefs.h \
 		C:/Qt/6.7.2/mingw_64/bin/moc.exe
-	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include E:/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Profile/debug/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\audioCommunicator.h -o debug\moc_audioCommunicator.cpp
+	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include C:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Profile/debug/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IC:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\audioCommunicator.h -o debug\moc_audioCommunicator.cpp
 
 debug/moc_interfaceaudio.cpp: ../../interfaceaudio.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QDialog \
@@ -964,7 +966,7 @@ debug/moc_interfaceaudio.cpp: ../../interfaceaudio.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qaudiooutput.h \
 		debug/moc_predefs.h \
 		C:/Qt/6.7.2/mingw_64/bin/moc.exe
-	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include E:/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Profile/debug/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\interfaceaudio.h -o debug\moc_interfaceaudio.cpp
+	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include C:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Profile/debug/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IC:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\interfaceaudio.h -o debug\moc_interfaceaudio.cpp
 
 debug/moc_interfaceenregistrement.cpp: ../../interfaceenregistrement.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QDialog \
@@ -1157,9 +1159,6 @@ debug/moc_interfaceenregistrement.cpp: ../../interfaceenregistrement.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QTimer \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qtimer.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qbasictimer.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QFile \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qfile.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qfiledevice.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QMediaPlayer \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qmediaplayer.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
@@ -1169,18 +1168,21 @@ debug/moc_interfaceenregistrement.cpp: ../../interfaceenregistrement.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qmetaobject.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qtaudio.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qaudio.h \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QMediaRecorder \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qmediarecorder.h \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qmediametadata.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QAudioInput \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qaudioinput.h \
 		C:/Qt/6.7.2/mingw_64/include/QtGui/QKeyEvent \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QDebug \
+		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QMediaRecorder \
+		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qmediarecorder.h \
+		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qmediametadata.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QAudioOutput \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qaudiooutput.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QUrl \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QStandardPaths \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qstandardpaths.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QFile \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qfile.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qfiledevice.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QMediaFormat \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qmediaformat.h \
 		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QUdpSocket \
@@ -1203,9 +1205,24 @@ debug/moc_interfaceenregistrement.cpp: ../../interfaceenregistrement.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qjsonobject.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QMediaCaptureSession \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qmediacapturesession.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QSlider \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qslider.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qabstractslider.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QVBoxLayout \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qboxlayout.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlayout.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlayoutitem.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qgridlayout.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QWidgetAction \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qwidgetaction.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QLabel \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlabel.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qframe.h \
+		C:/Qt/6.7.2/mingw_64/include/QtGui/qpicture.h \
+		C:/Qt/6.7.2/mingw_64/include/QtGui/qtextdocument.h \
 		debug/moc_predefs.h \
 		C:/Qt/6.7.2/mingw_64/bin/moc.exe
-	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include E:/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Profile/debug/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\interfaceenregistrement.h -o debug\moc_interfaceenregistrement.cpp
+	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include C:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Profile/debug/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IC:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\interfaceenregistrement.h -o debug\moc_interfaceenregistrement.cpp
 
 debug/moc_interfaceqcm.cpp: ../../interfaceqcm.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QDialog \
@@ -1397,7 +1414,7 @@ debug/moc_interfaceqcm.cpp: ../../interfaceqcm.h \
 		C:/Qt/6.7.2/mingw_64/include/QtGui/qguiapplication_platform.h \
 		debug/moc_predefs.h \
 		C:/Qt/6.7.2/mingw_64/bin/moc.exe
-	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include E:/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Profile/debug/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\interfaceqcm.h -o debug\moc_interfaceqcm.cpp
+	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include C:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Profile/debug/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IC:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\interfaceqcm.h -o debug\moc_interfaceqcm.cpp
 
 debug/moc_interfacevideo.cpp: ../../interfacevideo.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QDialog \
@@ -1610,13 +1627,9 @@ debug/moc_interfacevideo.cpp: ../../interfacevideo.h \
 		C:/Qt/6.7.2/mingw_64/include/QtGui/QCloseEvent \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QProcess \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qprocess.h \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/QVideoWidget \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qvideowidget.h \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qtmultimediawidgetsglobal.h \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qtmultimediawidgetsexports.h \
 		debug/moc_predefs.h \
 		C:/Qt/6.7.2/mingw_64/bin/moc.exe
-	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include E:/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Profile/debug/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\interfacevideo.h -o debug\moc_interfacevideo.cpp
+	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include C:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Profile/debug/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IC:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\interfacevideo.h -o debug\moc_interfacevideo.cpp
 
 debug/moc_mainwindow.cpp: ../../mainwindow.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QMainWindow \
@@ -1828,7 +1841,7 @@ debug/moc_mainwindow.cpp: ../../mainwindow.h \
 		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qabstractsocket.h \
 		debug/moc_predefs.h \
 		C:/Qt/6.7.2/mingw_64/bin/moc.exe
-	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include E:/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Profile/debug/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\mainwindow.h -o debug\moc_mainwindow.cpp
+	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include C:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Profile/debug/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IC:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\mainwindow.h -o debug\moc_mainwindow.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -2078,14 +2091,6 @@ debug/attenteprof.o: ../../attenteprof.cpp ../../attenteprof.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/q20algorithm.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qfactoryinterface.h \
 		ui_attenteprof.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QApplication \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qapplication.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QLabel \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlabel.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qframe.h \
-		C:/Qt/6.7.2/mingw_64/include/QtGui/qpicture.h \
-		C:/Qt/6.7.2/mingw_64/include/QtGui/qtextdocument.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QTimer \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qtimer.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qbasictimer.h
@@ -2447,7 +2452,8 @@ debug/audioCommunicator.o: ../../audioCommunicator.cpp ../../audioCommunicator.h
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QDebug \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QMediaDevices \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qmediadevices.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QTimer
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QTimer \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QDir
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\audioCommunicator.o ..\..\audioCommunicator.cpp
 
 debug/interfaceaudio.o: ../../interfaceaudio.cpp ../../interfaceaudio.h \
@@ -2659,21 +2665,6 @@ debug/interfaceaudio.o: ../../interfaceaudio.cpp ../../interfaceaudio.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QAudioOutput \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qaudiooutput.h \
 		ui_interfaceaudio.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QApplication \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qapplication.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QHBoxLayout \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qboxlayout.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlayout.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlayoutitem.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qgridlayout.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QPushButton \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qpushbutton.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qabstractbutton.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QSlider \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qslider.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qabstractslider.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QWidget \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QStandardPaths \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qstandardpaths.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QMediaRecorder \
@@ -2873,9 +2864,6 @@ debug/interfaceenregistrement.o: ../../interfaceenregistrement.cpp ../../interfa
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QTimer \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qtimer.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qbasictimer.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QFile \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qfile.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qfiledevice.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QMediaPlayer \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qmediaplayer.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
@@ -2885,18 +2873,21 @@ debug/interfaceenregistrement.o: ../../interfaceenregistrement.cpp ../../interfa
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qmetaobject.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qtaudio.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qaudio.h \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QMediaRecorder \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qmediarecorder.h \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qmediametadata.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QAudioInput \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qaudioinput.h \
 		C:/Qt/6.7.2/mingw_64/include/QtGui/QKeyEvent \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QDebug \
+		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QMediaRecorder \
+		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qmediarecorder.h \
+		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qmediametadata.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QAudioOutput \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qaudiooutput.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QUrl \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QStandardPaths \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qstandardpaths.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QFile \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qfile.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qfiledevice.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QMediaFormat \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qmediaformat.h \
 		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QUdpSocket \
@@ -2919,19 +2910,22 @@ debug/interfaceenregistrement.o: ../../interfaceenregistrement.cpp ../../interfa
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qjsonobject.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QMediaCaptureSession \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qmediacapturesession.h \
-		ui_interfaceenregistrement.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
-		C:/Qt/6.7.2/mingw_64/include/QtGui/QIcon \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QApplication \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qapplication.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QSlider \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qslider.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qabstractslider.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QVBoxLayout \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qboxlayout.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlayout.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlayoutitem.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qgridlayout.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QWidgetAction \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qwidgetaction.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QLabel \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlabel.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qframe.h \
 		C:/Qt/6.7.2/mingw_64/include/QtGui/qpicture.h \
 		C:/Qt/6.7.2/mingw_64/include/QtGui/qtextdocument.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QPushButton \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qpushbutton.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qabstractbutton.h
+		ui_interfaceenregistrement.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\interfaceenregistrement.o ..\..\interfaceenregistrement.cpp
 
 debug/interfaceqcm.o: ../../interfaceqcm.cpp ../../interfaceqcm.h \
@@ -3122,13 +3116,7 @@ debug/interfaceqcm.o: ../../interfaceqcm.cpp ../../interfaceqcm.h \
 		C:/Qt/6.7.2/mingw_64/include/QtGui/qinputmethod.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qlocale.h \
 		C:/Qt/6.7.2/mingw_64/include/QtGui/qguiapplication_platform.h \
-		ui_interfaceqcm.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QApplication \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qapplication.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QPushButton \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qpushbutton.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qabstractbutton.h
+		ui_interfaceqcm.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\interfaceqcm.o ..\..\interfaceqcm.cpp
 
 debug/interfacevideo.o: ../../interfacevideo.cpp ../../interfacevideo.h \
@@ -3342,26 +3330,7 @@ debug/interfacevideo.o: ../../interfacevideo.cpp ../../interfacevideo.h \
 		C:/Qt/6.7.2/mingw_64/include/QtGui/QCloseEvent \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QProcess \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qprocess.h \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/QVideoWidget \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qvideowidget.h \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qtmultimediawidgetsglobal.h \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qtmultimediawidgetsexports.h \
 		ui_interfacevideo.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QApplication \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qapplication.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QPushButton \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qpushbutton.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qabstractbutton.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QSlider \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qslider.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qabstractslider.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QVBoxLayout \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qboxlayout.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlayout.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlayoutitem.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qgridlayout.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QWidget \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QStandardPaths \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qstandardpaths.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\interfacevideo.o ..\..\interfacevideo.cpp
@@ -4019,16 +3988,16 @@ debug/mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QTimer \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qtimer.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qbasictimer.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QFile \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QMediaRecorder \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qmediarecorder.h \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qmediametadata.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QAudioInput \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qaudioinput.h \
 		C:/Qt/6.7.2/mingw_64/include/QtGui/QKeyEvent \
+		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QMediaRecorder \
+		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qmediarecorder.h \
+		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qmediametadata.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QUrl \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QStandardPaths \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qstandardpaths.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QFile \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QMediaFormat \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qmediaformat.h \
 		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QUdpSocket \
@@ -4044,21 +4013,25 @@ debug/mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qjsonobject.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QMediaCaptureSession \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qmediacapturesession.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QSlider \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qslider.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qabstractslider.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QVBoxLayout \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qboxlayout.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlayout.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlayoutitem.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qgridlayout.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QWidgetAction \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qwidgetaction.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QLabel \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlabel.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qframe.h \
+		C:/Qt/6.7.2/mingw_64/include/QtGui/qpicture.h \
+		C:/Qt/6.7.2/mingw_64/include/QtGui/qtextdocument.h \
 		../../interfaceqcm.h \
 		../../interfacevideo.h \
 		C:/Qt/6.7.2/mingw_64/include/QtGui/QCloseEvent \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/QVideoWidget \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qvideowidget.h \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qtmultimediawidgetsglobal.h \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qtmultimediawidgetsexports.h \
 		ui_mainwindow.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QApplication \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qapplication.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QPushButton \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qpushbutton.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qabstractbutton.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QWidget \
 		../../attenteprof.h \
 		C:/Qt/6.7.2/mingw_64/include/QtGui/QMovie \
 		C:/Qt/6.7.2/mingw_64/include/QtGui/qmovie.h \

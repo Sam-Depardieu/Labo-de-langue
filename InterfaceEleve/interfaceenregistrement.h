@@ -3,15 +3,22 @@
 
 #include <QDialog>
 #include <QTimer>
+<<<<<<< HEAD
 #include <QFile>
+=======
+#include <QMediaPlayer>
+>>>>>>> a785a414c4110abf11314b48660e0405a7d6a541
 #include <QAudioInput>
 #include <QKeyEvent>
 #include <QDebug>
 #include <QMediaRecorder>
-#include <QMediaPlayer>
 #include <QAudioOutput>
 #include <QUrl>
 #include <QStandardPaths>
+<<<<<<< HEAD
+=======
+#include <QFile>
+>>>>>>> a785a414c4110abf11314b48660e0405a7d6a541
 #include <QMediaFormat>
 #include <QUdpSocket>
 #include <QJsonDocument>

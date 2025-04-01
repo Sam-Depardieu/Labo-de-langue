@@ -16,7 +16,6 @@
         <file>images/Enregistrement.png</file>
         <file>images/Favoris.png</file>
         <file>images/PasSurveiller.png</file>
-        <file>images/Pause.png</file>
         <file>images/Repeter.png</file>
         <file>images/RevenirALaPhrasePrecedente.png</file>
         <file>images/RevenirArriere.png</file>
@@ -27,5 +26,10 @@
         <file>images/Surveiller.png</file>
         <file>images/Enregistrer.png</file>
         <file>images/CallProf.png</file>
+<<<<<<< HEAD
+=======
+        <file>images/Pause.png</file>
+        <file>images/FeedBack.png</file>
+>>>>>>> a785a414c4110abf11314b48660e0405a7d6a541
     </qresource>
 </RCC>
