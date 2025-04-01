@@ -21,7 +21,7 @@ bool MainWindow::connectToDatabase() {
         return true; // La connexion existe déjà
     }
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("192.168.64.36");
+    db.setHostName("192.168.89.42");
     db.setDatabaseName("LaboLangue");
     db.setUserName("prof");
     db.setPassword("okokok");

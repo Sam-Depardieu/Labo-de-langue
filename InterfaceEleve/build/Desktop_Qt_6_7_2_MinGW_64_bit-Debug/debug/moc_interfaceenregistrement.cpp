@@ -55,7 +55,6 @@ constexpr auto qt_meta_stringdata_CLASSInterfaceEnregistrementENDCLASS = QtMocHe
     "QMediaRecorder::Error",
     "error",
     "errorString",
-    "on_pushButtonPlay_clicked",
     "on_pushButtonAvancer_clicked",
     "on_pushButtonEnregistrer_clicked"
 );
@@ -70,7 +69,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSInterfaceEnregistrementENDCLASS[
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-      14,   14, // methods
+      13,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -78,20 +77,19 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSInterfaceEnregistrementENDCLASS[
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    0,   98,    2, 0x08,    1 /* Private */,
-       3,    0,   99,    2, 0x08,    2 /* Private */,
-       4,    0,  100,    2, 0x08,    3 /* Private */,
-       5,    0,  101,    2, 0x08,    4 /* Private */,
-       6,    0,  102,    2, 0x08,    5 /* Private */,
-       7,    0,  103,    2, 0x08,    6 /* Private */,
-       8,    0,  104,    2, 0x08,    7 /* Private */,
-       9,    0,  105,    2, 0x08,    8 /* Private */,
-      10,    1,  106,    2, 0x08,    9 /* Private */,
-      12,    1,  109,    2, 0x08,   11 /* Private */,
-      15,    2,  112,    2, 0x08,   13 /* Private */,
-      19,    0,  117,    2, 0x08,   16 /* Private */,
-      20,    0,  118,    2, 0x08,   17 /* Private */,
-      21,    0,  119,    2, 0x08,   18 /* Private */,
+       1,    0,   92,    2, 0x08,    1 /* Private */,
+       3,    0,   93,    2, 0x08,    2 /* Private */,
+       4,    0,   94,    2, 0x08,    3 /* Private */,
+       5,    0,   95,    2, 0x08,    4 /* Private */,
+       6,    0,   96,    2, 0x08,    5 /* Private */,
+       7,    0,   97,    2, 0x08,    6 /* Private */,
+       8,    0,   98,    2, 0x08,    7 /* Private */,
+       9,    0,   99,    2, 0x08,    8 /* Private */,
+      10,    1,  100,    2, 0x08,    9 /* Private */,
+      12,    1,  103,    2, 0x08,   11 /* Private */,
+      15,    2,  106,    2, 0x08,   13 /* Private */,
+      19,    0,  111,    2, 0x08,   16 /* Private */,
+      20,    0,  112,    2, 0x08,   17 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -105,7 +103,6 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSInterfaceEnregistrementENDCLASS[
     QMetaType::Void, QMetaType::LongLong,   11,
     QMetaType::Void, 0x80000000 | 13,   14,
     QMetaType::Void, 0x80000000 | 16, QMetaType::QString,   17,   18,
-    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
 
@@ -147,8 +144,6 @@ Q_CONSTINIT const QMetaObject InterfaceEnregistrement::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<QMediaRecorder::Error, std::false_type>,
         QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
-        // method 'on_pushButtonPlay_clicked'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_pushButtonAvancer_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_pushButtonEnregistrer_clicked'
@@ -174,8 +169,8 @@ void InterfaceEnregistrement::qt_static_metacall(QObject *_o, QMetaObject::Call 
         case 8: _t->checkPlaybackPosition((*reinterpret_cast< std::add_pointer_t<qint64>>(_a[1]))); break;
         case 9: _t->onRecorderStateChanged((*reinterpret_cast< std::add_pointer_t<QMediaRecorder::RecorderState>>(_a[1]))); break;
         case 10: _t->onRecorderErrorOccurred((*reinterpret_cast< std::add_pointer_t<QMediaRecorder::Error>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2]))); break;
-        case 12: _t->on_pushButtonAvancer_clicked(); break;
-        case 13: _t->on_pushButtonEnregistrer_clicked(); break;
+        case 11: _t->on_pushButtonAvancer_clicked(); break;
+        case 12: _t->on_pushButtonEnregistrer_clicked(); break;
         default: ;
         }
     }
@@ -200,13 +195,13 @@ int InterfaceEnregistrement::qt_metacall(QMetaObject::Call _c, int _id, void **_
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 14)
+        if (_id < 13)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 14;
+        _id -= 13;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 14)
+        if (_id < 13)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 14;
+        _id -= 13;
     }
     return _id;
 }

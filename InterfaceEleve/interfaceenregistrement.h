@@ -3,20 +3,15 @@
 
 #include <QDialog>
 #include <QTimer>
-#include <QFile>
 #include <QMediaPlayer>
-#include <QMediaRecorder>
 #include <QAudioInput>
 #include <QKeyEvent>
 #include <QDebug>
 #include <QMediaRecorder>
-#include <QMediaPlayer>
 #include <QAudioOutput>
 #include <QUrl>
 #include <QStandardPaths>
 #include <QFile>
-#include <QTimer>
-#include <QDebug>
 #include <QMediaFormat>
 #include <QUdpSocket>
 #include <QJsonDocument>
@@ -30,7 +25,7 @@
 //#include <QAudioProbe>
 //#include <QAudioEncoderSettings>
 //#include <QtMultimedia>
-#include <QDebug>
+
 
 namespace Ui {
 class InterfaceEnregistrement;
@@ -55,7 +50,6 @@ private slots:
     void checkPlaybackPosition(qint64 position);
     void onRecorderStateChanged(QMediaRecorder::RecorderState state);
     void onRecorderErrorOccurred(QMediaRecorder::Error error, const QString &errorString);
-    void on_pushButtonPlay_clicked();
     void on_pushButtonAvancer_clicked();
 
     void on_pushButtonEnregistrer_clicked();
