@@ -84,7 +84,7 @@
      <x>9</x>
      <y>30</y>
      <width>781</width>
-     <height>381</height>
+     <height>391</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout"/>
@@ -106,9 +106,9 @@
    <property name="geometry">
     <rect>
      <x>-10</x>
-     <y>415</y>
+     <y>425</y>
      <width>831</width>
-     <height>71</height>
+     <height>61</height>
     </rect>
    </property>
    <property name="styleSheet">
