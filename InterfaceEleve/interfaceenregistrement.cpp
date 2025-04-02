@@ -38,11 +38,6 @@ InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
     totalSecondes = 0;
     speakButtonClicked = false;
 
-
-
-
-
-
     //Affichage des Images
     QPixmap imageSon(":/images/Son"); // Charge l'image
     if (imageSon.isNull()) {
@@ -127,7 +122,7 @@ InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
         ui->pushButtonClear->setIcon(icone); // Définit l'icône du bouton
         ui->pushButtonClear->setIconSize(ui->pushButtonClear->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
     }
-    QPixmap imageAppelProf(":/images/AppelProf"); // Charge l'image
+    QPixmap imageAppelProf(":/images/CallProf"); // Charge l'image
     if (imageAppelProf.isNull()) {
         qWarning() << "Erreur : image non trouvée !";
     } else {
@@ -154,15 +149,14 @@ InterfaceEnregistrement::~InterfaceEnregistrement()
 
 void InterfaceEnregistrement::on_pushButtonSpeak_clicked()
 {
+    //Changement d'image
     if (isButtonSpeak) {
         QPixmap image1(":/images/Enregistrement");
         if (image1.isNull()) {
             qWarning() << "Erreur : image non trouvée !";
         } else {
             QIcon icone(image1);
-            ui->pushButtonSpeak->setIcon(icone);
-            ui->pushButtonSpeak->setIconSize(ui->pushButtonSpeak->size());
-            qDebug() << "Image 2Selec chargée";
+            ui->pushButtonSpeak->setIcon(icone);    //Evite de relancer un enregistrement quand il est déja en cours
         }
     } else {
         QPixmap Image(":/images/Play");
@@ -176,11 +170,15 @@ void InterfaceEnregistrement::on_pushButtonSpeak_clicked()
         }
     }
     isButtonSpeak = !isButtonSpeak;
+    //
+
 
     if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState) {
         qWarning() << "L'enregistrement est déjà en cours.";
         return;
     }
+    ui->pushButtonSpeak->setIconSize(ui->pushButtonSpeak->size());
+    qDebug() << "Image 2Selec chargée";
 
     if (QFile::exists(audioFilePath)) {
         QFile::remove(audioFilePath);
@@ -205,6 +203,7 @@ void InterfaceEnregistrement::on_pushButtonSpeak_clicked()
 
 void InterfaceEnregistrement::on_pushButtonPause_clicked()
 {
+
     if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState) {
         mediaRecorder->pause(); // Met en pause l'enregistrement
         isRecordingPaused = true;
@@ -281,6 +280,8 @@ void InterfaceEnregistrement::on_pushButtonSon_clicked()
 
     // Connexion du bouton de fermeture
     QObject::connect(closeButton, &QPushButton::clicked, &popup, &QDialog::accept);
+
+
 
     // Affichage de la popup
     popup.exec();
@@ -416,5 +417,22 @@ void InterfaceEnregistrement::onRecorderErrorOccurred(QMediaRecorder::Error erro
 void InterfaceEnregistrement::on_pushButtonEnregistrer_clicked()
 {
     qDebug() << "Bouton Enregistrer cliqué";
+
+    QMediaCaptureSession *session = new QMediaCaptureSession(this);
+    QAudioInput *audioInput = new QAudioInput(this);
+    QMediaRecorder *recorder = new QMediaRecorder(this);
+
+    session->setAudioInput(audioInput);
+    session->setRecorder(recorder);
+
+    // Définir le format MP3
+    QMediaFormat format;
+    format.setFileFormat(QMediaFormat::Mpeg4Audio);  // MP3 (si dispo)
+
+    recorder->setMediaFormat(format);
+    recorder->setOutputLocation(QUrl::fromLocalFile("output.mp3"));
+
+    recorder->record();
+
 }
 

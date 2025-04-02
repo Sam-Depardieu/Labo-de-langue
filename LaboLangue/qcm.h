@@ -41,8 +41,6 @@ class QCM : public QDialog
         QCM(QWidget *parent, MainWindow* parentWindow);
         ~QCM();
 
-
-
     private:
         Ui::QCM *ui;
         MainWindow* mainWindow;

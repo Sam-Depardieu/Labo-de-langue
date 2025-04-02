@@ -45,6 +45,7 @@ private:
     QSqlDatabase db;
     bool isCtrlPressed = false;  // 🔹 Stocke l'état de Ctrl
     bool isF1Pressed = false;
+    bool actionDone = false;
 
 };
 #endif // MAINWINDOW_H

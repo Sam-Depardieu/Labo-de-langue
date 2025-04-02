@@ -54,7 +54,7 @@ public:
         pushButton_SelectVideo->setGeometry(QRect(0, 0, 101, 21));
         verticalLayoutWidget = new QWidget(InterfaceVideo);
         verticalLayoutWidget->setObjectName("verticalLayoutWidget");
-        verticalLayoutWidget->setGeometry(QRect(10, 20, 781, 391));
+        verticalLayoutWidget->setGeometry(QRect(10, 20, 781, 401));
         verticalLayout = new QVBoxLayout(verticalLayoutWidget);
         verticalLayout->setObjectName("verticalLayout");
         verticalLayout->setContentsMargins(0, 0, 0, 0);
@@ -64,7 +64,7 @@ public:
         horizontalSlider_sonVideo->setOrientation(Qt::Horizontal);
         pushButton_3 = new QPushButton(InterfaceVideo);
         pushButton_3->setObjectName("pushButton_3");
-        pushButton_3->setGeometry(QRect(0, 420, 801, 61));
+        pushButton_3->setGeometry(QRect(0, 430, 801, 51));
         pushButton_3->setStyleSheet(QString::fromUtf8("QPushButton {\n"
 "    background-color: rgb(0, 151, 178); /* Fond bleu */\n"
 "    color: white; /* Texte en blanc */\n"

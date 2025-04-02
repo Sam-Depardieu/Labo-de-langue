@@ -2,6 +2,7 @@
 
 #include <QAudioSource>
 #include <QAudioSink>
+#include <QHostAddress>
 
 Professor::Professor(QObject *parent) : QObject(parent), context(1) {
     QAudioFormat format;
@@ -43,15 +44,13 @@ Professor::Professor(QObject *parent) : QObject(parent), context(1) {
 }
 
 void Professor::sendCommandToStudent(const QString& studentIp, const QString& command) {
-    zmq::socket_t socket(context, ZMQ_REQ);
-    socket.connect("tcp://" + serverIp.toStdString() + ":5556");
+    QString fullCommand = command + " " + "192.168.64.75";
+    QByteArray datagram = fullCommand.toUtf8();
 
-    QString fullCommand = command + " " + studentIp;
-    std::string message = fullCommand.toStdString();
-    zmq::message_t request(message.size());
-    memcpy(request.data(), message.c_str(), message.size());
+    QHostAddress studentAddress(studentIp);
+    quint16 port = 5557; // Assurez-vous que le port est bien celui utilisé par les élèves
 
-    socket.send(request, zmq::send_flags::none);
+    udpSocket.writeDatagram(datagram, studentAddress, port);
     qDebug() << "📢 Commande envoyée :" << fullCommand;
 }
 

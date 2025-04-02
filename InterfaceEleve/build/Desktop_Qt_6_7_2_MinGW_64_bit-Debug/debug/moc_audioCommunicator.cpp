@@ -41,7 +41,9 @@ constexpr auto qt_meta_stringdata_CLASSStudentENDCLASS = QtMocHelpers::stringDat
     "sendAudioData",
     "",
     "receiveAudioData",
-    "playFeedback"
+    "playFeedback",
+    "receiveResponse",
+    "checkForDatagrams"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
 #error "qtmochelpers.h not found or too old."
@@ -54,7 +56,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSStudentENDCLASS[] = {
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-       3,   14, // methods
+       5,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -62,11 +64,15 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSStudentENDCLASS[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    0,   32,    2, 0x0a,    1 /* Public */,
-       3,    0,   33,    2, 0x0a,    2 /* Public */,
-       4,    0,   34,    2, 0x0a,    3 /* Public */,
+       1,    0,   44,    2, 0x0a,    1 /* Public */,
+       3,    0,   45,    2, 0x0a,    2 /* Public */,
+       4,    0,   46,    2, 0x0a,    3 /* Public */,
+       5,    0,   47,    2, 0x0a,    4 /* Public */,
+       6,    0,   48,    2, 0x0a,    5 /* Public */,
 
  // slots: parameters
+    QMetaType::Void,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -88,6 +94,10 @@ Q_CONSTINIT const QMetaObject Student::staticMetaObject = { {
         // method 'receiveAudioData'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'playFeedback'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'receiveResponse'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'checkForDatagrams'
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
@@ -102,6 +112,8 @@ void Student::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
         case 0: _t->sendAudioData(); break;
         case 1: _t->receiveAudioData(); break;
         case 2: _t->playFeedback(); break;
+        case 3: _t->receiveResponse(); break;
+        case 4: _t->checkForDatagrams(); break;
         default: ;
         }
     }
@@ -127,13 +139,13 @@ int Student::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 3)
+        if (_id < 5)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 3;
+        _id -= 5;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 3)
+        if (_id < 5)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 3;
+        _id -= 5;
     }
     return _id;
 }

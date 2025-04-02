@@ -21,7 +21,7 @@ bool MainWindow::connectToDatabase() {
         return true; // La connexion existe déjà
     }
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("192.168.64.36");
+    db.setHostName("192.168.89.42");
     db.setDatabaseName("LaboLangue");
     db.setUserName("prof");
     db.setPassword("okokok");
@@ -69,6 +69,7 @@ bool isF1Pressed = false;
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
+    // Vérification des touches Ctrl et F1
     if (event->key() == Qt::Key_Control) {
         isCtrlPressed = true;
     }
@@ -76,11 +77,15 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         isF1Pressed = true;
     }
 
-    // ✅ Vérifie si Ctrl + F1 sont pressés en même temps
+    // Vérifie si Ctrl + F1 sont pressés en même temps
     if (isCtrlPressed && isF1Pressed) {
-        qDebug() << "CTRL + F1 détecté !";
+        // Si l'action a déjà été effectuée, ne rien faire
+        if (actionDone) {
+            qDebug() << "L'action a déjà été effectuée. Aucune insertion.";
+            return;
+        }
 
-        // 🔎 Récupération de l'adresse IP et MAC
+        // Récupérer l'adresse IP et MAC
         QString ipAddress, macAddress;
         QList<QNetworkInterface> interfaces = QNetworkInterface::allInterfaces();
         for (const QNetworkInterface &iface : interfaces) {
@@ -97,11 +102,35 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             if (!ipAddress.isEmpty()) break;
         }
 
+        if (ipAddress.isEmpty() || macAddress.isEmpty()) {
+            qDebug() << "Erreur : Impossible de récupérer l'adresse IP/MAC.";
+            return;
+        }
+
         qDebug() << "Adresse IP : " << ipAddress;
         qDebug() << "Adresse MAC : " << macAddress;
 
-        // 🔍 Vérifier le dernier ID dans la BDD
+        // Vérification si l'IP est déjà présente dans la base de données
         QSqlQuery query;
+        query.prepare("SELECT COUNT(*) FROM Raspberry WHERE ip = :ip");
+        query.bindValue(":ip", ipAddress);
+        if (!query.exec()) {
+            qDebug() << "Erreur lors de la vérification de l'IP : " << query.lastError();
+            return;
+        }
+
+        // Vérifie si l'adresse IP existe déjà
+        query.next();
+        int count = query.value(0).toInt();
+        if (count > 0) {
+            qDebug() << "L'adresse IP " << ipAddress << " existe déjà dans la base de données.";
+            return;  // Ne pas insérer dans la base de données
+        }
+
+        // Si l'adresse IP n'existe pas, on procède à l'insertion
+        qDebug() << "Adresse IP unique, insertion dans la base de données...";
+
+        // Vérifier le dernier ID dans la BDD
         query.prepare("SELECT MAX(id_raspberry) FROM Raspberry");
         if (!query.exec()) {
             qDebug() << "Erreur lors de la récupération de l'ID max :" << query.lastError();
@@ -113,7 +142,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             id_raspberry = query.value(0).toInt() + 1; // Incrémentation
         }
 
-        // 📌 Calcul des coordonnées X et Y
+        // Calcul des coordonnées X et Y
         int maxPerRow = 7;
         int spacing = 50;
         int column = (id_raspberry - 1) % maxPerRow;
@@ -124,7 +153,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
         qDebug() << "Coordonnées calculées : X =" << x << ", Y =" << y;
 
-        // ✅ Insérer les données dans la base
+        // Insérer les données dans la base
         query.prepare("INSERT INTO Raspberry (id_raspberry, ip, mac, x, y, Status) VALUES (:id, :ip, :mac, :x, :y, :status)");
         query.bindValue(":id", id_raspberry);
         query.bindValue(":ip", ipAddress);
@@ -139,21 +168,23 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         if (!query.exec()) {
             qDebug() << "Erreur lors de l'insertion :" << query.lastError();
         } else {
-            qDebug() << "✅ Insertion réussie dans la base de données !";
+            qDebug() << "Insertion réussie dans la base de données !";
+            actionDone = true;  // Marque l'action comme terminée pour empêcher les nouvelles insertions
         }
     }
 
     QMainWindow::keyPressEvent(event);
 }
-
 void MainWindow::keyReleaseEvent(QKeyEvent *event)
-{
-    if (event->key() == Qt::Key_Control) {
+{ if (event->key() == Qt::Key_Control) {
         isCtrlPressed = false;
     }
     if (event->key() == Qt::Key_F1) {
         isF1Pressed = false;
     }
+
+    // Réinitialise le flag si tu veux permettre une nouvelle action après un certain temps ou événement
+    // actionDone = false; // Par exemple, tu pourrais mettre ceci ici pour que l'action puisse être répétée plus tard
 
     QMainWindow::keyReleaseEvent(event);
 }

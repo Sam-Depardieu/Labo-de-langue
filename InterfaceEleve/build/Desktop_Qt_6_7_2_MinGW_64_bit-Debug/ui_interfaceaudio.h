@@ -54,7 +54,7 @@ public:
         pushButton_SelectAudio->setGeometry(QRect(0, 0, 111, 24));
         horizontalLayoutWidget = new QWidget(InterfaceAudio);
         horizontalLayoutWidget->setObjectName("horizontalLayoutWidget");
-        horizontalLayoutWidget->setGeometry(QRect(9, 30, 781, 381));
+        horizontalLayoutWidget->setGeometry(QRect(9, 30, 781, 391));
         horizontalLayout = new QHBoxLayout(horizontalLayoutWidget);
         horizontalLayout->setObjectName("horizontalLayout");
         horizontalLayout->setContentsMargins(0, 0, 0, 0);
@@ -64,7 +64,7 @@ public:
         horizontalSliderSon->setOrientation(Qt::Horizontal);
         pushButton_2 = new QPushButton(InterfaceAudio);
         pushButton_2->setObjectName("pushButton_2");
-        pushButton_2->setGeometry(QRect(-10, 415, 831, 71));
+        pushButton_2->setGeometry(QRect(-10, 425, 831, 61));
         pushButton_2->setStyleSheet(QString::fromUtf8("QPushButton {\n"
 "    background-color: rgb(0, 151, 178); /* Fond bleu */\n"
 "    color: white; /* Texte en blanc */\n"
