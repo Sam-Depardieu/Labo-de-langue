@@ -499,6 +499,10 @@ void MainWindow::on_validButton_clicked()
     editStatusButton(ui->AppelButton, true);
     editStatusButton(ui->StatutButton, true);
 
+    //Desactivatio, button participants
+    editStatusButton(ui->selectAll, false);
+    editStatusButton(ui->selectManuel, false);
+
     // Sauvegarde des fichiers
     saveSessionData(true);
 
@@ -650,6 +654,8 @@ void MainWindow::resetSession()
     editStatusButton(ui->EnregistrementButton, false);
     editStatusButton(ui->AppelButton, false);
     editStatusButton(ui->StatutButton, false);
+    editStatusButton(ui->selectAll, true);
+    editStatusButton(ui->selectManuel, true);
     ui->selectManuel->setStyleSheet("background-color: gray;");
     ui->selectAll->setStyleSheet("background-color: gray;");
 
