@@ -64,6 +64,7 @@ class iconEleveGroup : public QObject, public QGraphicsItemGroup {
         QGraphicsPixmapItem* getMicro() { return micro; }
         QGraphicsPixmapItem* getSound() { return sound; }
         int getId() const;
+        QString getIP();
 
     signals:
         void doubleClicked();

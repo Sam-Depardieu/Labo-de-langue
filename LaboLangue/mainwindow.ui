@@ -633,8 +633,8 @@ border-radius: 10px;</string>
    <widget class="QGraphicsView" name="ParametrageEleve">
     <property name="geometry">
      <rect>
-      <x>290</x>
-      <y>250</y>
+      <x>660</x>
+      <y>70</y>
       <width>631</width>
       <height>681</height>
      </rect>
@@ -667,6 +667,126 @@ border-radius: 10px;</string>
     </property>
     <property name="text">
      <string>Creation</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="muteButton">
+    <property name="geometry">
+     <rect>
+      <x>890</x>
+      <y>150</y>
+      <width>80</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Mute</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="demuteButton">
+    <property name="geometry">
+     <rect>
+      <x>1000</x>
+      <y>150</y>
+      <width>80</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Demute</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="desactiverSonButton">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>190</y>
+      <width>121</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Desactiver son</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="activerSonButton">
+    <property name="geometry">
+     <rect>
+      <x>1000</x>
+      <y>190</y>
+      <width>121</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Activer son</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="nomEleveLabel">
+    <property name="geometry">
+     <rect>
+      <x>1000</x>
+      <y>90</y>
+      <width>261</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="nomGroupeLabel">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>90</y>
+      <width>291</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="annulerButton">
+    <property name="geometry">
+     <rect>
+      <x>1000</x>
+      <y>230</y>
+      <width>121</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Annuler</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="creerGroupeButton">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>230</y>
+      <width>121</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Creer un groupe</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="ChoixActivite_3">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>720</x>
+      <y>320</y>
+      <width>121</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
     </property>
    </widget>
   </widget>

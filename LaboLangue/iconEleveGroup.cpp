@@ -24,12 +24,13 @@ void iconEleveGroup::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
             checkItem->setVisible(!checkItem->isVisible());
         }
     }
-    else if(!mainWindow->parametrageSession && !mainWindow->selectionParticipants){
+    else if(!mainWindow->selectionParticipants){ //Il faudra une session en cours.
         if(!mainWindow->parametrageEleve)
         {
             mainWindow->openSettingEleve(this);
 
             mainWindow->parametrageEleve = true;
+            qDebug() << " IP : " << getIP();
         }
         else
         {
@@ -97,4 +98,9 @@ QRectF iconEleveGroup::boundingRect() const
 
 int iconEleveGroup::getId() const{
     return numero;
+}
+
+QString iconEleveGroup::getIP()
+{
+    return IP;
 }

@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include "iconEleveGroup.h"
+#include "AudioCommunicator.h"
 #include "qcm.h"
 
 QT_BEGIN_NAMESPACE
@@ -23,11 +24,13 @@ public:
     std::vector<iconEleveGroup*> listeRasp = {};
     std::vector<iconEleveGroup*> listeParticipant = {};
     std::vector<int> listeEleveParticipant = {};
+    std::vector<iconEleveGroup*> listeEditEleve = {};
 
     bool parametrageSession = false;
     bool selectionParticipants = false;
     bool selectAllParticipants = false;
     bool parametrageEleve = false;
+    bool runningSession = false;
 
     void openSettingEleve(iconEleveGroup *group);
     void closeSettingEleve(iconEleveGroup *group);
@@ -61,6 +64,14 @@ private slots:
     void on_loadSession_clicked();
     void on_CreationButton_clicked();
 
+    // Bouton de ParametrageEleve
+    void on_muteButton_clicked();
+    void on_demuteButton_clicked();
+    void on_desactiverSonButton_clicked();
+    void on_activerSonButton_clicked();
+    void on_creerGroupeButton_clicked();
+    void on_annulerButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     QGraphicsScene *scene;
@@ -69,11 +80,11 @@ private:
     QString source;
     QString sessionFolder;
     QString nomProf;
+    Professor *prof;
     int idProf;
     QString duree;
     QString nomTypeActivite;
     int idClasse = -1;
-    bool runningSession;
     int typeActivite;
 
 

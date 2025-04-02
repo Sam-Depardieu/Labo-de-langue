@@ -60,6 +60,15 @@ public:
     QPushButton *loadSession;
     QGraphicsView *ParametrageEleve;
     QPushButton *CreationButton;
+    QPushButton *muteButton;
+    QPushButton *demuteButton;
+    QPushButton *desactiverSonButton;
+    QPushButton *activerSonButton;
+    QLabel *nomEleveLabel;
+    QLabel *nomGroupeLabel;
+    QPushButton *annulerButton;
+    QPushButton *creerGroupeButton;
+    QComboBox *ChoixActivite_3;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -270,7 +279,7 @@ public:
         loadSession->setStyleSheet(QString::fromUtf8("background-color: gray;"));
         ParametrageEleve = new QGraphicsView(centralwidget);
         ParametrageEleve->setObjectName("ParametrageEleve");
-        ParametrageEleve->setGeometry(QRect(290, 250, 631, 681));
+        ParametrageEleve->setGeometry(QRect(660, 70, 631, 681));
         ParametrageEleve->setStyleSheet(QString::fromUtf8("background-color: white;"));
         CreationButton = new QPushButton(centralwidget);
         CreationButton->setObjectName("CreationButton");
@@ -282,6 +291,35 @@ public:
 "color: white;\n"
 "border: 1px solid white;\n"
 "border-radius: 10px;"));
+        muteButton = new QPushButton(centralwidget);
+        muteButton->setObjectName("muteButton");
+        muteButton->setGeometry(QRect(890, 150, 80, 24));
+        demuteButton = new QPushButton(centralwidget);
+        demuteButton->setObjectName("demuteButton");
+        demuteButton->setGeometry(QRect(1000, 150, 80, 24));
+        desactiverSonButton = new QPushButton(centralwidget);
+        desactiverSonButton->setObjectName("desactiverSonButton");
+        desactiverSonButton->setGeometry(QRect(850, 190, 121, 24));
+        activerSonButton = new QPushButton(centralwidget);
+        activerSonButton->setObjectName("activerSonButton");
+        activerSonButton->setGeometry(QRect(1000, 190, 121, 24));
+        nomEleveLabel = new QLabel(centralwidget);
+        nomEleveLabel->setObjectName("nomEleveLabel");
+        nomEleveLabel->setGeometry(QRect(1000, 90, 261, 41));
+        nomGroupeLabel = new QLabel(centralwidget);
+        nomGroupeLabel->setObjectName("nomGroupeLabel");
+        nomGroupeLabel->setGeometry(QRect(680, 90, 291, 41));
+        annulerButton = new QPushButton(centralwidget);
+        annulerButton->setObjectName("annulerButton");
+        annulerButton->setGeometry(QRect(1000, 230, 121, 24));
+        creerGroupeButton = new QPushButton(centralwidget);
+        creerGroupeButton->setObjectName("creerGroupeButton");
+        creerGroupeButton->setGeometry(QRect(850, 230, 121, 24));
+        ChoixActivite_3 = new QComboBox(centralwidget);
+        ChoixActivite_3->setObjectName("ChoixActivite_3");
+        ChoixActivite_3->setEnabled(true);
+        ChoixActivite_3->setGeometry(QRect(720, 320, 121, 21));
+        ChoixActivite_3->setStyleSheet(QString::fromUtf8(""));
         MainWindow->setCentralWidget(centralwidget);
 
         retranslateUi(MainWindow);
@@ -317,6 +355,14 @@ public:
         NameSourceLabel->setText(QString());
         loadSession->setText(QCoreApplication::translate("MainWindow", "Charger une session", nullptr));
         CreationButton->setText(QCoreApplication::translate("MainWindow", "Creation", nullptr));
+        muteButton->setText(QCoreApplication::translate("MainWindow", "Mute", nullptr));
+        demuteButton->setText(QCoreApplication::translate("MainWindow", "Demute", nullptr));
+        desactiverSonButton->setText(QCoreApplication::translate("MainWindow", "Desactiver son", nullptr));
+        activerSonButton->setText(QCoreApplication::translate("MainWindow", "Activer son", nullptr));
+        nomEleveLabel->setText(QString());
+        nomGroupeLabel->setText(QString());
+        annulerButton->setText(QCoreApplication::translate("MainWindow", "Annuler", nullptr));
+        creerGroupeButton->setText(QCoreApplication::translate("MainWindow", "Creer un groupe", nullptr));
     } // retranslateUi
 
 };

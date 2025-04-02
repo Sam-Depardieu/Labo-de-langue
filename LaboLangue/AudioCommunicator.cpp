@@ -130,7 +130,7 @@ void Professor::receiveAudioData() {
 
     if (!result) {
         if (zmq_errno() != EAGAIN) {  // Ignorer l'erreur si aucune donnée n'est dispo
-            qDebug() << "❌ Erreur zmq_recv:" << zmq_strerror(zmq_errno());
+            qDebug() << "❌ Erreur zmq_recv:"  ;// << zmq_strerror(zmq_errno());
         } else {
             qDebug() << "⚠️ Pas de données audio disponibles";
         }

@@ -25,27 +25,38 @@ MainWindow::MainWindow(QWidget *parent)
     editStatusButton(ui->StatutButton, false);
     //editStatusButton(ui->CreationButton, false);
 
-    // Créer le layout principal avec les éléments disposés
-    QVBoxLayout *layout = new QVBoxLayout();
-    layout->setContentsMargins(8, 8, 15, 8);
-    layout->setAlignment(Qt::AlignCenter | Qt::AlignTop);
+    // Créer le layout principal pour le parametrage de session avec les éléments disposés
+    QVBoxLayout *layoutParametrageSession = new QVBoxLayout();
+    layoutParametrageSession->setContentsMargins(8, 8, 15, 8);
+    layoutParametrageSession->setAlignment(Qt::AlignCenter | Qt::AlignTop);
+    // Ajout des sections dans le layoutParametrageSession
+    addHorizontalLayout(layoutParametrageSession, ui->NameLabel, ui->NameLineEdit, ui->loadSession);
+    addHorizontalLayout(layoutParametrageSession, ui->ChoixActLabel, ui->ChoixActivite);
+    addHorizontalLayout(layoutParametrageSession, ui->DureeLabel, ui->DureeActivite);
+    addHorizontalLayout(layoutParametrageSession, ui->ClasseLabel, ui->ChoixClasse);
+    addHorizontalLayout(layoutParametrageSession, ui->ParticipantsLabel, ui->selectAll, ui->selectManuel);
+    addHorizontalLayout(layoutParametrageSession, ui->SourceLabel, ui->NameSourceLabel, ui->SourceButton);
+    addHorizontalLayout(layoutParametrageSession, ui->ConsigneLabel, ui->ConsigneTextEdit);
+    QHBoxLayout *hLayoutParametrageSession = new QHBoxLayout();
+    hLayoutParametrageSession->addWidget(ui->errorLabel);
+    layoutParametrageSession->addLayout(hLayoutParametrageSession);
+    layoutParametrageSession->addSpacing(10);
+    addButtonRow(layoutParametrageSession, ui->delButton, ui->echapButton, ui->validButton);
+    // Appliquez le layout à ParametrageSession
+    ui->ParametrageSession->setLayout(layoutParametrageSession);
 
-    // Ajout des sections dans le layout
-    addHorizontalLayout(layout, ui->NameLabel, ui->NameLineEdit, ui->loadSession);
-    addHorizontalLayout(layout, ui->ChoixActLabel, ui->ChoixActivite);
-    addHorizontalLayout(layout, ui->DureeLabel, ui->DureeActivite);
-    addHorizontalLayout(layout, ui->ClasseLabel, ui->ChoixClasse);
-    addHorizontalLayout(layout, ui->ParticipantsLabel, ui->selectAll, ui->selectManuel);
-    addHorizontalLayout(layout, ui->SourceLabel, ui->NameSourceLabel, ui->SourceButton);
-    addHorizontalLayout(layout, ui->ConsigneLabel, ui->ConsigneTextEdit);
-    QHBoxLayout *hLayout = new QHBoxLayout();
-    hLayout->addWidget(ui->errorLabel);
-    layout->addLayout(hLayout);
-    layout->addSpacing(10);
-    addButtonRow(layout, ui->delButton, ui->echapButton, ui->validButton);
-
-    // Appliquez le layout à Parametrage1
-    ui->ParametrageSession->setLayout(layout);
+    // Créer le layout principal pour la gestion audio des élèves et des groupes avec les éléments disposés
+    QVBoxLayout *layoutParametrageEleve = new QVBoxLayout();
+    layoutParametrageEleve->setContentsMargins(8, 8, 15, 8);
+    layoutParametrageEleve->setAlignment(Qt::AlignCenter | Qt::AlignTop);
+    // Ajout des sections dans le layoutParametrageEleve
+    addHorizontalLayout(layoutParametrageEleve, ui->nomGroupeLabel, ui->nomEleveLabel);
+    addHorizontalLayout(layoutParametrageEleve, ui->muteButton, ui->demuteButton);
+    addHorizontalLayout(layoutParametrageEleve, ui->desactiverSonButton, ui->activerSonButton);
+    addHorizontalLayout(layoutParametrageEleve, ui->creerGroupeButton, ui->annulerButton);
+    layoutParametrageEleve->addSpacing(10);
+    // Appliquez le layout à ParametrageEleve
+    ui->ParametrageEleve->setLayout(layoutParametrageEleve);
 
     // Initialiser les ComboBoxes et charger les images depuis la base de données
     setupClassesComboBox();
@@ -62,11 +73,17 @@ MainWindow::~MainWindow()
 
 void MainWindow::openSettingEleve(iconEleveGroup *group)
 {
+    ui->ParametrageSession->setVisible(false);
+
+    parametrageEleve = true;
     ui->ParametrageEleve->setVisible(true);
 }
 
 void MainWindow::closeSettingEleve(iconEleveGroup *group)
 {
+    ui->ParametrageSession->setVisible(false);
+
+    parametrageEleve = false;
     ui->ParametrageEleve->setVisible(false);
 }
 
@@ -191,8 +208,9 @@ bool MainWindow::connectToDatabase() {
     }
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("192.168.64.36");
+    db.setHostName("192.168.89.42");
     db.setDatabaseName("LaboLangue");
+    db.setPort(3306);
     db.setUserName("prof"); // Remplacez par votre nom d'utilisateur
     db.setPassword("okokok"); // Remplacez par votre mot de passe
 
@@ -205,6 +223,9 @@ bool MainWindow::connectToDatabase() {
 
 void MainWindow::on_SessionButton_clicked()
 {
+    ui->ParametrageEleve->setVisible(false);
+    parametrageEleve = false;
+
     parametrageSession = !parametrageSession;
     ui->ParametrageSession->setVisible(!ui->ParametrageSession->isVisible());
     ui->PlanClasse->setVisible(true);
@@ -482,15 +503,18 @@ void MainWindow::on_validButton_clicked()
     saveSessionData(true);
 
     // Mettre à jour l'interface
+    selectionParticipants = false;
     on_echapButton_clicked();
     ui->SessionButton->setText("Session \nen cours");
     ui->delButton->setText("Fin session");
     runningSession = true;
+
+    prof = new Professor();
 }
 
 void MainWindow::on_delButton_clicked()
 {
-    if (!runningSession){
+    if (runningSession){
         resetSession();
     }
 
@@ -654,10 +678,50 @@ void MainWindow::on_loadSession_clicked()
     QFileInfo fileInfo(fileName);
 }
 
-
 void MainWindow::on_CreationButton_clicked()
 {
     QCM *qcmWindow = new QCM(this, this);
     qcmWindow->show();
+}
+
+
+// Bouton de l'interface de ParametrageEleve
+void MainWindow::on_muteButton_clicked()
+{
+    for(unsigned int i = 0; i < listeEditEleve.size(); i++){
+        prof->muteStudent(listeEditEleve[i]->getIP());
+    }
+}
+
+void MainWindow::on_demuteButton_clicked()
+{
+    for(unsigned int i = 0; i < listeEditEleve.size(); i++){
+        prof->unmuteStudent(listeEditEleve[i]->getIP());
+    }
+}
+
+void MainWindow::on_desactiverSonButton_clicked()
+{
+    for(unsigned int i = 0; i < listeEditEleve.size(); i++){
+        prof->unmuteStudent(listeEditEleve[i]->getIP());
+    }
+}
+
+void MainWindow::on_activerSonButton_clicked()
+{
+    for(unsigned int i = 0; i < listeEditEleve.size(); i++){
+        prof->unmuteStudent(listeEditEleve[i]->getIP());
+    }
+}
+
+void MainWindow::on_creerGroupeButton_clicked()
+{
+
+}
+
+void MainWindow::on_annulerButton_clicked()
+{
+    parametrageEleve = false;
+    ui->ParametrageEleve->setVisible(false);
 }
 
