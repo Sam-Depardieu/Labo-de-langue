@@ -53,7 +53,7 @@ MainWindow::MainWindow(QWidget *parent)
     addHorizontalLayout(layoutParametrageEleve, ui->nomGroupeLabel, ui->nomEleveLabel);
     addHorizontalLayout(layoutParametrageEleve, ui->muteButton, ui->demuteButton);
     addHorizontalLayout(layoutParametrageEleve, ui->desactiverSonButton, ui->activerSonButton);
-    addHorizontalLayout(layoutParametrageEleve, ui->creerGroupeButton, ui->annulerButton);
+    addHorizontalLayout(layoutParametrageEleve, ui->creerGroupeButton, ui->annulerButton, ui->ParticipantsComboBox);
     layoutParametrageEleve->addSpacing(10);
     // Appliquez le layout à ParametrageEleve
     ui->ParametrageEleve->setLayout(layoutParametrageEleve);
