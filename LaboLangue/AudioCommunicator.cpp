@@ -64,6 +64,17 @@ void Professor::unmuteStudent(const QString& studentIp) {
     qDebug() << "🎤 Élève" << studentIp << "démuté!";
 }
 
+
+void Professor::activerSonStudent(const QString& studentIp){
+    sendCommandToStudent(studentIp, "activerSon");
+    qDebug() << "🎤 Élève" << studentIp << "son activé !";
+}
+
+void Professor::desactiverSonStudent(const QString& studentIp){
+    sendCommandToStudent(studentIp, "desactiverSon");
+    qDebug() << "🎤 Élève" << studentIp << "son desactivé !";
+}
+
 QString Professor::getStudentStatus(const QString& studentIp) {
     zmq::socket_t socket(context, ZMQ_REQ);
     socket.connect("tcp://" + serverIp.toStdString() + ":5556");

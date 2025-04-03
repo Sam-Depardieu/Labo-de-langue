@@ -697,6 +697,7 @@ void MainWindow::on_muteButton_clicked()
     for(unsigned int i = 0; i < listeEditEleve.size(); i++){
         prof->muteStudent(listeEditEleve[i]->getIP());
     }
+    qDebug() << "fonction muteStudent";
 }
 
 void MainWindow::on_demuteButton_clicked()
@@ -704,20 +705,23 @@ void MainWindow::on_demuteButton_clicked()
     for(unsigned int i = 0; i < listeEditEleve.size(); i++){
         prof->unmuteStudent(listeEditEleve[i]->getIP());
     }
+    qDebug() << "fonction demuteStudent";
 }
 
 void MainWindow::on_desactiverSonButton_clicked()
 {
     for(unsigned int i = 0; i < listeEditEleve.size(); i++){
-        prof->unmuteStudent(listeEditEleve[i]->getIP());
+        prof->activerSonStudent(listeEditEleve[i]->getIP());
     }
+    qDebug() << "fonction activerSonStudent";
 }
 
 void MainWindow::on_activerSonButton_clicked()
 {
     for(unsigned int i = 0; i < listeEditEleve.size(); i++){
-        prof->unmuteStudent(listeEditEleve[i]->getIP());
+        prof->desactiverSonStudent(listeEditEleve[i]->getIP());
     }
+    qDebug() << "fonction desactiverSonStudent";
 }
 
 void MainWindow::on_creerGroupeButton_clicked()

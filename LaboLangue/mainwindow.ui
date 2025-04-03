@@ -773,7 +773,7 @@ border-radius: 10px;</string>
      <string>Creer un groupe</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="ChoixActivite_3">
+   <widget class="QComboBox" name="ParticipantsComboBox">
     <property name="enabled">
      <bool>true</bool>
     </property>

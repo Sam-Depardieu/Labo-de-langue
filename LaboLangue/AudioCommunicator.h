@@ -20,6 +20,8 @@ public:
     Professor(QObject *parent = nullptr);
     void muteStudent(const QString& studentIp);
     void unmuteStudent(const QString& studentIp);
+    void activerSonStudent(const QString& studentIp);
+    void desactiverSonStudent(const QString& studentIp);
     void sendCommandToStudent(const QString& studentIp, const QString& command);
     QString getStudentStatus(const QString& studentIp);
 

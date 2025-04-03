@@ -31,6 +31,7 @@ void iconEleveGroup::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
 
             mainWindow->parametrageEleve = true;
             qDebug() << " IP : " << getIP();
+            mainWindow->listeEditEleve.insert(mainWindow->listeEditEleve.end(), this);
         }
         else
         {

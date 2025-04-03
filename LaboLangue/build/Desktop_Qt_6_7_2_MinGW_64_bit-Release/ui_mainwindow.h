@@ -68,7 +68,7 @@ public:
     QLabel *nomGroupeLabel;
     QPushButton *annulerButton;
     QPushButton *creerGroupeButton;
-    QComboBox *ChoixActivite_3;
+    QComboBox *ParticipantsComboBox;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -315,11 +315,11 @@ public:
         creerGroupeButton = new QPushButton(centralwidget);
         creerGroupeButton->setObjectName("creerGroupeButton");
         creerGroupeButton->setGeometry(QRect(850, 230, 121, 24));
-        ChoixActivite_3 = new QComboBox(centralwidget);
-        ChoixActivite_3->setObjectName("ChoixActivite_3");
-        ChoixActivite_3->setEnabled(true);
-        ChoixActivite_3->setGeometry(QRect(720, 320, 121, 21));
-        ChoixActivite_3->setStyleSheet(QString::fromUtf8(""));
+        ParticipantsComboBox = new QComboBox(centralwidget);
+        ParticipantsComboBox->setObjectName("ParticipantsComboBox");
+        ParticipantsComboBox->setEnabled(true);
+        ParticipantsComboBox->setGeometry(QRect(720, 320, 121, 21));
+        ParticipantsComboBox->setStyleSheet(QString::fromUtf8(""));
         MainWindow->setCentralWidget(centralwidget);
 
         retranslateUi(MainWindow);
