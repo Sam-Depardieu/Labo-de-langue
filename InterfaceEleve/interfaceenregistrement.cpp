@@ -249,43 +249,45 @@ void InterfaceEnregistrement::on_pushButtonSon_clicked()
     // Création de la fenêtre popup
     QDialog popup(this);
     popup.setWindowTitle("Réglages du Son");
-    popup.setModal(true);  // Bloque l'interaction avec la fenêtre principale
+    popup.setModal(true);  // Bloque la fenêtre principale
 
-
-    // Création des sliders
+    // Création du slider vertical
     QSlider *slider1 = new QSlider(Qt::Vertical);
     slider1->setRange(0, 100);
-    slider1->setValue(50);  // Valeur par défaut
 
-    // Création des labels
+    // Valeur initiale depuis audioOutput si dispo
+    int volume = static_cast<int>(audioOutput->volume() * 100);
+    slider1->setValue(volume);
+
+    // Appliquer le volume initial
+    audioOutput->setVolume(volume / 100.0);
+
+    // Label et bouton
     QLabel *label1 = new QLabel("Son");
-
-    // Bouton de fermeture
     QPushButton *closeButton = new QPushButton("Fermer");
 
-    // Layout de la popup
+    // Layouts
     QVBoxLayout *mainLayout = new QVBoxLayout;
-
-    // Layout pour les sliders et les labels à mettre horizontalement
     QHBoxLayout *slidersLayout = new QHBoxLayout;
     slidersLayout->addWidget(label1);
     slidersLayout->addWidget(slider1);
-
-    // Ajouter le layout des sliders et labels à celui principal
     mainLayout->addLayout(slidersLayout);
     mainLayout->addWidget(closeButton);
-
-    // Appliquer le layout principal à la popup
     popup.setLayout(mainLayout);
 
-    // Connexion du bouton de fermeture
+    // 🔁 Connexion avec debug
+    QObject::connect(slider1, &QSlider::valueChanged, this, [=](int value) {
+        audioOutput->setVolume(value / 100.0);
+        qDebug() << "Volume réglé à :" << value;
+    });
+
+    // Bouton fermeture
     QObject::connect(closeButton, &QPushButton::clicked, &popup, &QDialog::accept);
 
-
-
-    // Affichage de la popup
+    // Affichage
     popup.exec();
 }
+
 
 
 void InterfaceEnregistrement::on_pushButtonRetourArriere_clicked()
