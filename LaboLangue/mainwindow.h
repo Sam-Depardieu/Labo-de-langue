@@ -40,8 +40,6 @@ public:
 
     ~MainWindow();
 
-    int *X = 0;
-
 private slots:
     void on_PlanButton_clicked();
     void keyPressEvent(QKeyEvent *event);

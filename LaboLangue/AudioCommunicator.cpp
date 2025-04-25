@@ -80,10 +80,6 @@ Professor::Professor(QObject *parent) : QObject(parent), context(1) {
     receiveAudioTimer.start(100);
 }
 
-
-
-
-
 void Professor::sendCommandToStudent(const QString& studentIp, const QString& command) {
     QString fullCommand = command + " " + "192.168.64.75";
     QByteArray datagram = fullCommand.toUtf8();

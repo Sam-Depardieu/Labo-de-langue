@@ -48,12 +48,8 @@ void iconEleveGroup::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
         }
         else if (mainWindow->eleveActuellementParametre == this) {
             mainWindow->closeSettingEleve(this);
-<<<<<<< HEAD
 
             mainWindow->listeEditEleve.clear();
-
-=======
->>>>>>> refs/remotes/origin/main
             mainWindow->parametrageEleve = false;
             mainWindow->eleveActuellementParametre = nullptr;
         }
@@ -69,8 +65,6 @@ void iconEleveGroup::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
 
     QGraphicsItemGroup::mouseDoubleClickEvent(event);
 }
-
-
 
 
 QVariant iconEleveGroup::itemChange(GraphicsItemChange change, const QVariant &value)
