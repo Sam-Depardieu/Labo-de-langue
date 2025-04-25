@@ -53,7 +53,7 @@
   <widget class="QPushButton" name="pushButtonAvancer">
    <property name="geometry">
     <rect>
-     <x>460</x>
+     <x>480</x>
      <y>160</y>
      <width>70</width>
      <height>70</height>
@@ -150,7 +150,7 @@
   <widget class="QPushButton" name="pushButtonSpeak">
    <property name="geometry">
     <rect>
-     <x>350</x>
+     <x>370</x>
      <y>270</y>
      <width>70</width>
      <height>70</height>
@@ -188,7 +188,7 @@
   <widget class="QPushButton" name="pushButtonPause">
    <property name="geometry">
     <rect>
-     <x>350</x>
+     <x>370</x>
      <y>160</y>
      <width>70</width>
      <height>70</height>
@@ -217,7 +217,7 @@
   <widget class="QPushButton" name="pushButtonRetourArriere">
    <property name="geometry">
     <rect>
-     <x>250</x>
+     <x>260</x>
      <y>160</y>
      <width>70</width>
      <height>70</height>

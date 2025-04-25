@@ -56,7 +56,7 @@ public:
 "    border: none;"));
         pushButtonAvancer = new QPushButton(InterfaceEnregistrement);
         pushButtonAvancer->setObjectName("pushButtonAvancer");
-        pushButtonAvancer->setGeometry(QRect(460, 160, 70, 70));
+        pushButtonAvancer->setGeometry(QRect(480, 160, 70, 70));
         pushButtonAvancer->setStyleSheet(QString::fromUtf8(""));
         pushButtonClear = new QPushButton(InterfaceEnregistrement);
         pushButtonClear->setObjectName("pushButtonClear");
@@ -90,7 +90,7 @@ public:
         labelChrono->setAlignment(Qt::AlignmentFlag::AlignCenter);
         pushButtonSpeak = new QPushButton(InterfaceEnregistrement);
         pushButtonSpeak->setObjectName("pushButtonSpeak");
-        pushButtonSpeak->setGeometry(QRect(350, 270, 70, 70));
+        pushButtonSpeak->setGeometry(QRect(370, 270, 70, 70));
         pushButtonSpeak->setStyleSheet(QString::fromUtf8(""));
         pushButton = new QPushButton(InterfaceEnregistrement);
         pushButton->setObjectName("pushButton");
@@ -104,14 +104,14 @@ public:
 "}"));
         pushButtonPause = new QPushButton(InterfaceEnregistrement);
         pushButtonPause->setObjectName("pushButtonPause");
-        pushButtonPause->setGeometry(QRect(350, 160, 70, 70));
+        pushButtonPause->setGeometry(QRect(370, 160, 70, 70));
         pushButtonPause->setStyleSheet(QString::fromUtf8(""));
         labelAppelProf = new QLabel(InterfaceEnregistrement);
         labelAppelProf->setObjectName("labelAppelProf");
         labelAppelProf->setGeometry(QRect(690, 80, 111, 21));
         pushButtonRetourArriere = new QPushButton(InterfaceEnregistrement);
         pushButtonRetourArriere->setObjectName("pushButtonRetourArriere");
-        pushButtonRetourArriere->setGeometry(QRect(250, 160, 70, 70));
+        pushButtonRetourArriere->setGeometry(QRect(260, 160, 70, 70));
         pushButtonRetourArriere->setStyleSheet(QString::fromUtf8(""));
         pushButtonEnregistrer = new QPushButton(InterfaceEnregistrement);
         pushButtonEnregistrer->setObjectName("pushButtonEnregistrer");

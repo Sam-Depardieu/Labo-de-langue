@@ -22,6 +22,9 @@
 #include <QVBoxLayout>
 #include <QWidgetAction>
 #include <QLabel>
+#include <QTextEdit>
+#include <QSpinBox>
+#include <QMessageBox>
 //#include <QAudioRecorder>
 //#include <QAudioProbe>
 //#include <QAudioEncoderSettings>
@@ -79,6 +82,11 @@ private:
     QSlider *sliderSecondaire;  // Slider pour le volume secondaire
     void setupVolumeMenu();  // Fonction pour configurer le menu de volume
     bool isButtonSpeak = false;  // Déclaration et initialisation
+
+    QTextEdit *textedit;
+    QMessageBox *messagebox;
+    QSpinBox *spinbox;
+    void showFeedbackDialog();
 
 
     void resetTimer();  // Déclaration de la fonction resetTimer

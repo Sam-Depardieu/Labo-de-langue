@@ -438,3 +438,49 @@ void InterfaceEnregistrement::on_pushButtonEnregistrer_clicked()
 
 }
 
+void InterfaceEnregistrement::showFeedbackDialog()
+{
+    QDialog *dialog = new QDialog(this);
+    dialog->setWindowTitle("Donner votre avis");
+
+    QLabel *label = new QLabel("Merci de donner votre avis sur cette activité :", dialog);
+    QTextEdit *feedbackEdit = new QTextEdit(dialog);
+    QSpinBox *ratingSpin = new QSpinBox(dialog);  // Ajout d'un champ pour une note de 1 à 5
+    ratingSpin->setRange(1, 5);
+    QPushButton *submitBtn = new QPushButton("Envoyer", dialog);
+    QPushButton *cancelBtn = new QPushButton("Annuler", dialog);
+
+    QVBoxLayout *layout = new QVBoxLayout(dialog);
+    layout->addWidget(label);
+    layout->addWidget(feedbackEdit);
+    layout->addWidget(new QLabel("Notez cette activité (1 à 5) :"));
+    layout->addWidget(ratingSpin);
+
+    QHBoxLayout *btnLayout = new QHBoxLayout();
+    btnLayout->addWidget(cancelBtn);
+    btnLayout->addWidget(submitBtn);
+    layout->addLayout(btnLayout);
+
+    connect(submitBtn, &QPushButton::clicked, this, [=]() {
+        QString feedback = feedbackEdit->toPlainText();
+        int rating = ratingSpin->value();  // Récupérer la note
+
+        if (!feedback.isEmpty()) {
+            QFile file("feedback.txt");
+            if (file.open(QIODevice::Append | QIODevice::Text)) {
+                QTextStream out(&file);
+                out << "Feedback: " << feedback << "\n";
+                out << "Note: " << rating << "\n";
+                file.close();
+            }
+            QMessageBox::information(dialog, "Merci", "Votre avis a été enregistré.");
+        } else {
+            QMessageBox::warning(dialog, "Erreur", "Veuillez écrire un commentaire.");
+        }
+        dialog->accept();
+    });
+
+    connect(cancelBtn, &QPushButton::clicked, dialog, &QDialog::reject);
+
+    dialog->exec();
+}
