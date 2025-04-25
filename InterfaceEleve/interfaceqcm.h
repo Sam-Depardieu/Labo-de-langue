@@ -28,12 +28,16 @@ private slots:
 
     void on_pushButtonEnregistrer_clicked();
 
+    void on_pushButtonQuestionSuivante_clicked();
+
 private:
     Ui::InterfaceQCM *ui;
     bool isButton1Image; // Déclaration pour Button 1
     bool isButton2Image; // Déclaration pour Button 2
     bool isButton3Image; // Déclaration pour Button 3
     bool isButton4Image;
+    void setButtonIcons();
+    void setButtonIcon(QPushButton *button, const QString &imagePath);
 };
 
 #endif // INTERFACEQCM_H

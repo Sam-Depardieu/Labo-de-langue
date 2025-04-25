@@ -16,8 +16,6 @@ InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
     // Pour fixer la taille de la page et le titre
     setFixedSize(800, 480);
     this->setWindowTitle("Page d'Enregistrement");
-    connect(ui->pushButtonPause, &QPushButton::clicked,
-            this, &InterfaceEnregistrement::on_pushButtonPause_clicked);
 
     // Initialisation des autres composants et variables
     mediaRecorder = new QMediaRecorder(this);
@@ -26,20 +24,6 @@ InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
     audioOutput = new QAudioOutput(this);
     player->setAudioOutput(audioOutput);
     timer = new QTimer(this);
-<<<<<<< HEAD
-    connect(timer, &QTimer::timeout, this, &InterfaceEnregistrement::updateChrono);
-    mediaRecorder = new QMediaRecorder(this);
-    audioInput = new QAudioInput(this);
-    captureSession.setAudioInput(audioInput);
-    captureSession.setRecorder(mediaRecorder);
-    QMediaFormat fmt;
-    fmt.setFileFormat(QMediaFormat::FileFormat::Wave);
-    fmt.setAudioCodec(QMediaFormat::AudioCodec::Wave);  // ← fonctionne sur Linux / PulseAudio
-    mediaRecorder->setMediaFormat(fmt);
-
-
-=======
->>>>>>> b6ef8a2af8a8673ec8c002f6d90f008b044eda33
     rewindTimer = new QTimer(this);
     captureSession.setAudioInput(audioInput);
     captureSession.setRecorder(mediaRecorder);
@@ -55,9 +39,14 @@ InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
     isRewinding = false;
     totalSecondes = 0;
     speakButtonClicked = false;
-    isButtonSpeak = false;
     isRecordingPaused = false;
     lastRecordedTime = 0;
+
+    // Vérifier si l'utilisateur est un professeur
+    if (!isTeacher) {
+        ui->textEditFeedBack->setReadOnly(true); // Bloquer l'accès en écriture
+        ui->textEditFeedBack->setPlaceholderText("Accès réservé aux professeurs"); // Message d'information
+    }
 }
 
 InterfaceEnregistrement::~InterfaceEnregistrement()
@@ -97,15 +86,10 @@ void InterfaceEnregistrement::setButtonIcons()
 
 void InterfaceEnregistrement::on_pushButtonSpeak_clicked()
 {
-<<<<<<< HEAD
-
-=======
->>>>>>> b6ef8a2af8a8673ec8c002f6d90f008b044eda33
     if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState) {
         qWarning() << "L'enregistrement est déjà en cours.";
         return;
     }
-
 
     if (QFile::exists(audioFilePath)) {
         QFile::remove(audioFilePath);
@@ -161,33 +145,42 @@ void InterfaceEnregistrement::on_pushButtonClear_clicked()
 void InterfaceEnregistrement::on_pushButtonSon_clicked()
 {
     QDialog popup(this);
-    popup.setWindowTitle("Réglages du Son");
+    popup.setWindowTitle(" ");
+    popup.setGeometry(1075, 330, 20, 150); // Positionne la fenêtre popup à (1030, 330) avec une taille de 20x150
+    popup.setFixedSize(80, 150);
     popup.setModal(true);
 
-    QSlider *slider = new QSlider(Qt::Vertical);
+    // Création du slider vertical
+    QSlider *slider = new QSlider(Qt::Vertical, &popup);
     slider->setRange(0, 100);
     int volume = static_cast<int>(audioOutput->volume() * 100);
     slider->setValue(volume);
     audioOutput->setVolume(volume / 100.0);
 
-    QLabel *label = new QLabel("Son");
-    QPushButton *closeButton = new QPushButton("Fermer");
+    // Label et bouton
+    QLabel *label = new QLabel("Son", &popup);
+    QPushButton *closeButton = new QPushButton("Fermer", &popup);
 
-    QVBoxLayout *mainLayout = new QVBoxLayout;
-    QHBoxLayout *slidersLayout = new QHBoxLayout;
+    // Layouts
+    QVBoxLayout *mainLayout = new QVBoxLayout(&popup);
+    QHBoxLayout *slidersLayout = new QHBoxLayout();
     slidersLayout->addWidget(label);
     slidersLayout->addWidget(slider);
     mainLayout->addLayout(slidersLayout);
     mainLayout->addWidget(closeButton);
     popup.setLayout(mainLayout);
 
+    // Connexion des signaux
     QObject::connect(slider, &QSlider::valueChanged, this, [=](int value) {
         audioOutput->setVolume(value / 100.0);
         qDebug() << "Volume réglé à :" << value;
     });
 
     QObject::connect(closeButton, &QPushButton::clicked, &popup, &QDialog::accept);
+
+    // Affichage de la popup
     popup.exec();
+
 }
 
 void InterfaceEnregistrement::on_pushButtonRetourArriere_clicked()
@@ -297,40 +290,6 @@ void InterfaceEnregistrement::onRecorderErrorOccurred(QMediaRecorder::Error erro
 
 void InterfaceEnregistrement::on_pushButtonEnregistrer_clicked()
 {
-<<<<<<< HEAD
-    if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState) {
-        mediaRecorder->stop();
-        ui->pushButtonEnregistrer->setText("Enregistrer");
-        qDebug() << "Enregistrement arrêté :" << audioFilePath;
-        return;
-    }
-
-    // Génération du nom : YYYYMMDD_hhmmss_id<studentId>.wav
-    const QString docs = QStandardPaths::writableLocation(
-        QStandardPaths::DocumentsLocation);
-    const QString timestamp = QDateTime::currentDateTime()
-                                  .toString("yyyyMMdd_hhmmss");
-    audioFilePath = QString("%1/%2_id%3.wav")
-                        .arg(docs)
-                        .arg(timestamp)
-                        .arg(studentId);
-
-    if (QFile::exists(audioFilePath))
-        QFile::remove(audioFilePath);
-
-    // --- CORRECTION ICI ---
-    QMediaFormat fmt;
-    fmt.setFileFormat(QMediaFormat::FileFormat::Wave);           // .wav
-    // fmt.setAudioCodec(QMediaFormat::AudioCodec::Wave);        // optionnel
-    mediaRecorder->setMediaFormat(fmt);
-    mediaRecorder->setOutputLocation(QUrl::fromLocalFile(audioFilePath));
-
-    mediaRecorder->record();
-    ui->pushButtonEnregistrer->setText("Arrêter");
-    timer->start(1000);
-    qDebug() << "Enregistrement démarré dans :" << audioFilePath;
-
-=======
     qDebug() << "Bouton Enregistrer cliqué";
     QMediaCaptureSession *session = new QMediaCaptureSession(this);
     QAudioInput *audioInput = new QAudioInput(this);
@@ -342,7 +301,6 @@ void InterfaceEnregistrement::on_pushButtonEnregistrer_clicked()
     recorder->setMediaFormat(format);
     recorder->setOutputLocation(QUrl::fromLocalFile("output.mp3"));
     recorder->record();
->>>>>>> b6ef8a2af8a8673ec8c002f6d90f008b044eda33
 }
 
 void InterfaceEnregistrement::showFeedbackDialog()

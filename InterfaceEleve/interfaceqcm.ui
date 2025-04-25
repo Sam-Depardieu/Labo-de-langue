@@ -158,23 +158,6 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButtonEnregistrer">
-   <property name="geometry">
-    <rect>
-     <x>130</x>
-     <y>405</y>
-     <width>70</width>
-     <height>70</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: transparent;
-    border: none;</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
   <widget class="QLabel" name="labelQuestion">
    <property name="geometry">
     <rect>
@@ -193,7 +176,6 @@
   <zorder>pushButton2</zorder>
   <zorder>pushButton3</zorder>
   <zorder>pushButtonSon</zorder>
-  <zorder>pushButtonEnregistrer</zorder>
   <zorder>pushButton</zorder>
   <zorder>pushButtonQuestionSuivante</zorder>
   <zorder>pushButtonQuestionPrecedente</zorder>

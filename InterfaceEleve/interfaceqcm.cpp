@@ -1,4 +1,5 @@
 #include "interfaceqcm.h"
+#include "interfaceenregistrement.h"
 #include "ui_interfaceqcm.h"
 
 InterfaceQCM::InterfaceQCM(QWidget *parent)
@@ -13,95 +14,36 @@ InterfaceQCM::InterfaceQCM(QWidget *parent)
     ui->setupUi(this);
     setFixedSize(800,480);
     this->setWindowTitle("Page de QCM");
-
-
-
-    QPixmap image(":/images/1"); // Charge l'image
-    if (image.isNull()) {
-        qWarning() << "Erreur : image non trouvée !";
-    } else {
-        QIcon icone(image); // Crée une icône
-        ui->pushButton1->setIcon(icone); // Définit l'icône du bouton
-        ui->pushButton1->setIconSize(ui->pushButton1->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
-        ui->pushButton1->setStyleSheet("QPushButton { text-align: center; padding: 0px; }");
-    }
-
-    QPixmap image2(":/images/2"); // Charge l'image
-    if (image2.isNull()) {
-        qWarning() << "Erreur : image non trouvée !";
-    } else {
-        QIcon icone(image2); // Crée une icône
-        ui->pushButton2->setIcon(icone); // Définit l'icône du bouton
-        ui->pushButton2->setIconSize(ui->pushButton2->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
-        ui->pushButton2->setStyleSheet("QPushButton { text-align: center; padding: 0px; }");
-    }
-
-    QPixmap image3(":/images/3"); // Charge l'image
-    if (image3.isNull()) {
-        qWarning() << "Erreur : image non trouvée !";
-    } else {
-        QIcon icone(image3); // Crée une icône
-        ui->pushButton3->setIcon(icone); // Définit l'icône du bouton
-        ui->pushButton3->setIconSize(ui->pushButton3->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
-        ui->pushButton3->setStyleSheet("QPushButton { text-align: center; padding: 0px; }");
-    }
-
-    QPixmap image4(":/images/4"); // Charge l'image
-    if (image4.isNull()) {
-        qWarning() << "Erreur : image non trouvée !";
-    } else {
-        QIcon icone(image4); // Crée une icône
-        ui->pushButton4->setIcon(icone); // Définit l'icône du bouton
-        ui->pushButton4->setIconSize(ui->pushButton4->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
-        ui->pushButton4->setStyleSheet("QPushButton { text-align: center; padding: 0px; }");
-    }
-
-    QPixmap imageQuestionPrecedente(":/images/RevenirArriere"); // Charge l'image
-    if (imageQuestionPrecedente.isNull()) {
-        qWarning() << "Erreur : image non trouvée !";
-    } else {
-        QIcon icone(imageQuestionPrecedente); // Crée une icône
-        ui->pushButtonQuestionPrecedente->setIcon(icone); // Définit l'icône du bouton
-        ui->pushButtonQuestionPrecedente->setIconSize(ui->pushButtonQuestionPrecedente->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
-        ui->pushButtonQuestionPrecedente->setStyleSheet("QPushButton { text-align: center; padding: 0px; }");
-    }
-
-    QPixmap imageQuestionSuivante(":/images/Avancer"); // Charge l'image
-    if (imageQuestionSuivante.isNull()) {
-        qWarning() << "Erreur : image non trouvée !";
-    } else {
-        QIcon icone(imageQuestionSuivante); // Crée une icône
-        ui->pushButtonQuestionSuivante->setIcon(icone); // Définit l'icône du bouton
-        ui->pushButtonQuestionSuivante->setIconSize(ui->pushButtonQuestionSuivante->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
-        ui->pushButtonQuestionSuivante->setStyleSheet("QPushButton { text-align: center; padding: 0px; }");
-    }
-
-    QPixmap imageEffacerReponse(":/images/Effacer"); // Charge l'image
-    if (imageEffacerReponse.isNull()) {
-        qWarning() << "Erreur : image non trouvée !";
-    } else {
-        QIcon icone(imageEffacerReponse); // Crée une icône
-        ui->pushButtonEffacerReponse->setIcon(icone); // Définit l'icône du bouton
-        ui->pushButtonEffacerReponse->setIconSize(ui->pushButtonEffacerReponse->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
-        ui->pushButtonEffacerReponse->setStyleSheet("QPushButton { text-align: center; padding: 0px; }");
-    }
-
-    QPixmap imageEnregistrer(":/images/Enregistrer"); // Charge l'image
-    if (imageEnregistrer.isNull()) {
-        qWarning() << "Erreur : image non trouvée !";
-    } else {
-        qDebug() << "Image chargée avec succès !";
-        QIcon icone(imageEnregistrer); // Crée une icône
-        ui->pushButtonEnregistrer->setIcon(icone); // Définit l'icône du bouton
-        ui->pushButtonEnregistrer->setIconSize(ui->pushButtonEnregistrer->size());
-        qDebug() << "Icône définie sur le bouton.";
-    }
+    // Affichage des Images
+    setButtonIcons();
 
 }
 
 InterfaceQCM::~InterfaceQCM()
 {
     delete ui;
+}
+
+void InterfaceQCM::setButtonIcons()
+{
+    auto setIcon = [&](QPushButton *button, const QString &imagePath) {
+        QPixmap image(imagePath);
+        if (image.isNull()) {
+            qWarning() << "Erreur : image non trouvée !";
+        } else {
+            QIcon icon(image);
+            button->setIcon(icon);
+            button->setIconSize(button->size());
+        }
+    };
+
+    setIcon(ui->pushButtonEffacerReponse, ":/images/Effacer");
+    setIcon(ui->pushButtonQuestionSuivante, ":/images/Avancer");
+    setIcon(ui->pushButtonQuestionPrecedente, ":/images/RevenirArriere");
+    setIcon(ui->pushButton4, ":/images/4");
+    setIcon(ui->pushButton3, ":/images/3");
+    setIcon(ui->pushButton2, ":/images/2");
+    setIcon(ui->pushButton1, ":/images/1");
 }
 
 void InterfaceQCM::on_pushButton1_clicked()
@@ -253,10 +195,47 @@ void InterfaceQCM::on_pushButtonEffacerReponse_clicked()
         QIcon icone(image4);
         ui->pushButton4->setIcon(icone);
         ui->pushButton4->setIconSize(ui->pushButton4->size());
-    }}
+    }
+    // Réinitialiser les images des boutons
+    setButtonIcons();
 
-void InterfaceQCM::on_pushButtonEnregistrer_clicked()
+    // Réinitialiser les flags
+    isButton1Image = true;
+    isButton2Image = true;
+    isButton3Image = true;
+    isButton4Image = true;
+}
+
+
+
+void InterfaceQCM::on_pushButtonQuestionSuivante_clicked()
 {
-    qDebug() << "Bouton Enregistrer cliqué";
+    // Chemin relatif
+    QString fileName = "C:/Users/Quentin/Documents/Projet/responses.txt";
+    QFile file(fileName);
+
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qWarning() << "Erreur : impossible d'ouvrir le fichier pour écrire.";
+        return;
+    }
+
+    QTextStream out(&file);
+    out << "Réponses enregistrées :\n";
+
+    if (!isButton1Image) {
+        out << "Réponse 1 sélectionnée\n";
+    }
+    if (!isButton2Image) {
+        out << "Réponse 2 sélectionnée\n";
+    }
+    if (!isButton3Image) {
+        out << "Réponse 3 sélectionnée\n";
+    }
+    if (!isButton4Image) {
+        out << "Réponse 4 sélectionnée\n";
+    }
+
+    file.close();
+    qDebug() << "Réponses enregistrées dans le fichier :" << file.fileName();
 }
 
