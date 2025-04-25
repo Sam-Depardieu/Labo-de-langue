@@ -1,5 +1,10 @@
 #include "interfaceenregistrement.h"
 #include "ui_interfaceenregistrement.h"
+#include <QFile>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QUdpSocket>
+#include <QMessageBox>
 
 InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
     : QDialog(parent),
@@ -8,194 +13,109 @@ InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
     ui->setupUi(this);
     ui->labelAppelProf->hide();
 
-    //Pour fixer la taille de la page et le titre
-    setFixedSize(800,480);
+    // Pour fixer la taille de la page et le titre
+    setFixedSize(800, 480);
     this->setWindowTitle("Page d'Enregistrement");
+    connect(ui->pushButtonPause, &QPushButton::clicked,
+            this, &InterfaceEnregistrement::on_pushButtonPause_clicked);
 
     // Initialisation des autres composants et variables
-    mediaRecorder = new QMediaRecorder(this);  // Remplacer audioRecorder par mediaRecorder
-    player = new QMediaPlayer(this);           // Initialisation correcte de QMediaPlayer
-    audioInput = new QAudioInput(this);      // Instancier QAudioOutput ici
+    mediaRecorder = new QMediaRecorder(this);
+    player = new QMediaPlayer(this);
+    audioInput = new QAudioInput(this);
     audioOutput = new QAudioOutput(this);
-    player->setAudioOutput(audioOutput);       // Configurer QAudioOutput pour le player
+    player->setAudioOutput(audioOutput);
     timer = new QTimer(this);
+<<<<<<< HEAD
     connect(timer, &QTimer::timeout, this, &InterfaceEnregistrement::updateChrono);
     mediaRecorder = new QMediaRecorder(this);
     audioInput = new QAudioInput(this);
     captureSession.setAudioInput(audioInput);
     captureSession.setRecorder(mediaRecorder);
+    QMediaFormat fmt;
+    fmt.setFileFormat(QMediaFormat::FileFormat::Wave);
+    fmt.setAudioCodec(QMediaFormat::AudioCodec::Wave);  // ← fonctionne sur Linux / PulseAudio
+    mediaRecorder->setMediaFormat(fmt);
 
 
+=======
+>>>>>>> b6ef8a2af8a8673ec8c002f6d90f008b044eda33
     rewindTimer = new QTimer(this);
-    connect(rewindTimer, &QTimer::timeout, this, &InterfaceEnregistrement::rewindChrono);
-    audioInput = new QAudioInput(this);
-    // Création du média recorder
-    mediaRecorder = new QMediaRecorder(this);
     captureSession.setAudioInput(audioInput);
     captureSession.setRecorder(mediaRecorder);
+
+    connect(timer, &QTimer::timeout, this, &InterfaceEnregistrement::updateChrono);
+    connect(rewindTimer, &QTimer::timeout, this, &InterfaceEnregistrement::rewindChrono);
+    connect(mediaRecorder, &QMediaRecorder::recorderStateChanged, this, &InterfaceEnregistrement::onRecorderStateChanged);
+    connect(mediaRecorder, &QMediaRecorder::errorOccurred, this, &InterfaceEnregistrement::onRecorderErrorOccurred);
+
+    // Affichage des Images
+    setButtonIcons();
 
     isRewinding = false;
     totalSecondes = 0;
     speakButtonClicked = false;
-
-    //Affichage des Images
-    QPixmap imageSon(":/images/Son"); // Charge l'image
-    if (imageSon.isNull()) {
-        qWarning() << "Erreur : image non trouvée !";
-    } else {
-        QIcon icone(imageSon); // Crée une icône
-        ui->pushButtonSon->setIcon(icone); // Définit l'icône du bouton
-        ui->pushButtonSon->setIconSize(ui->pushButtonSon->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
-    }
-
-    QPixmap imagePasSurveiller(":/images/PasSurveiller"); // Charge l'image
-    if (imagePasSurveiller.isNull()) {
-        qWarning() << "Erreur : image non trouvée !";
-    } else {
-        QIcon icone(imagePasSurveiller); // Crée une icône
-        ui->pushButtonSurveiller->setIcon(icone); // Définit l'icône du bouton
-        ui->pushButtonSurveiller->setIconSize(ui->pushButtonSurveiller->size());
-    }
-    QPixmap imageEnregistrer(":/images/Enregistrer"); // Charge l'image
-    if (imageEnregistrer.isNull()) {
-        qWarning() << "Erreur : image non trouvée !";
-    } else {
-        qDebug() << "Image chargée avec succès !";
-        QIcon icone(imageEnregistrer); // Crée une icône
-        ui->pushButtonEnregistrer->setIcon(icone); // Définit l'icône du bouton
-        ui->pushButtonEnregistrer->setIconSize(ui->pushButtonEnregistrer->size());
-        qDebug() << "Icône définie sur le bouton.";
-    }
-
-
-    QPixmap imageRevenirArriere(":/images/RevenirArriere"); // Charge l'image
-    if (imageRevenirArriere.isNull()) {
-        qWarning() << "Erreur : image non trouvée !";
-    } else {
-        QIcon icone(imageRevenirArriere); // Crée une icône
-        ui->pushButtonRetourArriere->setIcon(icone); // Définit l'icône du bouton
-        ui->pushButtonRetourArriere->setIconSize(ui->pushButtonRetourArriere->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
-    }
-
-    QPixmap imagePause(":/images/Pause"); // Charge l'image
-    if (imagePause.isNull()) {
-        qWarning() << "Erreur : image non trouvée !";
-    } else {
-        QIcon icone(imagePause); // Crée une icône
-        ui->pushButtonPause->setIcon(icone); // Définit l'icône du bouton
-        ui->pushButtonPause->setIconSize(ui->pushButtonPause->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
-    }
-
-    QPixmap imageAvancer(":/images/Avancer"); // Charge l'image
-    if (imageAvancer.isNull()) {
-        qWarning() << "Erreur : image non trouvée !";
-    } else {
-        QIcon icone(imageAvancer); // Crée une icône
-        ui->pushButtonAvancer->setIcon(icone); // Définit l'icône du bouton
-        ui->pushButtonAvancer->setIconSize(ui->pushButtonAvancer->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
-    }
-
-    QPixmap imageEnregistrement(":/images/Enregistrement"); // Charge l'image
-    if (imageEnregistrement.isNull()) {
-        qWarning() << "Erreur : image non trouvée !";
-    } else {
-        QIcon icone(imageEnregistrement); // Crée une icône
-        ui->pushButtonSpeak->setIcon(icone); // Définit l'icône du bouton
-        ui->pushButtonSpeak->setIconSize(ui->pushButtonSpeak->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
-    }
-
-    QPixmap imageSpeak(":/images/Enregistrement"); // Charge l'image
-    if (imageSpeak.isNull()) {
-        qWarning() << "Erreur : image non trouvée !";
-    } else {
-        QIcon icone(imageSpeak); // Crée une icône
-        ui->pushButtonSpeak->setIcon(icone); // Définit l'icône du bouton
-        ui->pushButtonSpeak->setIconSize(ui->pushButtonSpeak->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
-    }
-
-
-    QPixmap imageEffacer(":/images/Effacer"); // Charge l'image
-    if (imageEffacer.isNull()) {
-        qWarning() << "Erreur : image non trouvée !";
-    } else {
-        QIcon icone(imageEffacer); // Crée une icône
-        ui->pushButtonClear->setIcon(icone); // Définit l'icône du bouton
-        ui->pushButtonClear->setIconSize(ui->pushButtonClear->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
-    }
-    QPixmap imageAppelProf(":/images/CallProf"); // Charge l'image
-    if (imageAppelProf.isNull()) {
-        qWarning() << "Erreur : image non trouvée !";
-    } else {
-        QIcon icone(imageAppelProf); // Crée une icône
-        ui->pushButtonAppelProf->setIcon(icone); // Définit l'icône du bouton
-        ui->pushButtonAppelProf->setIconSize(ui->pushButtonAppelProf->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
-    }
-
-    // Connexions des signaux
-    connect(mediaRecorder, &QMediaRecorder::recorderStateChanged, this, &InterfaceEnregistrement::onRecorderStateChanged);
-    connect(mediaRecorder, &QMediaRecorder::errorOccurred, this, &InterfaceEnregistrement::onRecorderErrorOccurred);
-
+    isButtonSpeak = false;
+    isRecordingPaused = false;
+    lastRecordedTime = 0;
 }
 
 InterfaceEnregistrement::~InterfaceEnregistrement()
 {
     delete ui;
     delete mediaRecorder;
-    delete player;  // N'oublie pas de supprimer les objets alloués dynamiquement
-    delete audioInput;  // Libérer l'objet QAudioOutput
+    delete player;
+    delete audioInput;
+    delete audioOutput;
     delete timer;
-    delete rewindTimer;  // Nettoyer rewindTimer
+    delete rewindTimer;
+}
+
+void InterfaceEnregistrement::setButtonIcons()
+{
+    auto setIcon = [&](QPushButton *button, const QString &imagePath) {
+        QPixmap image(imagePath);
+        if (image.isNull()) {
+            qWarning() << "Erreur : image non trouvée !";
+        } else {
+            QIcon icon(image);
+            button->setIcon(icon);
+            button->setIconSize(button->size());
+        }
+    };
+
+    setIcon(ui->pushButtonSon, ":/images/Son");
+    setIcon(ui->pushButtonSurveiller, ":/images/PasSurveiller");
+    setIcon(ui->pushButtonEnregistrer, ":/images/Enregistrer");
+    setIcon(ui->pushButtonRetourArriere, ":/images/RevenirArriere");
+    setIcon(ui->pushButtonPause, ":/images/Pause");
+    setIcon(ui->pushButtonAvancer, ":/images/Avancer");
+    setIcon(ui->pushButtonSpeak, ":/images/Enregistrement");
+    setIcon(ui->pushButtonClear, ":/images/Effacer");
+    setIcon(ui->pushButtonAppelProf, ":/images/CallProf");
 }
 
 void InterfaceEnregistrement::on_pushButtonSpeak_clicked()
 {
-    //Changement d'image
-    if (isButtonSpeak) {
-        QPixmap image1(":/images/Enregistrement");
-        if (image1.isNull()) {
-            qWarning() << "Erreur : image non trouvée !";
-        } else {
-            QIcon icone(image1);
-            ui->pushButtonSpeak->setIcon(icone);    //Evite de relancer un enregistrement quand il est déja en cours
-        }
-    } else {
-        QPixmap Image(":/images/Play");
-        if (Image.isNull()) {
-            qWarning() << "Erreur : image de base non trouvée !";
-        } else {
-            QIcon icone(Image);
-            ui->pushButtonSpeak->setIcon(icone);
-            ui->pushButtonSpeak->setIconSize(ui->pushButtonSpeak->size());
-            qDebug() << "Image 1 de base chargée";
-        }
-    }
-    isButtonSpeak = !isButtonSpeak;
-    //
+<<<<<<< HEAD
 
-
+=======
+>>>>>>> b6ef8a2af8a8673ec8c002f6d90f008b044eda33
     if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState) {
         qWarning() << "L'enregistrement est déjà en cours.";
         return;
     }
-    ui->pushButtonSpeak->setIconSize(ui->pushButtonSpeak->size());
-    qDebug() << "Image 2Selec chargée";
+
 
     if (QFile::exists(audioFilePath)) {
         QFile::remove(audioFilePath);
         qDebug() << "Ancien enregistrement supprimé.";
     }
 
-    // Réinitialiser le chrono
     totalSecondes = 0;
     ui->labelChrono->setText("00:00:00");
-
-    // Assurer que le MediaRecorder est prêt à enregistrer
     mediaRecorder->setOutputLocation(QUrl::fromLocalFile(audioFilePath));
-
-    // Démarrer le chrono
     timer->start(1000);
-
-    // Démarrer l'enregistrement
     mediaRecorder->record();
     isRecordingPaused = false;
     qDebug() << "Nouvel enregistrement démarré.";
@@ -203,12 +123,11 @@ void InterfaceEnregistrement::on_pushButtonSpeak_clicked()
 
 void InterfaceEnregistrement::on_pushButtonPause_clicked()
 {
-
     if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState) {
-        mediaRecorder->pause(); // Met en pause l'enregistrement
+        mediaRecorder->pause();
         isRecordingPaused = true;
-        pausedTime = totalSecondes; // Sauvegarde le temps actuel
-        timer->stop(); // Met en pause le chrono
+        pausedTime = totalSecondes;
+        timer->stop();
         qDebug() << "Enregistrement et chrono mis en pause.";
     } else if (player->playbackState() == QMediaPlayer::PlayingState) {
         player->pause();
@@ -218,99 +137,76 @@ void InterfaceEnregistrement::on_pushButtonPause_clicked()
 
 void InterfaceEnregistrement::on_pushButtonClear_clicked()
 {
-    // Arrêter l'enregistrement s'il est en cours
     if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState) {
         mediaRecorder->stop();
         qDebug() << "Enregistrement arrêté.";
     }
 
-    // Arrêter le lecteur s'il joue l'audio
     if (player->playbackState() == QMediaPlayer::PlayingState) {
         player->stop();
         qDebug() << "Lecture stoppée.";
     }
 
-    // Supprimer le fichier enregistré
     if (QFile::exists(audioFilePath)) {
         QFile::remove(audioFilePath);
         qDebug() << "Enregistrement supprimé.";
     }
 
-    // Réinitialiser les variables
     totalSecondes = 0;
     ui->labelChrono->setText("00:00:00");
     speakButtonClicked = false;
-
     qDebug() << "Tout a été réinitialisé.";
 }
 
 void InterfaceEnregistrement::on_pushButtonSon_clicked()
 {
-    // Création de la fenêtre popup
     QDialog popup(this);
     popup.setWindowTitle("Réglages du Son");
-    popup.setModal(true);  // Bloque l'interaction avec la fenêtre principale
+    popup.setModal(true);
 
+    QSlider *slider = new QSlider(Qt::Vertical);
+    slider->setRange(0, 100);
+    int volume = static_cast<int>(audioOutput->volume() * 100);
+    slider->setValue(volume);
+    audioOutput->setVolume(volume / 100.0);
 
-    // Création des sliders
-    QSlider *slider1 = new QSlider(Qt::Vertical);
-    slider1->setRange(0, 100);
-    slider1->setValue(50);  // Valeur par défaut
-
-    // Création des labels
-    QLabel *label1 = new QLabel("Son");
-
-    // Bouton de fermeture
+    QLabel *label = new QLabel("Son");
     QPushButton *closeButton = new QPushButton("Fermer");
 
-    // Layout de la popup
     QVBoxLayout *mainLayout = new QVBoxLayout;
-
-    // Layout pour les sliders et les labels à mettre horizontalement
     QHBoxLayout *slidersLayout = new QHBoxLayout;
-    slidersLayout->addWidget(label1);
-    slidersLayout->addWidget(slider1);
-
-    // Ajouter le layout des sliders et labels à celui principal
+    slidersLayout->addWidget(label);
+    slidersLayout->addWidget(slider);
     mainLayout->addLayout(slidersLayout);
     mainLayout->addWidget(closeButton);
-
-    // Appliquer le layout principal à la popup
     popup.setLayout(mainLayout);
 
-    // Connexion du bouton de fermeture
+    QObject::connect(slider, &QSlider::valueChanged, this, [=](int value) {
+        audioOutput->setVolume(value / 100.0);
+        qDebug() << "Volume réglé à :" << value;
+    });
+
     QObject::connect(closeButton, &QPushButton::clicked, &popup, &QDialog::accept);
-
-
-
-    // Affichage de la popup
     popup.exec();
 }
-
 
 void InterfaceEnregistrement::on_pushButtonRetourArriere_clicked()
 {
     if (totalSecondes == 0 && lastRecordedTime > 0) {
-        totalSecondes = lastRecordedTime;  // Restaurer le dernier temps enregistré
-        int heures = totalSecondes / 3600;
-        int minutes = (totalSecondes % 3600) / 60;
-        int secondes = totalSecondes % 60;
-
-        ui->labelChrono->setText(QString::number(heures).rightJustified(2, '0') + ":" +
-                                 QString::number(minutes).rightJustified(2, '0') + ":" +
-                                 QString::number(secondes).rightJustified(2, '0'));
-
+        totalSecondes = lastRecordedTime;
+        updateChronoLabel();
         qDebug() << "Retour au dernier temps enregistré : " << totalSecondes;
     } else if (totalSecondes > 0 && !isRewinding) {
         isRewinding = true;
-        rewindTimer->start(100);  // Défile rapidement
+        rewindTimer->start(100);
         qDebug() << "Retour arrière en cours";
     }
 }
+
 void InterfaceEnregistrement::on_pushButtonAvancer_clicked()
 {
     if (player && player->playbackState() == QMediaPlayer::PlayingState) {
-        qint64 newPosition = player->position() + 5000; // Avancer de 5 secondes
+        qint64 newPosition = player->position() + 5000;
         if (newPosition < player->duration()) {
             player->setPosition(newPosition);
             qDebug() << "Avancé de 5 secondes.";
@@ -318,39 +214,25 @@ void InterfaceEnregistrement::on_pushButtonAvancer_clicked()
     }
 }
 
-
 void InterfaceEnregistrement::updateChrono()
 {
     if (isRewinding) {
-        return; // Ne pas mettre à jour le chrono pendant le retour arrière
+        return;
     }
 
     totalSecondes++;
-
-    int heures = totalSecondes / 3600;
-    int minutes = (totalSecondes % 3600) / 60;
-    int secondes = totalSecondes % 60;
-
-    ui->labelChrono->setText(QString::number(heures).rightJustified(2, '0') + ":" +
-                             QString::number(minutes).rightJustified(2, '0') + ":" +
-                             QString::number(secondes).rightJustified(2, '0'));
+    updateChronoLabel();
 }
 
 void InterfaceEnregistrement::rewindChrono()
 {
     if (totalSecondes > 1) {
-        lastRecordedTime = totalSecondes;  // Sauvegarde correcte du dernier temps avant 0
+        lastRecordedTime = totalSecondes;
     }
 
     if (totalSecondes > 0) {
         totalSecondes--;
-        int heures = totalSecondes / 3600;
-        int minutes = (totalSecondes % 3600) / 60;
-        int secondes = totalSecondes % 60;
-
-        ui->labelChrono->setText(QString::number(heures).rightJustified(2, '0') + ":" +
-                                 QString::number(minutes).rightJustified(2, '0') + ":" +
-                                 QString::number(secondes).rightJustified(2, '0'));
+        updateChronoLabel();
     } else {
         qDebug() << "Chrono à zéro, dernier temps enregistré : " << lastRecordedTime;
         rewindTimer->stop();
@@ -358,32 +240,35 @@ void InterfaceEnregistrement::rewindChrono()
     }
 }
 
+void InterfaceEnregistrement::updateChronoLabel()
+{
+    int heures = totalSecondes / 3600;
+    int minutes = (totalSecondes % 3600) / 60;
+    int secondes = totalSecondes % 60;
+    ui->labelChrono->setText(QString::number(heures).rightJustified(2, '0') + ":" +
+                             QString::number(minutes).rightJustified(2, '0') + ":" +
+                             QString::number(secondes).rightJustified(2, '0'));
+}
+
 void InterfaceEnregistrement::on_pushButtonAppelProf_clicked()
 {
     ui->pushButtonAppelProf->setStyleSheet("QPushButton { background-color: none; border: none; }");
-    // Faire apparaître le label instantanément
     ui->labelAppelProf->show();
     qWarning() << "Label Appel Prof affiche";
 
     QUdpSocket *udpSocket = new QUdpSocket(this);
-
     QJsonObject message;
     message["type"] = "call_request";
     message["id_eleve"] = studentId;
-
     QJsonDocument doc(message);
     QByteArray data = doc.toJson();
-
-    QHostAddress profAddress("192.168.88.216");  // Adresse IP de l'appli Prof
-    quint16 profPort = 45454;  // Port d'écoute de l'appli Prof
-
+    QHostAddress profAddress("192.168.88.216");
+    quint16 profPort = 45454;
     udpSocket->writeDatagram(data, profAddress, profPort);
 }
 
-// Ajouter ces deux fonctions nécessaires pour Qt 6
 void InterfaceEnregistrement::checkPlaybackPosition(qint64 position)
 {
-    // Cette méthode surveille la position de lecture
     if (position / 1000 >= totalSecondes) {
         player->stop();
         qDebug() << "Lecture arrêtée car elle a dépassé le temps du chronomètre";
@@ -392,7 +277,6 @@ void InterfaceEnregistrement::checkPlaybackPosition(qint64 position)
 
 void InterfaceEnregistrement::onRecorderStateChanged(QMediaRecorder::RecorderState state)
 {
-    // Gérer les changements d'état de l'enregistreur
     switch (state) {
     case QMediaRecorder::RecordingState:
         qDebug() << "État de l'enregistreur: Enregistrement en cours";
@@ -408,31 +292,97 @@ void InterfaceEnregistrement::onRecorderStateChanged(QMediaRecorder::RecorderSta
 
 void InterfaceEnregistrement::onRecorderErrorOccurred(QMediaRecorder::Error error, const QString &errorString)
 {
-    // Gérer les erreurs d'enregistrement
     qDebug() << "Erreur d'enregistrement:" << errorString;
 }
 
-
-
 void InterfaceEnregistrement::on_pushButtonEnregistrer_clicked()
 {
-    qDebug() << "Bouton Enregistrer cliqué";
+<<<<<<< HEAD
+    if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState) {
+        mediaRecorder->stop();
+        ui->pushButtonEnregistrer->setText("Enregistrer");
+        qDebug() << "Enregistrement arrêté :" << audioFilePath;
+        return;
+    }
 
+    // Génération du nom : YYYYMMDD_hhmmss_id<studentId>.wav
+    const QString docs = QStandardPaths::writableLocation(
+        QStandardPaths::DocumentsLocation);
+    const QString timestamp = QDateTime::currentDateTime()
+                                  .toString("yyyyMMdd_hhmmss");
+    audioFilePath = QString("%1/%2_id%3.wav")
+                        .arg(docs)
+                        .arg(timestamp)
+                        .arg(studentId);
+
+    if (QFile::exists(audioFilePath))
+        QFile::remove(audioFilePath);
+
+    // --- CORRECTION ICI ---
+    QMediaFormat fmt;
+    fmt.setFileFormat(QMediaFormat::FileFormat::Wave);           // .wav
+    // fmt.setAudioCodec(QMediaFormat::AudioCodec::Wave);        // optionnel
+    mediaRecorder->setMediaFormat(fmt);
+    mediaRecorder->setOutputLocation(QUrl::fromLocalFile(audioFilePath));
+
+    mediaRecorder->record();
+    ui->pushButtonEnregistrer->setText("Arrêter");
+    timer->start(1000);
+    qDebug() << "Enregistrement démarré dans :" << audioFilePath;
+
+=======
+    qDebug() << "Bouton Enregistrer cliqué";
     QMediaCaptureSession *session = new QMediaCaptureSession(this);
     QAudioInput *audioInput = new QAudioInput(this);
     QMediaRecorder *recorder = new QMediaRecorder(this);
-
     session->setAudioInput(audioInput);
     session->setRecorder(recorder);
-
-    // Définir le format MP3
     QMediaFormat format;
-    format.setFileFormat(QMediaFormat::Mpeg4Audio);  // MP3 (si dispo)
-
+    format.setFileFormat(QMediaFormat::Mpeg4Audio);
     recorder->setMediaFormat(format);
     recorder->setOutputLocation(QUrl::fromLocalFile("output.mp3"));
-
     recorder->record();
-
+>>>>>>> b6ef8a2af8a8673ec8c002f6d90f008b044eda33
 }
 
+void InterfaceEnregistrement::showFeedbackDialog()
+{
+    QDialog *dialog = new QDialog(this);
+    dialog->setWindowTitle("Donner votre avis");
+    QLabel *label = new QLabel("Merci de donner votre avis sur cette activité :", dialog);
+    QTextEdit *feedbackEdit = new QTextEdit(dialog);
+    QSpinBox *ratingSpin = new QSpinBox(dialog);
+    ratingSpin->setRange(1, 5);
+    QPushButton *submitBtn = new QPushButton("Envoyer", dialog);
+    QPushButton *cancelBtn = new QPushButton("Annuler", dialog);
+    QVBoxLayout *layout = new QVBoxLayout(dialog);
+    layout->addWidget(label);
+    layout->addWidget(feedbackEdit);
+    layout->addWidget(new QLabel("Notez cette activité (1 à 5) :"));
+    layout->addWidget(ratingSpin);
+    QHBoxLayout *btnLayout = new QHBoxLayout();
+    btnLayout->addWidget(cancelBtn);
+    btnLayout->addWidget(submitBtn);
+    layout->addLayout(btnLayout);
+
+    connect(submitBtn, &QPushButton::clicked, this, [=]() {
+        QString feedback = feedbackEdit->toPlainText();
+        int rating = ratingSpin->value();
+        if (!feedback.isEmpty()) {
+            QFile file("feedback.txt");
+            if (file.open(QIODevice::Append | QIODevice::Text)) {
+                QTextStream out(&file);
+                out << "Feedback: " << feedback << "\n";
+                out << "Note: " << rating << "\n";
+                file.close();
+            }
+            QMessageBox::information(dialog, "Merci", "Votre avis a été enregistré.");
+        } else {
+            QMessageBox::warning(dialog, "Erreur", "Veuillez écrire un commentaire.");
+        }
+        dialog->accept();
+    });
+
+    connect(cancelBtn, &QPushButton::clicked, dialog, &QDialog::reject);
+    dialog->exec();
+}

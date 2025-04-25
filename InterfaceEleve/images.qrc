@@ -26,10 +26,7 @@
         <file>images/Surveiller.png</file>
         <file>images/Enregistrer.png</file>
         <file>images/CallProf.png</file>
-<<<<<<< HEAD
-=======
         <file>images/Pause.png</file>
         <file>images/FeedBack.png</file>
->>>>>>> a785a414c4110abf11314b48660e0405a7d6a541
     </qresource>
 </RCC>

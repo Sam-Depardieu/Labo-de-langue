@@ -3,11 +3,8 @@
 
 #include <QDialog>
 #include <QTimer>
-<<<<<<< HEAD
 #include <QFile>
-=======
 #include <QMediaPlayer>
->>>>>>> a785a414c4110abf11314b48660e0405a7d6a541
 #include <QAudioInput>
 #include <QKeyEvent>
 #include <QDebug>
@@ -15,10 +12,7 @@
 #include <QAudioOutput>
 #include <QUrl>
 #include <QStandardPaths>
-<<<<<<< HEAD
-=======
 #include <QFile>
->>>>>>> a785a414c4110abf11314b48660e0405a7d6a541
 #include <QMediaFormat>
 #include <QUdpSocket>
 #include <QJsonDocument>
@@ -28,6 +22,9 @@
 #include <QVBoxLayout>
 #include <QWidgetAction>
 #include <QLabel>
+#include <QTextEdit>
+#include <QSpinBox>
+#include <QMessageBox>
 //#include <QAudioRecorder>
 //#include <QAudioProbe>
 //#include <QAudioEncoderSettings>
@@ -58,7 +55,6 @@ private slots:
     void onRecorderStateChanged(QMediaRecorder::RecorderState state);
     void onRecorderErrorOccurred(QMediaRecorder::Error error, const QString &errorString);
     void on_pushButtonAvancer_clicked();
-
     void on_pushButtonEnregistrer_clicked();
 
 private:
@@ -75,19 +71,24 @@ private:
     bool speakButtonClicked;
     QString audioFilePath;
     int studentId;
-    bool isPaused = false;  // Indique si la lecture est en pause
+    bool isPaused = false;
     qint64 pauseTime = 0;
     int lastRecordedTime = 0;
-    bool isRecordingPaused = false;  // Indique si l'enregistrement est en pause
-    qint64 pausedTime = 0;           // Sauvegarde le temps de pause
-    QMenu *volumeMenu;  // Menu pour les sliders de volume
-    QSlider *sliderPrincipal;  // Slider pour le volume principal
-    QSlider *sliderSecondaire;  // Slider pour le volume secondaire
-    void setupVolumeMenu();  // Fonction pour configurer le menu de volume
-    bool isButtonSpeak = false;  // Déclaration et initialisation
-
-
-    void resetTimer();  // Déclaration de la fonction resetTimer
+    bool isRecordingPaused = false;
+    qint64 pausedTime = 0;
+    QMenu *volumeMenu;
+    QSlider *sliderPrincipal;
+    QSlider *sliderSecondaire;
+    void setupVolumeMenu();
+    bool isButtonSpeak = false;
+    QTextEdit *textedit;
+    QMessageBox *messagebox;
+    QSpinBox *spinbox;
+    void showFeedbackDialog();
+    void resetTimer();
+    void setButtonIcons();
+    void updateChronoLabel();
+    void setButtonIcon(QPushButton *button, const QString &imagePath);
 };
 
 #endif // INTERFACEENREGISTREMENT_H

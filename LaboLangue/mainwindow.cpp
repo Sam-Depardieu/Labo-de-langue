@@ -228,7 +228,7 @@ void MainWindow::on_SessionButton_clicked()
     ui->ParametrageEleve->setVisible(false);
     parametrageEleve = false;
 
-    parametrageSession = !parametrageSession;
+    parametrageSession = true;
     ui->ParametrageSession->setVisible(!ui->ParametrageSession->isVisible());
     ui->PlanClasse->setVisible(true);
 
@@ -358,6 +358,18 @@ void MainWindow::editStatusButton(QPushButton *button, bool status)
     }
 
 }
+
+void MainWindow::updateCheckItemsVisibility() {
+    bool shouldShow = parametrageSession && (selectionParticipants || selectAllParticipants);
+
+    for (auto *eleve : listeRasp) {
+        if (eleve->getCheckItem()) {
+            eleve->getCheckItem()->setVisible(shouldShow &&
+                                              std::find(listeParticipant.begin(), listeParticipant.end(), eleve) != listeParticipant.end());
+        }
+    }
+}
+
 
 void MainWindow::addHorizontalLayout(QVBoxLayout *layout, QWidget *widget1, QWidget *widget2)
 {
@@ -494,6 +506,13 @@ void MainWindow::on_validButton_clicked()
         participant->getMicro()->setVisible(true);
     }
 
+    for (auto *eleve : listeRasp) {
+        // Si l'élément n'est PAS dans listeParticipant
+        if (std::find(listeParticipant.begin(), listeParticipant.end(), eleve) == listeParticipant.end()) {
+            eleve->setVisible(false); // ou eleve->hide(); selon ta classe
+        }
+    }
+
     // Activation des boutons
     editStatusButton(ui->PlanButton, true);
     editStatusButton(ui->PresenceButton, true);
@@ -510,6 +529,8 @@ void MainWindow::on_validButton_clicked()
 
     // Mettre à jour l'interface
     selectionParticipants = false;
+    selectAllParticipants = false;
+    parametrageSession = false;
     on_echapButton_clicked();
     ui->SessionButton->setText("Session \nen cours");
     ui->delButton->setText("Fin session");
@@ -635,6 +656,7 @@ void MainWindow::resetSession()
     selectionParticipants = false;
     selectAllParticipants = false;
     parametrageEleve = false;
+    eleveActuellementParametre = nullptr;
 
     //Réinitialisation des chaînes de caractères
     source.clear();
@@ -669,6 +691,7 @@ void MainWindow::resetSession()
         scene->clear();
         loadImagesFromDB();
     }
+
 }
 
 

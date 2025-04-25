@@ -787,7 +787,7 @@ all: release-all debug-all  FORCE
 clean: release-clean debug-clean  FORCE
 distclean: release-distclean debug-distclean  FORCE
 	-$(DEL_FILE) Makefile
-	-$(DEL_FILE) C:\Users\Quentin\Documents\Projet\Labo-de-langue\InterfaceEleve\build\Desktop_Qt_6_7_2_MinGW_64_bit-Profile\InterfaceEleve.exe.debug .qmake.stash
+	-$(DEL_FILE) E:\Documents\Projet\Labo-de-langue\InterfaceEleve\build\Desktop_Qt_6_7_2_MinGW_64_bit-Profile\InterfaceEleve.exe.debug .qmake.stash
 
 release-mocclean:
 	$(MAKE) -f $(MAKEFILE).Release mocclean

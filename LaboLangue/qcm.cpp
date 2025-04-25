@@ -158,16 +158,6 @@ void QCM::addQuestion(QString *nomQ, QString *numQ, QString *nbRep, array<array<
     questionBox->setLayout(questionBoxLayout);
     questionBox->setStyleSheet("border: 1px solid gray; border-radius: 5px; padding: 10px;");
 
-    // ---- Ajout de l'icône croix en haut à droite ----
-    QPixmap crossIcon("../img/cross-qcm.png");
-    QLabel *imageLabel = new QLabel(this);
-    imageLabel->setPixmap(crossIcon.scaled(20, 20, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-
-    QHBoxLayout *iconLayout = new QHBoxLayout();
-    iconLayout->addStretch();  // Pousse l'icône vers la droite
-    iconLayout->addWidget(imageLabel);
-    questionBoxLayout->addLayout(iconLayout);
-
     // ---- Layout pour le numéro et la question ----
     QHBoxLayout *questionHeaderLayout = new QHBoxLayout();
     QLabel *questionNumberLabel = new QLabel("N° :", this);
@@ -186,7 +176,6 @@ void QCM::addQuestion(QString *nomQ, QString *numQ, QString *nbRep, array<array<
     questionHeaderLayout->addWidget(question->questionNumberSpin);
     questionHeaderLayout->addWidget(questionLabel);
     questionHeaderLayout->addWidget(question->questionEdit);
-
     questionBoxLayout->addLayout(questionHeaderLayout);
 
     // ---- Nombre de choix possibles ----
@@ -207,6 +196,7 @@ void QCM::addQuestion(QString *nomQ, QString *numQ, QString *nbRep, array<array<
     // ---- Boutons d'ajout et suppression de réponses ----
     question->addAnswerButton = new QPushButton("+", this);
     question->addAnswerButton->setStyleSheet("background-color: #28a745; color: white; border-radius: 5px;");
+
     question->removeAnswerButton = new QPushButton("-", this);
     question->removeAnswerButton->setStyleSheet("background-color: #dc3545; color: white; border-radius: 5px;");
 
@@ -240,6 +230,26 @@ void QCM::addQuestion(QString *nomQ, QString *numQ, QString *nbRep, array<array<
         scrollWidget->update();
     });
 
+    // ---- Bouton croix centré en bas ----
+    QPushButton *closeButton = new QPushButton(this);
+    closeButton->setIcon(QIcon("../img/cross-qcm.png"));
+    closeButton->setIconSize(QSize(20, 20));
+    closeButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    closeButton->setFixedHeight(40); // tu peux ajuster ici
+    closeButton->setStyleSheet("border: none; text-align: center;");
+
+    questionBoxLayout->addWidget(closeButton);
+
+
+    // Connexion du bouton croix (facultatif)
+    connect(closeButton, &QPushButton::clicked, this, [=]() {
+        questionWidgets.removeOne(question);
+        questionsLayout->removeWidget(questionBox);
+        delete questionBox;
+        scrollWidget->adjustSize();
+        scrollWidget->update();
+    });
+
     // ---- Placement dans la grille ----
     int row = questionWidgets.size() / 2;
     int column = questionWidgets.size() % 2;
@@ -251,6 +261,7 @@ void QCM::addQuestion(QString *nomQ, QString *numQ, QString *nbRep, array<array<
     addBoxAddQuestion();
     scrollArea->verticalScrollBar()->setValue(scrollArea->verticalScrollBar()->maximum());
 }
+
 
 void QCM::addAnswers(QuestionWidget* question, QString *choix, QString *correct) {
     if (!question || question->answerFields.size() >= 4) {

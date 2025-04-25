@@ -3,6 +3,7 @@
 #include <QAudioSource>
 #include <QAudioSink>
 #include <QHostAddress>
+#include <QThread>
 
 Professor::Professor(QObject *parent) : QObject(parent), context(1) {
     QAudioFormat format;
@@ -13,35 +14,75 @@ Professor::Professor(QObject *parent) : QObject(parent), context(1) {
     inputDeviceInfo = QMediaDevices::defaultAudioInput();
     outputDeviceInfo = QMediaDevices::defaultAudioOutput();
 
+    // Vérification et initialisation du micro
     if (!inputDeviceInfo.isNull()) {
         qDebug() << "🎤 Micro détecté:" << inputDeviceInfo.description();
-        audioSource = new QAudioSource(inputDeviceInfo, format);
-        audioSourceDevice = audioSource->start();  // Démarre l’enregistrement
+        try {
+            audioSource = new QAudioSource(inputDeviceInfo, format);
+            audioSourceDevice = audioSource->start();  // Démarre l’enregistrement
+            if (audioSourceDevice) {
+                qDebug() << "✅ Enregistrement du micro lancé";
+            } else {
+                qDebug() << "❌ Échec de l'enregistrement du micro";
+            }
+        } catch (const std::exception &e) {
+            qDebug() << "❌ Erreur lors de la création du QAudioSource:" << e.what();
+        }
     } else {
         qDebug() << "❌ Aucun micro détecté!";
     }
 
+    // Vérification et initialisation des haut-parleurs
     if (!outputDeviceInfo.isNull()) {
         qDebug() << "🔊 Haut-parleur détecté:" << outputDeviceInfo.description();
-        audioSink = new QAudioSink(outputDeviceInfo, format);
-        audioSinkDevice = audioSink->start();
+        try {
+            audioSink = new QAudioSink(outputDeviceInfo, format);
+            audioSinkDevice = audioSink->start();
+            if (audioSinkDevice) {
+                qDebug() << "✅ Sortie audio lancée";
+            } else {
+                qDebug() << "❌ Échec de la sortie audio";
+            }
+        } catch (const std::exception &e) {
+            qDebug() << "❌ Erreur lors de la création du QAudioSink:" << e.what();
+        }
     } else {
         qDebug() << "❌ Aucun haut-parleur détecté!";
     }
 
-    pushSocket = new zmq::socket_t(context, ZMQ_PUSH);
-    pushSocket->connect("tcp://localhost:5555");
+    // Vérification des sockets ZeroMQ
+    if (pushSocket == nullptr) {
+        try {
+            pushSocket = new zmq::socket_t(context, ZMQ_PUSH);
+            pushSocket->connect("tcp://localhost:5555");
+            qDebug() << "✅ Socket PUSH créé et connecté.";
+        } catch (const zmq::error_t &e) {
+            qDebug() << "❌ Erreur lors de la création du socket PUSH:" << e.what();
+        }
+    }
 
-    pullSocket = new zmq::socket_t(context, ZMQ_PULL);
-    pullSocket->bind("tcp://*:5556");
+    if (pullSocket == nullptr) {
+        try {
+            pullSocket = new zmq::socket_t(context, ZMQ_PULL);
+            pullSocket->bind("tcp://*:5556");
+            qDebug() << "✅ Socket PULL créé et lié.";
+        } catch (const zmq::error_t &e) {
+            qDebug() << "❌ Erreur lors de la création du socket PULL:" << e.what();
+        }
+    }
 
     // Connexion des timers aux slots
     connect(&sendAudioTimer, &QTimer::timeout, this, &Professor::sendAudioData);
     connect(&receiveAudioTimer, &QTimer::timeout, this, &Professor::receiveAudioData);
 
-    //sendAudioTimer.start(100);  // Intervalle en millisecondes
-    //receiveAudioTimer.start(100);
+    // Lancement des timers
+    sendAudioTimer.start(100);  // Intervalle en millisecondes
+    receiveAudioTimer.start(100);
 }
+
+
+
+
 
 void Professor::sendCommandToStudent(const QString& studentIp, const QString& command) {
     QString fullCommand = command + " " + "192.168.64.75";
@@ -153,3 +194,5 @@ void Professor::receiveAudioData() {
     audioSinkDevice->write(data);
     qDebug() << "🔹 Fin receiveAudioData()";
 }
+
+
