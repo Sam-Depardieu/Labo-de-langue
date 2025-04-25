@@ -11,6 +11,8 @@ InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
     //Pour fixer la taille de la page et le titre
     setFixedSize(800,480);
     this->setWindowTitle("Page d'Enregistrement");
+    connect(ui->pushButtonPause, &QPushButton::clicked,
+            this, &InterfaceEnregistrement::on_pushButtonPause_clicked);
 
     // Initialisation des autres composants et variables
     mediaRecorder = new QMediaRecorder(this);  // Remplacer audioRecorder par mediaRecorder
@@ -24,6 +26,10 @@ InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
     audioInput = new QAudioInput(this);
     captureSession.setAudioInput(audioInput);
     captureSession.setRecorder(mediaRecorder);
+    QMediaFormat fmt;
+    fmt.setFileFormat(QMediaFormat::FileFormat::Wave);
+    fmt.setAudioCodec(QMediaFormat::AudioCodec::Wave);  // ← fonctionne sur Linux / PulseAudio
+    mediaRecorder->setMediaFormat(fmt);
 
 
     rewindTimer = new QTimer(this);
@@ -149,29 +155,6 @@ InterfaceEnregistrement::~InterfaceEnregistrement()
 
 void InterfaceEnregistrement::on_pushButtonSpeak_clicked()
 {
-    //Changement d'image
-    if (isButtonSpeak) {
-        QPixmap image1(":/images/Enregistrement");
-        if (image1.isNull()) {
-            qWarning() << "Erreur : image non trouvée !";
-        } else {
-            QIcon icone(image1);
-            ui->pushButtonSpeak->setIcon(icone);    //Evite de relancer un enregistrement quand il est déja en cours
-        }
-    } else {
-        QPixmap Image(":/images/Play");
-        if (Image.isNull()) {
-            qWarning() << "Erreur : image de base non trouvée !";
-        } else {
-            QIcon icone(Image);
-            ui->pushButtonSpeak->setIcon(icone);
-            ui->pushButtonSpeak->setIconSize(ui->pushButtonSpeak->size());
-            qDebug() << "Image 1 de base chargée";
-        }
-    }
-    isButtonSpeak = !isButtonSpeak;
-    //
-
 
     if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState) {
         qWarning() << "L'enregistrement est déjà en cours.";
@@ -287,8 +270,6 @@ void InterfaceEnregistrement::on_pushButtonSon_clicked()
     // Affichage
     popup.exec();
 }
-
-
 
 void InterfaceEnregistrement::on_pushButtonRetourArriere_clicked()
 {
@@ -418,23 +399,37 @@ void InterfaceEnregistrement::onRecorderErrorOccurred(QMediaRecorder::Error erro
 
 void InterfaceEnregistrement::on_pushButtonEnregistrer_clicked()
 {
-    qDebug() << "Bouton Enregistrer cliqué";
+    if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState) {
+        mediaRecorder->stop();
+        ui->pushButtonEnregistrer->setText("Enregistrer");
+        qDebug() << "Enregistrement arrêté :" << audioFilePath;
+        return;
+    }
 
-    QMediaCaptureSession *session = new QMediaCaptureSession(this);
-    QAudioInput *audioInput = new QAudioInput(this);
-    QMediaRecorder *recorder = new QMediaRecorder(this);
+    // Génération du nom : YYYYMMDD_hhmmss_id<studentId>.wav
+    const QString docs = QStandardPaths::writableLocation(
+        QStandardPaths::DocumentsLocation);
+    const QString timestamp = QDateTime::currentDateTime()
+                                  .toString("yyyyMMdd_hhmmss");
+    audioFilePath = QString("%1/%2_id%3.wav")
+                        .arg(docs)
+                        .arg(timestamp)
+                        .arg(studentId);
 
-    session->setAudioInput(audioInput);
-    session->setRecorder(recorder);
+    if (QFile::exists(audioFilePath))
+        QFile::remove(audioFilePath);
 
-    // Définir le format MP3
-    QMediaFormat format;
-    format.setFileFormat(QMediaFormat::Mpeg4Audio);  // MP3 (si dispo)
+    // --- CORRECTION ICI ---
+    QMediaFormat fmt;
+    fmt.setFileFormat(QMediaFormat::FileFormat::Wave);           // .wav
+    // fmt.setAudioCodec(QMediaFormat::AudioCodec::Wave);        // optionnel
+    mediaRecorder->setMediaFormat(fmt);
+    mediaRecorder->setOutputLocation(QUrl::fromLocalFile(audioFilePath));
 
-    recorder->setMediaFormat(format);
-    recorder->setOutputLocation(QUrl::fromLocalFile("output.mp3"));
-
-    recorder->record();
+    mediaRecorder->record();
+    ui->pushButtonEnregistrer->setText("Arrêter");
+    timer->start(1000);
+    qDebug() << "Enregistrement démarré dans :" << audioFilePath;
 
 }
 
