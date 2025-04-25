@@ -26,7 +26,7 @@ InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
     audioOutput = new QAudioOutput(this);
     player->setAudioOutput(audioOutput);
     timer = new QTimer(this);
-<<<<<<< HEAD
+
     connect(timer, &QTimer::timeout, this, &InterfaceEnregistrement::updateChrono);
     mediaRecorder = new QMediaRecorder(this);
     audioInput = new QAudioInput(this);
@@ -38,8 +38,6 @@ InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
     mediaRecorder->setMediaFormat(fmt);
 
 
-=======
->>>>>>> b6ef8a2af8a8673ec8c002f6d90f008b044eda33
     rewindTimer = new QTimer(this);
     captureSession.setAudioInput(audioInput);
     captureSession.setRecorder(mediaRecorder);
@@ -97,10 +95,7 @@ void InterfaceEnregistrement::setButtonIcons()
 
 void InterfaceEnregistrement::on_pushButtonSpeak_clicked()
 {
-<<<<<<< HEAD
 
-=======
->>>>>>> b6ef8a2af8a8673ec8c002f6d90f008b044eda33
     if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState) {
         qWarning() << "L'enregistrement est déjà en cours.";
         return;
@@ -219,7 +214,6 @@ void InterfaceEnregistrement::updateChrono()
     if (isRewinding) {
         return;
     }
-
     totalSecondes++;
     updateChronoLabel();
 }
@@ -297,7 +291,7 @@ void InterfaceEnregistrement::onRecorderErrorOccurred(QMediaRecorder::Error erro
 
 void InterfaceEnregistrement::on_pushButtonEnregistrer_clicked()
 {
-<<<<<<< HEAD
+
     if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState) {
         mediaRecorder->stop();
         ui->pushButtonEnregistrer->setText("Enregistrer");
@@ -330,7 +324,7 @@ void InterfaceEnregistrement::on_pushButtonEnregistrer_clicked()
     timer->start(1000);
     qDebug() << "Enregistrement démarré dans :" << audioFilePath;
 
-=======
+
     qDebug() << "Bouton Enregistrer cliqué";
     QMediaCaptureSession *session = new QMediaCaptureSession(this);
     QAudioInput *audioInput = new QAudioInput(this);
@@ -342,7 +336,7 @@ void InterfaceEnregistrement::on_pushButtonEnregistrer_clicked()
     recorder->setMediaFormat(format);
     recorder->setOutputLocation(QUrl::fromLocalFile("output.mp3"));
     recorder->record();
->>>>>>> b6ef8a2af8a8673ec8c002f6d90f008b044eda33
+
 }
 
 void InterfaceEnregistrement::showFeedbackDialog()
