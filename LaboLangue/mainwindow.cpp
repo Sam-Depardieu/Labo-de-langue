@@ -758,6 +758,25 @@ void MainWindow::on_annulerButton_clicked()
 
 void MainWindow::on_creerGroupeButton_clicked()
 {
-    qDebug() << "actualisation du tableau";
-    QTableWidget TableauGroupe(12, 3, this);
+    qDebug() << "Actualisation du tableau";
+
+    // Crée une table de 12 lignes et 4 colonnes
+    ui->TableauGroupe->setColumnCount(4);
+    ui->TableauGroupe->setRowCount(12);
+    QTableWidget* TableauGroupe = ui->TableauGroupe;
+
+    // Ajouter des en-têtes pour les colonnes
+    TableauGroupe->setHorizontalHeaderLabels({"Colonne 1", "Colonne 2", "Colonne 3", "Colonne 4"});
+
+    // Remplir les cellules avec des données
+    for (int row = 0; row < 12; ++row) {
+        for (int col = 0; col < 4; ++col) {
+            // Par exemple, on met des valeurs génériques comme "Donnée 1", "Donnée 2", etc.
+            TableauGroupe->setItem(row, col, new QTableWidgetItem("Donnée " + QString::number(row * 4 + col + 1)));
+        }
+    }
+
+    // Afficher le tableau
+    TableauGroupe->show();
 }
+
