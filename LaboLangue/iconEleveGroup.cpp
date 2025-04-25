@@ -37,6 +37,8 @@ void iconEleveGroup::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
         {
             mainWindow->closeSettingEleve(this);
 
+            mainWindow->listeEditEleve.clear();
+
             mainWindow->parametrageEleve = false;
         }
     }

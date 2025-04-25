@@ -53,7 +53,9 @@ MainWindow::MainWindow(QWidget *parent)
     addHorizontalLayout(layoutParametrageEleve, ui->nomGroupeLabel, ui->nomEleveLabel);
     addHorizontalLayout(layoutParametrageEleve, ui->muteButton, ui->demuteButton);
     addHorizontalLayout(layoutParametrageEleve, ui->desactiverSonButton, ui->activerSonButton);
-    addHorizontalLayout(layoutParametrageEleve, ui->creerGroupeButton, ui->annulerButton, ui->ParticipantsComboBox);
+    addHorizontalLayout(layoutParametrageEleve, ui->creerGroupeButton, ui->annulerButton);
+    addHorizontalLayout(layoutParametrageEleve, ui->supprimerGroupeButton, ui->selectionGroupe);
+    addHorizontalLayout(layoutParametrageEleve, ui->alignerTableau, ui->TableauGroupe);
     layoutParametrageEleve->addSpacing(10);
     // Appliquez le layout à ParametrageEleve
     ui->ParametrageEleve->setLayout(layoutParametrageEleve);
@@ -724,14 +726,15 @@ void MainWindow::on_activerSonButton_clicked()
     qDebug() << "fonction desactiverSonStudent";
 }
 
-void MainWindow::on_creerGroupeButton_clicked()
-{
-
-}
-
 void MainWindow::on_annulerButton_clicked()
 {
     parametrageEleve = false;
     ui->ParametrageEleve->setVisible(false);
 }
 
+
+void MainWindow::on_creerGroupeButton_clicked()
+{
+    qDebug() << "actualisation du tableau";
+    QTableWidget TableauGroupe(12, 3, this);
+}

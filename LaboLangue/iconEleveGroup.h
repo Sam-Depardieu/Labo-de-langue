@@ -43,7 +43,6 @@ class iconEleveGroup : public QObject, public QGraphicsItemGroup {
         QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
         QRectF boundingRect()const override;
 
-
     private:
         MainWindow* mainWindow;
         QString nom;
