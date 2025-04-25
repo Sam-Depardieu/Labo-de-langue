@@ -8,44 +8,64 @@ iconEleveGroup::iconEleveGroup(int numero, QString ip, MainWindow* parentWindow)
 }
 
 void iconEleveGroup::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
-    if (mainWindow->parametrageSession && mainWindow->selectionParticipants) {
+    if (mainWindow->parametrageSession) {
+        // Ajouter ou retirer de la liste des participants seulement si sélection active
         auto it = std::find(mainWindow->listeParticipant.begin(), mainWindow->listeParticipant.end(), this);
-
-        if (it == mainWindow->listeParticipant.end()) {
-            // Ajouter l'élément s'il n'est pas présent
-            mainWindow->listeParticipant.push_back(this);
-        } else {
-            // Supprimer l'élément s'il est déjà présent
-            mainWindow->listeParticipant.erase(it);
+        if ((mainWindow->selectionParticipants || mainWindow->selectAllParticipants)) {
+            if (it == mainWindow->listeParticipant.end()) {
+                mainWindow->listeParticipant.push_back(this);
+            } else {
+                mainWindow->listeParticipant.erase(it);
+            }
         }
 
-        // Afficher/Masquer l'icône check
-        if (checkItem) {
+        // Fermer un paramétrage élève actif
+        if (mainWindow->parametrageEleve && mainWindow->eleveActuellementParametre) {
+            mainWindow->closeSettingEleve(mainWindow->eleveActuellementParametre);
+            mainWindow->parametrageEleve = false;
+            mainWindow->eleveActuellementParametre = nullptr;
+        }
+
+        // ✅ Modifier l'état du checkItem uniquement si sélection active
+        if ((mainWindow->selectionParticipants || mainWindow->selectAllParticipants) && checkItem && !mainWindow->runningSession) {
             checkItem->setVisible(!checkItem->isVisible());
         }
     }
-    else if(!mainWindow->selectionParticipants){ //Il faudra une session en cours.
-        if(!mainWindow->parametrageEleve)
-        {
+    else if (mainWindow->runningSession) {
+        if (!mainWindow->parametrageEleve) {
             mainWindow->openSettingEleve(this);
-
             mainWindow->parametrageEleve = true;
-            qDebug() << " IP : " << getIP();
-            mainWindow->listeEditEleve.insert(mainWindow->listeEditEleve.end(), this);
+            mainWindow->eleveActuellementParametre = this;
+            mainWindow->listeEditEleve.push_back(this);
+            qDebug() << "IP : " << getIP();
         }
-        else
-        {
+        else if (mainWindow->eleveActuellementParametre == this) {
             mainWindow->closeSettingEleve(this);
-
             mainWindow->parametrageEleve = false;
+            mainWindow->eleveActuellementParametre = nullptr;
+        }
+        else {
+            mainWindow->closeSettingEleve(mainWindow->eleveActuellementParametre);
+            mainWindow->openSettingEleve(this);
+            mainWindow->eleveActuellementParametre = this;
+        }
+
+        // ✅ Cacher les checkItems si on n'est pas en sélection de participants
+        if (!(mainWindow->selectionParticipants || mainWindow->selectAllParticipants)) {
+            for (auto *eleve : mainWindow->listeParticipant) {
+                if (eleve->getCheckItem()) {
+                    eleve->getCheckItem()->setVisible(false);
+                }
+            }
         }
     }
+    mainWindow->updateCheckItemsVisibility();
+
     QGraphicsItemGroup::mouseDoubleClickEvent(event);
-
-    // 🔹 Remplacez l'IP et les ports pour correspondre à votre réseau
-    // VoiceChat chat(QHostAddress("192.168.88.150"), 12345, 12346);
-
 }
+
+
+
 
 QVariant iconEleveGroup::itemChange(GraphicsItemChange change, const QVariant &value)
 {
