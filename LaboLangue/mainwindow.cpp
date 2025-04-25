@@ -689,6 +689,7 @@ void MainWindow::resetSession()
         scene->clear();
         loadImagesFromDB();
     }
+
 }
 
 

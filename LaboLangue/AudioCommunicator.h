@@ -23,6 +23,7 @@ public:
     void activerSonStudent(const QString& studentIp);
     void desactiverSonStudent(const QString& studentIp);
     void sendCommandToStudent(const QString& studentIp, const QString& command);
+    void fermerCommunications();
     QString getStudentStatus(const QString& studentIp);
 
 public slots:  // Déclaration des slots ici
