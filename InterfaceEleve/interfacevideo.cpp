@@ -15,8 +15,15 @@ InterfaceVideo::InterfaceVideo(QWidget *parent)
     this->setWindowTitle("Page de Video");
 
     player = new QMediaPlayer(this);
-    audioOutput = new QAudioOutput(this);  // Crée un objet QAudioOutput pour gérer l'audio
-    player->setAudioOutput(audioOutput);   // Associe l'objet QAudioOutput au lecteur multimédia
+    audioOutput = new QAudioOutput(this);
+    player->setAudioOutput(audioOutput);
+
+    QVideoWidget *videoWidget = new QVideoWidget(this);
+    ui->widgetVideo->setLayout(new QVBoxLayout());         // widgetVideo doit exister dans .ui
+    ui->widgetVideo->layout()->addWidget(videoWidget);
+    player->setVideoOutput(videoWidget);
+    videoWidget->show();
+
     setFixedSize(800,480);
 
     this->setWindowTitle("Interface Vidéo");
@@ -62,7 +69,7 @@ InterfaceVideo::~InterfaceVideo()
 
 void InterfaceVideo::on_pushButton_SelectVideo_clicked()
 {
-    QString videoPath = "\\\\192.168.64.78\\Activites";  // Chemin réseau de la Raspberry Pi
+    QString videoPath = "\\\\192.168.64.2\\Activites";  // Chemin réseau de la Raspberry Pi
 
     QString fileName = QFileDialog::getOpenFileName(
         this,
