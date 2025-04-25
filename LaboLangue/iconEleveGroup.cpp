@@ -8,7 +8,7 @@ iconEleveGroup::iconEleveGroup(int numero, QString ip, MainWindow* parentWindow)
 }
 
 void iconEleveGroup::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
-    if (mainWindow->parametrageSession) {
+    if (mainWindow->parametrageSession && !mainWindow->runningSession) {
         // Ajouter ou retirer de la liste des participants seulement si sélection active
         auto it = std::find(mainWindow->listeParticipant.begin(), mainWindow->listeParticipant.end(), this);
         if ((mainWindow->selectionParticipants || mainWindow->selectAllParticipants)) {
@@ -27,11 +27,18 @@ void iconEleveGroup::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
         }
 
         // ✅ Modifier l'état du checkItem uniquement si sélection active
-        if ((mainWindow->selectionParticipants || mainWindow->selectAllParticipants) && checkItem && !mainWindow->runningSession) {
+        if ((mainWindow->selectionParticipants || mainWindow->selectAllParticipants) && checkItem) {
             checkItem->setVisible(!checkItem->isVisible());
         }
     }
     else if (mainWindow->runningSession) {
+
+        for (auto *eleve : mainWindow->listeParticipant) {
+            if (eleve->getCheckItem()) {
+                eleve->getCheckItem()->setVisible(false);
+            }
+        }
+
         if (!mainWindow->parametrageEleve) {
             mainWindow->openSettingEleve(this);
             mainWindow->parametrageEleve = true;
@@ -50,16 +57,9 @@ void iconEleveGroup::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
             mainWindow->eleveActuellementParametre = this;
         }
 
-        // ✅ Cacher les checkItems si on n'est pas en sélection de participants
-        if (!(mainWindow->selectionParticipants || mainWindow->selectAllParticipants)) {
-            for (auto *eleve : mainWindow->listeParticipant) {
-                if (eleve->getCheckItem()) {
-                    eleve->getCheckItem()->setVisible(false);
-                }
-            }
-        }
+
+
     }
-    mainWindow->updateCheckItemsVisibility();
 
     QGraphicsItemGroup::mouseDoubleClickEvent(event);
 }

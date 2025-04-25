@@ -226,7 +226,7 @@ void MainWindow::on_SessionButton_clicked()
     ui->ParametrageEleve->setVisible(false);
     parametrageEleve = false;
 
-    parametrageSession = !parametrageSession;
+    parametrageSession = true;
     ui->ParametrageSession->setVisible(!ui->ParametrageSession->isVisible());
     ui->PlanClasse->setVisible(true);
 
@@ -511,7 +511,6 @@ void MainWindow::on_validButton_clicked()
         }
     }
 
-
     // Activation des boutons
     editStatusButton(ui->PlanButton, true);
     editStatusButton(ui->PresenceButton, true);
@@ -529,6 +528,7 @@ void MainWindow::on_validButton_clicked()
     // Mettre à jour l'interface
     selectionParticipants = false;
     selectAllParticipants = false;
+    parametrageSession = false;
     on_echapButton_clicked();
     ui->SessionButton->setText("Session \nen cours");
     ui->delButton->setText("Fin session");
