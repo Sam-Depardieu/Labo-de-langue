@@ -83,9 +83,20 @@ void Student::toggleMute(bool mute) {
 
     if (mute && !isMuted) {
         qDebug() << "Coupure du son du micro.";
+
+        if (audioSource) {
+            audioSource->stop();  // Stopper l'enregistrement
+        }
         isMuted = true;
     } else if (!mute && isMuted) {
         qDebug() << "Reprise du son du micro.";
+        if (audioSource && inputDeviceInfo.isNull() == false) {
+            QAudioFormat format;
+            format.setSampleRate(44100);
+            format.setChannelCount(1);
+            format.setSampleFormat(QAudioFormat::Int16);
+            audioSource->start();
+        }
         isMuted = false;
     }
 }

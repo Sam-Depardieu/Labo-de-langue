@@ -89,6 +89,7 @@ private:
     void setButtonIcons();
     void updateChronoLabel();
     void setButtonIcon(QPushButton *button, const QString &imagePath);
+    bool isTeacher = false; // Flag pour vérifier si l'utilisateur est un professeur
 };
 
 #endif // INTERFACEENREGISTREMENT_H
