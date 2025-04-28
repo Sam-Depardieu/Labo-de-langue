@@ -102,7 +102,6 @@ void Student::toggleMute(bool mute) {
 }
 
 
-
 // Méthode pour envoyer les données audio
 void Student::sendAudioData() {
     qDebug() << "?? Début sendAudioData()";

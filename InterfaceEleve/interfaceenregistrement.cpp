@@ -24,6 +24,21 @@ InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
     audioOutput = new QAudioOutput(this);
     player->setAudioOutput(audioOutput);
     timer = new QTimer(this);
+<<<<<<< HEAD
+
+    connect(timer, &QTimer::timeout, this, &InterfaceEnregistrement::updateChrono);
+    mediaRecorder = new QMediaRecorder(this);
+    audioInput = new QAudioInput(this);
+    captureSession.setAudioInput(audioInput);
+    captureSession.setRecorder(mediaRecorder);
+    QMediaFormat fmt;
+    fmt.setFileFormat(QMediaFormat::FileFormat::Wave);
+    fmt.setAudioCodec(QMediaFormat::AudioCodec::Wave);  // ← fonctionne sur Linux / PulseAudio
+    mediaRecorder->setMediaFormat(fmt);
+
+
+=======
+>>>>>>> 35f1f379b65388db0e555db84616742f6a7a1be7
     rewindTimer = new QTimer(this);
     captureSession.setAudioInput(audioInput);
     captureSession.setRecorder(mediaRecorder);
@@ -86,6 +101,10 @@ void InterfaceEnregistrement::setButtonIcons()
 
 void InterfaceEnregistrement::on_pushButtonSpeak_clicked()
 {
+<<<<<<< HEAD
+
+=======
+>>>>>>> 35f1f379b65388db0e555db84616742f6a7a1be7
     if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState) {
         qWarning() << "L'enregistrement est déjà en cours.";
         return;
@@ -212,7 +231,6 @@ void InterfaceEnregistrement::updateChrono()
     if (isRewinding) {
         return;
     }
-
     totalSecondes++;
     updateChronoLabel();
 }
@@ -290,6 +308,41 @@ void InterfaceEnregistrement::onRecorderErrorOccurred(QMediaRecorder::Error erro
 
 void InterfaceEnregistrement::on_pushButtonEnregistrer_clicked()
 {
+<<<<<<< HEAD
+
+    if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState) {
+        mediaRecorder->stop();
+        qDebug() << "Enregistrement arrêté :" << audioFilePath;
+        return;
+    }
+
+    // Génération du nom : YYYYMMDD_hhmmss_id<studentId>.wav
+    const QString docs = QStandardPaths::writableLocation(
+        QStandardPaths::DocumentsLocation);
+    const QString timestamp = QDateTime::currentDateTime()
+                                  .toString("yyyyMMdd_hhmmss");
+    audioFilePath = QString("%1/%2_id%3.wav")
+                        .arg(docs)
+                        .arg(timestamp)
+                        .arg(studentId);
+
+    if (QFile::exists(audioFilePath))
+        QFile::remove(audioFilePath);
+
+    // --- CORRECTION ICI ---
+    QMediaFormat fmt;
+    fmt.setFileFormat(QMediaFormat::FileFormat::Wave);           // .wav
+    // fmt.setAudioCodec(QMediaFormat::AudioCodec::Wave);        // optionnel
+    mediaRecorder->setMediaFormat(fmt);
+    mediaRecorder->setOutputLocation(QUrl::fromLocalFile(audioFilePath));
+
+    mediaRecorder->record();
+    timer->start(1000);
+    qDebug() << "Enregistrement démarré dans :" << audioFilePath;
+
+
+=======
+>>>>>>> 35f1f379b65388db0e555db84616742f6a7a1be7
     qDebug() << "Bouton Enregistrer cliqué";
     QMediaCaptureSession *session = new QMediaCaptureSession(this);
     QAudioInput *audioInput = new QAudioInput(this);
@@ -301,6 +354,10 @@ void InterfaceEnregistrement::on_pushButtonEnregistrer_clicked()
     recorder->setMediaFormat(format);
     recorder->setOutputLocation(QUrl::fromLocalFile("output.mp3"));
     recorder->record();
+<<<<<<< HEAD
+
+=======
+>>>>>>> 35f1f379b65388db0e555db84616742f6a7a1be7
 }
 
 void InterfaceEnregistrement::showFeedbackDialog()

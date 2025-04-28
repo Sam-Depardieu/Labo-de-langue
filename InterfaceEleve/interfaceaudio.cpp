@@ -80,7 +80,7 @@ void InterfaceAudio::on_pushButton_Pause_clicked()
 }
 void InterfaceAudio::on_pushButton_SelectAudio_clicked()
 {
-    QString videoPath = "\\\\192.168.64.78\\Activites";  // Adresse réseau correcte
+    QString videoPath = "\\\\192.168.64.2\\Activites";  // Adresse réseau correcte
 
     QString fileName = QFileDialog::getOpenFileName(
         this,

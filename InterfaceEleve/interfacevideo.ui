@@ -78,7 +78,7 @@
     <string>Selectionner Video</string>
    </property>
   </widget>
-  <widget class="QWidget" name="verticalLayoutWidget">
+  <widget class="QWidget" name="widgetVideo" native="true">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -130,7 +130,7 @@
   <zorder>pushButton_Pause</zorder>
   <zorder>pushButton_Avant10</zorder>
   <zorder>pushButton_SelectVideo</zorder>
-  <zorder>verticalLayoutWidget</zorder>
+  <zorder>widgetVideo</zorder>
   <zorder>horizontalSlider_sonVideo</zorder>
  </widget>
  <resources/>

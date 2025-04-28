@@ -13,10 +13,13 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QGraphicsView>
+#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QSpinBox>
+#include <QtWidgets/QTableWidget>
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QTimeEdit>
 #include <QtWidgets/QWidget>
@@ -68,7 +71,10 @@ public:
     QLabel *nomGroupeLabel;
     QPushButton *annulerButton;
     QPushButton *creerGroupeButton;
-    QComboBox *ParticipantsComboBox;
+    QLabel *alignerTableau;
+    QPushButton *supprimerGroupeButton;
+    QSpinBox *selectionGroupe;
+    QTableWidget *TableauGroupe;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -315,11 +321,18 @@ public:
         creerGroupeButton = new QPushButton(centralwidget);
         creerGroupeButton->setObjectName("creerGroupeButton");
         creerGroupeButton->setGeometry(QRect(850, 230, 121, 24));
-        ParticipantsComboBox = new QComboBox(centralwidget);
-        ParticipantsComboBox->setObjectName("ParticipantsComboBox");
-        ParticipantsComboBox->setEnabled(true);
-        ParticipantsComboBox->setGeometry(QRect(720, 320, 121, 21));
-        ParticipantsComboBox->setStyleSheet(QString::fromUtf8(""));
+        alignerTableau = new QLabel(centralwidget);
+        alignerTableau->setObjectName("alignerTableau");
+        alignerTableau->setGeometry(QRect(700, 380, 31, 291));
+        supprimerGroupeButton = new QPushButton(centralwidget);
+        supprimerGroupeButton->setObjectName("supprimerGroupeButton");
+        supprimerGroupeButton->setGeometry(QRect(850, 270, 121, 24));
+        selectionGroupe = new QSpinBox(centralwidget);
+        selectionGroupe->setObjectName("selectionGroupe");
+        selectionGroupe->setGeometry(QRect(1000, 270, 42, 25));
+        TableauGroupe = new QTableWidget(centralwidget);
+        TableauGroupe->setObjectName("TableauGroupe");
+        TableauGroupe->setGeometry(QRect(750, 380, 511, 291));
         MainWindow->setCentralWidget(centralwidget);
 
         retranslateUi(MainWindow);
@@ -360,9 +373,11 @@ public:
         desactiverSonButton->setText(QCoreApplication::translate("MainWindow", "Desactiver son", nullptr));
         activerSonButton->setText(QCoreApplication::translate("MainWindow", "Activer son", nullptr));
         nomEleveLabel->setText(QString());
-        nomGroupeLabel->setText(QString());
+        nomGroupeLabel->setText(QCoreApplication::translate("MainWindow", "Poste s\303\251l\303\251ction\303\251 :", nullptr));
         annulerButton->setText(QCoreApplication::translate("MainWindow", "Annuler", nullptr));
         creerGroupeButton->setText(QCoreApplication::translate("MainWindow", "Creer un groupe", nullptr));
+        alignerTableau->setText(QString());
+        supprimerGroupeButton->setText(QCoreApplication::translate("MainWindow", "Supprimer groupe : ", nullptr));
     } // retranslateUi
 
 };

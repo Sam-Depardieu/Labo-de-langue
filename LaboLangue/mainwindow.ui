@@ -744,7 +744,7 @@ border-radius: 10px;</string>
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>Poste séléctioné :</string>
     </property>
    </widget>
    <widget class="QPushButton" name="annulerButton">
@@ -773,20 +773,50 @@ border-radius: 10px;</string>
      <string>Creer un groupe</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="ParticipantsComboBox">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
+   <widget class="QLabel" name="alignerTableau">
     <property name="geometry">
      <rect>
-      <x>720</x>
-      <y>320</y>
-      <width>121</width>
-      <height>21</height>
+      <x>700</x>
+      <y>380</y>
+      <width>31</width>
+      <height>291</height>
      </rect>
     </property>
-    <property name="styleSheet">
-     <string notr="true"/>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="supprimerGroupeButton">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>270</y>
+      <width>121</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Supprimer groupe : </string>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="selectionGroupe">
+    <property name="geometry">
+     <rect>
+      <x>1000</x>
+      <y>270</y>
+      <width>42</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="TableauGroupe">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>380</y>
+      <width>511</width>
+      <height>291</height>
+     </rect>
     </property>
    </widget>
   </widget>

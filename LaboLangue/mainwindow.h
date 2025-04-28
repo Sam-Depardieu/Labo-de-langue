@@ -25,6 +25,7 @@ public:
     std::vector<iconEleveGroup*> listeParticipant = {};
     std::vector<int> listeEleveParticipant = {};
     std::vector<iconEleveGroup*> listeEditEleve = {};
+    iconEleveGroup* eleveActuellementParametre = nullptr;
 
     bool parametrageSession = false;
     bool selectionParticipants = false;
@@ -35,8 +36,11 @@ public:
     void openSettingEleve(iconEleveGroup *group);
     void closeSettingEleve(iconEleveGroup *group);
     QString getSessionFolder() {return sessionFolder;};
+    void updateCheckItemsVisibility();
 
     ~MainWindow();
+
+    int *X = 0;
 
 private slots:
     void on_PlanButton_clicked();
@@ -86,6 +90,8 @@ private:
     QString nomTypeActivite;
     int idClasse = -1;
     int typeActivite;
+
+
 
 
 };
