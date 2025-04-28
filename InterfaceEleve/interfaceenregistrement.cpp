@@ -294,7 +294,6 @@ void InterfaceEnregistrement::on_pushButtonEnregistrer_clicked()
 
     if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState) {
         mediaRecorder->stop();
-        ui->pushButtonEnregistrer->setText("Enregistrer");
         qDebug() << "Enregistrement arrêté :" << audioFilePath;
         return;
     }
@@ -320,7 +319,6 @@ void InterfaceEnregistrement::on_pushButtonEnregistrer_clicked()
     mediaRecorder->setOutputLocation(QUrl::fromLocalFile(audioFilePath));
 
     mediaRecorder->record();
-    ui->pushButtonEnregistrer->setText("Arrêter");
     timer->start(1000);
     qDebug() << "Enregistrement démarré dans :" << audioFilePath;
 
