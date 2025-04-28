@@ -61,7 +61,7 @@ class iconEleveGroup : public QObject, public QGraphicsItemGroup {
         void setMicro(QGraphicsPixmapItem *item) { micro = item; }
         void setSound(QGraphicsPixmapItem *item) { sound = item; }
         void setIDELeve(int ID) { IDEleve=ID; }
-        void setTextItem(const QString &newText) {textItem->setPlainText(newText);};
+        void setTextItem(const QString newText) {textItem->setPlainText(newText);};
 
         QGraphicsTextItem* getTextItem() const {return textItem;};
         QGraphicsPixmapItem* getCheckItem() { return checkItem; }

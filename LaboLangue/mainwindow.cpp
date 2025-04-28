@@ -149,6 +149,7 @@ void MainWindow::loadImagesFromDB()
         // Création du groupe personnalisé
         iconEleveGroup *group = new iconEleveGroup(id, ip, this);
         group->addToGroup(imageItem);
+        group->setTextItem(textItem->toPlainText());
         group->addToGroup(textItem);
         group->setFlag(QGraphicsItem::ItemIsMovable);
 
@@ -810,7 +811,7 @@ void MainWindow::changeNameTable(QTableWidgetItem* item)
         int idParticipant = listeParticipant[item->row()]->getIDEleve(); // Identifiant du participant
 
         // Mettre à jour le nom dans l'objet (listeParticipant)
-        listeParticipant[item->row()]->setTextItem(nouveauNom);
+        //listeParticipant[item->row()]->setTextItem(nouveauNom);
 
         // Préparer la requête de mise à jour
         QSqlQuery query;
@@ -825,6 +826,14 @@ void MainWindow::changeNameTable(QTableWidgetItem* item)
         } else {
             qDebug() << "Mise à jour du nom du participant dans la base de données réussie.";
             // Afficher un message de confirmation si nécessaire
+
+            for (iconEleveGroup* group : listeRasp) {
+                if (group->getIDEleve() == idParticipant) {
+                    // Mise à jour du textItem dans le groupe
+                    group->setTextItem(nouveauNom);  // Met à jour le texte dans l'icône
+                    break;  // Sortir de la boucle une fois le groupe trouvé
+                }
+            }
         }
     }
 }
