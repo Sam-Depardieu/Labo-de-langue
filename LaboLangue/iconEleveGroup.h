@@ -47,23 +47,30 @@ class iconEleveGroup : public QObject, public QGraphicsItemGroup {
         MainWindow* mainWindow;
         QString nom;
         std::vector<iconEleveGroup*> affiliate = {};
-        int numero = 0;
+        int ID = 0;
+        int IDEleve=0;
         QString IP;
         QGraphicsPixmapItem *checkItem = nullptr;
         QGraphicsPixmapItem *micro = nullptr;
         QGraphicsPixmapItem *sound = nullptr;
+        QGraphicsTextItem *textItem = nullptr;
 
     public:
-        iconEleveGroup(int numero, QString ip, MainWindow* parentWindow);
+        iconEleveGroup(int ID, QString ip, MainWindow* parentWindow);
         void setCheckItem(QGraphicsPixmapItem *item) { checkItem = item; }
         void setMicro(QGraphicsPixmapItem *item) { micro = item; }
         void setSound(QGraphicsPixmapItem *item) { sound = item; }
+        void setIDELeve(int ID) { IDEleve=ID; }
+        void setTextItem(const QString newText) {textItem->setPlainText(newText);};
 
+        QGraphicsTextItem* getTextItem() const {return textItem;};
         QGraphicsPixmapItem* getCheckItem() { return checkItem; }
         QGraphicsPixmapItem* getMicro() { return micro; }
         QGraphicsPixmapItem* getSound() { return sound; }
-        int getId() const;
-        QString getIP();
+        int getID() const {return ID;};
+        QString getIP() const {return IP;};
+        QString getNom() const {return nom;};
+        int getIDEleve() const {return IDEleve;};
 
     signals:
         void doubleClicked();

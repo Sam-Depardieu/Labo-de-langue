@@ -149,6 +149,7 @@ void MainWindow::loadImagesFromDB()
         // Création du groupe personnalisé
         iconEleveGroup *group = new iconEleveGroup(id, ip, this);
         group->addToGroup(imageItem);
+        group->setTextItem(textItem->toPlainText());
         group->addToGroup(textItem);
         group->setFlag(QGraphicsItem::ItemIsMovable);
 
@@ -495,7 +496,7 @@ void MainWindow::on_validButton_clicked()
 
     // Insérer les participants
     for (auto participant : listeParticipant) {
-        int idRaspberry = participant->getId();
+        int idRaspberry = participant->getID();
         query.prepare("INSERT INTO SessionEleve (Date_Session, Id_Raspberry, Id_Classe) VALUES (:date, :raspberry, :classe)");
         query.bindValue(":date", QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss"));
         query.bindValue(":raspberry", idRaspberry);
@@ -504,6 +505,9 @@ void MainWindow::on_validButton_clicked()
             qDebug() << "Erreur insertion participant" << idRaspberry << ":" << query.lastError();
         }
         participant->getMicro()->setVisible(true);
+
+        listeEleveParticipant.push_back(query.lastInsertId().toInt());
+        participant->setIDELeve(query.lastInsertId().toInt());
     }
 
     for (auto *eleve : listeRasp) {
@@ -597,7 +601,7 @@ void MainWindow::saveSessionData(bool isNewSession)
 
     QJsonArray participantsArray;
     for (auto participant : listeParticipant) {
-        if (participant) participantsArray.append(participant->getId());
+        if (participant) participantsArray.append(participant->getID());
     }
     sessionConfig["participants"] = participantsArray;
 
@@ -758,6 +762,81 @@ void MainWindow::on_annulerButton_clicked()
 
 void MainWindow::on_creerGroupeButton_clicked()
 {
-    qDebug() << "actualisation du tableau";
-    QTableWidget TableauGroupe(12, 3, this);
+    qDebug() << "Actualisation du tableau";
+
+    // Crée une table de 12 lignes et 4 colonnes
+    ui->TableauGroupe->setColumnCount(4);
+    ui->TableauGroupe->setRowCount(12);
+    QTableWidget* TableauGroupe = ui->TableauGroupe;
+
+    // Ajouter des en-têtes pour les colonnes
+    TableauGroupe->setHorizontalHeaderLabels({"Nom", "Numéro de poste", "Adresse IP", "Ajoutez au groupe :"});
+    TableauGroupe->setColumnWidth(1, 110);
+    TableauGroupe->setColumnWidth(2, 130);
+    TableauGroupe->setColumnWidth(3, 140);
+
+    // Remplir les cellules avec des données
+    for (unsigned int row = 0; row < listeParticipant.size(); ++row) {
+        // Par exemple, on met des valeurs génériques comme "Donnée 1", "Donnée 2", etc.
+        TableauGroupe->setItem(row, 0, new QTableWidgetItem(listeParticipant[row]->getNom()));
+
+        QTableWidgetItem *itemID = new QTableWidgetItem(QString::number(listeParticipant[row]->getID()));
+        itemID->setFlags(itemID->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
+        TableauGroupe->setItem(row, 1, itemID);
+
+        QTableWidgetItem *itemIP = new QTableWidgetItem(listeParticipant[row]->getIP());
+        itemIP->setFlags(itemIP->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
+        TableauGroupe->setItem(row, 2, itemIP);
+
+    }
+    connect(TableauGroupe, &QTableWidget::itemChanged, this, &MainWindow::changeNameTable);
+
+
+    // Afficher le tableau
+    TableauGroupe->show();
 }
+
+void MainWindow::changeNameTable(QTableWidgetItem* item)
+{
+    // Vérifier si la modification a eu lieu dans la colonne 0 (celle du nom)
+    if (item->column() == 0) {
+        QString nouveauNom = item->text();  // La nouvelle valeur de la cellule
+
+        if (nouveauNom.isEmpty()) {
+            qWarning() << "Le nom ne peut pas être vide.";
+            return;  // Si le nom est vide, on arrête la fonction
+        }
+
+        // Récupérer l'ID de l'élève
+        int idParticipant = listeParticipant[item->row()]->getIDEleve(); // Identifiant du participant
+
+        // Mettre à jour le nom dans l'objet (listeParticipant)
+        //listeParticipant[item->row()]->setTextItem(nouveauNom);
+
+        // Préparer la requête de mise à jour
+        QSqlQuery query;
+        query.prepare("UPDATE sessioneleve SET Nom = :nom WHERE Id_eleve = :id");
+        query.bindValue(":nom", nouveauNom);
+        query.bindValue(":id", idParticipant);
+
+        // Exécuter la requête
+        if (!query.exec()) {
+            qDebug() << "Erreur de mise à jour dans la base de données : " << query.lastError();
+            // Afficher un message d'erreur à l'utilisateur si nécessaire
+        } else {
+            qDebug() << "Mise à jour du nom du participant dans la base de données réussie.";
+            // Afficher un message de confirmation si nécessaire
+
+            for (iconEleveGroup* group : listeRasp) {
+                if (group->getIDEleve() == idParticipant) {
+                    // Mise à jour du textItem dans le groupe
+                    group->setTextItem(nouveauNom);  // Met à jour le texte dans l'icône
+                    break;  // Sortir de la boucle une fois le groupe trouvé
+                }
+            }
+        }
+    }
+}
+
+
+
