@@ -24,8 +24,6 @@ InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
     audioOutput = new QAudioOutput(this);
     player->setAudioOutput(audioOutput);
     timer = new QTimer(this);
-<<<<<<< HEAD
-
     connect(timer, &QTimer::timeout, this, &InterfaceEnregistrement::updateChrono);
     mediaRecorder = new QMediaRecorder(this);
     audioInput = new QAudioInput(this);
@@ -36,14 +34,9 @@ InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
     fmt.setAudioCodec(QMediaFormat::AudioCodec::Wave);  // ← fonctionne sur Linux / PulseAudio
     mediaRecorder->setMediaFormat(fmt);
 
-
-=======
->>>>>>> 35f1f379b65388db0e555db84616742f6a7a1be7
     rewindTimer = new QTimer(this);
     captureSession.setAudioInput(audioInput);
     captureSession.setRecorder(mediaRecorder);
-
-    connect(timer, &QTimer::timeout, this, &InterfaceEnregistrement::updateChrono);
     connect(rewindTimer, &QTimer::timeout, this, &InterfaceEnregistrement::rewindChrono);
     connect(mediaRecorder, &QMediaRecorder::recorderStateChanged, this, &InterfaceEnregistrement::onRecorderStateChanged);
     connect(mediaRecorder, &QMediaRecorder::errorOccurred, this, &InterfaceEnregistrement::onRecorderErrorOccurred);
@@ -101,10 +94,6 @@ void InterfaceEnregistrement::setButtonIcons()
 
 void InterfaceEnregistrement::on_pushButtonSpeak_clicked()
 {
-<<<<<<< HEAD
-
-=======
->>>>>>> 35f1f379b65388db0e555db84616742f6a7a1be7
     if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState) {
         qWarning() << "L'enregistrement est déjà en cours.";
         return;
@@ -308,56 +297,36 @@ void InterfaceEnregistrement::onRecorderErrorOccurred(QMediaRecorder::Error erro
 
 void InterfaceEnregistrement::on_pushButtonEnregistrer_clicked()
 {
-<<<<<<< HEAD
 
-    if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState) {
-        mediaRecorder->stop();
-        qDebug() << "Enregistrement arrêté :" << audioFilePath;
-        return;
-    }
 
     // Génération du nom : YYYYMMDD_hhmmss_id<studentId>.wav
-    const QString docs = QStandardPaths::writableLocation(
-        QStandardPaths::DocumentsLocation);
-    const QString timestamp = QDateTime::currentDateTime()
-                                  .toString("yyyyMMdd_hhmmss");
-    audioFilePath = QString("%1/%2_id%3.wav")
-                        .arg(docs)
-                        .arg(timestamp)
-                        .arg(studentId);
+    const QString docs = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+    const QString timestamp = QDateTime::currentDateTime().toString("yyyyMMdd_hhmmss");
+    audioFilePath = QString("%1/%2_id%3.wav").arg(docs).arg(timestamp).arg(studentId);
 
     if (QFile::exists(audioFilePath))
         QFile::remove(audioFilePath);
 
-    // --- CORRECTION ICI ---
     QMediaFormat fmt;
-    fmt.setFileFormat(QMediaFormat::FileFormat::Wave);           // .wav
-    // fmt.setAudioCodec(QMediaFormat::AudioCodec::Wave);        // optionnel
+    fmt.setFileFormat(QMediaFormat::FileFormat::Wave); // .wav
     mediaRecorder->setMediaFormat(fmt);
     mediaRecorder->setOutputLocation(QUrl::fromLocalFile(audioFilePath));
 
+    totalSecondes = 0;
+    ui->labelChrono->setText("00:00:00");
+
     mediaRecorder->record();
-    timer->start(1000);
+    timer->start(1000); // Timer = mise à jour du chrono toutes les secondes
+
     qDebug() << "Enregistrement démarré dans :" << audioFilePath;
 
+    if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState) {
+        mediaRecorder->stop();
+        timer->stop(); // Stopper le timer aussi
+        qDebug() << "Enregistrement arrêté :" << audioFilePath;
+        return;
+    }
 
-=======
->>>>>>> 35f1f379b65388db0e555db84616742f6a7a1be7
-    qDebug() << "Bouton Enregistrer cliqué";
-    QMediaCaptureSession *session = new QMediaCaptureSession(this);
-    QAudioInput *audioInput = new QAudioInput(this);
-    QMediaRecorder *recorder = new QMediaRecorder(this);
-    session->setAudioInput(audioInput);
-    session->setRecorder(recorder);
-    QMediaFormat format;
-    format.setFileFormat(QMediaFormat::Mpeg4Audio);
-    recorder->setMediaFormat(format);
-    recorder->setOutputLocation(QUrl::fromLocalFile("output.mp3"));
-    recorder->record();
-<<<<<<< HEAD
-
-=======
->>>>>>> 35f1f379b65388db0e555db84616742f6a7a1be7
 }
 
 void InterfaceEnregistrement::showFeedbackDialog()
