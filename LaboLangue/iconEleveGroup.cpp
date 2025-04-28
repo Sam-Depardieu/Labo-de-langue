@@ -3,7 +3,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
 
-iconEleveGroup::iconEleveGroup(int numero, QString ip, MainWindow* parentWindow) : QGraphicsItemGroup(), numero(numero), IP(ip), mainWindow(parentWindow) {
+iconEleveGroup::iconEleveGroup(int ID, QString ip, MainWindow* parentWindow) : QGraphicsItemGroup(), ID(ID), IP(ip), nom(QString::number(ID)), mainWindow(parentWindow) {
     setFlag(QGraphicsItem::ItemSendsGeometryChanges);
 }
 
@@ -99,7 +99,7 @@ QVariant iconEleveGroup::itemChange(GraphicsItemChange change, const QVariant &v
         query.prepare("UPDATE Raspberry SET X = :x, Y = :y WHERE Id_Raspberry = :numPoste");
         query.bindValue(":x", newPos.x());
         query.bindValue(":y", newPos.y());
-        query.bindValue(":numPoste", numero);  // Utiliser l'identifiant de la poste
+        query.bindValue(":numPoste", ID);  // Utiliser l'identifiant de la poste
         if (!query.exec()) {
             qDebug() << "Erreur lors de la mise à jour de la position :" << query.lastError();
         }
@@ -115,13 +115,4 @@ QRectF iconEleveGroup::boundingRect() const
 {
     QRectF rect = childrenBoundingRect();
     return rect;
-}
-
-int iconEleveGroup::getId() const{
-    return numero;
-}
-
-QString iconEleveGroup::getIP()
-{
-    return IP;
 }

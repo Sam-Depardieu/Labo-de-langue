@@ -132,7 +132,7 @@ void Professor::sendAudioData() {
     qDebug() << "?? Début sendAudioData()";
 
     if (!audioSourceDevice) {
-        qDebug() << "❌ Erreur: audioSourceDevice est NULL!";
+        //qDebug() << "❌ Erreur: audioSourceDevice est NULL!";
         return;
     }
 
@@ -140,12 +140,12 @@ void Professor::sendAudioData() {
     qDebug() << "🔹 Audio lu, taille :" << data.size();
 
     if (data.isEmpty()) {
-        qDebug() << "⚠️ Aucune donnée audio à envoyer";
+        //qDebug() << "⚠️ Aucune donnée audio à envoyer";
         return;
     }
 
     if (!pushSocket) {
-        qDebug() << "❌ Erreur: pushSocket est NULL!";
+        //qDebug() << "❌ Erreur: pushSocket est NULL!";
         return;
     }
 

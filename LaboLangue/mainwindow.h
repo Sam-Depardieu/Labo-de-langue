@@ -65,6 +65,7 @@ private slots:
     void resetSession();
     void on_loadSession_clicked();
     void on_CreationButton_clicked();
+    void changeNameTable(QTableWidgetItem* item);
 
     // Bouton de ParametrageEleve
     void on_muteButton_clicked();
