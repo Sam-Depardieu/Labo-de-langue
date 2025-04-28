@@ -26,7 +26,7 @@ private slots:
 
     void on_pushButtonEffacerReponse_clicked();
 
-    void on_pushButtonEnregistrer_clicked();
+    //void on_pushButtonEnregistrer_clicked();
 
     void on_pushButtonQuestionSuivante_clicked();
 
