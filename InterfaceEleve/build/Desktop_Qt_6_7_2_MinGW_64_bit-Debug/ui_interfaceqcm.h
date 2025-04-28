@@ -29,7 +29,6 @@ public:
     QPushButton *pushButtonQuestionPrecedente;
     QPushButton *pushButton;
     QPushButton *pushButtonSon;
-    QPushButton *pushButtonEnregistrer;
     QLabel *labelQuestion;
 
     void setupUi(QDialog *InterfaceQCM)
@@ -78,11 +77,6 @@ public:
         pushButtonSon->setAutoFillBackground(false);
         pushButtonSon->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
 "    border: none;"));
-        pushButtonEnregistrer = new QPushButton(InterfaceQCM);
-        pushButtonEnregistrer->setObjectName("pushButtonEnregistrer");
-        pushButtonEnregistrer->setGeometry(QRect(130, 405, 70, 70));
-        pushButtonEnregistrer->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
-"    border: none;"));
         labelQuestion = new QLabel(InterfaceQCM);
         labelQuestion->setObjectName("labelQuestion");
         labelQuestion->setGeometry(QRect(20, 90, 771, 71));
@@ -91,7 +85,6 @@ public:
         pushButton2->raise();
         pushButton3->raise();
         pushButtonSon->raise();
-        pushButtonEnregistrer->raise();
         pushButton->raise();
         pushButtonQuestionSuivante->raise();
         pushButtonQuestionPrecedente->raise();
@@ -115,7 +108,6 @@ public:
         pushButtonQuestionPrecedente->setText(QString());
         pushButton->setText(QCoreApplication::translate("InterfaceQCM", "Bienvenue sur l'interface de Question \303\240 choix multiple", nullptr));
         pushButtonSon->setText(QString());
-        pushButtonEnregistrer->setText(QString());
         labelQuestion->setText(QCoreApplication::translate("InterfaceQCM", "Question n\302\260", nullptr));
     } // retranslateUi
 
