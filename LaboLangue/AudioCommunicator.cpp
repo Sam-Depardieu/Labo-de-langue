@@ -78,10 +78,12 @@ Professor::Professor(QObject *parent) : QObject(parent), context(1) {
     // Lancement des timers
     sendAudioTimer.start(100);  // Intervalle en millisecondes
     receiveAudioTimer.start(100);
+
+    sendCommandToStudent("192.168.64.113", "mute");
 }
 
 void Professor::sendCommandToStudent(const QString& studentIp, const QString& command) {
-    QString fullCommand = command + " " + "192.168.64.75";
+    QString fullCommand = command + " " + "192.168.64.113";
     QByteArray datagram = fullCommand.toUtf8();
 
     QHostAddress studentAddress(studentIp);

@@ -3,7 +3,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
 
-iconEleveGroup::iconEleveGroup(int ID, QString ip, MainWindow* parentWindow) : QGraphicsItemGroup(), ID(ID), IP(ip), nom(QString::number(ID)), mainWindow(parentWindow) {
+iconEleveGroup::iconEleveGroup(int ID, QString ip, QGraphicsTextItem* text, MainWindow* parentWindow) : QGraphicsItemGroup(), ID(ID), IP(ip), nom(QString::number(ID)), textItem(text), mainWindow(parentWindow) {
     setFlag(QGraphicsItem::ItemSendsGeometryChanges);
 }
 

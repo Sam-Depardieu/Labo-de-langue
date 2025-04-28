@@ -147,9 +147,8 @@ void MainWindow::loadImagesFromDB()
         textItem->setPos(18, personPixmap.height());
 
         // Création du groupe personnalisé
-        iconEleveGroup *group = new iconEleveGroup(id, ip, this);
+        iconEleveGroup *group = new iconEleveGroup(id, ip, textItem, this);
         group->addToGroup(imageItem);
-        group->setTextItem(textItem->toPlainText());
         group->addToGroup(textItem);
         group->setFlag(QGraphicsItem::ItemIsMovable);
 
@@ -801,6 +800,7 @@ void MainWindow::changeNameTable(QTableWidgetItem* item)
     // Vérifier si la modification a eu lieu dans la colonne 0 (celle du nom)
     if (item->column() == 0) {
         QString nouveauNom = item->text();  // La nouvelle valeur de la cellule
+        item->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
 
         if (nouveauNom.isEmpty()) {
             qWarning() << "Le nom ne peut pas être vide.";
@@ -809,9 +809,6 @@ void MainWindow::changeNameTable(QTableWidgetItem* item)
 
         // Récupérer l'ID de l'élève
         int idParticipant = listeParticipant[item->row()]->getIDEleve(); // Identifiant du participant
-
-        // Mettre à jour le nom dans l'objet (listeParticipant)
-        //listeParticipant[item->row()]->setTextItem(nouveauNom);
 
         // Préparer la requête de mise à jour
         QSqlQuery query;

@@ -56,7 +56,7 @@ class iconEleveGroup : public QObject, public QGraphicsItemGroup {
         QGraphicsTextItem *textItem = nullptr;
 
     public:
-        iconEleveGroup(int ID, QString ip, MainWindow* parentWindow);
+        iconEleveGroup(int ID, QString ip, QGraphicsTextItem* text, MainWindow* parentWindow);
         void setCheckItem(QGraphicsPixmapItem *item) { checkItem = item; }
         void setMicro(QGraphicsPixmapItem *item) { micro = item; }
         void setSound(QGraphicsPixmapItem *item) { sound = item; }
