@@ -721,25 +721,12 @@ border-radius: 10px;</string>
      <string>Activer son</string>
     </property>
    </widget>
-   <widget class="QLabel" name="nomEleveLabel">
-    <property name="geometry">
-     <rect>
-      <x>1000</x>
-      <y>90</y>
-      <width>261</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
    <widget class="QLabel" name="nomGroupeLabel">
     <property name="geometry">
      <rect>
       <x>680</x>
       <y>90</y>
-      <width>291</width>
+      <width>101</width>
       <height>41</height>
      </rect>
     </property>
@@ -815,6 +802,55 @@ border-radius: 10px;</string>
       <x>750</x>
       <y>380</y>
       <width>511</width>
+      <height>291</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="nomEleveLineEdit">
+    <property name="geometry">
+     <rect>
+      <x>800</x>
+      <y>90</y>
+      <width>281</width>
+      <height>41</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="creerMessage">
+    <property name="geometry">
+     <rect>
+      <x>1110</x>
+      <y>90</y>
+      <width>161</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Creer un message</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="envoyerMessage">
+    <property name="geometry">
+     <rect>
+      <x>1100</x>
+      <y>510</y>
+      <width>161</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Envoyer le message</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="envoyerMessageTextEdit">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>380</y>
+      <width>331</width>
       <height>291</height>
      </rect>
     </property>

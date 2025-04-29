@@ -50,13 +50,17 @@ MainWindow::MainWindow(QWidget *parent)
     layoutParametrageEleve->setContentsMargins(8, 8, 15, 8);
     layoutParametrageEleve->setAlignment(Qt::AlignCenter | Qt::AlignTop);
     // Ajout des sections dans le layoutParametrageEleve
-    addHorizontalLayout(layoutParametrageEleve, ui->nomGroupeLabel, ui->nomEleveLabel);
+    addHorizontalLayout(layoutParametrageEleve, ui->nomGroupeLabel, ui->nomEleveLineEdit, ui->creerMessage);
     addHorizontalLayout(layoutParametrageEleve, ui->muteButton, ui->demuteButton);
     addHorizontalLayout(layoutParametrageEleve, ui->desactiverSonButton, ui->activerSonButton);
     addHorizontalLayout(layoutParametrageEleve, ui->creerGroupeButton, ui->annulerButton);
     addHorizontalLayout(layoutParametrageEleve, ui->supprimerGroupeButton, ui->selectionGroupe);
     addHorizontalLayout(layoutParametrageEleve, ui->alignerTableau, ui->TableauGroupe);
+    addHorizontalLayout(layoutParametrageEleve, ui->envoyerMessageTextEdit, ui->envoyerMessage);
     layoutParametrageEleve->addSpacing(10);
+    ui->envoyerMessage->setVisible(false);
+    ui->envoyerMessageTextEdit->setVisible(false);
+    ui->TableauGroupe->setVisible(false);
     // Appliquez le layout à ParametrageEleve
     ui->ParametrageEleve->setLayout(layoutParametrageEleve);
 
@@ -423,7 +427,7 @@ bool MainWindow::connectToDatabase() {
     }
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("127.0.0.1");
+    db.setHostName("192.168.89.42");
     db.setDatabaseName("LaboLangue");
     db.setPort(3306);
     db.setUserName("prof"); // Remplacez par votre nom d'utilisateur
@@ -817,10 +821,14 @@ void MainWindow::on_annulerButton_clicked()
 
 void MainWindow::on_creerGroupeButton_clicked()
 {
+    ui->envoyerMessage->setVisible(false);
+    ui->envoyerMessageTextEdit->setVisible(false);
+    ui->TableauGroupe->setVisible(true);
     qDebug() << "Actualisation du tableau";
 
     // Crée une table de 12 lignes et 4 colonnes
     ui->TableauGroupe->setColumnCount(4);
+
     ui->TableauGroupe->setRowCount(12);
     QTableWidget* TableauGroupe = ui->TableauGroupe;
 
@@ -833,20 +841,33 @@ void MainWindow::on_creerGroupeButton_clicked()
     // Remplir les cellules avec des données
     for (unsigned int row = 0; row < listeParticipant.size(); ++row) {
         // Par exemple, on met des valeurs génériques comme "Donnée 1", "Donnée 2", etc.
-        TableauGroupe->setItem(row, 0, new QTableWidgetItem(listeParticipant[row]->getNom()));
+        QTableWidgetItem *itemNom = new QTableWidgetItem(listeParticipant[row]->getNom());
+        itemNom->setTextAlignment(Qt::AlignCenter);
+        TableauGroupe->setItem(row, 0, itemNom);
+
 
         QTableWidgetItem *itemID = new QTableWidgetItem(QString::number(listeParticipant[row]->getID()));
+        itemID->setTextAlignment(Qt::AlignCenter);
         itemID->setFlags(itemID->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
         TableauGroupe->setItem(row, 1, itemID);
 
         QTableWidgetItem *itemIP = new QTableWidgetItem(listeParticipant[row]->getIP());
+        itemIP->setTextAlignment(Qt::AlignCenter);
         itemIP->setFlags(itemIP->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
         TableauGroupe->setItem(row, 2, itemIP);
 
     }
     connect(TableauGroupe, &QTableWidget::itemChanged, this, &MainWindow::changeNameTable);
 
-
     // Afficher le tableau
     TableauGroupe->show();
 }
+
+void MainWindow::on_creerMessage_clicked()
+{
+    ui->envoyerMessage->setVisible(true);
+    ui->envoyerMessageTextEdit->setVisible(true);
+    ui->TableauGroupe->setVisible(false);
+
+}
+

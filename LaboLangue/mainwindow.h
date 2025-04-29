@@ -75,6 +75,8 @@ private slots:
     void on_creerGroupeButton_clicked();
     void on_annulerButton_clicked();
 
+    void on_creerMessage_clicked();
+
 private:
     Ui::MainWindow *ui;
     QGraphicsScene *scene;
