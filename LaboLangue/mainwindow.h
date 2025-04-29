@@ -32,6 +32,7 @@ public:
     bool selectAllParticipants = false;
     bool parametrageEleve = false;
     bool runningSession = false;
+    bool interfaceQCMOpen = false;
 
     void openSettingEleve(iconEleveGroup *group);
     void closeSettingEleve(iconEleveGroup *group);

@@ -425,5 +425,5 @@ void QCM::saveQuestions()
 QCM::~QCM()
 {
     delete ui;
-
+    mainWindow->interfaceQCMOpen = false;
 }
