@@ -82,6 +82,14 @@ Pour toute question, veuillez contacter :
 
 ---
 
+## Informations complémentaires
+Les ports réseaux suivant seront utilisé :  
+- ``5557`` : envoie des commandes de l'interface prof->eleve et vice versa
+- ``5558`` : envoie des consignes de la session en cours
+- ``5559`` : envoie des commentaire/message aux interfaces élève
+
+---
+
 # Mise en Place et Installation
 
 Installer MSYS2 (si ce n'est pas encore fait)

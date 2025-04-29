@@ -4,7 +4,6 @@
 #include <QAudioSink>
 #include <QHostAddress>
 #include <QThread>
-#include "qscrollbar.h"
 
 Professor::Professor(QObject *parent) : QObject(parent), context(1) {
     QAudioFormat format;
@@ -80,7 +79,7 @@ Professor::Professor(QObject *parent) : QObject(parent), context(1) {
     sendAudioTimer.start(100);  // Intervalle en millisecondes
     receiveAudioTimer.start(100);
 
-    sendCommandToStudent("192.168.64.113", "mute");
+    //sendCommandToStudent("192.168.64.113", "mute");
 }
 
 void Professor::sendCommandToStudent(const QString& studentIp, const QString& command) {
@@ -195,6 +194,7 @@ void Professor::receiveAudioData() {
 
             receiveAudioTimer.stop();  // Stoppe définitivement les tentatives
         }
+        //qDebug() << "⚠️ audioSinkDevice non initialisé";
         return;
     }
 

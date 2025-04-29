@@ -77,18 +77,21 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+// Ouverture page paramétrage Eleve
 void MainWindow::openSettingEleve(iconEleveGroup *group)
 {
     ui->ParametrageSession->setVisible(false);
-
     parametrageEleve = true;
-    ui->ParametrageEleve->setVisible(true);
+    ui->ParametrageEleve->setVisible(true);;
+
+    ui->nomEleveLineEdit->setText(QString(group->getNom()));
+
 }
 
+// Fermeture page paramétrage Eleve
 void MainWindow::closeSettingEleve(iconEleveGroup *group)
 {
     ui->ParametrageSession->setVisible(false);
-
     parametrageEleve = false;
     ui->ParametrageEleve->setVisible(false);
 }
