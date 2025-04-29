@@ -134,7 +134,18 @@ void Professor::sendAudioData() {
     //qDebug() << "?? Début sendAudioData()";
 
     if (!audioSourceDevice) {
-        //qDebug() << "❌ Erreur: audioSourceDevice est NULL!";
+        if(!microError)
+        {
+            microError = true;
+            QMessageBox::critical(
+                nullptr,
+                "Microphone non détecté",
+                "❌ Aucun microphone n'a été détecté.\n"
+                "La communication audio avec les élèves est impossible.\n\n"
+                "Veuillez connecter un microphone et redémarrer l'application."
+                );
+            sendAudioTimer.stop();
+        }
         return;
     }
 
@@ -170,6 +181,19 @@ void Professor::receiveAudioData() {
     }
 
     if (!audioSinkDevice) {
+        if (!audioError) {
+            audioError = true;
+
+            QMessageBox::critical(
+                nullptr,
+                "Haut-parleur non détecté",
+                "❌ Aucun haut-parleur n'a été détecté.\n"
+                   "La réception audio depuis les élèves est impossible.\n\n"
+                   "Veuillez connecter un périphérique de sortie audio et redémarrer l'application."
+                );
+
+            receiveAudioTimer.stop();  // Stoppe définitivement les tentatives
+        }
         //qDebug() << "⚠️ audioSinkDevice non initialisé";
         return;
     }
@@ -178,11 +202,6 @@ void Professor::receiveAudioData() {
     zmq::recv_result_t result = pullSocket->recv(message, zmq::recv_flags::dontwait); // Réception non bloquante
 
     if (!result) {
-        if (zmq_errno() != EAGAIN) {  // Ignorer l'erreur si aucune donnée n'est dispo
-            //qDebug() << "❌ Erreur zmq_recv:"  ;// << zmq_strerror(zmq_errno());
-        } else {
-            //qDebug() << "⚠️ Pas de données audio disponibles";
-        }
         return;
     }
 
