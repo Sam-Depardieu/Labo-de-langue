@@ -285,6 +285,7 @@ void MainWindow::changeNameTable(QTableWidgetItem* item)
                 if (group->getIDEleve() == idParticipant) {
                     // Mise à jour du textItem dans le groupe
                     group->setTextItem(nouveauNom);  // Met à jour le texte dans l'icône
+                    group->setNom(nouveauNom);
                     break;  // Sortir de la boucle une fois le groupe trouvé
                 }
             }
