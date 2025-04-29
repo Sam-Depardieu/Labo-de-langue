@@ -66,6 +66,8 @@ private slots:
     void on_loadSession_clicked();
     void on_CreationButton_clicked();
     void changeNameTable(QTableWidgetItem* item);
+    void changeNameGroup(iconEleveGroup *group, QString newName);
+    void loadInformationTable();
 
     // Bouton de ParametrageEleve
     void on_muteButton_clicked();
@@ -74,8 +76,8 @@ private slots:
     void on_activerSonButton_clicked();
     void on_creerGroupeButton_clicked();
     void on_annulerButton_clicked();
-
     void on_creerMessage_clicked();
+    void on_nomEleveLineEdit_editingFinished();
 
 private:
     Ui::MainWindow *ui;
@@ -92,7 +94,7 @@ private:
     int idClasse = -1;
     int typeActivite;
 
-
+    QTableWidget* TableauGroupe ;
 
 
 };

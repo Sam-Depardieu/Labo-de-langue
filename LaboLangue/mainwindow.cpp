@@ -292,6 +292,28 @@ void MainWindow::changeNameTable(QTableWidgetItem* item)
     }
 }
 
+
+void MainWindow::changeNameGroup(iconEleveGroup *group, QString newName)
+{
+    // Préparer la requête de mise à jour
+    QSqlQuery query;
+    query.prepare("UPDATE sessioneleve SET Nom = :nom WHERE Id_eleve = :id");
+    query.bindValue(":id", group->getID());
+    query.bindValue(":nom", newName);
+
+    // Exécuter la requête
+    if (!query.exec()) {
+        qDebug() << "Erreur de mise à jour dans la base de données : " << query.lastError();
+        // Afficher un message d'erreur à l'utilisateur si nécessaire
+    } else {
+        qDebug() << "Mise à jour du nom du participant dans la base de données réussie.";
+        // Afficher un message de confirmation si nécessaire
+    }
+    group->setTextItem(newName);
+    eleveActuellementParametre->setNom(newName);
+    loadInformationTable();
+}
+
 /**
  * Fonctions lié aux icons de raspberry (icons)
  * @brief MainWindow::loadImagesFromDB
@@ -821,19 +843,13 @@ void MainWindow::on_annulerButton_clicked()
     ui->ParametrageEleve->setVisible(false);
 }
 
-
-void MainWindow::on_creerGroupeButton_clicked()
+void MainWindow::loadInformationTable()
 {
-    ui->envoyerMessage->setVisible(false);
-    ui->envoyerMessageTextEdit->setVisible(false);
-    ui->TableauGroupe->setVisible(true);
-    qDebug() << "Actualisation du tableau";
-
     // Crée une table de 12 lignes et 4 colonnes
     ui->TableauGroupe->setColumnCount(4);
 
     ui->TableauGroupe->setRowCount(12);
-    QTableWidget* TableauGroupe = ui->TableauGroupe;
+    TableauGroupe = ui->TableauGroupe;
 
     // Ajouter des en-têtes pour les colonnes
     TableauGroupe->setHorizontalHeaderLabels({"Nom", "Numéro de poste", "Adresse IP", "Ajoutez au groupe :"});
@@ -844,7 +860,13 @@ void MainWindow::on_creerGroupeButton_clicked()
     // Remplir les cellules avec des données
     for (unsigned int row = 0; row < listeParticipant.size(); ++row) {
         // Par exemple, on met des valeurs génériques comme "Donnée 1", "Donnée 2", etc.
-        QTableWidgetItem *itemNom = new QTableWidgetItem(listeParticipant[row]->getNom());
+
+        QTableWidgetItem *itemNom ;
+        if(listeParticipant[row] == eleveActuellementParametre)
+        {
+            itemNom = new QTableWidgetItem(eleveActuellementParametre->getNom());
+        }
+        else itemNom = new QTableWidgetItem(listeParticipant[row]->getNom());
         itemNom->setTextAlignment(Qt::AlignCenter);
         TableauGroupe->setItem(row, 0, itemNom);
 
@@ -863,6 +885,18 @@ void MainWindow::on_creerGroupeButton_clicked()
     connect(TableauGroupe, &QTableWidget::itemChanged, this, &MainWindow::changeNameTable);
 
     // Afficher le tableau
+
+}
+
+void MainWindow::on_creerGroupeButton_clicked()
+{
+    ui->envoyerMessage->setVisible(false);
+    ui->envoyerMessageTextEdit->setVisible(false);
+    ui->TableauGroupe->setVisible(true);
+    qDebug() << "Actualisation du tableau";
+
+    loadInformationTable();
+
     TableauGroupe->show();
 }
 
@@ -872,5 +906,10 @@ void MainWindow::on_creerMessage_clicked()
     ui->envoyerMessageTextEdit->setVisible(true);
     ui->TableauGroupe->setVisible(false);
 
+}
+
+void MainWindow::on_nomEleveLineEdit_editingFinished()
+{
+    changeNameGroup(eleveActuellementParametre, ui->nomEleveLineEdit->text());
 }
 
