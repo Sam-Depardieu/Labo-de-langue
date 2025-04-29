@@ -79,7 +79,7 @@ Professor::Professor(QObject *parent) : QObject(parent), context(1) {
     sendAudioTimer.start(100);  // Intervalle en millisecondes
     receiveAudioTimer.start(100);
 
-    sendCommandToStudent("192.168.64.113", "mute");
+    //sendCommandToStudent("192.168.64.113", "mute");
 }
 
 void Professor::sendCommandToStudent(const QString& studentIp, const QString& command) {
@@ -131,7 +131,7 @@ QString Professor::getStudentStatus(const QString& studentIp) {
 
 // Méthode pour envoyer les données audio
 void Professor::sendAudioData() {
-    qDebug() << "?? Début sendAudioData()";
+    //qDebug() << "?? Début sendAudioData()";
 
     if (!audioSourceDevice) {
         //qDebug() << "❌ Erreur: audioSourceDevice est NULL!";
@@ -139,7 +139,7 @@ void Professor::sendAudioData() {
     }
 
     QByteArray data = audioSourceDevice->readAll();
-    qDebug() << "🔹 Audio lu, taille :" << data.size();
+    //qDebug() << "🔹 Audio lu, taille :" << data.size();
 
     if (data.isEmpty()) {
         //qDebug() << "⚠️ Aucune donnée audio à envoyer";
@@ -154,23 +154,23 @@ void Professor::sendAudioData() {
     try {
         zmq::message_t message(data.constData(), data.size());
         pushSocket->send(message, zmq::send_flags::none);
-        qDebug() << "🗣️ Professeur parle, taille des données envoyées:" << data.size();
+        //qDebug() << "🗣️ Professeur parle, taille des données envoyées:" << data.size();
     } catch (const std::runtime_error &e) {
-        qDebug() << "❌ Erreur lors de l'envoi des données audio:" << e.what();
+        //qDebug() << "❌ Erreur lors de l'envoi des données audio:" << e.what();
     }
 }
 
 // Fonction pour recevoir l'audio des étudiants
 void Professor::receiveAudioData() {
-    qDebug() << "🔹 Début receiveAudioData()";
+    //qDebug() << "🔹 Début receiveAudioData()";
 
     if (!pullSocket) {
-        qDebug() << "⚠️ pullSocket non initialisé";
+        //qDebug() << "⚠️ pullSocket non initialisé";
         return;
     }
 
     if (!audioSinkDevice) {
-        qDebug() << "⚠️ audioSinkDevice non initialisé";
+        //qDebug() << "⚠️ audioSinkDevice non initialisé";
         return;
     }
 
@@ -179,18 +179,18 @@ void Professor::receiveAudioData() {
 
     if (!result) {
         if (zmq_errno() != EAGAIN) {  // Ignorer l'erreur si aucune donnée n'est dispo
-            qDebug() << "❌ Erreur zmq_recv:"  ;// << zmq_strerror(zmq_errno());
+            //qDebug() << "❌ Erreur zmq_recv:"  ;// << zmq_strerror(zmq_errno());
         } else {
-            qDebug() << "⚠️ Pas de données audio disponibles";
+            //qDebug() << "⚠️ Pas de données audio disponibles";
         }
         return;
     }
 
     QByteArray data(static_cast<char*>(message.data()), message.size());
-    qDebug() << "✅ Audio reçu, taille :" << data.size();
+    //qDebug() << "✅ Audio reçu, taille :" << data.size();
 
     audioSinkDevice->write(data);
-    qDebug() << "🔹 Fin receiveAudioData()";
+    //qDebug() << "🔹 Fin receiveAudioData()";
 }
 
 
