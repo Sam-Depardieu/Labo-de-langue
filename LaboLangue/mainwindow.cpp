@@ -802,7 +802,8 @@ void MainWindow::on_loadSession_clicked()
 void MainWindow::on_CreationButton_clicked()
 {
     QCM *qcmWindow = new QCM(this, this);
-    qcmWindow->show();
+    if(!interfaceQCMOpen) qcmWindow->show();
+    interfaceQCMOpen = true;
 }
 
 // Bouton de l'interface de ParametrageEleve
