@@ -13,6 +13,7 @@
 #include <QTimer>
 #include <QUdpSocket>
 #include <zmq/zmq.hpp>
+#include <QMessageBox>
 
 class Professor: public QObject {
     Q_OBJECT
@@ -55,6 +56,8 @@ private:
     QAudioDevice outputDeviceInfo;
     QTimer sendAudioTimer;
     QTimer receiveAudioTimer;
+    bool microError = false;
+    bool audioError = false;
 
     QUdpSocket udpSocket;
 
