@@ -722,10 +722,15 @@ void MainWindow::on_validButton_clicked()
         participant->setIDELeve(query.lastInsertId().toInt());
     }
 
+    unsigned int i = 1;
     for (auto *eleve : listeRasp) {
         // Si l'élément n'est PAS dans listeParticipant
         if (std::find(listeParticipant.begin(), listeParticipant.end(), eleve) == listeParticipant.end()) {
             eleve->setVisible(false); // ou eleve->hide(); selon ta classe
+        }
+        else
+        {
+            eleve->setNom("Éleve " + QString::number(i++));
         }
     }
 
