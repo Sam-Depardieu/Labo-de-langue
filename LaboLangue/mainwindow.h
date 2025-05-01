@@ -34,8 +34,7 @@ public:
     bool runningSession = false;
     bool interfaceQCMOpen = false;
 
-    void openSettingEleve(iconEleveGroup *group);
-    void closeSettingEleve(iconEleveGroup *group);
+    void toggleSettingEleve(iconEleveGroup *group, bool open);
     QString getSessionFolder() {return sessionFolder;};
     void updateCheckItemsVisibility();
 
@@ -47,28 +46,27 @@ private slots:
     void loadImagesFromDB();
     bool connectToDatabase();
     void onImageGroupDoubleClicked();
-    void setupActivitiesComboBox();
-    void setupClassesComboBox();
-    void on_SessionButton_clicked();
-    void on_ChoixActivite_currentIndexChanged(int index);
-    void on_selectManuel_clicked();
     void editStatusButton(QPushButton *button, bool status);
     void addHorizontalLayout(QVBoxLayout *layout, QWidget *widget1, QWidget *widget2);
     void addHorizontalLayout(QVBoxLayout *layout, QWidget *widget1, QWidget *widget2, QWidget *widget3);
-    void addButtonRow(QVBoxLayout *layout, QWidget *button1, QWidget *button2, QWidget *button3);
-    void on_selectAll_clicked();
-    void on_validButton_clicked();
+    void addButtonRow(QVBoxLayout *layout, QWidget *button1, QWidget *button2, QWidget *button3);    
     void showCheckIconOnGroup(iconEleveGroup *group);
-    void on_SourceButton_clicked();
-    void on_delButton_clicked();
-    void saveSessionData(bool isNewSession);
-    void on_echapButton_clicked();
-    void resetSession();
+
+    // Bouton de Création de Session
+    void on_SessionButton_clicked();
+    void on_ChoixActivite_currentIndexChanged(int index);
     void on_loadSession_clicked();
     void on_CreationButton_clicked();
-    void changeNameTable(QTableWidgetItem* item);
-    void changeNameGroup(iconEleveGroup *group, QString newName);
-    void loadInformationTable();
+    void on_selectAll_clicked();
+    void on_selectManuel_clicked();
+    void on_validButton_clicked();
+    void on_SourceButton_clicked();
+    void on_delButton_clicked();
+    void on_echapButton_clicked();
+    void resetSession();
+    void setupActivitiesComboBox();
+    void setupClassesComboBox();
+    void saveSessionData(bool isNewSession);
 
     // Bouton de ParametrageEleve
     void on_muteButton_clicked();
@@ -79,6 +77,9 @@ private slots:
     void on_annulerButton_clicked();
     void on_creerMessage_clicked();
     void on_nomEleveLineEdit_editingFinished();
+    void changeNameTable(QTableWidgetItem* item);
+    void changeNameGroup(iconEleveGroup *group, QString newName);
+    void loadInformationTable();
 
 private:
     Ui::MainWindow *ui;

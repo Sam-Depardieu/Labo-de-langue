@@ -78,23 +78,18 @@ MainWindow::~MainWindow()
 }
 
 // Ouverture page paramétrage Eleve
-void MainWindow::openSettingEleve(iconEleveGroup *group)
+void MainWindow::toggleSettingEleve(iconEleveGroup *group, bool open)
 {
     ui->ParametrageSession->setVisible(false);
-    parametrageEleve = true;
-    ui->ParametrageEleve->setVisible(true);;
+    parametrageEleve = open;
+    ui->ParametrageEleve->setVisible(open);
 
-    ui->nomEleveLineEdit->setText(QString(group->getNom()));
-
+    if (open && group != nullptr)
+    {
+        ui->nomEleveLineEdit->setText(QString(group->getNom()));
+    }
 }
 
-// Fermeture page paramétrage Eleve
-void MainWindow::closeSettingEleve(iconEleveGroup *group)
-{
-    ui->ParametrageSession->setVisible(false);
-    parametrageEleve = false;
-    ui->ParametrageEleve->setVisible(false);
-}
 
 void MainWindow::setupActivitiesComboBox()
 {
@@ -305,10 +300,7 @@ void MainWindow::changeNameGroup(iconEleveGroup *group, QString newName)
     // Exécuter la requête
     if (!query.exec()) {
         qDebug() << "Erreur de mise à jour dans la base de données : " << query.lastError();
-        // Afficher un message d'erreur à l'utilisateur si nécessaire
-    } else {
-        qDebug() << "Mise à jour du nom du participant dans la base de données réussie.";
-        // Afficher un message de confirmation si nécessaire
+        // Afficher un message d'erreur à l'utilisateur
     }
     group->setTextItem(newName);
     eleveActuellementParametre->setNom(newName);
@@ -317,9 +309,7 @@ void MainWindow::changeNameGroup(iconEleveGroup *group, QString newName)
 
 /**
  * Fonctions lié aux icons de raspberry (icons)
- * @brief MainWindow::loadImagesFromDB
  */
-
 void MainWindow::loadImagesFromDB()
 {
     if (!connectToDatabase()) {
@@ -425,28 +415,14 @@ void MainWindow::showCheckIconOnGroup(iconEleveGroup *group)
 {
     if (!group) return;
 
-    // Récupérer l'icône check du groupe
-    QGraphicsPixmapItem *checkItem = group->getCheckItem();
-
-    if (checkItem) {
-        checkItem->setVisible(!checkItem->isVisible());
-    } else {
-        qDebug() << "L'icône check est introuvable pour ce groupe.";
-    }
+    group->getCheckItem()->setVisible(!group->getCheckItem()->isVisible());
 }
 
 void MainWindow::onImageGroupDoubleClicked() {}
 
-void MainWindow::keyPressEvent(QKeyEvent *event) {
-    if (event->key() == Qt::Key_Escape) {
-        close();  // Ferme l'application quand on appuie sur Échap
-    }
-}
-
 /**
  * Fonction pour se connecter à la Base de donnée (BDD)
 */
-
 bool MainWindow::connectToDatabase() {
     if (QSqlDatabase::contains("qt_sql_default_connection")) {
         return true; // La connexion existe déjà
@@ -458,8 +434,6 @@ bool MainWindow::connectToDatabase() {
     db.setPort(3306);
     db.setUserName("prof"); // Remplacez par votre nom d'utilisateur
     db.setPassword("okokok"); // Remplacez par votre mot de passe
-    //db.setConnectOptions("UNIX_SOCKET=/opt/lampp/var/mysql/mysql.sock");
-
 
     if (!db.open()) {
         qDebug() << "Impossible de se connecter à la base de données :" << db.lastError();
@@ -474,61 +448,68 @@ bool MainWindow::connectToDatabase() {
  */
 void MainWindow::saveSessionData(bool isNewSession)
 {
-    QString sanitizedName = nomProf;
-    sanitizedName.replace(" ", "_").remove(QRegularExpression("[^a-zA-Z0-9_-]"));
-
-    QString networkPath = "\\\\CIEL-T171-05\\Activites\\"; //Dossier du partage SMB
-    sessionFolder = (nomProf != "" ? networkPath + sanitizedName + "_" + QDateTime::currentDateTime().toString("yyyy-MM-dd_HH-mm"): "");
-    qDebug() << sessionFolder;
-
-    // Créer le dossier pour la session
-    QDir dir;
-    if (!dir.exists(sessionFolder) && !dir.mkpath(sessionFolder)) {
-        qDebug() << "❌ Erreur : Impossible de créer le dossier de la session sur le partage SMB.";
+    if (nomProf.trimmed().isEmpty()) {
+        qDebug() << "❌ Erreur : nomProf est vide.";
         return;
     }
 
-    // FICHIER 1 : `generalConfig.laboconfig` (DANS LE DOSSIER PRINCIPAL DU PARTAGE)
-    QString generalConfigPath = networkPath + "/generalConfig.laboconfig";
-    QJsonObject generalConfig;
-    generalConfig["nomProf"] = nomProf;
-    generalConfig["idTypeActivite"] = idTypeActivite;
-    generalConfig["idClasse"] = idClasse;
-    generalConfig["fichier"] = sessionFolder;  // 🔹 Stocke l'emplacement du dossier de session
+    // Préparation des chemins
+    QString sanitizedName = nomProf;
+    sanitizedName.replace(" ", "_").remove(QRegularExpression("[^a-zA-Z0-9_-]"));
 
-    QJsonDocument generalConfigDoc(generalConfig);
+    QString networkPath = R"(\\CIEL-T171-05\Activites\)";
+    QString timestamp = QDateTime::currentDateTime().toString("yyyy-MM-dd_HH-mm");
+    sessionFolder = networkPath + sanitizedName + "_" + timestamp;
+    qDebug() << sessionFolder;
+
+    // Création du dossier de session
+    QDir dir;
+    if (!dir.exists(sessionFolder) && !dir.mkpath(sessionFolder)) {
+        qDebug() << "❌ Erreur : Impossible de créer le dossier de session.";
+        return;
+    }
+
+    // ---------- Écriture de `generalConfig.laboconfig` ----------
+    QJsonObject generalConfig {
+        {"nomProf", nomProf},
+        {"idTypeActivite", idTypeActivite},
+        {"idClasse", idClasse},
+        {"fichier", sessionFolder}
+    };
+
+    QString generalConfigPath = networkPath + "generalConfig.laboconfig";
     QFile generalConfigFile(generalConfigPath);
     if (generalConfigFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        generalConfigFile.write(generalConfigDoc.toJson(QJsonDocument::Indented));
+        generalConfigFile.write(QJsonDocument(generalConfig).toJson(QJsonDocument::Indented));
         generalConfigFile.close();
     } else {
-        qDebug() << "❌ Erreur lors de l'écriture de `generalConfig.laboconfig` :" << generalConfigFile.errorString();
+        qDebug() << "❌ Erreur écriture `generalConfig.laboconfig` :" << generalConfigFile.errorString();
     }
 
-    // FICHIER 2 : `config.labo` (DANS LE DOSSIER DE SESSION)
-    QString configPath = sessionFolder + "/config.labo";
-    QJsonObject sessionConfig;
-    sessionConfig["nomProf"] = nomProf;
-    sessionConfig["idTypeActivite"] = idTypeActivite;
-    sessionConfig["idClasse"] = idClasse;
-    sessionConfig["consigne"] = ui->ConsigneTextEdit->toPlainText();
-
+    // ---------- Écriture de `config.labo` ----------
     QJsonArray participantsArray;
-    for (auto participant : listeParticipant) {
-        if (participant) participantsArray.append(participant->getID());
-    }
-    sessionConfig["participants"] = participantsArray;
+    for (auto participant : listeParticipant)
+        if (participant)
+            participantsArray.append(participant->getID());
 
-    QJsonDocument sessionConfigDoc(sessionConfig);
+    QJsonObject sessionConfig {
+        {"nomProf", nomProf},
+        {"idTypeActivite", idTypeActivite},
+        {"idClasse", idClasse},
+        {"consigne", ui->ConsigneTextEdit->toPlainText()},
+        {"participants", participantsArray}
+    };
+
+    QString configPath = sessionFolder + "/config.labo";
     QFile sessionConfigFile(configPath);
     if (sessionConfigFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        sessionConfigFile.write(sessionConfigDoc.toJson(QJsonDocument::Indented));
+        sessionConfigFile.write(QJsonDocument(sessionConfig).toJson(QJsonDocument::Indented));
         sessionConfigFile.close();
     } else {
-        qDebug() << "❌ Erreur lors de l'écriture de `config.labo` :" << sessionConfigFile.errorString();
+        qDebug() << "❌ Erreur écriture `config.labo` :" << sessionConfigFile.errorString();
     }
 
-    // FICHIER 3 : `bilan.txt` (DANS LE DOSSIER DE SESSION)
+    // ---------- Écriture de `bilan.txt` ----------
     QString bilanPath = sessionFolder + "/bilan.txt";
     QFile bilanFile(bilanPath);
     if (bilanFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -536,7 +517,7 @@ void MainWindow::saveSessionData(bool isNewSession)
         stream << "Session créée par " << nomProf << "\n"
                << "Classe : " << ui->ChoixClasse->itemText(idClasse - 1) << "\n"
                << "Date : " << QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss") << "\n"
-               << "Id Prof: " << idProf << "\n"
+               << "Id Prof : " << idProf << "\n"
                << "Activité : " << nomTypeActivite << "\n"
                << "Source : " << source << "\n"
                << "Consigne : " << ui->ConsigneTextEdit->toPlainText() << "\n"
@@ -544,10 +525,9 @@ void MainWindow::saveSessionData(bool isNewSession)
                << "Participants : " << listeParticipant.size() << "\n";
         bilanFile.close();
     } else {
-        qDebug() << "❌ Erreur lors de l'écriture de `bilan.txt` :" << bilanFile.errorString();
+        qDebug() << "❌ Erreur écriture `bilan.txt` :" << bilanFile.errorString();
     }
 }
-
 
 /**
  * Fonctions lié aux boutons de l'IHM (Boutton)
@@ -659,24 +639,20 @@ void MainWindow::on_validButton_clicked()
     // Vérification des champs obligatoires
     if (ui->NameLineEdit->text().isEmpty()) {
         ui->errorLabel->setText("Veuillez indiquer votre nom!");
-        return;
     }
     if (ui->ChoixActivite->currentText().isEmpty()) {
         ui->errorLabel->setText("Veuillez indiquer une activité!");
-        return;
     }
     if (ui->DureeActivite->time().isNull()) {
         ui->errorLabel->setText("Veuillez indiquer une durée!");
-        return;
     }
     if (ui->ChoixClasse->currentText().isEmpty()) {
         ui->errorLabel->setText("Veuillez indiquer une classe!");
-        return;
     }
     if (listeParticipant.empty()) {
         ui->errorLabel->setText("Veuillez indiquer des participants!");
-        return;
     }
+    if(ui->errorLabel->text() != nullptr) return;
 
     // Récupération des IDs de la base de données
     QSqlQuery query;
@@ -812,7 +788,6 @@ void MainWindow::on_muteButton_clicked()
     for(unsigned int i = 0; i < listeEditEleve.size(); i++){
         prof->muteStudent(listeEditEleve[i]->getIP());
     }
-    qDebug() << "fonction muteStudent";
 }
 
 void MainWindow::on_demuteButton_clicked()
@@ -820,7 +795,6 @@ void MainWindow::on_demuteButton_clicked()
     for(unsigned int i = 0; i < listeEditEleve.size(); i++){
         prof->unmuteStudent(listeEditEleve[i]->getIP());
     }
-    qDebug() << "fonction demuteStudent";
 }
 
 void MainWindow::on_desactiverSonButton_clicked()
@@ -828,7 +802,6 @@ void MainWindow::on_desactiverSonButton_clicked()
     for(unsigned int i = 0; i < listeEditEleve.size(); i++){
         prof->activerSonStudent(listeEditEleve[i]->getIP());
     }
-    qDebug() << "fonction activerSonStudent";
 }
 
 void MainWindow::on_activerSonButton_clicked()
@@ -836,7 +809,6 @@ void MainWindow::on_activerSonButton_clicked()
     for(unsigned int i = 0; i < listeEditEleve.size(); i++){
         prof->desactiverSonStudent(listeEditEleve[i]->getIP());
     }
-    qDebug() << "fonction desactiverSonStudent";
 }
 
 void MainWindow::on_annulerButton_clicked()

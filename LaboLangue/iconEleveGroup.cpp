@@ -21,7 +21,7 @@ void iconEleveGroup::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
 
         // Fermer un paramétrage élève actif
         if (mainWindow->parametrageEleve && mainWindow->eleveActuellementParametre) {
-            mainWindow->closeSettingEleve(mainWindow->eleveActuellementParametre);
+            mainWindow->toggleSettingEleve(mainWindow->eleveActuellementParametre, false);
             mainWindow->parametrageEleve = false;
             mainWindow->eleveActuellementParametre = nullptr;
         }
@@ -40,22 +40,22 @@ void iconEleveGroup::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
         }
 
         if (!mainWindow->parametrageEleve) {
-            mainWindow->openSettingEleve(this);
+            mainWindow->toggleSettingEleve(mainWindow->eleveActuellementParametre, true);
             mainWindow->parametrageEleve = true;
             mainWindow->eleveActuellementParametre = this;
             mainWindow->listeEditEleve.push_back(this);
             qDebug() << "IP : " << getIP();
         }
         else if (mainWindow->eleveActuellementParametre == this) {
-            mainWindow->closeSettingEleve(this);
+            mainWindow->toggleSettingEleve(mainWindow->eleveActuellementParametre, false);
 
             mainWindow->listeEditEleve.clear();
             mainWindow->parametrageEleve = false;
             mainWindow->eleveActuellementParametre = nullptr;
         }
         else {
-            mainWindow->closeSettingEleve(mainWindow->eleveActuellementParametre);
-            mainWindow->openSettingEleve(this);
+            mainWindow->toggleSettingEleve(mainWindow->eleveActuellementParametre, false);
+            mainWindow->toggleSettingEleve(mainWindow->eleveActuellementParametre, true);
             mainWindow->eleveActuellementParametre = this;
         }
 
