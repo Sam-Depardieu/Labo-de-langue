@@ -197,6 +197,7 @@ void MainWindow::resetSession()
     nomProf.clear();
     duree.clear();
     nomTypeActivite.clear();
+    ui->errorLabel->clear();
 
     //Réinitialisation des éléments de l'interface graphique
     ui->NameLineEdit->clear();
