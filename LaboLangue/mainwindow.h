@@ -47,9 +47,7 @@ private slots:
     bool connectToDatabase();
     void onImageGroupDoubleClicked();
     void editStatusButton(QPushButton *button, bool status);
-    void addHorizontalLayout(QVBoxLayout *layout, QWidget *widget1, QWidget *widget2);
-    void addHorizontalLayout(QVBoxLayout *layout, QWidget *widget1, QWidget *widget2, QWidget *widget3);
-    void addButtonRow(QVBoxLayout *layout, QWidget *button1, QWidget *button2, QWidget *button3);    
+    void addHorizontalLayout(QVBoxLayout *layout, std::initializer_list<QWidget*> widgets);
     void showCheckIconOnGroup(iconEleveGroup *group);
 
     // Bouton de Création de Session

@@ -30,18 +30,18 @@ MainWindow::MainWindow(QWidget *parent)
     layoutParametrageSession->setContentsMargins(8, 8, 15, 8);
     layoutParametrageSession->setAlignment(Qt::AlignCenter | Qt::AlignTop);
     // Ajout des sections dans le layoutParametrageSession
-    addHorizontalLayout(layoutParametrageSession, ui->NameLabel, ui->NameLineEdit, ui->loadSession);
-    addHorizontalLayout(layoutParametrageSession, ui->ChoixActLabel, ui->ChoixActivite);
-    addHorizontalLayout(layoutParametrageSession, ui->DureeLabel, ui->DureeActivite);
-    addHorizontalLayout(layoutParametrageSession, ui->ClasseLabel, ui->ChoixClasse);
-    addHorizontalLayout(layoutParametrageSession, ui->ParticipantsLabel, ui->selectAll, ui->selectManuel);
-    addHorizontalLayout(layoutParametrageSession, ui->SourceLabel, ui->NameSourceLabel, ui->SourceButton);
-    addHorizontalLayout(layoutParametrageSession, ui->ConsigneLabel, ui->ConsigneTextEdit);
+    addHorizontalLayout(layoutParametrageSession, {ui->NameLabel, ui->NameLineEdit, ui->loadSession});
+    addHorizontalLayout(layoutParametrageSession, {ui->ChoixActLabel, ui->ChoixActivite});
+    addHorizontalLayout(layoutParametrageSession, {ui->DureeLabel, ui->DureeActivite});
+    addHorizontalLayout(layoutParametrageSession, {ui->ClasseLabel, ui->ChoixClasse});
+    addHorizontalLayout(layoutParametrageSession, {ui->ParticipantsLabel, ui->selectAll, ui->selectManuel});
+    addHorizontalLayout(layoutParametrageSession, {ui->SourceLabel, ui->NameSourceLabel, ui->SourceButton});
+    addHorizontalLayout(layoutParametrageSession, {ui->ConsigneLabel, ui->ConsigneTextEdit});
     QHBoxLayout *hLayoutParametrageSession = new QHBoxLayout();
     hLayoutParametrageSession->addWidget(ui->errorLabel);
     layoutParametrageSession->addLayout(hLayoutParametrageSession);
     layoutParametrageSession->addSpacing(10);
-    addButtonRow(layoutParametrageSession, ui->delButton, ui->echapButton, ui->validButton);
+    addHorizontalLayout(layoutParametrageSession, {ui->delButton, ui->echapButton, ui->validButton});
     // Appliquez le layout à ParametrageSession
     ui->ParametrageSession->setLayout(layoutParametrageSession);
 
@@ -50,13 +50,13 @@ MainWindow::MainWindow(QWidget *parent)
     layoutParametrageEleve->setContentsMargins(8, 8, 15, 8);
     layoutParametrageEleve->setAlignment(Qt::AlignCenter | Qt::AlignTop);
     // Ajout des sections dans le layoutParametrageEleve
-    addHorizontalLayout(layoutParametrageEleve, ui->nomGroupeLabel, ui->nomEleveLineEdit, ui->creerMessage);
-    addHorizontalLayout(layoutParametrageEleve, ui->muteButton, ui->demuteButton);
-    addHorizontalLayout(layoutParametrageEleve, ui->desactiverSonButton, ui->activerSonButton);
-    addHorizontalLayout(layoutParametrageEleve, ui->creerGroupeButton, ui->annulerButton);
-    addHorizontalLayout(layoutParametrageEleve, ui->supprimerGroupeButton, ui->selectionGroupe);
-    addHorizontalLayout(layoutParametrageEleve, ui->alignerTableau, ui->TableauGroupe);
-    addHorizontalLayout(layoutParametrageEleve, ui->envoyerMessageTextEdit, ui->envoyerMessage);
+    addHorizontalLayout(layoutParametrageEleve, {ui->nomGroupeLabel, ui->nomEleveLineEdit, ui->creerMessage});
+    addHorizontalLayout(layoutParametrageEleve, {ui->muteButton, ui->demuteButton});
+    addHorizontalLayout(layoutParametrageEleve, {ui->desactiverSonButton, ui->activerSonButton});
+    addHorizontalLayout(layoutParametrageEleve, {ui->creerGroupeButton, ui->annulerButton});
+    addHorizontalLayout(layoutParametrageEleve, {ui->supprimerGroupeButton, ui->selectionGroupe});
+    addHorizontalLayout(layoutParametrageEleve, {ui->alignerTableau, ui->TableauGroupe});
+    addHorizontalLayout(layoutParametrageEleve, {ui->envoyerMessageTextEdit, ui->envoyerMessage});
     layoutParametrageEleve->addSpacing(10);
     ui->envoyerMessage->setVisible(false);
     ui->envoyerMessageTextEdit->setVisible(false);
@@ -159,31 +159,12 @@ void MainWindow::updateCheckItemsVisibility() {
 }
 
 
-void MainWindow::addHorizontalLayout(QVBoxLayout *layout, QWidget *widget1, QWidget *widget2)
+void MainWindow::addHorizontalLayout(QVBoxLayout *layout, std::initializer_list<QWidget*> widgets)
 {
     QHBoxLayout *hLayout = new QHBoxLayout();
-    hLayout->addWidget(widget1);
-    hLayout->addWidget(widget2);
-    layout->addLayout(hLayout);
-    layout->addSpacing(15);
-}
-
-void MainWindow::addHorizontalLayout(QVBoxLayout *layout, QWidget *widget1, QWidget *widget2, QWidget *widget3)
-{
-    QHBoxLayout *hLayout = new QHBoxLayout();
-    hLayout->addWidget(widget1);
-    hLayout->addWidget(widget2);
-    hLayout->addWidget(widget3);
-    layout->addLayout(hLayout);
-    layout->addSpacing(15);
-}
-
-void MainWindow::addButtonRow(QVBoxLayout *layout, QWidget *button1, QWidget *button2, QWidget *button3)
-{
-    QHBoxLayout *hLayout = new QHBoxLayout();
-    hLayout->addWidget(button1);
-    hLayout->addWidget(button2);
-    hLayout->addWidget(button3);
+    for (QWidget *w : widgets) {
+        if (w) hLayout->addWidget(w);
+    }
     layout->addLayout(hLayout);
     layout->addSpacing(15);
 }
