@@ -848,6 +848,10 @@ void MainWindow::loadInformationTable()
         itemIP->setFlags(itemIP->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
         TableauGroupe->setItem(row, 2, itemIP);
 
+        QPushButton *itemBoutonAjouterGroupe = new QPushButton();
+        itemBoutonAjouterGroupe->setText("Insérer au groupe");
+        ui->TableauGroupe->setCellWidget(row, 3, itemBoutonAjouterGroupe);
+
     }
     connect(TableauGroupe, &QTableWidget::itemChanged, this, &MainWindow::changeNameTable);
 
