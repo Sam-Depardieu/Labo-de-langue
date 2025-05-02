@@ -29,7 +29,7 @@
   <widget class="QPushButton" name="pushButton_Play">
    <property name="geometry">
     <rect>
-     <x>300</x>
+     <x>340</x>
      <y>430</y>
      <width>45</width>
      <height>45</height>
@@ -42,7 +42,7 @@
   <widget class="QPushButton" name="pushButton_Pause">
    <property name="geometry">
     <rect>
-     <x>380</x>
+     <x>340</x>
      <y>430</y>
      <width>45</width>
      <height>45</height>
@@ -68,7 +68,7 @@
   <widget class="QPushButton" name="pushButton_SelectVideo">
    <property name="geometry">
     <rect>
-     <x>0</x>
+     <x>10</x>
      <y>0</y>
      <width>101</width>
      <height>21</height>
@@ -84,7 +84,7 @@
      <x>10</x>
      <y>20</y>
      <width>781</width>
-     <height>401</height>
+     <height>391</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout"/>
@@ -124,6 +124,19 @@
     <string/>
    </property>
   </widget>
+  <widget class="QSlider" name="horizontalSlider">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>410</y>
+     <width>763</width>
+     <height>15</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
   <zorder>pushButton_3</zorder>
   <zorder>pushButton_Apres10</zorder>
   <zorder>pushButton_Play</zorder>
@@ -132,6 +145,7 @@
   <zorder>pushButton_SelectVideo</zorder>
   <zorder>widgetVideo</zorder>
   <zorder>horizontalSlider_sonVideo</zorder>
+  <zorder>horizontalSlider</zorder>
  </widget>
  <resources/>
  <connections/>

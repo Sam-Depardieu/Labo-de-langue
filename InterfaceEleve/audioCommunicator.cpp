@@ -104,7 +104,7 @@ void Student::toggleMute(bool mute) {
 
 // Méthode pour envoyer les données audio
 void Student::sendAudioData() {
-    qDebug() << "?? Début sendAudioData()";
+    //qDebug() << "?? Début sendAudioData()";
 
     if (audioSource->state() == QAudio::SuspendedState) {
         qDebug() << "Reprise de la lecture audio.";
@@ -128,7 +128,7 @@ void Student::sendAudioData() {
     }
 
     qint16 availableBytes = audioSource->bytesAvailable();
-    qDebug() << "Octets disponibles :" << availableBytes;
+    //qDebug() << "Octets disponibles :" << availableBytes;
     if (availableBytes > 0) {
         QByteArray data = audioSourceDevice->read(availableBytes); // Lire les données capturées
 
@@ -138,7 +138,7 @@ void Student::sendAudioData() {
             qDebug() << "data is empty !.";
         }
     } else {
-        qDebug() << "Aucune donnée disponible dans le buffer audio.";
+        //qDebug() << "Aucune donnée disponible dans le buffer audio.";
     }
 }
 

@@ -16,7 +16,7 @@
   <widget class="QPushButton" name="pushButton_Play">
    <property name="geometry">
     <rect>
-     <x>300</x>
+     <x>330</x>
      <y>430</y>
      <width>45</width>
      <height>45</height>
@@ -55,7 +55,7 @@
   <widget class="QPushButton" name="pushButton_Pause">
    <property name="geometry">
     <rect>
-     <x>360</x>
+     <x>330</x>
      <y>430</y>
      <width>45</width>
      <height>45</height>
@@ -84,7 +84,7 @@
      <x>9</x>
      <y>30</y>
      <width>781</width>
-     <height>391</height>
+     <height>371</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout"/>
@@ -124,6 +124,19 @@
     <string/>
    </property>
   </widget>
+  <widget class="QSlider" name="horizontalSlider">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>400</y>
+     <width>781</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
   <zorder>pushButton_2</zorder>
   <zorder>pushButton_Play</zorder>
   <zorder>pushButton_Avant</zorder>
@@ -132,6 +145,7 @@
   <zorder>pushButton_SelectAudio</zorder>
   <zorder>horizontalLayoutWidget</zorder>
   <zorder>horizontalSliderSon</zorder>
+  <zorder>horizontalSlider</zorder>
  </widget>
  <resources/>
  <connections/>

@@ -3,11 +3,12 @@
 #include <QAudioOutput>
 #include <QStandardPaths>
 
-InterfaceVideo::InterfaceVideo(QWidget *parent)
+InterfaceVideo::InterfaceVideo(bool co, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::InterfaceVideo)
     , player(new QMediaPlayer(this))  // 🔹 Initialisation de player
     , audioOutput(new QAudioOutput(this))
+    , CO(co)
 {
     ui->setupUi(this);
 
@@ -23,6 +24,15 @@ InterfaceVideo::InterfaceVideo(QWidget *parent)
     ui->widgetVideo->layout()->addWidget(videoWidget);
     player->setVideoOutput(videoWidget);
     videoWidget->show();
+
+    connect(player,&QMediaPlayer::durationChanged,this,[=](qint64 duration){
+        ui->horizontalSlider->setRange(0, static_cast<int>(duration));
+    });
+
+    connect(player, &QMediaPlayer::positionChanged, this, [=](qint64 position) {
+        ui->horizontalSlider->setValue(static_cast<int>(position));
+    });
+
 
     setFixedSize(800,480);
 
@@ -60,6 +70,9 @@ InterfaceVideo::InterfaceVideo(QWidget *parent)
         ui->pushButton_Apres10->setIcon(icone); // Définit l'icône du bouton
         ui->pushButton_Apres10->setIconSize(ui->pushButton_Apres10->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
     }
+
+    ui->pushButton_Pause->setVisible(true);
+    ui->pushButton_Play->setVisible(false);
 }
 
 InterfaceVideo::~InterfaceVideo()
@@ -101,11 +114,15 @@ void InterfaceVideo::on_pushButton_Avant10_clicked()
 void InterfaceVideo::on_pushButton_Play_clicked()
 {
     player->play();
+    ui->pushButton_Pause->setVisible(true);
+    ui->pushButton_Play->setVisible(false);
 }
 
 void InterfaceVideo::on_pushButton_Pause_clicked()
 {
     player->pause();
+    ui->pushButton_Pause->setVisible(false);
+    ui->pushButton_Play->setVisible(true);
 }
 
 void InterfaceVideo::on_pushButton_Apres10_clicked()
@@ -134,3 +151,13 @@ void InterfaceVideo::closeEvent(QCloseEvent *event)
     }
     event->accept();  // Accepter la fermeture
 }
+
+
+
+
+void InterfaceVideo::on_horizontalSlider_sliderReleased()
+{
+    int position = ui->horizontalSlider->value();  // récupère la position du curseur
+    player->setPosition(position);
+}
+

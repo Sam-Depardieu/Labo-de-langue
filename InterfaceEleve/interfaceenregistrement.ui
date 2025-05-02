@@ -33,23 +33,6 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButtonSurveiller">
-   <property name="geometry">
-    <rect>
-     <x>710</x>
-     <y>410</y>
-     <width>80</width>
-     <height>60</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: transparent;
-    border: none;</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
   <widget class="QPushButton" name="pushButtonAvancer">
    <property name="geometry">
     <rect>
@@ -144,7 +127,7 @@
     <string/>
    </property>
    <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter</set>
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButtonSpeak">
@@ -320,10 +303,35 @@ li.checked::marker { content: &quot;\2612&quot;; }
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:700;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButtonPlay">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>160</y>
+     <width>70</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="textEditConsigne">
+   <property name="geometry">
+    <rect>
+     <x>640</x>
+     <y>110</y>
+     <width>151</width>
+     <height>161</height>
+    </rect>
+   </property>
+  </widget>
   <zorder>pushButton_2</zorder>
   <zorder>pushButton</zorder>
   <zorder>pushButtonSon</zorder>
-  <zorder>pushButtonSurveiller</zorder>
   <zorder>pushButtonAvancer</zorder>
   <zorder>pushButtonClear</zorder>
   <zorder>labelChrono</zorder>
@@ -337,6 +345,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
   <zorder>pushButtonEnregistrer_3</zorder>
   <zorder>pushButtonEnregistrer_4</zorder>
   <zorder>textEditFeedBack</zorder>
+  <zorder>pushButtonPlay</zorder>
+  <zorder>textEditConsigne</zorder>
  </widget>
  <resources/>
  <connections/>

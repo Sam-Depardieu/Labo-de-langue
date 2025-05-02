@@ -16,7 +16,7 @@ class InterfaceAudio : public QDialog
     Q_OBJECT
 
 public:
-    explicit InterfaceAudio(QWidget *parent = nullptr);
+    explicit InterfaceAudio(bool CO, QWidget *parent = nullptr);
     ~InterfaceAudio();
 
 private slots:
@@ -31,12 +31,16 @@ private slots:
     void on_horizontalSliderSon_actionTriggered(int action);
 
     void on_pushButton_Apres_clicked();
+    void on_horizontalSlider_sliderReleased();
+
 protected:
     void closeEvent(QCloseEvent *event) override;
 private:
     Ui::InterfaceAudio *ui;
     QMediaPlayer *player;
     QAudioOutput *audioOutput;
+
+    bool CO = false;
 
 };
 

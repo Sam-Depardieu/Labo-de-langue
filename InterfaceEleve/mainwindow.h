@@ -10,6 +10,7 @@
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QNetworkInterface>
+#include <QUdpSocket>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -23,6 +24,12 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
+
+    QString getNomEleve() {return nomEleve;};
+    QString getNomProf() {return nomProf;};
+    QString getConsigne() {return consigne;};
+
+
     ~MainWindow();
 
 private slots:
@@ -40,6 +47,8 @@ private slots:
     void keyPressEvent(QKeyEvent *event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
 
+    void receiveResponse();
+
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db;
@@ -47,5 +56,15 @@ private:
     bool isF1Pressed = false;
     bool actionDone = false;
 
+    QString nomEleve = "";
+    QString nomProf = "";
+    QString consigne = "";
+
+    QUdpSocket udpSocketInfo;
+    quint16 infoPort = 5560;
+    QUdpSocket udpSocketConsigne;
+    quint16 consignePort = 5558;
+    QUdpSocket udpSocketInter;
+    quint16 interPort = 5561;
 };
 #endif // MAINWINDOW_H
