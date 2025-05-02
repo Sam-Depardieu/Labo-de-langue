@@ -86,6 +86,10 @@ private slots:
 
     void on_modeSombreButton_clicked();
 
+    void on_StatutButton_clicked();
+
+    void on_cacheButton_clicked();
+
 private:
     QGraphicsScene *scene;
     QSqlDatabase db;
@@ -101,6 +105,8 @@ private:
     int typeActivite;
 
     QTableWidget* TableauGroupe ;
+
+    QTableWidget* StatutTableauGroupe ;
 
 
 };

@@ -81,6 +81,10 @@ public:
     QPushButton *envoyerMessageGroupe;
     QPushButton *modeSombreButton;
     QPushButton *modeClairButton;
+    QGraphicsView *PageStatut;
+    QLabel *alignerTableau_2;
+    QTableWidget *StatutTableauGroupe;
+    QPushButton *cacheButton;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -95,7 +99,7 @@ public:
         LigneHaut = new QPushButton(centralwidget);
         LigneHaut->setObjectName("LigneHaut");
         LigneHaut->setEnabled(false);
-        LigneHaut->setGeometry(QRect(0, 0, 1601, 61));
+        LigneHaut->setGeometry(QRect(-40, -40, 1641, 101));
         LigneHaut->setAutoFillBackground(false);
         LigneHaut->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 151, 178);"));
         PlanButton = new QPushButton(centralwidget);
@@ -364,7 +368,79 @@ public:
         modeClairButton->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
 "border: none;\n"
 ""));
+        PageStatut = new QGraphicsView(centralwidget);
+        PageStatut->setObjectName("PageStatut");
+        PageStatut->setGeometry(QRect(660, 70, 631, 681));
+        PageStatut->setStyleSheet(QString::fromUtf8("background-color: white;"));
+        alignerTableau_2 = new QLabel(centralwidget);
+        alignerTableau_2->setObjectName("alignerTableau_2");
+        alignerTableau_2->setGeometry(QRect(700, 110, 31, 501));
+        StatutTableauGroupe = new QTableWidget(centralwidget);
+        StatutTableauGroupe->setObjectName("StatutTableauGroupe");
+        StatutTableauGroupe->setGeometry(QRect(770, 110, 441, 501));
+        StatutTableauGroupe->setStyleSheet(QString::fromUtf8(""));
+        cacheButton = new QPushButton(centralwidget);
+        cacheButton->setObjectName("cacheButton");
+        cacheButton->setGeometry(QRect(0, 740, 21, 24));
+        cacheButton->setStyleSheet(QString::fromUtf8("background-color:transparent;\n"
+"border:none;\n"
+""));
         MainWindow->setCentralWidget(centralwidget);
+        alignerTableau_2->raise();
+        StatutTableauGroupe->raise();
+        LigneHaut->raise();
+        PlanButton->raise();
+        PresenceButton->raise();
+        SessionButton->raise();
+        AppelButton->raise();
+        StatutButton->raise();
+        AideButton->raise();
+        EnregistrementButton->raise();
+        PlanClasse->raise();
+        ParametrageSession->raise();
+        NameLabel->raise();
+        NameLineEdit->raise();
+        ChoixActLabel->raise();
+        ChoixActivite->raise();
+        DureeLabel->raise();
+        DureeActivite->raise();
+        ConsigneLabel->raise();
+        ConsigneTextEdit->raise();
+        ClasseLabel->raise();
+        ChoixClasse->raise();
+        ParticipantsLabel->raise();
+        selectAll->raise();
+        selectManuel->raise();
+        validButton->raise();
+        echapButton->raise();
+        delButton->raise();
+        errorLabel->raise();
+        SourceLabel->raise();
+        SourceButton->raise();
+        NameSourceLabel->raise();
+        loadSession->raise();
+        ParametrageEleve->raise();
+        CreationButton->raise();
+        muteButton->raise();
+        demuteButton->raise();
+        desactiverSonButton->raise();
+        activerSonButton->raise();
+        nomGroupeLabel->raise();
+        annulerButton->raise();
+        creerGroupeButton->raise();
+        alignerTableau->raise();
+        supprimerGroupeButton->raise();
+        selectionGroupe->raise();
+        TableauGroupe->raise();
+        nomEleveLineEdit->raise();
+        Communication->raise();
+        envoyerMessagePersonne->raise();
+        envoyerMessageTextEdit->raise();
+        envoyerMessageGroupe->raise();
+        modeSombreButton->raise();
+        modeClairButton->raise();
+        PageStatut->raise();
+        cacheButton->raise();
 
         retranslateUi(MainWindow);
 
@@ -417,10 +493,12 @@ public:
 "li.unchecked::marker { content: \"\\2610\"; }\n"
 "li.checked::marker { content: \"\\2612\"; }\n"
 "</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">Ecrire un message...</span></p></body></html>", nullptr));
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", nullptr));
         envoyerMessageGroupe->setText(QCoreApplication::translate("MainWindow", "Envoyer le message (au groupe)", nullptr));
         modeSombreButton->setText(QString());
         modeClairButton->setText(QString());
+        alignerTableau_2->setText(QString());
+        cacheButton->setText(QString());
     } // retranslateUi
 
 };

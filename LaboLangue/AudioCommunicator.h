@@ -17,14 +17,18 @@
 
 class Professor: public QObject {
     Q_OBJECT
+
 public:
     Professor(QObject *parent = nullptr);
+
+    //Fonction de communication
     void muteStudent(const QString& studentIp);
     void unmuteStudent(const QString& studentIp);
     void activerSonStudent(const QString& studentIp);
     void desactiverSonStudent(const QString& studentIp);
-    void sendCommandToStudent(const QString& studentIp, const QString& command);
+    void sendCommandToStudent(const QString& studentIp, int port, const QString& command);
     void fermerCommunications();
+
     QString getStudentStatus(const QString& studentIp);
 
 public slots:  // Déclaration des slots ici

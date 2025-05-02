@@ -25,10 +25,10 @@ color: black;
     </property>
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>1601</width>
-      <height>61</height>
+      <x>-40</x>
+      <y>-40</y>
+      <width>1641</width>
+      <height>101</height>
      </rect>
     </property>
     <property name="autoFillBackground">
@@ -862,7 +862,7 @@ hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Ecrire un message...&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <widget class="QPushButton" name="envoyerMessageGroupe">
@@ -914,6 +914,118 @@ border: none;
      <string/>
     </property>
    </widget>
+   <widget class="QGraphicsView" name="PageStatut">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>70</y>
+      <width>631</width>
+      <height>681</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: white;</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="alignerTableau_2">
+    <property name="geometry">
+     <rect>
+      <x>700</x>
+      <y>110</y>
+      <width>31</width>
+      <height>501</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="StatutTableauGroupe">
+    <property name="geometry">
+     <rect>
+      <x>770</x>
+      <y>110</y>
+      <width>441</width>
+      <height>501</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="cacheButton">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>740</y>
+      <width>21</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:transparent;
+border:none;
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <zorder>alignerTableau_2</zorder>
+   <zorder>StatutTableauGroupe</zorder>
+   <zorder>LigneHaut</zorder>
+   <zorder>PlanButton</zorder>
+   <zorder>PresenceButton</zorder>
+   <zorder>SessionButton</zorder>
+   <zorder>AppelButton</zorder>
+   <zorder>StatutButton</zorder>
+   <zorder>AideButton</zorder>
+   <zorder>EnregistrementButton</zorder>
+   <zorder>PlanClasse</zorder>
+   <zorder>ParametrageSession</zorder>
+   <zorder>NameLabel</zorder>
+   <zorder>NameLineEdit</zorder>
+   <zorder>ChoixActLabel</zorder>
+   <zorder>ChoixActivite</zorder>
+   <zorder>DureeLabel</zorder>
+   <zorder>DureeActivite</zorder>
+   <zorder>ConsigneLabel</zorder>
+   <zorder>ConsigneTextEdit</zorder>
+   <zorder>ClasseLabel</zorder>
+   <zorder>ChoixClasse</zorder>
+   <zorder>ParticipantsLabel</zorder>
+   <zorder>selectAll</zorder>
+   <zorder>selectManuel</zorder>
+   <zorder>validButton</zorder>
+   <zorder>echapButton</zorder>
+   <zorder>delButton</zorder>
+   <zorder>errorLabel</zorder>
+   <zorder>SourceLabel</zorder>
+   <zorder>SourceButton</zorder>
+   <zorder>NameSourceLabel</zorder>
+   <zorder>loadSession</zorder>
+   <zorder>ParametrageEleve</zorder>
+   <zorder>CreationButton</zorder>
+   <zorder>muteButton</zorder>
+   <zorder>demuteButton</zorder>
+   <zorder>desactiverSonButton</zorder>
+   <zorder>activerSonButton</zorder>
+   <zorder>nomGroupeLabel</zorder>
+   <zorder>annulerButton</zorder>
+   <zorder>creerGroupeButton</zorder>
+   <zorder>alignerTableau</zorder>
+   <zorder>supprimerGroupeButton</zorder>
+   <zorder>selectionGroupe</zorder>
+   <zorder>TableauGroupe</zorder>
+   <zorder>nomEleveLineEdit</zorder>
+   <zorder>Communication</zorder>
+   <zorder>envoyerMessagePersonne</zorder>
+   <zorder>envoyerMessageTextEdit</zorder>
+   <zorder>envoyerMessageGroupe</zorder>
+   <zorder>modeSombreButton</zorder>
+   <zorder>modeClairButton</zorder>
+   <zorder>PageStatut</zorder>
+   <zorder>cacheButton</zorder>
   </widget>
  </widget>
  <resources/>

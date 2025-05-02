@@ -29,8 +29,15 @@ Professor::Professor(QObject *parent) : QObject(parent), context(1) {
             qDebug() << "❌ Erreur lors de la création du QAudioSource:" << e.what();
         }
     } else {
-        qDebug() << "❌ Aucun micro détecté!";
-    }
+        QMessageBox::critical(
+            nullptr,
+            "Microphone non détecté",
+            "❌ Aucun microphone n'a été détecté.\n"
+            "La communication audio avec les élèves est impossible.\n\n"
+            "Veuillez connecter un microphone et redémarrer l'application."
+            );
+            return;
+        }
 
     // Vérification et initialisation des haut-parleurs
     if (!outputDeviceInfo.isNull()) {
@@ -47,7 +54,14 @@ Professor::Professor(QObject *parent) : QObject(parent), context(1) {
             qDebug() << "❌ Erreur lors de la création du QAudioSink:" << e.what();
         }
     } else {
-        qDebug() << "❌ Aucun haut-parleur détecté!";
+        QMessageBox::critical(
+            nullptr,
+            "Haut parleur non détecté",
+            "❌ Aucun haut parleur n'a été détecté.\n"
+            "La communication audio avec les élèves est impossible.\n\n"
+            "Veuillez connecter un microphone et redémarrer l'application."
+            );
+        return;
     }
 
     // Vérification des sockets ZeroMQ
@@ -82,35 +96,36 @@ Professor::Professor(QObject *parent) : QObject(parent), context(1) {
     //sendCommandToStudent("192.168.64.113", "mute");
 }
 
-void Professor::sendCommandToStudent(const QString& studentIp, const QString& command) {
-    QString fullCommand = command + " " + "192.168.64.113";
+void Professor::sendCommandToStudent(const QString& studentIp, int port, const QString& command) {
+    if(command == "" )
+    {
+        return;
+    }
+    QString fullCommand = command;
     QByteArray datagram = fullCommand.toUtf8();
-
     QHostAddress studentAddress(studentIp);
-    quint16 port = 5557; // Assurez-vous que le port est bien celui utilisé par les élèves
-
     udpSocket.writeDatagram(datagram, studentAddress, port);
     qDebug() << "📢 Commande envoyée :" << fullCommand;
 }
 
 void Professor::muteStudent(const QString& studentIp) {
-    sendCommandToStudent(studentIp, "mute");
+    sendCommandToStudent(studentIp, 5557, "mute");
     qDebug() << "🔇 Élève" << studentIp << "muté!";
 }
 
 void Professor::unmuteStudent(const QString& studentIp) {
-    sendCommandToStudent(studentIp, "unmute");
+    sendCommandToStudent(studentIp, 5557, "unmute");
     qDebug() << "🎤 Élève" << studentIp << "démuté!";
 }
 
 
 void Professor::activerSonStudent(const QString& studentIp){
-    sendCommandToStudent(studentIp, "activerSon");
+    sendCommandToStudent(studentIp, 5557, "activerSon");
     qDebug() << "🎤 Élève" << studentIp << "son activé !";
 }
 
 void Professor::desactiverSonStudent(const QString& studentIp){
-    sendCommandToStudent(studentIp, "desactiverSon");
+    sendCommandToStudent(studentIp, 5557, "desactiverSon");
     qDebug() << "🎤 Élève" << studentIp << "son desactivé !";
 }
 
@@ -133,21 +148,7 @@ QString Professor::getStudentStatus(const QString& studentIp) {
 void Professor::sendAudioData() {
     //qDebug() << "?? Début sendAudioData()";
 
-    if (!audioSourceDevice) {
-        if(!microError)
-        {
-            microError = true;
-            QMessageBox::critical(
-                nullptr,
-                "Microphone non détecté",
-                "❌ Aucun microphone n'a été détecté.\n"
-                "La communication audio avec les élèves est impossible.\n\n"
-                "Veuillez connecter un microphone et redémarrer l'application."
-                );
-            sendAudioTimer.stop();
-        }
-        return;
-    }
+
 
     QByteArray data = audioSourceDevice->readAll();
     //qDebug() << "🔹 Audio lu, taille :" << data.size();
@@ -177,24 +178,6 @@ void Professor::receiveAudioData() {
 
     if (!pullSocket) {
         //qDebug() << "⚠️ pullSocket non initialisé";
-        return;
-    }
-
-    if (!audioSinkDevice) {
-        if (!audioError) {
-            audioError = true;
-
-            QMessageBox::critical(
-                nullptr,
-                "Haut-parleur non détecté",
-                "❌ Aucun haut-parleur n'a été détecté.\n"
-                   "La réception audio depuis les élèves est impossible.\n\n"
-                   "Veuillez connecter un périphérique de sortie audio et redémarrer l'application."
-                );
-
-            receiveAudioTimer.stop();  // Stoppe définitivement les tentatives
-        }
-        //qDebug() << "⚠️ audioSinkDevice non initialisé";
         return;
     }
 

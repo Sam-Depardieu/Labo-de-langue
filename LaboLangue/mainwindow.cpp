@@ -62,8 +62,24 @@ MainWindow::MainWindow(QWidget *parent)
     ui->envoyerMessagePersonne->setVisible(false);
     ui->envoyerMessageTextEdit->setVisible(false);
     ui->TableauGroupe->setVisible(false);
+    ui->envoyerMessageTextEdit->setPlaceholderText("Ecrire un message...");
     // Appliquez le layout à ParametrageEleve
     ui->ParametrageEleve->setLayout(layoutParametrageEleve);
+
+
+    // Créer le layout principal pour le parametrage de session avec les éléments disposés
+    QVBoxLayout *layoutPageStatut = new QVBoxLayout();
+    layoutPageStatut->setContentsMargins(8, 8, 15, 8);
+    layoutPageStatut->setAlignment(Qt::AlignCenter | Qt::AlignTop);
+    // Ajout des sections dans le layoutPageStatut
+    addHorizontalLayout(layoutPageStatut, {ui->alignerTableau_2, ui->StatutTableauGroupe});
+    layoutPageStatut->addSpacing(10);
+    // Appliquez le layout à PageStatut
+    ui->PageStatut->setLayout(layoutPageStatut);
+    ui->alignerTableau_2->setVisible(false);
+    ui->PageStatut->setVisible(false);
+
+
 
     // Initialiser les ComboBoxes et charger les images depuis la base de données
     setupClassesComboBox();
@@ -98,6 +114,9 @@ MainWindow::~MainWindow()
 // Ouverture page paramétrage Eleve
 void MainWindow::toggleSettingEleve(iconEleveGroup *group, bool open)
 {
+    ui->Communication->setVisible(true);
+
+    ui->PageStatut->setVisible(false);
     ui->ParametrageSession->setVisible(false);
     parametrageEleve = open;
     ui->ParametrageEleve->setVisible(open);
@@ -539,6 +558,7 @@ void MainWindow::saveSessionData(bool isNewSession)
  */
 void MainWindow::on_SessionButton_clicked()
 {
+    ui->PageStatut->setVisible(false);
     ui->ParametrageEleve->setVisible(false);
     parametrageEleve = false;
 
@@ -727,6 +747,8 @@ void MainWindow::on_validButton_clicked()
         participant->setIDELeve(query.lastInsertId().toInt());
     }
 
+    prof = new Professor();
+
     unsigned int i = 1;
     for (auto *eleve : listeRasp) {
         // Si l'élément n'est PAS dans listeParticipant
@@ -736,6 +758,19 @@ void MainWindow::on_validButton_clicked()
         else
         {
             changeNameGroup(eleve, QString("Éleve " + QString::number(i++)));
+
+            QMap<int, QString> activite;
+            activite[1] = "QCM";
+            activite[2] = "ecoute";
+            activite[3] = "ecoute_co";
+            activite[4] = "video";
+            activite[5] = "video_co";
+            activite[6] = "enregistrement";
+
+            prof->sendCommandToStudent(eleve->getIP(), 5560, "nomProf:"+nomProf);
+            prof->sendCommandToStudent(eleve->getIP(), 5558, ui->ConsigneTextEdit->toPlainText());
+            prof->sendCommandToStudent(eleve->getIP(), 5561, activite.value(idTypeActivite));
+
         }
     }
 
@@ -762,7 +797,7 @@ void MainWindow::on_validButton_clicked()
     ui->delButton->setText("Fin session");
     runningSession = true;
 
-    prof = new Professor();
+
 }
 
 void MainWindow::on_echapButton_clicked()
@@ -832,7 +867,7 @@ void MainWindow::loadInformationTable()
     // Crée une table de 12 lignes et 4 colonnes
     ui->TableauGroupe->setColumnCount(4);
 
-    ui->TableauGroupe->setRowCount(12);
+    ui->TableauGroupe->setRowCount(listeRasp.size());
     TableauGroupe = ui->TableauGroupe;
 
     // Ajouter des en-têtes pour les colonnes
@@ -899,6 +934,7 @@ void MainWindow::on_Communication_clicked()
 
 void MainWindow::on_nomEleveLineEdit_editingFinished()
 {
+    prof->sendCommandToStudent(eleveActuellementParametre->getIP(), 5560, "{\"nomEleve\" :\"" + ui->nomEleveLineEdit->text() + "\"}");
     changeNameGroup(eleveActuellementParametre, ui->nomEleveLineEdit->text());
 }
 
@@ -907,6 +943,8 @@ void MainWindow::on_envoyerMessagePersonne_clicked()
     qDebug() << "Envoyer le message a :" << eleveActuellementParametre->getIP();
     //Code fonction
     qDebug() << "Le message à été envoyé";
+
+    prof->sendCommandToStudent(eleveActuellementParametre->getIP(), 5559, ui->envoyerMessageTextEdit->toPlainText());
 
     QMessageBox::information(
         nullptr,
@@ -921,6 +959,8 @@ void MainWindow::on_envoyerMessageGroupe_clicked()
     //Code fonction
     qDebug() << "Le message à été envoyé";
 
+
+
     QMessageBox::information(
         nullptr,
         "Message envoyé",
@@ -934,6 +974,7 @@ void MainWindow::on_modeClairButton_clicked()
     ui->ParametrageEleve->setStyleSheet("background-color: white;");
     ui->PlanClasse->setStyleSheet("background-color: white;");
     ui->ParametrageSession->setStyleSheet("background-color: white;");
+    ui->PageStatut->setStyleSheet("background-color: white;");
 
     ui->centralwidget->setStyleSheet("background-color: gray;");
 
@@ -944,11 +985,85 @@ void MainWindow::on_modeClairButton_clicked()
 
 void MainWindow::on_modeSombreButton_clicked()
 {
-    ui->ParametrageEleve->setStyleSheet("background-color: gray;");
-    ui->PlanClasse->setStyleSheet("background-color: gray;");
-    ui->ParametrageSession->setStyleSheet("background-color: gray;");
+    ui->PageStatut->setStyleSheet("background-color: rgb(160, 160, 160)");
+    ui->ParametrageEleve->setStyleSheet("background-color: rgb(160, 160, 160)");
+    ui->PlanClasse->setStyleSheet("background-color: rgb(160, 160, 160)");
+    ui->ParametrageSession->setStyleSheet("background-color: rgb(160, 160, 160)");
 
-    ui->centralwidget->setStyleSheet("background-color: black;");
+    ui->centralwidget->setStyleSheet("background-color: black");
+
+    ui->modeClairButton->setVisible(true);
+    ui->modeSombreButton->setVisible(false);
+}
+
+
+void MainWindow::on_StatutButton_clicked()
+{
+
+
+    ui->ParametrageSession->setVisible(false);
+    parametrageEleve = false;
+    ui->ParametrageEleve->setVisible(false);
+    ui->StatutTableauGroupe->setVisible(true);
+    ui->PageStatut->setVisible(true);
+
+    // Crée une table de 12 lignes et 4 colonnes
+    ui->StatutTableauGroupe->setColumnCount(6);
+
+    ui->StatutTableauGroupe->setRowCount(listeRasp.size());
+    StatutTableauGroupe = ui->StatutTableauGroupe;
+
+    // Ajouter des en-têtes pour les colonnes
+    StatutTableauGroupe->setHorizontalHeaderLabels({"Nom", "Numéro de poste", "Adresse IP", "Travail déposé", "Numéro de groupe", "Enregistrement"});
+    StatutTableauGroupe->setColumnWidth(1, 50);
+    StatutTableauGroupe->setColumnWidth(1, 100);
+    StatutTableauGroupe->setColumnWidth(2, 80);
+    StatutTableauGroupe->setColumnWidth(3, 85);
+    StatutTableauGroupe->setColumnWidth(4, 110);
+    StatutTableauGroupe->setColumnWidth(5, 100);
+
+    // Remplir les cellules avec des données
+    for (unsigned int row = 0; row < listeParticipant.size(); ++row) {
+
+    QTableWidgetItem *itemNom ;
+
+    itemNom = new QTableWidgetItem(listeParticipant[row]->getNom());
+    itemNom->setTextAlignment(Qt::AlignCenter);
+    StatutTableauGroupe->setItem(row, 0, itemNom);
+
+    QTableWidgetItem *itemID = new QTableWidgetItem(QString::number(listeParticipant[row]->getID()));
+    itemID->setTextAlignment(Qt::AlignCenter);
+    itemID->setFlags(itemID->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
+    StatutTableauGroupe->setItem(row, 1, itemID);
+
+    QTableWidgetItem *itemIP = new QTableWidgetItem(listeParticipant[row]->getIP());
+    itemIP->setTextAlignment(Qt::AlignCenter);
+    itemIP->setFlags(itemIP->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
+    StatutTableauGroupe->setItem(row, 2, itemIP);
+
+    QTableWidgetItem *itemTravailDepot = new QTableWidgetItem("❌");
+    itemTravailDepot->setTextAlignment(Qt::AlignCenter);
+    itemTravailDepot->setFlags(itemIP->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
+    StatutTableauGroupe->setItem(row, 3, itemTravailDepot);
+
+
+    QPushButton *itemBoutonAjouterGroupe = new QPushButton();
+    itemBoutonAjouterGroupe->setText("Ecouter");
+    ui->StatutTableauGroupe->setCellWidget(row, 5, itemBoutonAjouterGroupe);
+    }
+    connect(StatutTableauGroupe, &QTableWidget::itemChanged, this, &MainWindow::changeNameTable);
+    // Afficher le tableau
+}
+
+
+void MainWindow::on_cacheButton_clicked()
+{
+    ui->PageStatut->setStyleSheet("background-color: rgb(0, 255, 128)");
+    ui->ParametrageEleve->setStyleSheet("background-color: rgb(0, 255, 128)");
+    ui->PlanClasse->setStyleSheet("background-color: rgb(255, 204, 204)");
+    ui->ParametrageSession->setStyleSheet("background-color: rgb(0, 255, 128)");
+
+    ui->centralwidget->setStyleSheet("background-color: rgb(128,255,0)");
 
     ui->modeClairButton->setVisible(true);
     ui->modeSombreButton->setVisible(false);

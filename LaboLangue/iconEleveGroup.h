@@ -57,6 +57,8 @@ class iconEleveGroup : public QObject, public QGraphicsItemGroup {
 
     public:
         iconEleveGroup(int ID, QString ip, QGraphicsTextItem* text, MainWindow* parentWindow);
+
+        //Setteur
         void setCheckItem(QGraphicsPixmapItem *item) { checkItem = item; }
         void setMicro(QGraphicsPixmapItem *item) { micro = item; }
         void setSound(QGraphicsPixmapItem *item) { sound = item; }
@@ -64,6 +66,7 @@ class iconEleveGroup : public QObject, public QGraphicsItemGroup {
         void setTextItem(const QString newText) {textItem->setPlainText(newText);};
         void setNom(QString newNom) {nom = newNom;};
 
+        //Getteur
         QGraphicsTextItem* getTextItem() const {return textItem;};
         QGraphicsPixmapItem* getCheckItem() { return checkItem; }
         QGraphicsPixmapItem* getMicro() { return micro; }
