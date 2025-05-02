@@ -109,6 +109,11 @@ void MainWindow::setupActivitiesComboBox()
     return;
 }
 
+void MainWindow::setNomEtudiantLineEdit(QString nom)
+{
+    ui->nomEleveLineEdit->setText(nom);
+}
+
 void MainWindow::setupClassesComboBox()
 {
     QSqlQuery query;
@@ -285,7 +290,7 @@ void MainWindow::changeNameGroup(iconEleveGroup *group, QString newName)
         // Afficher un message d'erreur à l'utilisateur
     }
     group->setTextItem(newName);
-    eleveActuellementParametre->setNom(newName);
+    group->setNom(newName);
     loadInformationTable();
 }
 
@@ -712,7 +717,7 @@ void MainWindow::on_validButton_clicked()
         }
         else
         {
-            eleve->setNom("Éleve " + QString::number(i++));
+            changeNameGroup(eleve, QString("Éleve " + QString::number(i++)));
         }
     }
 

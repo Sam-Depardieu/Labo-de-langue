@@ -19,6 +19,7 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
+    Ui::MainWindow *ui;
 
     int idTypeActivite = -1;
     std::vector<iconEleveGroup*> listeRasp = {};
@@ -36,13 +37,13 @@ public:
 
     void toggleSettingEleve(iconEleveGroup *group, bool open);
     QString getSessionFolder() {return sessionFolder;};
+    void setNomEtudiantLineEdit(QString nom);
     void updateCheckItemsVisibility();
 
     ~MainWindow();
 
 private slots:
     void on_PlanButton_clicked();
-    void keyPressEvent(QKeyEvent *event);
     void loadImagesFromDB();
     bool connectToDatabase();
     void onImageGroupDoubleClicked();
@@ -80,7 +81,6 @@ private slots:
     void loadInformationTable();
 
 private:
-    Ui::MainWindow *ui;
     QGraphicsScene *scene;
     QSqlDatabase db;
     QGraphicsPixmapItem *item;
