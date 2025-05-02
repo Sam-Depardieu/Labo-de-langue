@@ -74,11 +74,13 @@ private slots:
     void on_activerSonButton_clicked();
     void on_creerGroupeButton_clicked();
     void on_annulerButton_clicked();
-    void on_creerMessage_clicked();
+    void on_Communication_clicked();
     void on_nomEleveLineEdit_editingFinished();
     void changeNameTable(QTableWidgetItem* item);
     void changeNameGroup(iconEleveGroup *group, QString newName);
     void loadInformationTable();
+    void on_envoyerMessagePersonne_clicked();
+    void on_envoyerMessageGroupe_clicked();
 
 private:
     QGraphicsScene *scene;

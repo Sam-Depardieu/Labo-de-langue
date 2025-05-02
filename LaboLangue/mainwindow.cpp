@@ -50,15 +50,16 @@ MainWindow::MainWindow(QWidget *parent)
     layoutParametrageEleve->setContentsMargins(8, 8, 15, 8);
     layoutParametrageEleve->setAlignment(Qt::AlignCenter | Qt::AlignTop);
     // Ajout des sections dans le layoutParametrageEleve
-    addHorizontalLayout(layoutParametrageEleve, {ui->nomGroupeLabel, ui->nomEleveLineEdit, ui->creerMessage});
+    addHorizontalLayout(layoutParametrageEleve, {ui->nomGroupeLabel, ui->nomEleveLineEdit, ui->Communication});
     addHorizontalLayout(layoutParametrageEleve, {ui->muteButton, ui->demuteButton});
     addHorizontalLayout(layoutParametrageEleve, {ui->desactiverSonButton, ui->activerSonButton});
     addHorizontalLayout(layoutParametrageEleve, {ui->creerGroupeButton, ui->annulerButton});
     addHorizontalLayout(layoutParametrageEleve, {ui->supprimerGroupeButton, ui->selectionGroupe});
-    addHorizontalLayout(layoutParametrageEleve, {ui->alignerTableau, ui->TableauGroupe});
-    addHorizontalLayout(layoutParametrageEleve, {ui->envoyerMessageTextEdit, ui->envoyerMessage});
+    addHorizontalLayout(layoutParametrageEleve, {ui->alignerTableau, ui->TableauGroupe, ui->envoyerMessageTextEdit});
+    addHorizontalLayout(layoutParametrageEleve, {ui->envoyerMessagePersonne, ui->envoyerMessageGroupe});
     layoutParametrageEleve->addSpacing(10);
-    ui->envoyerMessage->setVisible(false);
+    ui->envoyerMessageGroupe->setVisible(false);
+    ui->envoyerMessagePersonne->setVisible(false);
     ui->envoyerMessageTextEdit->setVisible(false);
     ui->TableauGroupe->setVisible(false);
     // Appliquez le layout à ParametrageEleve
@@ -856,7 +857,8 @@ void MainWindow::loadInformationTable()
 
 void MainWindow::on_creerGroupeButton_clicked()
 {
-    ui->envoyerMessage->setVisible(false);
+    ui->envoyerMessageGroupe->setVisible(false);
+    ui->envoyerMessagePersonne->setVisible(false);
     ui->envoyerMessageTextEdit->setVisible(false);
     ui->TableauGroupe->setVisible(true);
     qDebug() << "Actualisation du tableau";
@@ -866,16 +868,42 @@ void MainWindow::on_creerGroupeButton_clicked()
     TableauGroupe->show();
 }
 
-void MainWindow::on_creerMessage_clicked()
+void MainWindow::on_Communication_clicked()
 {
-    ui->envoyerMessage->setVisible(true);
+    ui->envoyerMessageGroupe->setVisible(true);
+    ui->envoyerMessagePersonne->setVisible(true);
     ui->envoyerMessageTextEdit->setVisible(true);
     ui->TableauGroupe->setVisible(false);
-
 }
 
 void MainWindow::on_nomEleveLineEdit_editingFinished()
 {
     changeNameGroup(eleveActuellementParametre, ui->nomEleveLineEdit->text());
+}
+
+void MainWindow::on_envoyerMessagePersonne_clicked()
+{
+    qDebug() << "Envoyer le message a :" << eleveActuellementParametre->getIP();
+    //Code fonction
+    qDebug() << "Le message à été envoyé";
+
+    QMessageBox::information(
+        nullptr,
+        "Message envoyé",
+        "✔ Le message à bien été envoyé au poste séléctionné.\n"
+    );
+}
+
+void MainWindow::on_envoyerMessageGroupe_clicked()
+{
+    qDebug() << "Envoyer le message au groupe de :" << eleveActuellementParametre->getIP();
+    //Code fonction
+    qDebug() << "Le message à été envoyé";
+
+    QMessageBox::information(
+        nullptr,
+        "Message envoyé",
+        "✔ Le message à bien été envoyé au groupe du poste séléctionné.\n"
+    );
 }
 
