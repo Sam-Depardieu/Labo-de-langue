@@ -162,16 +162,13 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         qDebug() << "Coordonnées calculées : X =" << x << ", Y =" << y;
 
         // Insérer les données dans la base
-        query.prepare("INSERT INTO Raspberry (id_raspberry, ip, mac, x, y, Status) VALUES (:id, :ip, :mac, :x, :y, :status)");
+        query.prepare("INSERT INTO Raspberry (id_raspberry, ip, mac, x, y) VALUES (:id, :ip, :mac, :x, :y)");
         query.bindValue(":id", id_raspberry);
         query.bindValue(":ip", ipAddress);
         query.bindValue(":mac", macAddress);
         query.bindValue(":x", x);
         query.bindValue(":y", y);
 
-        // On insère 1 si l'appareil est allumé (true), sinon 0 (false)
-        int status = 1; // L'appareil est allumé
-        query.bindValue(":status", status);
 
         if (!query.exec()) {
             qDebug() << "Erreur lors de l'insertion :" << query.lastError();

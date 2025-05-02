@@ -36,14 +36,14 @@ namespace {
 struct qt_meta_stringdata_CLASSInterfaceAudioENDCLASS_t {};
 constexpr auto qt_meta_stringdata_CLASSInterfaceAudioENDCLASS = QtMocHelpers::stringData(
     "InterfaceAudio",
-    "on_pushButton_Avant_clicked",
+    "on_pushButton_SelectAudio_clicked",
     "",
     "on_pushButton_Play_clicked",
     "on_pushButton_Pause_clicked",
-    "on_pushButton_SelectAudio_clicked",
+    "on_pushButton_Avant_clicked",
+    "on_pushButton_Apres_clicked",
     "on_horizontalSliderSon_actionTriggered",
     "action",
-    "on_pushButton_Apres_clicked",
     "on_horizontalSlider_sliderReleased"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
@@ -69,8 +69,8 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSInterfaceAudioENDCLASS[] = {
        3,    0,   57,    2, 0x08,    2 /* Private */,
        4,    0,   58,    2, 0x08,    3 /* Private */,
        5,    0,   59,    2, 0x08,    4 /* Private */,
-       6,    1,   60,    2, 0x08,    5 /* Private */,
-       8,    0,   63,    2, 0x08,    7 /* Private */,
+       6,    0,   60,    2, 0x08,    5 /* Private */,
+       7,    1,   61,    2, 0x08,    6 /* Private */,
        9,    0,   64,    2, 0x08,    8 /* Private */,
 
  // slots: parameters
@@ -78,8 +78,8 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSInterfaceAudioENDCLASS[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Int,    7,
     QMetaType::Void,
+    QMetaType::Void, QMetaType::Int,    8,
     QMetaType::Void,
 
        0        // eod
@@ -94,19 +94,19 @@ Q_CONSTINIT const QMetaObject InterfaceAudio::staticMetaObject = { {
     qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSInterfaceAudioENDCLASS_t,
         // Q_OBJECT / Q_GADGET
         QtPrivate::TypeAndForceComplete<InterfaceAudio, std::true_type>,
-        // method 'on_pushButton_Avant_clicked'
+        // method 'on_pushButton_SelectAudio_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_pushButton_Play_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_pushButton_Pause_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'on_pushButton_SelectAudio_clicked'
+        // method 'on_pushButton_Avant_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_pushButton_Apres_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_horizontalSliderSon_actionTriggered'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<int, std::false_type>,
-        // method 'on_pushButton_Apres_clicked'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_horizontalSlider_sliderReleased'
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
@@ -119,12 +119,12 @@ void InterfaceAudio::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         auto *_t = static_cast<InterfaceAudio *>(_o);
         (void)_t;
         switch (_id) {
-        case 0: _t->on_pushButton_Avant_clicked(); break;
+        case 0: _t->on_pushButton_SelectAudio_clicked(); break;
         case 1: _t->on_pushButton_Play_clicked(); break;
         case 2: _t->on_pushButton_Pause_clicked(); break;
-        case 3: _t->on_pushButton_SelectAudio_clicked(); break;
-        case 4: _t->on_horizontalSliderSon_actionTriggered((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
-        case 5: _t->on_pushButton_Apres_clicked(); break;
+        case 3: _t->on_pushButton_Avant_clicked(); break;
+        case 4: _t->on_pushButton_Apres_clicked(); break;
+        case 5: _t->on_horizontalSliderSon_actionTriggered((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
         case 6: _t->on_horizontalSlider_sliderReleased(); break;
         default: ;
         }

@@ -419,7 +419,6 @@ void InterfaceEnregistrement::receiveResponse() {
             if (file.open(QIODevice::Append | QIODevice::Text)) {
                 QTextStream out(&file);
                 out<< response << "\n";
-
                 file.close();
             }
 

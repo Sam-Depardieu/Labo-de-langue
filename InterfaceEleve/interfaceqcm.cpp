@@ -16,7 +16,10 @@ InterfaceQCM::InterfaceQCM(QWidget *parent)
     this->setWindowTitle("Page de QCM");
     // Affichage des Images
     setButtonIcons();
+    ui->textEditConsigne->setText(parent->getConsigne());
 
+    udpSocketConsigne.bind(QHostAddress::Any, consignePort);
+    connect(&udpSocketConsigne, &QUdpSocket::readyRead, this, &InterfaceQCM::receiveResponse);
 }
 
 InterfaceQCM::~InterfaceQCM()
@@ -239,3 +242,24 @@ void InterfaceQCM::on_pushButtonQuestionSuivante_clicked()
     qDebug() << "Réponses enregistrées dans le fichier :" << file.fileName();
 }
 
+
+
+void InterfaceQCM::receiveResponse()
+{
+    while (udpSocketConsigne.hasPendingDatagrams()) {
+        QByteArray datagram;
+        datagram.resize(udpSocketConsigne.pendingDatagramSize());
+
+        QHostAddress sender;
+        quint16 senderPort;
+
+        udpSocketConsigne.readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
+
+        QString response = QString::fromUtf8(datagram).trimmed();
+        qDebug() << "📢 Réponse reçue de" << sender.toString() << ":" << response;
+
+        if (!response.isEmpty()) {
+            consigne = response;
+        }
+    }
+}
