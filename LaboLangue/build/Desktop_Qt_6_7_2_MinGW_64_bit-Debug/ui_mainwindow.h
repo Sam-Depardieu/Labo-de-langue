@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created by: Qt User Interface Compiler version 6.9.0
+** Created by: Qt User Interface Compiler version 6.7.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -75,9 +75,10 @@ public:
     QSpinBox *selectionGroupe;
     QTableWidget *TableauGroupe;
     QLineEdit *nomEleveLineEdit;
-    QPushButton *creerMessage;
-    QPushButton *envoyerMessage;
+    QPushButton *Communication;
+    QPushButton *envoyerMessagePersonne;
     QTextEdit *envoyerMessageTextEdit;
+    QPushButton *envoyerMessageGroupe;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -337,15 +338,18 @@ public:
         nomEleveLineEdit = new QLineEdit(centralwidget);
         nomEleveLineEdit->setObjectName("nomEleveLineEdit");
         nomEleveLineEdit->setGeometry(QRect(800, 90, 281, 41));
-        creerMessage = new QPushButton(centralwidget);
-        creerMessage->setObjectName("creerMessage");
-        creerMessage->setGeometry(QRect(1110, 90, 161, 41));
-        envoyerMessage = new QPushButton(centralwidget);
-        envoyerMessage->setObjectName("envoyerMessage");
-        envoyerMessage->setGeometry(QRect(1100, 510, 161, 41));
+        Communication = new QPushButton(centralwidget);
+        Communication->setObjectName("Communication");
+        Communication->setGeometry(QRect(1110, 90, 161, 41));
+        envoyerMessagePersonne = new QPushButton(centralwidget);
+        envoyerMessagePersonne->setObjectName("envoyerMessagePersonne");
+        envoyerMessagePersonne->setGeometry(QRect(1080, 510, 191, 41));
         envoyerMessageTextEdit = new QTextEdit(centralwidget);
         envoyerMessageTextEdit->setObjectName("envoyerMessageTextEdit");
         envoyerMessageTextEdit->setGeometry(QRect(750, 380, 331, 291));
+        envoyerMessageGroupe = new QPushButton(centralwidget);
+        envoyerMessageGroupe->setObjectName("envoyerMessageGroupe");
+        envoyerMessageGroupe->setGeometry(QRect(1080, 440, 191, 41));
         MainWindow->setCentralWidget(centralwidget);
 
         retranslateUi(MainWindow);
@@ -390,8 +394,8 @@ public:
         creerGroupeButton->setText(QCoreApplication::translate("MainWindow", "Creer un groupe", nullptr));
         alignerTableau->setText(QString());
         supprimerGroupeButton->setText(QCoreApplication::translate("MainWindow", "Supprimer groupe : ", nullptr));
-        creerMessage->setText(QCoreApplication::translate("MainWindow", "Creer un message", nullptr));
-        envoyerMessage->setText(QCoreApplication::translate("MainWindow", "Envoyer le message", nullptr));
+        Communication->setText(QCoreApplication::translate("MainWindow", "Communication", nullptr));
+        envoyerMessagePersonne->setText(QCoreApplication::translate("MainWindow", "Envoyer le message (\303\240 la personne)", nullptr));
         envoyerMessageTextEdit->setHtml(QCoreApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
@@ -400,6 +404,7 @@ public:
 "li.checked::marker { content: \"\\2612\"; }\n"
 "</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">Ecrire un message...</span></p></body></html>", nullptr));
+        envoyerMessageGroupe->setText(QCoreApplication::translate("MainWindow", "Envoyer le message (au groupe)", nullptr));
     } // retranslateUi
 
 };
