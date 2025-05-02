@@ -12,7 +12,6 @@
 #include <QAudioOutput>
 #include <QUrl>
 #include <QStandardPaths>
-#include <QFile>
 #include <QMediaFormat>
 #include <QUdpSocket>
 #include <QJsonDocument>
@@ -30,17 +29,20 @@
 //#include <QAudioEncoderSettings>
 //#include <QtMultimedia>
 
+#include "mainwindow.h"
 
 namespace Ui {
 class InterfaceEnregistrement;
+class MainWindow;
 }
 
 class InterfaceEnregistrement : public QDialog {
     Q_OBJECT
 
 public:
-    explicit InterfaceEnregistrement(QWidget *parent = nullptr);
+    explicit InterfaceEnregistrement(MainWindow *parent = nullptr);
     ~InterfaceEnregistrement();
+    void receiveResponse();
 
 private slots:
     void on_pushButtonSpeak_clicked();
@@ -49,47 +51,65 @@ private slots:
     void on_pushButtonSon_clicked();
     void on_pushButtonRetourArriere_clicked();
     void on_pushButtonAppelProf_clicked();
-    void updateChrono();
-    void rewindChrono();
-    void checkPlaybackPosition(qint64 position);
-    void onRecorderStateChanged(QMediaRecorder::RecorderState state);
-    void onRecorderErrorOccurred(QMediaRecorder::Error error, const QString &errorString);
     void on_pushButtonAvancer_clicked();
     void on_pushButtonEnregistrer_clicked();
+    void on_pushButtonPlay_clicked();
+
+    void updateChrono();
+    void rewindChrono();
+    void updateChronoLabel();
+
+    void onRecorderStateChanged(QMediaRecorder::RecorderState state);
+    void onRecorderErrorOccurred(QMediaRecorder::Error error, const QString &errorString);
+    void checkPlaybackPosition(qint64 position);
 
 private:
     Ui::InterfaceEnregistrement *ui;
+    MainWindow *parent;
+
+    // Audio/vidéo
     QMediaRecorder *mediaRecorder;
     QMediaPlayer *player;
     QAudioOutput *audioOutput;
     QAudioInput *audioInput;
+    QMediaCaptureSession captureSession;
+
+    // Fichier et chrono
+    QString audioFilePath;
+    QString workspace;
+    int studentId;
+    int totalSecondes = 0;
+    int lastRecordedTime = 0;
+    qint64 pausedTime = 0;
+    qint64 pauseTime = 0;
+    bool isRewinding = false;
+    bool isPaused = false;
+    bool isRecordingPaused = false;
+    bool speakButtonClicked = false;
+    bool isButtonSpeak = false;
+    bool isTeacher = false;
+
+    // Timers
     QTimer *timer;
     QTimer *rewindTimer;
-    QMediaCaptureSession captureSession;
-    bool isRewinding;
-    int totalSecondes;
-    bool speakButtonClicked;
-    QString audioFilePath;
-    int studentId;
-    bool isPaused = false;
-    qint64 pauseTime = 0;
-    int lastRecordedTime = 0;
-    bool isRecordingPaused = false;
-    qint64 pausedTime = 0;
+
+    // Widgets et UI
     QMenu *volumeMenu;
     QSlider *sliderPrincipal;
     QSlider *sliderSecondaire;
-    void setupVolumeMenu();
-    bool isButtonSpeak = false;
     QTextEdit *textedit;
     QMessageBox *messagebox;
     QSpinBox *spinbox;
+
+    // Réseau
+    QUdpSocket udpSocket;
+    quint16 responsePort = 5559;
+
+    // Fonctions internes
+    void setupVolumeMenu();
     void showFeedbackDialog();
-    void resetTimer();
     void setButtonIcons();
-    void updateChronoLabel();
     void setButtonIcon(QPushButton *button, const QString &imagePath);
-    bool isTeacher = false; // Flag pour vérifier si l'utilisateur est un professeur
 };
 
 #endif // INTERFACEENREGISTREMENT_H

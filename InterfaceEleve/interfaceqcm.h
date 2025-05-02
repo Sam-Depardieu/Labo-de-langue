@@ -1,6 +1,7 @@
 #ifndef INTERFACEQCM_H
 #define INTERFACEQCM_H
 
+#include "qudpsocket.h"
 #include <QDialog>
 
 namespace Ui {
@@ -14,6 +15,9 @@ class InterfaceQCM : public QDialog
 public:
     explicit InterfaceQCM(QWidget *parent = nullptr);
     ~InterfaceQCM();
+    void receiveResponse();
+
+    QString getConsigne() {return consigne;};
 
 private slots:
     void on_pushButton1_clicked();
@@ -30,6 +34,8 @@ private slots:
 
     void on_pushButtonQuestionSuivante_clicked();
 
+
+
 private:
     Ui::InterfaceQCM *ui;
     bool isButton1Image; // Déclaration pour Button 1
@@ -38,6 +44,11 @@ private:
     bool isButton4Image;
     void setButtonIcons();
     void setButtonIcon(QPushButton *button, const QString &imagePath);
+
+    QUdpSocket udpSocketConsigne;
+    quint16 consignePort = 5558;
+
+    QString consigne = "";
 };
 
 #endif // INTERFACEQCM_H

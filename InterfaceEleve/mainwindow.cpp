@@ -14,6 +14,17 @@ MainWindow::MainWindow(QWidget *parent)
     setFixedSize(800,480);
     this->setWindowTitle("Page de Connexion");
     connectToDatabase();
+
+
+    udpSocketInfo.bind(QHostAddress::Any, infoPort);
+    connect(&udpSocketInfo, &QUdpSocket::readyRead, this, &MainWindow::receiveResponse);
+
+    udpSocketConsigne.bind(QHostAddress::Any, consignePort);
+    connect(&udpSocketConsigne, &QUdpSocket::readyRead, this, &MainWindow::receiveResponse);
+
+    udpSocketInter.bind(QHostAddress::Any, interPort);
+    connect(&udpSocketInter, &QUdpSocket::readyRead, this, &MainWindow::receiveResponse);
+
 }
 
 bool MainWindow::connectToDatabase() {
@@ -63,9 +74,6 @@ void MainWindow::on_pushButtonInterfaceVideo_clicked()
     InterfaceVideo *interfaceVideo = new InterfaceVideo(this);
     interfaceVideo->show();
 }
-
-bool isCtrlPressed = false;
-bool isF1Pressed = false;
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
@@ -154,16 +162,13 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         qDebug() << "Coordonnées calculées : X =" << x << ", Y =" << y;
 
         // Insérer les données dans la base
-        query.prepare("INSERT INTO Raspberry (id_raspberry, ip, mac, x, y, Status) VALUES (:id, :ip, :mac, :x, :y, :status)");
+        query.prepare("INSERT INTO Raspberry (id_raspberry, ip, mac, x, y) VALUES (:id, :ip, :mac, :x, :y)");
         query.bindValue(":id", id_raspberry);
         query.bindValue(":ip", ipAddress);
         query.bindValue(":mac", macAddress);
         query.bindValue(":x", x);
         query.bindValue(":y", y);
 
-        // On insère 1 si l'appareil est allumé (true), sinon 0 (false)
-        int status = 1; // L'appareil est allumé
-        query.bindValue(":status", status);
 
         if (!query.exec()) {
             qDebug() << "Erreur lors de l'insertion :" << query.lastError();
@@ -187,4 +192,89 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
     // actionDone = false; // Par exemple, tu pourrais mettre ceci ici pour que l'action puisse être répétée plus tard
 
     QMainWindow::keyReleaseEvent(event);
+}
+
+void MainWindow::receiveResponse() {
+    while (udpSocketInfo.hasPendingDatagrams()) {
+        QByteArray datagram;
+        datagram.resize(udpSocketInfo.pendingDatagramSize());
+
+        QHostAddress sender;
+        quint16 senderPort;
+
+        udpSocketInfo.readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
+
+        QString response = QString::fromUtf8(datagram).trimmed();
+        qDebug() << "📢 Réponse reçue de" << sender.toString() << ":" << response;
+
+        if (!response.isEmpty()) {
+            // Vérifie que le message contient bien ':'
+            if (response.contains(":")) {
+                QStringList parts = response.split(":");
+
+                if (parts.size() == 2) {
+                    QString key = parts[0].trimmed();
+                    QString value = parts[1].trimmed();
+
+                    if (key == "nomProf") {
+                        nomProf = value;
+                        qDebug() << "👤 Nom du prof reçu :" << nomProf;
+                    } else if (key == "nomEleve") {
+                        nomEleve = value;
+                        qDebug() << "👤 Nom de l'élève reçu :" << nomEleve;
+                    } else {
+                        qWarning() << "🔍 Clé non reconnue :" << key;
+                    }
+                }
+            } else {
+                qWarning() << "⛔ Format invalide (attendu nom:valeur)";
+            }
+        }
+    }
+
+    while (udpSocketConsigne.hasPendingDatagrams()) {
+        QByteArray datagram;
+        datagram.resize(udpSocketConsigne.pendingDatagramSize());
+
+        QHostAddress sender;
+        quint16 senderPort;
+
+        udpSocketConsigne.readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
+
+        QString response = QString::fromUtf8(datagram).trimmed();
+        qDebug() << "📢 Réponse reçue de" << sender.toString() << ":" << response;
+
+        if (!response.isEmpty()) {
+            consigne = response;
+        }
+    }
+
+    while (udpSocketInter.hasPendingDatagrams()) {
+        QByteArray datagram;
+        datagram.resize(udpSocketInter.pendingDatagramSize());
+
+        QHostAddress sender;
+        quint16 senderPort;
+
+        udpSocketInter.readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
+
+        QString response = QString::fromUtf8(datagram).trimmed();
+        qDebug() << "📢 Interface reçue :" << response;
+
+        if (!response.isEmpty()) {
+            if (response == "QCM") {
+                (new InterfaceQCM())->show();
+            } else if (response == "ecoute") {
+                (new InterfaceAudio(false))->show();
+            } else if (response == "ecoute_co") {
+                (new InterfaceAudio(true))->show();
+            } else if (response == "video") {
+                (new InterfaceVideo(false))->show();
+            } else if (response == "video_co") {
+                (new InterfaceVideo(true))->show();
+            } else if (response == "enregistrement") {
+                (new InterfaceEnregistrement())->show();
+            }
+        }
+    }
 }

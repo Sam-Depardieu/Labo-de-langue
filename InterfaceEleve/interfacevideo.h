@@ -1,6 +1,6 @@
 #ifndef INTERFACEVIDEO_H
 #define INTERFACEVIDEO_H
-
+#include "qslider.h"
 #include <QDialog>
 #include <QMediaPlayer>
 #include <QFileDialog>
@@ -20,7 +20,7 @@ class InterfaceVideo : public QDialog
     Q_OBJECT
 
 public:
-    explicit InterfaceVideo(QWidget *parent = nullptr);
+    explicit InterfaceVideo(bool co, QWidget *parent = nullptr);
     ~InterfaceVideo();
 
 private slots:
@@ -30,6 +30,9 @@ private slots:
     void on_pushButton_Pause_clicked();
     void on_pushButton_Apres10_clicked();
     void on_horizontalSlider_sonVideo_actionTriggered(int action);
+
+    void on_horizontalSlider_sliderReleased();
+
 protected:
     void closeEvent(QCloseEvent *event);
 
@@ -37,6 +40,10 @@ private:
     Ui::InterfaceVideo *ui;
     QMediaPlayer *player;
     QAudioOutput *audioOutput;
+    QSlider *slider;
+
+    bool CO = false;
+
 };
 
 #endif // INTERFACEVIDEO_H

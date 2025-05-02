@@ -6,13 +6,24 @@
 #include <QCloseEvent>
 
 
-InterfaceAudio::InterfaceAudio(QWidget *parent)
+InterfaceAudio::InterfaceAudio(bool co, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::InterfaceAudio)
-    , player(new QMediaPlayer(this))  // 🔹 Initialisation de player
-    , audioOutput(new QAudioOutput(this)) // 🔹 Initialisation de audioOutput
+    , player(new QMediaPlayer(this))
+    , audioOutput(new QAudioOutput(this))  // 🔹 Initialisation de player
+    , CO(co) // 🔹 Initialisation de audioOutput
 {
     ui->setupUi(this);
+    connect(player, &QMediaPlayer::durationChanged, this, [=](qint64 duration) {
+        ui->horizontalSlider->setRange(0, static_cast<int>(duration));
+    });
+
+    connect(player, &QMediaPlayer::positionChanged, this, [=](qint64 position) {
+        ui->horizontalSlider->setValue(static_cast<int>(position));
+    });
+
+    ui->pushButton_Pause->setVisible(true);
+    ui->pushButton_Play->setVisible(false);
     setFixedSize(800,480);
     this->setWindowTitle("Page de Comprehension Orale");
 
@@ -73,10 +84,14 @@ void InterfaceAudio::on_pushButton_Avant_clicked()
 void InterfaceAudio::on_pushButton_Play_clicked()
 {
     player->play();
+    ui->pushButton_Pause->setVisible(true);
+    ui->pushButton_Play->setVisible(false);
 }
 void InterfaceAudio::on_pushButton_Pause_clicked()
 {
-     player->pause();
+    player->pause();
+    ui->pushButton_Pause->setVisible(false);
+    ui->pushButton_Play->setVisible(true);
 }
 void InterfaceAudio::on_pushButton_SelectAudio_clicked()
 {
@@ -121,3 +136,11 @@ void InterfaceAudio::closeEvent(QCloseEvent *event) {
     }
     event->accept();  // Accepter la fermeture
 }
+
+void InterfaceAudio::on_horizontalSlider_sliderReleased()
+{
+    int position = ui->horizontalSlider->value();
+
+    player->setPosition(position);
+}
+

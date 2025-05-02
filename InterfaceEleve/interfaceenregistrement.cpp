@@ -5,17 +5,24 @@
 #include <QJsonObject>
 #include <QUdpSocket>
 #include <QMessageBox>
+#include <QDir>
 
-InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
-    : QDialog(parent),
-    ui(new Ui::InterfaceEnregistrement)
+InterfaceEnregistrement::InterfaceEnregistrement(MainWindow *parent)
+    : QDialog(parent), ui(new Ui::InterfaceEnregistrement),
+    parent(parent)
 {
     ui->setupUi(this);
     ui->labelAppelProf->hide();
-
+    ui->pushButtonPause->setVisible(true);
+    ui->pushButtonPlay->setVisible(false);
     // Pour fixer la taille de la page et le titre
     setFixedSize(800, 480);
+
     this->setWindowTitle("Page d'Enregistrement");
+    udpSocket.bind(QHostAddress::Any, responsePort);
+    connect(&udpSocket, &QUdpSocket::readyRead, this, &InterfaceEnregistrement::receiveResponse);
+
+
 
     // Initialisation des autres composants et variables
     mediaRecorder = new QMediaRecorder(this);
@@ -55,6 +62,8 @@ InterfaceEnregistrement::InterfaceEnregistrement(QWidget *parent)
         ui->textEditFeedBack->setReadOnly(true); // Bloquer l'accès en écriture
         ui->textEditFeedBack->setPlaceholderText("Accès réservé aux professeurs"); // Message d'information
     }
+
+    ui->textEditConsigne->setText(parent->getConsigne());
 }
 
 InterfaceEnregistrement::~InterfaceEnregistrement()
@@ -82,7 +91,6 @@ void InterfaceEnregistrement::setButtonIcons()
     };
 
     setIcon(ui->pushButtonSon, ":/images/Son");
-    setIcon(ui->pushButtonSurveiller, ":/images/PasSurveiller");
     setIcon(ui->pushButtonEnregistrer, ":/images/Enregistrer");
     setIcon(ui->pushButtonRetourArriere, ":/images/RevenirArriere");
     setIcon(ui->pushButtonPause, ":/images/Pause");
@@ -90,6 +98,7 @@ void InterfaceEnregistrement::setButtonIcons()
     setIcon(ui->pushButtonSpeak, ":/images/Enregistrement");
     setIcon(ui->pushButtonClear, ":/images/Effacer");
     setIcon(ui->pushButtonAppelProf, ":/images/CallProf");
+    setIcon(ui->pushButtonPlay,":/images/Play");
 }
 
 void InterfaceEnregistrement::on_pushButtonSpeak_clicked()
@@ -125,6 +134,9 @@ void InterfaceEnregistrement::on_pushButtonPause_clicked()
         player->pause();
         qDebug() << "Lecture mise en pause.";
     }
+
+    ui->pushButtonPause->setVisible(false);
+    ui->pushButtonPlay->setVisible(true);
 }
 
 void InterfaceEnregistrement::on_pushButtonClear_clicked()
@@ -298,17 +310,24 @@ void InterfaceEnregistrement::onRecorderErrorOccurred(QMediaRecorder::Error erro
 void InterfaceEnregistrement::on_pushButtonEnregistrer_clicked()
 {
 
+    const QString baseDir = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+    workspace = baseDir + "/Travail-" + parent->getNomProf().replace(" ", "_") + "-" + parent->getNomEleve().replace(" ", "_") + "-"
+                + QDateTime::currentDateTime().toString("hh");  // 📁 nom du dossier
 
-    // Génération du nom : YYYYMMDD_hhmmss_id<studentId>.wav
-    const QString docs = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+    // 📂 Créer le dossier s'il n'existe pas
+    QDir dir;
+    if (!dir.exists(workspace)) {
+        dir.mkpath(workspace);  // crée tous les dossiers nécessaires
+    }
+
     const QString timestamp = QDateTime::currentDateTime().toString("yyyyMMdd_hhmmss");
-    audioFilePath = QString("%1/%2_id%3.wav").arg(docs).arg(timestamp).arg(studentId);
+    audioFilePath = QString("%1/%2.wav").arg(workspace).arg(timestamp);  // ex: Documents/Enregistrements/20240502_171503.wav
 
     if (QFile::exists(audioFilePath))
         QFile::remove(audioFilePath);
 
     QMediaFormat fmt;
-    fmt.setFileFormat(QMediaFormat::FileFormat::Wave); // .wav
+    fmt.setFileFormat(QMediaFormat::FileFormat::Wave);
     mediaRecorder->setMediaFormat(fmt);
     mediaRecorder->setOutputLocation(QUrl::fromLocalFile(audioFilePath));
 
@@ -316,16 +335,10 @@ void InterfaceEnregistrement::on_pushButtonEnregistrer_clicked()
     ui->labelChrono->setText("00:00:00");
 
     mediaRecorder->record();
-    timer->start(1000); // Timer = mise à jour du chrono toutes les secondes
+    timer->start(1000);
 
-    qDebug() << "Enregistrement démarré dans :" << audioFilePath;
+    qDebug() << "🎙 Enregistrement démarré dans :" << audioFilePath;
 
-    if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState) {
-        mediaRecorder->stop();
-        timer->stop(); // Stopper le timer aussi
-        qDebug() << "Enregistrement arrêté :" << audioFilePath;
-        return;
-    }
 
 }
 
@@ -369,4 +382,57 @@ void InterfaceEnregistrement::showFeedbackDialog()
 
     connect(cancelBtn, &QPushButton::clicked, dialog, &QDialog::reject);
     dialog->exec();
+}
+
+void InterfaceEnregistrement::on_pushButtonPlay_clicked()
+{
+    if (mediaRecorder->recorderState() == QMediaRecorder::PausedState) {
+        mediaRecorder->record();  // reprend l'enregistrement
+        timer->start(1000);       // reprend le chrono
+        qDebug() << "Reprise de l'enregistrement.";
+
+    } else if (player->playbackState() == QMediaPlayer::PausedState) {
+        player->play();
+        qDebug() << "Reprise de la lecture.";
+    }
+
+    ui->pushButtonPlay->setVisible(false);   // ❗ masquer play
+    ui->pushButtonPause->setVisible(true);   // ❗ afficher pause
+}
+
+void InterfaceEnregistrement::receiveResponse() {
+    while (udpSocket.hasPendingDatagrams()) {
+        QByteArray datagram;
+        datagram.resize(udpSocket.pendingDatagramSize());
+
+        QHostAddress sender;
+        quint16 senderPort;
+
+        udpSocket.readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
+
+        QString response = QString::fromUtf8(datagram);
+        qDebug() << "📢 Réponse reçue de" << sender.toString() << ":" << response;
+
+        // Vérifiez si le message est "mute"
+        if (response.trimmed() != "")        {
+            QFile file("feedback.txt");
+            if (file.open(QIODevice::Append | QIODevice::Text)) {
+                QTextStream out(&file);
+                out<< response << "\n";
+                file.close();
+            }
+
+            QFile inFile("feedback.txt");
+            if (inFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+                QTextStream in(&inFile);
+                QString contenu = in.readAll();
+                inFile.close();
+
+                // 🔍 Exemple : afficher dans la console ou un widget
+                qDebug() << "Contenu complet du fichier :";
+                qDebug().noquote() << contenu;
+                ui->textEditFeedBack->setText(contenu);
+            }
+        }
+    }
 }
