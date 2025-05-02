@@ -50,15 +50,16 @@ MainWindow::MainWindow(QWidget *parent)
     layoutParametrageEleve->setContentsMargins(8, 8, 15, 8);
     layoutParametrageEleve->setAlignment(Qt::AlignCenter | Qt::AlignTop);
     // Ajout des sections dans le layoutParametrageEleve
-    addHorizontalLayout(layoutParametrageEleve, {ui->nomGroupeLabel, ui->nomEleveLineEdit, ui->creerMessage});
+    addHorizontalLayout(layoutParametrageEleve, {ui->nomGroupeLabel, ui->nomEleveLineEdit, ui->Communication});
     addHorizontalLayout(layoutParametrageEleve, {ui->muteButton, ui->demuteButton});
     addHorizontalLayout(layoutParametrageEleve, {ui->desactiverSonButton, ui->activerSonButton});
     addHorizontalLayout(layoutParametrageEleve, {ui->creerGroupeButton, ui->annulerButton});
     addHorizontalLayout(layoutParametrageEleve, {ui->supprimerGroupeButton, ui->selectionGroupe});
-    addHorizontalLayout(layoutParametrageEleve, {ui->alignerTableau, ui->TableauGroupe});
-    addHorizontalLayout(layoutParametrageEleve, {ui->envoyerMessageTextEdit, ui->envoyerMessage});
+    addHorizontalLayout(layoutParametrageEleve, {ui->alignerTableau, ui->TableauGroupe, ui->envoyerMessageTextEdit});
+    addHorizontalLayout(layoutParametrageEleve, {ui->envoyerMessagePersonne, ui->envoyerMessageGroupe});
     layoutParametrageEleve->addSpacing(10);
-    ui->envoyerMessage->setVisible(false);
+    ui->envoyerMessageGroupe->setVisible(false);
+    ui->envoyerMessagePersonne->setVisible(false);
     ui->envoyerMessageTextEdit->setVisible(false);
     ui->TableauGroupe->setVisible(false);
     // Appliquez le layout à ParametrageEleve
@@ -68,6 +69,23 @@ MainWindow::MainWindow(QWidget *parent)
     setupClassesComboBox();
     setupActivitiesComboBox();
     loadImagesFromDB();
+
+    QPixmap clairPixmap("../img/clair.png");
+    QPixmap sombrePixmap("../img/sombre.png");
+
+    ui->modeSombreButton->setIcon(sombrePixmap);
+    ui->modeSombreButton->setIconSize(QSize(45, 45));
+    ui->modeClairButton->setIcon(clairPixmap);
+    ui->modeClairButton->setIconSize(QSize(45, 45));
+
+    ui->modeClairButton->setVisible(true);
+    ui->modeSombreButton->setVisible(false);
+
+    ui->ParametrageEleve->setStyleSheet("background-color: gray;");
+    ui->PlanClasse->setStyleSheet("background-color: gray;");
+    ui->ParametrageSession->setStyleSheet("background-color: gray;");
+
+    ui->centralwidget->setStyleSheet("background-color: black;");
 }
 
 MainWindow::~MainWindow()
@@ -107,6 +125,11 @@ void MainWindow::setupActivitiesComboBox()
     }
 
     return;
+}
+
+void MainWindow::setNomEtudiantLineEdit(QString nom)
+{
+    ui->nomEleveLineEdit->setText(nom);
 }
 
 void MainWindow::setupClassesComboBox()
@@ -285,7 +308,7 @@ void MainWindow::changeNameGroup(iconEleveGroup *group, QString newName)
         // Afficher un message d'erreur à l'utilisateur
     }
     group->setTextItem(newName);
-    eleveActuellementParametre->setNom(newName);
+    group->setNom(newName);
     loadInformationTable();
 }
 
@@ -712,7 +735,7 @@ void MainWindow::on_validButton_clicked()
         }
         else
         {
-            eleve->setNom("Éleve " + QString::number(i++));
+            changeNameGroup(eleve, QString("Éleve " + QString::number(i++)));
         }
     }
 
@@ -851,7 +874,8 @@ void MainWindow::loadInformationTable()
 
 void MainWindow::on_creerGroupeButton_clicked()
 {
-    ui->envoyerMessage->setVisible(false);
+    ui->envoyerMessageGroupe->setVisible(false);
+    ui->envoyerMessagePersonne->setVisible(false);
     ui->envoyerMessageTextEdit->setVisible(false);
     ui->TableauGroupe->setVisible(true);
     qDebug() << "Actualisation du tableau";
@@ -861,16 +885,68 @@ void MainWindow::on_creerGroupeButton_clicked()
     TableauGroupe->show();
 }
 
-void MainWindow::on_creerMessage_clicked()
+void MainWindow::on_Communication_clicked()
 {
-    ui->envoyerMessage->setVisible(true);
+    ui->envoyerMessageGroupe->setVisible(true);
+    ui->envoyerMessagePersonne->setVisible(true);
     ui->envoyerMessageTextEdit->setVisible(true);
     ui->TableauGroupe->setVisible(false);
-
 }
 
 void MainWindow::on_nomEleveLineEdit_editingFinished()
 {
     changeNameGroup(eleveActuellementParametre, ui->nomEleveLineEdit->text());
+}
+
+void MainWindow::on_envoyerMessagePersonne_clicked()
+{
+    qDebug() << "Envoyer le message a :" << eleveActuellementParametre->getIP();
+    //Code fonction
+    qDebug() << "Le message à été envoyé";
+
+    QMessageBox::information(
+        nullptr,
+        "Message envoyé",
+        "✔ Le message à bien été envoyé au poste séléctionné.\n"
+    );
+}
+
+void MainWindow::on_envoyerMessageGroupe_clicked()
+{
+    qDebug() << "Envoyer le message au groupe de :" << eleveActuellementParametre->getIP();
+    //Code fonction
+    qDebug() << "Le message à été envoyé";
+
+    QMessageBox::information(
+        nullptr,
+        "Message envoyé",
+        "✔ Le message à bien été envoyé au groupe du poste séléctionné.\n"
+    );
+}
+
+
+void MainWindow::on_modeClairButton_clicked()
+{
+    ui->ParametrageEleve->setStyleSheet("background-color: white;");
+    ui->PlanClasse->setStyleSheet("background-color: white;");
+    ui->ParametrageSession->setStyleSheet("background-color: white;");
+
+    ui->centralwidget->setStyleSheet("background-color: gray;");
+
+    ui->modeClairButton->setVisible(false);
+    ui->modeSombreButton->setVisible(true);
+}
+
+
+void MainWindow::on_modeSombreButton_clicked()
+{
+    ui->ParametrageEleve->setStyleSheet("background-color: gray;");
+    ui->PlanClasse->setStyleSheet("background-color: gray;");
+    ui->ParametrageSession->setStyleSheet("background-color: gray;");
+
+    ui->centralwidget->setStyleSheet("background-color: black;");
+
+    ui->modeClairButton->setVisible(true);
+    ui->modeSombreButton->setVisible(false);
 }
 

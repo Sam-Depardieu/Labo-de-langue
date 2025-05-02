@@ -19,6 +19,7 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
+    Ui::MainWindow *ui;
 
     int idTypeActivite = -1;
     std::vector<iconEleveGroup*> listeRasp = {};
@@ -36,13 +37,13 @@ public:
 
     void toggleSettingEleve(iconEleveGroup *group, bool open);
     QString getSessionFolder() {return sessionFolder;};
+    void setNomEtudiantLineEdit(QString nom);
     void updateCheckItemsVisibility();
 
     ~MainWindow();
 
 private slots:
     void on_PlanButton_clicked();
-    void keyPressEvent(QKeyEvent *event);
     void loadImagesFromDB();
     bool connectToDatabase();
     void onImageGroupDoubleClicked();
@@ -73,14 +74,19 @@ private slots:
     void on_activerSonButton_clicked();
     void on_creerGroupeButton_clicked();
     void on_annulerButton_clicked();
-    void on_creerMessage_clicked();
+    void on_Communication_clicked();
     void on_nomEleveLineEdit_editingFinished();
     void changeNameTable(QTableWidgetItem* item);
     void changeNameGroup(iconEleveGroup *group, QString newName);
     void loadInformationTable();
+    void on_envoyerMessagePersonne_clicked();
+    void on_envoyerMessageGroupe_clicked();
+
+    void on_modeClairButton_clicked();
+
+    void on_modeSombreButton_clicked();
 
 private:
-    Ui::MainWindow *ui;
     QGraphicsScene *scene;
     QSqlDatabase db;
     QGraphicsPixmapItem *item;

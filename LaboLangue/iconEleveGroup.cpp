@@ -44,6 +44,7 @@ void iconEleveGroup::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
             mainWindow->parametrageEleve = true;
             mainWindow->eleveActuellementParametre = this;
             mainWindow->listeEditEleve.push_back(this);
+            mainWindow->setNomEtudiantLineEdit(this->getNom());
             qDebug() << "IP : " << getIP();
         }
         else if (mainWindow->eleveActuellementParametre == this) {
