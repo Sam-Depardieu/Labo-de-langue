@@ -88,7 +88,7 @@ Les ports réseaux suivant seront utilisé :
 - ``5558`` : envoie des consignes de la session en cours
 - ``5559`` : envoie des commentaire/message aux interfaces élève
 - ``5560`` : envoie des informations aux interfaces élève sous la forme de Json ({"nomEleve": "nom_eleve"}, {"nomProf", "nom_prof"})
-- ``5560`` : envoie des nterfaces à ouvrir aux interfaces élèves (QCM, ecoute, video, enregistrement)
+- ``5561`` : envoie des nterfaces à ouvrir aux interfaces élèves (QCM, ecoute, video, enregistrement)
 
 ---
 
