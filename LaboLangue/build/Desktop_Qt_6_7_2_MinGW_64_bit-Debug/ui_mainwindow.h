@@ -79,6 +79,8 @@ public:
     QPushButton *envoyerMessagePersonne;
     QTextEdit *envoyerMessageTextEdit;
     QPushButton *envoyerMessageGroupe;
+    QPushButton *modeSombreButton;
+    QPushButton *modeClairButton;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -350,6 +352,18 @@ public:
         envoyerMessageGroupe = new QPushButton(centralwidget);
         envoyerMessageGroupe->setObjectName("envoyerMessageGroupe");
         envoyerMessageGroupe->setGeometry(QRect(1080, 440, 191, 41));
+        modeSombreButton = new QPushButton(centralwidget);
+        modeSombreButton->setObjectName("modeSombreButton");
+        modeSombreButton->setGeometry(QRect(1230, 0, 61, 61));
+        modeSombreButton->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
+"border: none;\n"
+""));
+        modeClairButton = new QPushButton(centralwidget);
+        modeClairButton->setObjectName("modeClairButton");
+        modeClairButton->setGeometry(QRect(1230, 0, 61, 61));
+        modeClairButton->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
+"border: none;\n"
+""));
         MainWindow->setCentralWidget(centralwidget);
 
         retranslateUi(MainWindow);
@@ -405,6 +419,8 @@ public:
 "</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">Ecrire un message...</span></p></body></html>", nullptr));
         envoyerMessageGroupe->setText(QCoreApplication::translate("MainWindow", "Envoyer le message (au groupe)", nullptr));
+        modeSombreButton->setText(QString());
+        modeClairButton->setText(QString());
     } // retranslateUi
 
 };

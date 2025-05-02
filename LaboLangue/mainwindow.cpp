@@ -69,6 +69,23 @@ MainWindow::MainWindow(QWidget *parent)
     setupClassesComboBox();
     setupActivitiesComboBox();
     loadImagesFromDB();
+
+    QPixmap clairPixmap("../img/clair.png");
+    QPixmap sombrePixmap("../img/sombre.png");
+
+    ui->modeSombreButton->setIcon(sombrePixmap);
+    ui->modeSombreButton->setIconSize(QSize(45, 45));
+    ui->modeClairButton->setIcon(clairPixmap);
+    ui->modeClairButton->setIconSize(QSize(45, 45));
+
+    ui->modeClairButton->setVisible(true);
+    ui->modeSombreButton->setVisible(false);
+
+    ui->ParametrageEleve->setStyleSheet("background-color: gray;");
+    ui->PlanClasse->setStyleSheet("background-color: gray;");
+    ui->ParametrageSession->setStyleSheet("background-color: gray;");
+
+    ui->centralwidget->setStyleSheet("background-color: black;");
 }
 
 MainWindow::~MainWindow()
@@ -909,5 +926,31 @@ void MainWindow::on_envoyerMessageGroupe_clicked()
         "Message envoyé",
         "✔ Le message à bien été envoyé au groupe du poste séléctionné.\n"
     );
+}
+
+
+void MainWindow::on_modeClairButton_clicked()
+{
+    ui->ParametrageEleve->setStyleSheet("background-color: white;");
+    ui->PlanClasse->setStyleSheet("background-color: white;");
+    ui->ParametrageSession->setStyleSheet("background-color: white;");
+
+    ui->centralwidget->setStyleSheet("background-color: gray;");
+
+    ui->modeClairButton->setVisible(false);
+    ui->modeSombreButton->setVisible(true);
+}
+
+
+void MainWindow::on_modeSombreButton_clicked()
+{
+    ui->ParametrageEleve->setStyleSheet("background-color: gray;");
+    ui->PlanClasse->setStyleSheet("background-color: gray;");
+    ui->ParametrageSession->setStyleSheet("background-color: gray;");
+
+    ui->centralwidget->setStyleSheet("background-color: black;");
+
+    ui->modeClairButton->setVisible(true);
+    ui->modeSombreButton->setVisible(false);
 }
 

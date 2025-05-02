@@ -82,6 +82,10 @@ private slots:
     void on_envoyerMessagePersonne_clicked();
     void on_envoyerMessageGroupe_clicked();
 
+    void on_modeClairButton_clicked();
+
+    void on_modeSombreButton_clicked();
+
 private:
     QGraphicsScene *scene;
     QSqlDatabase db;
