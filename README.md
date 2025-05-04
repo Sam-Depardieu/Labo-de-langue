@@ -85,10 +85,12 @@ Pour toute question, veuillez contacter :
 ## Informations complémentaires
 Les ports réseaux suivant seront utilisé :  
 - ``5557`` : envoie des commandes de l'interface prof->eleve et vice versa
-- ``5558`` : envoie des consignes de la session en cours
-- ``5559`` : envoie des commentaire/message aux interfaces élève
-- ``5560`` : envoie des informations aux interfaces élève sous la forme de Json ({"nomEleve": "nom_eleve"}, {"nomProf", "nom_prof"})
-- ``5561`` : envoie des nterfaces à ouvrir aux interfaces élèves (QCM, ecoute, video, ecoute_co, video_co, enregistrement)
+- ``5558`` : envoie des informations aux interfaces élève sous la forme de Json ({"nomEleve": "nom_eleve"}, {"nomProf": "nom_prof"}, {"consigne": "consigne"})
+- ``5559`` :
+  	- (prof -> eleve) envoie des commentaire/message aux interfaces élève
+  	- (eleve -> prof) envoie du numéro de QCM en cours
+- ``5560`` : envoie des interfaces à ouvrir aux interfaces élèves (QCM, ecoute, video, ecoute_co, video_co, enregistrement)
+- ``5561`` : 
 
 ---
 
