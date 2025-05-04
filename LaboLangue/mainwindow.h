@@ -27,6 +27,7 @@ public:
     std::vector<int> listeEleveParticipant = {};
     std::vector<iconEleveGroup*> listeEditEleve = {};
     iconEleveGroup* eleveActuellementParametre = nullptr;
+    QCM *qcm = nullptr;
 
     bool parametrageSession = false;
     bool selectionParticipants = false;
@@ -50,6 +51,7 @@ private slots:
     void editStatusButton(QPushButton *button, bool status);
     void addHorizontalLayout(QVBoxLayout *layout, std::initializer_list<QWidget*> widgets);
     void showCheckIconOnGroup(iconEleveGroup *group);
+    void majStatusQCM();
 
     // Bouton de Création de Session
     void on_SessionButton_clicked();
@@ -107,6 +109,9 @@ private:
     QTableWidget* TableauGroupe ;
 
     QTableWidget* StatutTableauGroupe ;
+
+    QUdpSocket* udpSocketQCM;
+    unsigned int portQCM = 5559;
 
 
 };

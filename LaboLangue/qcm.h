@@ -39,6 +39,9 @@ class QCM : public QDialog
 
     public:
         QCM(QWidget *parent, MainWindow* parentWindow);
+
+        int getSize() {return questionWidgets.size();};
+
         ~QCM();
 
     private:

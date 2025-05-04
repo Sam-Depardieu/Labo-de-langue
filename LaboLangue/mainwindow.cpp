@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
     editStatusButton(ui->EnregistrementButton, false);
     editStatusButton(ui->AppelButton, false);
     editStatusButton(ui->StatutButton, false);
-    //editStatusButton(ui->CreationButton, false);
+    editStatusButton(ui->CreationButton, false);
 
     // Créer le layout principal pour le parametrage de session avec les éléments disposés
     QVBoxLayout *layoutParametrageSession = new QVBoxLayout();
@@ -211,7 +211,33 @@ void MainWindow::addHorizontalLayout(QVBoxLayout *layout, std::initializer_list<
     layout->addSpacing(15);
 }
 
+void MainWindow::majStatusQCM()
+{
+    while (udpSocketQCM->hasPendingDatagrams()) {
+        QByteArray datagram;
+        QHostAddress sender;
+        quint16 senderPort;
 
+        datagram.resize(udpSocketQCM->pendingDatagramSize());
+        udpSocketQCM->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
+
+        QString ipSender = sender.toString();  // IP de l'expéditeur
+        QString message = QString::fromUtf8(datagram);
+
+        // 🔍 Chercher l'élève par IP
+        for (int row = 0; row < listeParticipant.size(); ++row) {
+            if (listeParticipant[row]->getIP() == ipSender) {
+                // 🧠 Exemple : mettre à jour la colonne 3 avec le message reçu
+                QTableWidgetItem* item = StatutTableauGroupe->item(row, 3);
+                if (item) {
+                    item->setText(message);
+                    item->setTextAlignment(Qt::AlignCenter);
+                }
+                break;
+            }
+        }
+    }
+}
 
 void MainWindow::resetSession()
 {
@@ -789,6 +815,17 @@ void MainWindow::on_validButton_clicked()
     saveSessionData(true);
 
     // Mettre à jour l'interface
+    if(ui->ChoixActivite->currentText() == "QCM")
+    {
+        editStatusButton(ui->CreationButton, true);
+        on_CreationButton_clicked();
+
+        udpSocketQCM = new QUdpSocket(this);
+        udpSocketQCM->bind(45454, QUdpSocket::ShareAddress);  // Choisis un port libre
+        connect(udpSocketQCM, &QUdpSocket::readyRead, this, &MainWindow::majStatusQCM);
+    }
+
+
     selectionParticipants = false;
     selectAllParticipants = false;
     parametrageSession = false;
@@ -796,6 +833,8 @@ void MainWindow::on_validButton_clicked()
     ui->SessionButton->setText("Session \nen cours");
     ui->delButton->setText("Fin session");
     runningSession = true;
+
+
 
 
 }
@@ -1014,42 +1053,64 @@ void MainWindow::on_StatutButton_clicked()
     StatutTableauGroupe = ui->StatutTableauGroupe;
 
     // Ajouter des en-têtes pour les colonnes
-    StatutTableauGroupe->setHorizontalHeaderLabels({"Nom", "Numéro de poste", "Adresse IP", "Travail déposé", "Numéro de groupe", "Enregistrement"});
-    StatutTableauGroupe->setColumnWidth(1, 50);
-    StatutTableauGroupe->setColumnWidth(1, 100);
-    StatutTableauGroupe->setColumnWidth(2, 80);
-    StatutTableauGroupe->setColumnWidth(3, 85);
-    StatutTableauGroupe->setColumnWidth(4, 110);
-    StatutTableauGroupe->setColumnWidth(5, 100);
+    QStringList headers = {"Nom", "Numéro de poste", "Adresse IP", "Travail déposé", "Numéro de groupe", "Enregistrement"};
+
+    if (ui->ChoixActivite->currentText() == "QCM") {
+        headers << "QCM";  // Ajoute une colonne "QCM" si l'activité est un QCM
+        StatutTableauGroupe->setColumnCount(7);  // 6 + 1 colonne pour QCM
+    } else {
+        StatutTableauGroupe->setColumnCount(6);
+    }
+
+    StatutTableauGroupe->setHorizontalHeaderLabels(headers);
+
+    // Ajuste les largeurs des colonnes (modifie/ajoute selon besoin)
+    StatutTableauGroupe->setColumnWidth(0, 150); // Nom
+    StatutTableauGroupe->setColumnWidth(1, 100); // Numéro de poste
+    StatutTableauGroupe->setColumnWidth(2, 120); // Adresse IP
+    StatutTableauGroupe->setColumnWidth(3, 110); // Travail déposé
+    StatutTableauGroupe->setColumnWidth(4, 130); // Numéro de groupe
+    StatutTableauGroupe->setColumnWidth(5, 120); // Enregistrement
+
+    if (ui->ChoixActivite->currentText() == "QCM") {
+        StatutTableauGroupe->setColumnWidth(6, 80); // QCM
+    }
 
     // Remplir les cellules avec des données
     for (unsigned int row = 0; row < listeParticipant.size(); ++row) {
 
-    QTableWidgetItem *itemNom ;
+        QTableWidgetItem *itemNom ;
 
-    itemNom = new QTableWidgetItem(listeParticipant[row]->getNom());
-    itemNom->setTextAlignment(Qt::AlignCenter);
-    StatutTableauGroupe->setItem(row, 0, itemNom);
+        itemNom = new QTableWidgetItem(listeParticipant[row]->getNom());
+        itemNom->setTextAlignment(Qt::AlignCenter);
+        StatutTableauGroupe->setItem(row, 0, itemNom);
 
-    QTableWidgetItem *itemID = new QTableWidgetItem(QString::number(listeParticipant[row]->getID()));
-    itemID->setTextAlignment(Qt::AlignCenter);
-    itemID->setFlags(itemID->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
-    StatutTableauGroupe->setItem(row, 1, itemID);
+        QTableWidgetItem *itemID = new QTableWidgetItem(QString::number(listeParticipant[row]->getID()));
+        itemID->setTextAlignment(Qt::AlignCenter);
+        itemID->setFlags(itemID->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
+        StatutTableauGroupe->setItem(row, 1, itemID);
 
-    QTableWidgetItem *itemIP = new QTableWidgetItem(listeParticipant[row]->getIP());
-    itemIP->setTextAlignment(Qt::AlignCenter);
-    itemIP->setFlags(itemIP->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
-    StatutTableauGroupe->setItem(row, 2, itemIP);
+        QTableWidgetItem *itemIP = new QTableWidgetItem(listeParticipant[row]->getIP());
+        itemIP->setTextAlignment(Qt::AlignCenter);
+        itemIP->setFlags(itemIP->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
+        StatutTableauGroupe->setItem(row, 2, itemIP);
 
-    QTableWidgetItem *itemTravailDepot = new QTableWidgetItem("❌");
-    itemTravailDepot->setTextAlignment(Qt::AlignCenter);
-    itemTravailDepot->setFlags(itemIP->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
-    StatutTableauGroupe->setItem(row, 3, itemTravailDepot);
+        QTableWidgetItem *itemTravailDepot = new QTableWidgetItem("❌");
+        itemTravailDepot->setTextAlignment(Qt::AlignCenter);
+        itemTravailDepot->setFlags(itemTravailDepot->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
+        StatutTableauGroupe->setItem(row, 3, itemTravailDepot);
 
+        QPushButton *itemBoutonAjouterGroupe = new QPushButton();
+        itemBoutonAjouterGroupe->setText("Ecouter");
+        ui->StatutTableauGroupe->setCellWidget(row, 5, itemBoutonAjouterGroupe);
 
-    QPushButton *itemBoutonAjouterGroupe = new QPushButton();
-    itemBoutonAjouterGroupe->setText("Ecouter");
-    ui->StatutTableauGroupe->setCellWidget(row, 5, itemBoutonAjouterGroupe);
+        if(ui->ChoixActivite->currentText() == "QCM")
+        {
+            QTableWidgetItem *statusQCM = new QTableWidgetItem(QString::number(listeParticipant[row]->getNumQCM()) + "/" + QString::number(qcm->getSize()));
+            statusQCM->setTextAlignment(Qt::AlignCenter);
+            statusQCM->setFlags(statusQCM->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
+            StatutTableauGroupe->setItem(row, 6, statusQCM);
+        }
     }
     connect(StatutTableauGroupe, &QTableWidget::itemChanged, this, &MainWindow::changeNameTable);
     // Afficher le tableau

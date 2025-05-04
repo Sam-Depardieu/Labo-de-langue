@@ -47,9 +47,12 @@ class iconEleveGroup : public QObject, public QGraphicsItemGroup {
         MainWindow* mainWindow;
         QString nom;
         std::vector<iconEleveGroup*> affiliate = {};
+
         int ID = 0;
         int IDEleve=0;
         QString IP;
+        int numQCM = 1;
+
         QGraphicsPixmapItem *checkItem = nullptr;
         QGraphicsPixmapItem *micro = nullptr;
         QGraphicsPixmapItem *sound = nullptr;
@@ -75,6 +78,7 @@ class iconEleveGroup : public QObject, public QGraphicsItemGroup {
         QString getIP() const {return IP;};
         QString getNom() const {return nom;};
         int getIDEleve() const {return IDEleve;};
+        int getNumQCM() const {return numQCM;};
 
     signals:
         void doubleClicked();
