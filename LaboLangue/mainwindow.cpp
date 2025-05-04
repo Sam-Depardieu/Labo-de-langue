@@ -225,11 +225,12 @@ void MainWindow::majStatusQCM()
         QString message = QString::fromUtf8(datagram);
 
         // 🔍 Chercher l'élève par IP
-        for (int row = 0; row < listeParticipant.size(); ++row) {
+        for (unsigned int row = 0; row < listeParticipant.size(); ++row) {
             if (listeParticipant[row]->getIP() == ipSender) {
                 // 🧠 Exemple : mettre à jour la colonne 3 avec le message reçu
                 QTableWidgetItem* item = StatutTableauGroupe->item(row, 3);
                 if (item) {
+                    listeParticipant[row]->setNumQCM(message.toInt());
                     item->setText(message);
                     item->setTextAlignment(Qt::AlignCenter);
                 }

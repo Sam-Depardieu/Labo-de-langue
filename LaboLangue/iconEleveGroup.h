@@ -68,6 +68,7 @@ class iconEleveGroup : public QObject, public QGraphicsItemGroup {
         void setIDELeve(int ID) { IDEleve=ID; }
         void setTextItem(const QString newText) {textItem->setPlainText(newText);};
         void setNom(QString newNom) {nom = newNom;};
+        void setNumQCM(int num) {numQCM = num;};
 
         //Getteur
         QGraphicsTextItem* getTextItem() const {return textItem;};
