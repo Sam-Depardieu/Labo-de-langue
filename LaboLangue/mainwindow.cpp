@@ -312,7 +312,7 @@ void MainWindow::updateEleveNom(iconEleveGroup* eleve, const QString& newName) {
 
 void MainWindow::updateNomDansBDD(int idEleve, const QString& nouveauNom) {
     QSqlQuery query;
-    query.prepare("UPDATE participants SET nom = :nom WHERE id = :id");
+    query.prepare("UPDATE SessionEleve SET nom = :nom WHERE id = :id");
     query.bindValue(":nom", nouveauNom);
     query.bindValue(":id", idEleve);
 
@@ -444,11 +444,12 @@ bool MainWindow::connectToDatabase() {
     }
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("192.168.89.42");
+    db.setHostName("localhost");
     db.setDatabaseName("LaboLangue");
     db.setPort(3306);
     db.setUserName("prof"); // Remplacez par votre nom d'utilisateur
     db.setPassword("okokok"); // Remplacez par votre mot de passe
+    db.setConnectOptions("UNIX_SOCKET=/opt/lampp/var/mysql/mysql.sock");        //Pour dev avec Base sous linux
 
     if (!db.open()) {
         qDebug() << "Impossible de se connecter à la base de données :" << db.lastError();
@@ -885,6 +886,19 @@ void MainWindow::on_annulerButton_clicked()
     parametrageEleve = false;
     ui->ParametrageEleve->setVisible(false);
 }
+
+void MainWindow::changeNameTable(QTableWidgetItem* item) {
+    if (item->column() != 0) return; // Ne gérer que la colonne "Nom"
+
+    unsigned int row = item->row();
+    QString nouveauNom = item->text();
+
+    if (row >= 0 && row < listeParticipant.size()) {
+        iconEleveGroup* eleve = listeParticipant[row];
+        updateEleveNom(eleve, nouveauNom); // MAJ interface + BDD
+    }
+}
+
 
 void MainWindow::loadInformationTable()
 {
