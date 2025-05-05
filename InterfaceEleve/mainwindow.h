@@ -11,6 +11,7 @@
 #include <QSqlError>
 #include <QNetworkInterface>
 #include <QUdpSocket>
+#include <QInputDialog>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
