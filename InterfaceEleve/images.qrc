@@ -1,14 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>images/Play.png</file>
-        <file>images/1.png</file>
-        <file>images/1Selec.png</file>
-        <file>images/2.png</file>
-        <file>images/2Selec.png</file>
-        <file>images/3.png</file>
-        <file>images/3Selec.png</file>
-        <file>images/4.png</file>
-        <file>images/4Selec.png</file>
         <file>images/Apres10.png</file>
         <file>images/Avancer.png</file>
         <file>images/Avant10.png</file>

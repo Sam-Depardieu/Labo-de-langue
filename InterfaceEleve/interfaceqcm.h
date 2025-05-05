@@ -36,6 +36,9 @@ private slots:
 
 
 
+
+    void on_textEditFeedBack_2_copyAvailable(bool b);
+
 private:
     Ui::InterfaceQCM *ui;
     bool isButton1Image; // Déclaration pour Button 1
@@ -49,6 +52,13 @@ private:
     quint16 consignePort = 5558;
 
     QString consigne = "";
+    bool isTeacher = false;
+
+    QStringList questions;
+    int currentQuestionIndex = 0;
+
+    void loadQuestions(const QString &filePath);
+    void showCurrentQuestion();
 };
 
 #endif // INTERFACEQCM_H
