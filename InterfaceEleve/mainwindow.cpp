@@ -24,7 +24,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     udpSocketInter.bind(QHostAddress::Any, interPort);
     connect(&udpSocketInter, &QUdpSocket::readyRead, this, &MainWindow::receiveResponse);
-
 }
 
 bool MainWindow::connectToDatabase() {
@@ -40,30 +39,33 @@ bool MainWindow::connectToDatabase() {
         qDebug() << "Erreur de connexion à la base de données:" << db.lastError().text();
         return false;
     }
-
-
     return true;
 }
+
 void MainWindow::on_pushButtonConnexion_clicked()
 {
     AttenteProf *attenteProf = new AttenteProf(this);
     attenteProf->show();
     this->hide();
 }
+
 void MainWindow::on_pushButtonEnregistrement_clicked()
 {
     InterfaceEnregistrement *interfaceEnregistrement = new InterfaceEnregistrement(this);
     interfaceEnregistrement->show();
 }
+
 MainWindow::~MainWindow()
 {
     delete ui;
 }
+
 void MainWindow::on_pushButtonInterfaceQCM_clicked()
 {
     InterfaceQCM *interfaceQCM = new InterfaceQCM(this);
-    interfaceQCM->show();
+        interfaceQCM->show();
 }
+
 void MainWindow::on_pushButtonInterfaceAudio_clicked()
 {
     InterfaceAudio *interfaceAudio = new InterfaceAudio(this);
@@ -248,7 +250,6 @@ void MainWindow::receiveResponse() {
             consigne = response;
         }
     }
-
     while (udpSocketInter.hasPendingDatagrams()) {
         QByteArray datagram;
         datagram.resize(udpSocketInter.pendingDatagramSize());
@@ -263,6 +264,7 @@ void MainWindow::receiveResponse() {
 
         if (!response.isEmpty()) {
             if (response == "QCM") {
+                qDebug() << "Lance Interface please ALED";
                 (new InterfaceQCM())->show();
             } else if (response == "ecoute") {
                 (new InterfaceAudio(false))->show();

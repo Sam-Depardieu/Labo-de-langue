@@ -61,10 +61,10 @@ private:
     QString consigne = "";
 
     QUdpSocket udpSocketInfo;
-    quint16 infoPort = 5560;
+    quint16 infoPort = 5558;
     QUdpSocket udpSocketConsigne;
     quint16 consignePort = 5558;
     QUdpSocket udpSocketInter;
-    quint16 interPort = 5561;
+    quint16 interPort = 5560;
 };
 #endif // MAINWINDOW_H

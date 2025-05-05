@@ -796,10 +796,8 @@ void MainWindow::on_validButton_clicked()
             activite[5] = "video_co";
             activite[6] = "enregistrement";
 
-            prof->sendCommandToStudent(eleve->getIP(), 5560, "nomProf:"+nomProf);
-            prof->sendCommandToStudent(eleve->getIP(), 5558, ui->ConsigneTextEdit->toPlainText());
-            prof->sendCommandToStudent(eleve->getIP(), 5561, activite.value(idTypeActivite));
-
+            prof->sendCommandToStudent(eleve->getIP(), 5558, sessionFolder + "/config.labo");
+            prof->sendCommandToStudent(eleve->getIP(), 5560, activite[idTypeActivite]);
         }
     }
 
