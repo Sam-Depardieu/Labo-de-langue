@@ -1078,7 +1078,7 @@ void MainWindow::on_StatutButton_clicked()
     StatutTableauGroupe = ui->StatutTableauGroupe;
 
     // Ajouter des en-têtes pour les colonnes
-    QStringList headers = {"Nom", "Numéro de poste", "Adresse IP", "Travail déposé", "Numéro de groupe", "Enregistrement"};
+    QStringList headers = {"Nom", "Numéro de poste", "Travail déposé", "Enregistrement", "Numéro de groupe", "Adresse IP"};
 
     if (ui->ChoixActivite->currentText() == "QCM") {
         headers << "QCM";  // Ajoute une colonne "QCM" si l'activité est un QCM
@@ -1092,10 +1092,10 @@ void MainWindow::on_StatutButton_clicked()
     // Ajuste les largeurs des colonnes (modifie/ajoute selon besoin)
     StatutTableauGroupe->setColumnWidth(0, 150); // Nom
     StatutTableauGroupe->setColumnWidth(1, 100); // Numéro de poste
-    StatutTableauGroupe->setColumnWidth(2, 120); // Adresse IP
-    StatutTableauGroupe->setColumnWidth(3, 110); // Travail déposé
+    StatutTableauGroupe->setColumnWidth(2, 105); // Travail déposé
+    StatutTableauGroupe->setColumnWidth(3, 120); // Enregistrement
     StatutTableauGroupe->setColumnWidth(4, 130); // Numéro de groupe
-    StatutTableauGroupe->setColumnWidth(5, 120); // Enregistrement
+    StatutTableauGroupe->setColumnWidth(5, 120); // Adresse IP
 
     if (ui->ChoixActivite->currentText() == "QCM") {
         StatutTableauGroupe->setColumnWidth(6, 80); // QCM
@@ -1115,19 +1115,28 @@ void MainWindow::on_StatutButton_clicked()
         itemID->setFlags(itemID->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
         StatutTableauGroupe->setItem(row, 1, itemID);
 
-        QTableWidgetItem *itemIP = new QTableWidgetItem(listeParticipant[row]->getIP());
-        itemIP->setTextAlignment(Qt::AlignCenter);
-        itemIP->setFlags(itemIP->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
-        StatutTableauGroupe->setItem(row, 2, itemIP);
-
         QTableWidgetItem *itemTravailDepot = new QTableWidgetItem("❌");
         itemTravailDepot->setTextAlignment(Qt::AlignCenter);
         itemTravailDepot->setFlags(itemTravailDepot->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
-        StatutTableauGroupe->setItem(row, 3, itemTravailDepot);
+        StatutTableauGroupe->setItem(row, 2, itemTravailDepot);
 
-        QPushButton *itemBoutonAjouterGroupe = new QPushButton();
-        itemBoutonAjouterGroupe->setText("Ecouter");
-        ui->StatutTableauGroupe->setCellWidget(row, 5, itemBoutonAjouterGroupe);
+        QPushButton *BoutonEcouter = new QPushButton();
+        BoutonEcouter->setText("Ecouter");
+        ui->StatutTableauGroupe->setCellWidget(row, 3, BoutonEcouter);
+
+        /*  INSERER NUMERO DE GROUPE
+        QTableWidgetItem *itemIP = new QTableWidgetItem(listeParticipant[row]->getIP());
+        itemIP->setTextAlignment(Qt::AlignCenter);
+        itemIP->setFlags(itemIP->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
+        StatutTableauGroupe->setItem(row, 4, itemIP);
+        */
+
+        QTableWidgetItem *itemIP = new QTableWidgetItem(listeParticipant[row]->getIP());
+        itemIP->setTextAlignment(Qt::AlignCenter);
+        itemIP->setFlags(itemIP->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
+        StatutTableauGroupe->setItem(row, 5, itemIP);
+
+
 
         if(ui->ChoixActivite->currentText() == "QCM")
         {
