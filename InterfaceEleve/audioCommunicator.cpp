@@ -6,6 +6,7 @@
 #include <QMediaDevices>
 #include <QAudioSource>
 #include <QAudioSink>
+#include <QMessageBox>
 
 Student::Student(QObject *parent) : QObject(parent) {
     // Initialisation du socket UDP pour recevoir les réponses
@@ -34,7 +35,14 @@ Student::Student(QObject *parent) : QObject(parent) {
         audioSource = new QAudioSource(inputDeviceInfo, format);
         audioSourceDevice = audioSource->start();  // Démarre l’enregistrement
     } else {
-        qDebug() << "❌ Aucun micro détecté!";
+        QMessageBox::critical(
+            nullptr,
+            "Microphone non détecté",
+            "❌ Aucun microphone n'a été détecté.\n"
+            "La communication audio avec les élèves est impossible.\n\n"
+            "Veuillez connecter un microphone et redémarrer l'application."
+            );
+        return;
     }
 
     if (!outputDeviceInfo.isNull()) {
@@ -42,7 +50,14 @@ Student::Student(QObject *parent) : QObject(parent) {
         audioSink = new QAudioSink(outputDeviceInfo, format);
         audioSinkDevice = audioSink->start();
     } else {
-        qDebug() << "❌ Aucun haut-parleur détecté!";
+        QMessageBox::critical(
+            nullptr,
+            "Haut parleur non détecté",
+            "❌ Aucun haut parleur n'a été détecté.\n"
+            "La communication audio avec les élèves est impossible.\n\n"
+            "Veuillez connecter un microphone et redémarrer l'application."
+            );
+        return;
     }
 
     // Connexion des timers aux slots
