@@ -53,6 +53,10 @@ private slots:
     void showCheckIconOnGroup(iconEleveGroup *group);
     void majStatusQCM();
 
+    void updateEleveNom(iconEleveGroup* eleve, const QString& newName);
+    void updateNomDansBDD(int idEleve, const QString& nouveauNom);
+
+
     // Bouton de Création de Session
     void on_SessionButton_clicked();
     void on_ChoixActivite_currentIndexChanged(int index);
@@ -78,7 +82,6 @@ private slots:
     void on_annulerButton_clicked();
     void on_Communication_clicked();
     void on_nomEleveLineEdit_editingFinished();
-    void changeNameTable(QTableWidgetItem* item);
     void changeNameGroup(iconEleveGroup *group, QString newName);
     void loadInformationTable();
     void on_envoyerMessagePersonne_clicked();

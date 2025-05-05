@@ -298,65 +298,29 @@ void MainWindow::resetSession()
 
 }
 
-void MainWindow::changeNameTable(QTableWidgetItem* item)
-{
-    // Vérifier si la modification a eu lieu dans la colonne 0 (celle du nom)
-    if (item->column() == 0) {
-        QString nouveauNom = item->text();  // La nouvelle valeur de la cellule
-        item->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+void MainWindow::updateEleveNom(iconEleveGroup* eleve, const QString& newName) {
+    // 1. Met à jour l'objet élève
+    eleve->setTextItem(newName);
+    eleve->setNom(newName);
 
-        if (nouveauNom.isEmpty()) {
-            qWarning() << "Le nom ne peut pas être vide.";
-            return;  // Si le nom est vide, on arrête la fonction
-        }
+    // 2. Met à jour la base de données
+    updateNomDansBDD(eleve->getIDEleve(), newName);
 
-        // Récupérer l'ID de l'élève
-        int idParticipant = listeParticipant[item->row()]->getIDEleve(); // Identifiant du participant
-
-        // Préparer la requête de mise à jour
-        QSqlQuery query;
-        query.prepare("UPDATE sessioneleve SET Nom = :nom WHERE Id_eleve = :id");
-        query.bindValue(":nom", nouveauNom);
-        query.bindValue(":id", idParticipant);
-
-        // Exécuter la requête
-        if (!query.exec()) {
-            qDebug() << "Erreur de mise à jour dans la base de données : " << query.lastError();
-            // Afficher un message d'erreur à l'utilisateur si nécessaire
-        } else {
-            qDebug() << "Mise à jour du nom du participant dans la base de données réussie.";
-            // Afficher un message de confirmation si nécessaire
-
-            for (iconEleveGroup* group : listeRasp) {
-                if (group->getIDEleve() == idParticipant) {
-                    // Mise à jour du textItem dans le groupe
-                    group->setTextItem(nouveauNom);  // Met à jour le texte dans l'icône
-                    group->setNom(nouveauNom);
-                    break;  // Sortir de la boucle une fois le groupe trouvé
-                }
-            }
-        }
-    }
+    // 3. Debug
+    qDebug() << "Nom mis à jour pour le participant :" << newName;
 }
 
-
-void MainWindow::changeNameGroup(iconEleveGroup *group, QString newName)
-{
-    // Préparer la requête de mise à jour
+void MainWindow::updateNomDansBDD(int idEleve, const QString& nouveauNom) {
     QSqlQuery query;
-    query.prepare("UPDATE sessioneleve SET Nom = :nom WHERE Id_eleve = :id");
-    query.bindValue(":id", group->getID());
-    query.bindValue(":nom", newName);
+    query.prepare("UPDATE participants SET nom = :nom WHERE id = :id");
+    query.bindValue(":nom", nouveauNom);
+    query.bindValue(":id", idEleve);
 
-    // Exécuter la requête
     if (!query.exec()) {
-        qDebug() << "Erreur de mise à jour dans la base de données : " << query.lastError();
-        // Afficher un message d'erreur à l'utilisateur
+        qWarning() << "Échec de la mise à jour du nom dans la BDD :" << query.lastError().text();
     }
-    group->setTextItem(newName);
-    group->setNom(newName);
-    loadInformationTable();
 }
+
 
 /**
  * Fonctions lié aux icons de raspberry (icons)
@@ -706,7 +670,7 @@ void MainWindow::on_validButton_clicked()
     if (listeParticipant.empty()) {
         ui->errorLabel->setText("Veuillez indiquer des participants!");
     }
-    if(ui->errorLabel->text() != nullptr) return;
+    if (!ui->errorLabel->text().isEmpty()) return;
 
     // Récupération des IDs de la base de données
     QSqlQuery query;
@@ -725,7 +689,7 @@ void MainWindow::on_validButton_clicked()
     if (query.exec() && query.next()) {
         idProf = query.value(0).toInt();
     } else {
-        // 🔹 Si le professeur n'existe pas, l'ajouter
+        // 🔹 Ajouter le prof s'il n'existe pas
         query.prepare("INSERT INTO SessionProf (Nom, Date_Session) VALUES (:nom, :date)");
         query.bindValue(":nom", ui->NameLineEdit->text());
         query.bindValue(":date", QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss"));
@@ -737,7 +701,6 @@ void MainWindow::on_validButton_clicked()
         }
     }
 
-    // Vérification des IDs avant l'insertion de l'activité
     if (idTypeActivite == -1 || idClasse == -1 || idProf == -1) {
         qDebug() << "Erreur : Impossible de récupérer tous les identifiants nécessaires.";
         return;
@@ -770,24 +733,23 @@ void MainWindow::on_validButton_clicked()
         if (!query.exec()) {
             qDebug() << "Erreur insertion participant" << idRaspberry << ":" << query.lastError();
         }
+        int idEleve = query.lastInsertId().toInt();
+        listeEleveParticipant.push_back(idEleve);
+        participant->setIDELeve(idEleve);
         participant->getMicro()->setVisible(true);
-
-        listeEleveParticipant.push_back(query.lastInsertId().toInt());
-        participant->setIDELeve(query.lastInsertId().toInt());
     }
 
     prof = new Professor();
 
     unsigned int i = 1;
     for (auto *eleve : listeRasp) {
-        // Si l'élément n'est PAS dans listeParticipant
         if (std::find(listeParticipant.begin(), listeParticipant.end(), eleve) == listeParticipant.end()) {
-            eleve->setVisible(false); // ou eleve->hide(); selon ta classe
-        }
-        else
-        {
-            changeNameGroup(eleve, QString("Éleve " + QString::number(i++)));
+            eleve->setVisible(false);
+        } else {
+            QString nomAuto = QString("Élève %1").arg(i++);
+            updateEleveNom(eleve, nomAuto);
 
+            // Envoie des commandes réseau
             QMap<int, QString> activite;
             activite[1] = "QCM";
             activite[2] = "ecoute";
@@ -808,25 +770,24 @@ void MainWindow::on_validButton_clicked()
     editStatusButton(ui->AppelButton, true);
     editStatusButton(ui->StatutButton, true);
 
-    //Desactivatio, button participants
+    // Désactivation boutons participants
     editStatusButton(ui->selectAll, false);
     editStatusButton(ui->selectManuel, false);
 
     // Sauvegarde des fichiers
     saveSessionData(true);
 
-    // Mettre à jour l'interface
-    if(ui->ChoixActivite->currentText() == "QCM")
-    {
+    // Interface : lancement spécifique pour QCM
+    if(ui->ChoixActivite->currentText() == "QCM") {
         editStatusButton(ui->CreationButton, true);
         on_CreationButton_clicked();
 
         udpSocketQCM = new QUdpSocket(this);
-        udpSocketQCM->bind(45454, QUdpSocket::ShareAddress);  // Choisis un port libre
+        udpSocketQCM->bind(45454, QUdpSocket::ShareAddress);
         connect(udpSocketQCM, &QUdpSocket::readyRead, this, &MainWindow::majStatusQCM);
     }
 
-
+    // Finalisation
     selectionParticipants = false;
     selectAllParticipants = false;
     parametrageSession = false;
@@ -835,27 +796,25 @@ void MainWindow::on_validButton_clicked()
     ui->delButton->setText("Fin session");
     runningSession = true;
 
-    if(!source.isEmpty())
-    {
+    // Copier le fichier source s'il y en a un
+    if(!source.isEmpty()) {
         QFileInfo fileInfo(source);
-
         QDir dir;
         if (!dir.exists(sessionFolder)) {
-            dir.mkpath(sessionFolder); // Crée le dossier s'il n'existe pas
+            dir.mkpath(sessionFolder);
         }
 
-        // Copier le fichier
         if (QFile::copy(source, sessionFolder)) {
             QMessageBox::critical(
                 nullptr,
                 "Fichier enregistré avec succès",
                 "✅ Fichier bien enregistré \n"
-                "Le fichier audio/vidéo à été enregistré dans " + sessionFolder
+                "Le fichier audio/vidéo a été enregistré dans " + sessionFolder
                 );
         } else {
             QMessageBox::critical(
                 nullptr,
-                "Fichier n'as pas pu être enregistré",
+                "Fichier non enregistré",
                 "❌ Aucun fichier n'a été enregistré\n"
                 "Il vous sera impossible de récupérer le fichier après la fin de session\n\n"
                 "Veuillez le mettre manuellement dans " + sessionFolder + "."
@@ -863,6 +822,7 @@ void MainWindow::on_validButton_clicked()
         }
     }
 }
+
 
 void MainWindow::on_echapButton_clicked()
 {
@@ -999,7 +959,8 @@ void MainWindow::on_Communication_clicked()
 void MainWindow::on_nomEleveLineEdit_editingFinished()
 {
     prof->sendCommandToStudent(eleveActuellementParametre->getIP(), 5560, "{\"nomEleve\" :\"" + ui->nomEleveLineEdit->text() + "\"}");
-    changeNameGroup(eleveActuellementParametre, ui->nomEleveLineEdit->text());
+    qDebug() << "nomEleve line esdit";
+    updateEleveNom(eleveActuellementParametre, ui->nomEleveLineEdit->text());
 }
 
 void MainWindow::on_envoyerMessagePersonne_clicked()
