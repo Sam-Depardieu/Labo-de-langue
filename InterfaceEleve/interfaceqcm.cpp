@@ -16,7 +16,7 @@ InterfaceQCM::InterfaceQCM(QWidget *parent)
     this->setWindowTitle("Page de QCM");
     // Affichage des Images
     setButtonIcons();
-    ui->textEditConsigne->setText(parent->getConsigne());
+
 
     udpSocketConsigne.bind(QHostAddress::Any, consignePort);
     connect(&udpSocketConsigne, &QUdpSocket::readyRead, this, &InterfaceQCM::receiveResponse);
