@@ -1,9 +1,0 @@
-Session créée par sqfw
-Classe : BTS1
-Date : 2025-05-05 10:22:17
-Id Prof : 4
-Activité : 
-Source : 
-Consigne : 
-Durée : 00:00:00
-Participants : 4
