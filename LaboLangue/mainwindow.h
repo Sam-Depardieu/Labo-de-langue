@@ -71,7 +71,7 @@ private slots:
     void resetSession();
     void setupActivitiesComboBox();
     void setupClassesComboBox();
-    void saveSessionData(bool isNewSession);
+    void saveSessionData();
 
     // Bouton de ParametrageEleve
     void on_muteButton_clicked();

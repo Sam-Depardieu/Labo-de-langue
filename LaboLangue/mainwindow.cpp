@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
     layoutParametrageSession->setContentsMargins(8, 8, 15, 8);
     layoutParametrageSession->setAlignment(Qt::AlignCenter | Qt::AlignTop);
     // Ajout des sections dans le layoutParametrageSession
-    addHorizontalLayout(layoutParametrageSession, {ui->NameLabel, ui->NameLineEdit, ui->loadSession});
+    addHorizontalLayout(layoutParametrageSession, {ui->NomProfLabel, ui->NomProfLineEdit, ui->loadSession});
     addHorizontalLayout(layoutParametrageSession, {ui->ChoixActLabel, ui->ChoixActivite});
     addHorizontalLayout(layoutParametrageSession, {ui->DureeLabel, ui->DureeActivite});
     addHorizontalLayout(layoutParametrageSession, {ui->ClasseLabel, ui->ChoixClasse});
@@ -269,7 +269,7 @@ void MainWindow::resetSession()
     ui->errorLabel->clear();
 
     //Réinitialisation des éléments de l'interface graphique
-    ui->NameLineEdit->clear();
+    ui->NomProfLineEdit->clear();
     ui->ConsigneTextEdit->clear();
     ui->DureeActivite->setTime(QTime(0, 0, 0));
     ui->ChoixActivite->setCurrentIndex(0);
@@ -462,7 +462,7 @@ bool MainWindow::connectToDatabase() {
  * Fonction pour sauvegarder la session sur le partage SMB
  * @param isNewSession : true si nouvelle session, false si suppression
  */
-void MainWindow::saveSessionData(bool isNewSession)
+void MainWindow::saveSessionData()
 {
     if (nomProf.trimmed().isEmpty()) {
         qDebug() << "❌ Erreur : nomProf est vide.";
@@ -549,6 +549,68 @@ void MainWindow::saveSessionData(bool isNewSession)
 /**
  * Fonctions lié aux boutons de l'IHM (Boutton)
  */
+
+void MainWindow::on_loadSession_clicked()
+{
+    QString documentsPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation); // Récupère le dossier Documents
+
+    QString fileName = QFileDialog::getOpenFileName(
+        this,
+        "Sélectionner un fichier labo",
+        documentsPath,  // Définit "Documents" comme dossier par défaut
+        "Fichiers LABO (*.labo)"        // Filtre uniquement les fichiers audio
+        );
+    source = fileName;
+    QFile file(source);  // `source` contient le chemin sélectionné par QFileDialog
+
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) return;
+
+    QByteArray jsonData = file.readAll();
+    file.close();
+
+    QJsonParseError parseError;
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonData, &parseError);
+
+    if (parseError.error != QJsonParseError::NoError) {
+        qWarning() << "❌ Erreur de parsing JSON :" << parseError.errorString();
+        return;
+    }
+
+    if (!jsonDoc.isObject()) {
+        qWarning() << "❌ Le JSON n’est pas un objet valide.";
+        return;
+    }
+
+    QJsonObject obj = jsonDoc.object();
+
+    QString nomProf = obj["nomProf"].toString();
+    idTypeActivite = obj["idTypeActivite"].toInt();
+    idClasse = obj["idClasse"].toInt();
+    QString consigne = obj["consigne"].toString();
+
+    ui->NomProfLineEdit->setText(nomProf);
+    ui->ChoixActivite->setCurrentIndex(idTypeActivite);
+    ui->ChoixClasse->setCurrentIndex(idClasse);
+    ui->ConsigneTextEdit->setText(consigne);
+
+    QJsonArray participants = obj["participants"].toArray();
+    QList<int> listeParticipants;
+
+    for (const QJsonValue &val : participants) {
+        int id = val.toInt();
+
+        for (iconEleveGroup* group : listeRasp) {
+            if (group->getID() == id) {
+                if (!group->getCheckItem()->isVisible()) {
+                    showCheckIconOnGroup(group);  // Affiche l’icône
+                }
+                listeParticipant.push_back(group);  // Ajoute à la sélection
+                break;
+            }
+        }
+    }
+}
+
 void MainWindow::on_SessionButton_clicked()
 {
     ui->PageStatut->setVisible(false);
@@ -656,7 +718,7 @@ void MainWindow::on_validButton_clicked()
     ui->errorLabel->clear();
 
     // Vérification des champs obligatoires
-    if (ui->NameLineEdit->text().isEmpty()) {
+    if (ui->NomProfLineEdit->text().isEmpty()) {
         ui->errorLabel->setText("Veuillez indiquer votre nom!");
     }
     if (ui->ChoixActivite->currentText().isEmpty()) {
@@ -684,15 +746,15 @@ void MainWindow::on_validButton_clicked()
     idClasse = query.exec() && query.next() ? query.value(0).toInt() : -1;
 
     query.prepare("SELECT Id_Prof FROM Prof WHERE Nom = :nom");
-    query.bindValue(":nom", ui->NameLineEdit->text());
-    nomProf = ui->NameLineEdit->text();
+    query.bindValue(":nom", ui->NomProfLineEdit->text());
+    nomProf = ui->NomProfLineEdit->text();
 
     if (query.exec() && query.next()) {
         idProf = query.value(0).toInt();
     } else {
         // 🔹 Ajouter le prof s'il n'existe pas
         query.prepare("INSERT INTO SessionProf (Nom, Date_Session) VALUES (:nom, :date)");
-        query.bindValue(":nom", ui->NameLineEdit->text());
+        query.bindValue(":nom", ui->NomProfLineEdit->text());
         query.bindValue(":date", QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss"));
         if (query.exec()) {
             idProf = query.lastInsertId().toInt();
@@ -776,7 +838,7 @@ void MainWindow::on_validButton_clicked()
     editStatusButton(ui->selectManuel, false);
 
     // Sauvegarde des fichiers
-    saveSessionData(true);
+    saveSessionData();
 
     // Interface : lancement spécifique pour QCM
     if(ui->ChoixActivite->currentText() == "QCM") {
@@ -829,20 +891,6 @@ void MainWindow::on_echapButton_clicked()
 {
     on_delButton_clicked();
     ui->ParametrageSession->setVisible(false);
-}
-
-void MainWindow::on_loadSession_clicked()
-{
-    QString documentsPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation); // Récupère le dossier Documents
-
-    QString fileName = QFileDialog::getOpenFileName(
-        this,
-        "Sélectionner un fichier labo",
-        documentsPath,  // Définit "Documents" comme dossier par défaut
-        "Fichiers LABO (*.labo)"        // Filtre uniquement les fichiers audio
-        );
-    source = fileName;
-    QFileInfo fileInfo(fileName);
 }
 
 void MainWindow::on_CreationButton_clicked()
