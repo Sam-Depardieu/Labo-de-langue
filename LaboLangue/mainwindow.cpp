@@ -508,7 +508,8 @@ void MainWindow::saveSessionData(bool isNewSession)
     QString sanitizedName = nomProf;
     sanitizedName.replace(" ", "_").remove(QRegularExpression("[^a-zA-Z0-9_-]"));
 
-    QString networkPath = R"(\\CIEL-T171-05\Activites\)";
+    QString hostName = QHostInfo::localHostName();
+    QString networkPath = QString(R"(\\%1\Activites\)").arg(hostName);
     QString timestamp = QDateTime::currentDateTime().toString("yyyy-MM-dd_HH-mm");
     sessionFolder = networkPath + sanitizedName + "_" + timestamp;
     qDebug() << sessionFolder;
@@ -679,6 +680,7 @@ void MainWindow::on_SourceButton_clicked()
         documentsPath,  // Définit "Documents" comme dossier par défaut
         "Audio Files (*.mp3 *.wav *.ogg *.flac *.aac), Vidéos (*.mp4 *.avi *.mkv *.mov *.wmv)"        // Filtre uniquement les fichiers audio
         );
+    if (fileName.isEmpty()) return;
     source = fileName;
     QFileInfo fileInfo(fileName);
     ui->NameSourceLabel->setText(fileInfo.fileName());
@@ -835,9 +837,33 @@ void MainWindow::on_validButton_clicked()
     ui->delButton->setText("Fin session");
     runningSession = true;
 
+    if(!source.isEmpty())
+    {
+        QFileInfo fileInfo(source);
 
+        QDir dir;
+        if (!dir.exists(sessionFolder)) {
+            dir.mkpath(sessionFolder); // Crée le dossier s'il n'existe pas
+        }
 
-
+        // Copier le fichier
+        if (QFile::copy(source, sessionFolder)) {
+            QMessageBox::critical(
+                nullptr,
+                "Fichier enregistré avec succès",
+                "✅ Fichier bien enregistré \n"
+                "Le fichier audio/vidéo à été enregistré dans " + sessionFolder
+                );
+        } else {
+            QMessageBox::critical(
+                nullptr,
+                "Fichier n'as pas pu être enregistré",
+                "❌ Aucun fichier n'a été enregistré\n"
+                "Il vous sera impossible de récupérer le fichier après la fin de session\n\n"
+                "Veuillez le mettre manuellement dans " + sessionFolder + "."
+                );
+        }
+    }
 }
 
 void MainWindow::on_echapButton_clicked()
