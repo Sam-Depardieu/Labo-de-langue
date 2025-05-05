@@ -25,13 +25,13 @@ public:
     QPushButton *pushButtonEffacerReponse;
     QPushButton *pushButtonQuestionPrecedente;
     QPushButton *pushButton;
-    QPushButton *pushButtonSon;
     QLabel *labelQuestion;
     QPushButton *pushButton1;
     QPushButton *pushButton2;
     QPushButton *pushButton4;
     QPushButton *pushButton3;
     QTextEdit *textEditConsigne;
+    QTextEdit *textEditFeedBack;
 
     void setupUi(QDialog *InterfaceQCM)
     {
@@ -57,34 +57,46 @@ public:
 "    background-color: rgb(0, 151, 178); /* Fond bleu */\n"
 "    color: white; /* Texte en blanc */\n"
 "    border: none; /* Enlever le contour si n\303\251cessaire */\n"
-"    border-radius: 5px; /* Optionnel : coins arrondis */\n"
 "    font-weight: bold; /* Optionnel : texte en gras */\n"
 "}"));
-        pushButtonSon = new QPushButton(InterfaceQCM);
-        pushButtonSon->setObjectName("pushButtonSon");
-        pushButtonSon->setGeometry(QRect(40, 400, 80, 80));
-        pushButtonSon->setAutoFillBackground(false);
-        pushButtonSon->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
-"    border: none;"));
         labelQuestion = new QLabel(InterfaceQCM);
         labelQuestion->setObjectName("labelQuestion");
         labelQuestion->setGeometry(QRect(20, 80, 771, 71));
+        labelQuestion->setStyleSheet(QString::fromUtf8(" font-weight: bold; /* Optionnel : texte en gras */"));
         pushButton1 = new QPushButton(InterfaceQCM);
         pushButton1->setObjectName("pushButton1");
-        pushButton1->setGeometry(QRect(80, 220, 171, 81));
+        pushButton1->setGeometry(QRect(10, 240, 321, 100));
+        pushButton1->setStyleSheet(QString::fromUtf8("QPushButton {\n"
+"    background-color:blue; /* Fond bleu */\n"
+"    border-radius: 20px; /* Optionnel : coins arrondis */\n"
+"}"));
         pushButton2 = new QPushButton(InterfaceQCM);
         pushButton2->setObjectName("pushButton2");
-        pushButton2->setGeometry(QRect(380, 220, 171, 81));
+        pushButton2->setGeometry(QRect(340, 240, 321, 100));
+        pushButton2->setStyleSheet(QString::fromUtf8("QPushButton {\n"
+"    background-color:green; /* Fond bleu */\n"
+"    border-radius: 20px; /* Optionnel : coins arrondis */\n"
+"}"));
         pushButton4 = new QPushButton(InterfaceQCM);
         pushButton4->setObjectName("pushButton4");
-        pushButton4->setGeometry(QRect(380, 360, 171, 81));
+        pushButton4->setGeometry(QRect(340, 350, 321, 91));
+        pushButton4->setStyleSheet(QString::fromUtf8("QPushButton {\n"
+"    background-color:orange; /* Fond bleu */\n"
+"    border-radius: 20px; /* Optionnel : coins arrondis */\n"
+"}"));
         pushButton3 = new QPushButton(InterfaceQCM);
         pushButton3->setObjectName("pushButton3");
-        pushButton3->setGeometry(QRect(80, 360, 171, 81));
+        pushButton3->setGeometry(QRect(10, 350, 321, 91));
+        pushButton3->setStyleSheet(QString::fromUtf8("QPushButton {\n"
+"    background-color:red; /* Fond bleu */\n"
+"    border-radius: 20px; /* Optionnel : coins arrondis */\n"
+"}"));
         textEditConsigne = new QTextEdit(InterfaceQCM);
         textEditConsigne->setObjectName("textEditConsigne");
-        textEditConsigne->setGeometry(QRect(660, 300, 131, 171));
-        pushButtonSon->raise();
+        textEditConsigne->setGeometry(QRect(670, 80, 121, 151));
+        textEditFeedBack = new QTextEdit(InterfaceQCM);
+        textEditFeedBack->setObjectName("textEditFeedBack");
+        textEditFeedBack->setGeometry(QRect(670, 230, 121, 241));
         pushButton->raise();
         pushButtonQuestionSuivante->raise();
         pushButtonQuestionPrecedente->raise();
@@ -95,6 +107,7 @@ public:
         pushButton4->raise();
         pushButton3->raise();
         textEditConsigne->raise();
+        textEditFeedBack->raise();
 
         retranslateUi(InterfaceQCM);
 
@@ -108,12 +121,11 @@ public:
         pushButtonEffacerReponse->setText(QString());
         pushButtonQuestionPrecedente->setText(QString());
         pushButton->setText(QCoreApplication::translate("InterfaceQCM", "Bienvenue sur l'interface de Question \303\240 choix multiple", nullptr));
-        pushButtonSon->setText(QString());
         labelQuestion->setText(QCoreApplication::translate("InterfaceQCM", "Question n\302\260", nullptr));
-        pushButton1->setText(QString());
-        pushButton2->setText(QString());
-        pushButton4->setText(QString());
-        pushButton3->setText(QString());
+        pushButton1->setText(QCoreApplication::translate("InterfaceQCM", "1 :", nullptr));
+        pushButton2->setText(QCoreApplication::translate("InterfaceQCM", "2 :", nullptr));
+        pushButton4->setText(QCoreApplication::translate("InterfaceQCM", "4 :", nullptr));
+        pushButton3->setText(QCoreApplication::translate("InterfaceQCM", "3 :", nullptr));
         textEditConsigne->setHtml(QCoreApplication::translate("InterfaceQCM", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
@@ -121,7 +133,18 @@ public:
 "li.unchecked::marker { content: \"\\2610\"; }\n"
 "li.checked::marker { content: \"\\2612\"; }\n"
 "</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">		Consignes :</p></body></html>", nullptr));
+"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Consignes :</p></body></html>", nullptr));
+        textEditFeedBack->setHtml(QCoreApplication::translate("InterfaceQCM", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:700; text-decoration: underline;\">Feedback</span></p>\n"
+"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:700;\">----------------------</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; ma"
+                        "rgin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:700;\"><br /></p></body></html>", nullptr));
     } // retranslateUi
 
 };

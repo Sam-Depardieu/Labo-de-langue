@@ -16,10 +16,20 @@ InterfaceQCM::InterfaceQCM(QWidget *parent)
     this->setWindowTitle("Page de QCM");
     // Affichage des Images
     setButtonIcons();
-    ui->textEditConsigne->setText(parent->getConsigne());
+
 
     udpSocketConsigne.bind(QHostAddress::Any, consignePort);
     connect(&udpSocketConsigne, &QUdpSocket::readyRead, this, &InterfaceQCM::receiveResponse);
+
+    // Vérifier si l'utilisateur est un professeur
+    if (!isTeacher) {
+        ui->textEditFeedBack->setReadOnly(true); // Bloquer l'accès en écriture
+        ui->textEditConsigne->setReadOnly(true); // Bloquer l'accès en écriture
+    }
+
+    loadQuestions(R"(\\CIEL-T171-05\Activites\questions.qcmlabo)");
+    showCurrentQuestion();
+
 }
 
 InterfaceQCM::~InterfaceQCM()
@@ -43,164 +53,46 @@ void InterfaceQCM::setButtonIcons()
     setIcon(ui->pushButtonEffacerReponse, ":/images/Effacer");
     setIcon(ui->pushButtonQuestionSuivante, ":/images/Avancer");
     setIcon(ui->pushButtonQuestionPrecedente, ":/images/RevenirArriere");
-    setIcon(ui->pushButton4, ":/images/4");
-    setIcon(ui->pushButton3, ":/images/3");
-    setIcon(ui->pushButton2, ":/images/2");
-    setIcon(ui->pushButton1, ":/images/1");
 }
 
 void InterfaceQCM::on_pushButton1_clicked()
 {
-    if (isButton1Image) {
-        QPixmap image1(":/images/1Selec");
-        if (image1.isNull()) {
-            qWarning() << "Erreur : image non trouvée !";
-        } else {
-            QIcon icone(image1);
-            ui->pushButton1->setIcon(icone);
-            ui->pushButton1->setIconSize(ui->pushButton1->size());
-            qDebug() << "Image 2Selec chargée";
-        }
-    } else {
-        QPixmap Image(":/images/1");
-        if (Image.isNull()) {
-            qWarning() << "Erreur : image de base non trouvée !";
-        } else {
-            QIcon icone(Image);
-            ui->pushButton1->setIcon(icone);
-            ui->pushButton1->setIconSize(ui->pushButton1->size());
-            qDebug() << "Image 1 de base chargée";
-        }
-    }
-    isButton1Image = !isButton1Image;
+
+    ui->pushButton1->setStyleSheet("QPushButton { background-color:blue;border: 3px solid white;border-radius: 20px;}");
+    isButton1Image = false;
 }
 
 
 void InterfaceQCM::on_pushButton2_clicked()
 {
-    if (isButton2Image) {
-        QPixmap image1(":/images/2Selec");
-        if (image1.isNull()) {
-            qWarning() << "Erreur : image non trouvée !";
-        } else {
-            QIcon icone(image1);
-            ui->pushButton2->setIcon(icone);
-            ui->pushButton2->setIconSize(ui->pushButton2->size());
-            qDebug() << "Image 2Selec chargée";
-        }
-    } else {
-        QPixmap Image(":/images/2");
-        if (Image.isNull()) {
-            qWarning() << "Erreur : image de base non trouvée !";
-        } else {
-            QIcon icone(Image);
-            ui->pushButton2->setIcon(icone);
-            ui->pushButton2->setIconSize(ui->pushButton2->size());
-            qDebug() << "Image 2 de base chargée";
-        }
-    }
-    isButton2Image = !isButton2Image;
+
+    ui->pushButton2->setStyleSheet("QPushButton { background-color:green;border: 3px solid white;border-radius: 20px; }");
+    isButton2Image = false;
 }
 
 
 void InterfaceQCM::on_pushButton3_clicked()
 {
-    if (isButton3Image) {
-        QPixmap image1(":/images/3Selec");
-        if (image1.isNull()) {
-            qWarning() << "Erreur : image non trouvée !";
-        } else {
-            QIcon icone(image1);
-            ui->pushButton3->setIcon(icone);
-            ui->pushButton3->setIconSize(ui->pushButton3->size());
-            qDebug() << "Image 3Selec chargée";
-        }
-    } else {
-        QPixmap Image(":/images/3");
-        if (Image.isNull()) {
-            qWarning() << "Erreur : image de base non trouvée !";
-        } else {
-            QIcon icone(Image);
-            ui->pushButton3->setIcon(icone);
-            ui->pushButton3->setIconSize(ui->pushButton3->size());
-            qDebug() << "Image 3 de base chargée";
-        }
-    }
-    isButton3Image = !isButton3Image;
+
+    ui->pushButton3->setStyleSheet("QPushButton {  background-color:red;border: 3px solid white;border-radius: 20px; }");
+    isButton3Image = false;
 }
 
 
 void InterfaceQCM::on_pushButton4_clicked()
 {
-    if (isButton4Image) {
-        QPixmap image1(":/images/4Selec");
-        if (image1.isNull()) {
-            qWarning() << "Erreur : image non trouvée !";
-        } else {
-            QIcon icone(image1);
-            ui->pushButton4->setIcon(icone);
-            ui->pushButton4->setIconSize(ui->pushButton4->size());
-            qDebug() << "Image 4Selec chargée";
-        }
-    } else {
-        QPixmap Image(":/images/4");
-        if (Image.isNull()) {
-            qWarning() << "Erreur : image de base non trouvée !";
-        } else {
-            QIcon icone(Image);
-            ui->pushButton4->setIcon(icone);
-            ui->pushButton4->setIconSize(ui->pushButton4->size());
-            qDebug() << "Image 4 de base chargée";
-        }
-    }
-    isButton4Image = !isButton4Image;
+
+    ui->pushButton4->setStyleSheet("QPushButton { background-color:orange;border: 3px solid white;border-radius: 20px; }");
+    isButton4Image = false;
 }
 
 void InterfaceQCM::on_pushButtonEffacerReponse_clicked()
 {
-    // Change l'image de pushButton1
-    QPixmap image1(":/images/1"); // Chemin vers l'image de base pour pushButton1
-    if (image1.isNull()) {
-        qWarning() << "Erreur : image de base 1 non trouvée !";
-    } else {
-        QIcon icone(image1);
-        ui->pushButton1->setIcon(icone);
-        ui->pushButton1->setIconSize(ui->pushButton1->size());
-    }
-
-    // Change l'image de pushButton2
-    QPixmap image2(":/images/2"); // Chemin vers l'image de base pour pushButton2
-    if (image2.isNull()) {
-        qWarning() << "Erreur : image de base 2 non trouvée !";
-    } else {
-        QIcon icone(image2);
-        ui->pushButton2->setIcon(icone);
-        ui->pushButton2->setIconSize(ui->pushButton2->size());
-    }
-
-    // Change l'image de pushButton3
-    QPixmap image3(":/images/3"); // Chemin vers l'image de base pour pushButton3
-    if (image3.isNull()) {
-        qWarning() << "Erreur : image de base 3 non trouvée !";
-    } else {
-        QIcon icone(image3);
-        ui->pushButton3->setIcon(icone);
-        ui->pushButton3->setIconSize(ui->pushButton3->size());
-    }
-
-
-
-    // Change l'image de pushButton4
-    QPixmap image4(":/images/4"); // Chemin vers l'image de base pour pushButton4
-    if (image4.isNull()) {
-        qWarning() << "Erreur : image de base 4 non trouvée !";
-    } else {
-        QIcon icone(image4);
-        ui->pushButton4->setIcon(icone);
-        ui->pushButton4->setIconSize(ui->pushButton4->size());
-    }
-    // Réinitialiser les images des boutons
-    setButtonIcons();
+    // On ne touche qu'à la bordure : le reste du style .ui reste intact
+    ui->pushButton1->setStyleSheet("QPushButton { background-color:blue; border-radius: 20px; }");
+    ui->pushButton2->setStyleSheet("QPushButton { background-color:green; border-radius: 20px; }");
+    ui->pushButton3->setStyleSheet("QPushButton { background-color:red;border-radius: 20px; }");
+    ui->pushButton4->setStyleSheet("QPushButton { background-color:orange;border-radius: 20px; }");
 
     // Réinitialiser les flags
     isButton1Image = true;
@@ -263,3 +155,36 @@ void InterfaceQCM::receiveResponse()
         }
     }
 }
+
+void InterfaceQCM::loadQuestions(const QString &filePath)
+{
+    QFile file(filePath);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qWarning() << "Erreur : impossible d'ouvrir le fichier des questions.";
+        return;
+    }
+
+    QTextStream in(&file);
+    while (!in.atEnd()) {
+        QString line = in.readLine().trimmed();
+        if (!line.isEmpty()) {
+            questions.append(line);
+        }
+    }
+
+    file.close();
+    qDebug() << "Nombre de questions chargées :" << questions.size();
+}
+
+void InterfaceQCM::showCurrentQuestion()
+{
+    if (questions.isEmpty()) {
+        ui->labelQuestion->setText("Aucune question disponible.");
+        return;
+    }
+
+    if (currentQuestionIndex >= 0 && currentQuestionIndex < questions.size()) {
+        ui->labelQuestion->setText(questions[currentQuestionIndex]);
+    }
+}
+
