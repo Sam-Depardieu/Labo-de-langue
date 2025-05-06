@@ -82,6 +82,7 @@ constexpr auto qt_meta_stringdata_CLASSMainWindowENDCLASS = QtMocHelpers::string
     "setupActivitiesComboBox",
     "setupClassesComboBox",
     "saveSessionData",
+    "isNewSession",
     "on_muteButton_clicked",
     "on_demuteButton_clicked",
     "on_desactiverSonButton_clicked",
@@ -96,7 +97,8 @@ constexpr auto qt_meta_stringdata_CLASSMainWindowENDCLASS = QtMocHelpers::string
     "on_modeClairButton_clicked",
     "on_modeSombreButton_clicked",
     "on_StatutButton_clicked",
-    "on_cacheButton_clicked"
+    "on_cacheButton_clicked",
+    "onClicked_itemBoutonAjouterGroupe"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
 #error "qtmochelpers.h not found or too old."
@@ -109,7 +111,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSMainWindowENDCLASS[] = {
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-      40,   14, // methods
+      41,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -117,46 +119,47 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSMainWindowENDCLASS[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    0,  254,    2, 0x08,    1 /* Private */,
-       3,    0,  255,    2, 0x08,    2 /* Private */,
-       4,    0,  256,    2, 0x08,    3 /* Private */,
-       5,    0,  257,    2, 0x08,    4 /* Private */,
-       6,    2,  258,    2, 0x08,    5 /* Private */,
-      10,    2,  263,    2, 0x08,    8 /* Private */,
-      15,    1,  268,    2, 0x08,   11 /* Private */,
-      18,    0,  271,    2, 0x08,   13 /* Private */,
-      19,    1,  272,    2, 0x08,   14 /* Private */,
-      22,    2,  275,    2, 0x08,   16 /* Private */,
-      25,    2,  280,    2, 0x08,   19 /* Private */,
-      28,    0,  285,    2, 0x08,   22 /* Private */,
-      29,    1,  286,    2, 0x08,   23 /* Private */,
-      31,    0,  289,    2, 0x08,   25 /* Private */,
-      32,    0,  290,    2, 0x08,   26 /* Private */,
-      33,    0,  291,    2, 0x08,   27 /* Private */,
-      34,    0,  292,    2, 0x08,   28 /* Private */,
-      35,    0,  293,    2, 0x08,   29 /* Private */,
-      36,    0,  294,    2, 0x08,   30 /* Private */,
-      37,    0,  295,    2, 0x08,   31 /* Private */,
-      38,    0,  296,    2, 0x08,   32 /* Private */,
-      39,    0,  297,    2, 0x08,   33 /* Private */,
-      40,    0,  298,    2, 0x08,   34 /* Private */,
-      41,    0,  299,    2, 0x08,   35 /* Private */,
-      42,    0,  300,    2, 0x08,   36 /* Private */,
-      43,    0,  301,    2, 0x08,   37 /* Private */,
-      44,    0,  302,    2, 0x08,   38 /* Private */,
-      45,    0,  303,    2, 0x08,   39 /* Private */,
-      46,    0,  304,    2, 0x08,   40 /* Private */,
-      47,    0,  305,    2, 0x08,   41 /* Private */,
-      48,    0,  306,    2, 0x08,   42 /* Private */,
-      49,    0,  307,    2, 0x08,   43 /* Private */,
-      50,    0,  308,    2, 0x08,   44 /* Private */,
-      51,    0,  309,    2, 0x08,   45 /* Private */,
-      52,    0,  310,    2, 0x08,   46 /* Private */,
-      53,    0,  311,    2, 0x08,   47 /* Private */,
-      54,    0,  312,    2, 0x08,   48 /* Private */,
-      55,    0,  313,    2, 0x08,   49 /* Private */,
-      56,    0,  314,    2, 0x08,   50 /* Private */,
-      57,    0,  315,    2, 0x08,   51 /* Private */,
+       1,    0,  260,    2, 0x08,    1 /* Private */,
+       3,    0,  261,    2, 0x08,    2 /* Private */,
+       4,    0,  262,    2, 0x08,    3 /* Private */,
+       5,    0,  263,    2, 0x08,    4 /* Private */,
+       6,    2,  264,    2, 0x08,    5 /* Private */,
+      10,    2,  269,    2, 0x08,    8 /* Private */,
+      15,    1,  274,    2, 0x08,   11 /* Private */,
+      18,    0,  277,    2, 0x08,   13 /* Private */,
+      19,    1,  278,    2, 0x08,   14 /* Private */,
+      22,    2,  281,    2, 0x08,   16 /* Private */,
+      25,    2,  286,    2, 0x08,   19 /* Private */,
+      28,    0,  291,    2, 0x08,   22 /* Private */,
+      29,    1,  292,    2, 0x08,   23 /* Private */,
+      31,    0,  295,    2, 0x08,   25 /* Private */,
+      32,    0,  296,    2, 0x08,   26 /* Private */,
+      33,    0,  297,    2, 0x08,   27 /* Private */,
+      34,    0,  298,    2, 0x08,   28 /* Private */,
+      35,    0,  299,    2, 0x08,   29 /* Private */,
+      36,    0,  300,    2, 0x08,   30 /* Private */,
+      37,    0,  301,    2, 0x08,   31 /* Private */,
+      38,    0,  302,    2, 0x08,   32 /* Private */,
+      39,    0,  303,    2, 0x08,   33 /* Private */,
+      40,    0,  304,    2, 0x08,   34 /* Private */,
+      41,    0,  305,    2, 0x08,   35 /* Private */,
+      42,    1,  306,    2, 0x08,   36 /* Private */,
+      44,    0,  309,    2, 0x08,   38 /* Private */,
+      45,    0,  310,    2, 0x08,   39 /* Private */,
+      46,    0,  311,    2, 0x08,   40 /* Private */,
+      47,    0,  312,    2, 0x08,   41 /* Private */,
+      48,    0,  313,    2, 0x08,   42 /* Private */,
+      49,    0,  314,    2, 0x08,   43 /* Private */,
+      50,    0,  315,    2, 0x08,   44 /* Private */,
+      51,    0,  316,    2, 0x08,   45 /* Private */,
+      52,    0,  317,    2, 0x08,   46 /* Private */,
+      53,    0,  318,    2, 0x08,   47 /* Private */,
+      54,    0,  319,    2, 0x08,   48 /* Private */,
+      55,    0,  320,    2, 0x08,   49 /* Private */,
+      56,    0,  321,    2, 0x08,   50 /* Private */,
+      57,    0,  322,    2, 0x08,   51 /* Private */,
+      58,    0,  323,    2, 0x08,   52 /* Private */,
+      59,    1,  324,    2, 0x08,   53 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -183,6 +186,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSMainWindowENDCLASS[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Void, QMetaType::Bool,   43,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -198,7 +202,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSMainWindowENDCLASS[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void,
+    QMetaType::Void, 0x80000000 | 16,   23,
 
        0        // eod
 };
@@ -273,6 +277,7 @@ Q_CONSTINIT const QMetaObject MainWindow::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'saveSessionData'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<bool, std::false_type>,
         // method 'on_muteButton_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_demuteButton_clicked'
@@ -302,7 +307,10 @@ Q_CONSTINIT const QMetaObject MainWindow::staticMetaObject = { {
         // method 'on_StatutButton_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_cacheButton_clicked'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'onClicked_itemBoutonAjouterGroupe'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<iconEleveGroup *, std::false_type>
     >,
     nullptr
 } };
@@ -338,7 +346,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 21: _t->resetSession(); break;
         case 22: _t->setupActivitiesComboBox(); break;
         case 23: _t->setupClassesComboBox(); break;
-        case 24: _t->saveSessionData(); break;
+        case 24: _t->saveSessionData((*reinterpret_cast< std::add_pointer_t<bool>>(_a[1]))); break;
         case 25: _t->on_muteButton_clicked(); break;
         case 26: _t->on_demuteButton_clicked(); break;
         case 27: _t->on_desactiverSonButton_clicked(); break;
@@ -354,6 +362,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 37: _t->on_modeSombreButton_clicked(); break;
         case 38: _t->on_StatutButton_clicked(); break;
         case 39: _t->on_cacheButton_clicked(); break;
+        case 40: _t->onClicked_itemBoutonAjouterGroupe((*reinterpret_cast< std::add_pointer_t<iconEleveGroup*>>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
@@ -387,6 +396,13 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
                 *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType::fromType< iconEleveGroup* >(); break;
             }
             break;
+        case 40:
+            switch (*reinterpret_cast<int*>(_a[1])) {
+            default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
+            case 0:
+                *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType::fromType< iconEleveGroup* >(); break;
+            }
+            break;
         }
     }
 }
@@ -410,13 +426,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 40)
+        if (_id < 41)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 40;
+        _id -= 41;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 40)
+        if (_id < 41)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 40;
+        _id -= 41;
     }
     return _id;
 }

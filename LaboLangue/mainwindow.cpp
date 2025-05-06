@@ -477,7 +477,7 @@ bool MainWindow::connectToDatabase() {
  * Fonction pour sauvegarder la session sur le partage SMB
  * @param isNewSession : true si nouvelle session, false si suppression
  */
-void MainWindow::saveSessionData()
+void MainWindow::saveSessionData(bool isNewSession)
 {
     if (nomProf.trimmed().isEmpty()) {
         qDebug() << "❌ Erreur : nomProf est vide.";
@@ -853,7 +853,7 @@ void MainWindow::on_validButton_clicked()
     editStatusButton(ui->selectManuel, false);
 
     // Sauvegarde des fichiers
-    saveSessionData();
+    saveSessionData(!runningSession);
 
     // Interface : lancement spécifique pour QCM
     if(ui->ChoixActivite->currentText() == "QCM") {
@@ -870,8 +870,11 @@ void MainWindow::on_validButton_clicked()
     selectAllParticipants = false;
     parametrageSession = false;
     on_echapButton_clicked();
-    ui->SessionButton->setText("Session \nen cours");
-    ui->delButton->setText("Fin session");
+    if(!runningSession)
+    {
+        ui->SessionButton->setText("Session \nen cours");
+        ui->delButton->setText("Fin session");
+    }
     runningSession = true;
 
     QString sessionSave = sessionFolder + "\\";
@@ -906,7 +909,7 @@ void MainWindow::on_validButton_clicked()
 
 void MainWindow::on_echapButton_clicked()
 {
-    on_delButton_clicked();
+    //on_delButton_clicked();
     ui->ParametrageSession->setVisible(false);
 }
 
@@ -1010,7 +1013,8 @@ void MainWindow::loadInformationTable()
             itemBoutonAjouterGroupe->setStyleSheet("background-color: #28a745");
             ui->TableauGroupe->setCellWidget(row, 3, itemBoutonAjouterGroupe);
             connect(itemBoutonAjouterGroupe, &QPushButton::clicked, this, [this, row]() {
-                &MainWindow::onClicked_itemBoutonAjouterGroupe(listeEleveParticipant[row]);});
+                MainWindow::onClicked_itemBoutonAjouterGroupe(listeParticipant[row]);
+            });
         }
         else{
             QPushButton *itemBoutonSupprimerGroupe = new QPushButton();

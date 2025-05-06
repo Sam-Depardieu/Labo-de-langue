@@ -78,7 +78,7 @@ private slots:
     void resetSession();
     void setupActivitiesComboBox();
     void setupClassesComboBox();
-    void saveSessionData();
+    void saveSessionData(bool isNewSession);
 
     // Bouton de ParametrageEleve
     void on_muteButton_clicked();
@@ -101,7 +101,7 @@ private slots:
 
     void on_cacheButton_clicked();
 
-    void onClicked_itemBoutonAjouterGroupe(iconEleveGroup* row);
+    void onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve);
 
 private:
     QGraphicsScene *scene;
