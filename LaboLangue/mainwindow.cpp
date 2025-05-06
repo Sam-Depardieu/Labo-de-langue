@@ -459,7 +459,7 @@ bool MainWindow::connectToDatabase() {
     }
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("192.168.89.42");
+    db.setHostName("localhost");
     db.setDatabaseName("LaboLangue");
     db.setPort(3306);
     db.setUserName("prof"); // Remplacez par votre nom d'utilisateur
@@ -887,12 +887,14 @@ void MainWindow::on_validButton_clicked()
             dir.mkpath(sessionSave);
         }
 
-        if (QFile::copy(source, sessionSave)) {
+        QString destPath = sessionSave + fileInfo.fileName();
+
+        if (QFile::copy(source, destPath)) {
             QMessageBox::critical(
                 nullptr,
                 "Fichier enregistré avec succès",
                 "✅ Fichier bien enregistré \n"
-                "Le fichier audio/vidéo a été enregistré dans " + sessionSave
+                "Le fichier audio/vidéo a été enregistré dans " + destPath
                 );
         } else {
             QMessageBox::critical(
@@ -900,7 +902,7 @@ void MainWindow::on_validButton_clicked()
                 "Fichier non enregistré",
                 "❌ Aucun fichier n'a été enregistré\n"
                 "Il vous sera impossible de récupérer le fichier après la fin de session\n\n"
-                "Veuillez le mettre manuellement dans " + sessionSave + "."
+                "Veuillez le mettre manuellement dans " + destPath + "."
                 );
         }
     }
