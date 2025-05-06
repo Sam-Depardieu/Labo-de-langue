@@ -97,9 +97,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->modeClairButton->setVisible(true);
     ui->modeSombreButton->setVisible(false);
 
-    ui->ParametrageEleve->setStyleSheet("background-color: gray;");
-    ui->PlanClasse->setStyleSheet("background-color: gray;");
-    ui->ParametrageSession->setStyleSheet("background-color: gray;");
+    ui->PageStatut->setStyleSheet("background-color: rgb(160, 160, 160)");
+    ui->ParametrageEleve->setStyleSheet("background-color: rgb(160, 160, 160)");
+    ui->PlanClasse->setStyleSheet("background-color: rgb(160, 160, 160)");
+    ui->ParametrageSession->setStyleSheet("background-color: rgb(160, 160, 160)");
 
     ui->centralwidget->setStyleSheet("background-color: black;");
 }
@@ -444,7 +445,7 @@ bool MainWindow::connectToDatabase() {
     }
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("localhost");
+    db.setHostName("192.168.89.42");
     db.setDatabaseName("LaboLangue");
     db.setPort(3306);
     db.setUserName("prof"); // Remplacez par votre nom d'utilisateur
@@ -474,7 +475,7 @@ void MainWindow::saveSessionData()
     sanitizedName.replace(" ", "_").remove(QRegularExpression("[^a-zA-Z0-9_-]"));
 
     QString hostName = QHostInfo::localHostName();
-    QString networkPath = QString(R"(\\%1\Activites\)").arg(hostName);
+    QString networkPath = QString(R"(\\%1\Activites\)").arg("CIEL-T171-05");
     QString timestamp = QDateTime::currentDateTime().toString("yyyy-MM-dd_HH-mm");
     sessionFolder = networkPath + sanitizedName + "_" + timestamp;
     qDebug() << sessionFolder;
