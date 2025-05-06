@@ -61,7 +61,7 @@ public:
 "}"));
         labelQuestion = new QLabel(InterfaceQCM);
         labelQuestion->setObjectName("labelQuestion");
-        labelQuestion->setGeometry(QRect(20, 80, 771, 71));
+        labelQuestion->setGeometry(QRect(10, 160, 651, 71));
         labelQuestion->setStyleSheet(QString::fromUtf8(" font-weight: bold; /* Optionnel : texte en gras */"));
         pushButton1 = new QPushButton(InterfaceQCM);
         pushButton1->setObjectName("pushButton1");
@@ -93,10 +93,10 @@ public:
 "}"));
         textEditConsigne = new QTextEdit(InterfaceQCM);
         textEditConsigne->setObjectName("textEditConsigne");
-        textEditConsigne->setGeometry(QRect(670, 80, 121, 151));
+        textEditConsigne->setGeometry(QRect(10, 90, 651, 71));
         textEditFeedBack = new QTextEdit(InterfaceQCM);
         textEditFeedBack->setObjectName("textEditFeedBack");
-        textEditFeedBack->setGeometry(QRect(670, 230, 121, 241));
+        textEditFeedBack->setGeometry(QRect(670, 80, 121, 391));
         pushButton->raise();
         pushButtonQuestionSuivante->raise();
         pushButtonQuestionPrecedente->raise();
@@ -133,7 +133,7 @@ public:
 "li.unchecked::marker { content: \"\\2610\"; }\n"
 "li.checked::marker { content: \"\\2612\"; }\n"
 "</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Consignes :</p></body></html>", nullptr));
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Consignes :</p></body></html>", nullptr));
         textEditFeedBack->setHtml(QCoreApplication::translate("InterfaceQCM", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"

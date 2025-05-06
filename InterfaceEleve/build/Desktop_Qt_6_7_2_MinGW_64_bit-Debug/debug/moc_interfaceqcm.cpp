@@ -43,8 +43,7 @@ constexpr auto qt_meta_stringdata_CLASSInterfaceQCMENDCLASS = QtMocHelpers::stri
     "on_pushButton4_clicked",
     "on_pushButtonEffacerReponse_clicked",
     "on_pushButtonQuestionSuivante_clicked",
-    "on_textEditFeedBack_2_copyAvailable",
-    "b"
+    "on_pushButtonQuestionPrecedente_clicked"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
 #error "qtmochelpers.h not found or too old."
@@ -71,7 +70,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSInterfaceQCMENDCLASS[] = {
        5,    0,   59,    2, 0x08,    4 /* Private */,
        6,    0,   60,    2, 0x08,    5 /* Private */,
        7,    0,   61,    2, 0x08,    6 /* Private */,
-       8,    1,   62,    2, 0x08,    7 /* Private */,
+       8,    0,   62,    2, 0x08,    7 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -80,7 +79,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSInterfaceQCMENDCLASS[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Bool,    9,
+    QMetaType::Void,
 
        0        // eod
 };
@@ -106,9 +105,8 @@ Q_CONSTINIT const QMetaObject InterfaceQCM::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_pushButtonQuestionSuivante_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'on_textEditFeedBack_2_copyAvailable'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        QtPrivate::TypeAndForceComplete<bool, std::false_type>
+        // method 'on_pushButtonQuestionPrecedente_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
 } };
@@ -125,9 +123,15 @@ void InterfaceQCM::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id
         case 3: _t->on_pushButton4_clicked(); break;
         case 4: _t->on_pushButtonEffacerReponse_clicked(); break;
         case 5: _t->on_pushButtonQuestionSuivante_clicked(); break;
+<<<<<<< HEAD
+        case 6: _t->on_textEditFeedBack_2_copyAvailable((*reinterpret_cast< std::add_pointer_t<bool>>(_a[1]))); break;
+=======
+        case 6: _t->on_pushButtonQuestionPrecedente_clicked(); break;
+>>>>>>> 223c9139557db8b6461cdaa1d29d8cdb25c916f2
         default: ;
         }
     }
+    (void)_a;
 }
 
 const QMetaObject *InterfaceQCM::metaObject() const

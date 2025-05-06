@@ -3,6 +3,7 @@
 
 #include "qudpsocket.h"
 #include <QDialog>
+#include <QJsonArray>
 
 namespace Ui {
 class InterfaceQCM;
@@ -30,14 +31,10 @@ private slots:
 
     void on_pushButtonEffacerReponse_clicked();
 
-    //void on_pushButtonEnregistrer_clicked();
-
     void on_pushButtonQuestionSuivante_clicked();
 
 
-
-
-    void on_textEditFeedBack_2_copyAvailable(bool b);
+    void on_pushButtonQuestionPrecedente_clicked();
 
 private:
     Ui::InterfaceQCM *ui;
@@ -54,10 +51,10 @@ private:
     QString consigne = "";
     bool isTeacher = false;
 
-    QStringList questions;
-    int currentQuestionIndex = 0;
+    QJsonArray questionArray;
+    int currentQuestionIndex;
 
-    void loadQuestions(const QString &filePath);
+    void loadQuestionsJson(const QString &filePath);
     void showCurrentQuestion();
 };
 

@@ -71,6 +71,7 @@ class iconEleveGroup : public QObject, public QGraphicsItemGroup {
         void setNumQCM(int num) {numQCM = num;};
 
         //Getteur
+        std::vector<iconEleveGroup*> getAffiliate() {return affiliate;};
         QGraphicsTextItem* getTextItem() const {return textItem;};
         QGraphicsPixmapItem* getCheckItem() { return checkItem; }
         QGraphicsPixmapItem* getMicro() { return micro; }
