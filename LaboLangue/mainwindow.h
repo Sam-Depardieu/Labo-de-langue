@@ -40,6 +40,7 @@ public:
     QString getSessionFolder() {return sessionFolder;};
     void setNomEtudiantLineEdit(QString nom);
     void updateCheckItemsVisibility();
+    bool getModeSombre() {return modeSombre;};
 
     ~MainWindow();
 
@@ -55,7 +56,6 @@ private slots:
     void changeNameTable(QTableWidgetItem* item);
     void updateEleveNom(iconEleveGroup* eleve, const QString& newName);
     void updateNomDansBDD(int idEleve, const QString& nouveauNom);
-
 
     // Bouton de Création de Session
     void on_SessionButton_clicked();
@@ -109,7 +109,7 @@ private:
     int typeActivite;
 
     QTableWidget* TableauGroupe ;
-
+    bool modeSombre = true;
     QTableWidget* StatutTableauGroupe ;
 
     QUdpSocket* udpSocketQCM;

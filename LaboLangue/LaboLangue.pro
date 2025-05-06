@@ -21,6 +21,7 @@ QT += multimedia multimediawidgets
 
 SOURCES += \
     AudioCommunicator.cpp \
+    choixsession.cpp \
     iconEleveGroup.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -28,11 +29,13 @@ SOURCES += \
 
 HEADERS += \
     AudioCommunicator.h \
+    choixsession.h \
     iconEleveGroup.h \
     mainwindow.h \
     qcm.h
 
 FORMS += \
+    choixsession.ui \
     mainwindow.ui \
     qcm.ui
 

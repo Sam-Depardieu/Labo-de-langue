@@ -1060,6 +1060,7 @@ void MainWindow::on_envoyerMessageGroupe_clicked()
 
 void MainWindow::on_modeClairButton_clicked()
 {
+    modeSombre = false;
     ui->ParametrageEleve->setStyleSheet("background-color: white;");
     ui->PlanClasse->setStyleSheet("background-color: white;");
     ui->ParametrageSession->setStyleSheet("background-color: white;");
@@ -1074,6 +1075,7 @@ void MainWindow::on_modeClairButton_clicked()
 
 void MainWindow::on_modeSombreButton_clicked()
 {
+    modeSombre = true;
     ui->PageStatut->setStyleSheet("background-color: rgb(160, 160, 160)");
     ui->ParametrageEleve->setStyleSheet("background-color: rgb(160, 160, 160)");
     ui->PlanClasse->setStyleSheet("background-color: rgb(160, 160, 160)");
