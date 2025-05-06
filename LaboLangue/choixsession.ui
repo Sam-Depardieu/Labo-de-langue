@@ -13,6 +13,26 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <widget class="QListWidget" name="listeSession">
+   <property name="geometry">
+    <rect>
+     <x>-10</x>
+     <y>-10</y>
+     <width>381</width>
+     <height>571</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QColumnView" name="infoSession">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>-10</y>
+     <width>631</width>
+     <height>571</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

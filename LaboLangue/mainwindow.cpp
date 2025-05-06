@@ -909,7 +909,6 @@ void MainWindow::on_validButton_clicked()
 
 void MainWindow::on_echapButton_clicked()
 {
-    //on_delButton_clicked();
     ui->ParametrageSession->setVisible(false);
 }
 
