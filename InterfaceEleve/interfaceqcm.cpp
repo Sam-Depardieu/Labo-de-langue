@@ -27,8 +27,6 @@ InterfaceQCM::InterfaceQCM(QWidget *parent)
         ui->textEditConsigne->setReadOnly(true); // Bloquer l'accès en écriture
     }
 
-    loadQuestions(R"(\\CIEL-T171-05\Activites\questions.qcmlabo)");
-    showCurrentQuestion();
 
 }
 
@@ -156,35 +154,5 @@ void InterfaceQCM::receiveResponse()
     }
 }
 
-void InterfaceQCM::loadQuestions(const QString &filePath)
-{
-    QFile file(filePath);
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qWarning() << "Erreur : impossible d'ouvrir le fichier des questions.";
-        return;
-    }
 
-    QTextStream in(&file);
-    while (!in.atEnd()) {
-        QString line = in.readLine().trimmed();
-        if (!line.isEmpty()) {
-            questions.append(line);
-        }
-    }
-
-    file.close();
-    qDebug() << "Nombre de questions chargées :" << questions.size();
-}
-
-void InterfaceQCM::showCurrentQuestion()
-{
-    if (questions.isEmpty()) {
-        ui->labelQuestion->setText("Aucune question disponible.");
-        return;
-    }
-
-    if (currentQuestionIndex >= 0 && currentQuestionIndex < questions.size()) {
-        ui->labelQuestion->setText(questions[currentQuestionIndex]);
-    }
-}
 
