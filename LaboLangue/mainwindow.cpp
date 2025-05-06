@@ -312,7 +312,7 @@ void MainWindow::updateEleveNom(iconEleveGroup* eleve, const QString& newName) {
 
 void MainWindow::updateNomDansBDD(int idEleve, const QString& nouveauNom) {
     QSqlQuery query;
-    query.prepare("UPDATE SessionEleve SET nom = :nom WHERE id = :id");
+    query.prepare("UPDATE SessionEleve SET nom = :nom WHERE Id_Eleve = :id");
     query.bindValue(":nom", nouveauNom);
     query.bindValue(":id", idEleve);
 
@@ -703,9 +703,9 @@ void MainWindow::on_SourceButton_clicked()
 
     QString fileName = QFileDialog::getOpenFileName(
         this,
-        "Sélectionner un fichier audio",
+        "Sélectionner un fichier source",
         documentsPath,  // Définit "Documents" comme dossier par défaut
-        "Audio Files (*.mp3 *.wav *.ogg *.flac *.aac), Vidéos (*.mp4 *.avi *.mkv *.mov *.wmv)"        // Filtre uniquement les fichiers audio
+        "Audio Files (*.mp3 *.wav *.ogg *.flac *.aac);;Vidéos (*.mp4 *.avi *.mkv *.mov *.wmv)"        // Filtre uniquement les fichiers audio
         );
     if (fileName.isEmpty()) return;
     source = fileName;
@@ -859,20 +859,22 @@ void MainWindow::on_validButton_clicked()
     ui->delButton->setText("Fin session");
     runningSession = true;
 
+    QString sessionSave = sessionFolder + "\\";
+
     // Copier le fichier source s'il y en a un
     if(!source.isEmpty()) {
         QFileInfo fileInfo(source);
         QDir dir;
-        if (!dir.exists(sessionFolder)) {
-            dir.mkpath(sessionFolder);
+        if (!dir.exists(sessionSave)) {
+            dir.mkpath(sessionSave);
         }
 
-        if (QFile::copy(source, sessionFolder)) {
+        if (QFile::copy(source, sessionSave)) {
             QMessageBox::critical(
                 nullptr,
                 "Fichier enregistré avec succès",
                 "✅ Fichier bien enregistré \n"
-                "Le fichier audio/vidéo a été enregistré dans " + sessionFolder
+                "Le fichier audio/vidéo a été enregistré dans " + sessionSave
                 );
         } else {
             QMessageBox::critical(
@@ -880,7 +882,7 @@ void MainWindow::on_validButton_clicked()
                 "Fichier non enregistré",
                 "❌ Aucun fichier n'a été enregistré\n"
                 "Il vous sera impossible de récupérer le fichier après la fin de session\n\n"
-                "Veuillez le mettre manuellement dans " + sessionFolder + "."
+                "Veuillez le mettre manuellement dans " + sessionSave + "."
                 );
         }
     }

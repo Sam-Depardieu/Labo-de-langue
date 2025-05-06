@@ -4359,7 +4359,13 @@ debug/mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QGroupBox \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QPropertyAnimation \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QFileDialog \
-		ui_mainwindow.h
+		ui_mainwindow.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QComboBox \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QHeaderView \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QTableWidget \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QTextEdit \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QTimeEdit \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QWidget
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\mainwindow.o ..\..\mainwindow.cpp
 
 debug/qcm.o: ../../qcm.cpp ../../qcm.h \
@@ -4616,13 +4622,15 @@ debug/qcm.o: ../../qcm.cpp ../../qcm.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qscrollbar.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qabstractslider.h \
 		ui_qcm.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QApplication \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qapplication.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QWidget \
 		../../mainwindow.h \
 		../../iconEleveGroup.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QMainWindow \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qmainwindow.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qtabwidget.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QApplication \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qapplication.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QGraphicsView \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qgraphicsview.h \
 		C:/Qt/6.7.2/mingw_64/include/QtGui/qpainter.h \
@@ -4642,7 +4650,6 @@ debug/qcm.o: ../../qcm.cpp ../../qcm.h \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlerror.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QGraphicsTextItem \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QGraphicsItemGroup \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
 		C:/Qt/6.7.2/mingw_64/include/QtGui/QKeyEvent \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QDebug \
 		C:/Qt/6.7.2/mingw_64/include/QtGui/QPalette \
