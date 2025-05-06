@@ -29,6 +29,13 @@ public:
     iconEleveGroup* eleveActuellementParametre = nullptr;
     QCM *qcm = nullptr;
 
+    QMap<QString, std::vector<iconEleveGroup*>> listeGroup = {};
+    /*
+    Clé (QString)	Valeur (std::vector<iconEleveGroup*>)
+    "Groupe A"      [Alice, Bob]
+    "Groupe B"      [Charlie, David]
+    */
+
     bool parametrageSession = false;
     bool selectionParticipants = false;
     bool selectAllParticipants = false;
@@ -93,6 +100,8 @@ private slots:
     void on_StatutButton_clicked();
 
     void on_cacheButton_clicked();
+
+    void onClicked_itemBoutonAjouterGroupe(iconEleveGroup* row);
 
 private:
     QGraphicsScene *scene;

@@ -51,13 +51,27 @@ MainWindow::MainWindow(QWidget *parent)
     layoutParametrageEleve->setAlignment(Qt::AlignCenter | Qt::AlignTop);
     // Ajout des sections dans le layoutParametrageEleve
     addHorizontalLayout(layoutParametrageEleve, {ui->nomGroupeLabel, ui->nomEleveLineEdit, ui->Communication});
-    addHorizontalLayout(layoutParametrageEleve, {ui->muteButton, ui->demuteButton});
-    addHorizontalLayout(layoutParametrageEleve, {ui->desactiverSonButton, ui->activerSonButton});
+    addHorizontalLayout(layoutParametrageEleve, {ui->demuteButton, ui->muteButton });
+    addHorizontalLayout(layoutParametrageEleve, {ui->activerSonButton, ui->desactiverSonButton});
     addHorizontalLayout(layoutParametrageEleve, {ui->creerGroupeButton, ui->annulerButton});
-    addHorizontalLayout(layoutParametrageEleve, {ui->supprimerGroupeButton, ui->selectionGroupe});
+    addHorizontalLayout(layoutParametrageEleve, {ui->nomGroupeSelectionneLabel, ui->groupeSelectionneComboBox , ui->supprimerGroupeButton});
+    addHorizontalLayout(layoutParametrageEleve, {ui->nomCreationGroupeLabel, ui->nomGroupeLineEdit});
     addHorizontalLayout(layoutParametrageEleve, {ui->alignerTableau, ui->TableauGroupe, ui->envoyerMessageTextEdit});
     addHorizontalLayout(layoutParametrageEleve, {ui->envoyerMessagePersonne, ui->envoyerMessageGroupe});
     layoutParametrageEleve->addSpacing(10);
+    // Changement des couleurs des boutons de la page
+    ui->activerSonButton->setStyleSheet("background-color: #28a745");
+    ui->demuteButton->setStyleSheet("background-color: #28a745");
+    ui->muteButton->setStyleSheet("background-color: rgb(255, 0, 0)");
+    ui->desactiverSonButton->setStyleSheet("background-color: rgb(255, 0, 0)");
+    ui->Communication->setStyleSheet("background-color: gray;");
+    ui->creerGroupeButton->setStyleSheet("background-color: gray;");
+    ui->annulerButton->setStyleSheet("background-color: gray;");
+    ui->supprimerGroupeButton->setStyleSheet("background-color: gray;");
+    ui->groupeSelectionneComboBox->setStyleSheet("background-color: gray;");
+    // Cacher les boutons de la page
+    ui->nomCreationGroupeLabel->setVisible(false);
+    ui->nomGroupeLineEdit->setVisible(false);
     ui->envoyerMessageGroupe->setVisible(false);
     ui->envoyerMessagePersonne->setVisible(false);
     ui->envoyerMessageTextEdit->setVisible(false);
@@ -989,9 +1003,23 @@ void MainWindow::loadInformationTable()
         itemIP->setFlags(itemIP->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
         TableauGroupe->setItem(row, 2, itemIP);
 
-        QPushButton *itemBoutonAjouterGroupe = new QPushButton();
-        itemBoutonAjouterGroupe->setText("Insérer au groupe");
-        ui->TableauGroupe->setCellWidget(row, 3, itemBoutonAjouterGroupe);
+        if(eleveActuellementParametre->getAffiliate().size() == 0)
+        {
+            QPushButton *itemBoutonAjouterGroupe = new QPushButton();
+            itemBoutonAjouterGroupe->setText("Insérer au groupe");
+            itemBoutonAjouterGroupe->setStyleSheet("background-color: #28a745");
+            ui->TableauGroupe->setCellWidget(row, 3, itemBoutonAjouterGroupe);
+            connect(itemBoutonAjouterGroupe, &QPushButton::clicked, this, [this, row]() {
+                &MainWindow::onClicked_itemBoutonAjouterGroupe(listeEleveParticipant[row]);});
+        }
+        else{
+            QPushButton *itemBoutonSupprimerGroupe = new QPushButton();
+            itemBoutonSupprimerGroupe->setText("Supprimer du groupe");
+            itemBoutonSupprimerGroupe->setStyleSheet("background-color: rgb(255, 0, 0)");
+            ui->TableauGroupe->setCellWidget(row, 3, itemBoutonSupprimerGroupe);
+
+        }
+
 
     }
     connect(TableauGroupe, &QTableWidget::itemChanged, this, &MainWindow::changeNameTable);
@@ -1002,10 +1030,13 @@ void MainWindow::loadInformationTable()
 
 void MainWindow::on_creerGroupeButton_clicked()
 {
+
     ui->envoyerMessageGroupe->setVisible(false);
     ui->envoyerMessagePersonne->setVisible(false);
     ui->envoyerMessageTextEdit->setVisible(false);
     ui->TableauGroupe->setVisible(true);
+    ui->nomCreationGroupeLabel->setVisible(true);
+    ui->nomGroupeLineEdit->setVisible(true);
     qDebug() << "Actualisation du tableau";
 
     loadInformationTable();
@@ -1019,6 +1050,8 @@ void MainWindow::on_Communication_clicked()
     ui->envoyerMessagePersonne->setVisible(true);
     ui->envoyerMessageTextEdit->setVisible(true);
     ui->TableauGroupe->setVisible(false);
+    ui->nomCreationGroupeLabel->setVisible(false);
+    ui->nomGroupeLineEdit->setVisible(false);
 }
 
 void MainWindow::on_nomEleveLineEdit_editingFinished()
@@ -1086,11 +1119,8 @@ void MainWindow::on_modeSombreButton_clicked()
     ui->modeSombreButton->setVisible(false);
 }
 
-
 void MainWindow::on_StatutButton_clicked()
 {
-
-
     ui->ParametrageSession->setVisible(false);
     parametrageEleve = false;
     ui->ParametrageEleve->setVisible(false);
@@ -1190,3 +1220,49 @@ void MainWindow::on_cacheButton_clicked()
     ui->modeSombreButton->setVisible(false);
 }
 
+void MainWindow::onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve)
+{
+    int tailleAffiliateEleve = eleve->getAffiliate().size();
+    int tailleAffiliate = eleveActuellementParametre->getAffiliate().size();
+
+    QString groupe = "Groupe "+eleveActuellementParametre->getNom();
+
+    if( tailleAffiliateEleve== 0 || tailleAffiliate == 0){
+        if(tailleAffiliate == 0 && tailleAffiliateEleve == 0){
+            listeGroup[groupe].push_back(eleveActuellementParametre);
+            listeGroup[groupe].push_back(eleve);
+
+            eleveActuellementParametre->getAffiliate().push_back(eleve);
+            eleve->getAffiliate().push_back(eleveActuellementParametre);
+
+            qDebug() << eleveActuellementParametre->getAffiliate().at(0)->getNom();
+            qDebug() << eleve->getAffiliate().at(0)->getNom();
+            return;
+        }
+        else if(tailleAffiliate >= 1 && tailleAffiliateEleve == 0)
+        {
+            listeGroup[groupe].push_back(eleve);
+            eleveActuellementParametre->getAffiliate().push_back(eleve);
+        }
+        else if(tailleAffiliateEleve >= 1)
+        {
+            QMessageBox msgBox;
+            msgBox.setIcon(QMessageBox::Critical);
+            msgBox.setWindowTitle("Groupe déjà utilisé");
+            msgBox.setText("❌ Il y a déjà au moins deux personnes dans ce groupe.\n"
+                           "Souhaitez-vous quand même ajouter l'élève sélectionné dans le groupe ?");
+            msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+            msgBox.setDefaultButton(QMessageBox::No);
+            int reponse = msgBox.exec();
+            qDebug() << reponse;
+        }
+    }
+
+
+    //QMap<QString, std::vector<iconEleveGroup*>> listeGroup = {};
+    /*
+    Clé (QString)	Valeur (std::vector<iconEleveGroup*>)
+    "Groupe A"      [Alice, Bob]
+    "Groupe B"      [Charlie, David]
+    */
+}
