@@ -125,6 +125,7 @@ void InterfaceQCM::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id
         case 3: _t->on_pushButton4_clicked(); break;
         case 4: _t->on_pushButtonEffacerReponse_clicked(); break;
         case 5: _t->on_pushButtonQuestionSuivante_clicked(); break;
+        case 6: _t->on_textEditFeedBack_2_copyAvailable((*reinterpret_cast< std::add_pointer_t<bool>>(_a[1]))); break;
         default: ;
         }
     }
