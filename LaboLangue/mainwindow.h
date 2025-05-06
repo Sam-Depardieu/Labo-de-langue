@@ -52,6 +52,10 @@ private slots:
     void addHorizontalLayout(QVBoxLayout *layout, std::initializer_list<QWidget*> widgets);
     void showCheckIconOnGroup(iconEleveGroup *group);
     void majStatusQCM();
+    void changeNameTable(QTableWidgetItem* item);
+    void updateEleveNom(iconEleveGroup* eleve, const QString& newName);
+    void updateNomDansBDD(int idEleve, const QString& nouveauNom);
+
 
     // Bouton de Création de Session
     void on_SessionButton_clicked();
@@ -67,7 +71,7 @@ private slots:
     void resetSession();
     void setupActivitiesComboBox();
     void setupClassesComboBox();
-    void saveSessionData(bool isNewSession);
+    void saveSessionData();
 
     // Bouton de ParametrageEleve
     void on_muteButton_clicked();
@@ -78,8 +82,6 @@ private slots:
     void on_annulerButton_clicked();
     void on_Communication_clicked();
     void on_nomEleveLineEdit_editingFinished();
-    void changeNameTable(QTableWidgetItem* item);
-    void changeNameGroup(iconEleveGroup *group, QString newName);
     void loadInformationTable();
     void on_envoyerMessagePersonne_clicked();
     void on_envoyerMessageGroupe_clicked();

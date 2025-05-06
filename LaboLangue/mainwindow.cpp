@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
     layoutParametrageSession->setContentsMargins(8, 8, 15, 8);
     layoutParametrageSession->setAlignment(Qt::AlignCenter | Qt::AlignTop);
     // Ajout des sections dans le layoutParametrageSession
-    addHorizontalLayout(layoutParametrageSession, {ui->NameLabel, ui->NameLineEdit, ui->loadSession});
+    addHorizontalLayout(layoutParametrageSession, {ui->NomProfLabel, ui->NomProfLineEdit, ui->loadSession});
     addHorizontalLayout(layoutParametrageSession, {ui->ChoixActLabel, ui->ChoixActivite});
     addHorizontalLayout(layoutParametrageSession, {ui->DureeLabel, ui->DureeActivite});
     addHorizontalLayout(layoutParametrageSession, {ui->ClasseLabel, ui->ChoixClasse});
@@ -97,9 +97,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->modeClairButton->setVisible(true);
     ui->modeSombreButton->setVisible(false);
 
-    ui->ParametrageEleve->setStyleSheet("background-color: gray;");
-    ui->PlanClasse->setStyleSheet("background-color: gray;");
-    ui->ParametrageSession->setStyleSheet("background-color: gray;");
+    ui->PageStatut->setStyleSheet("background-color: rgb(160, 160, 160)");
+    ui->ParametrageEleve->setStyleSheet("background-color: rgb(160, 160, 160)");
+    ui->PlanClasse->setStyleSheet("background-color: rgb(160, 160, 160)");
+    ui->ParametrageSession->setStyleSheet("background-color: rgb(160, 160, 160)");
 
     ui->centralwidget->setStyleSheet("background-color: black;");
 }
@@ -269,7 +270,7 @@ void MainWindow::resetSession()
     ui->errorLabel->clear();
 
     //Réinitialisation des éléments de l'interface graphique
-    ui->NameLineEdit->clear();
+    ui->NomProfLineEdit->clear();
     ui->ConsigneTextEdit->clear();
     ui->DureeActivite->setTime(QTime(0, 0, 0));
     ui->ChoixActivite->setCurrentIndex(0);
@@ -298,65 +299,29 @@ void MainWindow::resetSession()
 
 }
 
-void MainWindow::changeNameTable(QTableWidgetItem* item)
-{
-    // Vérifier si la modification a eu lieu dans la colonne 0 (celle du nom)
-    if (item->column() == 0) {
-        QString nouveauNom = item->text();  // La nouvelle valeur de la cellule
-        item->setTextAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+void MainWindow::updateEleveNom(iconEleveGroup* eleve, const QString& newName) {
+    // 1. Met à jour l'objet élève
+    eleve->setTextItem(newName);
+    eleve->setNom(newName);
 
-        if (nouveauNom.isEmpty()) {
-            qWarning() << "Le nom ne peut pas être vide.";
-            return;  // Si le nom est vide, on arrête la fonction
-        }
+    // 2. Met à jour la base de données
+    updateNomDansBDD(eleve->getIDEleve(), newName);
 
-        // Récupérer l'ID de l'élève
-        int idParticipant = listeParticipant[item->row()]->getIDEleve(); // Identifiant du participant
-
-        // Préparer la requête de mise à jour
-        QSqlQuery query;
-        query.prepare("UPDATE sessioneleve SET Nom = :nom WHERE Id_eleve = :id");
-        query.bindValue(":nom", nouveauNom);
-        query.bindValue(":id", idParticipant);
-
-        // Exécuter la requête
-        if (!query.exec()) {
-            qDebug() << "Erreur de mise à jour dans la base de données : " << query.lastError();
-            // Afficher un message d'erreur à l'utilisateur si nécessaire
-        } else {
-            qDebug() << "Mise à jour du nom du participant dans la base de données réussie.";
-            // Afficher un message de confirmation si nécessaire
-
-            for (iconEleveGroup* group : listeRasp) {
-                if (group->getIDEleve() == idParticipant) {
-                    // Mise à jour du textItem dans le groupe
-                    group->setTextItem(nouveauNom);  // Met à jour le texte dans l'icône
-                    group->setNom(nouveauNom);
-                    break;  // Sortir de la boucle une fois le groupe trouvé
-                }
-            }
-        }
-    }
+    // 3. Debug
+    qDebug() << "Nom mis à jour pour le participant :" << newName;
 }
 
-
-void MainWindow::changeNameGroup(iconEleveGroup *group, QString newName)
-{
-    // Préparer la requête de mise à jour
+void MainWindow::updateNomDansBDD(int idEleve, const QString& nouveauNom) {
     QSqlQuery query;
-    query.prepare("UPDATE sessioneleve SET Nom = :nom WHERE Id_eleve = :id");
-    query.bindValue(":id", group->getID());
-    query.bindValue(":nom", newName);
+    query.prepare("UPDATE SessionEleve SET nom = :nom WHERE Id_Eleve = :id");
+    query.bindValue(":nom", nouveauNom);
+    query.bindValue(":id", idEleve);
 
-    // Exécuter la requête
     if (!query.exec()) {
-        qDebug() << "Erreur de mise à jour dans la base de données : " << query.lastError();
-        // Afficher un message d'erreur à l'utilisateur
+        qWarning() << "Échec de la mise à jour du nom dans la BDD :" << query.lastError().text();
     }
-    group->setTextItem(newName);
-    group->setNom(newName);
-    loadInformationTable();
 }
+
 
 /**
  * Fonctions lié aux icons de raspberry (icons)
@@ -485,6 +450,7 @@ bool MainWindow::connectToDatabase() {
     db.setPort(3306);
     db.setUserName("prof"); // Remplacez par votre nom d'utilisateur
     db.setPassword("okokok"); // Remplacez par votre mot de passe
+    db.setConnectOptions("UNIX_SOCKET=/opt/lampp/var/mysql/mysql.sock");        //Pour dev avec Base sous linux
 
     if (!db.open()) {
         qDebug() << "Impossible de se connecter à la base de données :" << db.lastError();
@@ -497,7 +463,7 @@ bool MainWindow::connectToDatabase() {
  * Fonction pour sauvegarder la session sur le partage SMB
  * @param isNewSession : true si nouvelle session, false si suppression
  */
-void MainWindow::saveSessionData(bool isNewSession)
+void MainWindow::saveSessionData()
 {
     if (nomProf.trimmed().isEmpty()) {
         qDebug() << "❌ Erreur : nomProf est vide.";
@@ -509,7 +475,7 @@ void MainWindow::saveSessionData(bool isNewSession)
     sanitizedName.replace(" ", "_").remove(QRegularExpression("[^a-zA-Z0-9_-]"));
 
     QString hostName = QHostInfo::localHostName();
-    QString networkPath = QString(R"(\\%1\Activites\)").arg(hostName);
+    QString networkPath = QString(R"(\\%1\Activites\)").arg("CIEL-T171-05");
     QString timestamp = QDateTime::currentDateTime().toString("yyyy-MM-dd_HH-mm");
     sessionFolder = networkPath + sanitizedName + "_" + timestamp;
     qDebug() << sessionFolder;
@@ -584,6 +550,68 @@ void MainWindow::saveSessionData(bool isNewSession)
 /**
  * Fonctions lié aux boutons de l'IHM (Boutton)
  */
+
+void MainWindow::on_loadSession_clicked()
+{
+    QString documentsPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation); // Récupère le dossier Documents
+
+    QString fileName = QFileDialog::getOpenFileName(
+        this,
+        "Sélectionner un fichier labo",
+        documentsPath,  // Définit "Documents" comme dossier par défaut
+        "Fichiers LABO (*.labo)"        // Filtre uniquement les fichiers audio
+        );
+    source = fileName;
+    QFile file(source);  // `source` contient le chemin sélectionné par QFileDialog
+
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) return;
+
+    QByteArray jsonData = file.readAll();
+    file.close();
+
+    QJsonParseError parseError;
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonData, &parseError);
+
+    if (parseError.error != QJsonParseError::NoError) {
+        qWarning() << "❌ Erreur de parsing JSON :" << parseError.errorString();
+        return;
+    }
+
+    if (!jsonDoc.isObject()) {
+        qWarning() << "❌ Le JSON n’est pas un objet valide.";
+        return;
+    }
+
+    QJsonObject obj = jsonDoc.object();
+
+    QString nomProf = obj["nomProf"].toString();
+    idTypeActivite = obj["idTypeActivite"].toInt();
+    idClasse = obj["idClasse"].toInt();
+    QString consigne = obj["consigne"].toString();
+
+    ui->NomProfLineEdit->setText(nomProf);
+    ui->ChoixActivite->setCurrentIndex(idTypeActivite);
+    ui->ChoixClasse->setCurrentIndex(idClasse);
+    ui->ConsigneTextEdit->setText(consigne);
+
+    QJsonArray participants = obj["participants"].toArray();
+    QList<int> listeParticipants;
+
+    for (const QJsonValue &val : participants) {
+        int id = val.toInt();
+
+        for (iconEleveGroup* group : listeRasp) {
+            if (group->getID() == id) {
+                if (!group->getCheckItem()->isVisible()) {
+                    showCheckIconOnGroup(group);  // Affiche l’icône
+                }
+                listeParticipant.push_back(group);  // Ajoute à la sélection
+                break;
+            }
+        }
+    }
+}
+
 void MainWindow::on_SessionButton_clicked()
 {
     ui->PageStatut->setVisible(false);
@@ -676,9 +704,9 @@ void MainWindow::on_SourceButton_clicked()
 
     QString fileName = QFileDialog::getOpenFileName(
         this,
-        "Sélectionner un fichier audio",
+        "Sélectionner un fichier source",
         documentsPath,  // Définit "Documents" comme dossier par défaut
-        "Audio Files (*.mp3 *.wav *.ogg *.flac *.aac), Vidéos (*.mp4 *.avi *.mkv *.mov *.wmv)"        // Filtre uniquement les fichiers audio
+        "Audio Files (*.mp3 *.wav *.ogg *.flac *.aac);;Vidéos (*.mp4 *.avi *.mkv *.mov *.wmv)"        // Filtre uniquement les fichiers audio
         );
     if (fileName.isEmpty()) return;
     source = fileName;
@@ -691,7 +719,7 @@ void MainWindow::on_validButton_clicked()
     ui->errorLabel->clear();
 
     // Vérification des champs obligatoires
-    if (ui->NameLineEdit->text().isEmpty()) {
+    if (ui->NomProfLineEdit->text().isEmpty()) {
         ui->errorLabel->setText("Veuillez indiquer votre nom!");
     }
     if (ui->ChoixActivite->currentText().isEmpty()) {
@@ -706,7 +734,7 @@ void MainWindow::on_validButton_clicked()
     if (listeParticipant.empty()) {
         ui->errorLabel->setText("Veuillez indiquer des participants!");
     }
-    if(ui->errorLabel->text() != nullptr) return;
+    if (!ui->errorLabel->text().isEmpty()) return;
 
     // Récupération des IDs de la base de données
     QSqlQuery query;
@@ -719,15 +747,15 @@ void MainWindow::on_validButton_clicked()
     idClasse = query.exec() && query.next() ? query.value(0).toInt() : -1;
 
     query.prepare("SELECT Id_Prof FROM Prof WHERE Nom = :nom");
-    query.bindValue(":nom", ui->NameLineEdit->text());
-    nomProf = ui->NameLineEdit->text();
+    query.bindValue(":nom", ui->NomProfLineEdit->text());
+    nomProf = ui->NomProfLineEdit->text();
 
     if (query.exec() && query.next()) {
         idProf = query.value(0).toInt();
     } else {
-        // 🔹 Si le professeur n'existe pas, l'ajouter
+        // 🔹 Ajouter le prof s'il n'existe pas
         query.prepare("INSERT INTO SessionProf (Nom, Date_Session) VALUES (:nom, :date)");
-        query.bindValue(":nom", ui->NameLineEdit->text());
+        query.bindValue(":nom", ui->NomProfLineEdit->text());
         query.bindValue(":date", QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss"));
         if (query.exec()) {
             idProf = query.lastInsertId().toInt();
@@ -737,7 +765,6 @@ void MainWindow::on_validButton_clicked()
         }
     }
 
-    // Vérification des IDs avant l'insertion de l'activité
     if (idTypeActivite == -1 || idClasse == -1 || idProf == -1) {
         qDebug() << "Erreur : Impossible de récupérer tous les identifiants nécessaires.";
         return;
@@ -770,24 +797,23 @@ void MainWindow::on_validButton_clicked()
         if (!query.exec()) {
             qDebug() << "Erreur insertion participant" << idRaspberry << ":" << query.lastError();
         }
+        int idEleve = query.lastInsertId().toInt();
+        listeEleveParticipant.push_back(idEleve);
+        participant->setIDELeve(idEleve);
         participant->getMicro()->setVisible(true);
-
-        listeEleveParticipant.push_back(query.lastInsertId().toInt());
-        participant->setIDELeve(query.lastInsertId().toInt());
     }
 
     prof = new Professor();
 
     unsigned int i = 1;
     for (auto *eleve : listeRasp) {
-        // Si l'élément n'est PAS dans listeParticipant
         if (std::find(listeParticipant.begin(), listeParticipant.end(), eleve) == listeParticipant.end()) {
-            eleve->setVisible(false); // ou eleve->hide(); selon ta classe
-        }
-        else
-        {
-            changeNameGroup(eleve, QString("Éleve " + QString::number(i++)));
+            eleve->setVisible(false);
+        } else {
+            QString nomAuto = QString("Élève %1").arg(i++);
+            updateEleveNom(eleve, nomAuto);
 
+            // Envoie des commandes réseau
             QMap<int, QString> activite;
             activite[1] = "QCM";
             activite[2] = "ecoute";
@@ -808,25 +834,24 @@ void MainWindow::on_validButton_clicked()
     editStatusButton(ui->AppelButton, true);
     editStatusButton(ui->StatutButton, true);
 
-    //Desactivatio, button participants
+    // Désactivation boutons participants
     editStatusButton(ui->selectAll, false);
     editStatusButton(ui->selectManuel, false);
 
     // Sauvegarde des fichiers
-    saveSessionData(true);
+    saveSessionData();
 
-    // Mettre à jour l'interface
-    if(ui->ChoixActivite->currentText() == "QCM")
-    {
+    // Interface : lancement spécifique pour QCM
+    if(ui->ChoixActivite->currentText() == "QCM") {
         editStatusButton(ui->CreationButton, true);
         on_CreationButton_clicked();
 
         udpSocketQCM = new QUdpSocket(this);
-        udpSocketQCM->bind(45454, QUdpSocket::ShareAddress);  // Choisis un port libre
+        udpSocketQCM->bind(45454, QUdpSocket::ShareAddress);
         connect(udpSocketQCM, &QUdpSocket::readyRead, this, &MainWindow::majStatusQCM);
     }
 
-
+    // Finalisation
     selectionParticipants = false;
     selectAllParticipants = false;
     parametrageSession = false;
@@ -835,53 +860,40 @@ void MainWindow::on_validButton_clicked()
     ui->delButton->setText("Fin session");
     runningSession = true;
 
-    if(!source.isEmpty())
-    {
-        QFileInfo fileInfo(source);
+    QString sessionSave = sessionFolder + "\\";
 
+    // Copier le fichier source s'il y en a un
+    if(!source.isEmpty()) {
+        QFileInfo fileInfo(source);
         QDir dir;
-        if (!dir.exists(sessionFolder)) {
-            dir.mkpath(sessionFolder); // Crée le dossier s'il n'existe pas
+        if (!dir.exists(sessionSave)) {
+            dir.mkpath(sessionSave);
         }
 
-        // Copier le fichier
-        if (QFile::copy(source, sessionFolder)) {
+        if (QFile::copy(source, sessionSave)) {
             QMessageBox::critical(
                 nullptr,
                 "Fichier enregistré avec succès",
                 "✅ Fichier bien enregistré \n"
-                "Le fichier audio/vidéo à été enregistré dans " + sessionFolder
+                "Le fichier audio/vidéo a été enregistré dans " + sessionSave
                 );
         } else {
             QMessageBox::critical(
                 nullptr,
-                "Fichier n'as pas pu être enregistré",
+                "Fichier non enregistré",
                 "❌ Aucun fichier n'a été enregistré\n"
                 "Il vous sera impossible de récupérer le fichier après la fin de session\n\n"
-                "Veuillez le mettre manuellement dans " + sessionFolder + "."
+                "Veuillez le mettre manuellement dans " + sessionSave + "."
                 );
         }
     }
 }
 
+
 void MainWindow::on_echapButton_clicked()
 {
     on_delButton_clicked();
     ui->ParametrageSession->setVisible(false);
-}
-
-void MainWindow::on_loadSession_clicked()
-{
-    QString documentsPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation); // Récupère le dossier Documents
-
-    QString fileName = QFileDialog::getOpenFileName(
-        this,
-        "Sélectionner un fichier labo",
-        documentsPath,  // Définit "Documents" comme dossier par défaut
-        "Fichiers LABO (*.labo)"        // Filtre uniquement les fichiers audio
-        );
-    source = fileName;
-    QFileInfo fileInfo(fileName);
 }
 
 void MainWindow::on_CreationButton_clicked()
@@ -925,6 +937,19 @@ void MainWindow::on_annulerButton_clicked()
     parametrageEleve = false;
     ui->ParametrageEleve->setVisible(false);
 }
+
+void MainWindow::changeNameTable(QTableWidgetItem* item) {
+    if (item->column() != 0) return; // Ne gérer que la colonne "Nom"
+
+    unsigned int row = item->row();
+    QString nouveauNom = item->text();
+
+    if (row >= 0 && row < listeParticipant.size()) {
+        iconEleveGroup* eleve = listeParticipant[row];
+        updateEleveNom(eleve, nouveauNom); // MAJ interface + BDD
+    }
+}
+
 
 void MainWindow::loadInformationTable()
 {
@@ -999,7 +1024,8 @@ void MainWindow::on_Communication_clicked()
 void MainWindow::on_nomEleveLineEdit_editingFinished()
 {
     prof->sendCommandToStudent(eleveActuellementParametre->getIP(), 5560, "{\"nomEleve\" :\"" + ui->nomEleveLineEdit->text() + "\"}");
-    changeNameGroup(eleveActuellementParametre, ui->nomEleveLineEdit->text());
+    qDebug() << "nomEleve line esdit";
+    updateEleveNom(eleveActuellementParametre, ui->nomEleveLineEdit->text());
 }
 
 void MainWindow::on_envoyerMessagePersonne_clicked()
@@ -1078,7 +1104,7 @@ void MainWindow::on_StatutButton_clicked()
     StatutTableauGroupe = ui->StatutTableauGroupe;
 
     // Ajouter des en-têtes pour les colonnes
-    QStringList headers = {"Nom", "Numéro de poste", "Adresse IP", "Travail déposé", "Numéro de groupe", "Enregistrement"};
+    QStringList headers = {"Nom", "Numéro de poste", "Travail déposé", "Enregistrement", "Numéro de groupe", "Adresse IP"};
 
     if (ui->ChoixActivite->currentText() == "QCM") {
         headers << "QCM";  // Ajoute une colonne "QCM" si l'activité est un QCM
@@ -1092,10 +1118,10 @@ void MainWindow::on_StatutButton_clicked()
     // Ajuste les largeurs des colonnes (modifie/ajoute selon besoin)
     StatutTableauGroupe->setColumnWidth(0, 150); // Nom
     StatutTableauGroupe->setColumnWidth(1, 100); // Numéro de poste
-    StatutTableauGroupe->setColumnWidth(2, 120); // Adresse IP
-    StatutTableauGroupe->setColumnWidth(3, 110); // Travail déposé
+    StatutTableauGroupe->setColumnWidth(2, 105); // Travail déposé
+    StatutTableauGroupe->setColumnWidth(3, 120); // Enregistrement
     StatutTableauGroupe->setColumnWidth(4, 130); // Numéro de groupe
-    StatutTableauGroupe->setColumnWidth(5, 120); // Enregistrement
+    StatutTableauGroupe->setColumnWidth(5, 120); // Adresse IP
 
     if (ui->ChoixActivite->currentText() == "QCM") {
         StatutTableauGroupe->setColumnWidth(6, 80); // QCM
@@ -1115,19 +1141,28 @@ void MainWindow::on_StatutButton_clicked()
         itemID->setFlags(itemID->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
         StatutTableauGroupe->setItem(row, 1, itemID);
 
-        QTableWidgetItem *itemIP = new QTableWidgetItem(listeParticipant[row]->getIP());
-        itemIP->setTextAlignment(Qt::AlignCenter);
-        itemIP->setFlags(itemIP->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
-        StatutTableauGroupe->setItem(row, 2, itemIP);
-
         QTableWidgetItem *itemTravailDepot = new QTableWidgetItem("❌");
         itemTravailDepot->setTextAlignment(Qt::AlignCenter);
         itemTravailDepot->setFlags(itemTravailDepot->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
-        StatutTableauGroupe->setItem(row, 3, itemTravailDepot);
+        StatutTableauGroupe->setItem(row, 2, itemTravailDepot);
 
-        QPushButton *itemBoutonAjouterGroupe = new QPushButton();
-        itemBoutonAjouterGroupe->setText("Ecouter");
-        ui->StatutTableauGroupe->setCellWidget(row, 5, itemBoutonAjouterGroupe);
+        QPushButton *BoutonEcouter = new QPushButton();
+        BoutonEcouter->setText("Ecouter");
+        ui->StatutTableauGroupe->setCellWidget(row, 3, BoutonEcouter);
+
+        /*  INSERER NUMERO DE GROUPE
+        QTableWidgetItem *itemIP = new QTableWidgetItem(listeParticipant[row]->getIP());
+        itemIP->setTextAlignment(Qt::AlignCenter);
+        itemIP->setFlags(itemIP->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
+        StatutTableauGroupe->setItem(row, 4, itemIP);
+        */
+
+        QTableWidgetItem *itemIP = new QTableWidgetItem(listeParticipant[row]->getIP());
+        itemIP->setTextAlignment(Qt::AlignCenter);
+        itemIP->setFlags(itemIP->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
+        StatutTableauGroupe->setItem(row, 5, itemIP);
+
+
 
         if(ui->ChoixActivite->currentText() == "QCM")
         {

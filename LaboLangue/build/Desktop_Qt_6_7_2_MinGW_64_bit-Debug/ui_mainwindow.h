@@ -40,8 +40,8 @@ public:
     QPushButton *EnregistrementButton;
     QGraphicsView *PlanClasse;
     QGraphicsView *ParametrageSession;
-    QLabel *NameLabel;
-    QLineEdit *NameLineEdit;
+    QLabel *NomProfLabel;
+    QLineEdit *NomProfLineEdit;
     QLabel *ChoixActLabel;
     QComboBox *ChoixActivite;
     QLabel *DureeLabel;
@@ -193,15 +193,15 @@ public:
         ParametrageSession->setEnabled(true);
         ParametrageSession->setGeometry(QRect(660, 70, 631, 681));
         ParametrageSession->setStyleSheet(QString::fromUtf8("background-color: white;"));
-        NameLabel = new QLabel(centralwidget);
-        NameLabel->setObjectName("NameLabel");
-        NameLabel->setEnabled(true);
-        NameLabel->setGeometry(QRect(880, 90, 81, 21));
-        NameLabel->setStyleSheet(QString::fromUtf8(""));
-        NameLineEdit = new QLineEdit(centralwidget);
-        NameLineEdit->setObjectName("NameLineEdit");
-        NameLineEdit->setEnabled(true);
-        NameLineEdit->setGeometry(QRect(980, 90, 221, 21));
+        NomProfLabel = new QLabel(centralwidget);
+        NomProfLabel->setObjectName("NomProfLabel");
+        NomProfLabel->setEnabled(true);
+        NomProfLabel->setGeometry(QRect(880, 90, 81, 21));
+        NomProfLabel->setStyleSheet(QString::fromUtf8(""));
+        NomProfLineEdit = new QLineEdit(centralwidget);
+        NomProfLineEdit->setObjectName("NomProfLineEdit");
+        NomProfLineEdit->setEnabled(true);
+        NomProfLineEdit->setGeometry(QRect(980, 90, 221, 21));
         ChoixActLabel = new QLabel(centralwidget);
         ChoixActLabel->setObjectName("ChoixActLabel");
         ChoixActLabel->setEnabled(true);
@@ -398,8 +398,8 @@ public:
         EnregistrementButton->raise();
         PlanClasse->raise();
         ParametrageSession->raise();
-        NameLabel->raise();
-        NameLineEdit->raise();
+        NomProfLabel->raise();
+        NomProfLineEdit->raise();
         ChoixActLabel->raise();
         ChoixActivite->raise();
         DureeLabel->raise();
@@ -458,7 +458,7 @@ public:
         StatutButton->setText(QCoreApplication::translate("MainWindow", "Statut", nullptr));
         AideButton->setText(QCoreApplication::translate("MainWindow", "Aide", nullptr));
         EnregistrementButton->setText(QCoreApplication::translate("MainWindow", "Enregistrement", nullptr));
-        NameLabel->setText(QCoreApplication::translate("MainWindow", "Votre Nom :", nullptr));
+        NomProfLabel->setText(QCoreApplication::translate("MainWindow", "Votre Nom :", nullptr));
         ChoixActLabel->setText(QCoreApplication::translate("MainWindow", "Type activit\303\251 :", nullptr));
         DureeLabel->setText(QCoreApplication::translate("MainWindow", "Dur\303\251e activit\303\251 :", nullptr));
         ConsigneLabel->setText(QCoreApplication::translate("MainWindow", "Consigne :", nullptr));
@@ -492,8 +492,8 @@ public:
 "hr { height: 1px; border-width: 0; }\n"
 "li.unchecked::marker { content: \"\\2610\"; }\n"
 "li.checked::marker { content: \"\\2612\"; }\n"
-"</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", nullptr));
+"</style></head><body style=\" font-family:'Ubuntu Sans'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Segoe UI'; font-size:9pt;\"><br /></p></body></html>", nullptr));
         envoyerMessageGroupe->setText(QCoreApplication::translate("MainWindow", "Envoyer le message (au groupe)", nullptr));
         modeSombreButton->setText(QString());
         modeClairButton->setText(QString());
