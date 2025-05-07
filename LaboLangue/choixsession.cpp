@@ -7,16 +7,57 @@ choixSession::choixSession(MainWindow* parentWindow)
 {
     ui->setupUi(this);
 
-    model = new QStandardItemModel(this);
-    columnView->setModel(model);
+    qDebug() << "ok";
 
     // Charger les dossiers de sessions
-    basePath = R"(\\CIEL-T171-05\Activites\)";              //à changer
+    basePath = R"(//DESKTOP-SD2PM1A/Users/samde/Desktop/Activites)";              //à changer
     QDir dir(basePath);
     QStringList sessionDirs = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
 
     for (const QString &folder : sessionDirs) {
-        listWidget->addItem(folder);
+        QString folderPath = basePath + "/" + folder;
+        QFileInfo info(folderPath);
+        QString creationDate = info.birthTime().toString("dd/MM/yyyy hh:mm");  // ou .created() si birthTime() ne fonctionne pas
+
+        QFile file(folderPath+"/config.labo");
+        QByteArray data = file.readAll();
+        file.close();
+
+        QJsonParseError error;
+        QJsonDocument doc = QJsonDocument::fromJson(data, &error);
+        if (error.error != QJsonParseError::NoError || !doc.isObject()) {
+            return;
+        }
+
+        QJsonObject obj = doc.object();
+
+        for (const QString &key : obj.keys()) {
+            ui->infoSession->addItem(key + " : " + obj[key].toString());
+        }
+
+        // Création du widget personnalisé
+        QWidget* itemWidget = new QWidget();
+        QVBoxLayout* layout = new QVBoxLayout(itemWidget);
+        layout->setContentsMargins(5, 5, 5, 5); // marge pour aérer l'affichage
+
+        QLabel* titleLabel = new QLabel(folder);
+        titleLabel->setStyleSheet("font-weight: bold; font-size: 16px;");
+
+        QLabel* dateLabel = new QLabel("Créé le : " + creationDate);
+        QLabel* customLine1 = new QLabel(obj["idTypeActivite"].toString());
+        QLabel* customLine2 = new QLabel("Ligne personnalisée 2");
+
+        layout->addWidget(titleLabel);
+        layout->addWidget(dateLabel);
+        layout->addWidget(customLine1);
+        layout->addWidget(customLine2);
+
+        // Ajout à la QListWidget
+        QListWidgetItem* item = new QListWidgetItem(ui->listeSession);
+        item->setSizeHint(itemWidget->sizeHint());
+        item->setData(Qt::UserRole, folder);
+        ui->listeSession->addItem(item);
+        ui->listeSession->setItemWidget(item, itemWidget);
     }
 }
 
@@ -27,12 +68,14 @@ choixSession::~choixSession()
 
 void choixSession::on_listeSession_itemDoubleClicked(QListWidgetItem *item)
 {
-    QString selectedPath = basePath + item->text() + "/config.labo";
+    QString folderName = item->data(Qt::UserRole).toString();
+    QString selectedPath = basePath + "/" + folderName + "/config.labo";
     QFile file(selectedPath);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qDebug() << "❌ Impossible d'ouvrir" << selectedPath;
-        model->clear();
-        model->appendRow(new QStandardItem("Erreur : Impossible d’ouvrir le fichier."));
+        ui->infoSession->clear();
+        ui->infoSession->addItem("Erreur : Impossible d’ouvrir le fichier.");
+
         return;
     }
 
@@ -42,16 +85,17 @@ void choixSession::on_listeSession_itemDoubleClicked(QListWidgetItem *item)
     QJsonParseError error;
     QJsonDocument doc = QJsonDocument::fromJson(data, &error);
     if (error.error != QJsonParseError::NoError || !doc.isObject()) {
-        model->clear();
-        model->appendRow(new QStandardItem("Erreur : JSON invalide."));
+        ui->infoSession->clear();
+        ui->infoSession->addItem("Erreur : JSON invalide.");
+
         return;
     }
 
     QJsonObject obj = doc.object();
-    model->clear();
+    ui->infoSession->clear();
     for (const QString &key : obj.keys()) {
-        QStandardItem *item = new QStandardItem(key + " : " + obj[key].toString());
-        model->appendRow(item);
+        ui->infoSession->addItem(key + " : " + obj[key].toString());
     }
+
 }
 

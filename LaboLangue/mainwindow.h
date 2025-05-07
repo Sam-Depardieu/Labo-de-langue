@@ -4,13 +4,16 @@
 #include "iconEleveGroup.h"
 #include "AudioCommunicator.h"
 #include "qcm.h"
+#include "choixsession.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
 class iconEleveGroup;
 class QCM;
+class choixSession;
 }
+
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow

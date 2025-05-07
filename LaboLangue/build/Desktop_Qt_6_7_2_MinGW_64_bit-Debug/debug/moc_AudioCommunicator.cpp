@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'AudioCommunicator.h'
 **
-** Created by: The Qt Meta Object Compiler version 68 (Qt 6.7.2)
+** Created by: The Qt Meta Object Compiler version 69 (Qt 6.9.0)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -17,8 +17,8 @@
 #include <QtCore/qxptype_traits.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'AudioCommunicator.h' doesn't include <QObject>."
-#elif Q_MOC_OUTPUT_REVISION != 68
-#error "This file was generated using the moc from 6.7.2. It"
+#elif Q_MOC_OUTPUT_REVISION != 69
+#error "This file was generated using the moc from 6.9.0. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -31,71 +31,49 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 QT_WARNING_DISABLE_GCC("-Wuseless-cast")
 namespace {
-
-#ifdef QT_MOC_HAS_STRINGDATA
-struct qt_meta_stringdata_CLASSProfessorENDCLASS_t {};
-constexpr auto qt_meta_stringdata_CLASSProfessorENDCLASS = QtMocHelpers::stringData(
-    "Professor",
-    "sendAudioData",
-    "",
-    "receiveAudioData",
-    "processPendingDatagrams"
-);
-#else  // !QT_MOC_HAS_STRINGDATA
-#error "qtmochelpers.h not found or too old."
-#endif // !QT_MOC_HAS_STRINGDATA
+struct qt_meta_tag_ZN9ProfessorE_t {};
 } // unnamed namespace
 
-Q_CONSTINIT static const uint qt_meta_data_CLASSProfessorENDCLASS[] = {
+template <> constexpr inline auto Professor::qt_create_metaobjectdata<qt_meta_tag_ZN9ProfessorE_t>()
+{
+    namespace QMC = QtMocConstants;
+    QtMocHelpers::StringRefStorage qt_stringData {
+        "Professor",
+        "sendAudioData",
+        "",
+        "receiveAudioData",
+        "processPendingDatagrams"
+    };
 
- // content:
-      12,       // revision
-       0,       // classname
-       0,    0, // classinfo
-       3,   14, // methods
-       0,    0, // properties
-       0,    0, // enums/sets
-       0,    0, // constructors
-       0,       // flags
-       0,       // signalCount
-
- // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    0,   32,    2, 0x0a,    1 /* Public */,
-       3,    0,   33,    2, 0x0a,    2 /* Public */,
-       4,    0,   34,    2, 0x0a,    3 /* Public */,
-
- // slots: parameters
-    QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void,
-
-       0        // eod
-};
-
+    QtMocHelpers::UintData qt_methods {
+        // Slot 'sendAudioData'
+        QtMocHelpers::SlotData<void()>(1, 2, QMC::AccessPublic, QMetaType::Void),
+        // Slot 'receiveAudioData'
+        QtMocHelpers::SlotData<void()>(3, 2, QMC::AccessPublic, QMetaType::Void),
+        // Slot 'processPendingDatagrams'
+        QtMocHelpers::SlotData<void()>(4, 2, QMC::AccessPublic, QMetaType::Void),
+    };
+    QtMocHelpers::UintData qt_properties {
+    };
+    QtMocHelpers::UintData qt_enums {
+    };
+    return QtMocHelpers::metaObjectData<Professor, qt_meta_tag_ZN9ProfessorE_t>(QMC::MetaObjectFlag{}, qt_stringData,
+            qt_methods, qt_properties, qt_enums);
+}
 Q_CONSTINIT const QMetaObject Professor::staticMetaObject = { {
     QMetaObject::SuperData::link<QObject::staticMetaObject>(),
-    qt_meta_stringdata_CLASSProfessorENDCLASS.offsetsAndSizes,
-    qt_meta_data_CLASSProfessorENDCLASS,
+    qt_staticMetaObjectStaticContent<qt_meta_tag_ZN9ProfessorE_t>.stringdata,
+    qt_staticMetaObjectStaticContent<qt_meta_tag_ZN9ProfessorE_t>.data,
     qt_static_metacall,
     nullptr,
-    qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSProfessorENDCLASS_t,
-        // Q_OBJECT / Q_GADGET
-        QtPrivate::TypeAndForceComplete<Professor, std::true_type>,
-        // method 'sendAudioData'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'receiveAudioData'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'processPendingDatagrams'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>
-    >,
+    qt_staticMetaObjectRelocatingContent<qt_meta_tag_ZN9ProfessorE_t>.metaTypes,
     nullptr
 } };
 
 void Professor::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
+    auto *_t = static_cast<Professor *>(_o);
     if (_c == QMetaObject::InvokeMetaMethod) {
-        auto *_t = static_cast<Professor *>(_o);
-        (void)_t;
         switch (_id) {
         case 0: _t->sendAudioData(); break;
         case 1: _t->receiveAudioData(); break;
@@ -114,7 +92,7 @@ const QMetaObject *Professor::metaObject() const
 void *Professor::qt_metacast(const char *_clname)
 {
     if (!_clname) return nullptr;
-    if (!strcmp(_clname, qt_meta_stringdata_CLASSProfessorENDCLASS.stringdata0))
+    if (!strcmp(_clname, qt_staticMetaObjectStaticContent<qt_meta_tag_ZN9ProfessorE_t>.strings))
         return static_cast<void*>(this);
     return QObject::qt_metacast(_clname);
 }
@@ -128,7 +106,8 @@ int Professor::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         if (_id < 3)
             qt_static_metacall(this, _c, _id, _a);
         _id -= 3;
-    } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
+    }
+    if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
         if (_id < 3)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
         _id -= 3;

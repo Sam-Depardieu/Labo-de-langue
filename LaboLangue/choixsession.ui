@@ -16,20 +16,20 @@
   <widget class="QListWidget" name="listeSession">
    <property name="geometry">
     <rect>
-     <x>-10</x>
-     <y>-10</y>
-     <width>381</width>
-     <height>571</height>
+     <x>10</x>
+     <y>10</y>
+     <width>371</width>
+     <height>541</height>
     </rect>
    </property>
   </widget>
-  <widget class="QColumnView" name="infoSession">
+  <widget class="QListWidget" name="infoSession">
    <property name="geometry">
     <rect>
-     <x>370</x>
-     <y>-10</y>
-     <width>631</width>
-     <height>571</height>
+     <x>390</x>
+     <y>10</y>
+     <width>601</width>
+     <height>541</height>
     </rect>
    </property>
   </widget>

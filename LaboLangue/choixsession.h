@@ -12,6 +12,7 @@
 #include <QStandardItemModel>
 #include <QVBoxLayout>
 #include <QDebug>
+#include <QLabel>
 
 namespace Ui {
 class choixSession;
@@ -34,9 +35,6 @@ private:
     MainWindow* mainWindow;
     Ui::choixSession *ui;
 
-    QListWidget *listWidget;
-    QColumnView *columnView;
-    QStandardItemModel *model;
     QString basePath;
 };
 

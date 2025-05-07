@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'choixsession.ui'
 **
-** Created by: Qt User Interface Compiler version 6.7.2
+** Created by: Qt User Interface Compiler version 6.9.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -11,6 +11,7 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QListWidget>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -18,12 +19,20 @@ QT_BEGIN_NAMESPACE
 class Ui_choixSession
 {
 public:
+    QListWidget *listeSession;
+    QListWidget *infoSession;
 
     void setupUi(QWidget *choixSession)
     {
         if (choixSession->objectName().isEmpty())
             choixSession->setObjectName("choixSession");
         choixSession->resize(1000, 560);
+        listeSession = new QListWidget(choixSession);
+        listeSession->setObjectName("listeSession");
+        listeSession->setGeometry(QRect(10, 10, 371, 541));
+        infoSession = new QListWidget(choixSession);
+        infoSession->setObjectName("infoSession");
+        infoSession->setGeometry(QRect(390, 10, 601, 541));
 
         retranslateUi(choixSession);
 

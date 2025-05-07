@@ -1,12 +1,13 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'choixsession.h'
 **
-** Created by: The Qt Meta Object Compiler version 68 (Qt 6.7.2)
+** Created by: The Qt Meta Object Compiler version 69 (Qt 6.9.0)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
 #include "../../../choixsession.h"
+#include <QtGui/qtextcursor.h>
 #include <QtCore/qmetatype.h>
 
 #include <QtCore/qtmochelpers.h>
@@ -17,8 +18,8 @@
 #include <QtCore/qxptype_traits.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'choixsession.h' doesn't include <QObject>."
-#elif Q_MOC_OUTPUT_REVISION != 68
-#error "This file was generated using the moc from 6.7.2. It"
+#elif Q_MOC_OUTPUT_REVISION != 69
+#error "This file was generated using the moc from 6.9.0. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -31,52 +32,52 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 QT_WARNING_DISABLE_GCC("-Wuseless-cast")
 namespace {
-
-#ifdef QT_MOC_HAS_STRINGDATA
-struct qt_meta_stringdata_CLASSchoixSessionENDCLASS_t {};
-constexpr auto qt_meta_stringdata_CLASSchoixSessionENDCLASS = QtMocHelpers::stringData(
-    "choixSession"
-);
-#else  // !QT_MOC_HAS_STRINGDATA
-#error "qtmochelpers.h not found or too old."
-#endif // !QT_MOC_HAS_STRINGDATA
+struct qt_meta_tag_ZN12choixSessionE_t {};
 } // unnamed namespace
 
-Q_CONSTINIT static const uint qt_meta_data_CLASSchoixSessionENDCLASS[] = {
+template <> constexpr inline auto choixSession::qt_create_metaobjectdata<qt_meta_tag_ZN12choixSessionE_t>()
+{
+    namespace QMC = QtMocConstants;
+    QtMocHelpers::StringRefStorage qt_stringData {
+        "choixSession",
+        "on_listeSession_itemDoubleClicked",
+        "",
+        "QListWidgetItem*",
+        "item"
+    };
 
- // content:
-      12,       // revision
-       0,       // classname
-       0,    0, // classinfo
-       0,    0, // methods
-       0,    0, // properties
-       0,    0, // enums/sets
-       0,    0, // constructors
-       0,       // flags
-       0,       // signalCount
-
-       0        // eod
-};
-
+    QtMocHelpers::UintData qt_methods {
+        // Slot 'on_listeSession_itemDoubleClicked'
+        QtMocHelpers::SlotData<void(QListWidgetItem *)>(1, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { 0x80000000 | 3, 4 },
+        }}),
+    };
+    QtMocHelpers::UintData qt_properties {
+    };
+    QtMocHelpers::UintData qt_enums {
+    };
+    return QtMocHelpers::metaObjectData<choixSession, qt_meta_tag_ZN12choixSessionE_t>(QMC::MetaObjectFlag{}, qt_stringData,
+            qt_methods, qt_properties, qt_enums);
+}
 Q_CONSTINIT const QMetaObject choixSession::staticMetaObject = { {
     QMetaObject::SuperData::link<QWidget::staticMetaObject>(),
-    qt_meta_stringdata_CLASSchoixSessionENDCLASS.offsetsAndSizes,
-    qt_meta_data_CLASSchoixSessionENDCLASS,
+    qt_staticMetaObjectStaticContent<qt_meta_tag_ZN12choixSessionE_t>.stringdata,
+    qt_staticMetaObjectStaticContent<qt_meta_tag_ZN12choixSessionE_t>.data,
     qt_static_metacall,
     nullptr,
-    qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSchoixSessionENDCLASS_t,
-        // Q_OBJECT / Q_GADGET
-        QtPrivate::TypeAndForceComplete<choixSession, std::true_type>
-    >,
+    qt_staticMetaObjectRelocatingContent<qt_meta_tag_ZN12choixSessionE_t>.metaTypes,
     nullptr
 } };
 
 void choixSession::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
-    (void)_o;
-    (void)_id;
-    (void)_c;
-    (void)_a;
+    auto *_t = static_cast<choixSession *>(_o);
+    if (_c == QMetaObject::InvokeMetaMethod) {
+        switch (_id) {
+        case 0: _t->on_listeSession_itemDoubleClicked((*reinterpret_cast< std::add_pointer_t<QListWidgetItem*>>(_a[1]))); break;
+        default: ;
+        }
+    }
 }
 
 const QMetaObject *choixSession::metaObject() const
@@ -87,7 +88,7 @@ const QMetaObject *choixSession::metaObject() const
 void *choixSession::qt_metacast(const char *_clname)
 {
     if (!_clname) return nullptr;
-    if (!strcmp(_clname, qt_meta_stringdata_CLASSchoixSessionENDCLASS.stringdata0))
+    if (!strcmp(_clname, qt_staticMetaObjectStaticContent<qt_meta_tag_ZN12choixSessionE_t>.strings))
         return static_cast<void*>(this);
     return QWidget::qt_metacast(_clname);
 }
@@ -95,6 +96,18 @@ void *choixSession::qt_metacast(const char *_clname)
 int choixSession::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
     _id = QWidget::qt_metacall(_c, _id, _a);
+    if (_id < 0)
+        return _id;
+    if (_c == QMetaObject::InvokeMetaMethod) {
+        if (_id < 1)
+            qt_static_metacall(this, _c, _id, _a);
+        _id -= 1;
+    }
+    if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
+        if (_id < 1)
+            *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
+        _id -= 1;
+    }
     return _id;
 }
 QT_WARNING_POP

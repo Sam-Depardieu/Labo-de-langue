@@ -489,7 +489,7 @@ void MainWindow::saveSessionData(bool isNewSession)
     sanitizedName.replace(" ", "_").remove(QRegularExpression("[^a-zA-Z0-9_-]"));
 
     QString hostName = QHostInfo::localHostName();
-    QString networkPath = QString(R"(\\%1\Activites\)").arg("CIEL-T171-05");
+    QString networkPath = QString(R"(\\%1\Activites\)").arg("DESKTOP-SD2PM1A/Users/samde/Desktop");
     QString timestamp = QDateTime::currentDateTime().toString("yyyy-MM-dd_HH-mm");
     sessionFolder = networkPath + sanitizedName + "_" + timestamp;
     qDebug() << sessionFolder;
@@ -567,6 +567,10 @@ void MainWindow::saveSessionData(bool isNewSession)
 
 void MainWindow::on_loadSession_clicked()
 {
+
+    choixSession *choix= new choixSession(this);
+    choix->show();
+
     QString documentsPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation); // Récupère le dossier Documents
 
     QString fileName = QFileDialog::getOpenFileName(
