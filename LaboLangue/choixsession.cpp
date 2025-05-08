@@ -17,35 +17,39 @@ choixSession::choixSession(MainWindow* parentWindow)
     for (const QString &folder : sessionDirs) {
         QString folderPath = basePath + "/" + folder;
         QFileInfo info(folderPath);
-        QString creationDate = info.birthTime().toString("dd/MM/yyyy hh:mm");  // ou .created() si birthTime() ne fonctionne pas
+        QString creationDate = info.birthTime().toString("dd/MM/yyyy hh:mm");
 
-        QFile file(folderPath+"/config.labo");
+        // Lire le fichier config.labo
+        QFile file(folderPath + "/config.labo");
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            qDebug() << "❌ Impossible d’ouvrir :" << file.fileName();
+            continue;  // passer au dossier suivant
+        }
+
         QByteArray data = file.readAll();
         file.close();
 
         QJsonParseError error;
         QJsonDocument doc = QJsonDocument::fromJson(data, &error);
         if (error.error != QJsonParseError::NoError || !doc.isObject()) {
-            return;
+            qDebug() << "❌ JSON invalide dans :" << file.fileName();
+            continue;
         }
 
         QJsonObject obj = doc.object();
-
-        for (const QString &key : obj.keys()) {
-            ui->infoSession->addItem(key + " : " + obj[key].toString());
-        }
+        QString idTypeActivite = obj.value("idTypeActivite").toString("Inconnu");
 
         // Création du widget personnalisé
         QWidget* itemWidget = new QWidget();
         QVBoxLayout* layout = new QVBoxLayout(itemWidget);
-        layout->setContentsMargins(5, 5, 5, 5); // marge pour aérer l'affichage
+        layout->setContentsMargins(5, 5, 5, 5);
 
         QLabel* titleLabel = new QLabel(folder);
         titleLabel->setStyleSheet("font-weight: bold; font-size: 16px;");
 
         QLabel* dateLabel = new QLabel("Créé le : " + creationDate);
-        QLabel* customLine1 = new QLabel(obj["idTypeActivite"].toString());
-        QLabel* customLine2 = new QLabel("Ligne personnalisée 2");
+        QLabel* customLine1 = new QLabel("Type d'activité : " + idTypeActivite);
+        QLabel* customLine2 = new QLabel("Ligne personnalisée 2"); // Tu peux personnaliser ça aussi depuis le JSON si tu veux
 
         layout->addWidget(titleLabel);
         layout->addWidget(dateLabel);
@@ -55,10 +59,12 @@ choixSession::choixSession(MainWindow* parentWindow)
         // Ajout à la QListWidget
         QListWidgetItem* item = new QListWidgetItem(ui->listeSession);
         item->setSizeHint(itemWidget->sizeHint());
-        item->setData(Qt::UserRole, folder);
+        item->setData(Qt::UserRole, folder);  // pour le retrouver facilement plus tard
+
         ui->listeSession->addItem(item);
         ui->listeSession->setItemWidget(item, itemWidget);
     }
+
 }
 
 choixSession::~choixSession()
