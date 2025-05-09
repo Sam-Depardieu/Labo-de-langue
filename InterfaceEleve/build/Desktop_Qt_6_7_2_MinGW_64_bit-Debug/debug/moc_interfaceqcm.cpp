@@ -42,12 +42,8 @@ constexpr auto qt_meta_stringdata_CLASSInterfaceQCMENDCLASS = QtMocHelpers::stri
     "on_pushButton3_clicked",
     "on_pushButton4_clicked",
     "on_pushButtonEffacerReponse_clicked",
-<<<<<<< HEAD
-    "on_pushButtonQuestionSuivante_clicked"
-=======
     "on_pushButtonQuestionSuivante_clicked",
     "on_pushButtonQuestionPrecedente_clicked"
->>>>>>> ab00f03050a4c34c7a0a34ada0a0bd2614051d8f
 );
 #else  // !QT_MOC_HAS_STRINGDATA
 #error "qtmochelpers.h not found or too old."
@@ -60,7 +56,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSInterfaceQCMENDCLASS[] = {
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-       6,   14, // methods
+       7,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -68,14 +64,6 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSInterfaceQCMENDCLASS[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-<<<<<<< HEAD
-       1,    0,   50,    2, 0x08,    1 /* Private */,
-       3,    0,   51,    2, 0x08,    2 /* Private */,
-       4,    0,   52,    2, 0x08,    3 /* Private */,
-       5,    0,   53,    2, 0x08,    4 /* Private */,
-       6,    0,   54,    2, 0x08,    5 /* Private */,
-       7,    0,   55,    2, 0x08,    6 /* Private */,
-=======
        1,    0,   56,    2, 0x08,    1 /* Private */,
        3,    0,   57,    2, 0x08,    2 /* Private */,
        4,    0,   58,    2, 0x08,    3 /* Private */,
@@ -83,7 +71,6 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSInterfaceQCMENDCLASS[] = {
        6,    0,   60,    2, 0x08,    5 /* Private */,
        7,    0,   61,    2, 0x08,    6 /* Private */,
        8,    0,   62,    2, 0x08,    7 /* Private */,
->>>>>>> ab00f03050a4c34c7a0a34ada0a0bd2614051d8f
 
  // slots: parameters
     QMetaType::Void,
@@ -92,10 +79,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSInterfaceQCMENDCLASS[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-<<<<<<< HEAD
-=======
     QMetaType::Void,
->>>>>>> ab00f03050a4c34c7a0a34ada0a0bd2614051d8f
 
        0        // eod
 };
@@ -120,11 +104,8 @@ Q_CONSTINIT const QMetaObject InterfaceQCM::staticMetaObject = { {
         // method 'on_pushButtonEffacerReponse_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_pushButtonQuestionSuivante_clicked'
-<<<<<<< HEAD
-=======
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_pushButtonQuestionPrecedente_clicked'
->>>>>>> ab00f03050a4c34c7a0a34ada0a0bd2614051d8f
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
@@ -168,13 +149,13 @@ int InterfaceQCM::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 6)
+        if (_id < 7)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 6;
+        _id -= 7;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 6)
+        if (_id < 7)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 6;
+        _id -= 7;
     }
     return _id;
 }

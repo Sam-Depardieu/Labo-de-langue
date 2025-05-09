@@ -244,7 +244,7 @@ void InterfaceQCM::on_pushButtonEffacerReponse_clicked()
     isButton3Image = true;
     isButton4Image = true;
 }
-<<<<<<< HEAD
+/* il y en a deux
 void InterfaceQCM::on_pushButtonQuestionSuivante_clicked()
 {
     // Chemin relatif
@@ -275,10 +275,7 @@ void InterfaceQCM::on_pushButtonQuestionSuivante_clicked()
     file.close();
     qDebug() << "Réponses enregistrées dans le fichier :" << file.fileName();
 }
-=======
-
-
->>>>>>> ab00f03050a4c34c7a0a34ada0a0bd2614051d8f
+*/
 void InterfaceQCM::receiveResponse()
 {
     while (udpSocketConsigne.hasPendingDatagrams()) {
@@ -298,18 +295,14 @@ void InterfaceQCM::receiveResponse()
         }
     }
 }
-<<<<<<< HEAD
-void InterfaceQCM::loadQuestions(const QString &filePath)
-=======
 
+/*void InterfaceQCM::loadQuestions(const QString &filePath)
+{
 
-
-
-
-
-
+}
+*/
 void InterfaceQCM::on_pushButtonQuestionPrecedente_clicked()
->>>>>>> ab00f03050a4c34c7a0a34ada0a0bd2614051d8f
+
 {
     // Vérifier si l'index est valide (on ne peut pas aller avant la première question)
     if (currentQuestionIndex <= 0) {
