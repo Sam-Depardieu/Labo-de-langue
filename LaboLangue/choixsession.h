@@ -13,13 +13,15 @@
 #include <QVBoxLayout>
 #include <QDebug>
 #include <QLabel>
+#include <QDialog>
+#include "mainwindow.h"
 
 namespace Ui {
 class choixSession;
 }
 class MainWindow;
 
-class choixSession : public QWidget
+class choixSession : public QDialog
 {
     Q_OBJECT
 
@@ -35,6 +37,10 @@ private slots:
 
     void on_sortAZButton_clicked();
     void on_sortZAButton_clicked();
+
+    void on_takeSessionButton_clicked();
+
+    void on_delSessionButton_clicked();
 
 private:
     MainWindow* mainWindow;

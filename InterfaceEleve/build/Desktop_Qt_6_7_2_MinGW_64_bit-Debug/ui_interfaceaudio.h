@@ -32,6 +32,7 @@ public:
     QSlider *horizontalSliderSon;
     QPushButton *pushButton_2;
     QSlider *horizontalSlider;
+    QPushButton *pushButtonReset;
 
     void setupUi(QDialog *InterfaceAudio)
     {
@@ -77,6 +78,9 @@ public:
         horizontalSlider->setObjectName("horizontalSlider");
         horizontalSlider->setGeometry(QRect(10, 400, 781, 20));
         horizontalSlider->setOrientation(Qt::Horizontal);
+        pushButtonReset = new QPushButton(InterfaceAudio);
+        pushButtonReset->setObjectName("pushButtonReset");
+        pushButtonReset->setGeometry(QRect(10, 430, 45, 45));
         pushButton_2->raise();
         pushButton_Play->raise();
         pushButton_Avant->raise();
@@ -86,6 +90,7 @@ public:
         horizontalLayoutWidget->raise();
         horizontalSliderSon->raise();
         horizontalSlider->raise();
+        pushButtonReset->raise();
 
         retranslateUi(InterfaceAudio);
 
@@ -101,6 +106,7 @@ public:
         pushButton_Pause->setText(QString());
         pushButton_SelectAudio->setText(QCoreApplication::translate("InterfaceAudio", "Selectionner Audio", nullptr));
         pushButton_2->setText(QString());
+        pushButtonReset->setText(QString());
     } // retranslateUi
 
 };

@@ -182,14 +182,7 @@ void InterfaceQCM::on_pushButtonQuestionSuivante_clicked()
         qDebug() << "✅ Dernière question atteinte. Fin du QCM.";
         // Optionnel : désactiver les boutons ou afficher un message
     }
-
-
 }
-
-
-
-
-
 void InterfaceQCM::setButtonIcons()
 {
     auto setIcon = [&](QPushButton *button, const QString &imagePath) {
@@ -244,7 +237,7 @@ void InterfaceQCM::on_pushButtonEffacerReponse_clicked()
     isButton3Image = true;
     isButton4Image = true;
 }
-/* il y en a deux
+/*
 void InterfaceQCM::on_pushButtonQuestionSuivante_clicked()
 {
     // Chemin relatif

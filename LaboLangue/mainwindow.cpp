@@ -591,18 +591,16 @@ void MainWindow::saveSessionData(bool isNewSession)
 void MainWindow::on_loadSession_clicked()
 {
 
-    choixSession *choix= new choixSession(this);
-    choix->show();
+    choixSession choix(this);
+    if (choix.exec() != QDialog::Accepted) {
+        return;  // L'utilisateur a fermé sans valider, on arrête
+    }
 
-    QString documentsPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation); // Récupère le dossier Documents
+    loadSession();
+}
 
-    QString fileName = QFileDialog::getOpenFileName(
-        this,
-        "Sélectionner un fichier labo",
-        documentsPath,  // Définit "Documents" comme dossier par défaut
-        "Fichiers LABO (*.labo)"        // Filtre uniquement les fichiers audio
-        );
-    source = fileName;
+void MainWindow::loadSession(){
+
     QFile file(source);  // `source` contient le chemin sélectionné par QFileDialog
 
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) return;

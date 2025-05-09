@@ -13,6 +13,7 @@
 #include <QUdpSocket>
 #include <QInputDialog>
 
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -49,7 +50,7 @@ private slots:
     void keyReleaseEvent(QKeyEvent *event) override;
 
     void receiveResponse();
-
+    void receiveCommand(const QString& cmd);
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db;
@@ -67,5 +68,6 @@ private:
     quint16 consignePort = 5558;
     QUdpSocket udpSocketInter;
     quint16 interPort = 5560;
+    QWidget *currentChild = nullptr;
 };
 #endif // MAINWINDOW_H

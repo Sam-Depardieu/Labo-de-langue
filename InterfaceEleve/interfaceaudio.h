@@ -31,6 +31,8 @@ private slots:
     void on_horizontalSlider_sliderReleased();
     void animateButtonClick(QPushButton* btn);
 
+    void on_pushButtonReset_clicked();
+
 protected:
     void closeEvent(QCloseEvent *event) override;
 
@@ -43,6 +45,8 @@ private:
 
     // Mode de fonctionnement
     bool CO = false;
+    int resetCount = 0;
+    static constexpr int maxResets = 3;
 };
 
 #endif // INTERFACEAUDIO_H

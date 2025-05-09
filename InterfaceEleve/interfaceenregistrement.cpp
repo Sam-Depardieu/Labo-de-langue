@@ -372,39 +372,52 @@ void InterfaceEnregistrement::onRecorderErrorOccurred(QMediaRecorder::Error erro
 void InterfaceEnregistrement::on_pushButtonEnregistrer_clicked()
 {
     animateButtonClick(ui->pushButtonEnregistrer);
-    // 1) Si on était déjà en train d'enregistrer, on stoppe tout
+
+    // 1) Si on enregistre déjà, on arrête tout et on remet en état "prêt"
     if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState) {
         mediaRecorder->stop();
         timer->stop();
+        totalSecondes = 0;
         ui->labelChrono->setText("00:00:00");
-        qDebug() << "⏹ Enregistrement stoppé.";
+        ui->pushButtonPause->setVisible(false);
+        ui->pushButtonPlay->setVisible(true);
+        qDebug() << "🛑 Enregistrement arrêté.";
         return;
     }
 
-    // 2) Réinitialiser le chrono et l'affichage
+    // 2) Réinitialiser le chrono
     totalSecondes = 0;
     ui->labelChrono->setText("00:00:00");
 
-    // 3) Préparer le dossier de sortie Documents/Travail
+    // 3) Préparer le dossier et le chemin du fichier
     const QString docs = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
     const QString folder = QDir(docs).filePath("Travail");
     if (!QDir(folder).exists())
         QDir().mkpath(folder);
 
-    // 4) Générer le nom de fichier unique
-    const QString timestamp = QDateTime::currentDateTime()
-                                  .toString("yyyyMMdd_hhmmss");
+    const QString timestamp = QDateTime::currentDateTime().toString("yyyyMMdd_hhmmss");
     audioFilePath = QDir(folder).filePath(timestamp + ".wav");
     qDebug() << "🎙 Fichier cible :" << audioFilePath;
 
-    // 5) Configurer le format WAV
+    // 4) Supprimer l’ancien fichier pour écraser
+    if (QFile::exists(audioFilePath)) {
+        QFile::remove(audioFilePath);
+        qDebug() << "🗑 Ancien fichier supprimé.";
+    }
+
+    // 5) Configurer le média et lancer l’enregistrement
     QMediaFormat fmt;
     fmt.setFileFormat(QMediaFormat::FileFormat::Wave);
     mediaRecorder->setMediaFormat(fmt);
     mediaRecorder->setOutputLocation(QUrl::fromLocalFile(audioFilePath));
-    ui->pushButtonPlay->setVisible(false);
+
+    ui->pushButtonPlay ->setVisible(false);
     ui->pushButtonPause->setVisible(true);
-    mediaRecorder->stop();
+
+    mediaRecorder->record();
+    timer->start(1000);
+
+    qDebug() << "▶️ Nouvel enregistrement démarré, ancienne piste écrasée.";
 
 }
 
