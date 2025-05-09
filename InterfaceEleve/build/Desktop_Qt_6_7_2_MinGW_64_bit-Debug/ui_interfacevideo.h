@@ -32,6 +32,7 @@ public:
     QSlider *horizontalSlider_sonVideo;
     QPushButton *pushButton_3;
     QSlider *horizontalSlider;
+    QPushButton *pushButtonReset;
 
     void setupUi(QDialog *InterfaceVideo)
     {
@@ -76,6 +77,9 @@ public:
         horizontalSlider->setObjectName("horizontalSlider");
         horizontalSlider->setGeometry(QRect(10, 410, 763, 15));
         horizontalSlider->setOrientation(Qt::Horizontal);
+        pushButtonReset = new QPushButton(InterfaceVideo);
+        pushButtonReset->setObjectName("pushButtonReset");
+        pushButtonReset->setGeometry(QRect(20, 430, 45, 45));
         pushButton_3->raise();
         pushButton_Apres10->raise();
         pushButton_Play->raise();
@@ -85,6 +89,7 @@ public:
         widgetVideo->raise();
         horizontalSlider_sonVideo->raise();
         horizontalSlider->raise();
+        pushButtonReset->raise();
 
         retranslateUi(InterfaceVideo);
 
@@ -100,6 +105,7 @@ public:
         pushButton_Avant10->setText(QString());
         pushButton_SelectVideo->setText(QCoreApplication::translate("InterfaceVideo", "Selectionner Video", nullptr));
         pushButton_3->setText(QString());
+        pushButtonReset->setText(QString());
     } // retranslateUi
 
 };

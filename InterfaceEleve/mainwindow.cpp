@@ -49,7 +49,7 @@ void MainWindow::on_pushButtonConnexion_clicked()
 {
     AttenteProf *attenteProf = new AttenteProf(this);
     attenteProf->show();
-    this->hide();
+    //this->hide();
 }
 
 void MainWindow::on_pushButtonEnregistrement_clicked()
@@ -126,7 +126,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         //    et choisit INSERT ou UPDATE
         bool overrideMode = false;
         if (existing > 0) {
-            // IP déjà en base : propose de modifier l’ID de cet enregistrement
             auto reply = QMessageBox::question(
                 this,
                 "IP déjà présente",
@@ -139,27 +138,22 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 return;
             }
         }
-
-        // 5) Récupère l’ID max actuel (pour INSERT) ou la nouvelle valeur (pour UPDATE)
         int id_raspberry = 1;
         if (!overrideMode) {
-            // INSERT → on calcule le prochain id
             QSqlQuery maxId;
             maxId.exec("SELECT MAX(id_raspberry) FROM Raspberry");
             if (maxId.next())
                 id_raspberry = maxId.value(0).toInt() + 1;
-            // laisse l’utilisateur changer cet ID avant l’INSERT
             bool ok;
             int manual = QInputDialog::getInt(
                 this,
                 "Choix de l'ID",
                 "Entrez l'ID Raspberry à utiliser :",
-                id_raspberry,    // valeur par défaut
+                id_raspberry,
                 1, 1000, 1, &ok);
             if (!ok) return; // annulation
             id_raspberry = manual;
         } else {
-            // UPDATE → on propose un nouvel ID pour l’IP existante
             bool ok;
             int manual = QInputDialog::getInt(
                 this,
@@ -235,7 +229,39 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
     // actionDone = false; // Par exemple, tu pourrais mettre ceci ici pour que l'action puisse être répétée plus tard
 
     QMainWindow::keyReleaseEvent(event);
+
 }
+void MainWindow::receiveCommand(const QString &cmd) {
+    // 1) Fermer et détruire l'ancienne interface
+    if (currentChild) {
+        currentChild->close();
+        currentChild = nullptr;
+    }
+
+    // 2) Instancier la nouvelle fenêtre selon la commande
+    if (cmd == "ecoute") {
+        currentChild = new InterfaceAudio(false, this);
+    }
+    else if (cmd == "ecoute_co") {
+        currentChild = new InterfaceAudio(true, this);
+    }
+    else if (cmd == "qcm") {
+        currentChild = new InterfaceQCM(this);
+    }
+    else if (cmd == "video") {
+        currentChild = new InterfaceVideo(this);
+    }
+    else if (cmd == "enregistrement") {
+        currentChild = new InterfaceEnregistrement(this);
+    }
+
+    // 3) Afficher et s’assurer que l’objet est détruit à la fermeture
+    if (currentChild) {
+        currentChild->setAttribute(Qt::WA_DeleteOnClose);
+        currentChild->show();
+    }
+}
+
 
 void MainWindow::receiveResponse() {
     while (udpSocketInfo.hasPendingDatagrams()) {
@@ -297,27 +323,45 @@ void MainWindow::receiveResponse() {
 
         QHostAddress sender;
         quint16 senderPort;
-
         udpSocketInter.readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
 
         QString response = QString::fromUtf8(datagram).trimmed();
         qDebug() << "📢 Interface reçue :" << response;
 
-        if (!response.isEmpty()) {
-            if (response == "QCM") {
-                qDebug() << "Lance Interface please ALED";
-                (new InterfaceQCM())->show();
-            } else if (response == "ecoute") {
-                (new InterfaceAudio(false))->show();
-            } else if (response == "ecoute_co") {
-                (new InterfaceAudio(true))->show();
-            } else if (response == "video") {
-                (new InterfaceVideo(false))->show();
-            } else if (response == "video_co") {
-                (new InterfaceVideo(true))->show();
-            } else if (response == "enregistrement") {
-                (new InterfaceEnregistrement())->show();
-            }
+        if (response.isEmpty())
+            continue;
+
+        // 1) Fermer l'ancienne interface
+        if (currentChild) {
+            currentChild->close();            // ferme la fenêtre
+            currentChild = nullptr;           // on oublie pas de reset le pointeur
+        }
+
+        // 2) Créer la nouvelle selon la commande
+        if (response == "QCM") {
+            currentChild = new InterfaceQCM(this);
+        }
+        else if (response == "ecoute") {
+            currentChild = new InterfaceAudio(false, this);
+        }
+        else if (response == "ecoute_co") {
+            currentChild = new InterfaceAudio(true, this);
+        }
+        else if (response == "video") {
+            currentChild = new InterfaceVideo(false, this);
+        }
+        else if (response == "video_co") {
+            currentChild = new InterfaceVideo(true, this);
+        }
+        else if (response == "enregistrement") {
+            currentChild = new InterfaceEnregistrement(this);
+        }
+
+        // 3) Afficher et s’assurer que la fenêtre se supprime à sa fermeture
+        if (currentChild) {
+            currentChild->setAttribute(Qt::WA_DeleteOnClose);
+            currentChild->show();
         }
     }
+
 }

@@ -11,7 +11,12 @@ InterfaceVideo::InterfaceVideo(bool co, QWidget *parent)
     , CO(co)
 {
     ui->setupUi(this);
-
+    if (CO) {
+        ui->pushButton_Avant10->setEnabled(false);
+        ui->pushButton_Pause->setEnabled(false);
+        ui->pushButton_Apres10->setEnabled(false);
+        ui->horizontalSlider->setEnabled(false);
+    }
     setFixedSize(800,480);
     this->setWindowTitle("Page de Video");
 
@@ -70,6 +75,14 @@ InterfaceVideo::InterfaceVideo(bool co, QWidget *parent)
         ui->pushButton_Apres10->setIcon(icone); // Définit l'icône du bouton
         ui->pushButton_Apres10->setIconSize(ui->pushButton_Apres10->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
     }
+    QPixmap imageReset(":/images/Repeter");
+    if (imageReset.isNull()){
+        qWarning() << "Erreur : image non trouvée !";
+    } else {
+        QIcon icone(imageReset); // Crée une icône
+        ui->pushButtonReset->setIcon(icone); // Définit l'icône du bouton
+        ui->pushButtonReset->setIconSize(ui->pushButtonReset->size());
+    };
 
     ui->pushButton_Pause->setVisible(true);
     ui->pushButton_Play->setVisible(false);
@@ -173,3 +186,35 @@ void InterfaceVideo::animateButtonClick(QPushButton* btn) {
     // 5) on lance et on supprime l’objet à la fin
     seq->start(QAbstractAnimation::DeleteWhenStopped);
 }
+
+void InterfaceVideo::on_pushButtonReset_clicked()
+{
+    // 1) Si on a déjà reset 3 fois, on bloque
+    if (resetCount >= maxResets) {
+        QMessageBox::warning(this,
+                             "Limite atteinte",
+                             "Vous ne pouvez réinitialiser l'audio que 3 fois.");
+        return;
+    }
+
+    // 2) N'autoriser le reset que si la lecture est terminée
+    if (player->playbackState() != QMediaPlayer::StoppedState) {
+        QMessageBox::information(this,
+                                 "Lecture en cours",
+                                 "Veuillez attendre la fin de la lecture avant de réinitialiser.");
+        return;
+    }
+
+    // 3) On remet la position à 0 et on relance
+    player->setPosition(0);
+    player->play();
+
+    // 4) Comptabiliser un reset, et informer l’utilisateur
+    resetCount++;
+    QMessageBox::information(this,
+                             "Réinitialisation",
+                             QString("Remise à zéro effectuée (%1/%2).")
+                                 .arg(resetCount)
+                                 .arg(maxResets));
+}
+

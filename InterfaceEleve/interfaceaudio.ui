@@ -137,6 +137,19 @@
     <enum>Qt::Horizontal</enum>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButtonReset">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>430</y>
+     <width>45</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
   <zorder>pushButton_2</zorder>
   <zorder>pushButton_Play</zorder>
   <zorder>pushButton_Avant</zorder>
@@ -146,6 +159,7 @@
   <zorder>horizontalLayoutWidget</zorder>
   <zorder>horizontalSliderSon</zorder>
   <zorder>horizontalSlider</zorder>
+  <zorder>pushButtonReset</zorder>
  </widget>
  <resources/>
  <connections/>

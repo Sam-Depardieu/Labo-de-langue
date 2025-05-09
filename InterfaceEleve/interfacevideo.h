@@ -12,7 +12,8 @@
 #include <QPropertyAnimation>
 #include <QAbstractAnimation>
 #include <QSequentialAnimationGroup>
-
+#include <QMessageBox>
+#include <QMediaPlayer>
 
 namespace Ui {
 class InterfaceVideo;
@@ -36,6 +37,10 @@ private slots:
     void animateButtonClick(QPushButton* btn);
     void on_horizontalSlider_sliderReleased();
 
+    void on_pushButton_Avant10_2_clicked();
+
+    void on_pushButtonReset_clicked();
+
 protected:
     void closeEvent(QCloseEvent *event);
 
@@ -46,6 +51,8 @@ private:
     QSlider *slider;
 
     bool CO = false;
+    int resetCount = 0;
+    static constexpr int maxResets = 3;
 
 };
 
