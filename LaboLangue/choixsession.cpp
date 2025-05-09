@@ -10,7 +10,7 @@ choixSession::choixSession(MainWindow* parentWindow)
     qDebug() << "ok";
 
     // Charger les dossiers de sessions
-    basePath = R"(//DESKTOP-SD2PM1A/Users/samde/Desktop/Activites)";              //à changer
+    basePath = R"(//CIEL-T171-05/Activites)";              //à changer
     QDir dir(basePath);
     QStringList sessionDirs = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
 
@@ -37,7 +37,8 @@ choixSession::choixSession(MainWindow* parentWindow)
         }
 
         QJsonObject obj = doc.object();
-        QString idTypeActivite = obj.value("idTypeActivite").toString("Inconnu");
+        int id = obj.value("idTypeActivite").toInt(-1);  // -1 = valeur par défaut si non présent ou non int
+        QString idTypeActivite = (id == -1) ? "Inconnu" : QString::number(id);
 
         // Création du widget personnalisé
         QWidget* itemWidget = new QWidget();
@@ -100,8 +101,34 @@ void choixSession::on_listeSession_itemDoubleClicked(QListWidgetItem *item)
     QJsonObject obj = doc.object();
     ui->infoSession->clear();
     for (const QString &key : obj.keys()) {
-        ui->infoSession->addItem(key + " : " + obj[key].toString());
+        QJsonValue val = obj[key];
+        QString displayValue;
+
+        if (val.isString()) {
+            displayValue = val.toString();
+        } else if (val.isDouble()) {
+            displayValue = QString::number(val.toDouble());
+        } else if (val.isBool()) {
+            displayValue = val.toBool() ? "true" : "false";
+        } else if (val.isNull()) {
+            displayValue = "null";
+        } else if (val.isArray()) {
+            displayValue = "[...]";  // tu peux aussi itérer dessus si besoin
+        } else if (val.isObject()) {
+            displayValue = "{...}";  // idem, à détailler si nécessaire
+        } else {
+            displayValue = "Inconnu";
+        }
+
+        ui->infoSession->addItem(key + " : " + displayValue);
     }
+
+
+}
+
+
+void choixSession::on_findLineEdit_textChanged(const QString &arg1)
+{
 
 }
 

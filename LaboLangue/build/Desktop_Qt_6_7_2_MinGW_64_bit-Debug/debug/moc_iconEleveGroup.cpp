@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'iconEleveGroup.h'
 **
-** Created by: The Qt Meta Object Compiler version 69 (Qt 6.9.0)
+** Created by: The Qt Meta Object Compiler version 68 (Qt 6.7.2)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -21,8 +21,8 @@
 #include <QtCore/qxptype_traits.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'iconEleveGroup.h' doesn't include <QObject>."
-#elif Q_MOC_OUTPUT_REVISION != 69
-#error "This file was generated using the moc from 6.9.0. It"
+#elif Q_MOC_OUTPUT_REVISION != 68
+#error "This file was generated using the moc from 6.7.2. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -35,52 +35,76 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 QT_WARNING_DISABLE_GCC("-Wuseless-cast")
 namespace {
-struct qt_meta_tag_ZN14iconEleveGroupE_t {};
+
+#ifdef QT_MOC_HAS_STRINGDATA
+struct qt_meta_stringdata_CLASSiconEleveGroupENDCLASS_t {};
+constexpr auto qt_meta_stringdata_CLASSiconEleveGroupENDCLASS = QtMocHelpers::stringData(
+    "iconEleveGroup",
+    "doubleClicked",
+    ""
+);
+#else  // !QT_MOC_HAS_STRINGDATA
+#error "qtmochelpers.h not found or too old."
+#endif // !QT_MOC_HAS_STRINGDATA
 } // unnamed namespace
 
-template <> constexpr inline auto iconEleveGroup::qt_create_metaobjectdata<qt_meta_tag_ZN14iconEleveGroupE_t>()
-{
-    namespace QMC = QtMocConstants;
-    QtMocHelpers::StringRefStorage qt_stringData {
-        "iconEleveGroup",
-        "doubleClicked",
-        ""
-    };
+Q_CONSTINIT static const uint qt_meta_data_CLASSiconEleveGroupENDCLASS[] = {
 
-    QtMocHelpers::UintData qt_methods {
-        // Signal 'doubleClicked'
-        QtMocHelpers::SignalData<void()>(1, 2, QMC::AccessPublic, QMetaType::Void),
-    };
-    QtMocHelpers::UintData qt_properties {
-    };
-    QtMocHelpers::UintData qt_enums {
-    };
-    return QtMocHelpers::metaObjectData<iconEleveGroup, qt_meta_tag_ZN14iconEleveGroupE_t>(QMC::MetaObjectFlag{}, qt_stringData,
-            qt_methods, qt_properties, qt_enums);
-}
+ // content:
+      12,       // revision
+       0,       // classname
+       0,    0, // classinfo
+       1,   14, // methods
+       0,    0, // properties
+       0,    0, // enums/sets
+       0,    0, // constructors
+       0,       // flags
+       1,       // signalCount
+
+ // signals: name, argc, parameters, tag, flags, initial metatype offsets
+       1,    0,   20,    2, 0x06,    1 /* Public */,
+
+ // signals: parameters
+    QMetaType::Void,
+
+       0        // eod
+};
+
 Q_CONSTINIT const QMetaObject iconEleveGroup::staticMetaObject = { {
     QMetaObject::SuperData::link<QObject::staticMetaObject>(),
-    qt_staticMetaObjectStaticContent<qt_meta_tag_ZN14iconEleveGroupE_t>.stringdata,
-    qt_staticMetaObjectStaticContent<qt_meta_tag_ZN14iconEleveGroupE_t>.data,
+    qt_meta_stringdata_CLASSiconEleveGroupENDCLASS.offsetsAndSizes,
+    qt_meta_data_CLASSiconEleveGroupENDCLASS,
     qt_static_metacall,
     nullptr,
-    qt_staticMetaObjectRelocatingContent<qt_meta_tag_ZN14iconEleveGroupE_t>.metaTypes,
+    qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSiconEleveGroupENDCLASS_t,
+        // Q_OBJECT / Q_GADGET
+        QtPrivate::TypeAndForceComplete<iconEleveGroup, std::true_type>,
+        // method 'doubleClicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>
+    >,
     nullptr
 } };
 
 void iconEleveGroup::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
-    auto *_t = static_cast<iconEleveGroup *>(_o);
     if (_c == QMetaObject::InvokeMetaMethod) {
+        auto *_t = static_cast<iconEleveGroup *>(_o);
+        (void)_t;
         switch (_id) {
         case 0: _t->doubleClicked(); break;
         default: ;
         }
+    } else if (_c == QMetaObject::IndexOfMethod) {
+        int *result = reinterpret_cast<int *>(_a[0]);
+        {
+            using _t = void (iconEleveGroup::*)();
+            if (_t _q_method = &iconEleveGroup::doubleClicked; *reinterpret_cast<_t *>(_a[1]) == _q_method) {
+                *result = 0;
+                return;
+            }
+        }
     }
-    if (_c == QMetaObject::IndexOfMethod) {
-        if (QtMocHelpers::indexOfMethod<void (iconEleveGroup::*)()>(_a, &iconEleveGroup::doubleClicked, 0))
-            return;
-    }
+    (void)_a;
 }
 
 const QMetaObject *iconEleveGroup::metaObject() const
@@ -91,7 +115,7 @@ const QMetaObject *iconEleveGroup::metaObject() const
 void *iconEleveGroup::qt_metacast(const char *_clname)
 {
     if (!_clname) return nullptr;
-    if (!strcmp(_clname, qt_staticMetaObjectStaticContent<qt_meta_tag_ZN14iconEleveGroupE_t>.strings))
+    if (!strcmp(_clname, qt_meta_stringdata_CLASSiconEleveGroupENDCLASS.stringdata0))
         return static_cast<void*>(this);
     if (!strcmp(_clname, "QGraphicsItemGroup"))
         return static_cast< QGraphicsItemGroup*>(this);
@@ -107,8 +131,7 @@ int iconEleveGroup::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         if (_id < 1)
             qt_static_metacall(this, _c, _id, _a);
         _id -= 1;
-    }
-    if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
+    } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
         if (_id < 1)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
         _id -= 1;
