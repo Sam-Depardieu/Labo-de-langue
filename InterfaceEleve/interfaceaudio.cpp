@@ -66,21 +66,6 @@ InterfaceAudio::~InterfaceAudio()
 {
     delete ui;
 }
-
-void InterfaceAudio::on_pushButton_Avant_clicked()
-{
-    qint64 currentPosition = player->position();
-
-    // Rewind by 10 seconds (10000 milliseconds)
-    qint64 newPosition = currentPosition - 10000;
-
-    // Ensure we don't go below 0 (start of the video)
-    if (newPosition < 0)
-        newPosition = 0;
-    player->setPosition(newPosition);
-}
-
-
 void InterfaceAudio::on_pushButton_Play_clicked()
 {
     player->play();
@@ -116,9 +101,22 @@ void InterfaceAudio::on_horizontalSliderSon_actionTriggered(int action)
     audioOutput->setVolume(volume / 100.0);
 }
 
+void InterfaceAudio::on_pushButton_Avant_clicked()
+{
+    animateButtonClick(ui->pushButton_Avant);
+    qint64 currentPosition = player->position();
 
+    // Rewind by 10 seconds (10000 milliseconds)
+    qint64 newPosition = currentPosition - 10000;
+
+    // Ensure we don't go below 0 (start of the video)
+    if (newPosition < 0)
+        newPosition = 0;
+    player->setPosition(newPosition);
+}
 void InterfaceAudio::on_pushButton_Apres_clicked()
 {
+    animateButtonClick(ui->pushButton_Apres);
     qint64 currentPosition = player->position();
 
     // Advance by 10 seconds (10000 milliseconds)
@@ -143,4 +141,28 @@ void InterfaceAudio::on_horizontalSlider_sliderReleased()
 
     player->setPosition(position);
 }
+void InterfaceAudio::animateButtonClick(QPushButton* btn) {
+    // 1) on prend la géométrie d'origine
+    const QRect orig = btn->geometry();
+    const QRect small = orig.adjusted(5, 5, -5, -5);
 
+    // 2) animation pour rétrécir
+    auto *shrink = new QPropertyAnimation(btn, "geometry");
+    shrink->setDuration(60);
+    shrink->setStartValue(orig);
+    shrink->setEndValue(small);
+
+    // 3) animation pour réagrandir
+    auto *expand = new QPropertyAnimation(btn, "geometry");
+    expand->setDuration(60);
+    expand->setStartValue(small);
+    expand->setEndValue(orig);
+
+    // 4) on les enchaîne
+    auto *seq = new QSequentialAnimationGroup(btn);
+    seq->addAnimation(shrink);
+    seq->addAnimation(expand);
+
+    // 5) on lance et on supprime l’objet à la fin
+    seq->start(QAbstractAnimation::DeleteWhenStopped);
+}

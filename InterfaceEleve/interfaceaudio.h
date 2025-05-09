@@ -5,6 +5,9 @@
 #include <QMediaPlayer>
 #include <QFileDialog>
 #include <QAudioOutput>
+#include <QPropertyAnimation>
+#include <QAbstractAnimation>
+#include <QSequentialAnimationGroup>
 
 namespace Ui {
 class InterfaceAudio;
@@ -26,6 +29,7 @@ private slots:
     void on_pushButton_Apres_clicked();
     void on_horizontalSliderSon_actionTriggered(int action);
     void on_horizontalSlider_sliderReleased();
+    void animateButtonClick(QPushButton* btn);
 
 protected:
     void closeEvent(QCloseEvent *event) override;

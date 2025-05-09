@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     // Affiche juste la barre de titre, sans les boutons Fermer, Minimiser, Maximiser
-    setWindowFlags(Qt::Dialog | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
+    //setWindowFlags(Qt::Dialog | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
 
     setFixedSize(800,480);
     this->setWindowTitle("Page de Connexion");

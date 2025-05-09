@@ -24,6 +24,14 @@
 #include <QTextEdit>
 #include <QSpinBox>
 #include <QMessageBox>
+#include <QStandardPaths>
+#include <QDir>
+#include <QMediaFormat>
+#include <QUrl>
+#include <QPropertyAnimation>
+#include <QAbstractAnimation>
+#include <QSequentialAnimationGroup>
+
 //#include <QAudioRecorder>
 //#include <QAudioProbe>
 //#include <QAudioEncoderSettings>
@@ -54,6 +62,7 @@ private slots:
     void on_pushButtonAvancer_clicked();
     void on_pushButtonEnregistrer_clicked();
     void on_pushButtonPlay_clicked();
+    void animateButtonClick(QPushButton* btn);
 
     void updateChrono();
     void rewindChrono();
@@ -80,6 +89,11 @@ private:
     int studentId;
     int totalSecondes = 0;
     int lastRecordedTime = 0;
+    int    elapsedSeconds;
+    QString outputFile;
+    QMediaRecorder*audioRecorder;
+
+
     qint64 pausedTime = 0;
     qint64 pauseTime = 0;
     bool isRewinding = false;

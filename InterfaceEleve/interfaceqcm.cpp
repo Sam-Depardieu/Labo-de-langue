@@ -207,38 +207,29 @@ void InterfaceQCM::setButtonIcons()
     setIcon(ui->pushButtonQuestionSuivante, ":/images/Avancer");
     setIcon(ui->pushButtonQuestionPrecedente, ":/images/RevenirArriere");
 }
-
 void InterfaceQCM::on_pushButton1_clicked()
 {
 
     ui->pushButton1->setStyleSheet("QPushButton { background-color:blue;border: 3px solid white;border-radius: 20px;}");
     isButton1Image = false;
 }
-
-
 void InterfaceQCM::on_pushButton2_clicked()
 {
 
     ui->pushButton2->setStyleSheet("QPushButton { background-color:green;border: 3px solid white;border-radius: 20px; }");
     isButton2Image = false;
 }
-
-
 void InterfaceQCM::on_pushButton3_clicked()
 {
 
     ui->pushButton3->setStyleSheet("QPushButton {  background-color:red;border: 3px solid white;border-radius: 20px; }");
     isButton3Image = false;
 }
-
-
 void InterfaceQCM::on_pushButton4_clicked()
 {
-
     ui->pushButton4->setStyleSheet("QPushButton { background-color:orange;border: 3px solid white;border-radius: 20px; }");
     isButton4Image = false;
 }
-
 void InterfaceQCM::on_pushButtonEffacerReponse_clicked()
 {
     // On ne touche qu'à la bordure : le reste du style .ui reste intact
@@ -253,8 +244,38 @@ void InterfaceQCM::on_pushButtonEffacerReponse_clicked()
     isButton3Image = true;
     isButton4Image = true;
 }
+/* il y en a deux
+void InterfaceQCM::on_pushButtonQuestionSuivante_clicked()
+{
+    // Chemin relatif
+    QString fileName = "C:/Users/Quentin/Documents/Projet/responses.txt";
+    QFile file(fileName);
 
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qWarning() << "Erreur : impossible d'ouvrir le fichier pour écrire.";
+        return;
+    }
 
+    QTextStream out(&file);
+    out << "Réponses enregistrées :\n";
+
+    if (!isButton1Image) {
+        out << "Réponse 1 sélectionnée\n";
+    }
+    if (!isButton2Image) {
+        out << "Réponse 2 sélectionnée\n";
+    }
+    if (!isButton3Image) {
+        out << "Réponse 3 sélectionnée\n";
+    }
+    if (!isButton4Image) {
+        out << "Réponse 4 sélectionnée\n";
+    }
+
+    file.close();
+    qDebug() << "Réponses enregistrées dans le fichier :" << file.fileName();
+}
+*/
 void InterfaceQCM::receiveResponse()
 {
     while (udpSocketConsigne.hasPendingDatagrams()) {
@@ -275,13 +296,13 @@ void InterfaceQCM::receiveResponse()
     }
 }
 
+/*void InterfaceQCM::loadQuestions(const QString &filePath)
+{
 
-
-
-
-
-
+}
+*/
 void InterfaceQCM::on_pushButtonQuestionPrecedente_clicked()
+
 {
     // Vérifier si l'index est valide (on ne peut pas aller avant la première question)
     if (currentQuestionIndex <= 0) {
