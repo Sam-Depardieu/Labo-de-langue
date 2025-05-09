@@ -51,48 +51,52 @@ class iconEleveGroup : public QObject, public QGraphicsItemGroup {
         int ID = 0;
         int IDEleve=0;
         QString IP;
+        QString nomGroupe = "";
         int numQCM = 1;
 
         QGraphicsPixmapItem *checkItem = nullptr;
 
         //Image des micro / casque
-        QGraphicsPixmapItem *microActiver = nullptr;
-        QGraphicsPixmapItem *microDesactiver = nullptr;
-        QGraphicsPixmapItem *casqueActiver = nullptr;
-        QGraphicsPixmapItem *casqueDesactiver = nullptr;
+            QGraphicsPixmapItem *microActiver = nullptr;
+            QGraphicsPixmapItem *microDesactiver = nullptr;
+            QGraphicsPixmapItem *casqueActiver = nullptr;
+            QGraphicsPixmapItem *casqueDesactiver = nullptr;
 
 
         QGraphicsPixmapItem *sound = nullptr;
         QGraphicsTextItem *textItem = nullptr;
 
     public:
+
         iconEleveGroup(int ID, QString ip, QGraphicsTextItem* text, MainWindow* parentWindow);
 
             //Setteur
             void setCheckItem(QGraphicsPixmapItem *item) { checkItem = item; }
 
             // Micro et casque
-            void setMicroActiver(QGraphicsPixmapItem *item) { microActiver = item; }
-            void setMicroDesactiver(QGraphicsPixmapItem *item) { microDesactiver = item; }
-            void setCasqueActiver(QGraphicsPixmapItem *item) { casqueActiver = item; }
-            void setCasqueDesactiver(QGraphicsPixmapItem *item) { casqueDesactiver = item; }
+                void setMicroActiver(QGraphicsPixmapItem *item) { microActiver = item; }
+                void setMicroDesactiver(QGraphicsPixmapItem *item) { microDesactiver = item; }
+                void setCasqueActiver(QGraphicsPixmapItem *item) { casqueActiver = item; }
+                void setCasqueDesactiver(QGraphicsPixmapItem *item) { casqueDesactiver = item; }
 
             void setSound(QGraphicsPixmapItem *item) { sound = item; }
             void setIDELeve(int ID) { IDEleve=ID; }
             void setTextItem(const QString newText) {textItem->setPlainText(newText);};
             void setNom(QString newNom) {nom = newNom;};
             void setNumQCM(int num) {numQCM = num;};
+            void setNomGroupe(QString nomG) {nomGroupe = nomG;};
 
             //Getteur
+                QString getNomGroupe() {return nomGroupe;};
                 std::vector<iconEleveGroup*> getAffiliate() {return affiliate;};
                 QGraphicsTextItem* getTextItem() const {return textItem;};
                 QGraphicsPixmapItem* getCheckItem() { return checkItem; }
 
                 // Micro et casque
-                QGraphicsPixmapItem* getMicroActiver() { return microActiver; }
-                QGraphicsPixmapItem* getMicroDesactiver() { return microDesactiver; }
-                QGraphicsPixmapItem* getCasqueActiver() { return casqueActiver; }
-                QGraphicsPixmapItem* getCasqueDesactiver() { return casqueDesactiver; }
+                    QGraphicsPixmapItem* getMicroActiver() { return microActiver; }
+                    QGraphicsPixmapItem* getMicroDesactiver() { return microDesactiver; }
+                    QGraphicsPixmapItem* getCasqueActiver() { return casqueActiver; }
+                    QGraphicsPixmapItem* getCasqueDesactiver() { return casqueDesactiver; }
 
 
                 QGraphicsPixmapItem* getSound() { return sound; }

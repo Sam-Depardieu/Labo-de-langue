@@ -68,45 +68,55 @@ private slots:
     void updateNomDansBDD(int idEleve, const QString& nouveauNom);
 
     // Bouton de Création de Session
-    void on_SessionButton_clicked();
-    void on_ChoixActivite_currentIndexChanged(int index);
-    void on_loadSession_clicked();
-    void on_CreationButton_clicked();
-    void on_selectAll_clicked();
-    void on_selectManuel_clicked();
-    void on_validButton_clicked();
-    void on_SourceButton_clicked();
-    void on_delButton_clicked();
-    void on_echapButton_clicked();
-    void resetSession();
-    void setupActivitiesComboBox();
-    void setupClassesComboBox();
-    void saveSessionData(bool isNewSession);
+        void on_SessionButton_clicked();
+        void on_ChoixActivite_currentIndexChanged(int index);
+        void on_loadSession_clicked();
+        void on_CreationButton_clicked();
+        void on_selectAll_clicked();
+        void on_selectManuel_clicked();
+        void on_validButton_clicked();
+        void on_SourceButton_clicked();
+        void on_delButton_clicked();
+        void on_echapButton_clicked();
+        void resetSession();
+        void setupActivitiesComboBox();
+        void setupClassesComboBox();
+        void saveSessionData(bool isNewSession);
 
     // Bouton de ParametrageEleve
-    void on_muteButton_clicked();
-    void on_demuteButton_clicked();
-    void on_desactiverSonButton_clicked();
-    void on_activerSonButton_clicked();
-    void on_creerGroupeButton_clicked();
-    void on_annulerButton_clicked();
-    void on_Communication_clicked();
-    void on_nomEleveLineEdit_editingFinished();
-    void loadInformationTable();
-    void on_envoyerMessagePersonne_clicked();
-    void on_envoyerMessageGroupe_clicked();
+        // Gestion audio de l'éléve
+            void on_muteButton_clicked();
+            void on_demuteButton_clicked();
+            void on_desactiverSonButton_clicked();
+            void on_activerSonButton_clicked();
+        // Communiquer (ecris/oral) avec l'élève
+            void on_Communication_clicked();
+            void on_envoyerMessagePersonne_clicked();
+            void on_envoyerMessageGroupe_clicked();
+        // Tableau de creation de groupe (+ gestion de l'élève)
+            // Creation de groupe
+                void on_creerGroupeButton_clicked();
+                void on_nomGroupeLineEdit_returnPressed();
+            // Mise a jour des données via la base de donnée
+                void loadInformationTable();
+                void on_nomEleveLineEdit_editingFinished();
+            // Ajouter l'élève séléctionné au groupe
+                void onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve);
+        // Fermeture de la page
+            void on_annulerButton_clicked();
 
-    void on_modeClairButton_clicked();
+    // Page statut
+        void on_StatutButton_clicked();
 
-    void on_modeSombreButton_clicked();
-
-    void on_StatutButton_clicked();
+    // Mode de couleurs
+        void on_modeClairButton_clicked();
+        void on_modeSombreButton_clicked();
 
     void on_cacheButton_clicked();
 
-    void onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve);
 
-private:
+
+    private:
     QGraphicsScene *scene;
     QSqlDatabase db;
     QGraphicsPixmapItem *item;
@@ -120,7 +130,7 @@ private:
     int idClasse = -1;
     int typeActivite;
 
-    QTableWidget* TableauGroupe ;
+    QTableWidget* TableauGroupe = nullptr;
     bool modeSombre = true;
     QTableWidget* StatutTableauGroupe ;
 

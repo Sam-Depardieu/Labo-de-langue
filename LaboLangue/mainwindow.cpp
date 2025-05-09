@@ -1007,14 +1007,13 @@ void MainWindow::loadInformationTable()
     TableauGroupe = ui->TableauGroupe;
 
     // Ajouter des en-têtes pour les colonnes
-    TableauGroupe->setHorizontalHeaderLabels({"Nom", "Numéro de poste", "Adresse IP", "Ajoutez au groupe :"});
+    TableauGroupe->setHorizontalHeaderLabels({"Nom", "Numéro de poste", "Ajoutez au groupe", "Nom du groupe", "Adresse IP"});
     TableauGroupe->setColumnWidth(1, 110);
     TableauGroupe->setColumnWidth(2, 130);
     TableauGroupe->setColumnWidth(3, 140);
 
     // Remplir les cellules avec des données
     for (unsigned int row = 0; row < listeParticipant.size(); ++row) {
-        // Par exemple, on met des valeurs génériques comme "Donnée 1", "Donnée 2", etc.
 
         QTableWidgetItem *itemNom ;
         if(listeParticipant[row] == eleveActuellementParametre)
@@ -1031,17 +1030,12 @@ void MainWindow::loadInformationTable()
         itemID->setFlags(itemID->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
         TableauGroupe->setItem(row, 1, itemID);
 
-        QTableWidgetItem *itemIP = new QTableWidgetItem(listeParticipant[row]->getIP());
-        itemIP->setTextAlignment(Qt::AlignCenter);
-        itemIP->setFlags(itemIP->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
-        TableauGroupe->setItem(row, 2, itemIP);
-
-        if(eleveActuellementParametre->getAffiliate().size() == 0)
+        if(listeParticipant[row]->getNomGroupe() == "")
         {
             QPushButton *itemBoutonAjouterGroupe = new QPushButton();
             itemBoutonAjouterGroupe->setText("Insérer au groupe");
             itemBoutonAjouterGroupe->setStyleSheet("background-color: #28a745");
-            ui->TableauGroupe->setCellWidget(row, 3, itemBoutonAjouterGroupe);
+            ui->TableauGroupe->setCellWidget(row, 2, itemBoutonAjouterGroupe);
             connect(itemBoutonAjouterGroupe, &QPushButton::clicked, this, [this, row]() {
                 MainWindow::onClicked_itemBoutonAjouterGroupe(listeParticipant[row]);
             });
@@ -1050,32 +1044,46 @@ void MainWindow::loadInformationTable()
             QPushButton *itemBoutonSupprimerGroupe = new QPushButton();
             itemBoutonSupprimerGroupe->setText("Supprimer du groupe");
             itemBoutonSupprimerGroupe->setStyleSheet("background-color: rgb(255, 0, 0)");
-            ui->TableauGroupe->setCellWidget(row, 3, itemBoutonSupprimerGroupe);
-
+            ui->TableauGroupe->setCellWidget(row, 2, itemBoutonSupprimerGroupe);
         }
 
+        QTableWidgetItem *nomGroupe = new QTableWidgetItem(listeParticipant[row]->getNomGroupe());
+        nomGroupe->setTextAlignment(Qt::AlignCenter);
+        nomGroupe->setFlags(nomGroupe->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
+        TableauGroupe->setItem(row, 3, nomGroupe);
 
+        QTableWidgetItem *itemIP = new QTableWidgetItem(listeParticipant[row]->getIP());
+        itemIP->setTextAlignment(Qt::AlignCenter);
+        itemIP->setFlags(itemIP->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
+        TableauGroupe->setItem(row, 4, itemIP);
     }
     connect(TableauGroupe, &QTableWidget::itemChanged, this, &MainWindow::changeNameTable);
-
     // Afficher le tableau
-
+    ui->TableauGroupe->setVisible(true);
 }
 
 void MainWindow::on_creerGroupeButton_clicked()
 {
+    // Nettoyer l'ancien tableau si existant
+    if (TableauGroupe != nullptr) {
+        qDebug() << "Nettoyage du tableau de groupe existant...";
+        TableauGroupe->clear();
+        TableauGroupe->close();
+        delete TableauGroupe;  // Libère la mémoire !
+        TableauGroupe = nullptr;
+    }
 
+    // Masquer les éléments liés à l'envoi de messages
     ui->envoyerMessageGroupe->setVisible(false);
     ui->envoyerMessagePersonne->setVisible(false);
     ui->envoyerMessageTextEdit->setVisible(false);
-    ui->TableauGroupe->setVisible(true);
+
+    // Afficher les éléments nécessaires pour la création de groupe
     ui->nomCreationGroupeLabel->setVisible(true);
     ui->nomGroupeLineEdit->setVisible(true);
-    qDebug() << "Actualisation du tableau";
 
+    qDebug() << "Actualisation du tableau de groupe...";
     loadInformationTable();
-
-    TableauGroupe->show();
 }
 
 void MainWindow::on_Communication_clicked()
@@ -1214,14 +1222,13 @@ void MainWindow::on_StatutButton_clicked()
 
         QPushButton *BoutonEcouter = new QPushButton();
         BoutonEcouter->setText("Ecouter");
+        BoutonEcouter->setStyleSheet("background-color: gray;");
         ui->StatutTableauGroupe->setCellWidget(row, 3, BoutonEcouter);
 
-        /*  INSERER NUMERO DE GROUPE
-        QTableWidgetItem *itemIP = new QTableWidgetItem(listeParticipant[row]->getIP());
-        itemIP->setTextAlignment(Qt::AlignCenter);
-        itemIP->setFlags(itemIP->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
-        StatutTableauGroupe->setItem(row, 4, itemIP);
-        */
+        QTableWidgetItem *nomGroupe = new QTableWidgetItem(listeParticipant[row]->getNomGroupe());
+        nomGroupe->setTextAlignment(Qt::AlignCenter);
+        nomGroupe->setFlags(nomGroupe->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
+        StatutTableauGroupe->setItem(row, 4, nomGroupe);
 
         QTableWidgetItem *itemIP = new QTableWidgetItem(listeParticipant[row]->getIP());
         itemIP->setTextAlignment(Qt::AlignCenter);
@@ -1295,10 +1302,25 @@ void MainWindow::onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve)
     }
 
 
+
+}
+
+void MainWindow::on_nomGroupeLineEdit_returnPressed()
+{
     //QMap<QString, std::vector<iconEleveGroup*>> listeGroup = {};
     /*
     Clé (QString)	Valeur (std::vector<iconEleveGroup*>)
     "Groupe A"      [Alice, Bob]
     "Groupe B"      [Charlie, David]
     */
+
+    // Récupération du nom du groupe
+    eleveActuellementParametre->setNomGroupe(ui->nomGroupeLineEdit->text());
+
+    listeGroup[eleveActuellementParametre->getNomGroupe()].push_back(eleveActuellementParametre);
+
+    qDebug() << "Nom du groupe :" << ui->nomGroupeLineEdit->text();
+    qDebug() << eleveActuellementParametre->getNom() << " : " << eleveActuellementParametre->getNomGroupe();
+    on_creerGroupeButton_clicked();
 }
+
