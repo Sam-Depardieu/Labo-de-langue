@@ -17,9 +17,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>10</y>
+     <y>50</y>
      <width>371</width>
-     <height>541</height>
+     <height>501</height>
     </rect>
    </property>
   </widget>
@@ -29,9 +29,77 @@
      <x>390</x>
      <y>10</y>
      <width>601</width>
-     <height>541</height>
+     <height>501</height>
     </rect>
    </property>
+  </widget>
+  <widget class="QLineEdit" name="findLineEdit">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>13</y>
+     <width>331</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="placeholderText">
+    <string>Entrez un filtre</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="sortAZButton">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>13</y>
+     <width>31</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="sortZAButton">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>13</y>
+     <width>31</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QWidget" name="horizontalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>520</y>
+     <width>601</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <property name="spacing">
+     <number>380</number>
+    </property>
+    <item>
+     <widget class="QPushButton" name="delSessionButton">
+      <property name="text">
+       <string>Supprimer session</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="takeSessionButton">
+      <property name="text">
+       <string>Choisir cette session</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>

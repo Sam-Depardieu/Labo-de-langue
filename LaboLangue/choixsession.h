@@ -30,6 +30,11 @@ public:
 
 private slots:
     void on_listeSession_itemDoubleClicked(QListWidgetItem *item);
+    void trierListeSessions(bool ordreCroissant);
+    void on_findLineEdit_textChanged(const QString &arg1);
+
+    void on_sortAZButton_clicked();
+    void on_sortZAButton_clicked();
 
 private:
     MainWindow* mainWindow;
