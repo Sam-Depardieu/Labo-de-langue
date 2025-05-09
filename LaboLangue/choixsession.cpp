@@ -1,4 +1,5 @@
 #include "choixsession.h"
+#include "qjsonarray.h"
 #include "ui_choixsession.h"
 
 choixSession::choixSession(MainWindow* parentWindow)
@@ -44,6 +45,10 @@ choixSession::choixSession(MainWindow* parentWindow)
         int id = obj.value("idTypeActivite").toInt(-1);  // -1 = valeur par défaut si non présent ou non int
         QString idTypeActivite = (id == -1) ? "Inconnu" : QString::number(id);
 
+        QJsonArray participants = obj.value("participants").toArray();
+        int nbParticipants = participants.size();
+        QString stringNbParticipant = QString::number(nbParticipants);
+
         // Création du widget personnalisé
         QWidget* itemWidget = new QWidget();
         QVBoxLayout* layout = new QVBoxLayout(itemWidget);
@@ -54,7 +59,7 @@ choixSession::choixSession(MainWindow* parentWindow)
 
         QLabel* dateLabel = new QLabel("Créé le : " + creationDate);
         QLabel* customLine1 = new QLabel("Type d'activité : " + idTypeActivite);
-        QLabel* customLine2 = new QLabel("Ligne personnalisée 2"); // Tu peux personnaliser ça aussi depuis le JSON si tu veux
+        QLabel* customLine2 = new QLabel("Nombre de participants : " + stringNbParticipant);
 
         layout->addWidget(titleLabel);
         layout->addWidget(dateLabel);
@@ -72,10 +77,6 @@ choixSession::choixSession(MainWindow* parentWindow)
 
 }
 
-choixSession::~choixSession()
-{
-    delete ui;
-}
 
 void choixSession::on_listeSession_itemDoubleClicked(QListWidgetItem *item)
 {
@@ -105,7 +106,7 @@ void choixSession::on_listeSession_itemDoubleClicked(QListWidgetItem *item)
     QJsonObject obj = doc.object();
     ui->infoSession->clear();
     for (const QString &key : obj.keys()) {
-        QJsonValue val = obj[key];
+        QJsonValue val = obj.value(key);
         QString displayValue;
 
         if (val.isString()) {
@@ -117,15 +118,26 @@ void choixSession::on_listeSession_itemDoubleClicked(QListWidgetItem *item)
         } else if (val.isNull()) {
             displayValue = "null";
         } else if (val.isArray()) {
-            displayValue = "[...]";  // tu peux aussi itérer dessus si besoin
-        } else if (val.isObject()) {
-            displayValue = "{...}";  // idem, à détailler si nécessaire
+            QJsonArray array = val.toArray();
+            QStringList elements;
+            for (const QJsonValue &item : array) {
+                if (item.isString())
+                    elements << item.toString();
+                else if (item.isDouble())
+                    elements << QString::number(item.toDouble());
+                else if (item.isBool())
+                    elements << (item.toBool() ? "true" : "false");
+                else
+                    elements << "complex";
+            }
+            displayValue = "[\n\t" + elements.join(",\n\t") + "\n]";
         } else {
             displayValue = "Inconnu";
         }
 
         ui->infoSession->addItem(key + " : " + displayValue);
     }
+
 
 
 }
@@ -261,4 +273,54 @@ void choixSession::trierListeSessions(bool ordreCroissant)
         ui->listeSession->addItem(item);
         ui->listeSession->setItemWidget(item, itemWidget);
     }
+}
+
+void choixSession::on_takeSessionButton_clicked()
+{
+    QListWidgetItem *currentItem = ui->listeSession->currentItem();
+
+    if (!currentItem) {
+        QMessageBox::warning(this, "Aucune sélection", "Veuillez sélectionner une session.");
+        return;
+    }
+
+    QString folderPath = basePath + "/" + currentItem->data(Qt::UserRole).toString();
+
+    if (mainWindow) {
+        mainWindow->setSource(folderPath+"/config.labo");
+    }
+
+    qDebug() << folderPath;
+
+    QDialog::accept();  // Ferme la fenêtre avec retour "accepté"
+}
+
+void choixSession::on_delSessionButton_clicked()
+{
+    QListWidgetItem *currentItem = ui->listeSession->currentItem();
+    if (!currentItem) return;
+
+    QString folderName = currentItem->data(Qt::UserRole).toString();
+    QString folderPath = basePath + "/" + folderName;
+
+    // Boîte de dialogue de confirmation
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "Suppression",
+                                  "Voulez-vous vraiment supprimer la session \"" + folderName + "\" ?",
+                                  QMessageBox::Yes | QMessageBox::No);
+
+    if (reply == QMessageBox::Yes) {
+        QDir dir(folderPath);
+        if (dir.removeRecursively()) {
+            delete currentItem;
+            QMessageBox::information(this, "Succès", "Session supprimée avec succès.");
+        } else {
+            QMessageBox::critical(this, "Erreur", "Impossible de supprimer le dossier.");
+        }
+    }
+}
+
+choixSession::~choixSession()
+{
+    delete ui;
 }

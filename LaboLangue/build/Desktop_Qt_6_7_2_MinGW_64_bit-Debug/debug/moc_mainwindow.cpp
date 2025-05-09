@@ -67,6 +67,7 @@ constexpr auto qt_meta_stringdata_CLASSMainWindowENDCLASS = QtMocHelpers::string
     "updateNomDansBDD",
     "idEleve",
     "nouveauNom",
+    "loadSession",
     "on_SessionButton_clicked",
     "on_ChoixActivite_currentIndexChanged",
     "index",
@@ -111,7 +112,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSMainWindowENDCLASS[] = {
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-      41,   14, // methods
+      42,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -119,47 +120,48 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSMainWindowENDCLASS[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    0,  260,    2, 0x08,    1 /* Private */,
-       3,    0,  261,    2, 0x08,    2 /* Private */,
-       4,    0,  262,    2, 0x08,    3 /* Private */,
-       5,    0,  263,    2, 0x08,    4 /* Private */,
-       6,    2,  264,    2, 0x08,    5 /* Private */,
-      10,    2,  269,    2, 0x08,    8 /* Private */,
-      15,    1,  274,    2, 0x08,   11 /* Private */,
-      18,    0,  277,    2, 0x08,   13 /* Private */,
-      19,    1,  278,    2, 0x08,   14 /* Private */,
-      22,    2,  281,    2, 0x08,   16 /* Private */,
-      25,    2,  286,    2, 0x08,   19 /* Private */,
-      28,    0,  291,    2, 0x08,   22 /* Private */,
-      29,    1,  292,    2, 0x08,   23 /* Private */,
-      31,    0,  295,    2, 0x08,   25 /* Private */,
-      32,    0,  296,    2, 0x08,   26 /* Private */,
-      33,    0,  297,    2, 0x08,   27 /* Private */,
-      34,    0,  298,    2, 0x08,   28 /* Private */,
-      35,    0,  299,    2, 0x08,   29 /* Private */,
-      36,    0,  300,    2, 0x08,   30 /* Private */,
-      37,    0,  301,    2, 0x08,   31 /* Private */,
-      38,    0,  302,    2, 0x08,   32 /* Private */,
-      39,    0,  303,    2, 0x08,   33 /* Private */,
-      40,    0,  304,    2, 0x08,   34 /* Private */,
-      41,    0,  305,    2, 0x08,   35 /* Private */,
-      42,    1,  306,    2, 0x08,   36 /* Private */,
-      44,    0,  309,    2, 0x08,   38 /* Private */,
-      45,    0,  310,    2, 0x08,   39 /* Private */,
-      46,    0,  311,    2, 0x08,   40 /* Private */,
-      47,    0,  312,    2, 0x08,   41 /* Private */,
-      48,    0,  313,    2, 0x08,   42 /* Private */,
-      49,    0,  314,    2, 0x08,   43 /* Private */,
-      50,    0,  315,    2, 0x08,   44 /* Private */,
-      51,    0,  316,    2, 0x08,   45 /* Private */,
-      52,    0,  317,    2, 0x08,   46 /* Private */,
-      53,    0,  318,    2, 0x08,   47 /* Private */,
-      54,    0,  319,    2, 0x08,   48 /* Private */,
-      55,    0,  320,    2, 0x08,   49 /* Private */,
-      56,    0,  321,    2, 0x08,   50 /* Private */,
-      57,    0,  322,    2, 0x08,   51 /* Private */,
-      58,    0,  323,    2, 0x08,   52 /* Private */,
-      59,    1,  324,    2, 0x08,   53 /* Private */,
+       1,    0,  266,    2, 0x08,    1 /* Private */,
+       3,    0,  267,    2, 0x08,    2 /* Private */,
+       4,    0,  268,    2, 0x08,    3 /* Private */,
+       5,    0,  269,    2, 0x08,    4 /* Private */,
+       6,    2,  270,    2, 0x08,    5 /* Private */,
+      10,    2,  275,    2, 0x08,    8 /* Private */,
+      15,    1,  280,    2, 0x08,   11 /* Private */,
+      18,    0,  283,    2, 0x08,   13 /* Private */,
+      19,    1,  284,    2, 0x08,   14 /* Private */,
+      22,    2,  287,    2, 0x08,   16 /* Private */,
+      25,    2,  292,    2, 0x08,   19 /* Private */,
+      28,    0,  297,    2, 0x08,   22 /* Private */,
+      29,    0,  298,    2, 0x08,   23 /* Private */,
+      30,    1,  299,    2, 0x08,   24 /* Private */,
+      32,    0,  302,    2, 0x08,   26 /* Private */,
+      33,    0,  303,    2, 0x08,   27 /* Private */,
+      34,    0,  304,    2, 0x08,   28 /* Private */,
+      35,    0,  305,    2, 0x08,   29 /* Private */,
+      36,    0,  306,    2, 0x08,   30 /* Private */,
+      37,    0,  307,    2, 0x08,   31 /* Private */,
+      38,    0,  308,    2, 0x08,   32 /* Private */,
+      39,    0,  309,    2, 0x08,   33 /* Private */,
+      40,    0,  310,    2, 0x08,   34 /* Private */,
+      41,    0,  311,    2, 0x08,   35 /* Private */,
+      42,    0,  312,    2, 0x08,   36 /* Private */,
+      43,    1,  313,    2, 0x08,   37 /* Private */,
+      45,    0,  316,    2, 0x08,   39 /* Private */,
+      46,    0,  317,    2, 0x08,   40 /* Private */,
+      47,    0,  318,    2, 0x08,   41 /* Private */,
+      48,    0,  319,    2, 0x08,   42 /* Private */,
+      49,    0,  320,    2, 0x08,   43 /* Private */,
+      50,    0,  321,    2, 0x08,   44 /* Private */,
+      51,    0,  322,    2, 0x08,   45 /* Private */,
+      52,    0,  323,    2, 0x08,   46 /* Private */,
+      53,    0,  324,    2, 0x08,   47 /* Private */,
+      54,    0,  325,    2, 0x08,   48 /* Private */,
+      55,    0,  326,    2, 0x08,   49 /* Private */,
+      56,    0,  327,    2, 0x08,   50 /* Private */,
+      57,    0,  328,    2, 0x08,   51 /* Private */,
+      58,    0,  329,    2, 0x08,   52 /* Private */,
+      59,    0,  330,    2, 0x08,   53 /* Private */,
+      60,    1,  331,    2, 0x08,   54 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -174,7 +176,8 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSMainWindowENDCLASS[] = {
     QMetaType::Void, 0x80000000 | 16, QMetaType::QString,   23,   24,
     QMetaType::Void, QMetaType::Int, QMetaType::QString,   26,   27,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Int,   30,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::Int,   31,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -186,7 +189,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSMainWindowENDCLASS[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Bool,   43,
+    QMetaType::Void, QMetaType::Bool,   44,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -248,6 +251,8 @@ Q_CONSTINIT const QMetaObject MainWindow::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<int, std::false_type>,
         QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
+        // method 'loadSession'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_SessionButton_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_ChoixActivite_currentIndexChanged'
@@ -333,36 +338,37 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 8: _t->changeNameTable((*reinterpret_cast< std::add_pointer_t<QTableWidgetItem*>>(_a[1]))); break;
         case 9: _t->updateEleveNom((*reinterpret_cast< std::add_pointer_t<iconEleveGroup*>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2]))); break;
         case 10: _t->updateNomDansBDD((*reinterpret_cast< std::add_pointer_t<int>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2]))); break;
-        case 11: _t->on_SessionButton_clicked(); break;
-        case 12: _t->on_ChoixActivite_currentIndexChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
-        case 13: _t->on_loadSession_clicked(); break;
-        case 14: _t->on_CreationButton_clicked(); break;
-        case 15: _t->on_selectAll_clicked(); break;
-        case 16: _t->on_selectManuel_clicked(); break;
-        case 17: _t->on_validButton_clicked(); break;
-        case 18: _t->on_SourceButton_clicked(); break;
-        case 19: _t->on_delButton_clicked(); break;
-        case 20: _t->on_echapButton_clicked(); break;
-        case 21: _t->resetSession(); break;
-        case 22: _t->setupActivitiesComboBox(); break;
-        case 23: _t->setupClassesComboBox(); break;
-        case 24: _t->saveSessionData((*reinterpret_cast< std::add_pointer_t<bool>>(_a[1]))); break;
-        case 25: _t->on_muteButton_clicked(); break;
-        case 26: _t->on_demuteButton_clicked(); break;
-        case 27: _t->on_desactiverSonButton_clicked(); break;
-        case 28: _t->on_activerSonButton_clicked(); break;
-        case 29: _t->on_creerGroupeButton_clicked(); break;
-        case 30: _t->on_annulerButton_clicked(); break;
-        case 31: _t->on_Communication_clicked(); break;
-        case 32: _t->on_nomEleveLineEdit_editingFinished(); break;
-        case 33: _t->loadInformationTable(); break;
-        case 34: _t->on_envoyerMessagePersonne_clicked(); break;
-        case 35: _t->on_envoyerMessageGroupe_clicked(); break;
-        case 36: _t->on_modeClairButton_clicked(); break;
-        case 37: _t->on_modeSombreButton_clicked(); break;
-        case 38: _t->on_StatutButton_clicked(); break;
-        case 39: _t->on_cacheButton_clicked(); break;
-        case 40: _t->onClicked_itemBoutonAjouterGroupe((*reinterpret_cast< std::add_pointer_t<iconEleveGroup*>>(_a[1]))); break;
+        case 11: _t->loadSession(); break;
+        case 12: _t->on_SessionButton_clicked(); break;
+        case 13: _t->on_ChoixActivite_currentIndexChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
+        case 14: _t->on_loadSession_clicked(); break;
+        case 15: _t->on_CreationButton_clicked(); break;
+        case 16: _t->on_selectAll_clicked(); break;
+        case 17: _t->on_selectManuel_clicked(); break;
+        case 18: _t->on_validButton_clicked(); break;
+        case 19: _t->on_SourceButton_clicked(); break;
+        case 20: _t->on_delButton_clicked(); break;
+        case 21: _t->on_echapButton_clicked(); break;
+        case 22: _t->resetSession(); break;
+        case 23: _t->setupActivitiesComboBox(); break;
+        case 24: _t->setupClassesComboBox(); break;
+        case 25: _t->saveSessionData((*reinterpret_cast< std::add_pointer_t<bool>>(_a[1]))); break;
+        case 26: _t->on_muteButton_clicked(); break;
+        case 27: _t->on_demuteButton_clicked(); break;
+        case 28: _t->on_desactiverSonButton_clicked(); break;
+        case 29: _t->on_activerSonButton_clicked(); break;
+        case 30: _t->on_creerGroupeButton_clicked(); break;
+        case 31: _t->on_annulerButton_clicked(); break;
+        case 32: _t->on_Communication_clicked(); break;
+        case 33: _t->on_nomEleveLineEdit_editingFinished(); break;
+        case 34: _t->loadInformationTable(); break;
+        case 35: _t->on_envoyerMessagePersonne_clicked(); break;
+        case 36: _t->on_envoyerMessageGroupe_clicked(); break;
+        case 37: _t->on_modeClairButton_clicked(); break;
+        case 38: _t->on_modeSombreButton_clicked(); break;
+        case 39: _t->on_StatutButton_clicked(); break;
+        case 40: _t->on_cacheButton_clicked(); break;
+        case 41: _t->onClicked_itemBoutonAjouterGroupe((*reinterpret_cast< std::add_pointer_t<iconEleveGroup*>>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
@@ -396,7 +402,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
                 *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType::fromType< iconEleveGroup* >(); break;
             }
             break;
-        case 40:
+        case 41:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
             case 0:
@@ -426,13 +432,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 41)
+        if (_id < 42)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 41;
+        _id -= 42;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 41)
+        if (_id < 42)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 41;
+        _id -= 42;
     }
     return _id;
 }

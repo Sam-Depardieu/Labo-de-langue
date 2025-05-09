@@ -49,6 +49,7 @@ public:
     void toggleSettingEleve(iconEleveGroup *group, bool open);
     QString getSessionFolder() {return sessionFolder;};
     void setNomEtudiantLineEdit(QString nom);
+    void setSource(QString newSource) {source = newSource;};
     void updateCheckItemsVisibility();
     bool getModeSombre() {return modeSombre;};
 
@@ -66,6 +67,7 @@ private slots:
     void changeNameTable(QTableWidgetItem* item);
     void updateEleveNom(iconEleveGroup* eleve, const QString& newName);
     void updateNomDansBDD(int idEleve, const QString& nouveauNom);
+    void loadSession();
 
     // Bouton de Création de Session
     void on_SessionButton_clicked();
