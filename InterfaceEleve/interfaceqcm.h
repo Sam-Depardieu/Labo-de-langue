@@ -36,9 +36,6 @@ private slots:
 
 
 
-
-    void on_textEditFeedBack_2_copyAvailable(bool b);
-
 private:
     Ui::InterfaceQCM *ui;
     bool isButton1Image; // Déclaration pour Button 1

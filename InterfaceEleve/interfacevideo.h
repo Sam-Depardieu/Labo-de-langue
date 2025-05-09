@@ -9,6 +9,9 @@
 #include <QCloseEvent>
 #include <QProcess>
 #include <QVideoWidget>
+#include <QPropertyAnimation>
+#include <QAbstractAnimation>
+#include <QSequentialAnimationGroup>
 
 
 namespace Ui {
@@ -30,7 +33,7 @@ private slots:
     void on_pushButton_Pause_clicked();
     void on_pushButton_Apres10_clicked();
     void on_horizontalSlider_sonVideo_actionTriggered(int action);
-
+    void animateButtonClick(QPushButton* btn);
     void on_horizontalSlider_sliderReleased();
 
 protected:

@@ -54,38 +54,29 @@ void InterfaceQCM::setButtonIcons()
     setIcon(ui->pushButtonQuestionSuivante, ":/images/Avancer");
     setIcon(ui->pushButtonQuestionPrecedente, ":/images/RevenirArriere");
 }
-
 void InterfaceQCM::on_pushButton1_clicked()
 {
 
     ui->pushButton1->setStyleSheet("QPushButton { background-color:blue;border: 3px solid white;border-radius: 20px;}");
     isButton1Image = false;
 }
-
-
 void InterfaceQCM::on_pushButton2_clicked()
 {
 
     ui->pushButton2->setStyleSheet("QPushButton { background-color:green;border: 3px solid white;border-radius: 20px; }");
     isButton2Image = false;
 }
-
-
 void InterfaceQCM::on_pushButton3_clicked()
 {
 
     ui->pushButton3->setStyleSheet("QPushButton {  background-color:red;border: 3px solid white;border-radius: 20px; }");
     isButton3Image = false;
 }
-
-
 void InterfaceQCM::on_pushButton4_clicked()
 {
-
     ui->pushButton4->setStyleSheet("QPushButton { background-color:orange;border: 3px solid white;border-radius: 20px; }");
     isButton4Image = false;
 }
-
 void InterfaceQCM::on_pushButtonEffacerReponse_clicked()
 {
     // On ne touche qu'à la bordure : le reste du style .ui reste intact
@@ -100,9 +91,6 @@ void InterfaceQCM::on_pushButtonEffacerReponse_clicked()
     isButton3Image = true;
     isButton4Image = true;
 }
-
-
-
 void InterfaceQCM::on_pushButtonQuestionSuivante_clicked()
 {
     // Chemin relatif
@@ -133,9 +121,6 @@ void InterfaceQCM::on_pushButtonQuestionSuivante_clicked()
     file.close();
     qDebug() << "Réponses enregistrées dans le fichier :" << file.fileName();
 }
-
-
-
 void InterfaceQCM::receiveResponse()
 {
     while (udpSocketConsigne.hasPendingDatagrams()) {
@@ -155,7 +140,6 @@ void InterfaceQCM::receiveResponse()
         }
     }
 }
-
 void InterfaceQCM::loadQuestions(const QString &filePath)
 {
     QFile file(filePath);

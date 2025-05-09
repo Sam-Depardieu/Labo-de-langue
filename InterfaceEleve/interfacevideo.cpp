@@ -100,14 +100,18 @@ void InterfaceVideo::on_pushButton_SelectVideo_clicked()
 
 void InterfaceVideo::on_pushButton_Avant10_clicked()
 {
+    animateButtonClick(ui->pushButton_Avant10);
     qint64 currentPosition = player->position();
-
-    // Rewind by 10 seconds (10000 milliseconds)
     qint64 newPosition = currentPosition - 10000;
-
-    // Ensure we don't go below 0 (start of the video)
     if (newPosition < 0)
         newPosition = 0;
+    player->setPosition(newPosition);
+}
+void InterfaceVideo::on_pushButton_Apres10_clicked()
+{
+    animateButtonClick(ui->pushButton_Apres10);
+    qint64 currentPosition = player->position();
+    qint64 newPosition = currentPosition + 10000;
     player->setPosition(newPosition);
 }
 
@@ -124,18 +128,6 @@ void InterfaceVideo::on_pushButton_Pause_clicked()
     ui->pushButton_Pause->setVisible(false);
     ui->pushButton_Play->setVisible(true);
 }
-
-void InterfaceVideo::on_pushButton_Apres10_clicked()
-{
-    qint64 currentPosition = player->position();
-
-    // Advance by 10 seconds (10000 milliseconds)
-    qint64 newPosition = currentPosition + 10000;
-
-    // Set the new position
-    player->setPosition(newPosition);
-}
-
 void InterfaceVideo::on_horizontalSlider_sonVideo_actionTriggered(int action)
 {
     int volume = ui->horizontalSlider_sonVideo->value();  // Récupère la valeur du slider
@@ -145,19 +137,39 @@ void InterfaceVideo::on_horizontalSlider_sonVideo_actionTriggered(int action)
 void InterfaceVideo::closeEvent(QCloseEvent *event)
 {
     if (player) {
-        player->stop();  // 🔹 Arrêter la lecture
-        delete player;   // 🔹 Libérer la mémoire
+        player->stop();
+        delete player;
         player = nullptr;
     }
-    event->accept();  // Accepter la fermeture
+    event->accept();
 }
-
-
-
-
 void InterfaceVideo::on_horizontalSlider_sliderReleased()
 {
     int position = ui->horizontalSlider->value();  // récupère la position du curseur
     player->setPosition(position);
 }
+void InterfaceVideo::animateButtonClick(QPushButton* btn) {
+    // 1) on prend la géométrie d'origine
+    const QRect orig = btn->geometry();
+    const QRect small = orig.adjusted(5, 5, -5, -5);
 
+    // 2) animation pour rétrécir
+    auto *shrink = new QPropertyAnimation(btn, "geometry");
+    shrink->setDuration(50);
+    shrink->setStartValue(orig);
+    shrink->setEndValue(small);
+
+    // 3) animation pour réagrandir
+    auto *expand = new QPropertyAnimation(btn, "geometry");
+    expand->setDuration(50);
+    expand->setStartValue(small);
+    expand->setEndValue(orig);
+
+    // 4) on les enchaîne
+    auto *seq = new QSequentialAnimationGroup(btn);
+    seq->addAnimation(shrink);
+    seq->addAnimation(expand);
+
+    // 5) on lance et on supprime l’objet à la fin
+    seq->start(QAbstractAnimation::DeleteWhenStopped);
+}
