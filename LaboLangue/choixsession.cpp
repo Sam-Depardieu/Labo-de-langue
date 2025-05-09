@@ -142,6 +142,8 @@ void choixSession::on_listeSession_itemDoubleClicked(QListWidgetItem *item)
 
 }
 
+<<<<<<< HEAD
+=======
 void choixSession::on_findLineEdit_textChanged(const QString &arg1)
 {
     const QString basePath = R"(//CIEL-T171-05/Activites)";
@@ -274,6 +276,7 @@ void choixSession::trierListeSessions(bool ordreCroissant)
         ui->listeSession->setItemWidget(item, itemWidget);
     }
 }
+<<<<<<< HEAD
 
 void choixSession::on_takeSessionButton_clicked()
 {
@@ -324,3 +327,6 @@ choixSession::~choixSession()
 {
     delete ui;
 }
+=======
+>>>>>>> dbd554cd0de1898af74ea3ffe8d26f6f9db3d5c1
+>>>>>>> 5ad51a3e94303d1dbcb22c0545ab182d4c366cdf

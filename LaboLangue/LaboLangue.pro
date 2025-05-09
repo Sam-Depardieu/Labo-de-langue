@@ -43,3 +43,15 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    build/img/check.png \
+    build/img/clair.png \
+    build/img/cross-qcm.png \
+    build/img/cross.png \
+    build/img/earGreen.png \
+    build/img/earRed.png \
+    build/img/micro.png \
+    build/img/mute.png \
+    build/img/person.png \
+    build/img/sombre.png

@@ -362,9 +362,14 @@ void MainWindow::loadImagesFromDB()
 
     QPixmap personPixmap("../img/person.png");
     QPixmap checkPixmap("../img/check.png");
-    QPixmap microPixmap("../img/micro.png");
 
-    if (personPixmap.isNull() || checkPixmap.isNull() || microPixmap.isNull()) {
+    QPixmap microActiverPixmap("../img/micro.png");
+    QPixmap microDesactiverPixmap("../img/mute.png");
+    QPixmap casqueActiverPixmap("../img/earGreen.png");
+    QPixmap casqueDesactiverPixmap("../img/earRed.png");
+
+
+    if (personPixmap.isNull() || checkPixmap.isNull() || microActiverPixmap.isNull()) {
         qWarning("Une ou plusieurs images n'ont pas pu être chargées. Vérifiez les chemins.");
         return;
     }
@@ -405,20 +410,38 @@ void MainWindow::loadImagesFromDB()
 
         // Création des icônes Check et Cross
         QGraphicsPixmapItem *checkItem = new QGraphicsPixmapItem(checkPixmap);
-        checkItem->setPos(imageItem->boundingRect().right() - checkPixmap.width(), imageItem->boundingRect().top());
+        checkItem->setPos(imageItem->boundingRect().right() + 7.5 - checkPixmap.width(), imageItem->boundingRect().top());
         checkItem->setVisible(false); // Caché par défaut
 
-        QGraphicsPixmapItem *micro = new QGraphicsPixmapItem(microPixmap);
-        micro->setPos(imageItem->boundingRect().left(), imageItem->boundingRect().top());
-        micro->setVisible(false); // Caché par défaut
+        // Création des icônes casque (activer et desactiver)
+        QGraphicsPixmapItem *casqueActiver = new QGraphicsPixmapItem(casqueActiverPixmap);
+        casqueActiver->setPos(imageItem->boundingRect().right() + 7.5 - checkPixmap.width(), imageItem->boundingRect().top());
+        casqueActiver->setVisible(false); // Caché par défaut
+        QGraphicsPixmapItem *casqueDesactiver = new QGraphicsPixmapItem(casqueDesactiverPixmap);
+        casqueDesactiver->setPos(imageItem->boundingRect().right() + 7.5 - checkPixmap.width(), imageItem->boundingRect().top());
+        casqueDesactiver->setVisible(false); // Caché par défaut
+
+        // Création des icônes micro (activer et desactiver)
+        QGraphicsPixmapItem *microActiver = new QGraphicsPixmapItem(microActiverPixmap);
+        microActiver->setPos(imageItem->boundingRect().left() - 7.5, imageItem->boundingRect().top());
+        microActiver->setVisible(false); // Caché par défaut
+        QGraphicsPixmapItem *microDesactiver = new QGraphicsPixmapItem(microDesactiverPixmap);
+        microDesactiver->setPos(imageItem->boundingRect().left() - 7.5, imageItem->boundingRect().top());
+        microDesactiver->setVisible(false); // Caché par défaut
 
         // Ajout des icônes au groupe
         group->addToGroup(checkItem);
-        group->addToGroup(micro);
+        group->addToGroup(microActiver);
+        group->addToGroup(microDesactiver);
+        group->addToGroup(casqueActiver);
+        group->addToGroup(casqueDesactiver);
 
         // Sauvegarde des icônes dans l'objet pour pouvoir les modifier après
         group->setCheckItem(checkItem);
-        group->setMicro(micro);
+        group->setMicroActiver(microActiver);
+        group->setMicroDesactiver(microDesactiver);
+        group->setCasqueActiver(casqueActiver);
+        group->setCasqueDesactiver(casqueDesactiver);
 
         // Positionnement et ajout à la scène
         group->setPos(x, y);
@@ -459,7 +482,7 @@ bool MainWindow::connectToDatabase() {
     }
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("localhost");
+    db.setHostName("192.168.89.42");
     db.setDatabaseName("LaboLangue");
     db.setPort(3306);
     db.setUserName("prof"); // Remplacez par votre nom d'utilisateur
@@ -816,7 +839,9 @@ void MainWindow::on_validButton_clicked()
         int idEleve = query.lastInsertId().toInt();
         listeEleveParticipant.push_back(idEleve);
         participant->setIDELeve(idEleve);
-        participant->getMicro()->setVisible(true);
+        participant->getCheckItem()->setVisible(false);
+        participant->getMicroActiver()->setVisible(true);
+        participant->getCasqueActiver()->setVisible(true);
     }
 
     prof = new Professor();
@@ -926,30 +951,30 @@ void MainWindow::on_CreationButton_clicked()
 // Bouton de l'interface de ParametrageEleve
 void MainWindow::on_muteButton_clicked()
 {
-    for(unsigned int i = 0; i < listeEditEleve.size(); i++){
-        prof->muteStudent(listeEditEleve[i]->getIP());
-    }
+    prof->muteStudent(eleveActuellementParametre->getIP());
+    eleveActuellementParametre->getMicroActiver()->setVisible(false);
+    eleveActuellementParametre->getMicroDesactiver()->setVisible(true);
 }
 
 void MainWindow::on_demuteButton_clicked()
 {
-    for(unsigned int i = 0; i < listeEditEleve.size(); i++){
-        prof->unmuteStudent(listeEditEleve[i]->getIP());
-    }
+    prof->unmuteStudent(eleveActuellementParametre->getIP());
+    eleveActuellementParametre->getMicroActiver()->setVisible(true);
+    eleveActuellementParametre->getMicroDesactiver()->setVisible(false);
 }
 
 void MainWindow::on_desactiverSonButton_clicked()
 {
-    for(unsigned int i = 0; i < listeEditEleve.size(); i++){
-        prof->activerSonStudent(listeEditEleve[i]->getIP());
-    }
+    prof->activerSonStudent(eleveActuellementParametre->getIP());
+    eleveActuellementParametre->getCasqueActiver()->setVisible(false);
+    eleveActuellementParametre->getCasqueDesactiver()->setVisible(true);
 }
 
 void MainWindow::on_activerSonButton_clicked()
 {
-    for(unsigned int i = 0; i < listeEditEleve.size(); i++){
-        prof->desactiverSonStudent(listeEditEleve[i]->getIP());
-    }
+    prof->desactiverSonStudent(eleveActuellementParametre->getIP());
+    eleveActuellementParametre->getCasqueActiver()->setVisible(true);
+    eleveActuellementParametre->getCasqueDesactiver()->setVisible(false);
 }
 
 void MainWindow::on_annulerButton_clicked()
