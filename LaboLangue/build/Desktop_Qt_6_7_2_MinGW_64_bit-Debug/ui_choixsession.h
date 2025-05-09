@@ -11,7 +11,10 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QListWidget>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -21,6 +24,13 @@ class Ui_choixSession
 public:
     QListWidget *listeSession;
     QListWidget *infoSession;
+    QLineEdit *findLineEdit;
+    QPushButton *sortAZButton;
+    QPushButton *sortZAButton;
+    QWidget *horizontalLayoutWidget;
+    QHBoxLayout *horizontalLayout;
+    QPushButton *delSessionButton;
+    QPushButton *takeSessionButton;
 
     void setupUi(QWidget *choixSession)
     {
@@ -29,10 +39,36 @@ public:
         choixSession->resize(1000, 560);
         listeSession = new QListWidget(choixSession);
         listeSession->setObjectName("listeSession");
-        listeSession->setGeometry(QRect(10, 10, 371, 541));
+        listeSession->setGeometry(QRect(10, 50, 371, 501));
         infoSession = new QListWidget(choixSession);
         infoSession->setObjectName("infoSession");
-        infoSession->setGeometry(QRect(390, 10, 601, 541));
+        infoSession->setGeometry(QRect(390, 10, 601, 501));
+        findLineEdit = new QLineEdit(choixSession);
+        findLineEdit->setObjectName("findLineEdit");
+        findLineEdit->setGeometry(QRect(10, 13, 331, 31));
+        sortAZButton = new QPushButton(choixSession);
+        sortAZButton->setObjectName("sortAZButton");
+        sortAZButton->setGeometry(QRect(350, 13, 31, 31));
+        sortZAButton = new QPushButton(choixSession);
+        sortZAButton->setObjectName("sortZAButton");
+        sortZAButton->setGeometry(QRect(350, 13, 31, 31));
+        horizontalLayoutWidget = new QWidget(choixSession);
+        horizontalLayoutWidget->setObjectName("horizontalLayoutWidget");
+        horizontalLayoutWidget->setGeometry(QRect(390, 520, 601, 31));
+        horizontalLayout = new QHBoxLayout(horizontalLayoutWidget);
+        horizontalLayout->setSpacing(380);
+        horizontalLayout->setObjectName("horizontalLayout");
+        horizontalLayout->setContentsMargins(0, 0, 0, 0);
+        delSessionButton = new QPushButton(horizontalLayoutWidget);
+        delSessionButton->setObjectName("delSessionButton");
+
+        horizontalLayout->addWidget(delSessionButton);
+
+        takeSessionButton = new QPushButton(horizontalLayoutWidget);
+        takeSessionButton->setObjectName("takeSessionButton");
+
+        horizontalLayout->addWidget(takeSessionButton);
+
 
         retranslateUi(choixSession);
 
@@ -42,6 +78,11 @@ public:
     void retranslateUi(QWidget *choixSession)
     {
         choixSession->setWindowTitle(QCoreApplication::translate("choixSession", "Form", nullptr));
+        findLineEdit->setPlaceholderText(QCoreApplication::translate("choixSession", "Entrez un filtre", nullptr));
+        sortAZButton->setText(QString());
+        sortZAButton->setText(QString());
+        delSessionButton->setText(QCoreApplication::translate("choixSession", "Supprimer session", nullptr));
+        takeSessionButton->setText(QCoreApplication::translate("choixSession", "Choisir cette session", nullptr));
     } // retranslateUi
 
 };
