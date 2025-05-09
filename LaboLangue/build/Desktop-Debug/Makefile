@@ -53,19 +53,23 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = ../../AudioCommunicator.cpp \
+		../../choixsession.cpp \
 		../../iconEleveGroup.cpp \
 		../../main.cpp \
 		../../mainwindow.cpp \
 		../../qcm.cpp moc_AudioCommunicator.cpp \
+		moc_choixsession.cpp \
 		moc_iconEleveGroup.cpp \
 		moc_mainwindow.cpp \
 		moc_qcm.cpp
 OBJECTS       = AudioCommunicator.o \
+		choixsession.o \
 		iconEleveGroup.o \
 		main.o \
 		mainwindow.o \
 		qcm.o \
 		moc_AudioCommunicator.o \
+		moc_choixsession.o \
 		moc_iconEleveGroup.o \
 		moc_mainwindow.o \
 		moc_qcm.o
@@ -122,7 +126,6 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/qt_config.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-clang/qmake.conf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/spec_post.prf \
-		../../.qmake.stash \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/exclusive_builds.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/toolchain.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/default_pre.prf \
@@ -144,9 +147,11 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/lex.prf \
 		../../../../LaboLangue.pro ../../AudioCommunicator.h \
+		../../choixsession.h \
 		../../iconEleveGroup.h \
 		../../mainwindow.h \
 		../../qcm.h ../../AudioCommunicator.cpp \
+		../../choixsession.cpp \
 		../../iconEleveGroup.cpp \
 		../../main.cpp \
 		../../mainwindow.cpp \
@@ -159,7 +164,7 @@ TARGET        = LaboLangue
 first: all
 ####### Build rules
 
-LaboLangue: ui_mainwindow.h ui_qcm.h $(OBJECTS)  
+LaboLangue: ui_choixsession.h ui_mainwindow.h ui_qcm.h $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET)  $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 Makefile: ../../LaboLangue.pro /usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-clang/qmake.conf /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/spec_pre.prf \
@@ -215,7 +220,6 @@ Makefile: ../../LaboLangue.pro /usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-clang
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/qt_config.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-clang/qmake.conf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/spec_post.prf \
-		.qmake.stash \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/exclusive_builds.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/toolchain.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/default_pre.prf \
@@ -299,7 +303,6 @@ Makefile: ../../LaboLangue.pro /usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-clang
 /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/qt_config.prf:
 /usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-clang/qmake.conf:
 /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/spec_post.prf:
-.qmake.stash:
 /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/exclusive_builds.prf:
 /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/toolchain.prf:
 /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/default_pre.prf:
@@ -344,9 +347,9 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../../AudioCommunicator.h ../../iconEleveGroup.h ../../mainwindow.h ../../qcm.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../../AudioCommunicator.cpp ../../iconEleveGroup.cpp ../../main.cpp ../../mainwindow.cpp ../../qcm.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../../mainwindow.ui ../../qcm.ui $(DISTDIR)/
+	$(COPY_FILE) --parents ../../AudioCommunicator.h ../../choixsession.h ../../iconEleveGroup.h ../../mainwindow.h ../../qcm.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../../AudioCommunicator.cpp ../../choixsession.cpp ../../iconEleveGroup.cpp ../../main.cpp ../../mainwindow.cpp ../../qcm.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../../choixsession.ui ../../mainwindow.ui ../../qcm.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -378,15 +381,20 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/data/dummy.cpp
 	clang++ -pipe -g -std=gnu++1z -Wall -Wextra -fPIC -dM -E -o moc_predefs.h /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_AudioCommunicator.cpp moc_iconEleveGroup.cpp moc_mainwindow.cpp moc_qcm.cpp
+compiler_moc_header_make_all: moc_AudioCommunicator.cpp moc_choixsession.cpp moc_iconEleveGroup.cpp moc_mainwindow.cpp moc_qcm.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_AudioCommunicator.cpp moc_iconEleveGroup.cpp moc_mainwindow.cpp moc_qcm.cpp
+	-$(DEL_FILE) moc_AudioCommunicator.cpp moc_choixsession.cpp moc_iconEleveGroup.cpp moc_mainwindow.cpp moc_qcm.cpp
 moc_AudioCommunicator.cpp: ../../AudioCommunicator.h \
 		../../zmq/zmq.hpp \
 		../../zmq.h \
 		moc_predefs.h \
 		/usr/lib/qt6/libexec/moc
 	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/sam/Documents/Projet/Labo-de-langue/LaboLangue/build/Desktop-Debug/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-clang -I/home/sam/Documents/Projet/Labo-de-langue/LaboLangue -I/home/sam/Documents/Projet/Labo-de-langue/LaboLangue/zmq/include -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtMultimediaWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtWebSockets -I/usr/include/x86_64-linux-gnu/qt6/QtNetwork -I/usr/include/x86_64-linux-gnu/qt6/QtSql -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/llvm-18/lib/clang/18/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../AudioCommunicator.h -o moc_AudioCommunicator.cpp
+
+moc_choixsession.cpp: ../../choixsession.h \
+		moc_predefs.h \
+		/usr/lib/qt6/libexec/moc
+	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/sam/Documents/Projet/Labo-de-langue/LaboLangue/build/Desktop-Debug/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-clang -I/home/sam/Documents/Projet/Labo-de-langue/LaboLangue -I/home/sam/Documents/Projet/Labo-de-langue/LaboLangue/zmq/include -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtMultimediaWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtWebSockets -I/usr/include/x86_64-linux-gnu/qt6/QtNetwork -I/usr/include/x86_64-linux-gnu/qt6/QtSql -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/llvm-18/lib/clang/18/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../choixsession.h -o moc_choixsession.cpp
 
 moc_iconEleveGroup.cpp: ../../iconEleveGroup.h \
 		moc_predefs.h \
@@ -412,9 +420,13 @@ compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_mainwindow.h ui_qcm.h
+compiler_uic_make_all: ui_choixsession.h ui_mainwindow.h ui_qcm.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_mainwindow.h ui_qcm.h
+	-$(DEL_FILE) ui_choixsession.h ui_mainwindow.h ui_qcm.h
+ui_choixsession.h: ../../choixsession.ui \
+		/usr/lib/qt6/libexec/uic
+	/usr/lib/qt6/libexec/uic ../../choixsession.ui -o ui_choixsession.h
+
 ui_mainwindow.h: ../../mainwindow.ui \
 		/usr/lib/qt6/libexec/uic
 	/usr/lib/qt6/libexec/uic ../../mainwindow.ui -o ui_mainwindow.h
@@ -437,6 +449,10 @@ AudioCommunicator.o: ../../AudioCommunicator.cpp ../../AudioCommunicator.h \
 		../../zmq/zmq.hpp \
 		../../zmq.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o AudioCommunicator.o ../../AudioCommunicator.cpp
+
+choixsession.o: ../../choixsession.cpp ../../choixsession.h \
+		ui_choixsession.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o choixsession.o ../../choixsession.cpp
 
 iconEleveGroup.o: ../../iconEleveGroup.cpp ../../iconEleveGroup.h \
 		../../mainwindow.h \
@@ -474,6 +490,9 @@ qcm.o: ../../qcm.cpp ../../qcm.h \
 
 moc_AudioCommunicator.o: moc_AudioCommunicator.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_AudioCommunicator.o moc_AudioCommunicator.cpp
+
+moc_choixsession.o: moc_choixsession.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_choixsession.o moc_choixsession.cpp
 
 moc_iconEleveGroup.o: moc_iconEleveGroup.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_iconEleveGroup.o moc_iconEleveGroup.cpp

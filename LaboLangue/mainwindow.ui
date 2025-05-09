@@ -261,7 +261,7 @@ border-radius: 10px;</string>
      <string notr="true">background-color: white;</string>
     </property>
    </widget>
-   <widget class="QLabel" name="NameLabel">
+   <widget class="QLabel" name="NomProfLabel">
     <property name="enabled">
      <bool>true</bool>
     </property>
@@ -280,7 +280,7 @@ border-radius: 10px;</string>
      <string>Votre Nom :</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="NameLineEdit">
+   <widget class="QLineEdit" name="NomProfLineEdit">
     <property name="enabled">
      <bool>true</bool>
     </property>
@@ -672,9 +672,9 @@ border-radius: 10px;</string>
    <widget class="QPushButton" name="muteButton">
     <property name="geometry">
      <rect>
-      <x>849</x>
+      <x>1000</x>
       <y>150</y>
-      <width>121</width>
+      <width>201</width>
       <height>24</height>
      </rect>
     </property>
@@ -685,40 +685,40 @@ border-radius: 10px;</string>
    <widget class="QPushButton" name="demuteButton">
     <property name="geometry">
      <rect>
-      <x>1000</x>
-      <y>150</y>
-      <width>121</width>
+      <x>770</x>
+      <y>190</y>
+      <width>171</width>
       <height>24</height>
      </rect>
     </property>
     <property name="text">
-     <string>Réactiver le micro</string>
+     <string>Activer le micro</string>
     </property>
    </widget>
    <widget class="QPushButton" name="desactiverSonButton">
     <property name="geometry">
      <rect>
-      <x>850</x>
+      <x>1000</x>
       <y>190</y>
-      <width>121</width>
+      <width>201</width>
       <height>24</height>
      </rect>
     </property>
     <property name="text">
-     <string>Desactiver son</string>
+     <string>Couper le son</string>
     </property>
    </widget>
    <widget class="QPushButton" name="activerSonButton">
     <property name="geometry">
      <rect>
-      <x>1000</x>
-      <y>190</y>
-      <width>121</width>
+      <x>770</x>
+      <y>150</y>
+      <width>171</width>
       <height>24</height>
      </rect>
     </property>
     <property name="text">
-     <string>Activer son</string>
+     <string>Activer le son</string>
     </property>
    </widget>
    <widget class="QLabel" name="nomGroupeLabel">
@@ -739,7 +739,7 @@ border-radius: 10px;</string>
      <rect>
       <x>1000</x>
       <y>230</y>
-      <width>121</width>
+      <width>171</width>
       <height>24</height>
      </rect>
     </property>
@@ -750,9 +750,9 @@ border-radius: 10px;</string>
    <widget class="QPushButton" name="creerGroupeButton">
     <property name="geometry">
      <rect>
-      <x>850</x>
+      <x>770</x>
       <y>230</y>
-      <width>121</width>
+      <width>201</width>
       <height>24</height>
      </rect>
     </property>
@@ -776,24 +776,14 @@ border-radius: 10px;</string>
    <widget class="QPushButton" name="supprimerGroupeButton">
     <property name="geometry">
      <rect>
-      <x>850</x>
-      <y>270</y>
-      <width>121</width>
+      <x>1080</x>
+      <y>280</y>
+      <width>171</width>
       <height>24</height>
      </rect>
     </property>
     <property name="text">
-     <string>Supprimer groupe : </string>
-    </property>
-   </widget>
-   <widget class="QSpinBox" name="selectionGroupe">
-    <property name="geometry">
-     <rect>
-      <x>1000</x>
-      <y>270</y>
-      <width>42</width>
-      <height>25</height>
-     </rect>
+     <string>Supprimer groupe séléctioné : </string>
     </property>
    </widget>
    <widget class="QTableWidget" name="TableauGroupe">
@@ -971,6 +961,54 @@ border:none;
      <string/>
     </property>
    </widget>
+   <widget class="QLabel" name="nomCreationGroupeLabel">
+    <property name="geometry">
+     <rect>
+      <x>1350</x>
+      <y>310</y>
+      <width>101</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Nom du groupe :</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="nomGroupeLineEdit">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>320</y>
+      <width>281</width>
+      <height>41</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="nomGroupeSelectionneLabel">
+    <property name="geometry">
+     <rect>
+      <x>730</x>
+      <y>270</y>
+      <width>131</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Groupe séléctionné : </string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="groupeSelectionneComboBox">
+    <property name="geometry">
+     <rect>
+      <x>900</x>
+      <y>280</y>
+      <width>131</width>
+      <height>24</height>
+     </rect>
+    </property>
+   </widget>
+   <zorder>nomGroupeLineEdit</zorder>
+   <zorder>nomCreationGroupeLabel</zorder>
    <zorder>alignerTableau_2</zorder>
    <zorder>StatutTableauGroupe</zorder>
    <zorder>LigneHaut</zorder>
@@ -983,8 +1021,8 @@ border:none;
    <zorder>EnregistrementButton</zorder>
    <zorder>PlanClasse</zorder>
    <zorder>ParametrageSession</zorder>
-   <zorder>NameLabel</zorder>
-   <zorder>NameLineEdit</zorder>
+   <zorder>NomProfLabel</zorder>
+   <zorder>NomProfLineEdit</zorder>
    <zorder>ChoixActLabel</zorder>
    <zorder>ChoixActivite</zorder>
    <zorder>DureeLabel</zorder>
@@ -1015,7 +1053,6 @@ border:none;
    <zorder>creerGroupeButton</zorder>
    <zorder>alignerTableau</zorder>
    <zorder>supprimerGroupeButton</zorder>
-   <zorder>selectionGroupe</zorder>
    <zorder>TableauGroupe</zorder>
    <zorder>nomEleveLineEdit</zorder>
    <zorder>Communication</zorder>
@@ -1026,6 +1063,8 @@ border:none;
    <zorder>modeClairButton</zorder>
    <zorder>PageStatut</zorder>
    <zorder>cacheButton</zorder>
+   <zorder>nomGroupeSelectionneLabel</zorder>
+   <zorder>groupeSelectionneComboBox</zorder>
   </widget>
  </widget>
  <resources/>

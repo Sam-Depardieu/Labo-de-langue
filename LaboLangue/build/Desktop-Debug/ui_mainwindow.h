@@ -18,7 +18,6 @@
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QSpinBox>
 #include <QtWidgets/QTableWidget>
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QTimeEdit>
@@ -40,8 +39,8 @@ public:
     QPushButton *EnregistrementButton;
     QGraphicsView *PlanClasse;
     QGraphicsView *ParametrageSession;
-    QLabel *NameLabel;
-    QLineEdit *NameLineEdit;
+    QLabel *NomProfLabel;
+    QLineEdit *NomProfLineEdit;
     QLabel *ChoixActLabel;
     QComboBox *ChoixActivite;
     QLabel *DureeLabel;
@@ -67,14 +66,27 @@ public:
     QPushButton *demuteButton;
     QPushButton *desactiverSonButton;
     QPushButton *activerSonButton;
-    QLabel *nomEleveLabel;
     QLabel *nomGroupeLabel;
     QPushButton *annulerButton;
     QPushButton *creerGroupeButton;
     QLabel *alignerTableau;
     QPushButton *supprimerGroupeButton;
-    QSpinBox *selectionGroupe;
     QTableWidget *TableauGroupe;
+    QLineEdit *nomEleveLineEdit;
+    QPushButton *Communication;
+    QPushButton *envoyerMessagePersonne;
+    QTextEdit *envoyerMessageTextEdit;
+    QPushButton *envoyerMessageGroupe;
+    QPushButton *modeSombreButton;
+    QPushButton *modeClairButton;
+    QGraphicsView *PageStatut;
+    QLabel *alignerTableau_2;
+    QTableWidget *StatutTableauGroupe;
+    QPushButton *cacheButton;
+    QLabel *nomCreationGroupeLabel;
+    QLineEdit *nomGroupeLineEdit;
+    QLabel *nomGroupeSelectionneLabel;
+    QComboBox *groupeSelectionneComboBox;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -89,7 +101,7 @@ public:
         LigneHaut = new QPushButton(centralwidget);
         LigneHaut->setObjectName("LigneHaut");
         LigneHaut->setEnabled(false);
-        LigneHaut->setGeometry(QRect(0, 0, 1601, 61));
+        LigneHaut->setGeometry(QRect(-40, -40, 1641, 101));
         LigneHaut->setAutoFillBackground(false);
         LigneHaut->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 151, 178);"));
         PlanButton = new QPushButton(centralwidget);
@@ -183,15 +195,15 @@ public:
         ParametrageSession->setEnabled(true);
         ParametrageSession->setGeometry(QRect(660, 70, 631, 681));
         ParametrageSession->setStyleSheet(QString::fromUtf8("background-color: white;"));
-        NameLabel = new QLabel(centralwidget);
-        NameLabel->setObjectName("NameLabel");
-        NameLabel->setEnabled(true);
-        NameLabel->setGeometry(QRect(880, 90, 81, 21));
-        NameLabel->setStyleSheet(QString::fromUtf8(""));
-        NameLineEdit = new QLineEdit(centralwidget);
-        NameLineEdit->setObjectName("NameLineEdit");
-        NameLineEdit->setEnabled(true);
-        NameLineEdit->setGeometry(QRect(980, 90, 221, 21));
+        NomProfLabel = new QLabel(centralwidget);
+        NomProfLabel->setObjectName("NomProfLabel");
+        NomProfLabel->setEnabled(true);
+        NomProfLabel->setGeometry(QRect(880, 90, 81, 21));
+        NomProfLabel->setStyleSheet(QString::fromUtf8(""));
+        NomProfLineEdit = new QLineEdit(centralwidget);
+        NomProfLineEdit->setObjectName("NomProfLineEdit");
+        NomProfLineEdit->setEnabled(true);
+        NomProfLineEdit->setGeometry(QRect(980, 90, 221, 21));
         ChoixActLabel = new QLabel(centralwidget);
         ChoixActLabel->setObjectName("ChoixActLabel");
         ChoixActLabel->setEnabled(true);
@@ -299,41 +311,150 @@ public:
 "border-radius: 10px;"));
         muteButton = new QPushButton(centralwidget);
         muteButton->setObjectName("muteButton");
-        muteButton->setGeometry(QRect(890, 150, 80, 24));
+        muteButton->setGeometry(QRect(1000, 150, 201, 24));
         demuteButton = new QPushButton(centralwidget);
         demuteButton->setObjectName("demuteButton");
-        demuteButton->setGeometry(QRect(1000, 150, 80, 24));
+        demuteButton->setGeometry(QRect(770, 190, 171, 24));
         desactiverSonButton = new QPushButton(centralwidget);
         desactiverSonButton->setObjectName("desactiverSonButton");
-        desactiverSonButton->setGeometry(QRect(850, 190, 121, 24));
+        desactiverSonButton->setGeometry(QRect(1000, 190, 201, 24));
         activerSonButton = new QPushButton(centralwidget);
         activerSonButton->setObjectName("activerSonButton");
-        activerSonButton->setGeometry(QRect(1000, 190, 121, 24));
-        nomEleveLabel = new QLabel(centralwidget);
-        nomEleveLabel->setObjectName("nomEleveLabel");
-        nomEleveLabel->setGeometry(QRect(1000, 90, 261, 41));
+        activerSonButton->setGeometry(QRect(770, 150, 171, 24));
         nomGroupeLabel = new QLabel(centralwidget);
         nomGroupeLabel->setObjectName("nomGroupeLabel");
-        nomGroupeLabel->setGeometry(QRect(680, 90, 291, 41));
+        nomGroupeLabel->setGeometry(QRect(680, 90, 101, 41));
         annulerButton = new QPushButton(centralwidget);
         annulerButton->setObjectName("annulerButton");
-        annulerButton->setGeometry(QRect(1000, 230, 121, 24));
+        annulerButton->setGeometry(QRect(1000, 230, 171, 24));
         creerGroupeButton = new QPushButton(centralwidget);
         creerGroupeButton->setObjectName("creerGroupeButton");
-        creerGroupeButton->setGeometry(QRect(850, 230, 121, 24));
+        creerGroupeButton->setGeometry(QRect(770, 230, 201, 24));
         alignerTableau = new QLabel(centralwidget);
         alignerTableau->setObjectName("alignerTableau");
         alignerTableau->setGeometry(QRect(700, 380, 31, 291));
         supprimerGroupeButton = new QPushButton(centralwidget);
         supprimerGroupeButton->setObjectName("supprimerGroupeButton");
-        supprimerGroupeButton->setGeometry(QRect(850, 270, 121, 24));
-        selectionGroupe = new QSpinBox(centralwidget);
-        selectionGroupe->setObjectName("selectionGroupe");
-        selectionGroupe->setGeometry(QRect(1000, 270, 42, 25));
+        supprimerGroupeButton->setGeometry(QRect(1080, 280, 171, 24));
         TableauGroupe = new QTableWidget(centralwidget);
         TableauGroupe->setObjectName("TableauGroupe");
         TableauGroupe->setGeometry(QRect(750, 380, 511, 291));
+        TableauGroupe->setStyleSheet(QString::fromUtf8(""));
+        nomEleveLineEdit = new QLineEdit(centralwidget);
+        nomEleveLineEdit->setObjectName("nomEleveLineEdit");
+        nomEleveLineEdit->setGeometry(QRect(800, 90, 281, 41));
+        Communication = new QPushButton(centralwidget);
+        Communication->setObjectName("Communication");
+        Communication->setGeometry(QRect(1110, 90, 161, 41));
+        envoyerMessagePersonne = new QPushButton(centralwidget);
+        envoyerMessagePersonne->setObjectName("envoyerMessagePersonne");
+        envoyerMessagePersonne->setGeometry(QRect(1080, 510, 191, 41));
+        envoyerMessageTextEdit = new QTextEdit(centralwidget);
+        envoyerMessageTextEdit->setObjectName("envoyerMessageTextEdit");
+        envoyerMessageTextEdit->setGeometry(QRect(750, 380, 331, 291));
+        envoyerMessageGroupe = new QPushButton(centralwidget);
+        envoyerMessageGroupe->setObjectName("envoyerMessageGroupe");
+        envoyerMessageGroupe->setGeometry(QRect(1080, 440, 191, 41));
+        modeSombreButton = new QPushButton(centralwidget);
+        modeSombreButton->setObjectName("modeSombreButton");
+        modeSombreButton->setGeometry(QRect(1230, 0, 61, 61));
+        modeSombreButton->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
+"border: none;\n"
+""));
+        modeClairButton = new QPushButton(centralwidget);
+        modeClairButton->setObjectName("modeClairButton");
+        modeClairButton->setGeometry(QRect(1230, 0, 61, 61));
+        modeClairButton->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
+"border: none;\n"
+""));
+        PageStatut = new QGraphicsView(centralwidget);
+        PageStatut->setObjectName("PageStatut");
+        PageStatut->setGeometry(QRect(660, 70, 631, 681));
+        PageStatut->setStyleSheet(QString::fromUtf8("background-color: white;"));
+        alignerTableau_2 = new QLabel(centralwidget);
+        alignerTableau_2->setObjectName("alignerTableau_2");
+        alignerTableau_2->setGeometry(QRect(700, 110, 31, 501));
+        StatutTableauGroupe = new QTableWidget(centralwidget);
+        StatutTableauGroupe->setObjectName("StatutTableauGroupe");
+        StatutTableauGroupe->setGeometry(QRect(770, 110, 441, 501));
+        StatutTableauGroupe->setStyleSheet(QString::fromUtf8(""));
+        cacheButton = new QPushButton(centralwidget);
+        cacheButton->setObjectName("cacheButton");
+        cacheButton->setGeometry(QRect(0, 740, 21, 24));
+        cacheButton->setStyleSheet(QString::fromUtf8("background-color:transparent;\n"
+"border:none;\n"
+""));
+        nomCreationGroupeLabel = new QLabel(centralwidget);
+        nomCreationGroupeLabel->setObjectName("nomCreationGroupeLabel");
+        nomCreationGroupeLabel->setGeometry(QRect(1350, 310, 101, 41));
+        nomGroupeLineEdit = new QLineEdit(centralwidget);
+        nomGroupeLineEdit->setObjectName("nomGroupeLineEdit");
+        nomGroupeLineEdit->setGeometry(QRect(260, 320, 281, 41));
+        nomGroupeSelectionneLabel = new QLabel(centralwidget);
+        nomGroupeSelectionneLabel->setObjectName("nomGroupeSelectionneLabel");
+        nomGroupeSelectionneLabel->setGeometry(QRect(730, 270, 131, 41));
+        groupeSelectionneComboBox = new QComboBox(centralwidget);
+        groupeSelectionneComboBox->setObjectName("groupeSelectionneComboBox");
+        groupeSelectionneComboBox->setGeometry(QRect(900, 280, 131, 24));
         MainWindow->setCentralWidget(centralwidget);
+        nomGroupeLineEdit->raise();
+        nomCreationGroupeLabel->raise();
+        alignerTableau_2->raise();
+        StatutTableauGroupe->raise();
+        LigneHaut->raise();
+        PlanButton->raise();
+        PresenceButton->raise();
+        SessionButton->raise();
+        AppelButton->raise();
+        StatutButton->raise();
+        AideButton->raise();
+        EnregistrementButton->raise();
+        PlanClasse->raise();
+        ParametrageSession->raise();
+        NomProfLabel->raise();
+        NomProfLineEdit->raise();
+        ChoixActLabel->raise();
+        ChoixActivite->raise();
+        DureeLabel->raise();
+        DureeActivite->raise();
+        ConsigneLabel->raise();
+        ConsigneTextEdit->raise();
+        ClasseLabel->raise();
+        ChoixClasse->raise();
+        ParticipantsLabel->raise();
+        selectAll->raise();
+        selectManuel->raise();
+        validButton->raise();
+        echapButton->raise();
+        delButton->raise();
+        errorLabel->raise();
+        SourceLabel->raise();
+        SourceButton->raise();
+        NameSourceLabel->raise();
+        loadSession->raise();
+        ParametrageEleve->raise();
+        CreationButton->raise();
+        muteButton->raise();
+        demuteButton->raise();
+        desactiverSonButton->raise();
+        activerSonButton->raise();
+        nomGroupeLabel->raise();
+        annulerButton->raise();
+        creerGroupeButton->raise();
+        alignerTableau->raise();
+        supprimerGroupeButton->raise();
+        TableauGroupe->raise();
+        nomEleveLineEdit->raise();
+        Communication->raise();
+        envoyerMessagePersonne->raise();
+        envoyerMessageTextEdit->raise();
+        envoyerMessageGroupe->raise();
+        modeSombreButton->raise();
+        modeClairButton->raise();
+        PageStatut->raise();
+        cacheButton->raise();
+        nomGroupeSelectionneLabel->raise();
+        groupeSelectionneComboBox->raise();
 
         retranslateUi(MainWindow);
 
@@ -351,7 +472,7 @@ public:
         StatutButton->setText(QCoreApplication::translate("MainWindow", "Statut", nullptr));
         AideButton->setText(QCoreApplication::translate("MainWindow", "Aide", nullptr));
         EnregistrementButton->setText(QCoreApplication::translate("MainWindow", "Enregistrement", nullptr));
-        NameLabel->setText(QCoreApplication::translate("MainWindow", "Votre Nom :", nullptr));
+        NomProfLabel->setText(QCoreApplication::translate("MainWindow", "Votre Nom :", nullptr));
         ChoixActLabel->setText(QCoreApplication::translate("MainWindow", "Type activit\303\251 :", nullptr));
         DureeLabel->setText(QCoreApplication::translate("MainWindow", "Dur\303\251e activit\303\251 :", nullptr));
         ConsigneLabel->setText(QCoreApplication::translate("MainWindow", "Consigne :", nullptr));
@@ -368,16 +489,32 @@ public:
         NameSourceLabel->setText(QString());
         loadSession->setText(QCoreApplication::translate("MainWindow", "Charger une session", nullptr));
         CreationButton->setText(QCoreApplication::translate("MainWindow", "Creation", nullptr));
-        muteButton->setText(QCoreApplication::translate("MainWindow", "Mute", nullptr));
-        demuteButton->setText(QCoreApplication::translate("MainWindow", "Demute", nullptr));
-        desactiverSonButton->setText(QCoreApplication::translate("MainWindow", "Desactiver son", nullptr));
-        activerSonButton->setText(QCoreApplication::translate("MainWindow", "Activer son", nullptr));
-        nomEleveLabel->setText(QString());
+        muteButton->setText(QCoreApplication::translate("MainWindow", "Couper le micro", nullptr));
+        demuteButton->setText(QCoreApplication::translate("MainWindow", "Activer le micro", nullptr));
+        desactiverSonButton->setText(QCoreApplication::translate("MainWindow", "Couper le son", nullptr));
+        activerSonButton->setText(QCoreApplication::translate("MainWindow", "Activer le son", nullptr));
         nomGroupeLabel->setText(QCoreApplication::translate("MainWindow", "Poste s\303\251l\303\251ction\303\251 :", nullptr));
         annulerButton->setText(QCoreApplication::translate("MainWindow", "Annuler", nullptr));
         creerGroupeButton->setText(QCoreApplication::translate("MainWindow", "Creer un groupe", nullptr));
         alignerTableau->setText(QString());
-        supprimerGroupeButton->setText(QCoreApplication::translate("MainWindow", "Supprimer groupe : ", nullptr));
+        supprimerGroupeButton->setText(QCoreApplication::translate("MainWindow", "Supprimer groupe s\303\251l\303\251ction\303\251 : ", nullptr));
+        Communication->setText(QCoreApplication::translate("MainWindow", "Communication", nullptr));
+        envoyerMessagePersonne->setText(QCoreApplication::translate("MainWindow", "Envoyer le message (\303\240 la personne)", nullptr));
+        envoyerMessageTextEdit->setHtml(QCoreApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", nullptr));
+        envoyerMessageGroupe->setText(QCoreApplication::translate("MainWindow", "Envoyer le message (au groupe)", nullptr));
+        modeSombreButton->setText(QString());
+        modeClairButton->setText(QString());
+        alignerTableau_2->setText(QString());
+        cacheButton->setText(QString());
+        nomCreationGroupeLabel->setText(QCoreApplication::translate("MainWindow", "Nom du groupe :", nullptr));
+        nomGroupeSelectionneLabel->setText(QCoreApplication::translate("MainWindow", "Groupe s\303\251l\303\251ctionn\303\251 : ", nullptr));
     } // retranslateUi
 
 };

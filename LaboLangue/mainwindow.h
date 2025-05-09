@@ -4,13 +4,16 @@
 #include "iconEleveGroup.h"
 #include "AudioCommunicator.h"
 #include "qcm.h"
+#include "choixsession.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
 class iconEleveGroup;
 class QCM;
+class choixSession;
 }
+
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
@@ -29,6 +32,13 @@ public:
     iconEleveGroup* eleveActuellementParametre = nullptr;
     QCM *qcm = nullptr;
 
+    QMap<QString, std::vector<iconEleveGroup*>> listeGroup = {};
+    /*
+    Clé (QString)	Valeur (std::vector<iconEleveGroup*>)
+    "Groupe A"      [Alice, Bob]
+    "Groupe B"      [Charlie, David]
+    */
+
     bool parametrageSession = false;
     bool selectionParticipants = false;
     bool selectAllParticipants = false;
@@ -40,6 +50,7 @@ public:
     QString getSessionFolder() {return sessionFolder;};
     void setNomEtudiantLineEdit(QString nom);
     void updateCheckItemsVisibility();
+    bool getModeSombre() {return modeSombre;};
 
     ~MainWindow();
 
@@ -52,6 +63,9 @@ private slots:
     void addHorizontalLayout(QVBoxLayout *layout, std::initializer_list<QWidget*> widgets);
     void showCheckIconOnGroup(iconEleveGroup *group);
     void majStatusQCM();
+    void changeNameTable(QTableWidgetItem* item);
+    void updateEleveNom(iconEleveGroup* eleve, const QString& newName);
+    void updateNomDansBDD(int idEleve, const QString& nouveauNom);
 
     // Bouton de Création de Session
     void on_SessionButton_clicked();
@@ -78,8 +92,6 @@ private slots:
     void on_annulerButton_clicked();
     void on_Communication_clicked();
     void on_nomEleveLineEdit_editingFinished();
-    void changeNameTable(QTableWidgetItem* item);
-    void changeNameGroup(iconEleveGroup *group, QString newName);
     void loadInformationTable();
     void on_envoyerMessagePersonne_clicked();
     void on_envoyerMessageGroupe_clicked();
@@ -91,6 +103,8 @@ private slots:
     void on_StatutButton_clicked();
 
     void on_cacheButton_clicked();
+
+    void onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve);
 
 private:
     QGraphicsScene *scene;
@@ -107,7 +121,7 @@ private:
     int typeActivite;
 
     QTableWidget* TableauGroupe ;
-
+    bool modeSombre = true;
     QTableWidget* StatutTableauGroupe ;
 
     QUdpSocket* udpSocketQCM;

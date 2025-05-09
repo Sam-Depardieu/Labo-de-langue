@@ -30,59 +30,67 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 namespace {
 struct qt_meta_stringdata_MainWindow_t {
-    uint offsetsAndSizes[104];
+    uint offsetsAndSizes[120];
     char stringdata0[11];
     char stringdata1[22];
     char stringdata2[1];
-    char stringdata3[14];
-    char stringdata4[11];
-    char stringdata5[6];
+    char stringdata3[17];
+    char stringdata4[18];
+    char stringdata5[26];
     char stringdata6[17];
-    char stringdata7[18];
-    char stringdata8[26];
-    char stringdata9[24];
-    char stringdata10[21];
-    char stringdata11[25];
-    char stringdata12[37];
-    char stringdata13[6];
-    char stringdata14[24];
-    char stringdata15[17];
-    char stringdata16[13];
-    char stringdata17[7];
-    char stringdata18[7];
-    char stringdata19[20];
-    char stringdata20[13];
-    char stringdata21[7];
-    char stringdata22[9];
-    char stringdata23[8];
+    char stringdata7[13];
+    char stringdata8[7];
+    char stringdata9[7];
+    char stringdata10[20];
+    char stringdata11[13];
+    char stringdata12[7];
+    char stringdata13[32];
+    char stringdata14[8];
+    char stringdata15[21];
+    char stringdata16[16];
+    char stringdata17[6];
+    char stringdata18[13];
+    char stringdata19[16];
+    char stringdata20[18];
+    char stringdata21[5];
+    char stringdata22[15];
+    char stringdata23[6];
     char stringdata24[8];
-    char stringdata25[8];
-    char stringdata26[13];
-    char stringdata27[8];
-    char stringdata28[8];
-    char stringdata29[8];
-    char stringdata30[21];
+    char stringdata25[17];
+    char stringdata26[8];
+    char stringdata27[11];
+    char stringdata28[25];
+    char stringdata29[37];
+    char stringdata30[6];
     char stringdata31[23];
-    char stringdata32[21];
-    char stringdata33[16];
-    char stringdata34[6];
-    char stringdata35[24];
-    char stringdata36[21];
-    char stringdata37[16];
-    char stringdata38[13];
-    char stringdata39[23];
-    char stringdata40[13];
-    char stringdata41[23];
-    char stringdata42[26];
-    char stringdata43[16];
-    char stringdata44[18];
-    char stringdata45[5];
-    char stringdata46[22];
-    char stringdata47[24];
-    char stringdata48[31];
-    char stringdata49[28];
-    char stringdata50[29];
-    char stringdata51[25];
+    char stringdata32[26];
+    char stringdata33[21];
+    char stringdata34[24];
+    char stringdata35[23];
+    char stringdata36[24];
+    char stringdata37[21];
+    char stringdata38[23];
+    char stringdata39[13];
+    char stringdata40[24];
+    char stringdata41[21];
+    char stringdata42[16];
+    char stringdata43[13];
+    char stringdata44[22];
+    char stringdata45[24];
+    char stringdata46[31];
+    char stringdata47[28];
+    char stringdata48[29];
+    char stringdata49[25];
+    char stringdata50[25];
+    char stringdata51[36];
+    char stringdata52[21];
+    char stringdata53[34];
+    char stringdata54[32];
+    char stringdata55[27];
+    char stringdata56[28];
+    char stringdata57[24];
+    char stringdata58[23];
+    char stringdata59[34];
 };
 #define QT_MOC_LITERAL(ofs, len) \
     uint(sizeof(qt_meta_stringdata_MainWindow_t::offsetsAndSizes) + ofs), len 
@@ -91,71 +99,70 @@ Q_CONSTINIT static const qt_meta_stringdata_MainWindow_t qt_meta_stringdata_Main
         QT_MOC_LITERAL(0, 10),  // "MainWindow"
         QT_MOC_LITERAL(11, 21),  // "on_PlanButton_clicked"
         QT_MOC_LITERAL(33, 0),  // ""
-        QT_MOC_LITERAL(34, 13),  // "keyPressEvent"
-        QT_MOC_LITERAL(48, 10),  // "QKeyEvent*"
-        QT_MOC_LITERAL(59, 5),  // "event"
-        QT_MOC_LITERAL(65, 16),  // "loadImagesFromDB"
-        QT_MOC_LITERAL(82, 17),  // "connectToDatabase"
-        QT_MOC_LITERAL(100, 25),  // "onImageGroupDoubleClicked"
-        QT_MOC_LITERAL(126, 23),  // "setupActivitiesComboBox"
-        QT_MOC_LITERAL(150, 20),  // "setupClassesComboBox"
-        QT_MOC_LITERAL(171, 24),  // "on_SessionButton_clicked"
-        QT_MOC_LITERAL(196, 36),  // "on_ChoixActivite_currentIndex..."
-        QT_MOC_LITERAL(233, 5),  // "index"
-        QT_MOC_LITERAL(239, 23),  // "on_selectManuel_clicked"
-        QT_MOC_LITERAL(263, 16),  // "editStatusButton"
-        QT_MOC_LITERAL(280, 12),  // "QPushButton*"
-        QT_MOC_LITERAL(293, 6),  // "button"
-        QT_MOC_LITERAL(300, 6),  // "status"
-        QT_MOC_LITERAL(307, 19),  // "addHorizontalLayout"
-        QT_MOC_LITERAL(327, 12),  // "QVBoxLayout*"
-        QT_MOC_LITERAL(340, 6),  // "layout"
-        QT_MOC_LITERAL(347, 8),  // "QWidget*"
-        QT_MOC_LITERAL(356, 7),  // "widget1"
-        QT_MOC_LITERAL(364, 7),  // "widget2"
-        QT_MOC_LITERAL(372, 7),  // "widget3"
-        QT_MOC_LITERAL(380, 12),  // "addButtonRow"
-        QT_MOC_LITERAL(393, 7),  // "button1"
-        QT_MOC_LITERAL(401, 7),  // "button2"
-        QT_MOC_LITERAL(409, 7),  // "button3"
-        QT_MOC_LITERAL(417, 20),  // "on_selectAll_clicked"
-        QT_MOC_LITERAL(438, 22),  // "on_validButton_clicked"
-        QT_MOC_LITERAL(461, 20),  // "showCheckIconOnGroup"
-        QT_MOC_LITERAL(482, 15),  // "iconEleveGroup*"
-        QT_MOC_LITERAL(498, 5),  // "group"
-        QT_MOC_LITERAL(504, 23),  // "on_SourceButton_clicked"
-        QT_MOC_LITERAL(528, 20),  // "on_delButton_clicked"
-        QT_MOC_LITERAL(549, 15),  // "saveSessionData"
-        QT_MOC_LITERAL(565, 12),  // "isNewSession"
-        QT_MOC_LITERAL(578, 22),  // "on_echapButton_clicked"
-        QT_MOC_LITERAL(601, 12),  // "resetSession"
-        QT_MOC_LITERAL(614, 22),  // "on_loadSession_clicked"
-        QT_MOC_LITERAL(637, 25),  // "on_CreationButton_clicked"
-        QT_MOC_LITERAL(663, 15),  // "changeNameTable"
-        QT_MOC_LITERAL(679, 17),  // "QTableWidgetItem*"
-        QT_MOC_LITERAL(697, 4),  // "item"
-        QT_MOC_LITERAL(702, 21),  // "on_muteButton_clicked"
-        QT_MOC_LITERAL(724, 23),  // "on_demuteButton_clicked"
-        QT_MOC_LITERAL(748, 30),  // "on_desactiverSonButton_clicked"
-        QT_MOC_LITERAL(779, 27),  // "on_activerSonButton_clicked"
-        QT_MOC_LITERAL(807, 28),  // "on_creerGroupeButton_clicked"
-        QT_MOC_LITERAL(836, 24)   // "on_annulerButton_clicked"
+        QT_MOC_LITERAL(34, 16),  // "loadImagesFromDB"
+        QT_MOC_LITERAL(51, 17),  // "connectToDatabase"
+        QT_MOC_LITERAL(69, 25),  // "onImageGroupDoubleClicked"
+        QT_MOC_LITERAL(95, 16),  // "editStatusButton"
+        QT_MOC_LITERAL(112, 12),  // "QPushButton*"
+        QT_MOC_LITERAL(125, 6),  // "button"
+        QT_MOC_LITERAL(132, 6),  // "status"
+        QT_MOC_LITERAL(139, 19),  // "addHorizontalLayout"
+        QT_MOC_LITERAL(159, 12),  // "QVBoxLayout*"
+        QT_MOC_LITERAL(172, 6),  // "layout"
+        QT_MOC_LITERAL(179, 31),  // "std::initializer_list<QWidget*>"
+        QT_MOC_LITERAL(211, 7),  // "widgets"
+        QT_MOC_LITERAL(219, 20),  // "showCheckIconOnGroup"
+        QT_MOC_LITERAL(240, 15),  // "iconEleveGroup*"
+        QT_MOC_LITERAL(256, 5),  // "group"
+        QT_MOC_LITERAL(262, 12),  // "majStatusQCM"
+        QT_MOC_LITERAL(275, 15),  // "changeNameTable"
+        QT_MOC_LITERAL(291, 17),  // "QTableWidgetItem*"
+        QT_MOC_LITERAL(309, 4),  // "item"
+        QT_MOC_LITERAL(314, 14),  // "updateEleveNom"
+        QT_MOC_LITERAL(329, 5),  // "eleve"
+        QT_MOC_LITERAL(335, 7),  // "newName"
+        QT_MOC_LITERAL(343, 16),  // "updateNomDansBDD"
+        QT_MOC_LITERAL(360, 7),  // "idEleve"
+        QT_MOC_LITERAL(368, 10),  // "nouveauNom"
+        QT_MOC_LITERAL(379, 24),  // "on_SessionButton_clicked"
+        QT_MOC_LITERAL(404, 36),  // "on_ChoixActivite_currentIndex..."
+        QT_MOC_LITERAL(441, 5),  // "index"
+        QT_MOC_LITERAL(447, 22),  // "on_loadSession_clicked"
+        QT_MOC_LITERAL(470, 25),  // "on_CreationButton_clicked"
+        QT_MOC_LITERAL(496, 20),  // "on_selectAll_clicked"
+        QT_MOC_LITERAL(517, 23),  // "on_selectManuel_clicked"
+        QT_MOC_LITERAL(541, 22),  // "on_validButton_clicked"
+        QT_MOC_LITERAL(564, 23),  // "on_SourceButton_clicked"
+        QT_MOC_LITERAL(588, 20),  // "on_delButton_clicked"
+        QT_MOC_LITERAL(609, 22),  // "on_echapButton_clicked"
+        QT_MOC_LITERAL(632, 12),  // "resetSession"
+        QT_MOC_LITERAL(645, 23),  // "setupActivitiesComboBox"
+        QT_MOC_LITERAL(669, 20),  // "setupClassesComboBox"
+        QT_MOC_LITERAL(690, 15),  // "saveSessionData"
+        QT_MOC_LITERAL(706, 12),  // "isNewSession"
+        QT_MOC_LITERAL(719, 21),  // "on_muteButton_clicked"
+        QT_MOC_LITERAL(741, 23),  // "on_demuteButton_clicked"
+        QT_MOC_LITERAL(765, 30),  // "on_desactiverSonButton_clicked"
+        QT_MOC_LITERAL(796, 27),  // "on_activerSonButton_clicked"
+        QT_MOC_LITERAL(824, 28),  // "on_creerGroupeButton_clicked"
+        QT_MOC_LITERAL(853, 24),  // "on_annulerButton_clicked"
+        QT_MOC_LITERAL(878, 24),  // "on_Communication_clicked"
+        QT_MOC_LITERAL(903, 35),  // "on_nomEleveLineEdit_editingFi..."
+        QT_MOC_LITERAL(939, 20),  // "loadInformationTable"
+        QT_MOC_LITERAL(960, 33),  // "on_envoyerMessagePersonne_cli..."
+        QT_MOC_LITERAL(994, 31),  // "on_envoyerMessageGroupe_clicked"
+        QT_MOC_LITERAL(1026, 26),  // "on_modeClairButton_clicked"
+        QT_MOC_LITERAL(1053, 27),  // "on_modeSombreButton_clicked"
+        QT_MOC_LITERAL(1081, 23),  // "on_StatutButton_clicked"
+        QT_MOC_LITERAL(1105, 22),  // "on_cacheButton_clicked"
+        QT_MOC_LITERAL(1128, 33)   // "onClicked_itemBoutonAjouterGr..."
     },
     "MainWindow",
     "on_PlanButton_clicked",
     "",
-    "keyPressEvent",
-    "QKeyEvent*",
-    "event",
     "loadImagesFromDB",
     "connectToDatabase",
     "onImageGroupDoubleClicked",
-    "setupActivitiesComboBox",
-    "setupClassesComboBox",
-    "on_SessionButton_clicked",
-    "on_ChoixActivite_currentIndexChanged",
-    "index",
-    "on_selectManuel_clicked",
     "editStatusButton",
     "QPushButton*",
     "button",
@@ -163,36 +170,53 @@ Q_CONSTINIT static const qt_meta_stringdata_MainWindow_t qt_meta_stringdata_Main
     "addHorizontalLayout",
     "QVBoxLayout*",
     "layout",
-    "QWidget*",
-    "widget1",
-    "widget2",
-    "widget3",
-    "addButtonRow",
-    "button1",
-    "button2",
-    "button3",
-    "on_selectAll_clicked",
-    "on_validButton_clicked",
+    "std::initializer_list<QWidget*>",
+    "widgets",
     "showCheckIconOnGroup",
     "iconEleveGroup*",
     "group",
-    "on_SourceButton_clicked",
-    "on_delButton_clicked",
-    "saveSessionData",
-    "isNewSession",
-    "on_echapButton_clicked",
-    "resetSession",
-    "on_loadSession_clicked",
-    "on_CreationButton_clicked",
+    "majStatusQCM",
     "changeNameTable",
     "QTableWidgetItem*",
     "item",
+    "updateEleveNom",
+    "eleve",
+    "newName",
+    "updateNomDansBDD",
+    "idEleve",
+    "nouveauNom",
+    "on_SessionButton_clicked",
+    "on_ChoixActivite_currentIndexChanged",
+    "index",
+    "on_loadSession_clicked",
+    "on_CreationButton_clicked",
+    "on_selectAll_clicked",
+    "on_selectManuel_clicked",
+    "on_validButton_clicked",
+    "on_SourceButton_clicked",
+    "on_delButton_clicked",
+    "on_echapButton_clicked",
+    "resetSession",
+    "setupActivitiesComboBox",
+    "setupClassesComboBox",
+    "saveSessionData",
+    "isNewSession",
     "on_muteButton_clicked",
     "on_demuteButton_clicked",
     "on_desactiverSonButton_clicked",
     "on_activerSonButton_clicked",
     "on_creerGroupeButton_clicked",
-    "on_annulerButton_clicked"
+    "on_annulerButton_clicked",
+    "on_Communication_clicked",
+    "on_nomEleveLineEdit_editingFinished",
+    "loadInformationTable",
+    "on_envoyerMessagePersonne_clicked",
+    "on_envoyerMessageGroupe_clicked",
+    "on_modeClairButton_clicked",
+    "on_modeSombreButton_clicked",
+    "on_StatutButton_clicked",
+    "on_cacheButton_clicked",
+    "onClicked_itemBoutonAjouterGroupe"
 };
 #undef QT_MOC_LITERAL
 } // unnamed namespace
@@ -203,7 +227,7 @@ Q_CONSTINIT static const uint qt_meta_data_MainWindow[] = {
       10,       // revision
        0,       // classname
        0,    0, // classinfo
-      31,   14, // methods
+      41,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -211,70 +235,90 @@ Q_CONSTINIT static const uint qt_meta_data_MainWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    0,  200,    2, 0x08,    1 /* Private */,
-       3,    1,  201,    2, 0x08,    2 /* Private */,
-       6,    0,  204,    2, 0x08,    4 /* Private */,
-       7,    0,  205,    2, 0x08,    5 /* Private */,
-       8,    0,  206,    2, 0x08,    6 /* Private */,
-       9,    0,  207,    2, 0x08,    7 /* Private */,
-      10,    0,  208,    2, 0x08,    8 /* Private */,
-      11,    0,  209,    2, 0x08,    9 /* Private */,
-      12,    1,  210,    2, 0x08,   10 /* Private */,
-      14,    0,  213,    2, 0x08,   12 /* Private */,
-      15,    2,  214,    2, 0x08,   13 /* Private */,
-      19,    3,  219,    2, 0x08,   16 /* Private */,
-      19,    4,  226,    2, 0x08,   20 /* Private */,
-      26,    4,  235,    2, 0x08,   25 /* Private */,
-      30,    0,  244,    2, 0x08,   30 /* Private */,
-      31,    0,  245,    2, 0x08,   31 /* Private */,
-      32,    1,  246,    2, 0x08,   32 /* Private */,
-      35,    0,  249,    2, 0x08,   34 /* Private */,
-      36,    0,  250,    2, 0x08,   35 /* Private */,
-      37,    1,  251,    2, 0x08,   36 /* Private */,
-      39,    0,  254,    2, 0x08,   38 /* Private */,
-      40,    0,  255,    2, 0x08,   39 /* Private */,
-      41,    0,  256,    2, 0x08,   40 /* Private */,
-      42,    0,  257,    2, 0x08,   41 /* Private */,
-      43,    1,  258,    2, 0x08,   42 /* Private */,
-      46,    0,  261,    2, 0x08,   44 /* Private */,
-      47,    0,  262,    2, 0x08,   45 /* Private */,
-      48,    0,  263,    2, 0x08,   46 /* Private */,
-      49,    0,  264,    2, 0x08,   47 /* Private */,
-      50,    0,  265,    2, 0x08,   48 /* Private */,
-      51,    0,  266,    2, 0x08,   49 /* Private */,
+       1,    0,  260,    2, 0x08,    1 /* Private */,
+       3,    0,  261,    2, 0x08,    2 /* Private */,
+       4,    0,  262,    2, 0x08,    3 /* Private */,
+       5,    0,  263,    2, 0x08,    4 /* Private */,
+       6,    2,  264,    2, 0x08,    5 /* Private */,
+      10,    2,  269,    2, 0x08,    8 /* Private */,
+      15,    1,  274,    2, 0x08,   11 /* Private */,
+      18,    0,  277,    2, 0x08,   13 /* Private */,
+      19,    1,  278,    2, 0x08,   14 /* Private */,
+      22,    2,  281,    2, 0x08,   16 /* Private */,
+      25,    2,  286,    2, 0x08,   19 /* Private */,
+      28,    0,  291,    2, 0x08,   22 /* Private */,
+      29,    1,  292,    2, 0x08,   23 /* Private */,
+      31,    0,  295,    2, 0x08,   25 /* Private */,
+      32,    0,  296,    2, 0x08,   26 /* Private */,
+      33,    0,  297,    2, 0x08,   27 /* Private */,
+      34,    0,  298,    2, 0x08,   28 /* Private */,
+      35,    0,  299,    2, 0x08,   29 /* Private */,
+      36,    0,  300,    2, 0x08,   30 /* Private */,
+      37,    0,  301,    2, 0x08,   31 /* Private */,
+      38,    0,  302,    2, 0x08,   32 /* Private */,
+      39,    0,  303,    2, 0x08,   33 /* Private */,
+      40,    0,  304,    2, 0x08,   34 /* Private */,
+      41,    0,  305,    2, 0x08,   35 /* Private */,
+      42,    1,  306,    2, 0x08,   36 /* Private */,
+      44,    0,  309,    2, 0x08,   38 /* Private */,
+      45,    0,  310,    2, 0x08,   39 /* Private */,
+      46,    0,  311,    2, 0x08,   40 /* Private */,
+      47,    0,  312,    2, 0x08,   41 /* Private */,
+      48,    0,  313,    2, 0x08,   42 /* Private */,
+      49,    0,  314,    2, 0x08,   43 /* Private */,
+      50,    0,  315,    2, 0x08,   44 /* Private */,
+      51,    0,  316,    2, 0x08,   45 /* Private */,
+      52,    0,  317,    2, 0x08,   46 /* Private */,
+      53,    0,  318,    2, 0x08,   47 /* Private */,
+      54,    0,  319,    2, 0x08,   48 /* Private */,
+      55,    0,  320,    2, 0x08,   49 /* Private */,
+      56,    0,  321,    2, 0x08,   50 /* Private */,
+      57,    0,  322,    2, 0x08,   51 /* Private */,
+      58,    0,  323,    2, 0x08,   52 /* Private */,
+      59,    1,  324,    2, 0x08,   53 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 4,    5,
     QMetaType::Void,
     QMetaType::Bool,
     QMetaType::Void,
+    QMetaType::Void, 0x80000000 | 7, QMetaType::Bool,    8,    9,
+    QMetaType::Void, 0x80000000 | 11, 0x80000000 | 13,   12,   14,
+    QMetaType::Void, 0x80000000 | 16,   17,
     QMetaType::Void,
+    QMetaType::Void, 0x80000000 | 20,   21,
+    QMetaType::Void, 0x80000000 | 16, QMetaType::QString,   23,   24,
+    QMetaType::Void, QMetaType::Int, QMetaType::QString,   26,   27,
     QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void, QMetaType::Int,   13,
-    QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 16, QMetaType::Bool,   17,   18,
-    QMetaType::Void, 0x80000000 | 20, 0x80000000 | 22, 0x80000000 | 22,   21,   23,   24,
-    QMetaType::Void, 0x80000000 | 20, 0x80000000 | 22, 0x80000000 | 22, 0x80000000 | 22,   21,   23,   24,   25,
-    QMetaType::Void, 0x80000000 | 20, 0x80000000 | 22, 0x80000000 | 22, 0x80000000 | 22,   21,   27,   28,   29,
-    QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 33,   34,
-    QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void, QMetaType::Bool,   38,
-    QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 44,   45,
+    QMetaType::Void, QMetaType::Int,   30,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::Bool,   43,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void, 0x80000000 | 16,   23,
 
        0        // eod
 };
@@ -290,25 +334,11 @@ Q_CONSTINIT const QMetaObject MainWindow::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<MainWindow, std::true_type>,
         // method 'on_PlanButton_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'keyPressEvent'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        QtPrivate::TypeAndForceComplete<QKeyEvent *, std::false_type>,
         // method 'loadImagesFromDB'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'connectToDatabase'
         QtPrivate::TypeAndForceComplete<bool, std::false_type>,
         // method 'onImageGroupDoubleClicked'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'setupActivitiesComboBox'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'setupClassesComboBox'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'on_SessionButton_clicked'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'on_ChoixActivite_currentIndexChanged'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        QtPrivate::TypeAndForceComplete<int, std::false_type>,
-        // method 'on_selectManuel_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'editStatusButton'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
@@ -317,45 +347,53 @@ Q_CONSTINIT const QMetaObject MainWindow::staticMetaObject = { {
         // method 'addHorizontalLayout'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<QVBoxLayout *, std::false_type>,
-        QtPrivate::TypeAndForceComplete<QWidget *, std::false_type>,
-        QtPrivate::TypeAndForceComplete<QWidget *, std::false_type>,
-        // method 'addHorizontalLayout'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        QtPrivate::TypeAndForceComplete<QVBoxLayout *, std::false_type>,
-        QtPrivate::TypeAndForceComplete<QWidget *, std::false_type>,
-        QtPrivate::TypeAndForceComplete<QWidget *, std::false_type>,
-        QtPrivate::TypeAndForceComplete<QWidget *, std::false_type>,
-        // method 'addButtonRow'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        QtPrivate::TypeAndForceComplete<QVBoxLayout *, std::false_type>,
-        QtPrivate::TypeAndForceComplete<QWidget *, std::false_type>,
-        QtPrivate::TypeAndForceComplete<QWidget *, std::false_type>,
-        QtPrivate::TypeAndForceComplete<QWidget *, std::false_type>,
-        // method 'on_selectAll_clicked'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'on_validButton_clicked'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<std::initializer_list<QWidget*>, std::false_type>,
         // method 'showCheckIconOnGroup'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<iconEleveGroup *, std::false_type>,
-        // method 'on_SourceButton_clicked'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'on_delButton_clicked'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'saveSessionData'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        QtPrivate::TypeAndForceComplete<bool, std::false_type>,
-        // method 'on_echapButton_clicked'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'resetSession'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'on_loadSession_clicked'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'on_CreationButton_clicked'
+        // method 'majStatusQCM'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'changeNameTable'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<QTableWidgetItem *, std::false_type>,
+        // method 'updateEleveNom'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<iconEleveGroup *, std::false_type>,
+        QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
+        // method 'updateNomDansBDD'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<int, std::false_type>,
+        QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
+        // method 'on_SessionButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_ChoixActivite_currentIndexChanged'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<int, std::false_type>,
+        // method 'on_loadSession_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_CreationButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_selectAll_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_selectManuel_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_validButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_SourceButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_delButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_echapButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'resetSession'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'setupActivitiesComboBox'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'setupClassesComboBox'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'saveSessionData'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<bool, std::false_type>,
         // method 'on_muteButton_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_demuteButton_clicked'
@@ -367,7 +405,28 @@ Q_CONSTINIT const QMetaObject MainWindow::staticMetaObject = { {
         // method 'on_creerGroupeButton_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_annulerButton_clicked'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_Communication_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_nomEleveLineEdit_editingFinished'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'loadInformationTable'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_envoyerMessagePersonne_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_envoyerMessageGroupe_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_modeClairButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_modeSombreButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_StatutButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_cacheButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'onClicked_itemBoutonAjouterGroupe'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<iconEleveGroup *, std::false_type>
     >,
     nullptr
 } };
@@ -379,82 +438,81 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         (void)_t;
         switch (_id) {
         case 0: _t->on_PlanButton_clicked(); break;
-        case 1: _t->keyPressEvent((*reinterpret_cast< std::add_pointer_t<QKeyEvent*>>(_a[1]))); break;
-        case 2: _t->loadImagesFromDB(); break;
-        case 3: { bool _r = _t->connectToDatabase();
+        case 1: _t->loadImagesFromDB(); break;
+        case 2: { bool _r = _t->connectToDatabase();
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
-        case 4: _t->onImageGroupDoubleClicked(); break;
-        case 5: _t->setupActivitiesComboBox(); break;
-        case 6: _t->setupClassesComboBox(); break;
-        case 7: _t->on_SessionButton_clicked(); break;
-        case 8: _t->on_ChoixActivite_currentIndexChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
-        case 9: _t->on_selectManuel_clicked(); break;
-        case 10: _t->editStatusButton((*reinterpret_cast< std::add_pointer_t<QPushButton*>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<bool>>(_a[2]))); break;
-        case 11: _t->addHorizontalLayout((*reinterpret_cast< std::add_pointer_t<QVBoxLayout*>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QWidget*>>(_a[2])),(*reinterpret_cast< std::add_pointer_t<QWidget*>>(_a[3]))); break;
-        case 12: _t->addHorizontalLayout((*reinterpret_cast< std::add_pointer_t<QVBoxLayout*>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QWidget*>>(_a[2])),(*reinterpret_cast< std::add_pointer_t<QWidget*>>(_a[3])),(*reinterpret_cast< std::add_pointer_t<QWidget*>>(_a[4]))); break;
-        case 13: _t->addButtonRow((*reinterpret_cast< std::add_pointer_t<QVBoxLayout*>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QWidget*>>(_a[2])),(*reinterpret_cast< std::add_pointer_t<QWidget*>>(_a[3])),(*reinterpret_cast< std::add_pointer_t<QWidget*>>(_a[4]))); break;
-        case 14: _t->on_selectAll_clicked(); break;
-        case 15: _t->on_validButton_clicked(); break;
-        case 16: _t->showCheckIconOnGroup((*reinterpret_cast< std::add_pointer_t<iconEleveGroup*>>(_a[1]))); break;
-        case 17: _t->on_SourceButton_clicked(); break;
-        case 18: _t->on_delButton_clicked(); break;
-        case 19: _t->saveSessionData((*reinterpret_cast< std::add_pointer_t<bool>>(_a[1]))); break;
+        case 3: _t->onImageGroupDoubleClicked(); break;
+        case 4: _t->editStatusButton((*reinterpret_cast< std::add_pointer_t<QPushButton*>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<bool>>(_a[2]))); break;
+        case 5: _t->addHorizontalLayout((*reinterpret_cast< std::add_pointer_t<QVBoxLayout*>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<std::initializer_list<QWidget*>>>(_a[2]))); break;
+        case 6: _t->showCheckIconOnGroup((*reinterpret_cast< std::add_pointer_t<iconEleveGroup*>>(_a[1]))); break;
+        case 7: _t->majStatusQCM(); break;
+        case 8: _t->changeNameTable((*reinterpret_cast< std::add_pointer_t<QTableWidgetItem*>>(_a[1]))); break;
+        case 9: _t->updateEleveNom((*reinterpret_cast< std::add_pointer_t<iconEleveGroup*>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2]))); break;
+        case 10: _t->updateNomDansBDD((*reinterpret_cast< std::add_pointer_t<int>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2]))); break;
+        case 11: _t->on_SessionButton_clicked(); break;
+        case 12: _t->on_ChoixActivite_currentIndexChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
+        case 13: _t->on_loadSession_clicked(); break;
+        case 14: _t->on_CreationButton_clicked(); break;
+        case 15: _t->on_selectAll_clicked(); break;
+        case 16: _t->on_selectManuel_clicked(); break;
+        case 17: _t->on_validButton_clicked(); break;
+        case 18: _t->on_SourceButton_clicked(); break;
+        case 19: _t->on_delButton_clicked(); break;
         case 20: _t->on_echapButton_clicked(); break;
         case 21: _t->resetSession(); break;
-        case 22: _t->on_loadSession_clicked(); break;
-        case 23: _t->on_CreationButton_clicked(); break;
-        case 24: _t->changeNameTable((*reinterpret_cast< std::add_pointer_t<QTableWidgetItem*>>(_a[1]))); break;
+        case 22: _t->setupActivitiesComboBox(); break;
+        case 23: _t->setupClassesComboBox(); break;
+        case 24: _t->saveSessionData((*reinterpret_cast< std::add_pointer_t<bool>>(_a[1]))); break;
         case 25: _t->on_muteButton_clicked(); break;
         case 26: _t->on_demuteButton_clicked(); break;
         case 27: _t->on_desactiverSonButton_clicked(); break;
         case 28: _t->on_activerSonButton_clicked(); break;
         case 29: _t->on_creerGroupeButton_clicked(); break;
         case 30: _t->on_annulerButton_clicked(); break;
+        case 31: _t->on_Communication_clicked(); break;
+        case 32: _t->on_nomEleveLineEdit_editingFinished(); break;
+        case 33: _t->loadInformationTable(); break;
+        case 34: _t->on_envoyerMessagePersonne_clicked(); break;
+        case 35: _t->on_envoyerMessageGroupe_clicked(); break;
+        case 36: _t->on_modeClairButton_clicked(); break;
+        case 37: _t->on_modeSombreButton_clicked(); break;
+        case 38: _t->on_StatutButton_clicked(); break;
+        case 39: _t->on_cacheButton_clicked(); break;
+        case 40: _t->onClicked_itemBoutonAjouterGroupe((*reinterpret_cast< std::add_pointer_t<iconEleveGroup*>>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
         switch (_id) {
         default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
-        case 10:
+        case 4:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
             case 0:
                 *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType::fromType< QPushButton* >(); break;
             }
             break;
-        case 11:
+        case 5:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
             case 0:
                 *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType::fromType< QVBoxLayout* >(); break;
-            case 2:
-            case 1:
-                *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType::fromType< QWidget* >(); break;
             }
             break;
-        case 12:
+        case 6:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
             case 0:
-                *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType::fromType< QVBoxLayout* >(); break;
-            case 3:
-            case 2:
-            case 1:
-                *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType::fromType< QWidget* >(); break;
+                *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType::fromType< iconEleveGroup* >(); break;
             }
             break;
-        case 13:
+        case 9:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
             case 0:
-                *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType::fromType< QVBoxLayout* >(); break;
-            case 3:
-            case 2:
-            case 1:
-                *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType::fromType< QWidget* >(); break;
+                *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType::fromType< iconEleveGroup* >(); break;
             }
             break;
-        case 16:
+        case 40:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
             case 0:
@@ -484,13 +542,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 31)
+        if (_id < 41)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 31;
+        _id -= 41;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 31)
+        if (_id < 41)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 31;
+        _id -= 41;
     }
     return _id;
 }

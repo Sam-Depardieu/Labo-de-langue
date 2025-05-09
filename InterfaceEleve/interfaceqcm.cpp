@@ -27,8 +27,13 @@ InterfaceQCM::InterfaceQCM(QWidget *parent)
         ui->textEditConsigne->setReadOnly(true); // Bloquer l'accès en écriture
     }
 
-    loadQuestions(R"(\\CIEL-T171-05\Activites\questions.qcmlabo)");
+
+    loadQuestionsJson(R"(\\CIEL-T171-05\Activites\uykfjkfhjl_2025-05-06_10-47\questions.qcmlabo)");
+
+
+    currentQuestionIndex = 0;
     showCurrentQuestion();
+
 
 }
 
@@ -36,6 +41,154 @@ InterfaceQCM::~InterfaceQCM()
 {
     delete ui;
 }
+
+
+
+void InterfaceQCM::loadQuestionsJson(const QString &filePath)
+{
+    QFile file(filePath);
+    qDebug() << "📂 Tentative d'ouverture du fichier :" << filePath;
+
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qWarning() << "❌ Impossible d'ouvrir le fichier : " << file.errorString();
+        return;
+    }
+
+    QByteArray data = file.readAll();
+    QJsonParseError error;
+    QJsonDocument doc = QJsonDocument::fromJson(data, &error);
+
+    if (error.error != QJsonParseError::NoError) {
+        qWarning() << "❌ Erreur de parsing JSON :" << error.errorString();
+        return;
+    }
+
+    if (!doc.isObject()) {
+        qWarning() << "❌ Format invalide : le document JSON n’est pas un objet.";
+        return;
+    }
+
+    QJsonObject root = doc.object();
+    questionArray = root["questions"].toArray();
+
+    qDebug() << "✅ Questions chargées :" << questionArray.size();
+}
+
+
+void InterfaceQCM::showCurrentQuestion()
+{
+    if (currentQuestionIndex < 0 || currentQuestionIndex >= questionArray.size()) {
+        qWarning() << "❌ Index de question invalide.";
+        return;
+    }
+
+    QJsonObject currentQuestion = questionArray[currentQuestionIndex].toObject();
+    QString questionText = currentQuestion["text"].toString();
+    ui->labelQuestion->setText(questionText);  // Affiche la question dans le label
+
+    QJsonArray answers = currentQuestion["answers"].toArray(); // Récupère les réponses
+
+    // Réinitialiser les boutons (cacher les boutons non utilisés)
+    if (answers.size() > 0) {
+        ui->pushButton1->setText(answers[0].toObject()["text"].toString());
+        ui->pushButton1->setVisible(true);
+    } else {
+        ui->pushButton1->setVisible(false);
+    }
+
+    if (answers.size() > 1) {
+        ui->pushButton2->setText(answers[1].toObject()["text"].toString());
+        ui->pushButton2->setVisible(true);
+    } else {
+        ui->pushButton2->setVisible(false);
+    }
+
+    if (answers.size() > 2) {
+        ui->pushButton3->setText(answers[2].toObject()["text"].toString());
+        ui->pushButton3->setVisible(true);
+    } else {
+        ui->pushButton3->setVisible(false);
+    }
+
+    if (answers.size() > 3) {
+        ui->pushButton4->setText(answers[3].toObject()["text"].toString());
+        ui->pushButton4->setVisible(true);
+    } else {
+        ui->pushButton4->setVisible(false);
+    }
+
+    // Réinitialiser le style des boutons
+    on_pushButtonEffacerReponse_clicked();
+}
+
+
+
+
+void InterfaceQCM::on_pushButtonQuestionSuivante_clicked()
+{
+    // Vérifier si l'index est valide
+    if (currentQuestionIndex >= questionArray.size()) {
+        qDebug() << "❌ Aucune question suivante à afficher.";
+        return;
+    }
+
+    // Récupérer la question actuelle
+    QJsonObject currentQuestion = questionArray[currentQuestionIndex].toObject();
+    QJsonArray answers = currentQuestion["answers"].toArray();  // Récupère les réponses de la question actuelle
+
+    // Enregistrement des réponses actuelles dans le fichier
+    QString fileName = "C:/Users/Quentin/Documents/Projet/responses.txt";
+    QFile file(fileName);
+
+    if (!file.open(QIODevice::Append | QIODevice::Text)) {  // Mode Append pour ne pas écraser le fichier
+        qWarning() << "Erreur : impossible d'ouvrir le fichier pour écrire.";
+        return;
+    }
+
+    QTextStream out(&file);
+    out << QString("Question %1:\n").arg(currentQuestionIndex + 1);  // Question actuelle
+
+    // Vérifier chaque réponse sélectionnée et enregistrer avec l'emoji et le texte
+    if (!isButton1Image) {
+        QString emoji = answers[0].toObject()["isCorrect"].toBool() ? "✅" : "❌";
+        QString buttonText = ui->pushButton1->text();  // Récupère le texte du bouton 1
+        out << QString("- %1 %2\n").arg(buttonText).arg(emoji);
+    }
+    if (!isButton2Image) {
+        QString emoji = answers[1].toObject()["isCorrect"].toBool() ? "✅" : "❌";
+        QString buttonText = ui->pushButton2->text();  // Récupère le texte du bouton 2
+        out << QString("- %1 %2\n").arg(buttonText).arg(emoji);
+    }
+    if (!isButton3Image) {
+        QString emoji = answers[2].toObject()["isCorrect"].toBool() ? "✅" : "❌";
+        QString buttonText = ui->pushButton3->text();  // Récupère le texte du bouton 3
+        out << QString("- %1 %2\n").arg(buttonText).arg(emoji);
+    }
+    if (!isButton4Image) {
+        QString emoji = answers[3].toObject()["isCorrect"].toBool() ? "✅" : "❌";
+        QString buttonText = ui->pushButton4->text();  // Récupère le texte du bouton 4
+        out << QString("- %1 %2\n").arg(buttonText).arg(emoji);
+    }
+
+    out << "\n";
+    file.close();
+
+    // Aller à la question suivante (si possible)
+    currentQuestionIndex++;
+
+    if (currentQuestionIndex < questionArray.size()) {
+        showCurrentQuestion();
+    } else {
+        qDebug() << "✅ Dernière question atteinte. Fin du QCM.";
+        // Optionnel : désactiver les boutons ou afficher un message
+    }
+
+
+}
+
+
+
+
 
 void InterfaceQCM::setButtonIcons()
 {
@@ -91,6 +244,7 @@ void InterfaceQCM::on_pushButtonEffacerReponse_clicked()
     isButton3Image = true;
     isButton4Image = true;
 }
+<<<<<<< HEAD
 void InterfaceQCM::on_pushButtonQuestionSuivante_clicked()
 {
     // Chemin relatif
@@ -121,6 +275,10 @@ void InterfaceQCM::on_pushButtonQuestionSuivante_clicked()
     file.close();
     qDebug() << "Réponses enregistrées dans le fichier :" << file.fileName();
 }
+=======
+
+
+>>>>>>> ab00f03050a4c34c7a0a34ada0a0bd2614051d8f
 void InterfaceQCM::receiveResponse()
 {
     while (udpSocketConsigne.hasPendingDatagrams()) {
@@ -140,35 +298,31 @@ void InterfaceQCM::receiveResponse()
         }
     }
 }
+<<<<<<< HEAD
 void InterfaceQCM::loadQuestions(const QString &filePath)
+=======
+
+
+
+
+
+
+
+void InterfaceQCM::on_pushButtonQuestionPrecedente_clicked()
+>>>>>>> ab00f03050a4c34c7a0a34ada0a0bd2614051d8f
 {
-    QFile file(filePath);
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qWarning() << "Erreur : impossible d'ouvrir le fichier des questions.";
+    // Vérifier si l'index est valide (on ne peut pas aller avant la première question)
+    if (currentQuestionIndex <= 0) {
+        qDebug() << "❌ Pas de question précédente.";
         return;
     }
 
-    QTextStream in(&file);
-    while (!in.atEnd()) {
-        QString line = in.readLine().trimmed();
-        if (!line.isEmpty()) {
-            questions.append(line);
-        }
-    }
+    // Décrémenter l'index pour revenir à la question précédente
+    currentQuestionIndex--;
 
-    file.close();
-    qDebug() << "Nombre de questions chargées :" << questions.size();
+    // Mettre à jour l'affichage avec la question précédente
+    showCurrentQuestion();
 }
 
-void InterfaceQCM::showCurrentQuestion()
-{
-    if (questions.isEmpty()) {
-        ui->labelQuestion->setText("Aucune question disponible.");
-        return;
-    }
 
-    if (currentQuestionIndex >= 0 && currentQuestionIndex < questions.size()) {
-        ui->labelQuestion->setText(questions[currentQuestionIndex]);
-    }
-}
 
