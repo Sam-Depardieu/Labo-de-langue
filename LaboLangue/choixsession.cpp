@@ -126,9 +126,3 @@ void choixSession::on_listeSession_itemDoubleClicked(QListWidgetItem *item)
 
 }
 
-
-void choixSession::on_findLineEdit_textChanged(const QString &arg1)
-{
-
-}
-
