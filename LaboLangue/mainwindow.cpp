@@ -1062,13 +1062,11 @@ void MainWindow::loadInformationTable()
 
 void MainWindow::on_creerGroupeButton_clicked()
 {
-    // Nettoyer l'ancien tableau si existant
     if (TableauGroupe != nullptr) {
         qDebug() << "Nettoyage du tableau de groupe existant...";
-        TableauGroupe->clear();
-        TableauGroupe->close();
-        delete TableauGroupe;  // Libère la mémoire !
-        TableauGroupe = nullptr;
+        TableauGroupe->clearContents(); // vide les cellules sans supprimer le widget
+        TableauGroupe->setRowCount(0);  // remet à zéro le nombre de lignes
+        // Ne surtout pas faire `delete TableauGroupe;` c'est un truc QT en ui donc impossible
     }
 
     // Masquer les éléments liés à l'envoi de messages
@@ -1083,6 +1081,7 @@ void MainWindow::on_creerGroupeButton_clicked()
     qDebug() << "Actualisation du tableau de groupe...";
     loadInformationTable();
 }
+
 
 void MainWindow::on_Communication_clicked()
 {
