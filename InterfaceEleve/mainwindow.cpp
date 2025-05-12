@@ -6,6 +6,7 @@
 #include "ui_mainwindow.h"
 #include "attenteprof.h"
 
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -15,6 +16,34 @@ MainWindow::MainWindow(QWidget *parent)
     //setWindowFlags(Qt::Dialog | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
 
     setFixedSize(800,480);
+    auto *shortcut = new QShortcut(QKeySequence(Qt::Key_1), this);
+    connect(shortcut, &QShortcut::activated, this, [this]() {
+        auto *rec = new InterfaceEnregistrement(this);
+        rec->setAttribute(Qt::WA_DeleteOnClose);
+        rec->show();
+    });
+    shortcutQcm = new QShortcut(QKeySequence(Qt::Key_2), this);
+    connect(shortcutQcm, &QShortcut::activated, this, [this]() {
+        auto *qcm = new InterfaceQCM(this);
+        qcm->setAttribute(Qt::WA_DeleteOnClose);
+        qcm->show();
+    });
+
+    // Raccourci Touche 3 → Audio (écoute simple)
+    shortcutAudio = new QShortcut(QKeySequence(Qt::Key_3), this);
+    connect(shortcutAudio, &QShortcut::activated, this, [this]() {
+        auto *audio = new InterfaceAudio(false, this);
+        audio->setAttribute(Qt::WA_DeleteOnClose);
+        audio->show();
+    });
+
+    // Raccourci Touche 4 → Vidéo (lecture simple)
+    shortcutVideo = new QShortcut(QKeySequence(Qt::Key_4), this);
+    connect(shortcutVideo, &QShortcut::activated, this, [this]() {
+        auto *video = new InterfaceVideo(false, this);
+        video->setAttribute(Qt::WA_DeleteOnClose);
+        video->show();
+    });
     this->setWindowTitle("Page de Connexion");
     connectToDatabase();
 
@@ -213,7 +242,39 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             actionDone = true;
         }
     }
+    if (event->key() == Qt::Key_1) {
+        auto *rec = new InterfaceEnregistrement(this);
+        rec->setAttribute(Qt::WA_DeleteOnClose);
+        rec->show();
+        return;
+    }
 
+    // Touche 2 → QCM
+    if (event->key() == Qt::Key_2) {
+        auto *qcm = new InterfaceQCM(this);
+        qcm->setAttribute(Qt::WA_DeleteOnClose);
+        qcm->show();
+        return;
+    }
+
+    // Touche 3 → Audio (écoute simple)
+    if (event->key() == Qt::Key_3) {
+        auto *audio = new InterfaceAudio(false, this);
+        audio->setAttribute(Qt::WA_DeleteOnClose);
+        audio->show();
+        return;
+    }
+
+    // Touche 4 → Vidéo (lecture simple)
+    if (event->key() == Qt::Key_4) {
+        auto *video = new InterfaceVideo(false, this);
+        video->setAttribute(Qt::WA_DeleteOnClose);
+        video->show();
+        return;
+    }
+
+    // Enfin, on laisse Qt traiter le reste
+    QMainWindow::keyPressEvent(event);
     // Appelle l’implémentation parente pour les autres touches
     QMainWindow::keyPressEvent(event);
 }

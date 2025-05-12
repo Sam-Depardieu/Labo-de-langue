@@ -12,14 +12,20 @@
 #include <QNetworkInterface>
 #include <QUdpSocket>
 #include <QInputDialog>
-
+#include <QShortcut>
+#include <QUdpSocket>
+#include <QTimer>
+#include <QJsonDocument>
+#include <QJsonObject>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
 }
 QT_END_NAMESPACE
-
+class InterfaceQCM;
+class InterfaceAudio;
+class InterfaceVideo;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -56,7 +62,7 @@ private:
     QSqlDatabase db;
     bool isCtrlPressed = false;  // 🔹 Stocke l'état de Ctrl
     bool isF1Pressed = false;
-    bool actionDone = false;
+    bool actionDone  = false;
 
     QString nomEleve = "";
     QString nomProf = "";
@@ -69,5 +75,8 @@ private:
     QUdpSocket udpSocketInter;
     quint16 interPort = 5560;
     QWidget *currentChild = nullptr;
+    QShortcut *shortcutQcm;
+    QShortcut *shortcutAudio;
+    QShortcut *shortcutVideo;
 };
 #endif // MAINWINDOW_H

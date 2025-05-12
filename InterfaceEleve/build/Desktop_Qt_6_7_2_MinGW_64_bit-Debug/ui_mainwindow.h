@@ -23,11 +23,7 @@ public:
     QWidget *centralwidget;
     QPushButton *pushButtonConnexion;
     QPushButton *pushButton_2;
-    QPushButton *pushButtonEnregistrement;
     QPushButton *pushButton;
-    QPushButton *pushButtonInterfaceQCM;
-    QPushButton *pushButtonInterfaceAudio;
-    QPushButton *pushButtonInterfaceVideo;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -54,9 +50,6 @@ public:
 "    border-radius: 5px; /* Optionnel : coins arrondis */\n"
 "    font-weight: bold; /* Optionnel : texte en gras */\n"
 "}"));
-        pushButtonEnregistrement = new QPushButton(centralwidget);
-        pushButtonEnregistrement->setObjectName("pushButtonEnregistrement");
-        pushButtonEnregistrement->setGeometry(QRect(10, 400, 161, 51));
         pushButton = new QPushButton(centralwidget);
         pushButton->setObjectName("pushButton");
         pushButton->setGeometry(QRect(0, 0, 800, 80));
@@ -67,15 +60,6 @@ public:
 "    border-radius: 5px; /* Optionnel : coins arrondis */\n"
 "    font-weight: bold; /* Optionnel : texte en gras */\n"
 "}"));
-        pushButtonInterfaceQCM = new QPushButton(centralwidget);
-        pushButtonInterfaceQCM->setObjectName("pushButtonInterfaceQCM");
-        pushButtonInterfaceQCM->setGeometry(QRect(180, 400, 161, 51));
-        pushButtonInterfaceAudio = new QPushButton(centralwidget);
-        pushButtonInterfaceAudio->setObjectName("pushButtonInterfaceAudio");
-        pushButtonInterfaceAudio->setGeometry(QRect(350, 400, 161, 51));
-        pushButtonInterfaceVideo = new QPushButton(centralwidget);
-        pushButtonInterfaceVideo->setObjectName("pushButtonInterfaceVideo");
-        pushButtonInterfaceVideo->setGeometry(QRect(520, 400, 161, 51));
         MainWindow->setCentralWidget(centralwidget);
 
         retranslateUi(MainWindow);
@@ -88,11 +72,7 @@ public:
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
         pushButtonConnexion->setText(QCoreApplication::translate("MainWindow", "Connexion", nullptr));
         pushButton_2->setText(QString());
-        pushButtonEnregistrement->setText(QCoreApplication::translate("MainWindow", "Interface Enregistrement", nullptr));
         pushButton->setText(QCoreApplication::translate("MainWindow", "Bienvenue sur l'interface de Connexion", nullptr));
-        pushButtonInterfaceQCM->setText(QCoreApplication::translate("MainWindow", "Interface QCM", nullptr));
-        pushButtonInterfaceAudio->setText(QCoreApplication::translate("MainWindow", "Interface Audio", nullptr));
-        pushButtonInterfaceVideo->setText(QCoreApplication::translate("MainWindow", "Interface Video", nullptr));
     } // retranslateUi
 
 };
