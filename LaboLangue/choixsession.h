@@ -14,7 +14,6 @@
 #include <QDebug>
 #include <QLabel>
 #include <QDialog>
-#include "mainwindow.h"
 
 namespace Ui {
 class choixSession;

@@ -347,7 +347,8 @@ void MainWindow::loadImagesFromDB()
         return;
     }
 
-    QSqlQuery query("SELECT IP, X, Y FROM Raspberry");
+    QSqlQuery query("SELECT IP, X, Y, Id_Raspberry FROM Raspberry");
+
     if (!query.exec()) {
         qDebug() << "❌ Erreur lors de l'exécution de la requête :" << query.lastError();
         return;
@@ -384,6 +385,7 @@ void MainWindow::loadImagesFromDB()
         QString ip = query.value(0).toString();
         int x = query.value(1).isNull() ? column * (imageWidth + spacing) : query.value(1).toInt();
         int y = query.value(2).isNull() ? row * (imageHeight + spacing + 10) : query.value(2).toInt();
+        id = query.value(3).toInt();
 
         // Créer l'élément élève
         QGraphicsPixmapItem *imageItem = new QGraphicsPixmapItem(personPixmap);
@@ -550,6 +552,7 @@ void MainWindow::saveSessionData(bool isNewSession)
         {"nomProf", nomProf},
         {"idTypeActivite", idTypeActivite},
         {"idClasse", idClasse},
+        {"Durée", duree},
         {"consigne", ui->ConsigneTextEdit->toPlainText()},
         {"participants", participantsArray}
     };
@@ -808,7 +811,7 @@ void MainWindow::on_validButton_clicked()
         return;
     }
 
-    duree = ui->DureeActivite->time().toString("HH:mm:ss");
+    duree = ui->DureeActivite->time().toString("mm:ss");
 
     // Insérer l'activité
     query.prepare("INSERT INTO Activite (Source, Consigne, Duree_Activite, DateActivite, Id_TypeActivite, Id_Classe, Id_Prof) "
@@ -843,7 +846,35 @@ void MainWindow::on_validButton_clicked()
         participant->getCasqueActiver()->setVisible(true);
     }
 
-    prof = new Professor();
+    prof = new Professor(this);
+
+    saveSessionData(!runningSession);
+
+    // Interface : lancement spécifique pour QCM
+    if (ui->ChoixActivite->currentText() == "QCM") {
+        editStatusButton(ui->CreationButton, true);
+        on_CreationButton_clicked();
+
+        udpSocketQCM = new QUdpSocket(this);
+        udpSocketQCM->bind(45454, QUdpSocket::ShareAddress);
+        connect(udpSocketQCM, &QUdpSocket::readyRead, this, &MainWindow::majStatusQCM);
+
+        QCM *qcmWindow = new QCM(this, this);
+
+        if (!interfaceQCMOpen) {
+            qcmWindow->show();
+            interfaceQCMOpen = true;
+        }
+        // On attend la fermeture du QCM
+        return;
+    }
+
+
+    continuerCreationSession();
+}
+
+void MainWindow::continuerCreationSession()
+{
 
     unsigned int i = 1;
     for (auto *eleve : listeRasp) {
@@ -853,7 +884,6 @@ void MainWindow::on_validButton_clicked()
             QString nomAuto = QString("Élève %1").arg(i++);
             updateEleveNom(eleve, nomAuto);
 
-            // Envoie des commandes réseau
             QMap<int, QString> activite;
             activite[1] = "QCM";
             activite[2] = "ecoute";
@@ -862,42 +892,26 @@ void MainWindow::on_validButton_clicked()
             activite[5] = "video_co";
             activite[6] = "enregistrement";
 
-            prof->sendCommandToStudent(eleve->getIP(), 5558, sessionFolder + "/config.labo");
+            prof->sendCommandToStudent(eleve->getIP(), 5561, sessionFolder);
             prof->sendCommandToStudent(eleve->getIP(), 5560, activite[idTypeActivite]);
+            prof->sendCommandToStudent(eleve->getIP(), 5558, "{chrono, }"+duree);
         }
     }
 
-    // Activation des boutons
     editStatusButton(ui->PlanButton, true);
     editStatusButton(ui->PresenceButton, true);
     editStatusButton(ui->EnregistrementButton, true);
     editStatusButton(ui->AppelButton, true);
     editStatusButton(ui->StatutButton, true);
-
-    // Désactivation boutons participants
     editStatusButton(ui->selectAll, false);
     editStatusButton(ui->selectManuel, false);
 
-    // Sauvegarde des fichiers
-    saveSessionData(!runningSession);
-
-    // Interface : lancement spécifique pour QCM
-    if(ui->ChoixActivite->currentText() == "QCM") {
-        editStatusButton(ui->CreationButton, true);
-        on_CreationButton_clicked();
-
-        udpSocketQCM = new QUdpSocket(this);
-        udpSocketQCM->bind(45454, QUdpSocket::ShareAddress);
-        connect(udpSocketQCM, &QUdpSocket::readyRead, this, &MainWindow::majStatusQCM);
-    }
-
-    // Finalisation
     selectionParticipants = false;
     selectAllParticipants = false;
     parametrageSession = false;
     on_echapButton_clicked();
-    if(!runningSession)
-    {
+
+    if (!runningSession) {
         ui->SessionButton->setText("Session \nen cours");
         ui->delButton->setText("Fin session");
     }
@@ -905,34 +919,23 @@ void MainWindow::on_validButton_clicked()
 
     QString sessionSave = sessionFolder + "\\";
 
-    // Copier le fichier source s'il y en a un
-    if(!source.isEmpty()) {
+    if (!source.isEmpty()) {
         QFileInfo fileInfo(source);
         QDir dir;
-        if (!dir.exists(sessionSave)) {
-            dir.mkpath(sessionSave);
-        }
-
+        if (!dir.exists(sessionSave)) dir.mkpath(sessionSave);
         QString destPath = sessionSave + fileInfo.fileName();
 
         if (QFile::copy(source, destPath)) {
-            QMessageBox::critical(
-                nullptr,
-                "Fichier enregistré avec succès",
-                "✅ Fichier bien enregistré \n"
-                "Le fichier audio/vidéo a été enregistré dans " + destPath
-                );
+            QMessageBox::critical(nullptr, "Fichier enregistré avec succès",
+                                  "✅ Fichier bien enregistré \nLe fichier audio/vidéo a été enregistré dans " + destPath);
         } else {
-            QMessageBox::critical(
-                nullptr,
-                "Fichier non enregistré",
-                "❌ Aucun fichier n'a été enregistré\n"
-                "Il vous sera impossible de récupérer le fichier après la fin de session\n\n"
-                "Veuillez le mettre manuellement dans " + destPath + "."
-                );
+            QMessageBox::critical(nullptr, "Fichier non enregistré",
+                                  "❌ Aucun fichier n'a été enregistré\n"
+                                  "Veuillez le mettre manuellement dans " + destPath + ".");
         }
     }
 }
+
 
 
 void MainWindow::on_echapButton_clicked()

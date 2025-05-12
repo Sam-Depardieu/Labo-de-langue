@@ -195,30 +195,31 @@ void Professor::receiveAudioData() {
     //qDebug() << "🔹 Fin receiveAudioData()";
 }
 
-void Professor::envoyerGroupeAudio(iconEleveGroup* eleveReference)
+void Professor::envoyerGroupes()
 {
-    QString groupe = eleveReference->getNomGroupe();
-    if (groupe.isEmpty() || !mainWindow->listeGroup.contains(groupe)) return;
+    for (auto it = listeGroup.begin(); it != listeGroup.end(); ++it) {
+        std::vector<iconEleveGroup*>& membres = it.value();
 
-    std::vector<iconEleveGroup*>& membres = listeGroup[groupe];
-
-    for (iconEleveGroup* membre : membres) {
-        QStringList autresIPs;
-        for (iconEleveGroup* autre : membres) {
-            if (membre != autre && !autre->getIP().isEmpty()) {
-                autresIPs << autre->getIP();
+        for (iconEleveGroup* membre : membres) {
+            QStringList autresIPs;
+            for (iconEleveGroup* autre : membres) {
+                if (membre != autre && !autre->getIP().isEmpty()) {
+                    autresIPs << autre->getIP();
+                }
             }
+
+            // Créer le message JSON
+            QJsonObject payload;
+            payload["groupAudio"] = QJsonArray::fromStringList(autresIPs);
+            QJsonDocument doc(payload);
+            QString message = QString::fromUtf8(doc.toJson(QJsonDocument::Compact));
+
+            // Envoie au membre
+            prof->sendCommandToStudent(membre->getIP(), 5559, message);
+            qDebug() << "🎧 Envoyé à" << membre->getNom() << ":" << autresIPs;
         }
-
-        // Construire un message JSON
-        QJsonObject json;
-        json["groupAudio"] = QJsonArray::fromStringList(autresIPs);
-        QJsonDocument doc(json);
-        QString message = QString::fromUtf8(doc.toJson(QJsonDocument::Compact));
-
-        prof->sendCommandToStudent(membre->getIP(), 5559, message);
-        qDebug() << "🔁 Groupe audio envoyé à" << membre->getNom() << ":" << autresIPs;
     }
 }
+
 
 

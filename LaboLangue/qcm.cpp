@@ -419,6 +419,13 @@ void QCM::saveQuestions()
     file.close();
 
     QMessageBox::information(this, "Sauvegarde terminée", "Les questions ont été sauvegardées avec succès dans :\n" + savePath);
+
+    if(!mainWindow->runningSession)
+    {
+        mainWindow->continuerCreationSession();
+        mainWindow->interfaceQCMOpen = false;
+    }
+    this->close(); // si besoin
 }
 
 
