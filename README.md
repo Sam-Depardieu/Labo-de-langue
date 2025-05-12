@@ -86,7 +86,7 @@ Pour toute question, veuillez contacter :
 Les ports réseaux suivant seront utilisé :  
 - ``5557`` : envoie des commandes mute/demute/activerSon/desactionSon
 - ``5558`` :
-	- envoie des informations aux interfaces élève sous la forme de Json ({"nomEleve": "nom_eleve"}, {"nomProf": "nom_prof"}, {"consigne": "consigne"}, {"chrono": "chrono_en_scd"})
+	- envoie des informations aux interfaces élève sous la forme de Json ({"nomEleve": "nom_eleve"}, {"nomProf": "nom_prof"}, {"consigne": "consigne"}, {"chrono": "chrono_mm:ss"})
 - ``5559`` :
   	- (prof -> eleve) envoie des commentaire/message aux interfaces élève
   	- (eleve -> prof) envoie du numéro de QCM en cours
