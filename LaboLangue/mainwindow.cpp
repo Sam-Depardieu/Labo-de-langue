@@ -343,58 +343,49 @@ void MainWindow::updateNomDansBDD(int idEleve, const QString& nouveauNom) {
 void MainWindow::loadImagesFromDB()
 {
     if (!connectToDatabase()) {
-        qDebug() << "Erreur de connexion à la base de données.";
+        qDebug() << "❌ Erreur de connexion à la base de données.";
         return;
     }
 
     QSqlQuery query("SELECT IP, X, Y FROM Raspberry");
-
     if (!query.exec()) {
-        qDebug() << "Erreur lors de l'exécution de la requête :" << query.lastError();
+        qDebug() << "❌ Erreur lors de l'exécution de la requête :" << query.lastError();
         return;
     }
 
-    // Vérifier si on a des résultats
     if (!query.first()) {
-        qDebug() << "Aucun Raspberry trouvé dans la base de données.";
+        qDebug() << "ℹ️ Aucun Raspberry trouvé dans la base de données.";
         return;
     }
 
+    // Charger les images
     QPixmap personPixmap("../img/person.png");
     QPixmap checkPixmap("../img/check.png");
-
     QPixmap microActiverPixmap("../img/micro.png");
     QPixmap microDesactiverPixmap("../img/mute.png");
     QPixmap casqueActiverPixmap("../img/earGreen.png");
     QPixmap casqueDesactiverPixmap("../img/earRed.png");
 
-
     if (personPixmap.isNull() || checkPixmap.isNull() || microActiverPixmap.isNull()) {
-        qWarning("Une ou plusieurs images n'ont pas pu être chargées. Vérifiez les chemins.");
+        qWarning("❌ Une ou plusieurs images n'ont pas pu être chargées. Vérifiez les chemins.");
         return;
     }
 
     int column = 0;
     int row = 0;
-    int spacing = 10;
-    int maxPerRow = 7;
-
-    int imageWidth = personPixmap.width();
-    int imageHeight = personPixmap.height();
+    const int spacing = 10;
+    const int maxPerRow = 7;
+    const int imageWidth = personPixmap.width();
+    const int imageHeight = personPixmap.height();
 
     int id = 1;
+
     do {
         QString ip = query.value(0).toString();
-        int x = query.value(1).toInt();
-        int y = query.value(2).toInt();
+        int x = query.value(1).isNull() ? column * (imageWidth + spacing) : query.value(1).toInt();
+        int y = query.value(2).isNull() ? row * (imageHeight + spacing + 10) : query.value(2).toInt();
 
-        // Vérification et position par défaut si nécessaire
-        if (query.value(1).isNull() || query.value(2).isNull()) {
-            x = column * (imageWidth + spacing);
-            y = row * (imageHeight + spacing + 10);
-        }
-
-        // Création des éléments graphiques
+        // Créer l'élément élève
         QGraphicsPixmapItem *imageItem = new QGraphicsPixmapItem(personPixmap);
         imageItem->setFlag(QGraphicsItem::ItemIsMovable);
 
@@ -402,56 +393,39 @@ void MainWindow::loadImagesFromDB()
         textItem->setDefaultTextColor(Qt::black);
         textItem->setPos(18, personPixmap.height());
 
-        // Création du groupe personnalisé
         iconEleveGroup *group = new iconEleveGroup(id, ip, textItem, this);
         group->addToGroup(imageItem);
         group->addToGroup(textItem);
         group->setFlag(QGraphicsItem::ItemIsMovable);
 
-        // Création des icônes Check et Cross
-        QGraphicsPixmapItem *checkItem = new QGraphicsPixmapItem(checkPixmap);
-        checkItem->setPos(imageItem->boundingRect().right() + 7.5 - checkPixmap.width(), imageItem->boundingRect().top());
-        checkItem->setVisible(false); // Caché par défaut
+        // Ajouter les icônes
+        auto makeIcon = [&](const QPixmap& pix, int dx, int dy) -> QGraphicsPixmapItem* {
+            auto *item = new QGraphicsPixmapItem(pix);
+            item->setPos(imageItem->boundingRect().left() + dx, imageItem->boundingRect().top() + dy);
+            item->setVisible(false);
+            group->addToGroup(item);
+            return item;
+        };
 
-        // Création des icônes casque (activer et desactiver)
-        QGraphicsPixmapItem *casqueActiver = new QGraphicsPixmapItem(casqueActiverPixmap);
-        casqueActiver->setPos(imageItem->boundingRect().right() + 7.5 - checkPixmap.width(), imageItem->boundingRect().top());
-        casqueActiver->setVisible(false); // Caché par défaut
-        QGraphicsPixmapItem *casqueDesactiver = new QGraphicsPixmapItem(casqueDesactiverPixmap);
-        casqueDesactiver->setPos(imageItem->boundingRect().right() + 7.5 - checkPixmap.width(), imageItem->boundingRect().top());
-        casqueDesactiver->setVisible(false); // Caché par défaut
+        QGraphicsPixmapItem* checkItem           = makeIcon(checkPixmap, 0, 0);
+        QGraphicsPixmapItem* microActiver        = makeIcon(microActiverPixmap, -7.5, 0);
+        QGraphicsPixmapItem* microDesactiver     = makeIcon(microDesactiverPixmap, -7.5, 0);
+        QGraphicsPixmapItem* casqueActiver       = makeIcon(casqueActiverPixmap, 0, 0);
+        QGraphicsPixmapItem* casqueDesactiver    = makeIcon(casqueDesactiverPixmap, 0, 0);
 
-        // Création des icônes micro (activer et desactiver)
-        QGraphicsPixmapItem *microActiver = new QGraphicsPixmapItem(microActiverPixmap);
-        microActiver->setPos(imageItem->boundingRect().left() - 7.5, imageItem->boundingRect().top());
-        microActiver->setVisible(false); // Caché par défaut
-        QGraphicsPixmapItem *microDesactiver = new QGraphicsPixmapItem(microDesactiverPixmap);
-        microDesactiver->setPos(imageItem->boundingRect().left() - 7.5, imageItem->boundingRect().top());
-        microDesactiver->setVisible(false); // Caché par défaut
-
-        // Ajout des icônes au groupe
-        group->addToGroup(checkItem);
-        group->addToGroup(microActiver);
-        group->addToGroup(microDesactiver);
-        group->addToGroup(casqueActiver);
-        group->addToGroup(casqueDesactiver);
-
-        // Sauvegarde des icônes dans l'objet pour pouvoir les modifier après
         group->setCheckItem(checkItem);
         group->setMicroActiver(microActiver);
         group->setMicroDesactiver(microDesactiver);
         group->setCasqueActiver(casqueActiver);
         group->setCasqueDesactiver(casqueDesactiver);
 
-        // Positionnement et ajout à la scène
+        // Positionner et ajouter à la scène
         group->setPos(x, y);
         listeRasp.push_back(group);
         scene->addItem(group);
 
-        // Connexion du signal double-clic
         connect(group, &iconEleveGroup::doubleClicked, this, &MainWindow::onImageGroupDoubleClicked);
 
-        // Gestion du placement
         column++;
         if (column >= maxPerRow) {
             column = 0;
@@ -463,6 +437,31 @@ void MainWindow::loadImagesFromDB()
 
     ui->PlanClasse->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
 }
+
+void MainWindow::mettreAJourAudioPourGroupe(const QString& groupe)
+{
+    if (!listeGroup.contains(groupe)) return;
+
+    std::vector<iconEleveGroup*>& membres = listeGroup[groupe];
+
+    for (iconEleveGroup* membre : membres) {
+        QStringList autresIPs;
+        for (iconEleveGroup* autre : membres) {
+            if (membre != autre && !autre->getIP().isEmpty()) {
+                autresIPs << autre->getIP();
+            }
+        }
+
+        QJsonObject payload;
+        payload["groupAudio"] = QJsonArray::fromStringList(autresIPs);
+        QJsonDocument doc(payload);
+        QString message = QString::fromUtf8(doc.toJson(QJsonDocument::Compact));
+
+        prof->sendCommandToStudent(membre->getIP(), 5559, message);
+        qDebug() << "🔁 Groupe " << groupe << " → envoyé à " << membre->getNom() << ":" << autresIPs;
+    }
+}
+
 
 void MainWindow::showCheckIconOnGroup(iconEleveGroup *group)
 {
@@ -951,6 +950,30 @@ void MainWindow::on_CreationButton_clicked()
 // Bouton de l'interface de ParametrageEleve
 void MainWindow::on_muteButton_clicked()
 {
+    /*
+    int reponse = 0;
+    if(eleveActuellementParametre->getNomGroupe() != ""){
+        QMessageBox msgBox;
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.setWindowTitle("L'élève est dans un groupe !");
+        msgBox.setText("❌ Voulez vous effectuez cette action seulement pour l'élève ?.\n");
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msgBox.setDefaultButton(QMessageBox::Yes);
+        reponse = msgBox.exec();
+        qDebug() << reponse;
+    }
+    if(reponse == 0){
+        prof->muteStudent(eleveActuellementParametre->getIP());
+        eleveActuellementParametre->getMicroActiver()->setVisible(false);
+        eleveActuellementParametre->getMicroDesactiver()->setVisible(true);
+        return;
+    }
+    else if(reponse == 1){
+        for(int i = 0; i < listeGroup.count(eleveActuellementParametre->getNomGroupe()) ; i++ ){
+            listeGroup.
+        }
+    }
+    */
     prof->muteStudent(eleveActuellementParametre->getIP());
     eleveActuellementParametre->getMicroActiver()->setVisible(false);
     eleveActuellementParametre->getMicroDesactiver()->setVisible(true);
@@ -999,7 +1022,7 @@ void MainWindow::changeNameTable(QTableWidgetItem* item) {
 void MainWindow::loadInformationTable()
 {
     // Crée une table de 12 lignes et 4 colonnes
-    ui->TableauGroupe->setColumnCount(4);
+    ui->TableauGroupe->setColumnCount(5);
 
     ui->TableauGroupe->setRowCount(listeRasp.size());
     TableauGroupe = ui->TableauGroupe;
@@ -1043,8 +1066,10 @@ void MainWindow::loadInformationTable()
             itemBoutonSupprimerGroupe->setText("Supprimer du groupe");
             itemBoutonSupprimerGroupe->setStyleSheet("background-color: rgb(255, 0, 0)");
             ui->TableauGroupe->setCellWidget(row, 2, itemBoutonSupprimerGroupe);
+            connect(itemBoutonSupprimerGroupe, &QPushButton::clicked, this, [this, row]() {
+                MainWindow::onClicked_itemBoutonSupprimerGroupe(listeParticipant[row]);
+            });
         }
-
         QTableWidgetItem *nomGroupe = new QTableWidgetItem(listeParticipant[row]->getNomGroupe());
         nomGroupe->setTextAlignment(Qt::AlignCenter);
         nomGroupe->setFlags(nomGroupe->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
@@ -1262,56 +1287,54 @@ void MainWindow::on_cacheButton_clicked()
 
 void MainWindow::onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve)
 {
-    int tailleAffiliateEleve = eleve->getAffiliate().size();
-    int tailleAffiliate = eleveActuellementParametre->getAffiliate().size();
+    if (!eleve || !eleveActuellementParametre)
+        return;
 
-    QString groupe = "Groupe "+eleveActuellementParametre->getNom();
+    QString groupe = eleveActuellementParametre->getNomGroupe();
 
-    if( tailleAffiliateEleve== 0 || tailleAffiliate == 0){
-        if(tailleAffiliate == 0 && tailleAffiliateEleve == 0){
-            listeGroup[groupe].push_back(eleveActuellementParametre);
-            listeGroup[groupe].push_back(eleve);
-
-            eleveActuellementParametre->getAffiliate().push_back(eleve);
-            eleve->getAffiliate().push_back(eleveActuellementParametre);
-
-            qDebug() << eleveActuellementParametre->getAffiliate().at(0)->getNom();
-            qDebug() << eleve->getAffiliate().at(0)->getNom();
-            return;
+    // Si aucun groupe encore défini
+    if (groupe.isEmpty()) {
+        // Utiliser le nom saisi si disponible, sinon générer automatiquement
+        if (!ui->nomGroupeLineEdit->text().isEmpty()) {
+            groupe = ui->nomGroupeLineEdit->text();
+        } else {
+            groupe = "Groupe " + eleveActuellementParametre->getNom();
         }
-        else if(tailleAffiliate >= 1 && tailleAffiliateEleve == 0)
-        {
-            listeGroup[groupe].push_back(eleve);
-            eleveActuellementParametre->getAffiliate().push_back(eleve);
-        }
-        else if(tailleAffiliateEleve >= 1)
-        {
-            QMessageBox msgBox;
-            msgBox.setIcon(QMessageBox::Critical);
-            msgBox.setWindowTitle("Groupe déjà utilisé");
-            msgBox.setText("❌ Il y a déjà au moins deux personnes dans ce groupe.\n"
-                           "Souhaitez-vous quand même ajouter l'élève sélectionné dans le groupe ?");
-            msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-            msgBox.setDefaultButton(QMessageBox::No);
-            int reponse = msgBox.exec();
-            qDebug() << reponse;
+
+        eleveActuellementParametre->setNomGroupe(groupe);
+        listeGroup[groupe].push_back(eleveActuellementParametre);
+
+        if (ui->groupeSelectionneComboBox->findText(groupe) == -1) {
+            ui->groupeSelectionneComboBox->addItem(groupe, groupe);
         }
     }
 
+    // Assigner le groupe à l'élève sélectionné
+    eleve->setNomGroupe(groupe);
 
+    std::vector<iconEleveGroup*>& membres = listeGroup[groupe];
 
+    // Ajouter l’élève s’il n’est pas encore présent
+    if (std::find(membres.begin(), membres.end(), eleve) == membres.end()) {
+        membres.push_back(eleve);
+    }
+
+    // Mettre à jour les affiliate de chaque membre : tous les autres sauf soi-même
+    for (iconEleveGroup* membre : membres) {
+        for (iconEleveGroup* autre : membres) {
+            if (membre != autre) {
+                membre->getAffiliate().push_back(autre);
+            }
+        }
+
+        qDebug() << membre->getNom() << " → Affiliates count:" << membre->getAffiliate().size();
+    }
+
+    loadInformationTable(); // Actualiser le tableau
 }
 
 void MainWindow::on_nomGroupeLineEdit_returnPressed()
 {
-    //QMap<QString, std::vector<iconEleveGroup*>> listeGroup = {};
-    /*
-    Clé (QString)	Valeur (std::vector<iconEleveGroup*>)
-    "Groupe A"      [Alice, Bob]
-    "Groupe B"      [Charlie, David]
-    */
-
-    // Récupération du nom du groupe
     eleveActuellementParametre->setNomGroupe(ui->nomGroupeLineEdit->text());
 
     listeGroup[eleveActuellementParametre->getNomGroupe()].push_back(eleveActuellementParametre);
@@ -1319,5 +1342,52 @@ void MainWindow::on_nomGroupeLineEdit_returnPressed()
     qDebug() << "Nom du groupe :" << ui->nomGroupeLineEdit->text();
     qDebug() << eleveActuellementParametre->getNom() << " : " << eleveActuellementParametre->getNomGroupe();
     on_creerGroupeButton_clicked();
+    ui->groupeSelectionneComboBox->addItem(eleveActuellementParametre->getNomGroupe(), eleveActuellementParametre->getNomGroupe());
+}
+
+void MainWindow::onClicked_itemBoutonSupprimerGroupe(iconEleveGroup* eleve)
+{
+    if (!eleve)
+        return;
+
+    QString groupe = eleve->getNomGroupe();
+
+    if (groupe.isEmpty() || !listeGroup.contains(groupe))
+        return;
+
+    std::vector<iconEleveGroup*>& membres = listeGroup[groupe];
+
+    // Retirer l'élève du groupe
+    auto it = std::remove(membres.begin(), membres.end(), eleve);
+    if (it != membres.end()) {
+        membres.erase(it, membres.end());
+    }
+
+    // Vider ses affiliates et son groupe
+    eleve->getAffiliate().clear();
+    eleve->setNomGroupe("");
+
+    // Mettre à jour les affiliates des autres membres
+    for (iconEleveGroup* membre : membres) {
+        std::vector<iconEleveGroup*> autres;
+        for (iconEleveGroup* autre : membres) {
+            if (membre != autre) {
+                membre->getAffiliate().push_back(autre);
+            }
+        }
+
+        qDebug() << membre->getNom() << " → Affiliates count après suppression:" << membre->getAffiliate().size();
+    }
+
+    // Si plus personne dans le groupe, supprimer le groupe de la map et du ComboBox
+    if (membres.empty()) {
+        listeGroup.remove(groupe);
+        int index = ui->groupeSelectionneComboBox->findText(groupe);
+        if (index != -1) {
+            ui->groupeSelectionneComboBox->removeItem(index);
+        }
+    }
+
+    loadInformationTable(); // Actualiser le tableau
 }
 

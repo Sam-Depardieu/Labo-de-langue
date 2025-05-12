@@ -5,7 +5,7 @@
 #include <QHostAddress>
 #include <QThread>
 
-Professor::Professor(QObject *parent) : QObject(parent), context(1) {
+Professor::Professor(MainWindow *parentWindow) : context(1), mainWindow(parentWindow) {
     QAudioFormat format;
     format.setSampleRate(16000);  // 44.1 kHz standard
     format.setChannelCount(1);  // Mono
@@ -193,6 +193,32 @@ void Professor::receiveAudioData() {
 
     audioSinkDevice->write(data);
     //qDebug() << "🔹 Fin receiveAudioData()";
+}
+
+void Professor::envoyerGroupeAudio(iconEleveGroup* eleveReference)
+{
+    QString groupe = eleveReference->getNomGroupe();
+    if (groupe.isEmpty() || !mainWindow->listeGroup.contains(groupe)) return;
+
+    std::vector<iconEleveGroup*>& membres = listeGroup[groupe];
+
+    for (iconEleveGroup* membre : membres) {
+        QStringList autresIPs;
+        for (iconEleveGroup* autre : membres) {
+            if (membre != autre && !autre->getIP().isEmpty()) {
+                autresIPs << autre->getIP();
+            }
+        }
+
+        // Construire un message JSON
+        QJsonObject json;
+        json["groupAudio"] = QJsonArray::fromStringList(autresIPs);
+        QJsonDocument doc(json);
+        QString message = QString::fromUtf8(doc.toJson(QJsonDocument::Compact));
+
+        prof->sendCommandToStudent(membre->getIP(), 5559, message);
+        qDebug() << "🔁 Groupe audio envoyé à" << membre->getNom() << ":" << autresIPs;
+    }
 }
 
 

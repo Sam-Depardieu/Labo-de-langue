@@ -1,6 +1,8 @@
 #ifndef AUDIOCOMMUNICATOR_H
 #define AUDIOCOMMUNICATOR_H
 
+#include "iconEleveGroup.h"
+
 #include <QObject>
 #include <QAudioInput>
 #include <QAudioOutput>
@@ -19,7 +21,7 @@ class Professor: public QObject {
     Q_OBJECT
 
 public:
-    Professor(QObject *parent = nullptr);
+    Professor(MainWindow* parentWindow);
 
     //Fonction de communication
     void muteStudent(const QString& studentIp);
@@ -34,6 +36,7 @@ public:
 public slots:  // Déclaration des slots ici
     void sendAudioData();  // Méthode qui sera appelée toutes les 100 ms
     void receiveAudioData();  // Méthode pour recevoir l'audio des étudiants
+    void envoyerGroupes();
 
     void processPendingDatagrams() {
         while (udpSocket.hasPendingDatagrams()) {
@@ -51,6 +54,7 @@ private:
     zmq::context_t context;  // Contexte ZeroMQ
     zmq::socket_t *pushSocket;  // Socket pour envoyer l'audio
     zmq::socket_t *pullSocket;  // Socket pour recevoir l'audio
+    MainWindow* mainWindow;
 
     QAudioSource *audioSource;  // Source audio pour capter l'audio du professeur
     QAudioSink *audioSink;  // Sortie audio pour jouer l'audio des étudiants
@@ -64,7 +68,6 @@ private:
     bool audioError = false;
 
     QUdpSocket udpSocket;
-
 };
 
 #endif // AUDIOCOMMUNICATOR_H

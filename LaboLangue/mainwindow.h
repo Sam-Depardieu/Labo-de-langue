@@ -118,6 +118,9 @@ private slots:
 
 
 
+    void onClicked_itemBoutonSupprimerGroupe(iconEleveGroup* eleve);
+    void mettreAJourAudioPourGroupe(const QString& groupe);
+
     private:
     QGraphicsScene *scene;
     QSqlDatabase db;
