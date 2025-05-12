@@ -82,6 +82,9 @@ class QCM : public QDialog
         void addBoxAddQuestion();
         void addAnswers(QuestionWidget* question, QString *choix, QString *correct);
         void importQCM();
+
+    signals:
+        void fermetureQCM();
 };
 
 #endif // QCM_H
