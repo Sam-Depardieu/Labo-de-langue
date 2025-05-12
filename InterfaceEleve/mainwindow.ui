@@ -60,19 +60,6 @@
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButtonEnregistrement">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>400</y>
-      <width>161</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Interface Enregistrement</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
@@ -93,45 +80,6 @@
     </property>
     <property name="text">
      <string>Bienvenue sur l'interface de Connexion</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButtonInterfaceQCM">
-    <property name="geometry">
-     <rect>
-      <x>180</x>
-      <y>400</y>
-      <width>161</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Interface QCM</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButtonInterfaceAudio">
-    <property name="geometry">
-     <rect>
-      <x>350</x>
-      <y>400</y>
-      <width>161</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Interface Audio</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButtonInterfaceVideo">
-    <property name="geometry">
-     <rect>
-      <x>520</x>
-      <y>400</y>
-      <width>161</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Interface Video</string>
     </property>
    </widget>
   </widget>

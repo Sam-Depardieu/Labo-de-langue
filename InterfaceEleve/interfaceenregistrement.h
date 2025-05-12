@@ -31,7 +31,8 @@
 #include <QPropertyAnimation>
 #include <QAbstractAnimation>
 #include <QSequentialAnimationGroup>
-
+#include <QUdpSocket>
+#include <QTimer>
 //#include <QAudioRecorder>
 //#include <QAudioProbe>
 //#include <QAudioEncoderSettings>
@@ -71,6 +72,7 @@ private slots:
     void onRecorderStateChanged(QMediaRecorder::RecorderState state);
     void onRecorderErrorOccurred(QMediaRecorder::Error error, const QString &errorString);
     void checkPlaybackPosition(qint64 position);
+    void onUdpTimeout();
 
 private:
     Ui::InterfaceEnregistrement *ui;
@@ -124,6 +126,8 @@ private:
     void showFeedbackDialog();
     void setButtonIcons();
     void setButtonIcon(QPushButton *button, const QString &imagePath);
+    QUdpSocket udpChrono;
+    quint16 chronoPort =5558;
 };
 
 #endif // INTERFACEENREGISTREMENT_H

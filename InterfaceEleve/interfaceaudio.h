@@ -8,7 +8,11 @@
 #include <QPropertyAnimation>
 #include <QAbstractAnimation>
 #include <QSequentialAnimationGroup>
-
+#include <QUdpSocket>
+#include <QTimer>
+#include <QJsonParseError>
+#include <QJsonDocument>
+#include <QJsonObject>
 namespace Ui {
 class InterfaceAudio;
 }
@@ -32,7 +36,8 @@ private slots:
     void animateButtonClick(QPushButton* btn);
 
     void on_pushButtonReset_clicked();
-
+    void onUdpTimeout();
+    void receiveChrono();
 protected:
     void closeEvent(QCloseEvent *event) override;
 
@@ -47,6 +52,9 @@ private:
     bool CO = false;
     int resetCount = 0;
     static constexpr int maxResets = 3;
+
+    QUdpSocket udpChrono;
+    quint16 chronoPort =5558;
 };
 
 #endif // INTERFACEAUDIO_H

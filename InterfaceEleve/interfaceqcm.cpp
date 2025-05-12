@@ -20,7 +20,11 @@ InterfaceQCM::InterfaceQCM(QWidget *parent)
 
     udpSocketConsigne.bind(QHostAddress::Any, consignePort);
     connect(&udpSocketConsigne, &QUdpSocket::readyRead, this, &InterfaceQCM::receiveResponse);
+    udpChrono.bind(QHostAddress::Any, chronoPort);
 
+    // 2) dès qu’on reçoit un datagramme, on va parse mm:ss et fermer
+    connect(&udpChrono, &QUdpSocket::readyRead,
+            this,     &InterfaceQCM::onUdpTimeout);
     // Vérifier si l'utilisateur est un professeur
     if (!isTeacher) {
         ui->textEditFeedBack->setReadOnly(true); // Bloquer l'accès en écriture
@@ -43,6 +47,26 @@ InterfaceQCM::~InterfaceQCM()
 }
 
 
+void InterfaceQCM::onUdpTimeout()
+{
+    // on peut recevoir plusieurs paquets, on les vide tous
+    while (udpChrono.hasPendingDatagrams()) {
+        QByteArray dg;
+        dg.resize(udpChrono.pendingDatagramSize());
+        udpChrono.readDatagram(dg.data(), dg.size());
+        QString s = QString::fromUtf8(dg).trimmed();    // ex: "05:00"
+
+        // on s’attend à un format mm:ss
+        auto parts = s.split(':');
+        if (parts.size()==2) {
+            int m   = parts[0].toInt();
+            int sec = parts[1].toInt();
+            int ms  = (m*60 + sec) * 1000;
+            // 3) schedule la fermeture automatique
+            QTimer::singleShot(ms, this, &QDialog::accept);
+        }
+    }
+}
 
 void InterfaceQCM::loadQuestionsJson(const QString &filePath)
 {

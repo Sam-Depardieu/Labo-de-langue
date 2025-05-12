@@ -37,7 +37,11 @@ InterfaceVideo::InterfaceVideo(bool co, QWidget *parent)
     connect(player, &QMediaPlayer::positionChanged, this, [=](qint64 position) {
         ui->horizontalSlider->setValue(static_cast<int>(position));
     });
+    udpChrono.bind(QHostAddress::Any, chronoPort);
 
+    // 2) dès qu’on reçoit un datagramme, on va parse mm:ss et fermer
+    connect(&udpChrono, &QUdpSocket::readyRead,
+            this,     &InterfaceVideo::onUdpTimeout);
 
     setFixedSize(800,480);
 
@@ -95,7 +99,7 @@ InterfaceVideo::~InterfaceVideo()
 
 void InterfaceVideo::on_pushButton_SelectVideo_clicked()
 {
-    QString videoPath = "\\\\192.168.64.2\\Activites";  // Chemin réseau de la Raspberry Pi
+    QString videoPath = "\\\\192.168.89.42\\Activites";  // Chemin réseau de la Raspberry Pi
 
     QString fileName = QFileDialog::getOpenFileName(
         this,
@@ -216,5 +220,25 @@ void InterfaceVideo::on_pushButtonReset_clicked()
                              QString("Remise à zéro effectuée (%1/%2).")
                                  .arg(resetCount)
                                  .arg(maxResets));
+}
+void InterfaceVideo::onUdpTimeout()
+{
+    // on peut recevoir plusieurs paquets, on les vide tous
+    while (udpChrono.hasPendingDatagrams()) {
+        QByteArray dg;
+        dg.resize(udpChrono.pendingDatagramSize());
+        udpChrono.readDatagram(dg.data(), dg.size());
+        QString s = QString::fromUtf8(dg).trimmed();    // ex: "05:00"
+
+        // on s’attend à un format mm:ss
+        auto parts = s.split(':');
+        if (parts.size()==2) {
+            int m   = parts[0].toInt();
+            int sec = parts[1].toInt();
+            int ms  = (m*60 + sec) * 1000;
+            // 3) schedule la fermeture automatique
+            QTimer::singleShot(ms, this, &QDialog::accept);
+        }
+    }
 }
 

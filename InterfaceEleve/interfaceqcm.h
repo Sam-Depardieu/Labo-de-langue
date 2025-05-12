@@ -4,7 +4,8 @@
 #include "qudpsocket.h"
 #include <QDialog>
 #include <QJsonArray>
-
+#include <QUdpSocket>
+#include <QTimer>
 namespace Ui {
 class InterfaceQCM;
 }
@@ -34,7 +35,7 @@ private slots:
     void on_pushButtonQuestionSuivante_clicked();
 
     void on_pushButtonQuestionPrecedente_clicked();
-
+    void onUdpTimeout();
 
 private:
     Ui::InterfaceQCM *ui;
@@ -56,6 +57,8 @@ private:
 
     void loadQuestionsJson(const QString &filePath);
     void showCurrentQuestion();
+    QUdpSocket udpChrono;
+    quint16 chronoPort =5558;
 };
 
 #endif // INTERFACEQCM_H

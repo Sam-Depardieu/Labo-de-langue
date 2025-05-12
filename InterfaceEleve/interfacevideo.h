@@ -14,7 +14,8 @@
 #include <QSequentialAnimationGroup>
 #include <QMessageBox>
 #include <QMediaPlayer>
-
+#include <QUdpSocket>
+#include <QTimer>
 namespace Ui {
 class InterfaceVideo;
 }
@@ -40,6 +41,7 @@ private slots:
     void on_pushButton_Avant10_2_clicked();
 
     void on_pushButtonReset_clicked();
+    void onUdpTimeout();
 
 protected:
     void closeEvent(QCloseEvent *event);
@@ -53,6 +55,8 @@ private:
     bool CO = false;
     int resetCount = 0;
     static constexpr int maxResets = 3;
+    QUdpSocket udpChrono;
+    quint16 chronoPort =5558;
 
 };
 

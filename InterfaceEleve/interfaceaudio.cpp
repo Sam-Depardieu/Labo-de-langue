@@ -22,7 +22,13 @@ InterfaceAudio::InterfaceAudio(bool co, QWidget *parent)
     connect(player, &QMediaPlayer::positionChanged, this, [=](qint64 position) {
         ui->horizontalSlider->setValue(static_cast<int>(position));
     });
-
+    udpChrono.bind(QHostAddress::Any, chronoPort);
+    if (!udpChrono.bind(QHostAddress::Any, chronoPort)) {
+        qWarning() << "Impossible de binder UDP sur le port" << chronoPort;
+    }
+    // 2) dès qu’on reçoit un datagramme, on va parse mm:ss et fermer
+    connect(&udpChrono, &QUdpSocket::readyRead,
+            this,     &InterfaceAudio::onUdpTimeout);
     ui->pushButton_Pause->setVisible(true);
     ui->pushButton_Play->setVisible(false);
     setFixedSize(800,480);
@@ -82,6 +88,27 @@ InterfaceAudio::~InterfaceAudio()
 {
     delete ui;
 }
+void InterfaceAudio::onUdpTimeout()
+{
+    // on peut recevoir plusieurs paquets, on les vide tous
+    while (udpChrono.hasPendingDatagrams()) {
+        QByteArray dg;
+        dg.resize(udpChrono.pendingDatagramSize());
+        udpChrono.readDatagram(dg.data(), dg.size());
+        QString s = QString::fromUtf8(dg).trimmed();    // ex: "05:00"
+
+        // on s’attend à un format mm:ss
+        auto parts = s.split(':');
+        if (parts.size()==2) {
+            int m   = parts[0].toInt();
+            int sec = parts[1].toInt();
+            int ms  = (m*60 + sec) * 1000;
+            // 3) schedule la fermeture automatique
+            QTimer::singleShot(ms, this, &QDialog::accept);
+        }
+    }
+}
+
 void InterfaceAudio::on_pushButton_Play_clicked()
 {
     player->play();
@@ -96,7 +123,7 @@ void InterfaceAudio::on_pushButton_Pause_clicked()
 }
 void InterfaceAudio::on_pushButton_SelectAudio_clicked()
 {
-    QString videoPath = "\\\\192.168.64.2\\Activites";  // Adresse réseau correcte
+    QString videoPath = "\\\\192.168.89.42\\Activites";  // Adresse réseau correcte
 
     QString fileName = QFileDialog::getOpenFileName(
         this,
@@ -212,5 +239,41 @@ void InterfaceAudio::on_pushButtonReset_clicked()
                              QString("Remise à zéro effectuée (%1/%2).")
                                  .arg(resetCount)
                                  .arg(maxResets));
+}
+void InterfaceAudio::receiveChrono()
+{
+    while (udpChrono.hasPendingDatagrams()) {
+        QByteArray dg;
+        dg.resize(udpChrono.pendingDatagramSize());
+        udpChrono.readDatagram(dg.data(), dg.size());
+
+        // 1) On retire les accolades et on parse en JSON
+        QJsonParseError err;
+        auto doc = QJsonDocument::fromJson(dg, &err);
+        if (err.error != QJsonParseError::NoError || !doc.isObject()) {
+            qWarning() << "JSON invalide reçu pour chrono:" << dg;
+            continue;
+        }
+
+        auto obj = doc.object();
+        QString chrono = obj.value("chrono").toString(); // ex: "00:15"
+        if (chrono.isEmpty()) {
+            qWarning() << "Pas de champ 'chrono' dans" << obj;
+            continue;
+        }
+
+        // 2) Convertir "mm:ss" en millisecondes
+        QTime zero(0,0,0);
+        QTime limit = QTime::fromString(chrono, "mm:ss");
+        if (!limit.isValid()) {
+            qWarning() << "Format mm:ss invalide:" << chrono;
+            continue;
+        }
+        int ms = zero.msecsTo(limit);
+
+        qDebug() << "Fermeture dans (ms):" << ms;
+        // 3) Schedule la fermeture après ce délai
+        QTimer::singleShot(ms, this, &QDialog::accept);
+    }
 }
 
