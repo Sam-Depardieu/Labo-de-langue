@@ -84,7 +84,7 @@ Pour toute question, veuillez contacter :
 
 ## Informations complémentaires
 Les ports réseaux suivant seront utilisé :  
-- ``5557`` : envoie des commandes de l'interface prof->eleve et vice versa
+- ``5557`` : envoie des commandes mute/demute/activerSon/desactionSon
 - ``5558`` :
 	- envoie du nom de fichier en cours ("chemin_reseau_fichier")
 	- envoie des informations aux interfaces élève sous la forme de Json ({"nomEleve": "nom_eleve"}, {"nomProf": "nom_prof"}, {"consigne": "consigne"}, {"chrono": "chrono_en_scd"})
