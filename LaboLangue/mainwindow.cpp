@@ -483,7 +483,7 @@ bool MainWindow::connectToDatabase() {
     }
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("192.168.89.42");
+    db.setHostName("localhost");
     db.setDatabaseName("LaboLangue");
     db.setPort(3306);
     db.setUserName("prof"); // Remplacez par votre nom d'utilisateur

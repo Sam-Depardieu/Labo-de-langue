@@ -195,31 +195,5 @@ void Professor::receiveAudioData() {
     //qDebug() << "🔹 Fin receiveAudioData()";
 }
 
-void Professor::envoyerGroupes()
-{
-    for (auto it = listeGroup.begin(); it != listeGroup.end(); ++it) {
-        std::vector<iconEleveGroup*>& membres = it.value();
-
-        for (iconEleveGroup* membre : membres) {
-            QStringList autresIPs;
-            for (iconEleveGroup* autre : membres) {
-                if (membre != autre && !autre->getIP().isEmpty()) {
-                    autresIPs << autre->getIP();
-                }
-            }
-
-            // Créer le message JSON
-            QJsonObject payload;
-            payload["groupAudio"] = QJsonArray::fromStringList(autresIPs);
-            QJsonDocument doc(payload);
-            QString message = QString::fromUtf8(doc.toJson(QJsonDocument::Compact));
-
-            // Envoie au membre
-            prof->sendCommandToStudent(membre->getIP(), 5559, message);
-            qDebug() << "🎧 Envoyé à" << membre->getNom() << ":" << autresIPs;
-        }
-    }
-}
-
 
 

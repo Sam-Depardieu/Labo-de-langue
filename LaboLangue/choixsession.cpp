@@ -1,5 +1,6 @@
 #include "choixsession.h"
 #include "qjsonarray.h"
+#include "mainwindow.h"
 #include "ui_choixsession.h"
 
 choixSession::choixSession(MainWindow* parentWindow)

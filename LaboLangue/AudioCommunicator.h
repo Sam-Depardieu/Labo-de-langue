@@ -36,7 +36,6 @@ public:
 public slots:  // Déclaration des slots ici
     void sendAudioData();  // Méthode qui sera appelée toutes les 100 ms
     void receiveAudioData();  // Méthode pour recevoir l'audio des étudiants
-    void envoyerGroupes();
 
     void processPendingDatagrams() {
         while (udpSocket.hasPendingDatagrams()) {
