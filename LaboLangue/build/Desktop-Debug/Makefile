@@ -467,6 +467,12 @@ AudioCommunicator.o: ../../AudioCommunicator.cpp ../../AudioCommunicator.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o AudioCommunicator.o ../../AudioCommunicator.cpp
 
 choixsession.o: ../../choixsession.cpp ../../choixsession.h \
+		../../mainwindow.h \
+		../../iconEleveGroup.h \
+		../../AudioCommunicator.h \
+		../../zmq/zmq.hpp \
+		../../zmq.h \
+		../../qcm.h \
 		ui_choixsession.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o choixsession.o ../../choixsession.cpp
 

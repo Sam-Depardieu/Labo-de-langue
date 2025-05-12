@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "AudioCommunicator.h"
+#include "qsqlerror.h"
+#include "qsqlquery.h"
 
 #include <QtMultimedia>
 #include <QtMultimediaWidgets>

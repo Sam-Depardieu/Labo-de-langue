@@ -1,9 +1,11 @@
 #include "iconEleveGroup.h"
 #include "mainwindow.h"
+#include "qsqlerror.h"
+#include "qsqlquery.h"
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
 
-iconEleveGroup::iconEleveGroup(int ID, QString ip, QGraphicsTextItem* text, MainWindow* parentWindow) : QGraphicsItemGroup(), ID(ID), IP(ip), nom(QString::number(ID)), textItem(text), mainWindow(parentWindow) {
+iconEleveGroup::iconEleveGroup(int IDEleve, QString ipEleve, QGraphicsTextItem* text, MainWindow* parentWindow) : QGraphicsItemGroup(), mainWindow(parentWindow), nom(QString::number(IDEleve)), IP(ipEleve), ID(IDEleve), textItem(text) {
     setFlag(QGraphicsItem::ItemSendsGeometryChanges);
 }
 

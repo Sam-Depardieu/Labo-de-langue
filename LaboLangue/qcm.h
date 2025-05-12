@@ -1,90 +1,98 @@
 #ifndef QCM_H
 #define QCM_H
 
+// === Qt Widgets / Layout ===
 #include <QDialog>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QGridLayout>
+#include <QScrollArea>
+#include <QGroupBox>
+#include <QSpinBox>
 #include <QLineEdit>
 #include <QPushButton>
 #include <QLabel>
-#include <QSpinBox>
 #include <QCheckBox>
 #include <QMessageBox>
+
+// === Qt JSON / Fichiers ===
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QFile>
-#include <QStandardPaths>
-#include <QScrollArea>
-#include <QGroupBox>
-#include <QPropertyAnimation>
 #include <QFileInfo>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonArray>
 #include <QFileDialog>
+#include <QStandardPaths>
+#include <QPropertyAnimation>
 
-using namespace std;
+#include <array>
+#include <QString>
+#include <QList>
 
 class MainWindow;
-
 
 namespace Ui {
 class QCM;
 }
 
-class QCM : public QDialog
-{
+using namespace std;
+
+class QCM : public QDialog {
     Q_OBJECT
 
-    public:
-        QCM(QWidget *parent, MainWindow* parentWindow);
+public:
+    explicit QCM(QWidget *parent, MainWindow* parentWindow);
+    ~QCM();
 
-        int getSize() {return questionWidgets.size();};
+    int getSize() const { return questionWidgets.size(); }
 
-        ~QCM();
+signals:
+    void fermetureQCM();
 
-    private:
-        Ui::QCM *ui;
-        MainWindow* mainWindow;
-        QVBoxLayout *mainLayout;
-        int col;
-        QScrollArea *scrollArea;
-        QWidget *scrollWidget;
-        QGridLayout *questionsLayout;
-        QGroupBox *addQuestionBox = nullptr;
-        QPushButton *addQuestionButton;
-        QPushButton *removeQuestionButton;
-        QPushButton *saveButton;
-        QPushButton *importQuestionButton;
-        QLabel *nomQCMLabel;
-        QLineEdit *nomQCM;
+private:
+    Ui::QCM *ui;
+    MainWindow* mainWindow;
 
+    // === Interface principale ===
+    QVBoxLayout *mainLayout;
+    QScrollArea *scrollArea;
+    QWidget *scrollWidget;
+    QGridLayout *questionsLayout;
 
-        struct QuestionWidget {
-            QSpinBox *questionNumberSpin;
-            QLineEdit *questionEdit;
-            QSpinBox *choiceCountSpin;
-            QVBoxLayout *answersLayout;
-            QList<QLineEdit *> answerFields;
-            QList<QCheckBox *> correctAnswers;
-            QHBoxLayout *buttonLayout;
-            QPushButton *addAnswerButton;
-            QPushButton *removeAnswerButton;
-        };
+    // === Zone d'ajout de question ===
+    QGroupBox *addQuestionBox = nullptr;
+    QPushButton *addQuestionButton;
+    QPushButton *removeQuestionButton;
+    QPushButton *saveButton;
+    QPushButton *importQuestionButton;
+    QLabel *nomQCMLabel;
+    QLineEdit *nomQCM;
 
-        QList<QuestionWidget *> questionWidgets;
+    // === Structure de question ===
+    struct QuestionWidget {
+        QSpinBox *questionNumberSpin;
+        QLineEdit *questionEdit;
+        QSpinBox *choiceCountSpin;
+        QVBoxLayout *answersLayout;
+        QList<QLineEdit*> answerFields;
+        QList<QCheckBox*> correctAnswers;
+        QHBoxLayout *buttonLayout;
+        QPushButton *addAnswerButton;
+        QPushButton *removeAnswerButton;
+    };
 
-    private slots:
-        void addQuestion(QString *nomQ = new QString("Test"), QString *numQ = new QString("1"), QString *nbRep = new QString("2"), array<array<QString, 2>, 4> choices= {{{QString("")}}});
-        void removeQuestion();
-        void saveQuestions();
-        void addBoxAddQuestion();
-        void addAnswers(QuestionWidget* question, QString *choix, QString *correct);
-        void importQCM();
+    QList<QuestionWidget*> questionWidgets;
 
-    signals:
-        void fermetureQCM();
+private slots:
+    void addQuestion(QString *nomQ = new QString("Test"),
+                     QString *numQ = new QString("1"),
+                     QString *nbRep = new QString("2"),
+                     std::array<std::array<QString, 2>, 4> choices = {{{QString("")}}});
+    void removeQuestion();
+    void saveQuestions();
+    void addBoxAddQuestion();
+    void addAnswers(QuestionWidget *question, QString *choix, QString *correct);
+    void importQCM();
 };
 
 #endif // QCM_H

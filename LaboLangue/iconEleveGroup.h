@@ -1,113 +1,93 @@
 #ifndef ICONELEVEGROUP_H
 #define ICONELEVEGROUP_H
 
-//#include <QAudioOutput>
-//#include <QMediaPlayer>
-
+// === Qt Core & Widgets ===
 #include <QObject>
-#include <QMainWindow>
-#include <QApplication>
-#include <QGraphicsView>
-#include <QGraphicsScene>
-#include <QGraphicsPixmapItem>
-#include <QtSql/QSqlDatabase>
-#include <QtSql/QSqlQuery>
-#include <QtSql/QSqlError>
-#include <QGraphicsTextItem>
 #include <QGraphicsItemGroup>
-#include <QVariant>
-#include <QKeyEvent>
-#include <QDebug>
-#include <QPalette>
+#include <QGraphicsPixmapItem>
+#include <QGraphicsTextItem>
+#include <QGraphicsSceneMouseEvent>
 #include <QRectF>
-#include <QVBoxLayout>
+#include <QString>
+#include <vector>
+
+// === Qt Multimédia (optionnel selon utilisation) ===
 #include <QtMultimedia>
 #include <QtMultimediaWidgets>
-#include <QDate>
-#include <QFileInfo>
-#include <QFile>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonArray>
-#include <QRegularExpression>
-#include <QtWebSockets/QWebSocket>
 
+// === Projet ===
 class MainWindow;
-class VoiceChat;
 
 class iconEleveGroup : public QObject, public QGraphicsItemGroup {
     Q_OBJECT
 
-    protected:
-        void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;
-        QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
-        QRectF boundingRect()const override;
+public:
+    // === Constructeur ===
+    iconEleveGroup(int ID, QString ip, QGraphicsTextItem* text, MainWindow* parentWindow);
 
-    private:
-        MainWindow* mainWindow;
-        QString nom;
-        std::vector<iconEleveGroup*> affiliate = {};
+    // === Setters ===
+    void setCheckItem(QGraphicsPixmapItem *item) { checkItem = item; }
+    void setSound(QGraphicsPixmapItem *item) { sound = item; }
+    void setMicroActiver(QGraphicsPixmapItem *item) { microActiver = item; }
+    void setMicroDesactiver(QGraphicsPixmapItem *item) { microDesactiver = item; }
+    void setCasqueActiver(QGraphicsPixmapItem *item) { casqueActiver = item; }
+    void setCasqueDesactiver(QGraphicsPixmapItem *item) { casqueDesactiver = item; }
+    void setIDELeve(int id) { IDEleve = id; }
+    void setTextItem(const QString newText) { if (textItem) textItem->setPlainText(newText); }
+    void setNom(const QString& newNom) { nom = newNom; }
+    void setNumQCM(int num) { numQCM = num; }
+    void setNomGroupe(const QString& nomG) { nomGroupe = nomG; }
 
-        int ID = 0;
-        int IDEleve=0;
-        QString IP;
-        QString nomGroupe = "";
-        int numQCM = 1;
+    // === Getters ===
+    int getID() const { return ID; }
+    int getIDEleve() const { return IDEleve; }
+    int getNumQCM() const { return numQCM; }
+    QString getNom() const { return nom; }
+    QString getIP() const { return IP; }
+    QString getNomGroupe() const { return nomGroupe; }
+    std::vector<iconEleveGroup*> getAffiliate() const { return affiliate; }
 
-        QGraphicsPixmapItem *checkItem = nullptr;
+    QGraphicsTextItem* getTextItem() const { return textItem; }
+    QGraphicsPixmapItem* getCheckItem() const { return checkItem; }
+    QGraphicsPixmapItem* getSound() const { return sound; }
 
-        //Image des micro / casque
-            QGraphicsPixmapItem *microActiver = nullptr;
-            QGraphicsPixmapItem *microDesactiver = nullptr;
-            QGraphicsPixmapItem *casqueActiver = nullptr;
-            QGraphicsPixmapItem *casqueDesactiver = nullptr;
+    QGraphicsPixmapItem* getMicroActiver() const { return microActiver; }
+    QGraphicsPixmapItem* getMicroDesactiver() const { return microDesactiver; }
+    QGraphicsPixmapItem* getCasqueActiver() const { return casqueActiver; }
+    QGraphicsPixmapItem* getCasqueDesactiver() const { return casqueDesactiver; }
 
+signals:
+    void doubleClicked();
 
-        QGraphicsPixmapItem *sound = nullptr;
-        QGraphicsTextItem *textItem = nullptr;
+protected:
+    // === Redéfinitions graphiques ===
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
+    QRectF boundingRect() const override;
 
-    public:
+private:
+    // === Références / contexte ===
+    MainWindow* mainWindow;
 
-        iconEleveGroup(int ID, QString ip, QGraphicsTextItem* text, MainWindow* parentWindow);
+    // === Données élève ===
+    QString nom;
+    QString IP;
+    QString nomGroupe;
+    int ID = 0;
+    int IDEleve = 0;
+    int numQCM = 1;
 
-            //Setteur
-            void setCheckItem(QGraphicsPixmapItem *item) { checkItem = item; }
+    std::vector<iconEleveGroup*> affiliate;
 
-            // Micro et casque
-                void setMicroActiver(QGraphicsPixmapItem *item) { microActiver = item; }
-                void setMicroDesactiver(QGraphicsPixmapItem *item) { microDesactiver = item; }
-                void setCasqueActiver(QGraphicsPixmapItem *item) { casqueActiver = item; }
-                void setCasqueDesactiver(QGraphicsPixmapItem *item) { casqueDesactiver = item; }
+    // === Éléments graphiques ===
+    QGraphicsTextItem* textItem = nullptr;
+    QGraphicsPixmapItem* checkItem = nullptr;
+    QGraphicsPixmapItem* sound = nullptr;
 
-            void setSound(QGraphicsPixmapItem *item) { sound = item; }
-            void setIDELeve(int ID) { IDEleve=ID; }
-            void setTextItem(const QString newText) {textItem->setPlainText(newText);};
-            void setNom(QString newNom) {nom = newNom;};
-            void setNumQCM(int num) {numQCM = num;};
-            void setNomGroupe(QString nomG) {nomGroupe = nomG;};
-
-            //Getteur
-                QString getNomGroupe() {return nomGroupe;};
-                std::vector<iconEleveGroup*> getAffiliate() {return affiliate;};
-                QGraphicsTextItem* getTextItem() const {return textItem;};
-                QGraphicsPixmapItem* getCheckItem() { return checkItem; }
-
-                // Micro et casque
-                    QGraphicsPixmapItem* getMicroActiver() { return microActiver; }
-                    QGraphicsPixmapItem* getMicroDesactiver() { return microDesactiver; }
-                    QGraphicsPixmapItem* getCasqueActiver() { return casqueActiver; }
-                    QGraphicsPixmapItem* getCasqueDesactiver() { return casqueDesactiver; }
-
-
-                QGraphicsPixmapItem* getSound() { return sound; }
-                int getID() const {return ID;};
-                QString getIP() const {return IP;};
-                QString getNom() const {return nom;};
-                int getIDEleve() const {return IDEleve;};
-                int getNumQCM() const {return numQCM;};
-
-    signals:
-        void doubleClicked();
+    QGraphicsPixmapItem* microActiver = nullptr;
+    QGraphicsPixmapItem* microDesactiver = nullptr;
+    QGraphicsPixmapItem* casqueActiver = nullptr;
+    QGraphicsPixmapItem* casqueDesactiver = nullptr;
 };
 
 #endif // ICONELEVEGROUP_H

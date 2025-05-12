@@ -12,6 +12,7 @@
 #include <vector>
 #include <initializer_list>
 
+// Inclusions projet
 #include "iconEleveGroup.h"
 #include "AudioCommunicator.h"
 #include "qcm.h"
@@ -20,9 +21,6 @@
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
-class iconEleveGroup;
-class QCM;
-class choixSession;
 }
 QT_END_NAMESPACE
 
@@ -33,28 +31,25 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    // === Accès public ===
-    QString getSessionFolder() { return sessionFolder; }
+    // === Accesseurs publics ===
+    QString getSessionFolder() const { return sessionFolder; }
     void setSource(QString newSource) { source = newSource; }
     void setNomEtudiantLineEdit(QString nom);
-    bool getModeSombre() { return modeSombre; }
+    bool getModeSombre() const { return modeSombre; }
 
     // === Méthodes principales ===
+    void continuerCreationSession();
     void toggleSettingEleve(iconEleveGroup *group, bool open);
     void updateCheckItemsVisibility();
-    void continuerCreationSession();
 
-    // === Données liées aux élèves ===
-    std::vector<iconEleveGroup*> listeRasp = {};
-    std::vector<iconEleveGroup*> listeParticipant = {};
-    std::vector<iconEleveGroup*> listeEditEleve = {};
-    std::vector<int> listeEleveParticipant = {};
+    // === Données publiques élèves / session ===
+    std::vector<iconEleveGroup*> listeRasp;
+    std::vector<iconEleveGroup*> listeParticipant;
+    std::vector<iconEleveGroup*> listeEditEleve;
+    std::vector<int> listeEleveParticipant;
     iconEleveGroup* eleveActuellementParametre = nullptr;
-
-    // === Données de session / activité ===
-    QMap<QString, std::vector<iconEleveGroup*>> listeGroup = {};
+    QMap<QString, std::vector<iconEleveGroup*>> listeGroup;
     QCM *qcm = nullptr;
-    int idTypeActivite = -1;
 
     // === États de l’interface ===
     bool parametrageSession = false;
@@ -73,7 +68,7 @@ private slots:
     void on_CreationButton_clicked();
     void on_StatutButton_clicked();
 
-    // === Gestion de session ===
+    // === Gestion session ===
     void on_loadSession_clicked();
     void loadSession();
     void saveSessionData(bool isNewSession);
@@ -82,7 +77,7 @@ private slots:
     void setupClassesComboBox();
     void on_ChoixActivite_currentIndexChanged(int index);
 
-    // === Sélection des élèves ===
+    // === Sélection élèves ===
     void on_selectAll_clicked();
     void on_selectManuel_clicked();
     void on_validButton_clicked();
@@ -90,7 +85,7 @@ private slots:
     void on_delButton_clicked();
     void on_echapButton_clicked();
 
-    // === Paramétrage de l’élève ===
+    // === Paramétrage élèves ===
     void on_muteButton_clicked();
     void on_demuteButton_clicked();
     void on_desactiverSonButton_clicked();
@@ -104,18 +99,12 @@ private slots:
     void on_annulerButton_clicked();
     void onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve);
 
-    // === Mode sombre / clair ===
+    // === Apparence ===
     void on_modeClairButton_clicked();
     void on_modeSombreButton_clicked();
     void on_cacheButton_clicked();
 
-    // === Méthodes internes ===
-    void loadImagesFromDB();
-    bool connectToDatabase();
-    void onImageGroupDoubleClicked();
-    void editStatusButton(QPushButton *button, bool status);
-    void addHorizontalLayout(QVBoxLayout *layout, std::initializer_list<QWidget*> widgets);
-    void showCheckIconOnGroup(iconEleveGroup *group);
+    // === Autres fonctionnalités ===
     void majStatusQCM();
     void changeNameTable(QTableWidgetItem* item);
     void updateEleveNom(iconEleveGroup* eleve, const QString& newName);
@@ -129,33 +118,36 @@ private:
     QTableWidget* TableauGroupe = nullptr;
     QTableWidget* StatutTableauGroupe = nullptr;
 
-
-
-
-    void onClicked_itemBoutonSupprimerGroupe(iconEleveGroup* eleve);
-    void mettreAJourAudioPourGroupe(const QString& groupe);
-
-private:
-    // === Base de données et session ===
+    // === Base de données ===
     QSqlDatabase db;
     QString source;
     QString sessionFolder;
     QString nomProf;
     int idProf = -1;
     int idClasse = -1;
-    int typeActivite = -1;
+    int idTypeActivite = -1;
     QString duree;
     QString nomTypeActivite;
 
-    // === Audio / Réseau ===
+    // === Audio & Réseau ===
     QUdpSocket* udpSocketPATH = nullptr;
     unsigned int portPATH = 5559;
     QUdpSocket* udpSocketQCM = nullptr;
     unsigned int portQCM = 5559;
 
-    // === Autres ===
+    // === Divers ===
     Professor *prof = nullptr;
     bool modeSombre = true;
+
+    // === Méthodes utilitaires ===
+    void loadImagesFromDB();
+    bool connectToDatabase();
+    void onImageGroupDoubleClicked();
+    void editStatusButton(QPushButton *button, bool status);
+    void addHorizontalLayout(QVBoxLayout *layout, std::initializer_list<QWidget*> widgets);
+    void showCheckIconOnGroup(iconEleveGroup *group);
+    void onClicked_itemBoutonSupprimerGroupe(iconEleveGroup* eleve);
+    void mettreAJourAudioPourGroupe(const QString& groupe);
 };
 
 #endif // MAINWINDOW_H

@@ -9,21 +9,25 @@
 #include <QAudioSource>
 #include <QAudioSink>
 #include <QIODevice>
-#include <QString>
-#include <QDebug>
-#include <QMediaDevices>
 #include <QTimer>
 #include <QUdpSocket>
-#include <zmq/zmq.hpp>
+#include <QHostAddress>
 #include <QMessageBox>
+#include <QDebug>
+#include <QString>
+#include <QMediaDevices>
 
-class Professor: public QObject {
+#include <zmq/zmq.hpp>
+
+class MainWindow;
+
+class Professor : public QObject {
     Q_OBJECT
 
 public:
-    Professor(MainWindow* parentWindow);
+    explicit Professor(MainWindow* parentWindow);
 
-    //Fonction de communication
+    // Fonctions de contrôle audio
     void muteStudent(const QString& studentIp);
     void unmuteStudent(const QString& studentIp);
     void activerSonStudent(const QString& studentIp);
@@ -33,40 +37,37 @@ public:
 
     QString getStudentStatus(const QString& studentIp);
 
-public slots:  // Déclaration des slots ici
-    void sendAudioData();  // Méthode qui sera appelée toutes les 100 ms
-    void receiveAudioData();  // Méthode pour recevoir l'audio des étudiants
-
-    void processPendingDatagrams() {
-        while (udpSocket.hasPendingDatagrams()) {
-            QByteArray datagram;
-            datagram.resize(udpSocket.pendingDatagramSize());
-            QHostAddress sender;
-            quint16 senderPort;
-            udpSocket.readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
-            qDebug() << "📩 Commande reçue de" << sender.toString() << ":" << QString::fromUtf8(datagram);
-        }
-    }
+public slots:
+    void sendAudioData();      // Envoi périodique de l'audio (100 ms)
+    void receiveAudioData();   // Réception audio des étudiants
+    void processPendingDatagrams();
 
 private:
-    QString serverIp = "localhost"; // L'adresse IP du serveur
-    zmq::context_t context;  // Contexte ZeroMQ
-    zmq::socket_t *pushSocket;  // Socket pour envoyer l'audio
-    zmq::socket_t *pullSocket;  // Socket pour recevoir l'audio
-    MainWindow* mainWindow;
+    QString serverIp = "localhost";  // Adresse du serveur audio
 
-    QAudioSource *audioSource;  // Source audio pour capter l'audio du professeur
-    QAudioSink *audioSink;  // Sortie audio pour jouer l'audio des étudiants
-    QIODevice *audioSourceDevice;  // Dispositif pour lire les données audio du professeur
-    QIODevice *audioSinkDevice;  // Dispositif pour écrire les données audio dans les haut-parleurs
+    // ZeroMQ
+    zmq::context_t context;
+    zmq::socket_t* pushSocket = nullptr;
+    zmq::socket_t* pullSocket = nullptr;
+
+    // Qt Audio
+    QAudioSource* audioSource = nullptr;
+    QAudioSink* audioSink = nullptr;
+    QIODevice* audioSourceDevice = nullptr;
+    QIODevice* audioSinkDevice = nullptr;
     QAudioDevice inputDeviceInfo;
     QAudioDevice outputDeviceInfo;
+
+    // Qt
     QTimer sendAudioTimer;
     QTimer receiveAudioTimer;
+    QUdpSocket udpSocket;
+
+    // Messages d'erreur
     bool microError = false;
     bool audioError = false;
 
-    QUdpSocket udpSocket;
+    MainWindow* mainWindow = nullptr;
 };
 
 #endif // AUDIOCOMMUNICATOR_H

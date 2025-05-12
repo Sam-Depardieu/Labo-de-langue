@@ -290,39 +290,28 @@ void QCM::addAnswers(QuestionWidget* question, QString *choix, QString *correct)
 
 void QCM::addBoxAddQuestion()
 {
-    // Si la boîte existe déjà, la supprimer avant de la recréer
-    if (addQuestionBox != nullptr) {
-        questionsLayout->removeWidget(addQuestionBox);
-        delete addQuestionBox;
+    // Check if addQuestionBox is already added to the layout
+    bool isAlreadyAdded = false;
+    for (int i = 0; i < questionsLayout->count(); ++i) {
+        QLayoutItem *item = questionsLayout->itemAt(i);
+        QWidget *widget = item->widget();
+        if (widget == addQuestionBox) {
+            isAlreadyAdded = true;
+            break;
+        }
     }
 
-    // Créer la boîte d'ajout de question
-    addQuestionBox = new QGroupBox(this);
-    addQuestionBox->setStyleSheet("border: 2px dashed rgb(0, 151, 178); border-radius: 5px; padding: 20px;");
+    if (!isAlreadyAdded) {
+        // If not added, add the box to the layout
+        int row = questionWidgets.size() / 2;  // Each row contains 2 questions
+        int column = questionWidgets.size() % 2;  // Alternating between 0 and 1 (two columns per row)
 
-    QVBoxLayout *boxLayout = new QVBoxLayout(addQuestionBox);
-    QLabel *descriptionLabel = new QLabel("Cliquez pour ajouter une nouvelle question", this);
-    QPushButton *addButton = new QPushButton("+", this);
-    addButton->setStyleSheet("font-size: 24px; font-weight: bold; padding: 10px; background-color: transparent; border: none;");
+        questionsLayout->addWidget(addQuestionBox, row, column);
+    }
 
-    boxLayout->addWidget(addButton, 0, Qt::AlignCenter);
-    boxLayout->addWidget(descriptionLabel, 0, Qt::AlignCenter);
-
-    connect(addButton, &QPushButton::clicked, this, [this]() {
-        this->addQuestion(nullptr, nullptr, nullptr);
-    });
-
-    // Calculer la ligne et la colonne où la boîte doit être placée
-    int row = questionWidgets.size() / 2;  // Chaque ligne contient 2 questions
-    int column = questionWidgets.size() % 2;  // Alternance entre 0 et 1 (deux colonnes par ligne)
-
-    // Ajouter la boîte d'ajout de question dans le layout, après la dernière question
-    questionsLayout->addWidget(addQuestionBox, row, column);
-
-    // Ajuster la taille du widget après ajout
+    // Adjust the size of the widget after adding
     scrollWidget->adjustSize();
 }
-
 
 void QCM::removeQuestion()
 {
@@ -331,39 +320,33 @@ void QCM::removeQuestion()
         return;
     }
 
-    // Récupérer la dernière question et son QGroupBox
     QuestionWidget *question = questionWidgets.takeLast();
     QGroupBox *questionBox = nullptr;
 
-    // Trouver le QGroupBox correspondant à la dernière question
     for (int i = 0; i < questionsLayout->count(); ++i) {
         QLayoutItem *item = questionsLayout->itemAt(i);
         QWidget *widget = item->widget();
 
         if (QGroupBox *box = qobject_cast<QGroupBox*>(widget)) {
-            if (box->title().contains("Question")) {  // Identifier un QGroupBox question
+            if (box->title().contains("Question")) {
                 questionBox = box;
+                break;
             }
         }
     }
 
     if (questionBox) {
         questionsLayout->removeWidget(questionBox);
-        delete questionBox;  // Supprimer l'affichage de la question
+        delete questionBox;
     }
 
-    // Supprimer l'objet question
     delete question;
 
-    // Repositionner la boîte d'ajout de question
     addBoxAddQuestion();
 
-    // Mise à jour de l'affichage
     scrollWidget->adjustSize();
     scrollWidget->update();
 }
-
-
 
 
 void QCM::saveQuestions()

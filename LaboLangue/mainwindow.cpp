@@ -1,4 +1,6 @@
 #include "mainwindow.h"
+#include "qsqlerror.h"
+#include "qsqlquery.h"
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
@@ -261,7 +263,6 @@ void MainWindow::resetSession()
     idTypeActivite = -1;
     idClasse = -1;
     idProf = -1;
-    typeActivite = -1;
 
     //Réinitialisation des listes
     listeRasp.clear();
@@ -690,7 +691,7 @@ void MainWindow::on_PlanButton_clicked()
 void MainWindow::on_ChoixActivite_currentIndexChanged(int index)
 {
     QString selectedActivity = ui->ChoixActivite->itemText(index);
-    typeActivite = index;
+    idTypeActivite = index;
 }
 
 void MainWindow::on_selectManuel_clicked()

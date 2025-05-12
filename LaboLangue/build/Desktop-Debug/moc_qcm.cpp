@@ -36,7 +36,7 @@ struct qt_meta_stringdata_QCM_t {
     char stringdata5[5];
     char stringdata6[5];
     char stringdata7[6];
-    char stringdata8[26];
+    char stringdata8[36];
     char stringdata9[8];
     char stringdata10[15];
     char stringdata11[14];
@@ -60,17 +60,17 @@ Q_CONSTINIT static const qt_meta_stringdata_QCM_t qt_meta_stringdata_QCM = {
         QT_MOC_LITERAL(39, 4),  // "nomQ"
         QT_MOC_LITERAL(44, 4),  // "numQ"
         QT_MOC_LITERAL(49, 5),  // "nbRep"
-        QT_MOC_LITERAL(55, 25),  // "array<array<QString,2>,4>"
-        QT_MOC_LITERAL(81, 7),  // "choices"
-        QT_MOC_LITERAL(89, 14),  // "removeQuestion"
-        QT_MOC_LITERAL(104, 13),  // "saveQuestions"
-        QT_MOC_LITERAL(118, 17),  // "addBoxAddQuestion"
-        QT_MOC_LITERAL(136, 10),  // "addAnswers"
-        QT_MOC_LITERAL(147, 15),  // "QuestionWidget*"
-        QT_MOC_LITERAL(163, 8),  // "question"
-        QT_MOC_LITERAL(172, 5),  // "choix"
-        QT_MOC_LITERAL(178, 7),  // "correct"
-        QT_MOC_LITERAL(186, 9)   // "importQCM"
+        QT_MOC_LITERAL(55, 35),  // "std::array<std::array<QString..."
+        QT_MOC_LITERAL(91, 7),  // "choices"
+        QT_MOC_LITERAL(99, 14),  // "removeQuestion"
+        QT_MOC_LITERAL(114, 13),  // "saveQuestions"
+        QT_MOC_LITERAL(128, 17),  // "addBoxAddQuestion"
+        QT_MOC_LITERAL(146, 10),  // "addAnswers"
+        QT_MOC_LITERAL(157, 15),  // "QuestionWidget*"
+        QT_MOC_LITERAL(173, 8),  // "question"
+        QT_MOC_LITERAL(182, 5),  // "choix"
+        QT_MOC_LITERAL(188, 7),  // "correct"
+        QT_MOC_LITERAL(196, 9)   // "importQCM"
     },
     "QCM",
     "fermetureQCM",
@@ -80,7 +80,7 @@ Q_CONSTINIT static const qt_meta_stringdata_QCM_t qt_meta_stringdata_QCM = {
     "nomQ",
     "numQ",
     "nbRep",
-    "array<array<QString,2>,4>",
+    "std::array<std::array<QString,2>,4>",
     "choices",
     "removeQuestion",
     "saveQuestions",
@@ -157,7 +157,7 @@ Q_CONSTINIT const QMetaObject QCM::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<QString *, std::false_type>,
         QtPrivate::TypeAndForceComplete<QString *, std::false_type>,
         QtPrivate::TypeAndForceComplete<QString *, std::false_type>,
-        QtPrivate::TypeAndForceComplete<array<array<QString,2>,4>, std::false_type>,
+        QtPrivate::TypeAndForceComplete<std::array<std::array<QString,2>,4>, std::false_type>,
         // method 'addQuestion'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<QString *, std::false_type>,
@@ -196,7 +196,7 @@ void QCM::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **
         (void)_t;
         switch (_id) {
         case 0: _t->fermetureQCM(); break;
-        case 1: _t->addQuestion((*reinterpret_cast< std::add_pointer_t<QString*>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString*>>(_a[2])),(*reinterpret_cast< std::add_pointer_t<QString*>>(_a[3])),(*reinterpret_cast< std::add_pointer_t<array<array<QString,2>,4>>>(_a[4]))); break;
+        case 1: _t->addQuestion((*reinterpret_cast< std::add_pointer_t<QString*>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString*>>(_a[2])),(*reinterpret_cast< std::add_pointer_t<QString*>>(_a[3])),(*reinterpret_cast< std::add_pointer_t<std::array<std::array<QString,2>,4>>>(_a[4]))); break;
         case 2: _t->addQuestion((*reinterpret_cast< std::add_pointer_t<QString*>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString*>>(_a[2])),(*reinterpret_cast< std::add_pointer_t<QString*>>(_a[3]))); break;
         case 3: _t->addQuestion((*reinterpret_cast< std::add_pointer_t<QString*>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString*>>(_a[2]))); break;
         case 4: _t->addQuestion((*reinterpret_cast< std::add_pointer_t<QString*>>(_a[1]))); break;

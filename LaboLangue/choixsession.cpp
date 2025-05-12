@@ -14,22 +14,18 @@ choixSession::choixSession(MainWindow* parentWindow)
     ui->sortAZButton->setVisible(false);
     ui->sortZAButton->setVisible(true);
 
-    // Charger les dossiers de sessions
-    basePath = R"(//CIEL-T171-05/Activites)";              //à changer
+    basePath = R"(//CIEL-T171-05/Activites)";
     QDir dir(basePath);
     QStringList sessionDirs = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-
 
     for (const QString &folder : sessionDirs) {
         QString folderPath = basePath + "/" + folder;
         QFileInfo info(folderPath);
         QString creationDate = info.birthTime().toString("dd/MM/yyyy hh:mm");
 
-        // Lire le fichier config.labo
         QFile file(folderPath + "/config.labo");
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-            qDebug() << "❌ Impossible d’ouvrir :" << file.fileName();
-            continue;  // passer au dossier suivant
+            continue;
         }
 
         QByteArray data = file.readAll();
@@ -38,19 +34,16 @@ choixSession::choixSession(MainWindow* parentWindow)
         QJsonParseError error;
         QJsonDocument doc = QJsonDocument::fromJson(data, &error);
         if (error.error != QJsonParseError::NoError || !doc.isObject()) {
-            qDebug() << "❌ JSON invalide dans :" << file.fileName();
             continue;
         }
 
         QJsonObject obj = doc.object();
-        int id = obj.value("idTypeActivite").toInt(-1);  // -1 = valeur par défaut si non présent ou non int
+        int id = obj.value("idTypeActivite").toInt(-1);
         QString idTypeActivite = (id == -1) ? "Inconnu" : QString::number(id);
-
         QJsonArray participants = obj.value("participants").toArray();
         int nbParticipants = participants.size();
         QString stringNbParticipant = QString::number(nbParticipants);
 
-        // Création du widget personnalisé
         QWidget* itemWidget = new QWidget();
         QVBoxLayout* layout = new QVBoxLayout(itemWidget);
         layout->setContentsMargins(5, 5, 5, 5);
@@ -67,17 +60,13 @@ choixSession::choixSession(MainWindow* parentWindow)
         layout->addWidget(customLine1);
         layout->addWidget(customLine2);
 
-        // Ajout à la QListWidget
         QListWidgetItem* item = new QListWidgetItem(ui->listeSession);
         item->setSizeHint(itemWidget->sizeHint());
-        item->setData(Qt::UserRole, folder);  // pour le retrouver facilement plus tard
-
+        item->setData(Qt::UserRole, folder);
         ui->listeSession->addItem(item);
         ui->listeSession->setItemWidget(item, itemWidget);
     }
-
 }
-
 
 void choixSession::on_listeSession_itemDoubleClicked(QListWidgetItem *item)
 {
@@ -85,10 +74,8 @@ void choixSession::on_listeSession_itemDoubleClicked(QListWidgetItem *item)
     QString selectedPath = basePath + "/" + folderName + "/config.labo";
     QFile file(selectedPath);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qDebug() << "❌ Impossible d'ouvrir" << selectedPath;
         ui->infoSession->clear();
         ui->infoSession->addItem("Erreur : Impossible d’ouvrir le fichier.");
-
         return;
     }
 
@@ -100,7 +87,6 @@ void choixSession::on_listeSession_itemDoubleClicked(QListWidgetItem *item)
     if (error.error != QJsonParseError::NoError || !doc.isObject()) {
         ui->infoSession->clear();
         ui->infoSession->addItem("Erreur : JSON invalide.");
-
         return;
     }
 
@@ -138,14 +124,10 @@ void choixSession::on_listeSession_itemDoubleClicked(QListWidgetItem *item)
 
         ui->infoSession->addItem(key + " : " + displayValue);
     }
-
-
-
 }
 
 void choixSession::on_findLineEdit_textChanged(const QString &arg1)
 {
-    const QString basePath = R"(//CIEL-T171-05/Activites)";
     QDir dir(basePath);
     QStringList sessionDirs = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     ui->listeSession->clear();
@@ -159,26 +141,19 @@ void choixSession::on_findLineEdit_textChanged(const QString &arg1)
         QString creationDate = info.birthTime().toString("dd/MM/yyyy hh:mm");
 
         QFile file(folderPath + "/config.labo");
-        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-            qDebug() << "❌ Impossible d’ouvrir :" << file.fileName();
-            continue;
-        }
-
-        QJsonParseError error;
-        QJsonDocument doc = QJsonDocument::fromJson(file.readAll(), &error);
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) continue;
+        QByteArray data = file.readAll();
         file.close();
 
-        if (error.error != QJsonParseError::NoError || !doc.isObject()) {
-            qDebug() << "❌ JSON invalide dans :" << file.fileName();
-            continue;
-        }
+        QJsonParseError error;
+        QJsonDocument doc = QJsonDocument::fromJson(data, &error);
+        if (error.error != QJsonParseError::NoError || !doc.isObject()) continue;
 
         QJsonObject obj = doc.object();
         QString idTypeActivite = obj.contains("idTypeActivite") && obj["idTypeActivite"].isDouble()
                                      ? QString::number(obj["idTypeActivite"].toInt())
                                      : "Inconnu";
 
-        // -- Création du widget personnalisé --
         QWidget *itemWidget = new QWidget();
         QVBoxLayout *layout = new QVBoxLayout(itemWidget);
         layout->setContentsMargins(5, 5, 5, 5);
@@ -200,18 +175,15 @@ void choixSession::on_findLineEdit_textChanged(const QString &arg1)
     }
 }
 
-
 void choixSession::on_sortAZButton_clicked()
 {
     trierListeSessions(true);
 }
 
-
 void choixSession::on_sortZAButton_clicked()
 {
     trierListeSessions(false);
 }
-
 
 void choixSession::trierListeSessions(bool ordreCroissant)
 {
@@ -257,42 +229,17 @@ void choixSession::trierListeSessions(bool ordreCroissant)
 
         QLabel* titleLabel = new QLabel(folder);
         titleLabel->setStyleSheet("font-weight: bold; font-size: 16px;");
-
-        QLabel* dateLabel = new QLabel("Créé le : " + creationDates.value(folder));
-        QLabel* customLine1 = new QLabel("Type d'activité : " + idTypes.value(folder));
-        QLabel* customLine2 = new QLabel("Ligne personnalisée 2");
-
         layout->addWidget(titleLabel);
-        layout->addWidget(dateLabel);
-        layout->addWidget(customLine1);
-        layout->addWidget(customLine2);
+        layout->addWidget(new QLabel("Créé le : " + creationDates[folder]));
+        layout->addWidget(new QLabel("Type d'activité : " + idTypes[folder]));
+        layout->addWidget(new QLabel("Ligne personnalisée 2"));
 
         QListWidgetItem* item = new QListWidgetItem(ui->listeSession);
         item->setSizeHint(itemWidget->sizeHint());
         item->setData(Qt::UserRole, folder);
-
         ui->listeSession->addItem(item);
         ui->listeSession->setItemWidget(item, itemWidget);
     }
-}
-void choixSession::on_takeSessionButton_clicked()
-{
-    QListWidgetItem *currentItem = ui->listeSession->currentItem();
-
-    if (!currentItem) {
-        QMessageBox::warning(this, "Aucune sélection", "Veuillez sélectionner une session.");
-        return;
-    }
-
-    QString folderPath = basePath + "/" + currentItem->data(Qt::UserRole).toString();
-
-    if (mainWindow) {
-        mainWindow->setSource(folderPath+"/config.labo");
-    }
-
-    qDebug() << folderPath;
-
-    QDialog::accept();  // Ferme la fenêtre avec retour "accepté"
 }
 
 void choixSession::on_delSessionButton_clicked()
@@ -320,8 +267,27 @@ void choixSession::on_delSessionButton_clicked()
     }
 }
 
+void choixSession::on_takeSessionButton_clicked()
+{
+    QListWidgetItem *currentItem = ui->listeSession->currentItem();
+
+    if (!currentItem) {
+        QMessageBox::warning(this, "Aucune sélection", "Veuillez sélectionner une session.");
+        return;
+    }
+
+    QString folderPath = basePath + "/" + currentItem->data(Qt::UserRole).toString();
+
+    if (mainWindow) {
+        mainWindow->setSource(folderPath+"/config.labo");
+    }
+
+    qDebug() << folderPath;
+
+    QDialog::accept();  // Ferme la fenêtre avec retour "accepté"
+}
+
 choixSession::~choixSession()
 {
     delete ui;
 }
-
