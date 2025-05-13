@@ -62,15 +62,12 @@ public:
     QPushButton *loadSession;
     QGraphicsView *ParametrageEleve;
     QPushButton *CreationButton;
-    QPushButton *muteButton;
-    QPushButton *demuteButton;
-    QPushButton *desactiverSonButton;
-    QPushButton *activerSonButton;
+    QPushButton *microSonButton;
+    QPushButton *casqueSonButton;
     QLabel *nomGroupeLabel;
     QPushButton *annulerButton;
     QPushButton *creerGroupeButton;
     QLabel *alignerTableau;
-    QPushButton *supprimerGroupeButton;
     QTableWidget *TableauGroupe;
     QLineEdit *nomEleveLineEdit;
     QPushButton *Communication;
@@ -85,6 +82,8 @@ public:
     QPushButton *cacheButton;
     QLabel *nomCreationGroupeLabel;
     QLineEdit *nomGroupeLineEdit;
+    QPushButton *AppelerButton;
+    QPushButton *redemarrerButton;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -307,18 +306,12 @@ public:
 "color: white;\n"
 "border: 1px solid white;\n"
 "border-radius: 10px;"));
-        muteButton = new QPushButton(centralwidget);
-        muteButton->setObjectName("muteButton");
-        muteButton->setGeometry(QRect(1000, 150, 201, 24));
-        demuteButton = new QPushButton(centralwidget);
-        demuteButton->setObjectName("demuteButton");
-        demuteButton->setGeometry(QRect(770, 190, 171, 24));
-        desactiverSonButton = new QPushButton(centralwidget);
-        desactiverSonButton->setObjectName("desactiverSonButton");
-        desactiverSonButton->setGeometry(QRect(1000, 190, 201, 24));
-        activerSonButton = new QPushButton(centralwidget);
-        activerSonButton->setObjectName("activerSonButton");
-        activerSonButton->setGeometry(QRect(770, 150, 171, 24));
+        microSonButton = new QPushButton(centralwidget);
+        microSonButton->setObjectName("microSonButton");
+        microSonButton->setGeometry(QRect(1000, 150, 201, 24));
+        casqueSonButton = new QPushButton(centralwidget);
+        casqueSonButton->setObjectName("casqueSonButton");
+        casqueSonButton->setGeometry(QRect(760, 150, 201, 24));
         nomGroupeLabel = new QLabel(centralwidget);
         nomGroupeLabel->setObjectName("nomGroupeLabel");
         nomGroupeLabel->setGeometry(QRect(680, 90, 101, 41));
@@ -331,9 +324,6 @@ public:
         alignerTableau = new QLabel(centralwidget);
         alignerTableau->setObjectName("alignerTableau");
         alignerTableau->setGeometry(QRect(700, 380, 31, 291));
-        supprimerGroupeButton = new QPushButton(centralwidget);
-        supprimerGroupeButton->setObjectName("supprimerGroupeButton");
-        supprimerGroupeButton->setGeometry(QRect(1080, 280, 171, 24));
         TableauGroupe = new QTableWidget(centralwidget);
         TableauGroupe->setObjectName("TableauGroupe");
         TableauGroupe->setGeometry(QRect(750, 380, 511, 291));
@@ -367,7 +357,7 @@ public:
 ""));
         PageStatut = new QGraphicsView(centralwidget);
         PageStatut->setObjectName("PageStatut");
-        PageStatut->setGeometry(QRect(660, 70, 631, 681));
+        PageStatut->setGeometry(QRect(40, 70, 631, 681));
         PageStatut->setStyleSheet(QString::fromUtf8("background-color: white;"));
         alignerTableau_2 = new QLabel(centralwidget);
         alignerTableau_2->setObjectName("alignerTableau_2");
@@ -388,6 +378,12 @@ public:
         nomGroupeLineEdit = new QLineEdit(centralwidget);
         nomGroupeLineEdit->setObjectName("nomGroupeLineEdit");
         nomGroupeLineEdit->setGeometry(QRect(260, 320, 281, 41));
+        AppelerButton = new QPushButton(centralwidget);
+        AppelerButton->setObjectName("AppelerButton");
+        AppelerButton->setGeometry(QRect(720, 280, 171, 24));
+        redemarrerButton = new QPushButton(centralwidget);
+        redemarrerButton->setObjectName("redemarrerButton");
+        redemarrerButton->setGeometry(QRect(1100, 280, 171, 24));
         MainWindow->setCentralWidget(centralwidget);
         nomGroupeLineEdit->raise();
         nomCreationGroupeLabel->raise();
@@ -426,15 +422,12 @@ public:
         loadSession->raise();
         ParametrageEleve->raise();
         CreationButton->raise();
-        muteButton->raise();
-        demuteButton->raise();
-        desactiverSonButton->raise();
-        activerSonButton->raise();
+        microSonButton->raise();
+        casqueSonButton->raise();
         nomGroupeLabel->raise();
         annulerButton->raise();
         creerGroupeButton->raise();
         alignerTableau->raise();
-        supprimerGroupeButton->raise();
         TableauGroupe->raise();
         nomEleveLineEdit->raise();
         Communication->raise();
@@ -445,6 +438,8 @@ public:
         modeClairButton->raise();
         PageStatut->raise();
         cacheButton->raise();
+        AppelerButton->raise();
+        redemarrerButton->raise();
 
         retranslateUi(MainWindow);
 
@@ -479,15 +474,12 @@ public:
         NameSourceLabel->setText(QString());
         loadSession->setText(QCoreApplication::translate("MainWindow", "Charger une session", nullptr));
         CreationButton->setText(QCoreApplication::translate("MainWindow", "Creation", nullptr));
-        muteButton->setText(QCoreApplication::translate("MainWindow", "Couper le micro", nullptr));
-        demuteButton->setText(QCoreApplication::translate("MainWindow", "Activer le micro", nullptr));
-        desactiverSonButton->setText(QCoreApplication::translate("MainWindow", "Couper le son", nullptr));
-        activerSonButton->setText(QCoreApplication::translate("MainWindow", "Activer le son", nullptr));
+        microSonButton->setText(QCoreApplication::translate("MainWindow", "Couper le micro", nullptr));
+        casqueSonButton->setText(QCoreApplication::translate("MainWindow", "Couper le son", nullptr));
         nomGroupeLabel->setText(QCoreApplication::translate("MainWindow", "Poste s\303\251l\303\251ction\303\251 :", nullptr));
         annulerButton->setText(QCoreApplication::translate("MainWindow", "Annuler", nullptr));
         creerGroupeButton->setText(QCoreApplication::translate("MainWindow", "Creer un groupe", nullptr));
         alignerTableau->setText(QString());
-        supprimerGroupeButton->setText(QCoreApplication::translate("MainWindow", "Supprimer groupe s\303\251l\303\251ction\303\251 : ", nullptr));
         Communication->setText(QCoreApplication::translate("MainWindow", "Communication", nullptr));
         envoyerMessagePersonne->setText(QCoreApplication::translate("MainWindow", "Envoyer le message (\303\240 la personne)", nullptr));
         envoyerMessageTextEdit->setHtml(QCoreApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
@@ -504,6 +496,8 @@ public:
         alignerTableau_2->setText(QString());
         cacheButton->setText(QString());
         nomCreationGroupeLabel->setText(QCoreApplication::translate("MainWindow", "Nom du groupe :", nullptr));
+        AppelerButton->setText(QCoreApplication::translate("MainWindow", "Appeler", nullptr));
+        redemarrerButton->setText(QCoreApplication::translate("MainWindow", "Red\303\251marrer l'appareil", nullptr));
     } // retranslateUi
 
 };

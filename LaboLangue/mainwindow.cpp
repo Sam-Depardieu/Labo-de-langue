@@ -53,23 +53,21 @@ MainWindow::MainWindow(QWidget *parent)
     layoutParametrageEleve->setAlignment(Qt::AlignCenter | Qt::AlignTop);
     // Ajout des sections dans le layoutParametrageEleve
     addHorizontalLayout(layoutParametrageEleve, {ui->nomGroupeLabel, ui->nomEleveLineEdit, ui->Communication});
-    addHorizontalLayout(layoutParametrageEleve, {ui->demuteButton, ui->muteButton });
-    addHorizontalLayout(layoutParametrageEleve, {ui->activerSonButton, ui->desactiverSonButton});
-    addHorizontalLayout(layoutParametrageEleve, {ui->creerGroupeButton, ui->annulerButton, ui->supprimerGroupeButton});
-
+    addHorizontalLayout(layoutParametrageEleve, {ui->microSonButton, ui->casqueSonButton});
+    addHorizontalLayout(layoutParametrageEleve, {ui->creerGroupeButton, ui->annulerButton});
+    addHorizontalLayout(layoutParametrageEleve, {ui->AppelerButton, ui->redemarrerButton});
     addHorizontalLayout(layoutParametrageEleve, {ui->nomCreationGroupeLabel, ui->nomGroupeLineEdit});
     addHorizontalLayout(layoutParametrageEleve, {ui->alignerTableau, ui->TableauGroupe, ui->envoyerMessageTextEdit});
     addHorizontalLayout(layoutParametrageEleve, {ui->envoyerMessagePersonne, ui->envoyerMessageGroupe});
-    layoutParametrageEleve->addSpacing(10);
+    layoutParametrageEleve->addSpacing(10);   
     // Changement des couleurs des boutons de la page
-    ui->activerSonButton->setStyleSheet("background-color: #28a745");
-    ui->demuteButton->setStyleSheet("background-color: #28a745");
-    ui->muteButton->setStyleSheet("background-color: rgb(255, 0, 0)");
-    ui->desactiverSonButton->setStyleSheet("background-color: rgb(255, 0, 0)");
+    ui->casqueSonButton->setStyleSheet("background-color: rgb(255, 0, 0)");
+    ui->microSonButton->setStyleSheet("background-color: rgb(255, 0, 0)");
     ui->Communication->setStyleSheet("background-color: gray;");
     ui->creerGroupeButton->setStyleSheet("background-color: gray;");
-    ui->annulerButton->setStyleSheet("background-color: gray;");
-    ui->supprimerGroupeButton->setStyleSheet("background-color: gray;");
+    ui->redemarrerButton->setStyleSheet("background-color: orange;");
+    ui->AppelerButton->setStyleSheet("background-color: #28a745;");
+    ui->annulerButton->setStyleSheet("background-color: gray");
     // Cacher les boutons de la page
     ui->nomCreationGroupeLabel->setVisible(false);
     ui->nomGroupeLineEdit->setVisible(false);
@@ -936,8 +934,6 @@ void MainWindow::continuerCreationSession()
     }
 }
 
-
-
 void MainWindow::on_echapButton_clicked()
 {
     ui->ParametrageSession->setVisible(false);
@@ -951,57 +947,42 @@ void MainWindow::on_CreationButton_clicked()
 }
 
 // Bouton de l'interface de ParametrageEleve
-void MainWindow::on_muteButton_clicked()
-{
-    /*
-    int reponse = 0;
-    if(eleveActuellementParametre->getNomGroupe() != ""){
-        QMessageBox msgBox;
-        msgBox.setIcon(QMessageBox::Critical);
-        msgBox.setWindowTitle("L'élève est dans un groupe !");
-        msgBox.setText("❌ Voulez vous effectuez cette action seulement pour l'élève ?.\n");
-        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-        msgBox.setDefaultButton(QMessageBox::Yes);
-        reponse = msgBox.exec();
-        qDebug() << reponse;
+
+
+void MainWindow::on_casqueSonButton_clicked() {
+    bool isSonActive = ui->casqueSonButton->text() == "Couper le son";
+
+    if (isSonActive) {
+        prof->desactiverSonStudent(eleveActuellementParametre->getIP());
+    } else {
+        prof->activerSonStudent(eleveActuellementParametre->getIP());
     }
-    if(reponse == 0){
+
+    ui->casqueSonButton->setText(isSonActive ? "Activer le son" : "Couper le son");
+    eleveActuellementParametre->getCasqueActiver()->setVisible(!isSonActive);
+    eleveActuellementParametre->getCasqueDesactiver()->setVisible(isSonActive);
+    ui->casqueSonButton->setStyleSheet(isSonActive
+                                           ? "background-color: #28a745;"    // vert
+                                           : "background-color: rgb(255, 0, 0);"); // rouge
+}
+
+void MainWindow::on_microSonButton_clicked() {
+    bool isMicroActive = ui->microSonButton->text() == "Couper le micro";
+
+    if (isMicroActive) {
         prof->muteStudent(eleveActuellementParametre->getIP());
-        eleveActuellementParametre->getMicroActiver()->setVisible(false);
-        eleveActuellementParametre->getMicroDesactiver()->setVisible(true);
-        return;
+    } else {
+        prof->unmuteStudent(eleveActuellementParametre->getIP());
     }
-    else if(reponse == 1){
-        for(int i = 0; i < listeGroup.count(eleveActuellementParametre->getNomGroupe()) ; i++ ){
-            listeGroup.
-        }
-    }
-    */
-    prof->muteStudent(eleveActuellementParametre->getIP());
-    eleveActuellementParametre->getMicroActiver()->setVisible(false);
-    eleveActuellementParametre->getMicroDesactiver()->setVisible(true);
+
+    ui->microSonButton->setText(isMicroActive ? "Activer le micro" : "Couper le micro");
+    eleveActuellementParametre->getMicroActiver()->setVisible(!isMicroActive);
+    eleveActuellementParametre->getMicroDesactiver()->setVisible(isMicroActive);
+    ui->microSonButton->setStyleSheet(isMicroActive
+                                          ? "background-color: #28a745;"    // vert
+                                          : "background-color: rgb(255, 0, 0);"); // rouge
 }
 
-void MainWindow::on_demuteButton_clicked()
-{
-    prof->unmuteStudent(eleveActuellementParametre->getIP());
-    eleveActuellementParametre->getMicroActiver()->setVisible(true);
-    eleveActuellementParametre->getMicroDesactiver()->setVisible(false);
-}
-
-void MainWindow::on_desactiverSonButton_clicked()
-{
-    prof->activerSonStudent(eleveActuellementParametre->getIP());
-    eleveActuellementParametre->getCasqueActiver()->setVisible(false);
-    eleveActuellementParametre->getCasqueDesactiver()->setVisible(true);
-}
-
-void MainWindow::on_activerSonButton_clicked()
-{
-    prof->desactiverSonStudent(eleveActuellementParametre->getIP());
-    eleveActuellementParametre->getCasqueActiver()->setVisible(true);
-    eleveActuellementParametre->getCasqueDesactiver()->setVisible(false);
-}
 
 void MainWindow::on_annulerButton_clicked()
 {
@@ -1032,9 +1013,11 @@ void MainWindow::loadInformationTable()
 
     // Ajouter des en-têtes pour les colonnes
     TableauGroupe->setHorizontalHeaderLabels({"Nom", "Numéro de poste", "Ajoutez au groupe", "Nom du groupe", "Adresse IP"});
-    TableauGroupe->setColumnWidth(1, 110);
-    TableauGroupe->setColumnWidth(2, 130);
-    TableauGroupe->setColumnWidth(3, 140);
+    TableauGroupe->setColumnWidth(0, 110); // Nom
+    TableauGroupe->setColumnWidth(1, 100); // Numéro de poste
+    TableauGroupe->setColumnWidth(2, 130); // Ajoutez au groupe
+    TableauGroupe->setColumnWidth(4, 120); // Nom du groupe
+    TableauGroupe->setColumnWidth(5, 80); // Adresse IP
 
     // Remplir les cellules avec des données
     for (unsigned int row = 0; row < listeParticipant.size(); ++row) {
@@ -1376,4 +1359,7 @@ void MainWindow::onClicked_itemBoutonSupprimerGroupe(iconEleveGroup* eleve)
     }
     loadInformationTable(); // Actualiser le tableau
 }
+
+
+
 
