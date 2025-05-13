@@ -983,6 +983,11 @@ void MainWindow::on_microSonButton_clicked() {
                                           : "background-color: rgb(255, 0, 0);"); // rouge
 }
 
+void MainWindow::on_redemarrerButton_clicked()
+{
+    prof->sendCommandToStudent(eleveActuellementParametre->getIP(), 5557, "RESTART");
+    qDebug() << "ip:" << eleveActuellementParametre->getIP() << ":RESTART";
+}
 
 void MainWindow::on_annulerButton_clicked()
 {
@@ -1359,7 +1364,6 @@ void MainWindow::onClicked_itemBoutonSupprimerGroupe(iconEleveGroup* eleve)
     }
     loadInformationTable(); // Actualiser le tableau
 }
-
 
 
 

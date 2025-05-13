@@ -111,6 +111,8 @@ private slots:
 
 
 
+    void on_redemarrerButton_clicked();
+
 private:
     // === Interface graphique ===
     QGraphicsScene *scene = nullptr;
