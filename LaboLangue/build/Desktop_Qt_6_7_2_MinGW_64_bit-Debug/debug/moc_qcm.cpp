@@ -44,7 +44,7 @@ constexpr auto qt_meta_stringdata_CLASSQCMENDCLASS = QtMocHelpers::stringData(
     "nomQ",
     "numQ",
     "nbRep",
-    "array<array<QString,2>,4>",
+    "std::array<std::array<QString,2>,4>",
     "choices",
     "removeQuestion",
     "saveQuestions",
@@ -123,7 +123,7 @@ Q_CONSTINIT const QMetaObject QCM::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<QString *, std::false_type>,
         QtPrivate::TypeAndForceComplete<QString *, std::false_type>,
         QtPrivate::TypeAndForceComplete<QString *, std::false_type>,
-        QtPrivate::TypeAndForceComplete<array<array<QString,2>,4>, std::false_type>,
+        QtPrivate::TypeAndForceComplete<std::array<std::array<QString,2>,4>, std::false_type>,
         // method 'addQuestion'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<QString *, std::false_type>,
@@ -162,7 +162,7 @@ void QCM::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **
         (void)_t;
         switch (_id) {
         case 0: _t->fermetureQCM(); break;
-        case 1: _t->addQuestion((*reinterpret_cast< std::add_pointer_t<QString*>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString*>>(_a[2])),(*reinterpret_cast< std::add_pointer_t<QString*>>(_a[3])),(*reinterpret_cast< std::add_pointer_t<array<array<QString,2>,4>>>(_a[4]))); break;
+        case 1: _t->addQuestion((*reinterpret_cast< std::add_pointer_t<QString*>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString*>>(_a[2])),(*reinterpret_cast< std::add_pointer_t<QString*>>(_a[3])),(*reinterpret_cast< std::add_pointer_t<std::array<std::array<QString,2>,4>>>(_a[4]))); break;
         case 2: _t->addQuestion((*reinterpret_cast< std::add_pointer_t<QString*>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString*>>(_a[2])),(*reinterpret_cast< std::add_pointer_t<QString*>>(_a[3]))); break;
         case 3: _t->addQuestion((*reinterpret_cast< std::add_pointer_t<QString*>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString*>>(_a[2]))); break;
         case 4: _t->addQuestion((*reinterpret_cast< std::add_pointer_t<QString*>>(_a[1]))); break;

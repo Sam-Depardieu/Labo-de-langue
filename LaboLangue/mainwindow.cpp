@@ -411,10 +411,10 @@ void MainWindow::loadImagesFromDB()
         };
 
         QGraphicsPixmapItem* checkItem           = makeIcon(checkPixmap, 0, 0);
-        QGraphicsPixmapItem* microActiver        = makeIcon(microActiverPixmap, -7.5, 0);
-        QGraphicsPixmapItem* microDesactiver     = makeIcon(microDesactiverPixmap, -7.5, 0);
-        QGraphicsPixmapItem* casqueActiver       = makeIcon(casqueActiverPixmap, 0, 0);
-        QGraphicsPixmapItem* casqueDesactiver    = makeIcon(casqueDesactiverPixmap, 0, 0);
+        QGraphicsPixmapItem* microActiver        = makeIcon(microActiverPixmap, -7, 0);
+        QGraphicsPixmapItem* microDesactiver     = makeIcon(microDesactiverPixmap, -7, 0);
+        QGraphicsPixmapItem* casqueActiver       = makeIcon(casqueActiverPixmap, 42, 0);
+        QGraphicsPixmapItem* casqueDesactiver    = makeIcon(casqueDesactiverPixmap, 42, 0);
 
         group->setCheckItem(checkItem);
         group->setMicroActiver(microActiver);
@@ -484,7 +484,7 @@ bool MainWindow::connectToDatabase() {
     }
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("localhost");
+    db.setHostName("192.168.89.42");
     db.setDatabaseName("LaboLangue");
     db.setPort(3306);
     db.setUserName("prof"); // Remplacez par votre nom d'utilisateur
@@ -895,7 +895,7 @@ void MainWindow::continuerCreationSession()
 
             prof->sendCommandToStudent(eleve->getIP(), 5561, sessionFolder);
             prof->sendCommandToStudent(eleve->getIP(), 5560, activite[idTypeActivite]);
-            prof->sendCommandToStudent(eleve->getIP(), 5558, "{chrono, }"+duree);
+            prof->sendCommandToStudent(eleve->getIP(), 5558, "{chrono, "+duree+"}");
         }
     }
 
