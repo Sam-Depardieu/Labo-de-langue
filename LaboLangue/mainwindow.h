@@ -150,6 +150,8 @@ private:
     void showCheckIconOnGroup(iconEleveGroup *group);
     void onClicked_itemBoutonSupprimerGroupe(iconEleveGroup* eleve);
     void mettreAJourAudioPourGroupe(const QString& groupe);
+    void changerStatusMicro (bool statusMicro);
+    void changerStatusCasque (bool statusCasque);
 };
 
 #endif // MAINWINDOW_H

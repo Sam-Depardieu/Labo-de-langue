@@ -57,9 +57,9 @@ void iconEleveGroup::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
             mainWindow->eleveActuellementParametre = nullptr;
         }
         else {
-            mainWindow->toggleSettingEleve(mainWindow->eleveActuellementParametre, false);
-            mainWindow->toggleSettingEleve(mainWindow->eleveActuellementParametre, true);
-            mainWindow->eleveActuellementParametre = this;
+            mainWindow->toggleSettingEleve(mainWindow->eleveActuellementParametre, false); // Ferme l'ancien
+            mainWindow->eleveActuellementParametre = this; // Met à jour le pointeur AVANT d'ouvrir
+            mainWindow->toggleSettingEleve(this, true); // Ouvre avec le nouveau
         }
 
 

@@ -26,19 +26,23 @@ public:
     iconEleveGroup(int ID, QString ip, QGraphicsTextItem* text, MainWindow* parentWindow);
 
     // === Setters ===
-    void setCheckItem(QGraphicsPixmapItem *item) { checkItem = item; }
-    void setSound(QGraphicsPixmapItem *item) { sound = item; }
-    void setMicroActiver(QGraphicsPixmapItem *item) { microActiver = item; }
-    void setMicroDesactiver(QGraphicsPixmapItem *item) { microDesactiver = item; }
-    void setCasqueActiver(QGraphicsPixmapItem *item) { casqueActiver = item; }
-    void setCasqueDesactiver(QGraphicsPixmapItem *item) { casqueDesactiver = item; }
-    void setIDELeve(int id) { IDEleve = id; }
-    void setTextItem(const QString newText) { if (textItem) textItem->setPlainText(newText); }
-    void setNom(const QString& newNom) { nom = newNom; }
-    void setNumQCM(int num) { numQCM = num; }
-    void setNomGroupe(const QString& nomG) { nomGroupe = nomG; }
+    void setStatusMicro(bool newStatusMicro) { statusMicro = newStatusMicro;};
+    void setStatusCasque(bool newStatusCasque) { statusCasque = newStatusCasque;};
+    void setCheckItem(QGraphicsPixmapItem *item) { checkItem = item; };
+    void setSound(QGraphicsPixmapItem *item) { sound = item; };
+    void setMicroActiver(QGraphicsPixmapItem *item) { microActiver = item; };
+    void setMicroDesactiver(QGraphicsPixmapItem *item) { microDesactiver = item; };
+    void setCasqueActiver(QGraphicsPixmapItem *item) { casqueActiver = item; };
+    void setCasqueDesactiver(QGraphicsPixmapItem *item) { casqueDesactiver = item; };
+    void setIDELeve(int id) { IDEleve = id; };
+    void setTextItem(const QString newText) { if (textItem) textItem->setPlainText(newText); };
+    void setNom(const QString& newNom) { nom = newNom; };
+    void setNumQCM(int num) { numQCM = num; };
+    void setNomGroupe(const QString& nomG) { nomGroupe = nomG; };
 
     // === Getters ===
+    bool getStatusMicro() {return statusMicro;};
+    bool getStatusCasque() {return statusCasque;};
     int getID() const { return ID; }
     int getIDEleve() const { return IDEleve; }
     int getNumQCM() const { return numQCM; }
@@ -76,6 +80,8 @@ private:
     int ID = 0;
     int IDEleve = 0;
     int numQCM = 1;
+    bool statusMicro = true;
+    bool statusCasque = true;
 
     std::vector<iconEleveGroup*> affiliate;
 
