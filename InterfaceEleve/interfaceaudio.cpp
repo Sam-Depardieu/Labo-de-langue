@@ -6,6 +6,8 @@
 #include <QCloseEvent>
 #include <QMessageBox>
 #include <QMediaPlayer>
+#include <QHostAddress>
+#include <QDebug>
 
 InterfaceAudio::InterfaceAudio(bool co, QWidget *parent)
     : QDialog(parent)
@@ -22,13 +24,24 @@ InterfaceAudio::InterfaceAudio(bool co, QWidget *parent)
     connect(player, &QMediaPlayer::positionChanged, this, [=](qint64 position) {
         ui->horizontalSlider->setValue(static_cast<int>(position));
     });
-    udpChrono.bind(QHostAddress::Any, chronoPort);
-    if (!udpChrono.bind(QHostAddress::Any, chronoPort)) {
-        qWarning() << "Impossible de binder UDP sur le port" << chronoPort;
+
+    {
+        // bind() sur l'instance udpChrono, pas sur QAbstractSocket::UdpSocket !
+        if (!udpChrono.bind(
+                QHostAddress::AnyIPv4,      // écoute sur toutes les interfaces IPv4
+                5558,
+                QUdpSocket::ShareAddress |
+                    QUdpSocket::ReuseAddressHint
+                ))
+        {
+            qCritical() << "Impossible de binder UDP sur le port 5558 :"
+                        << udpChrono.errorString();
+        }
+        else {
+            connect(&udpChrono, &QUdpSocket::readyRead,
+                    this,      &InterfaceAudio::receiveChrono);
+        }
     }
-    // 2) dès qu’on reçoit un datagramme, on va parse mm:ss et fermer
-    connect(&udpChrono, &QUdpSocket::readyRead,
-            this,     &InterfaceAudio::onUdpTimeout);
     ui->pushButton_Pause->setVisible(true);
     ui->pushButton_Play->setVisible(false);
     setFixedSize(800,480);
@@ -38,6 +51,7 @@ InterfaceAudio::InterfaceAudio(bool co, QWidget *parent)
         ui->pushButton_Apres->setEnabled(false);
         ui->horizontalSlider->setEnabled(false);
     }
+
     this->setWindowTitle("Page de Comprehension Orale");
 
      player->setAudioOutput(audioOutput);
@@ -243,37 +257,54 @@ void InterfaceAudio::on_pushButtonReset_clicked()
 void InterfaceAudio::receiveChrono()
 {
     while (udpChrono.hasPendingDatagrams()) {
-        QByteArray dg;
-        dg.resize(udpChrono.pendingDatagramSize());
-        udpChrono.readDatagram(dg.data(), dg.size());
+        QByteArray datagram;
+        datagram.resize(int(udpChrono.pendingDatagramSize()));
 
-        // 1) On retire les accolades et on parse en JSON
+        QHostAddress sender;
+        quint16 senderPort;
+        udpChrono.readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
+        qDebug() << "📢 Chrono reçu de" << sender.toString() << ":" << datagram;
+
+        // 1) Parse JSON
         QJsonParseError err;
-        auto doc = QJsonDocument::fromJson(dg, &err);
+        QJsonDocument doc = QJsonDocument::fromJson(datagram, &err);
         if (err.error != QJsonParseError::NoError || !doc.isObject()) {
-            qWarning() << "JSON invalide reçu pour chrono:" << dg;
+            qWarning() << "⛔ JSON invalide pour chrono:" << err.errorString();
             continue;
         }
 
-        auto obj = doc.object();
-        QString chrono = obj.value("chrono").toString(); // ex: "00:15"
-        if (chrono.isEmpty()) {
-            qWarning() << "Pas de champ 'chrono' dans" << obj;
+        QJsonObject obj = doc.object();
+        if (!obj.contains("chrono") || !obj.value("chrono").isString()) {
+            qWarning() << "⛔ Aucun champ \"chrono\" ou type incorrect";
             continue;
         }
 
-        // 2) Convertir "mm:ss" en millisecondes
-        QTime zero(0,0,0);
-        QTime limit = QTime::fromString(chrono, "mm:ss");
-        if (!limit.isValid()) {
-            qWarning() << "Format mm:ss invalide:" << chrono;
+        QString chronoStr = obj.value("chrono").toString();   // ex: "05:30"
+        QStringList parts = chronoStr.split(':');
+        if (parts.size() != 2) {
+            qWarning() << "⛔ Format chrono inattendu (MM:SS)";
             continue;
         }
-        int ms = zero.msecsTo(limit);
 
-        qDebug() << "Fermeture dans (ms):" << ms;
-        // 3) Schedule la fermeture après ce délai
-        QTimer::singleShot(ms, this, &QDialog::accept);
+        bool okMin, okSec;
+        int minutes = parts[0].toInt(&okMin);
+        int seconds = parts[1].toInt(&okSec);
+        if (!okMin || !okSec) {
+            qWarning() << "⛔ Impossible de convertir minutes/secondes";
+            continue;
+        }
+
+        int totalMs = (minutes * 60 + seconds) * 1000;
+        qDebug() << "⏳ Démarrage du timer pour" << minutes << "min" << seconds << "sec";
+
+        // 2) Lance un single-shot pour fermer l'interface à la fin du chrono
+        QTimer::singleShot(totalMs, this, [this]() {
+            qDebug() << "⏰ Temps écoulé, fermeture de l'interface.";
+            this->close();
+        });
+
+        // On ne traite qu’un seul chrono par réception
+        break;
     }
 }
 

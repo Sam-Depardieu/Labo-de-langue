@@ -17,6 +17,7 @@
 #include <QTimer>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QHostAddress>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
