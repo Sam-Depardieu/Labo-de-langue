@@ -465,6 +465,7 @@ public:
         NomProfLabel->setText(QCoreApplication::translate("MainWindow", "Votre Nom :", nullptr));
         ChoixActLabel->setText(QCoreApplication::translate("MainWindow", "Type activit\303\251 :", nullptr));
         DureeLabel->setText(QCoreApplication::translate("MainWindow", "Dur\303\251e activit\303\251 :", nullptr));
+        DureeActivite->setDisplayFormat(QCoreApplication::translate("MainWindow", "mm:ss", nullptr));
         ConsigneLabel->setText(QCoreApplication::translate("MainWindow", "Consigne :", nullptr));
         ClasseLabel->setText(QCoreApplication::translate("MainWindow", "Classe :", nullptr));
         ParticipantsLabel->setText(QCoreApplication::translate("MainWindow", "Participants :", nullptr));
