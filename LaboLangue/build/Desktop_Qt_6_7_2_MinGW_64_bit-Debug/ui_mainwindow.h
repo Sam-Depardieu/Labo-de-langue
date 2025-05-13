@@ -85,8 +85,6 @@ public:
     QPushButton *cacheButton;
     QLabel *nomCreationGroupeLabel;
     QLineEdit *nomGroupeLineEdit;
-    QLabel *nomGroupeSelectionneLabel;
-    QComboBox *groupeSelectionneComboBox;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -390,12 +388,6 @@ public:
         nomGroupeLineEdit = new QLineEdit(centralwidget);
         nomGroupeLineEdit->setObjectName("nomGroupeLineEdit");
         nomGroupeLineEdit->setGeometry(QRect(260, 320, 281, 41));
-        nomGroupeSelectionneLabel = new QLabel(centralwidget);
-        nomGroupeSelectionneLabel->setObjectName("nomGroupeSelectionneLabel");
-        nomGroupeSelectionneLabel->setGeometry(QRect(730, 270, 131, 41));
-        groupeSelectionneComboBox = new QComboBox(centralwidget);
-        groupeSelectionneComboBox->setObjectName("groupeSelectionneComboBox");
-        groupeSelectionneComboBox->setGeometry(QRect(900, 280, 131, 24));
         MainWindow->setCentralWidget(centralwidget);
         nomGroupeLineEdit->raise();
         nomCreationGroupeLabel->raise();
@@ -453,8 +445,6 @@ public:
         modeClairButton->raise();
         PageStatut->raise();
         cacheButton->raise();
-        nomGroupeSelectionneLabel->raise();
-        groupeSelectionneComboBox->raise();
 
         retranslateUi(MainWindow);
 
@@ -514,7 +504,6 @@ public:
         alignerTableau_2->setText(QString());
         cacheButton->setText(QString());
         nomCreationGroupeLabel->setText(QCoreApplication::translate("MainWindow", "Nom du groupe :", nullptr));
-        nomGroupeSelectionneLabel->setText(QCoreApplication::translate("MainWindow", "Groupe s\303\251l\303\251ctionn\303\251 : ", nullptr));
     } // retranslateUi
 
 };

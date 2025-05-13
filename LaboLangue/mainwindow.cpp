@@ -55,8 +55,8 @@ MainWindow::MainWindow(QWidget *parent)
     addHorizontalLayout(layoutParametrageEleve, {ui->nomGroupeLabel, ui->nomEleveLineEdit, ui->Communication});
     addHorizontalLayout(layoutParametrageEleve, {ui->demuteButton, ui->muteButton });
     addHorizontalLayout(layoutParametrageEleve, {ui->activerSonButton, ui->desactiverSonButton});
-    addHorizontalLayout(layoutParametrageEleve, {ui->creerGroupeButton, ui->annulerButton});
-    addHorizontalLayout(layoutParametrageEleve, {ui->nomGroupeSelectionneLabel, ui->groupeSelectionneComboBox , ui->supprimerGroupeButton});
+    addHorizontalLayout(layoutParametrageEleve, {ui->creerGroupeButton, ui->annulerButton, ui->supprimerGroupeButton});
+
     addHorizontalLayout(layoutParametrageEleve, {ui->nomCreationGroupeLabel, ui->nomGroupeLineEdit});
     addHorizontalLayout(layoutParametrageEleve, {ui->alignerTableau, ui->TableauGroupe, ui->envoyerMessageTextEdit});
     addHorizontalLayout(layoutParametrageEleve, {ui->envoyerMessagePersonne, ui->envoyerMessageGroupe});
@@ -70,7 +70,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->creerGroupeButton->setStyleSheet("background-color: gray;");
     ui->annulerButton->setStyleSheet("background-color: gray;");
     ui->supprimerGroupeButton->setStyleSheet("background-color: gray;");
-    ui->groupeSelectionneComboBox->setStyleSheet("background-color: gray;");
     // Cacher les boutons de la page
     ui->nomCreationGroupeLabel->setVisible(false);
     ui->nomGroupeLineEdit->setVisible(false);
@@ -1307,10 +1306,6 @@ void MainWindow::onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve)
 
         eleveActuellementParametre->setNomGroupe(groupe);
         listeGroup[groupe].push_back(eleveActuellementParametre);
-
-        if (ui->groupeSelectionneComboBox->findText(groupe) == -1) {
-            ui->groupeSelectionneComboBox->addItem(groupe, groupe);
-        }
     }
 
     // Assigner le groupe à l'élève sélectionné
@@ -1330,10 +1325,8 @@ void MainWindow::onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve)
                 membre->getAffiliate().push_back(autre);
             }
         }
-
         qDebug() << membre->getNom() << " → Affiliates count:" << membre->getAffiliate().size();
     }
-
     loadInformationTable(); // Actualiser le tableau
 }
 
@@ -1346,7 +1339,6 @@ void MainWindow::on_nomGroupeLineEdit_returnPressed()
     qDebug() << "Nom du groupe :" << ui->nomGroupeLineEdit->text();
     qDebug() << eleveActuellementParametre->getNom() << " : " << eleveActuellementParametre->getNomGroupe();
     on_creerGroupeButton_clicked();
-    ui->groupeSelectionneComboBox->addItem(eleveActuellementParametre->getNomGroupe(), eleveActuellementParametre->getNomGroupe());
 }
 
 void MainWindow::onClicked_itemBoutonSupprimerGroupe(iconEleveGroup* eleve)
@@ -1382,16 +1374,6 @@ void MainWindow::onClicked_itemBoutonSupprimerGroupe(iconEleveGroup* eleve)
 
         qDebug() << membre->getNom() << " → Affiliates count après suppression:" << membre->getAffiliate().size();
     }
-
-    // Si plus personne dans le groupe, supprimer le groupe de la map et du ComboBox
-    if (membres.empty()) {
-        listeGroup.remove(groupe);
-        int index = ui->groupeSelectionneComboBox->findText(groupe);
-        if (index != -1) {
-            ui->groupeSelectionneComboBox->removeItem(index);
-        }
-    }
-
     loadInformationTable(); // Actualiser le tableau
 }
 

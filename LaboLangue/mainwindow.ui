@@ -984,29 +984,6 @@ border:none;
      </rect>
     </property>
    </widget>
-   <widget class="QLabel" name="nomGroupeSelectionneLabel">
-    <property name="geometry">
-     <rect>
-      <x>730</x>
-      <y>270</y>
-      <width>131</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Groupe séléctionné : </string>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="groupeSelectionneComboBox">
-    <property name="geometry">
-     <rect>
-      <x>900</x>
-      <y>280</y>
-      <width>131</width>
-      <height>24</height>
-     </rect>
-    </property>
-   </widget>
    <zorder>nomGroupeLineEdit</zorder>
    <zorder>nomCreationGroupeLabel</zorder>
    <zorder>alignerTableau_2</zorder>
@@ -1063,8 +1040,6 @@ border:none;
    <zorder>modeClairButton</zorder>
    <zorder>PageStatut</zorder>
    <zorder>cacheButton</zorder>
-   <zorder>nomGroupeSelectionneLabel</zorder>
-   <zorder>groupeSelectionneComboBox</zorder>
   </widget>
  </widget>
  <resources/>
