@@ -5,7 +5,6 @@
 InterfaceQCM::InterfaceQCM(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::InterfaceQCM)
-    //Declaration des Image de base des ronds
     , isButton1Image(true)
     , isButton2Image(true)
     , isButton3Image(true)
@@ -17,7 +16,6 @@ InterfaceQCM::InterfaceQCM(QWidget *parent)
     // Affichage des Images
     setButtonIcons();
 
-
     udpSocketConsigne.bind(QHostAddress::Any, consignePort);
     connect(&udpSocketConsigne, &QUdpSocket::readyRead, this, &InterfaceQCM::receiveResponse);
     udpChrono.bind(QHostAddress::Any, chronoPort);
@@ -25,20 +23,17 @@ InterfaceQCM::InterfaceQCM(QWidget *parent)
     // 2) dès qu’on reçoit un datagramme, on va parse mm:ss et fermer
     connect(&udpChrono, &QUdpSocket::readyRead,
             this,     &InterfaceQCM::onUdpTimeout);
-    // Vérifier si l'utilisateur est un professeur
-    if (!isTeacher) {
+
+    if (!Professor) {
         ui->textEditFeedBack->setReadOnly(true); // Bloquer l'accès en écriture
         ui->textEditConsigne->setReadOnly(true); // Bloquer l'accès en écriture
+        ui->textEditAffichageQuestion->setReadOnly(true); // Bloquer l'accès en écriture
     }
 
-
-    loadQuestionsJson(R"(\\CIEL-T171-05\Activites\uykfjkfhjl_2025-05-06_10-47\questions.qcmlabo)");
-
+    loadQuestionsJson(R"("\\CIEL-T171-05\Activites\qsdfgsdg_2025-05-12_14-54\questions.qcmlabo")");
 
     currentQuestionIndex = 0;
     showCurrentQuestion();
-
-
 }
 
 InterfaceQCM::~InterfaceQCM()
@@ -46,23 +41,19 @@ InterfaceQCM::~InterfaceQCM()
     delete ui;
 }
 
-
 void InterfaceQCM::onUdpTimeout()
 {
-    // on peut recevoir plusieurs paquets, on les vide tous
     while (udpChrono.hasPendingDatagrams()) {
         QByteArray dg;
         dg.resize(udpChrono.pendingDatagramSize());
         udpChrono.readDatagram(dg.data(), dg.size());
-        QString s = QString::fromUtf8(dg).trimmed();    // ex: "05:00"
+        QString s = QString::fromUtf8(dg).trimmed();
 
-        // on s’attend à un format mm:ss
         auto parts = s.split(':');
         if (parts.size()==2) {
-            int m   = parts[0].toInt();
+            int m = parts[0].toInt();
             int sec = parts[1].toInt();
-            int ms  = (m*60 + sec) * 1000;
-            // 3) schedule la fermeture automatique
+            int ms = (m*60 + sec) * 1000;
             QTimer::singleShot(ms, this, &QDialog::accept);
         }
     }
@@ -94,10 +85,8 @@ void InterfaceQCM::loadQuestionsJson(const QString &filePath)
 
     QJsonObject root = doc.object();
     questionArray = root["questions"].toArray();
-
     qDebug() << "✅ Questions chargées :" << questionArray.size();
 }
-
 
 void InterfaceQCM::showCurrentQuestion()
 {
@@ -108,11 +97,11 @@ void InterfaceQCM::showCurrentQuestion()
 
     QJsonObject currentQuestion = questionArray[currentQuestionIndex].toObject();
     QString questionText = currentQuestion["text"].toString();
-    ui->labelQuestion->setText(questionText);  // Affiche la question dans le label
+    ui->labelQuestion->setText(questionText);
 
-    QJsonArray answers = currentQuestion["answers"].toArray(); // Récupère les réponses
+    QJsonArray answers = currentQuestion["answers"].toArray();
 
-    // Réinitialiser les boutons (cacher les boutons non utilisés)
+    // Réinitialiser les boutons
     if (answers.size() > 0) {
         ui->pushButton1->setText(answers[0].toObject()["text"].toString());
         ui->pushButton1->setVisible(true);
@@ -141,56 +130,48 @@ void InterfaceQCM::showCurrentQuestion()
         ui->pushButton4->setVisible(false);
     }
 
-    // Réinitialiser le style des boutons
     on_pushButtonEffacerReponse_clicked();
 }
 
-
-
-
 void InterfaceQCM::on_pushButtonQuestionSuivante_clicked()
 {
-    // Vérifier si l'index est valide
     if (currentQuestionIndex >= questionArray.size()) {
         qDebug() << "❌ Aucune question suivante à afficher.";
         return;
     }
 
-    // Récupérer la question actuelle
     QJsonObject currentQuestion = questionArray[currentQuestionIndex].toObject();
-    QJsonArray answers = currentQuestion["answers"].toArray();  // Récupère les réponses de la question actuelle
+    QJsonArray answers = currentQuestion["answers"].toArray();
 
-    // Enregistrement des réponses actuelles dans le fichier
     QString fileName = "C:/Users/Quentin/Documents/Projet/responses.txt";
     QFile file(fileName);
 
-    if (!file.open(QIODevice::Append | QIODevice::Text)) {  // Mode Append pour ne pas écraser le fichier
+    if (!file.open(QIODevice::Append | QIODevice::Text)) {
         qWarning() << "Erreur : impossible d'ouvrir le fichier pour écrire.";
         return;
     }
 
     QTextStream out(&file);
-    out << QString("Question %1:\n").arg(currentQuestionIndex + 1);  // Question actuelle
+    out << QString("Question %1:\n").arg(currentQuestionIndex + 1);
 
-    // Vérifier chaque réponse sélectionnée et enregistrer avec l'emoji et le texte
     if (!isButton1Image) {
         QString emoji = answers[0].toObject()["isCorrect"].toBool() ? "✅" : "❌";
-        QString buttonText = ui->pushButton1->text();  // Récupère le texte du bouton 1
+        QString buttonText = ui->pushButton1->text();
         out << QString("- %1 %2\n").arg(buttonText).arg(emoji);
     }
     if (!isButton2Image) {
         QString emoji = answers[1].toObject()["isCorrect"].toBool() ? "✅" : "❌";
-        QString buttonText = ui->pushButton2->text();  // Récupère le texte du bouton 2
+        QString buttonText = ui->pushButton2->text();
         out << QString("- %1 %2\n").arg(buttonText).arg(emoji);
     }
     if (!isButton3Image) {
         QString emoji = answers[2].toObject()["isCorrect"].toBool() ? "✅" : "❌";
-        QString buttonText = ui->pushButton3->text();  // Récupère le texte du bouton 3
+        QString buttonText = ui->pushButton3->text();
         out << QString("- %1 %2\n").arg(buttonText).arg(emoji);
     }
     if (!isButton4Image) {
         QString emoji = answers[3].toObject()["isCorrect"].toBool() ? "✅" : "❌";
-        QString buttonText = ui->pushButton4->text();  // Récupère le texte du bouton 4
+        QString buttonText = ui->pushButton4->text();
         out << QString("- %1 %2\n").arg(buttonText).arg(emoji);
     }
 
@@ -204,9 +185,12 @@ void InterfaceQCM::on_pushButtonQuestionSuivante_clicked()
         showCurrentQuestion();
     } else {
         qDebug() << "✅ Dernière question atteinte. Fin du QCM.";
-        // Optionnel : désactiver les boutons ou afficher un message
+
+        // Appel automatique de la popup pour soumettre
+        on_pushButtonSoumettre_clicked();
     }
 }
+
 void InterfaceQCM::setButtonIcons()
 {
     auto setIcon = [&](QPushButton *button, const QString &imagePath) {
@@ -223,76 +207,46 @@ void InterfaceQCM::setButtonIcons()
     setIcon(ui->pushButtonEffacerReponse, ":/images/Effacer");
     setIcon(ui->pushButtonQuestionSuivante, ":/images/Avancer");
     setIcon(ui->pushButtonQuestionPrecedente, ":/images/RevenirArriere");
+    setIcon(ui->pushButtonSoumettre, ":/images/Enregistrer");
 }
+
 void InterfaceQCM::on_pushButton1_clicked()
 {
-
     ui->pushButton1->setStyleSheet("QPushButton { background-color:blue;border: 3px solid white;border-radius: 20px;}");
     isButton1Image = false;
 }
+
 void InterfaceQCM::on_pushButton2_clicked()
 {
-
     ui->pushButton2->setStyleSheet("QPushButton { background-color:green;border: 3px solid white;border-radius: 20px; }");
     isButton2Image = false;
 }
+
 void InterfaceQCM::on_pushButton3_clicked()
 {
-
-    ui->pushButton3->setStyleSheet("QPushButton {  background-color:red;border: 3px solid white;border-radius: 20px; }");
+    ui->pushButton3->setStyleSheet("QPushButton { background-color:red;border: 3px solid white;border-radius: 20px; }");
     isButton3Image = false;
 }
+
 void InterfaceQCM::on_pushButton4_clicked()
 {
     ui->pushButton4->setStyleSheet("QPushButton { background-color:orange;border: 3px solid white;border-radius: 20px; }");
     isButton4Image = false;
 }
+
 void InterfaceQCM::on_pushButtonEffacerReponse_clicked()
 {
-    // On ne touche qu'à la bordure : le reste du style .ui reste intact
     ui->pushButton1->setStyleSheet("QPushButton { background-color:blue; border-radius: 20px; }");
     ui->pushButton2->setStyleSheet("QPushButton { background-color:green; border-radius: 20px; }");
     ui->pushButton3->setStyleSheet("QPushButton { background-color:red;border-radius: 20px; }");
     ui->pushButton4->setStyleSheet("QPushButton { background-color:orange;border-radius: 20px; }");
 
-    // Réinitialiser les flags
     isButton1Image = true;
     isButton2Image = true;
     isButton3Image = true;
     isButton4Image = true;
 }
-/*
-void InterfaceQCM::on_pushButtonQuestionSuivante_clicked()
-{
-    // Chemin relatif
-    QString fileName = "C:/Users/Quentin/Documents/Projet/responses.txt";
-    QFile file(fileName);
 
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        qWarning() << "Erreur : impossible d'ouvrir le fichier pour écrire.";
-        return;
-    }
-
-    QTextStream out(&file);
-    out << "Réponses enregistrées :\n";
-
-    if (!isButton1Image) {
-        out << "Réponse 1 sélectionnée\n";
-    }
-    if (!isButton2Image) {
-        out << "Réponse 2 sélectionnée\n";
-    }
-    if (!isButton3Image) {
-        out << "Réponse 3 sélectionnée\n";
-    }
-    if (!isButton4Image) {
-        out << "Réponse 4 sélectionnée\n";
-    }
-
-    file.close();
-    qDebug() << "Réponses enregistrées dans le fichier :" << file.fileName();
-}
-*/
 void InterfaceQCM::receiveResponse()
 {
     while (udpSocketConsigne.hasPendingDatagrams()) {
@@ -313,26 +267,21 @@ void InterfaceQCM::receiveResponse()
     }
 }
 
-/*void InterfaceQCM::loadQuestions(const QString &filePath)
-{
-
-}
-*/
 void InterfaceQCM::on_pushButtonQuestionPrecedente_clicked()
-
 {
-    // Vérifier si l'index est valide (on ne peut pas aller avant la première question)
     if (currentQuestionIndex <= 0) {
         qDebug() << "❌ Pas de question précédente.";
         return;
     }
 
-    // Décrémenter l'index pour revenir à la question précédente
     currentQuestionIndex--;
-
-    // Mettre à jour l'affichage avec la question précédente
     showCurrentQuestion();
 }
 
-
-
+void InterfaceQCM::on_pushButtonSoumettre_clicked()
+{
+    // Affichage popup pour soumettre les réponses
+    QMessageBox::information(this, "Soumettre les réponses", "Vos réponses ont été enregistrées.");
+    // Ferme la fenêtre QCM après soumission
+    accept();
+}
