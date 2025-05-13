@@ -128,37 +128,32 @@ void InterfaceEnregistrement::setButtonIcons()
 
 void InterfaceEnregistrement::on_pushButtonSpeak_clicked()
 {
-    // Si on est déjà en train d'enregistrer, on arrête et on passe en mode "prêt"
-    if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState) {
+    if (mediaRecorder->recorderState() != QMediaRecorder::StoppedState) {
         mediaRecorder->stop();
         timer->stop();
-        ui->labelChrono->setText("00:00:00");
-        ui->pushButtonPause->setVisible(false);
-        ui->pushButtonPlay ->setVisible(true);
-        qDebug() << "🛑 Enregistrement stoppé via Speak.";
-        return;
+        qDebug() << "🛑 Enregistrement existant stoppé via Speak.";
     }
 
-    // 1) Préparer dossier & chemin
+    // 1) Supprimer l’ancien fichier **réellement enregistré** (pas le nouveau)
+    if (!lastAudioFilePath.isEmpty() && QFile::exists(lastAudioFilePath)) {
+        QFile::remove(lastAudioFilePath);
+        qDebug() << "🗑 Ancien enregistrement supprimé :" << lastAudioFilePath;
+    }
+
+    // 2) Préparer le dossier & chemin du nouveau fichier
     const QString docs   = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
     const QString folder = QDir(docs).filePath("Travail");
     if (!QDir(folder).exists()) QDir().mkpath(folder);
 
-    const QString timestamp = QDateTime::currentDateTime().toString("yyyyMMdd_hhmmss");
+    const QString timestamp         = QDateTime::currentDateTime().toString("yyyyMMdd_hhmmss");
     audioFilePath = QDir(folder).filePath(timestamp + ".wav");
-    qDebug() << "🎙 Nouveau fichier :" << audioFilePath;
+    qDebug() << "🎙 Création du fichier :" << audioFilePath;
 
-    // 2) Écraser l’ancien s’il existe
-    if (QFile::exists(audioFilePath)) {
-        QFile::remove(audioFilePath);
-        qDebug() << "🗑 Ancien fichier supprimé";
-    }
-
-    // 3) Réinitialiser chrono
+    // 3) Réinitialiser le chrono
     totalSecondes = 0;
     ui->labelChrono->setText("00:00:00");
 
-    // 4) Configurer & lancer l’enregistrement
+    // 4) Configurer & lancer l’enregistrement + chrono
     QMediaFormat fmt;
     fmt.setFileFormat(QMediaFormat::FileFormat::Wave);
     mediaRecorder->setMediaFormat(fmt);
@@ -166,17 +161,19 @@ void InterfaceEnregistrement::on_pushButtonSpeak_clicked()
     mediaRecorder->record();
     timer->start(1000);
 
-    // 5) UI
+    // 5) Mémoriser ce fichier pour la prochaine suppression
+    lastAudioFilePath = audioFilePath;
+
+    // 6) Mettre à jour l’UI
     ui->pushButtonPause->setVisible(true);
     ui->pushButtonPlay ->setVisible(false);
-    qDebug() << "▶️ Enregistrement démarré";
+    qDebug() << "▶️ Nouvel enregistrement démarré";
 }
 void InterfaceEnregistrement::on_pushButtonEnregistrer_clicked()
 {
     animateButtonClick(ui->pushButtonEnregistrer);
 
-    // 1) Si on enregistre déjà, on arrête tout et on remet en état "prêt"
-    if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState) {
+    if (mediaRecorder->recorderState() != QMediaRecorder::StoppedState) {
         mediaRecorder->stop();
         timer->stop();
         totalSecondes = 0;
@@ -185,7 +182,6 @@ void InterfaceEnregistrement::on_pushButtonEnregistrer_clicked()
         ui->pushButtonPlay ->setVisible(true);
         qDebug() << "🛑 Enregistrement arrêté via Enregistrer.";
     }
-
     // 2) Réinitialiser le chrono
     totalSecondes = 0;
     ui->labelChrono->setText("00:00:00");
@@ -224,18 +220,18 @@ void InterfaceEnregistrement::on_pushButtonEnregistrer_clicked()
 void InterfaceEnregistrement::on_pushButtonPause_clicked()
 {
     if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState) {
+        // Pause de l’enregistrement + chrono
         mediaRecorder->pause();
-        isRecordingPaused = true;
-        pausedTime = totalSecondes;
         timer->stop();
-        qDebug() << "Enregistrement et chrono mis en pause.";
+        qDebug() << "⏸️ Enregistrement en pause";
     } else if (player->playbackState() == QMediaPlayer::PlayingState) {
         player->pause();
-        qDebug() << "Lecture mise en pause.";
+        qDebug() << "⏸️ Lecture en pause";
     }
 
+    // UI
     ui->pushButtonPause->setVisible(false);
-    ui->pushButtonPlay->setVisible(true);
+    ui->pushButtonPlay ->setVisible(true);
 }
 void InterfaceEnregistrement::on_pushButtonPlay_clicked()
 {
@@ -257,28 +253,31 @@ void InterfaceEnregistrement::on_pushButtonPlay_clicked()
 void InterfaceEnregistrement::on_pushButtonClear_clicked()
 {
     animateButtonClick(ui->pushButtonClear);
-    if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState) {
+    if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState ||
+        mediaRecorder->recorderState() == QMediaRecorder::PausedState) {
         mediaRecorder->stop();
-        qDebug() << "Enregistrement arrêté.";
+        qDebug() << "🛑 Enregistrement stoppé par Clear.";
     }
 
-    if (player->playbackState() == QMediaPlayer::PlayingState) {
-        player->stop();
-        qDebug() << "Lecture stoppée.";
+    // 2) Arrêter le timer s'il tourne
+    if (timer->isActive()) {
+        timer->stop();
+        qDebug() << "⏱ Timer stoppé par Clear.";
     }
 
-    if (QFile::exists(audioFilePath)) {
-        QFile::remove(audioFilePath);
-        qDebug() << "Enregistrement supprimé.";
-    }
-
+    // 3) Réinitialiser le chrono à zéro
     totalSecondes = 0;
     ui->labelChrono->setText("00:00:00");
-    speakButtonClicked = false;
-    qDebug() << "Tout a été réinitialisé.";
 
-    mediaRecorder->stop();
+    // 4) Remettre l'UI en mode « prêt » : on cache les contrôles Play/Pause
+    ui->pushButtonPause->setVisible(false);
+    ui->pushButtonPlay ->setVisible(false);
+    // (le bouton Speak reste visible pour démarrer un nouvel enregistrement)
+
+    qDebug() << "Chrono remis à zéro. Fichier inchangé :"
+             << audioFilePath;
 }
+
 void InterfaceEnregistrement::animateButtonClick(QPushButton* btn) {
     // 1) on prend la géométrie d'origine
     const QRect orig = btn->geometry();
