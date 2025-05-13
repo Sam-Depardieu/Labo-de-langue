@@ -661,6 +661,10 @@ void MainWindow::on_SessionButton_clicked()
     for(unsigned int i=0; i!=listeParticipant.size(); i++)
     {
         showCheckIconOnGroup(listeParticipant[i]);
+        listeParticipant[i]->getCasqueActiver()->setVisible(false);
+        listeParticipant[i]->getCasqueDesactiver()->setVisible(false);
+        listeParticipant[i]->getMicroDesactiver()->setVisible(false);
+        listeParticipant[i]->getMicroActiver()->setVisible(false);
     }
 
 }
