@@ -86,10 +86,8 @@ private slots:
     void on_echapButton_clicked();
 
     // === Paramétrage élèves ===
-    void on_muteButton_clicked();
-    void on_demuteButton_clicked();
-    void on_desactiverSonButton_clicked();
-    void on_activerSonButton_clicked();
+    void on_casqueSonButton_clicked();
+    void on_microSonButton_clicked();
     void on_Communication_clicked();
     void on_envoyerMessagePersonne_clicked();
     void on_envoyerMessageGroupe_clicked();
@@ -110,6 +108,8 @@ private slots:
     void updateEleveNom(iconEleveGroup* eleve, const QString& newName);
     void updateNomDansBDD(int idEleve, const QString& nouveauNom);
     void loadInformationTable();
+
+
 
 private:
     // === Interface graphique ===
