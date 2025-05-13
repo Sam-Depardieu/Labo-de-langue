@@ -76,6 +76,8 @@ private:
     QUdpSocket udpSocketInter;
     QUdpSocket *udpSocketRestart;
     quint16 interPort = 5560;
+    QUdpSocket *udpSocketNomFichier;
+    quint16 PortNomFichier = 5561;
     QWidget *currentChild = nullptr;
     QShortcut *shortcutQcm;
     QShortcut *shortcutAudio;

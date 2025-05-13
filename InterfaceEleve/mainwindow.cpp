@@ -359,7 +359,9 @@ void MainWindow::receiveCommand(const QString &cmd) {
     else if (cmd == "ecoute_co") {
         currentChild = new InterfaceAudio(true, this);
     }
-    else if (cmd == "qcm") {
+    else if (cmd == "QCM") {
+        QString filePath = "\\CIEL-T171-05\\Activites\\questions.qcmlabo";
+
         currentChild = new InterfaceQCM(this);
     }
     else if (cmd == "video") {
