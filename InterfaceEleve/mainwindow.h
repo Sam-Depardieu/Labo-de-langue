@@ -6,19 +6,17 @@
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlError>
 #include <QDebug>
-#include <QProcess>
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QNetworkInterface>
 #include <QUdpSocket>
 #include <QInputDialog>
 #include <QShortcut>
-#include <QUdpSocket>
 #include <QTimer>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QHostAddress>
-
+#include <QProcess>
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -27,6 +25,7 @@ QT_END_NAMESPACE
 class InterfaceQCM;
 class InterfaceAudio;
 class InterfaceVideo;
+class InterfaceEnregistrement;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -58,6 +57,7 @@ private slots:
 
     void receiveResponse();
     void receiveCommand(const QString& cmd);
+    void handleRestartCommand();
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db;
@@ -74,6 +74,7 @@ private:
     QUdpSocket udpSocketConsigne;
     quint16 consignePort = 5558;
     QUdpSocket udpSocketInter;
+    QUdpSocket *udpSocketRestart;
     quint16 interPort = 5560;
     QWidget *currentChild = nullptr;
     QShortcut *shortcutQcm;

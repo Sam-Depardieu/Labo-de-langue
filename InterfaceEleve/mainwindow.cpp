@@ -62,6 +62,17 @@ MainWindow::MainWindow(QWidget *parent)
 
     udpSocketInter.bind(QHostAddress::Any, interPort);
     connect(&udpSocketInter, &QUdpSocket::readyRead, this, &MainWindow::receiveResponse);
+    udpSocketRestart = new QUdpSocket(this);
+    if (!udpSocketRestart->bind(QHostAddress::Any, 5557)) {
+        qWarning() << "❌ Impossible de binder le port 5557";
+    } else {
+        connect(udpSocketRestart,
+                &QUdpSocket::readyRead,
+                this,
+                &MainWindow::handleRestartCommand);
+        qDebug() << "✅ En écoute RESTART sur 5557";
+    }
+
 }
 
 bool MainWindow::connectToDatabase() {
@@ -113,6 +124,28 @@ void MainWindow::on_pushButtonInterfaceVideo_clicked()
 {
     InterfaceVideo *interfaceVideo = new InterfaceVideo(this);
     interfaceVideo->show();
+}
+void MainWindow::handleRestartCommand()
+{
+    while (udpSocketRestart->hasPendingDatagrams()) {
+        QByteArray datagram;
+        datagram.resize(udpSocketRestart->pendingDatagramSize());
+        QHostAddress sender;
+        quint16 senderPort;
+
+        udpSocketRestart->readDatagram(datagram.data(),
+                                       datagram.size(),
+                                       &sender,
+                                       &senderPort);
+        QString cmd = QString::fromUtf8(datagram).trimmed();
+        qDebug() << "📢 RECV:" << cmd << "depuis" << sender.toString();
+
+        if (cmd == "RESTART") {
+            qDebug() << "♻️ Redémarrage imminent…";
+            // Nécessite que l’utilisateur ait le droit sudo reboot sans mot de passe
+            QProcess::execute("sudo reboot");
+        }
+    }
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
@@ -293,8 +326,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         video->show();
         return;
     }
-
-    // Enfin, on laisse Qt traiter le reste
+       // Enfin, on laisse Qt traiter le reste
     QMainWindow::keyPressEvent(event);
     // Appelle l’implémentation parente pour les autres touches
     QMainWindow::keyPressEvent(event);
