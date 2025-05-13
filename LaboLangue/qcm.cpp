@@ -169,6 +169,7 @@ void QCM::addQuestion(QString *nomQ, QString *numQ, QString *nbRep, array<array<
 
     QLabel *questionLabel = new QLabel("Question :", this);
     question->questionEdit = new QLineEdit(this);
+    question->questionEdit->setPlaceholderText("Entrez la question...");
     question->questionEdit->setText(nomQ ? *nomQ : "");
     question->questionEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
