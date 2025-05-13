@@ -34,9 +34,6 @@ public:
     QLabel *labelAppelProf;
     QPushButton *pushButtonRetourArriere;
     QPushButton *pushButtonEnregistrer;
-    QPushButton *pushButtonEnregistrer_2;
-    QPushButton *pushButtonEnregistrer_3;
-    QPushButton *pushButtonEnregistrer_4;
     QTextEdit *textEditFeedBack;
     QPushButton *pushButtonPlay;
     QTextEdit *textEditConsigne;
@@ -85,7 +82,7 @@ public:
         font.setPointSize(20);
         font.setBold(true);
         labelChrono->setFont(font);
-        labelChrono->setAlignment(Qt::AlignmentFlag::AlignCenter);
+        labelChrono->setAlignment(Qt::AlignCenter);
         pushButtonSpeak = new QPushButton(InterfaceEnregistrement);
         pushButtonSpeak->setObjectName("pushButtonSpeak");
         pushButtonSpeak->setGeometry(QRect(370, 270, 70, 70));
@@ -116,21 +113,6 @@ public:
         pushButtonEnregistrer->setGeometry(QRect(500, 405, 70, 70));
         pushButtonEnregistrer->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
 "    border: none;"));
-        pushButtonEnregistrer_2 = new QPushButton(InterfaceEnregistrement);
-        pushButtonEnregistrer_2->setObjectName("pushButtonEnregistrer_2");
-        pushButtonEnregistrer_2->setGeometry(QRect(550, 450, 70, 70));
-        pushButtonEnregistrer_2->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
-"    border: none;"));
-        pushButtonEnregistrer_3 = new QPushButton(InterfaceEnregistrement);
-        pushButtonEnregistrer_3->setObjectName("pushButtonEnregistrer_3");
-        pushButtonEnregistrer_3->setGeometry(QRect(480, 450, 70, 70));
-        pushButtonEnregistrer_3->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
-"    border: none;"));
-        pushButtonEnregistrer_4 = new QPushButton(InterfaceEnregistrement);
-        pushButtonEnregistrer_4->setObjectName("pushButtonEnregistrer_4");
-        pushButtonEnregistrer_4->setGeometry(QRect(350, 405, 70, 70));
-        pushButtonEnregistrer_4->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
-"    border: none;"));
         textEditFeedBack = new QTextEdit(InterfaceEnregistrement);
         textEditFeedBack->setObjectName("textEditFeedBack");
         textEditFeedBack->setGeometry(QRect(0, 80, 151, 321));
@@ -153,9 +135,6 @@ public:
         pushButtonRetourArriere->raise();
         pushButtonAppelProf->raise();
         pushButtonEnregistrer->raise();
-        pushButtonEnregistrer_2->raise();
-        pushButtonEnregistrer_3->raise();
-        pushButtonEnregistrer_4->raise();
         textEditFeedBack->raise();
         pushButtonPlay->raise();
         textEditConsigne->raise();
@@ -180,9 +159,6 @@ public:
         labelAppelProf->setText(QCoreApplication::translate("InterfaceEnregistrement", "Le prof a \303\251t\303\251 appel\303\251", nullptr));
         pushButtonRetourArriere->setText(QString());
         pushButtonEnregistrer->setText(QString());
-        pushButtonEnregistrer_2->setText(QString());
-        pushButtonEnregistrer_3->setText(QString());
-        pushButtonEnregistrer_4->setText(QString());
         textEditFeedBack->setHtml(QCoreApplication::translate("InterfaceEnregistrement", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
