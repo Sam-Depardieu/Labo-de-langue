@@ -58,3 +58,6 @@ DISTFILES += \
     build/img/mute.png \
     build/img/person.png \
     build/img/sombre.png
+
+RESOURCES += \
+    ressources/ressource.qrc

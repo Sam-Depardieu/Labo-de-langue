@@ -23,13 +23,10 @@ class Ui_HelpWindow
 public:
     QWidget *horizontalLayoutWidget;
     QHBoxLayout *horizontalLayout;
+    QPushButton *pushButton_8;
     QPushButton *pushButton_7;
-    QPushButton *pushButton_6;
-    QPushButton *pushButton_5;
-    QPushButton *pushButton_4;
-    QPushButton *pushButton_3;
-    QPushButton *pushButton_2;
-    QPushButton *pushButton;
+    QPushButton *pushButton_10;
+    QPushButton *pushButton_9;
 
     void setupUi(QDialog *HelpWindow)
     {
@@ -38,45 +35,35 @@ public:
         HelpWindow->resize(700, 500);
         horizontalLayoutWidget = new QWidget(HelpWindow);
         horizontalLayoutWidget->setObjectName("horizontalLayoutWidget");
-        horizontalLayoutWidget->setGeometry(QRect(0, 0, 918, 71));
+        horizontalLayoutWidget->setGeometry(QRect(0, 0, 701, 52));
         horizontalLayout = new QHBoxLayout(horizontalLayoutWidget);
+        horizontalLayout->setSpacing(2);
         horizontalLayout->setObjectName("horizontalLayout");
         horizontalLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
         horizontalLayout->setContentsMargins(0, 0, 0, 0);
+        pushButton_8 = new QPushButton(horizontalLayoutWidget);
+        pushButton_8->setObjectName("pushButton_8");
+        pushButton_8->setMinimumSize(QSize(50, 50));
+
+        horizontalLayout->addWidget(pushButton_8);
+
         pushButton_7 = new QPushButton(horizontalLayoutWidget);
         pushButton_7->setObjectName("pushButton_7");
+        pushButton_7->setMinimumSize(QSize(50, 50));
 
         horizontalLayout->addWidget(pushButton_7);
 
-        pushButton_6 = new QPushButton(horizontalLayoutWidget);
-        pushButton_6->setObjectName("pushButton_6");
+        pushButton_10 = new QPushButton(horizontalLayoutWidget);
+        pushButton_10->setObjectName("pushButton_10");
+        pushButton_10->setMinimumSize(QSize(50, 50));
 
-        horizontalLayout->addWidget(pushButton_6);
+        horizontalLayout->addWidget(pushButton_10);
 
-        pushButton_5 = new QPushButton(horizontalLayoutWidget);
-        pushButton_5->setObjectName("pushButton_5");
+        pushButton_9 = new QPushButton(horizontalLayoutWidget);
+        pushButton_9->setObjectName("pushButton_9");
+        pushButton_9->setMinimumSize(QSize(50, 50));
 
-        horizontalLayout->addWidget(pushButton_5);
-
-        pushButton_4 = new QPushButton(horizontalLayoutWidget);
-        pushButton_4->setObjectName("pushButton_4");
-
-        horizontalLayout->addWidget(pushButton_4);
-
-        pushButton_3 = new QPushButton(horizontalLayoutWidget);
-        pushButton_3->setObjectName("pushButton_3");
-
-        horizontalLayout->addWidget(pushButton_3);
-
-        pushButton_2 = new QPushButton(horizontalLayoutWidget);
-        pushButton_2->setObjectName("pushButton_2");
-
-        horizontalLayout->addWidget(pushButton_2);
-
-        pushButton = new QPushButton(horizontalLayoutWidget);
-        pushButton->setObjectName("pushButton");
-
-        horizontalLayout->addWidget(pushButton);
+        horizontalLayout->addWidget(pushButton_9);
 
 
         retranslateUi(HelpWindow);
@@ -87,13 +74,10 @@ public:
     void retranslateUi(QDialog *HelpWindow)
     {
         HelpWindow->setWindowTitle(QCoreApplication::translate("HelpWindow", "Dialog", nullptr));
+        pushButton_8->setText(QCoreApplication::translate("HelpWindow", "PushButton", nullptr));
         pushButton_7->setText(QCoreApplication::translate("HelpWindow", "PushButton", nullptr));
-        pushButton_6->setText(QCoreApplication::translate("HelpWindow", "PushButton", nullptr));
-        pushButton_5->setText(QCoreApplication::translate("HelpWindow", "PushButton", nullptr));
-        pushButton_4->setText(QCoreApplication::translate("HelpWindow", "PushButton", nullptr));
-        pushButton_3->setText(QCoreApplication::translate("HelpWindow", "PushButton", nullptr));
-        pushButton_2->setText(QCoreApplication::translate("HelpWindow", "PushButton", nullptr));
-        pushButton->setText(QCoreApplication::translate("HelpWindow", "PushButton", nullptr));
+        pushButton_10->setText(QCoreApplication::translate("HelpWindow", "PushButton", nullptr));
+        pushButton_9->setText(QCoreApplication::translate("HelpWindow", "PushButton", nullptr));
     } // retranslateUi
 
 };

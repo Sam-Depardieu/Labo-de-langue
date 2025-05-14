@@ -58,7 +58,8 @@ SOURCES       = ../../AudioCommunicator.cpp \
 		../../iconEleveGroup.cpp \
 		../../main.cpp \
 		../../mainwindow.cpp \
-		../../qcm.cpp moc_AudioCommunicator.cpp \
+		../../qcm.cpp qrc_ressource.cpp \
+		moc_AudioCommunicator.cpp \
 		moc_choixsession.cpp \
 		moc_helpwindow.cpp \
 		moc_iconEleveGroup.cpp \
@@ -71,6 +72,7 @@ OBJECTS       = AudioCommunicator.o \
 		main.o \
 		mainwindow.o \
 		qcm.o \
+		qrc_ressource.o \
 		moc_AudioCommunicator.o \
 		moc_choixsession.o \
 		moc_helpwindow.o \
@@ -259,6 +261,7 @@ Makefile: ../../LaboLangue.pro /usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-clang
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/lex.prf \
 		../../LaboLangue.pro \
+		../../ressources/ressource.qrc \
 		/usr/lib/x86_64-linux-gnu/libQt6MultimediaWidgets.prl \
 		/usr/lib/x86_64-linux-gnu/libQt6Widgets.prl \
 		/usr/lib/x86_64-linux-gnu/libQt6Multimedia.prl \
@@ -343,6 +346,7 @@ Makefile: ../../LaboLangue.pro /usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-clang
 /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/yacc.prf:
 /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/lex.prf:
 ../../LaboLangue.pro:
+../../ressources/ressource.qrc:
 /usr/lib/x86_64-linux-gnu/libQt6MultimediaWidgets.prl:
 /usr/lib/x86_64-linux-gnu/libQt6Widgets.prl:
 /usr/lib/x86_64-linux-gnu/libQt6Multimedia.prl:
@@ -365,6 +369,7 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
+	$(COPY_FILE) --parents ../../ressources/ressource.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/data/dummy.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../../AudioCommunicator.h ../../choixsession.h ../../helpwindow.h ../../iconEleveGroup.h ../../mainwindow.h ../../qcm.h $(DISTDIR)/
 	$(COPY_FILE) --parents ../../AudioCommunicator.cpp ../../choixsession.cpp ../../helpwindow.cpp ../../iconEleveGroup.cpp ../../main.cpp ../../mainwindow.cpp ../../qcm.cpp $(DISTDIR)/
@@ -392,8 +397,26 @@ check: first
 
 benchmark: first
 
-compiler_rcc_make_all:
+compiler_rcc_make_all: qrc_ressource.cpp
 compiler_rcc_clean:
+	-$(DEL_FILE) qrc_ressource.cpp
+qrc_ressource.cpp: ../../ressources/ressource.qrc \
+		/usr/lib/qt6/libexec/rcc \
+		../../ressources/help.json \
+		../../ressources/sombre.png \
+		../../ressources/cross.png \
+		../../ressources/check.png \
+		../../ressources/cross-qcm.png \
+		../../ressources/micro.png \
+		../../ressources/earGreen.png \
+		../../ressources/earRed.png \
+		../../ressources/clair.png \
+		../../ressources/sortAZ.png \
+		../../ressources/sortZA.png \
+		../../ressources/mute.png \
+		../../ressources/person.png
+	/usr/lib/qt6/libexec/rcc -name ressource ../../ressources/ressource.qrc -o qrc_ressource.cpp
+
 compiler_moc_predefs_make_all: moc_predefs.h
 compiler_moc_predefs_clean:
 	-$(DEL_FILE) moc_predefs.h
@@ -472,7 +495,7 @@ compiler_yacc_impl_make_all:
 compiler_yacc_impl_clean:
 compiler_lex_make_all:
 compiler_lex_clean:
-compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
+compiler_clean: compiler_rcc_clean compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
 
 ####### Compile
 
@@ -538,6 +561,9 @@ qcm.o: ../../qcm.cpp ../../qcm.h \
 		../../choixsession.h \
 		../../helpwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qcm.o ../../qcm.cpp
+
+qrc_ressource.o: qrc_ressource.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_ressource.o qrc_ressource.cpp
 
 moc_AudioCommunicator.o: moc_AudioCommunicator.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_AudioCommunicator.o moc_AudioCommunicator.cpp

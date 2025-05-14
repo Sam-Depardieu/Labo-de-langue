@@ -99,8 +99,8 @@ MainWindow::MainWindow(QWidget *parent)
     setupActivitiesComboBox();
     loadImagesFromDB();
 
-    QPixmap clairPixmap("../img/clair.png");
-    QPixmap sombrePixmap("../img/sombre.png");
+    QPixmap clairPixmap(":/img/clair.png");
+    QPixmap sombrePixmap(":/img/sombre.png");
 
     ui->modeSombreButton->setIcon(sombrePixmap);
     ui->modeSombreButton->setIconSize(QSize(45, 45));
@@ -354,12 +354,12 @@ void MainWindow::loadImagesFromDB()
     }
 
     // Charger les images
-    QPixmap personPixmap("../img/person.png");
-    QPixmap checkPixmap("../img/check.png");
-    QPixmap microActiverPixmap("../img/micro.png");
-    QPixmap microDesactiverPixmap("../img/mute.png");
-    QPixmap casqueActiverPixmap("../img/earGreen.png");
-    QPixmap casqueDesactiverPixmap("../img/earRed.png");
+    QPixmap personPixmap(":/img/person.png");
+    QPixmap checkPixmap(":/img/check.png");
+    QPixmap microActiverPixmap(":/img/micro.png");
+    QPixmap microDesactiverPixmap(":/img/mute.png");
+    QPixmap casqueActiverPixmap(":/img/earGreen.png");
+    QPixmap casqueDesactiverPixmap(":/img/earRed.png");
 
     if (personPixmap.isNull() || checkPixmap.isNull() || microActiverPixmap.isNull()) {
         qWarning("❌ Une ou plusieurs images n'ont pas pu être chargées. Vérifiez les chemins.");

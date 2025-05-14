@@ -9,8 +9,8 @@ choixSession::choixSession(MainWindow* parentWindow)
 {
     ui->setupUi(this);
     setWindowTitle("Choix de Session");
-    ui->sortAZButton->setIcon(QIcon("../img/sortAZ.png"));
-    ui->sortZAButton->setIcon(QIcon("../img/sortZA.png"));
+    ui->sortAZButton->setIcon(QIcon(":/img/sortAZ.png"));
+    ui->sortZAButton->setIcon(QIcon(":/img/sortZA.png"));
     ui->sortAZButton->setVisible(false);
     ui->sortZAButton->setVisible(true);
 
