@@ -441,6 +441,108 @@ void MainWindow::receiveResponse() {
         quint16 senderPort;
         udpSocketInter.readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
 
+        udpSocketNomFichier->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
+
+        QString response = QString::fromUtf8(datagram).trimmed();
+        qDebug() << "📢 Interface reçue :" << response;
+
+        if (response.isEmpty())
+            continue;
+
+        // 1) Fermer l'ancienne interface
+        if (currentChild) {
+            currentChild->close();            // ferme la fenêtre
+            currentChild = nullptr;           // on oublie pas de reset le pointeur
+        }
+
+        // 2) Créer la nouvelle selon la commande
+        if (response == "QCM") {
+            currentChild = new InterfaceQCM(this);
+        }
+        else if (response == "ecoute") {
+            currentChild = new InterfaceAudio(false, this);
+        }
+        else if (response == "ecoute_co") {
+            currentChild = new InterfaceAudio(true, this);
+        }
+        else if (response == "video") {
+            currentChild = new InterfaceVideo(false, this);
+        }
+        else if (response == "video_co") {
+            currentChild = new InterfaceVideo(true, this);
+        }
+        else if (response == "enregistrement") {
+            currentChild = new InterfaceEnregistrement(this);
+        }
+
+        // 3) Afficher et s’assurer que la fenêtre se supprime à sa fermeture
+        if (currentChild) {
+            currentChild->setAttribute(Qt::WA_DeleteOnClose);
+            currentChild->show();
+        }
+    }
+    while (udpSocketNomFichier->hasPendingDatagrams()) {
+        QByteArray datagram;
+        datagram.resize(udpSocketInfo.pendingDatagramSize());
+
+        QHostAddress sender;
+        quint16 senderPort;
+
+        udpSocketInfo.readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
+
+        QString response = QString::fromUtf8(datagram).trimmed();
+        qDebug() << "📢 Réponse reçue de" << sender.toString() << ":" << response;
+
+        if (!response.isEmpty()) {
+            // Vérifie que le message contient bien ':'
+            if (response.contains(":")) {
+                QStringList parts = response.split(":");
+
+                if (parts.size() == 2) {
+                    QString key = parts[0].trimmed();
+                    QString value = parts[1].trimmed();
+
+                    if (key == "nomProf") {
+                        nomProf = value;
+                        qDebug() << "👤 Nom du prof reçu :" << nomProf;
+                    } else if (key == "nomEleve") {
+                        nomEleve = value;
+                        qDebug() << "👤 Nom de l'élève reçu :" << nomEleve;
+                    } else {
+                        qWarning() << "🔍 Clé non reconnue :" << key;
+                    }
+                }
+            } else {
+                qWarning() << "⛔ Format invalide (attendu nom:valeur)";
+            }
+        }
+    }
+
+    while (udpSocketConsigne.hasPendingDatagrams()) {
+        QByteArray datagram;
+        datagram.resize(udpSocketConsigne.pendingDatagramSize());
+
+        QHostAddress sender;
+        quint16 senderPort;
+
+        udpSocketConsigne.readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
+
+        QString response = QString::fromUtf8(datagram).trimmed();
+        qDebug() << "📢 Réponse reçue de" << sender.toString() << ":" << response;
+
+        if (!response.isEmpty()) {
+            consigne = response;
+        }
+    }
+    while (udpSocketNomFichier->hasPendingDatagrams()) {
+        QByteArray datagram;
+        datagram.resize(udpSocketNomFichier->pendingDatagramSize());
+
+        QHostAddress sender;
+        quint16 senderPort;
+
+        udpSocketNomFichier->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
+
         QString response = QString::fromUtf8(datagram).trimmed();
         qDebug() << "📢 Interface reçue :" << response;
 
