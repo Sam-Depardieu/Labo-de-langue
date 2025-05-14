@@ -15,5 +15,7 @@
     <file>sombre.png</file>
     <file>sortAZ.png</file>
     <file>sortZA.png</file>
+    <file>cadenasOpen.png</file>
+    <file>cadenasClose.png</file>
   </qresource>
 </RCC>

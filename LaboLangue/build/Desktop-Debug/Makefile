@@ -404,10 +404,12 @@ qrc_ressource.cpp: ../../ressources/ressource.qrc \
 		/usr/lib/qt6/libexec/rcc \
 		../../ressources/help.json \
 		../../ressources/sombre.png \
+		../../ressources/cadenasOpen.png \
 		../../ressources/cross.png \
 		../../ressources/check.png \
 		../../ressources/cross-qcm.png \
 		../../ressources/micro.png \
+		../../ressources/cadenasClose.png \
 		../../ressources/earGreen.png \
 		../../ressources/earRed.png \
 		../../ressources/clair.png \

@@ -84,6 +84,8 @@ public:
     QLineEdit *nomGroupeLineEdit;
     QPushButton *AppelerButton;
     QPushButton *redemarrerButton;
+    QPushButton *cadenaOpenButton;
+    QPushButton *cadenaCloseButton;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -384,6 +386,14 @@ public:
         redemarrerButton = new QPushButton(centralwidget);
         redemarrerButton->setObjectName("redemarrerButton");
         redemarrerButton->setGeometry(QRect(1100, 280, 171, 24));
+        cadenaOpenButton = new QPushButton(centralwidget);
+        cadenaOpenButton->setObjectName("cadenaOpenButton");
+        cadenaOpenButton->setGeometry(QRect(610, 80, 20, 20));
+        cadenaOpenButton->setStyleSheet(QString::fromUtf8("background-color: transparent; border: none;"));
+        cadenaCloseButton = new QPushButton(centralwidget);
+        cadenaCloseButton->setObjectName("cadenaCloseButton");
+        cadenaCloseButton->setGeometry(QRect(610, 80, 20, 20));
+        cadenaCloseButton->setStyleSheet(QString::fromUtf8("background-color: transparent; border: none;"));
         MainWindow->setCentralWidget(centralwidget);
         nomGroupeLineEdit->raise();
         nomCreationGroupeLabel->raise();
@@ -440,6 +450,8 @@ public:
         cacheButton->raise();
         AppelerButton->raise();
         redemarrerButton->raise();
+        cadenaOpenButton->raise();
+        cadenaCloseButton->raise();
 
         retranslateUi(MainWindow);
 
@@ -489,8 +501,8 @@ public:
 "hr { height: 1px; border-width: 0; }\n"
 "li.unchecked::marker { content: \"\\2610\"; }\n"
 "li.checked::marker { content: \"\\2612\"; }\n"
-"</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", nullptr));
+"</style></head><body style=\" font-family:'Ubuntu Sans'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Segoe UI'; font-size:9pt;\"><br /></p></body></html>", nullptr));
         envoyerMessageGroupe->setText(QCoreApplication::translate("MainWindow", "Envoyer le message (au groupe)", nullptr));
         modeSombreButton->setText(QString());
         modeClairButton->setText(QString());
@@ -499,6 +511,8 @@ public:
         nomCreationGroupeLabel->setText(QCoreApplication::translate("MainWindow", "Nom du groupe :", nullptr));
         AppelerButton->setText(QCoreApplication::translate("MainWindow", "Appeler", nullptr));
         redemarrerButton->setText(QCoreApplication::translate("MainWindow", "Red\303\251marrer l'appareil", nullptr));
+        cadenaOpenButton->setText(QString());
+        cadenaCloseButton->setText(QString());
     } // retranslateUi
 
 };

@@ -18,6 +18,24 @@
 // === Projet ===
 class MainWindow;
 
+enum class CouleurEtat {
+    Rouge,
+    Vert,
+    Bleu,
+    Jaune,
+    Orange,
+    Violet,
+    Rose,
+    Marron,
+    Cyan,
+    Magenta,
+    Turquoise,
+    Olive,
+    Corail,
+    Indigo,
+    Menthe
+};
+
 class iconEleveGroup : public QObject, public QGraphicsItemGroup {
     Q_OBJECT
 
@@ -39,6 +57,10 @@ public:
     void setNom(const QString& newNom) { nom = newNom; };
     void setNumQCM(int num) { numQCM = num; };
     void setNomGroupe(const QString& nomG) { nomGroupe = nomG; };
+    void setLeveLaMain(QGraphicsPixmapItem *item) {leveMain = item;};
+    void setgroupColor(QGraphicsEllipseItem* item){groupEtat = item;}
+    void setEtatCouleurEnum(CouleurEtat etat);
+    void setCouleurGroup(const QColor &couleur);
 
     // === Getters ===
     bool getStatusMicro() {return statusMicro;};
@@ -60,6 +82,9 @@ public:
     QGraphicsPixmapItem* getCasqueActiver() const { return casqueActiver; }
     QGraphicsPixmapItem* getCasqueDesactiver() const { return casqueDesactiver; }
 
+    QColor couleurDepuisEtat(CouleurEtat etat);
+
+
 signals:
     void doubleClicked();
 
@@ -68,6 +93,7 @@ protected:
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) override;
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
     QRectF boundingRect() const override;
+
 
 private:
     // === Références / contexte ===
@@ -89,7 +115,10 @@ private:
     QGraphicsTextItem* textItem = nullptr;
     QGraphicsPixmapItem* checkItem = nullptr;
     QGraphicsPixmapItem* sound = nullptr;
-
+    QGraphicsPixmapItem* leveMain = nullptr;
+    QGraphicsEllipseItem* groupEtat = nullptr;
+    QGraphicsEllipseItem* groupColor = nullptr;
+    CouleurEtat etatActuel;
     QGraphicsPixmapItem* microActiver = nullptr;
     QGraphicsPixmapItem* microDesactiver = nullptr;
     QGraphicsPixmapItem* casqueActiver = nullptr;

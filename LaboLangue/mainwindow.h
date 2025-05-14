@@ -37,6 +37,7 @@ public:
     void setSource(QString newSource) { source = newSource; }
     void setNomEtudiantLineEdit(QString nom);
     bool getModeSombre() const { return modeSombre; }
+    bool getMovable() const {return movable;};
 
     // === Méthodes principales ===
     void continuerCreationSession();
@@ -112,6 +113,13 @@ private slots:
     void on_redemarrerButton_clicked();
     void on_AideButton_clicked();
 
+    void on_cadenaCloseButton_clicked();
+
+    void on_cadenaOpenButton_clicked();
+
+    bool errorBdd(QSqlQuery& query);
+
+
 private:
     // === Interface graphique ===
     QGraphicsScene *scene = nullptr;
@@ -139,6 +147,7 @@ private:
     // === Divers ===
     Professor *prof = nullptr;
     bool modeSombre = true;
+    bool movable = false;
 
     // === Méthodes utilitaires ===
     void loadImagesFromDB();

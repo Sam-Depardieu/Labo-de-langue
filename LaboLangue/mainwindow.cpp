@@ -101,6 +101,13 @@ MainWindow::MainWindow(QWidget *parent)
 
     QPixmap clairPixmap(":/img/clair.png");
     QPixmap sombrePixmap(":/img/sombre.png");
+    QPixmap cadenasOpen(":/img/cadenasOpen.png");
+    QPixmap cadenasClose(":/img/cadenasClose.png");
+
+    ui->cadenaCloseButton->setIcon(cadenasClose);
+    ui->cadenaCloseButton->setIconSize(QSize(45, 45));
+    ui->cadenaOpenButton->setIcon(cadenasOpen);
+    ui->cadenaOpenButton->setIconSize(QSize(45, 45));
 
     ui->modeSombreButton->setIcon(sombrePixmap);
     ui->modeSombreButton->setIconSize(QSize(45, 45));
@@ -330,6 +337,15 @@ void MainWindow::updateNomDansBDD(int idEleve, const QString& nouveauNom) {
     }
 }
 
+bool MainWindow::errorBdd(QSqlQuery &query)
+{
+    if(!query.exec())
+    {
+        qDebug() << "Echec de la requête sql ";
+        return false;
+    }
+    return true;
+}
 
 /**
  * Fonctions lié aux icons de raspberry (icons)
@@ -343,13 +359,10 @@ void MainWindow::loadImagesFromDB()
 
     QSqlQuery query("SELECT IP, X, Y, Id_Raspberry FROM Raspberry");
 
-    if (!query.exec()) {
-        qDebug() << "❌ Erreur lors de l'exécution de la requête :" << query.lastError();
-        return;
-    }
+    if (!errorBdd(query)) return;
 
     if (!query.first()) {
-        qDebug() << "ℹ️ Aucun Raspberry trouvé dans la base de données.";
+        qDebug() << "Aucun Raspberry trouvé dans la base de données.";
         return;
     }
 
@@ -360,6 +373,7 @@ void MainWindow::loadImagesFromDB()
     QPixmap microDesactiverPixmap(":/img/mute.png");
     QPixmap casqueActiverPixmap(":/img/earGreen.png");
     QPixmap casqueDesactiverPixmap(":/img/earRed.png");
+    QPixmap leveLaMainPixmap(":/img/remettre.png");
 
     if (personPixmap.isNull() || checkPixmap.isNull() || microActiverPixmap.isNull()) {
         qWarning("❌ Une ou plusieurs images n'ont pas pu être chargées. Vérifiez les chemins.");
@@ -408,12 +422,31 @@ void MainWindow::loadImagesFromDB()
         QGraphicsPixmapItem* microDesactiver     = makeIcon(microDesactiverPixmap, -7, 0);
         QGraphicsPixmapItem* casqueActiver       = makeIcon(casqueActiverPixmap, 42, 0);
         QGraphicsPixmapItem* casqueDesactiver    = makeIcon(casqueDesactiverPixmap, 42, 0);
+        QGraphicsPixmapItem* leveLaMain          = makeIcon(leveLaMainPixmap, 19, -10);
 
         group->setCheckItem(checkItem);
         group->setMicroActiver(microActiver);
         group->setMicroDesactiver(microDesactiver);
         group->setCasqueActiver(casqueActiver);
         group->setCasqueDesactiver(casqueDesactiver);
+        group->setLeveLaMain(leveLaMain);
+
+        // === Ajout du rond d'état (pastille) ===
+        QGraphicsEllipseItem* groupEtat = new QGraphicsEllipseItem(0, 0, 15, 15); // taille de la pastille
+        groupEtat->setBrush(Qt::gray);
+        groupEtat->setPen(Qt::NoPen);
+        groupEtat->setVisible(false);
+
+        // Positionner à droite de l'image, centré verticalement
+        QRectF imageRect = imageItem->boundingRect();
+        qreal pastilleW = 15;
+        groupEtat->setPos(
+            imageRect.width() + 5,                      // 5 px à droite de l'image
+            (imageRect.height() - pastilleW) / 2        // centré verticalement
+            );
+
+        group->addToGroup(groupEtat);
+        group->setgroupColor(groupEtat);
 
         // Positionner et ajouter à la scène
         group->setPos(x, y);
@@ -433,6 +466,7 @@ void MainWindow::loadImagesFromDB()
 
     ui->PlanClasse->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
 }
+
 
 void MainWindow::mettreAJourAudioPourGroupe(const QString& groupe)
 {
@@ -1383,5 +1417,23 @@ void MainWindow::on_AideButton_clicked()
     if (help.exec() != QDialog::Accepted) {
         return;  // L'utilisateur a fermé sans valider, on arrête
     }
+}
+
+
+void MainWindow::on_cadenaCloseButton_clicked()
+{
+    movable = true;
+
+    ui->cadenaCloseButton->setVisible(false);
+    ui->cadenaOpenButton->setVisible(true);
+}
+
+
+void MainWindow::on_cadenaOpenButton_clicked()
+{
+    movable = false;
+
+    ui->cadenaCloseButton->setVisible(true);
+    ui->cadenaOpenButton->setVisible(false);
 }
 
