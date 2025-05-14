@@ -30,7 +30,7 @@
      <enum>QLayout::SetDefaultConstraint</enum>
     </property>
     <item>
-     <widget class="QPushButton" name="pushButton_8">
+     <widget class="QPushButton" name="mainWindowButton">
       <property name="minimumSize">
        <size>
         <width>50</width>
@@ -38,12 +38,12 @@
        </size>
       </property>
       <property name="text">
-       <string>PushButton</string>
+       <string>Général</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="pushButton_7">
+     <widget class="QPushButton" name="gestionStudentButton">
       <property name="minimumSize">
        <size>
         <width>50</width>
@@ -51,12 +51,12 @@
        </size>
       </property>
       <property name="text">
-       <string>PushButton</string>
+       <string>Gestion élèves</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="pushButton_10">
+     <widget class="QPushButton" name="choixSessionButton">
       <property name="minimumSize">
        <size>
         <width>50</width>
@@ -64,12 +64,12 @@
        </size>
       </property>
       <property name="text">
-       <string>PushButton</string>
+       <string>Gestion sessions</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="pushButton_9">
+     <widget class="QPushButton" name="qcmButton">
       <property name="minimumSize">
        <size>
         <width>50</width>
@@ -77,11 +77,21 @@
        </size>
       </property>
       <property name="text">
-       <string>PushButton</string>
+       <string>Création QCM</string>
       </property>
      </widget>
     </item>
    </layout>
+  </widget>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>60</y>
+     <width>681</width>
+     <height>431</height>
+    </rect>
+   </property>
   </widget>
  </widget>
  <resources/>

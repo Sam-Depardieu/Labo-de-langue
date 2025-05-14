@@ -1,1 +1,61 @@
-{}
+{
+  "MainWindow": [
+    {
+      "nom": "Verrouillage / Déverrouillage",
+      "utilisation": "Empêche ou autorise le déplacement des icônes des élèves sur l'IHM."
+    },
+    {
+      "nom": "Mode sombre / clair",
+      "utilisation": "Change l'apparence visuelle de l'interface entre un thème clair et un thème sombre."
+    },
+    {
+      "nom": "Création de session",
+      "utilisation": "Démarre une nouvelle session d'activité avec les élèves sélectionnés, et enregistre la configuration."
+    },
+    {
+      "nom": "Importation fichier .labo",
+      "utilisation": "Charge une session existante à partir d’un fichier JSON avec la configuration (participants, consignes, etc.)."
+    },
+    {
+      "nom": "Déplacement élève",
+      "utilisation": "Permet de repositionner les élèves sur l’IHM si le verrouillage est désactivé."
+    },
+    {
+      "nom": "Sélection manuelle",
+      "utilisation": "Active la sélection un par un des élèves présents dans la salle."
+    },
+    {
+      "nom": "Sélection complète",
+      "utilisation": "Sélectionne ou désélectionne tous les élèves visibles sur l’IHM."
+    }
+  ],
+  "QCM": [
+    {
+      "nom": "Ajout de questions",
+      "utilisation": "Permet d'ajouter des questions à choix multiples pour une activité donnée."
+    },
+    {
+      "nom": "Lancement QCM",
+      "utilisation": "Lance l’activité QCM pour les élèves sélectionnés, qui recevront les questions sur leur interface."
+    },
+    {
+      "nom": "Correction automatique",
+      "utilisation": "Affiche les résultats des élèves après envoi des réponses, avec les bonnes réponses mises en évidence."
+    }
+  ],
+  "ChoixSession": [
+    {
+      "nom": "Liste des sessions",
+      "utilisation": "Affiche toutes les sessions enregistrées localement dans l’application."
+    },
+    {
+      "nom": "Chargement d’une session",
+      "utilisation": "Permet de restaurer une session précédente avec les mêmes élèves et configuration."
+    },
+    {
+      "nom": "Suppression de session",
+      "utilisation": "Supprime une session existante de la liste."
+    }
+  ]
+}
+

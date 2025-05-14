@@ -13,7 +13,9 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QTableWidget>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -23,10 +25,11 @@ class Ui_HelpWindow
 public:
     QWidget *horizontalLayoutWidget;
     QHBoxLayout *horizontalLayout;
-    QPushButton *pushButton_8;
-    QPushButton *pushButton_7;
-    QPushButton *pushButton_10;
-    QPushButton *pushButton_9;
+    QPushButton *mainWindowButton;
+    QPushButton *gestionStudentButton;
+    QPushButton *choixSessionButton;
+    QPushButton *qcmButton;
+    QTableWidget *tableWidget;
 
     void setupUi(QDialog *HelpWindow)
     {
@@ -41,30 +44,33 @@ public:
         horizontalLayout->setObjectName("horizontalLayout");
         horizontalLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
         horizontalLayout->setContentsMargins(0, 0, 0, 0);
-        pushButton_8 = new QPushButton(horizontalLayoutWidget);
-        pushButton_8->setObjectName("pushButton_8");
-        pushButton_8->setMinimumSize(QSize(50, 50));
+        mainWindowButton = new QPushButton(horizontalLayoutWidget);
+        mainWindowButton->setObjectName("mainWindowButton");
+        mainWindowButton->setMinimumSize(QSize(50, 50));
 
-        horizontalLayout->addWidget(pushButton_8);
+        horizontalLayout->addWidget(mainWindowButton);
 
-        pushButton_7 = new QPushButton(horizontalLayoutWidget);
-        pushButton_7->setObjectName("pushButton_7");
-        pushButton_7->setMinimumSize(QSize(50, 50));
+        gestionStudentButton = new QPushButton(horizontalLayoutWidget);
+        gestionStudentButton->setObjectName("gestionStudentButton");
+        gestionStudentButton->setMinimumSize(QSize(50, 50));
 
-        horizontalLayout->addWidget(pushButton_7);
+        horizontalLayout->addWidget(gestionStudentButton);
 
-        pushButton_10 = new QPushButton(horizontalLayoutWidget);
-        pushButton_10->setObjectName("pushButton_10");
-        pushButton_10->setMinimumSize(QSize(50, 50));
+        choixSessionButton = new QPushButton(horizontalLayoutWidget);
+        choixSessionButton->setObjectName("choixSessionButton");
+        choixSessionButton->setMinimumSize(QSize(50, 50));
 
-        horizontalLayout->addWidget(pushButton_10);
+        horizontalLayout->addWidget(choixSessionButton);
 
-        pushButton_9 = new QPushButton(horizontalLayoutWidget);
-        pushButton_9->setObjectName("pushButton_9");
-        pushButton_9->setMinimumSize(QSize(50, 50));
+        qcmButton = new QPushButton(horizontalLayoutWidget);
+        qcmButton->setObjectName("qcmButton");
+        qcmButton->setMinimumSize(QSize(50, 50));
 
-        horizontalLayout->addWidget(pushButton_9);
+        horizontalLayout->addWidget(qcmButton);
 
+        tableWidget = new QTableWidget(HelpWindow);
+        tableWidget->setObjectName("tableWidget");
+        tableWidget->setGeometry(QRect(10, 60, 681, 431));
 
         retranslateUi(HelpWindow);
 
@@ -74,10 +80,10 @@ public:
     void retranslateUi(QDialog *HelpWindow)
     {
         HelpWindow->setWindowTitle(QCoreApplication::translate("HelpWindow", "Dialog", nullptr));
-        pushButton_8->setText(QCoreApplication::translate("HelpWindow", "PushButton", nullptr));
-        pushButton_7->setText(QCoreApplication::translate("HelpWindow", "PushButton", nullptr));
-        pushButton_10->setText(QCoreApplication::translate("HelpWindow", "PushButton", nullptr));
-        pushButton_9->setText(QCoreApplication::translate("HelpWindow", "PushButton", nullptr));
+        mainWindowButton->setText(QCoreApplication::translate("HelpWindow", "G\303\251n\303\251ral", nullptr));
+        gestionStudentButton->setText(QCoreApplication::translate("HelpWindow", "Gestion \303\251l\303\250ves", nullptr));
+        choixSessionButton->setText(QCoreApplication::translate("HelpWindow", "Gestion sessions", nullptr));
+        qcmButton->setText(QCoreApplication::translate("HelpWindow", "Cr\303\251ation QCM", nullptr));
     } // retranslateUi
 
 };
