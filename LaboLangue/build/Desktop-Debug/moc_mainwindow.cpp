@@ -52,33 +52,33 @@ struct qt_meta_stringdata_MainWindow_t {
     char stringdata18[24];
     char stringdata19[21];
     char stringdata20[23];
-    char stringdata21[22];
-    char stringdata22[24];
-    char stringdata23[31];
-    char stringdata24[28];
-    char stringdata25[25];
-    char stringdata26[34];
-    char stringdata27[32];
-    char stringdata28[29];
-    char stringdata29[35];
-    char stringdata30[36];
-    char stringdata31[25];
-    char stringdata32[34];
-    char stringdata33[16];
-    char stringdata34[6];
-    char stringdata35[27];
-    char stringdata36[28];
-    char stringdata37[23];
-    char stringdata38[13];
-    char stringdata39[16];
-    char stringdata40[18];
-    char stringdata41[5];
-    char stringdata42[15];
+    char stringdata21[27];
+    char stringdata22[26];
+    char stringdata23[25];
+    char stringdata24[34];
+    char stringdata25[32];
+    char stringdata26[29];
+    char stringdata27[35];
+    char stringdata28[36];
+    char stringdata29[25];
+    char stringdata30[34];
+    char stringdata31[16];
+    char stringdata32[6];
+    char stringdata33[27];
+    char stringdata34[28];
+    char stringdata35[23];
+    char stringdata36[13];
+    char stringdata37[16];
+    char stringdata38[18];
+    char stringdata39[5];
+    char stringdata40[15];
+    char stringdata41[8];
+    char stringdata42[17];
     char stringdata43[8];
-    char stringdata44[17];
-    char stringdata45[8];
-    char stringdata46[11];
-    char stringdata47[21];
+    char stringdata44[11];
+    char stringdata45[21];
+    char stringdata46[28];
+    char stringdata47[22];
 };
 #define QT_MOC_LITERAL(ofs, len) \
     uint(sizeof(qt_meta_stringdata_MainWindow_t::offsetsAndSizes) + ofs), len 
@@ -105,33 +105,33 @@ Q_CONSTINIT static const qt_meta_stringdata_MainWindow_t qt_meta_stringdata_Main
         QT_MOC_LITERAL(342, 23),  // "on_SourceButton_clicked"
         QT_MOC_LITERAL(366, 20),  // "on_delButton_clicked"
         QT_MOC_LITERAL(387, 22),  // "on_echapButton_clicked"
-        QT_MOC_LITERAL(410, 21),  // "on_muteButton_clicked"
-        QT_MOC_LITERAL(432, 23),  // "on_demuteButton_clicked"
-        QT_MOC_LITERAL(456, 30),  // "on_desactiverSonButton_clicked"
-        QT_MOC_LITERAL(487, 27),  // "on_activerSonButton_clicked"
-        QT_MOC_LITERAL(515, 24),  // "on_Communication_clicked"
-        QT_MOC_LITERAL(540, 33),  // "on_envoyerMessagePersonne_cli..."
-        QT_MOC_LITERAL(574, 31),  // "on_envoyerMessageGroupe_clicked"
-        QT_MOC_LITERAL(606, 28),  // "on_creerGroupeButton_clicked"
-        QT_MOC_LITERAL(635, 34),  // "on_nomGroupeLineEdit_returnPr..."
-        QT_MOC_LITERAL(670, 35),  // "on_nomEleveLineEdit_editingFi..."
-        QT_MOC_LITERAL(706, 24),  // "on_annulerButton_clicked"
-        QT_MOC_LITERAL(731, 33),  // "onClicked_itemBoutonAjouterGr..."
-        QT_MOC_LITERAL(765, 15),  // "iconEleveGroup*"
-        QT_MOC_LITERAL(781, 5),  // "eleve"
-        QT_MOC_LITERAL(787, 26),  // "on_modeClairButton_clicked"
-        QT_MOC_LITERAL(814, 27),  // "on_modeSombreButton_clicked"
-        QT_MOC_LITERAL(842, 22),  // "on_cacheButton_clicked"
-        QT_MOC_LITERAL(865, 12),  // "majStatusQCM"
-        QT_MOC_LITERAL(878, 15),  // "changeNameTable"
-        QT_MOC_LITERAL(894, 17),  // "QTableWidgetItem*"
-        QT_MOC_LITERAL(912, 4),  // "item"
-        QT_MOC_LITERAL(917, 14),  // "updateEleveNom"
-        QT_MOC_LITERAL(932, 7),  // "newName"
-        QT_MOC_LITERAL(940, 16),  // "updateNomDansBDD"
-        QT_MOC_LITERAL(957, 7),  // "idEleve"
-        QT_MOC_LITERAL(965, 10),  // "nouveauNom"
-        QT_MOC_LITERAL(976, 20)   // "loadInformationTable"
+        QT_MOC_LITERAL(410, 26),  // "on_casqueSonButton_clicked"
+        QT_MOC_LITERAL(437, 25),  // "on_microSonButton_clicked"
+        QT_MOC_LITERAL(463, 24),  // "on_Communication_clicked"
+        QT_MOC_LITERAL(488, 33),  // "on_envoyerMessagePersonne_cli..."
+        QT_MOC_LITERAL(522, 31),  // "on_envoyerMessageGroupe_clicked"
+        QT_MOC_LITERAL(554, 28),  // "on_creerGroupeButton_clicked"
+        QT_MOC_LITERAL(583, 34),  // "on_nomGroupeLineEdit_returnPr..."
+        QT_MOC_LITERAL(618, 35),  // "on_nomEleveLineEdit_editingFi..."
+        QT_MOC_LITERAL(654, 24),  // "on_annulerButton_clicked"
+        QT_MOC_LITERAL(679, 33),  // "onClicked_itemBoutonAjouterGr..."
+        QT_MOC_LITERAL(713, 15),  // "iconEleveGroup*"
+        QT_MOC_LITERAL(729, 5),  // "eleve"
+        QT_MOC_LITERAL(735, 26),  // "on_modeClairButton_clicked"
+        QT_MOC_LITERAL(762, 27),  // "on_modeSombreButton_clicked"
+        QT_MOC_LITERAL(790, 22),  // "on_cacheButton_clicked"
+        QT_MOC_LITERAL(813, 12),  // "majStatusQCM"
+        QT_MOC_LITERAL(826, 15),  // "changeNameTable"
+        QT_MOC_LITERAL(842, 17),  // "QTableWidgetItem*"
+        QT_MOC_LITERAL(860, 4),  // "item"
+        QT_MOC_LITERAL(865, 14),  // "updateEleveNom"
+        QT_MOC_LITERAL(880, 7),  // "newName"
+        QT_MOC_LITERAL(888, 16),  // "updateNomDansBDD"
+        QT_MOC_LITERAL(905, 7),  // "idEleve"
+        QT_MOC_LITERAL(913, 10),  // "nouveauNom"
+        QT_MOC_LITERAL(924, 20),  // "loadInformationTable"
+        QT_MOC_LITERAL(945, 27),  // "on_redemarrerButton_clicked"
+        QT_MOC_LITERAL(973, 21)   // "on_AideButton_clicked"
     },
     "MainWindow",
     "on_PlanButton_clicked",
@@ -154,10 +154,8 @@ Q_CONSTINIT static const qt_meta_stringdata_MainWindow_t qt_meta_stringdata_Main
     "on_SourceButton_clicked",
     "on_delButton_clicked",
     "on_echapButton_clicked",
-    "on_muteButton_clicked",
-    "on_demuteButton_clicked",
-    "on_desactiverSonButton_clicked",
-    "on_activerSonButton_clicked",
+    "on_casqueSonButton_clicked",
+    "on_microSonButton_clicked",
     "on_Communication_clicked",
     "on_envoyerMessagePersonne_clicked",
     "on_envoyerMessageGroupe_clicked",
@@ -180,7 +178,9 @@ Q_CONSTINIT static const qt_meta_stringdata_MainWindow_t qt_meta_stringdata_Main
     "updateNomDansBDD",
     "idEleve",
     "nouveauNom",
-    "loadInformationTable"
+    "loadInformationTable",
+    "on_redemarrerButton_clicked",
+    "on_AideButton_clicked"
 };
 #undef QT_MOC_LITERAL
 } // unnamed namespace
@@ -225,16 +225,16 @@ Q_CONSTINIT static const uint qt_meta_data_MainWindow[] = {
       27,    0,  263,    2, 0x08,   26 /* Private */,
       28,    0,  264,    2, 0x08,   27 /* Private */,
       29,    0,  265,    2, 0x08,   28 /* Private */,
-      30,    0,  266,    2, 0x08,   29 /* Private */,
-      31,    0,  267,    2, 0x08,   30 /* Private */,
-      32,    1,  268,    2, 0x08,   31 /* Private */,
+      30,    1,  266,    2, 0x08,   29 /* Private */,
+      33,    0,  269,    2, 0x08,   31 /* Private */,
+      34,    0,  270,    2, 0x08,   32 /* Private */,
       35,    0,  271,    2, 0x08,   33 /* Private */,
       36,    0,  272,    2, 0x08,   34 /* Private */,
-      37,    0,  273,    2, 0x08,   35 /* Private */,
-      38,    0,  274,    2, 0x08,   36 /* Private */,
-      39,    1,  275,    2, 0x08,   37 /* Private */,
-      42,    2,  278,    2, 0x08,   39 /* Private */,
-      44,    2,  283,    2, 0x08,   42 /* Private */,
+      37,    1,  273,    2, 0x08,   35 /* Private */,
+      40,    2,  276,    2, 0x08,   37 /* Private */,
+      42,    2,  281,    2, 0x08,   40 /* Private */,
+      45,    0,  286,    2, 0x08,   43 /* Private */,
+      46,    0,  287,    2, 0x08,   44 /* Private */,
       47,    0,  288,    2, 0x08,   45 /* Private */,
 
  // slots: parameters
@@ -264,16 +264,16 @@ Q_CONSTINIT static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 33,   34,
+    QMetaType::Void, 0x80000000 | 31,   32,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 40,   41,
-    QMetaType::Void, 0x80000000 | 33, QMetaType::QString,   34,   43,
-    QMetaType::Void, QMetaType::Int, QMetaType::QString,   45,   46,
+    QMetaType::Void, 0x80000000 | 38,   39,
+    QMetaType::Void, 0x80000000 | 31, QMetaType::QString,   32,   41,
+    QMetaType::Void, QMetaType::Int, QMetaType::QString,   43,   44,
+    QMetaType::Void,
+    QMetaType::Void,
     QMetaType::Void,
 
        0        // eod
@@ -324,13 +324,9 @@ Q_CONSTINIT const QMetaObject MainWindow::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_echapButton_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'on_muteButton_clicked'
+        // method 'on_casqueSonButton_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'on_demuteButton_clicked'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'on_desactiverSonButton_clicked'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'on_activerSonButton_clicked'
+        // method 'on_microSonButton_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_Communication_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
@@ -369,6 +365,10 @@ Q_CONSTINIT const QMetaObject MainWindow::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<int, std::false_type>,
         QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
         // method 'loadInformationTable'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_redemarrerButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_AideButton_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
@@ -397,39 +397,39 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 14: _t->on_SourceButton_clicked(); break;
         case 15: _t->on_delButton_clicked(); break;
         case 16: _t->on_echapButton_clicked(); break;
-        case 17: _t->on_muteButton_clicked(); break;
-        case 18: _t->on_demuteButton_clicked(); break;
-        case 19: _t->on_desactiverSonButton_clicked(); break;
-        case 20: _t->on_activerSonButton_clicked(); break;
-        case 21: _t->on_Communication_clicked(); break;
-        case 22: _t->on_envoyerMessagePersonne_clicked(); break;
-        case 23: _t->on_envoyerMessageGroupe_clicked(); break;
-        case 24: _t->on_creerGroupeButton_clicked(); break;
-        case 25: _t->on_nomGroupeLineEdit_returnPressed(); break;
-        case 26: _t->on_nomEleveLineEdit_editingFinished(); break;
-        case 27: _t->on_annulerButton_clicked(); break;
-        case 28: _t->onClicked_itemBoutonAjouterGroupe((*reinterpret_cast< std::add_pointer_t<iconEleveGroup*>>(_a[1]))); break;
-        case 29: _t->on_modeClairButton_clicked(); break;
-        case 30: _t->on_modeSombreButton_clicked(); break;
-        case 31: _t->on_cacheButton_clicked(); break;
-        case 32: _t->majStatusQCM(); break;
-        case 33: _t->changeNameTable((*reinterpret_cast< std::add_pointer_t<QTableWidgetItem*>>(_a[1]))); break;
-        case 34: _t->updateEleveNom((*reinterpret_cast< std::add_pointer_t<iconEleveGroup*>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2]))); break;
-        case 35: _t->updateNomDansBDD((*reinterpret_cast< std::add_pointer_t<int>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2]))); break;
-        case 36: _t->loadInformationTable(); break;
+        case 17: _t->on_casqueSonButton_clicked(); break;
+        case 18: _t->on_microSonButton_clicked(); break;
+        case 19: _t->on_Communication_clicked(); break;
+        case 20: _t->on_envoyerMessagePersonne_clicked(); break;
+        case 21: _t->on_envoyerMessageGroupe_clicked(); break;
+        case 22: _t->on_creerGroupeButton_clicked(); break;
+        case 23: _t->on_nomGroupeLineEdit_returnPressed(); break;
+        case 24: _t->on_nomEleveLineEdit_editingFinished(); break;
+        case 25: _t->on_annulerButton_clicked(); break;
+        case 26: _t->onClicked_itemBoutonAjouterGroupe((*reinterpret_cast< std::add_pointer_t<iconEleveGroup*>>(_a[1]))); break;
+        case 27: _t->on_modeClairButton_clicked(); break;
+        case 28: _t->on_modeSombreButton_clicked(); break;
+        case 29: _t->on_cacheButton_clicked(); break;
+        case 30: _t->majStatusQCM(); break;
+        case 31: _t->changeNameTable((*reinterpret_cast< std::add_pointer_t<QTableWidgetItem*>>(_a[1]))); break;
+        case 32: _t->updateEleveNom((*reinterpret_cast< std::add_pointer_t<iconEleveGroup*>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2]))); break;
+        case 33: _t->updateNomDansBDD((*reinterpret_cast< std::add_pointer_t<int>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2]))); break;
+        case 34: _t->loadInformationTable(); break;
+        case 35: _t->on_redemarrerButton_clicked(); break;
+        case 36: _t->on_AideButton_clicked(); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
         switch (_id) {
         default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
-        case 28:
+        case 26:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
             case 0:
                 *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType::fromType< iconEleveGroup* >(); break;
             }
             break;
-        case 34:
+        case 32:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
             case 0:

@@ -17,6 +17,7 @@
 #include "AudioCommunicator.h"
 #include "qcm.h"
 #include "choixsession.h"
+#include "helpwindow.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -108,10 +109,8 @@ private slots:
     void updateEleveNom(iconEleveGroup* eleve, const QString& newName);
     void updateNomDansBDD(int idEleve, const QString& nouveauNom);
     void loadInformationTable();
-
-
-
     void on_redemarrerButton_clicked();
+    void on_AideButton_clicked();
 
 private:
     // === Interface graphique ===
