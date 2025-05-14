@@ -17,6 +17,7 @@
 #include <QJsonObject>
 #include <QHostAddress>
 #include <QProcess>
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -55,6 +56,7 @@ private slots:
     void keyPressEvent(QKeyEvent *event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
 
+    //void onUdpFichierRecu();
     void receiveResponse();
     void receiveCommand(const QString& cmd);
     void handleRestartCommand();
@@ -77,7 +79,7 @@ private:
     QUdpSocket *udpSocketRestart;
     quint16 interPort = 5560;
     QUdpSocket *udpSocketNomFichier;
-    quint16 PortNomFichier = 5561;
+    quint16 portNomFichier = 5561;
     QWidget *currentChild = nullptr;
     QShortcut *shortcutQcm;
     QShortcut *shortcutAudio;

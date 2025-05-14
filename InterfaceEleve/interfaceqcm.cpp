@@ -14,16 +14,24 @@ InterfaceQCM::InterfaceQCM(QWidget *parent, const QString &filePath)
     setWindowTitle("Page de QCM");
 
     setButtonIcons();
-
+    //Consigne
     if (!udpSocketConsigne.bind(QHostAddress::Any, consignePort)) {
         qWarning() << "❌ Impossible de binder le port UDP pour la consigne.";
     }
     connect(&udpSocketConsigne, &QUdpSocket::readyRead, this, &InterfaceQCM::receiveResponse);
-
+    //Chrono
     if (!udpChrono.bind(QHostAddress::Any, chronoPort)) {
         qWarning() << "❌ Impossible de binder le port UDP pour le chrono.";
     }
     connect(&udpChrono, &QUdpSocket::readyRead, this, &InterfaceQCM::onUdpTimeout);
+    //Recup Fichier
+    // Socket pour recevoir un chemin de fichier
+    /*if (!udpSocketNomFichier.bind(QHostAddress::Any, portNomFichier)) {
+        qWarning() << "❌ Impossible de binder le port UDP pour le fichier JSON.";
+    }
+    connect(&udpSocketNomFichier, &QUdpSocket::readyRead, this, &InterfaceQCM::onUdpNomFichierRecu);*/
+
+
 
     if (!Professor) {
         ui->textEditFeedBack->setReadOnly(true);
@@ -45,6 +53,28 @@ InterfaceQCM::~InterfaceQCM()
     delete ui;
 }
 
+void InterfaceQCM::onUdpNomFichierRecu()
+{
+    while (udpSocketNomFichier.hasPendingDatagrams()) {
+        QByteArray datagram;
+        datagram.resize(udpSocketNomFichier.pendingDatagramSize());
+        udpSocketNomFichier.readDatagram(datagram.data(), datagram.size());
+
+        fichierRecu = QString::fromUtf8(datagram).trimmed();
+        qDebug() << "📁 Chemin de fichier JSON reçu par UDP :" << fichierRecu;
+
+        // Charger les questions si le fichier est bien reçu
+        if (QFile::exists(fichierRecu)) {
+            loadQuestionsJson(fichierRecu);
+            currentQuestionIndex = 0;
+            showCurrentQuestion();
+        } else {
+            qWarning() << "❌ Fichier JSON non trouvé :" << fichierRecu;
+        }
+    }
+}
+
+
 void InterfaceQCM::loadQuestionsJson(const QString &filePath)
 {
     QFile file(filePath);
@@ -61,6 +91,7 @@ void InterfaceQCM::loadQuestionsJson(const QString &filePath)
 
     if (error.error != QJsonParseError::NoError) {
         qWarning() << "❌ Erreur JSON : " << error.errorString();
+        qWarning() << "Position de l'erreur : " << error.offset;
         return;
     }
 

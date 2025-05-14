@@ -13,6 +13,7 @@
 #include <QPushButton>
 #include <QDir>
 #include <QStandardPaths>
+#include <QString>
 
 namespace Ui {
 class InterfaceQCM;
@@ -38,6 +39,7 @@ private slots:
     void on_pushButtonQuestionSuivante_clicked();
     void on_pushButtonQuestionPrecedente_clicked();
     void onUdpTimeout();
+    void onUdpNomFichierRecu();
 
 private:
     Ui::InterfaceQCM *ui;
@@ -60,6 +62,10 @@ private:
     void showCurrentQuestion();
     QUdpSocket udpChrono;
     quint16 chronoPort = 5558;
+
+    QUdpSocket udpSocketNomFichier;
+    quint16 portNomFichier = 5561;
+    QString fichierRecu;
 
 
 };
