@@ -20,9 +20,9 @@ public:
     ~HelpWindow();
 
 private slots:
-    void afficherFonctionnalitesMain();
-    void afficherFonctionnalitesQCM();
-    void afficherFonctionnalitesChoixSession();
+    void on_mainWindowButton_clicked();
+    void on_choixSessionButton_clicked();
+    void on_qcmButton_clicked();
 
 private:
     void chargerJSON();

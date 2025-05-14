@@ -30,24 +30,24 @@ struct qt_meta_stringdata_HelpWindow_t {
     char stringdata0[11];
     char stringdata1[28];
     char stringdata2[1];
-    char stringdata3[27];
-    char stringdata4[36];
+    char stringdata3[30];
+    char stringdata4[21];
 };
 #define QT_MOC_LITERAL(ofs, len) \
     uint(sizeof(qt_meta_stringdata_HelpWindow_t::offsetsAndSizes) + ofs), len 
 Q_CONSTINIT static const qt_meta_stringdata_HelpWindow_t qt_meta_stringdata_HelpWindow = {
     {
         QT_MOC_LITERAL(0, 10),  // "HelpWindow"
-        QT_MOC_LITERAL(11, 27),  // "afficherFonctionnalitesMain"
+        QT_MOC_LITERAL(11, 27),  // "on_mainWindowButton_clicked"
         QT_MOC_LITERAL(39, 0),  // ""
-        QT_MOC_LITERAL(40, 26),  // "afficherFonctionnalitesQCM"
-        QT_MOC_LITERAL(67, 35)   // "afficherFonctionnalitesChoixS..."
+        QT_MOC_LITERAL(40, 29),  // "on_choixSessionButton_clicked"
+        QT_MOC_LITERAL(70, 20)   // "on_qcmButton_clicked"
     },
     "HelpWindow",
-    "afficherFonctionnalitesMain",
+    "on_mainWindowButton_clicked",
     "",
-    "afficherFonctionnalitesQCM",
-    "afficherFonctionnalitesChoixSession"
+    "on_choixSessionButton_clicked",
+    "on_qcmButton_clicked"
 };
 #undef QT_MOC_LITERAL
 } // unnamed namespace
@@ -87,11 +87,11 @@ Q_CONSTINIT const QMetaObject HelpWindow::staticMetaObject = { {
     qt_incomplete_metaTypeArray<qt_meta_stringdata_HelpWindow_t,
         // Q_OBJECT / Q_GADGET
         QtPrivate::TypeAndForceComplete<HelpWindow, std::true_type>,
-        // method 'afficherFonctionnalitesMain'
+        // method 'on_mainWindowButton_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'afficherFonctionnalitesQCM'
+        // method 'on_choixSessionButton_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'afficherFonctionnalitesChoixSession'
+        // method 'on_qcmButton_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
@@ -103,9 +103,9 @@ void HelpWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         auto *_t = static_cast<HelpWindow *>(_o);
         (void)_t;
         switch (_id) {
-        case 0: _t->afficherFonctionnalitesMain(); break;
-        case 1: _t->afficherFonctionnalitesQCM(); break;
-        case 2: _t->afficherFonctionnalitesChoixSession(); break;
+        case 0: _t->on_mainWindowButton_clicked(); break;
+        case 1: _t->on_choixSessionButton_clicked(); break;
+        case 2: _t->on_qcmButton_clicked(); break;
         default: ;
         }
     }

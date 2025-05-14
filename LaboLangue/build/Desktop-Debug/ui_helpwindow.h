@@ -71,6 +71,7 @@ public:
         tableWidget = new QTableWidget(HelpWindow);
         tableWidget->setObjectName("tableWidget");
         tableWidget->setGeometry(QRect(10, 60, 681, 431));
+        tableWidget->setWordWrap(true);
 
         retranslateUi(HelpWindow);
 

@@ -7,6 +7,7 @@
 #include <QJsonObject>
 #include <QTableWidgetItem>
 #include <QDebug>
+#include <QLabel>
 
 HelpWindow::HelpWindow(QWidget *parent)
     : QDialog(parent), ui(new Ui::HelpWindow)
@@ -18,24 +19,18 @@ HelpWindow::HelpWindow(QWidget *parent)
     // Charger le fichier JSON
     chargerJSON();
 
-    // Connexions des boutons
-    connect(ui->mainWindowButton, &QPushButton::clicked, this, &HelpWindow::afficherFonctionnalitesMain);
-    connect(ui->qcmButton, &QPushButton::clicked, this, &HelpWindow::afficherFonctionnalitesQCM);
-    connect(ui->choixSessionButton, &QPushButton::clicked, this, &HelpWindow::afficherFonctionnalitesChoixSession);
-
     // Table setup
     ui->tableWidget->setColumnCount(2);
+    ui->tableWidget->setWordWrap(true);
+    ui->tableWidget->resizeRowsToContents();
+    ui->tableWidget->setSelectionMode(QAbstractItemView::NoSelection);
+
     ui->tableWidget->setHorizontalHeaderLabels({"Fonctionnalité", "Utilisation"});
     ui->tableWidget->horizontalHeader()->setStretchLastSection(true);
     ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     // Par défaut
     afficherFonctionnalites("MainWindow");
-}
-
-HelpWindow::~HelpWindow()
-{
-    delete ui;
 }
 
 void HelpWindow::chargerJSON()
@@ -67,22 +62,39 @@ void HelpWindow::afficherFonctionnalites(const QString &categorie)
 
     for (int i = 0; i < array.size(); ++i) {
         QJsonObject obj = array[i].toObject();
+
+        // Colonne fonctionnalité (texte court, simple)
         ui->tableWidget->setItem(i, 0, new QTableWidgetItem(obj["nom"].toString()));
-        ui->tableWidget->setItem(i, 1, new QTableWidgetItem(obj["utilisation"].toString()));
+
+        // Colonne utilisation (texte long, affiché dans un QLabel)
+        QLabel *label = new QLabel(obj["utilisation"].toString());
+        label->setWordWrap(true);
+        label->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+        label->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
+        ui->tableWidget->setCellWidget(i, 1, label);
     }
+
+    // Redimensionner les lignes après insertion
+    ui->tableWidget->resizeRowsToContents();
+
 }
 
-void HelpWindow::afficherFonctionnalitesMain()
+void HelpWindow::on_mainWindowButton_clicked()
 {
     afficherFonctionnalites("MainWindow");
 }
 
-void HelpWindow::afficherFonctionnalitesQCM()
+void HelpWindow::on_choixSessionButton_clicked()
+{
+    afficherFonctionnalites("ChoixSession");
+}
+
+void HelpWindow::on_qcmButton_clicked()
 {
     afficherFonctionnalites("QCM");
 }
 
-void HelpWindow::afficherFonctionnalitesChoixSession()
+HelpWindow::~HelpWindow()
 {
-    afficherFonctionnalites("ChoixSession");
+    delete ui;
 }

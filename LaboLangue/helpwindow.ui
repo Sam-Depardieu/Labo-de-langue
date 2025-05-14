@@ -92,6 +92,9 @@
      <height>431</height>
     </rect>
    </property>
+   <property name="wordWrap">
+    <bool>true</bool>
+   </property>
   </widget>
  </widget>
  <resources/>
