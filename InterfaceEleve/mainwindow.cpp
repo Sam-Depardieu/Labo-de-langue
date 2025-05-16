@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    // Affiche juste la barre de titre, sans les boutons Fermer, Minimiser, Maximiser
+    //Affiche juste la barre de titre, sans les boutons Fermer, Minimiser, Maximiser
     //setWindowFlags(Qt::Dialog | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
 
     setFixedSize(800,480);
@@ -151,8 +151,6 @@ void MainWindow::handleRestartCommand()
 
         if (cmd == "RESTART") {
             qDebug() << "♻️ Redémarrage imminent…";
-            // Nécessite que l’utilisateur ait le droit sudo reboot sans mot de passe
-            QProcess::execute("sudo reboot");
         }
     }
 }

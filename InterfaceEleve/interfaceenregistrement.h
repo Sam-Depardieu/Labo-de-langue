@@ -128,6 +128,8 @@ private:
     void setButtonIcon(QPushButton *button, const QString &imagePath);
     QUdpSocket udpChrono;
     quint16 chronoPort =5558;
+    QString lastAudioFilePath;
+
 };
 
 #endif // INTERFACEENREGISTREMENT_H
