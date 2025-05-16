@@ -113,11 +113,15 @@ QVariant iconEleveGroup::itemChange(GraphicsItemChange change, const QVariant &v
 
 }
 
-QRectF iconEleveGroup::boundingRect() const
-{
-    QRectF rect = childrenBoundingRect();
-    return rect;
+QRectF iconEleveGroup::boundingRect() const {
+    QRectF baseRect = QGraphicsItemGroup::boundingRect();
+
+    // Étend la bounding box vers la gauche pour inclure la pastille
+    baseRect.setLeft(baseRect.left() + 25); // ajuste cette valeur si nécessaire
+
+    return baseRect;
 }
+
 
 QColor iconEleveGroup::couleurDepuisEtat(CouleurEtat etat) {
     switch (etat) {

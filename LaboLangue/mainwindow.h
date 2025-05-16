@@ -38,6 +38,7 @@ public:
     void setNomEtudiantLineEdit(QString nom);
     bool getModeSombre() const { return modeSombre; }
     bool getMovable() const {return movable;};
+    QColor getNextAvailableColor();
 
     // === Méthodes principales ===
     void continuerCreationSession();
@@ -119,6 +120,9 @@ private slots:
 
     bool errorBdd(QSqlQuery& query);
 
+    QList<QColor> listeCouleursDisponibles();
+    QColor couleurDisponible() ;
+
 
 private:
     // === Interface graphique ===
@@ -160,6 +164,8 @@ private:
     void mettreAJourAudioPourGroupe(const QString& groupe);
     void changerStatusMicro (bool statusMicro);
     void changerStatusCasque (bool statusCasque);
+    QMap<QString, QColor> couleursGroup;  // Clé : nom du groupe, Valeur : couleur
+
 };
 
 #endif // MAINWINDOW_H

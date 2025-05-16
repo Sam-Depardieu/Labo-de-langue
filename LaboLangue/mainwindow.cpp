@@ -445,9 +445,10 @@ void MainWindow::loadImagesFromDB()
         QRectF imageRect = imageItem->boundingRect();
         qreal pastilleW = 15;
         groupEtat->setPos(
-            imageRect.width() + 5,                      // 5 px à droite de l'image
-            (imageRect.height() - pastilleW) / 2        // centré verticalement
+            -pastilleW + 50, // 5 pixels à gauche de l'image
+            (imageRect.height() - pastilleW) / 2 // centré verticalement
             );
+
 
         group->addToGroup(groupEtat);
         group->setgroupColor(groupEtat);
@@ -1334,40 +1335,63 @@ void MainWindow::onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve)
 
     QString groupe = eleveActuellementParametre->getNomGroupe();
 
-    // Si aucun groupe encore défini
+    // Si aucun groupe encore défini pour le créateur
     if (groupe.isEmpty()) {
-        // Utiliser le nom saisi si disponible, sinon générer automatiquement
+        // Utiliser le texte saisi si présent, sinon générer automatiquement
         if (!ui->nomGroupeLineEdit->text().isEmpty()) {
             groupe = ui->nomGroupeLineEdit->text();
         } else {
             groupe = "Groupe " + eleveActuellementParametre->getNom();
         }
 
+        // Assigner au créateur et l'ajouter au groupe
         eleveActuellementParametre->setNomGroupe(groupe);
         listeGroup[groupe].push_back(eleveActuellementParametre);
+
+        // Si le groupe est nouveau, générer une couleur non utilisée et la stocker
+        if (!couleursGroup.contains(groupe)) {
+            QColor couleur = couleurDisponible(); // Fonction qui retourne une couleur libre
+            couleursGroup[groupe] = couleur;
+        }
     }
 
-    // Assigner le groupe à l'élève sélectionné
+    // Affecter le groupe à l'élève cliqué
     eleve->setNomGroupe(groupe);
-
     std::vector<iconEleveGroup*>& membres = listeGroup[groupe];
 
-    // Ajouter l’élève s’il n’est pas encore présent
+    // Ajouter l’élève s’il n’est pas déjà dans le groupe
     if (std::find(membres.begin(), membres.end(), eleve) == membres.end()) {
         membres.push_back(eleve);
     }
 
-    // Mettre à jour les affiliate de chaque membre : tous les autres sauf soi-même
+    // Mettre à jour les affiliés et pastilles pour chaque membre
     for (iconEleveGroup* membre : membres) {
+        membre->getAffiliate().clear();  // Nettoyer les anciens affiliés
+
         for (iconEleveGroup* autre : membres) {
             if (membre != autre) {
                 membre->getAffiliate().push_back(autre);
             }
         }
-        qDebug() << membre->getNom() << " → Affiliates count:" << membre->getAffiliate().size();
+
+        // Appliquer la couleur du groupe à la pastille et la positionner à droite
+        if (membre->getgroupColor()) {
+            membre->getgroupColor()->setVisible(true);
+            membre->getgroupColor()->setBrush(couleursGroup[groupe]);
+
+            QRectF rect = membre->sceneBoundingRect();
+            membre->getgroupColor()->setPos(
+                rect.width() + 5,  // 5 px à droite
+                (rect.height() - membre->getgroupColor()->rect().height()) / 2  // centré verticalement
+                );
+        }
     }
-    loadInformationTable(); // Actualiser le tableau
+
+    loadInformationTable(); // Rafraîchir l'interface
 }
+
+
+
 
 void MainWindow::on_nomGroupeLineEdit_returnPressed()
 {
@@ -1382,13 +1406,11 @@ void MainWindow::on_nomGroupeLineEdit_returnPressed()
 
 void MainWindow::onClicked_itemBoutonSupprimerGroupe(iconEleveGroup* eleve)
 {
-    if (!eleve)
-        return;
+    if (!eleve) return;
 
     QString groupe = eleve->getNomGroupe();
 
-    if (groupe.isEmpty() || !listeGroup.contains(groupe))
-        return;
+    if (groupe.isEmpty() || !listeGroup.contains(groupe)) return;
 
     std::vector<iconEleveGroup*>& membres = listeGroup[groupe];
 
@@ -1413,6 +1435,7 @@ void MainWindow::onClicked_itemBoutonSupprimerGroupe(iconEleveGroup* eleve)
 
         qDebug() << membre->getNom() << " → Affiliates count après suppression:" << membre->getAffiliate().size();
     }
+
     loadInformationTable(); // Actualiser le tableau
 }
 
@@ -1443,3 +1466,51 @@ void MainWindow::on_cadenaOpenButton_clicked()
     ui->cadenaOpenButton->setVisible(false);
 }
 
+QColor MainWindow::getNextAvailableColor() {
+    static QList<QColor> couleurs = {
+        QColor("#F94144"), QColor("#F3722C"), QColor("#F8961E"),
+        QColor("#F9C74F"), QColor("#90BE6D"), QColor("#43AA8B"),
+        QColor("#577590"), QColor("#9D4EDD"), QColor("#6A4C93"),
+        QColor("#FF5C8A")
+    };
+
+    for (const QColor& couleur : couleurs) {
+        if (!couleursGroup.values().contains(couleur)) {
+            return couleur;
+        }
+    }
+
+    return QColor(Qt::gray); // Fallback si plus de couleur dispo
+}
+
+QList<QColor> MainWindow::listeCouleursDisponibles() {
+    return {
+        QColor("#e6194b"), // Rouge
+        QColor("#3cb44b"), // Vert
+        QColor("#ffe119"), // Jaune
+        QColor("#0082c8"), // Bleu
+        QColor("#f58231"), // Orange
+        QColor("#911eb4"), // Violet
+        QColor("#46f0f0"), // Cyan
+        QColor("#f032e6"), // Magenta
+        QColor("#d2f53c"), // Citron vert
+        QColor("#fabebe"), // Rose
+        QColor("#008080"), // Turquoise
+        QColor("#e6beff"), // Lavande
+        QColor("#aa6e28"), // Marron
+        QColor("#fffac8"), // Beige
+        QColor("#800000"), // Bordeaux
+    };
+}
+
+QColor MainWindow::couleurDisponible() {
+    QList<QColor> toutes = listeCouleursDisponibles();
+
+    // Retirer les couleurs déjà utilisées
+    for (const QColor& utilisée : couleursGroup.values()) {
+        toutes.removeAll(utilisée);
+    }
+
+    // Si toutes sont prises, reprendre aléatoirement dans la liste
+    return toutes.isEmpty() ? QColor::fromHsv(rand() % 360, 255, 200) : toutes.first();
+}
