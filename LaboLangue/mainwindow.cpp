@@ -261,32 +261,36 @@ void MainWindow::majStatusQCM()
 
 void MainWindow::resetSession()
 {
-    //Réinitialisation des IDs et des variables
+    // === Réinitialisation des IDs et variables de base ===
     idTypeActivite = -1;
     idClasse = -1;
     idProf = -1;
 
-    //Réinitialisation des listes
+    // === Réinitialisation des listes d'élèves et groupes ===
     listeRasp.clear();
     listeParticipant.clear();
     listeEleveParticipant.clear();
+    listeEditEleve.clear();
+    listeGroup.clear();
+    couleursGroup.clear();
 
-    //Réinitialisation des variables de session
+    // === Réinitialisation des variables d'état ===
     runningSession = false;
     parametrageSession = false;
     selectionParticipants = false;
     selectAllParticipants = false;
     parametrageEleve = false;
     eleveActuellementParametre = nullptr;
+    interfaceQCMOpen = false;
 
-    //Réinitialisation des chaînes de caractères
+    // === Réinitialisation des chaînes de caractères ===
     source.clear();
     nomProf.clear();
     duree.clear();
     nomTypeActivite.clear();
     ui->errorLabel->clear();
 
-    //Réinitialisation des éléments de l'interface graphique
+    // === Réinitialisation de l'interface utilisateur ===
     ui->NomProfLineEdit->clear();
     ui->ConsigneTextEdit->clear();
     ui->DureeActivite->setTime(QTime(0, 0, 0));
@@ -296,7 +300,7 @@ void MainWindow::resetSession()
     ui->cadenaCloseButton->setVisible(true);
     ui->cadenaOpenButton->setVisible(false);
 
-    //Réinitialisation des boutons
+    // === Réinitialisation des boutons ===
     editStatusButton(ui->PlanButton, false);
     editStatusButton(ui->PresenceButton, false);
     editStatusButton(ui->EnregistrementButton, false);
@@ -310,13 +314,31 @@ void MainWindow::resetSession()
     ui->SessionButton->setText("Nouv. Session");
     ui->delButton->setText("Supprimer");
 
-    //Réinitialisation de la scène graphique (si nécessaire)
+    // === Réinitialisation des tableaux s'ils existent ===
+    if (TableauGroupe) TableauGroupe->clearContents();
+
+    if (StatutTableauGroupe) StatutTableauGroupe->clearContents();
+
+    // === Réinitialisation de la scène graphique ===
     if (scene) {
         scene->clear();
-        loadImagesFromDB();
+        loadImagesFromDB();  // Recharge les images depuis la base (avatars, etc.)
     }
 
+    // === Nettoyage AudioCommunicator / réseau si actif ===
+    if (udpSocketPATH) {
+        udpSocketPATH->close();
+        delete udpSocketPATH;
+        udpSocketPATH = nullptr;
+    }
+
+    if (udpSocketQCM) {
+        udpSocketQCM->close();
+        delete udpSocketQCM;
+        udpSocketQCM = nullptr;
+    }
 }
+
 
 void MainWindow::updateEleveNom(iconEleveGroup* eleve, const QString& newName) {
     // 1. Met à jour l'objet élève
@@ -343,13 +365,15 @@ void MainWindow::updateNomDansBDD(int idEleve, const QString& nouveauNom) {
 
 bool MainWindow::errorBdd(QSqlQuery &query)
 {
-    if(!query.exec())
-    {
-        qDebug() << "Echec de la requête sql ";
+    if (!query.exec()) {
+        qDebug() << "[❌ SQL ERROR]";
+        qDebug() << "    ➤ Requête : " << query.lastQuery();
+        qDebug() << "    ➤ Erreur  : " << query.lastError().text();
         return false;
     }
     return true;
 }
+
 
 /**
  * Fonctions lié aux icons de raspberry (icons)
