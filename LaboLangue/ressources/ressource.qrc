@@ -1,0 +1,21 @@
+<RCC>
+  <qresource prefix="/json">
+    <file>help.json</file>
+  </qresource>
+  <qresource prefix="/img">
+    <file>check.png</file>
+    <file>clair.png</file>
+    <file>cross.png</file>
+    <file>cross-qcm.png</file>
+    <file>earGreen.png</file>
+    <file>earRed.png</file>
+    <file>micro.png</file>
+    <file>mute.png</file>
+    <file>person.png</file>
+    <file>sombre.png</file>
+    <file>sortAZ.png</file>
+    <file>sortZA.png</file>
+    <file>cadenasOpen.png</file>
+    <file>cadenasClose.png</file>
+  </qresource>
+</RCC>
