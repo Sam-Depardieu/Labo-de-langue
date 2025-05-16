@@ -17,6 +17,7 @@
 #include "AudioCommunicator.h"
 #include "qcm.h"
 #include "choixsession.h"
+#include "helpwindow.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -36,6 +37,7 @@ public:
     void setSource(QString newSource) { source = newSource; }
     void setNomEtudiantLineEdit(QString nom);
     bool getModeSombre() const { return modeSombre; }
+    bool getMovable() const {return movable;};
 
     // === Méthodes principales ===
     void continuerCreationSession();
@@ -108,10 +110,15 @@ private slots:
     void updateEleveNom(iconEleveGroup* eleve, const QString& newName);
     void updateNomDansBDD(int idEleve, const QString& nouveauNom);
     void loadInformationTable();
-
-
-
     void on_redemarrerButton_clicked();
+    void on_AideButton_clicked();
+
+    void on_cadenaCloseButton_clicked();
+
+    void on_cadenaOpenButton_clicked();
+
+    bool errorBdd(QSqlQuery& query);
+
 
 private:
     // === Interface graphique ===
@@ -140,6 +147,7 @@ private:
     // === Divers ===
     Professor *prof = nullptr;
     bool modeSombre = true;
+    bool movable = false;
 
     // === Méthodes utilitaires ===
     void loadImagesFromDB();
@@ -150,6 +158,8 @@ private:
     void showCheckIconOnGroup(iconEleveGroup *group);
     void onClicked_itemBoutonSupprimerGroupe(iconEleveGroup* eleve);
     void mettreAJourAudioPourGroupe(const QString& groupe);
+    void changerStatusMicro (bool statusMicro);
+    void changerStatusCasque (bool statusCasque);
 };
 
 #endif // MAINWINDOW_H

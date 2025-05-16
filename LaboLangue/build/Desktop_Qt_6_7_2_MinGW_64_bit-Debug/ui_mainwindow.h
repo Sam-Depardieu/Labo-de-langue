@@ -357,7 +357,7 @@ public:
 ""));
         PageStatut = new QGraphicsView(centralwidget);
         PageStatut->setObjectName("PageStatut");
-        PageStatut->setGeometry(QRect(40, 70, 631, 681));
+        PageStatut->setGeometry(QRect(660, 70, 631, 681));
         PageStatut->setStyleSheet(QString::fromUtf8("background-color: white;"));
         alignerTableau_2 = new QLabel(centralwidget);
         alignerTableau_2->setObjectName("alignerTableau_2");

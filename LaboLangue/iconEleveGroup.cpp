@@ -20,9 +20,8 @@ void iconEleveGroup::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
                 mainWindow->listeParticipant.erase(it);
             }
         }
-
-        // Fermer un paramétrage élève actif
-        if (mainWindow->parametrageEleve && mainWindow->eleveActuellementParametre) {
+            // Fermer un paramétrage élève actif
+            if (mainWindow->parametrageEleve && mainWindow->eleveActuellementParametre) {
             mainWindow->toggleSettingEleve(mainWindow->eleveActuellementParametre, false);
             mainWindow->parametrageEleve = false;
             mainWindow->eleveActuellementParametre = nullptr;
@@ -57,22 +56,21 @@ void iconEleveGroup::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
             mainWindow->eleveActuellementParametre = nullptr;
         }
         else {
-            mainWindow->toggleSettingEleve(mainWindow->eleveActuellementParametre, false);
-            mainWindow->toggleSettingEleve(mainWindow->eleveActuellementParametre, true);
-            mainWindow->eleveActuellementParametre = this;
+            mainWindow->toggleSettingEleve(mainWindow->eleveActuellementParametre, false); // Ferme l'ancien
+            mainWindow->eleveActuellementParametre = this; // Met à jour le pointeur AVANT d'ouvrir
+            mainWindow->toggleSettingEleve(this, true); // Ouvre avec le nouveau
         }
-
-
-
     }
 
     QGraphicsItemGroup::mouseDoubleClickEvent(event);
-}
 
+}
 
 QVariant iconEleveGroup::itemChange(GraphicsItemChange change, const QVariant &value)
 {
     if (change == ItemPositionChange) {
+        if(!mainWindow->getMovable()) return value;
+
         QPointF newPos = value.toPointF();
         QRectF sceneBounds = scene() ? scene()->sceneRect() : QRectF();  // Vérifier que la scène existe
 
@@ -111,11 +109,44 @@ QVariant iconEleveGroup::itemChange(GraphicsItemChange change, const QVariant &v
     }
 
     return QGraphicsItemGroup::itemChange(change, value);
-}
 
+}
 
 QRectF iconEleveGroup::boundingRect() const
 {
     QRectF rect = childrenBoundingRect();
     return rect;
+}
+
+QColor iconEleveGroup::couleurDepuisEtat(CouleurEtat etat) {
+    switch (etat) {
+    case CouleurEtat::Rouge:      return Qt::red;
+    case CouleurEtat::Vert:       return Qt::green;
+    case CouleurEtat::Bleu:       return Qt::blue;
+    case CouleurEtat::Jaune:      return Qt::yellow;
+    case CouleurEtat::Orange:     return QColor(255, 165, 0);
+    case CouleurEtat::Violet:     return QColor(128, 0, 128);
+    case CouleurEtat::Rose:       return QColor(255, 105, 180);
+    case CouleurEtat::Marron:     return QColor(139, 69, 19);
+    case CouleurEtat::Cyan:       return Qt::cyan;
+    case CouleurEtat::Magenta:    return Qt::magenta;
+    case CouleurEtat::Turquoise:  return QColor(64, 224, 208);
+    case CouleurEtat::Olive:      return QColor(128, 128, 0);
+    case CouleurEtat::Corail:     return QColor(255, 127, 80);
+    case CouleurEtat::Indigo:     return QColor(75, 0, 130);
+    case CouleurEtat::Menthe:     return QColor(152, 255, 152);
+    default:                      return Qt::gray;
+    }
+}
+
+void iconEleveGroup::setEtatCouleurEnum(CouleurEtat etat) {
+    setCouleurGroup(couleurDepuisEtat(etat));
+    etatActuel = etat;
+}
+
+void iconEleveGroup::setCouleurGroup(const QColor &couleur) {
+    if (groupColor) {
+        groupColor->setBrush(couleur);
+        groupColor->setVisible(true); // Affiche la pastille si elle ne l'était pas
+    }
 }

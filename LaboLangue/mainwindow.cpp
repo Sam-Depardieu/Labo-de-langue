@@ -99,8 +99,15 @@ MainWindow::MainWindow(QWidget *parent)
     setupActivitiesComboBox();
     loadImagesFromDB();
 
-    QPixmap clairPixmap("../img/clair.png");
-    QPixmap sombrePixmap("../img/sombre.png");
+    QPixmap clairPixmap(":/img/clair.png");
+    QPixmap sombrePixmap(":/img/sombre.png");
+    QPixmap cadenasOpen(":/img/cadenasOpen.png");
+    QPixmap cadenasClose(":/img/cadenasClose.png");
+
+    ui->cadenaCloseButton->setIcon(cadenasClose);
+    ui->cadenaCloseButton->setIconSize(QSize(45, 45));
+    ui->cadenaOpenButton->setIcon(cadenasOpen);
+    ui->cadenaOpenButton->setIconSize(QSize(45, 45));
 
     ui->modeSombreButton->setIcon(sombrePixmap);
     ui->modeSombreButton->setIconSize(QSize(45, 45));
@@ -126,22 +133,18 @@ MainWindow::~MainWindow()
 }
 
 // Ouverture page paramétrage Eleve
-void MainWindow::toggleSettingEleve(iconEleveGroup *group, bool open)
-{
+void MainWindow::toggleSettingEleve(iconEleveGroup *group, bool open){
     ui->Communication->setVisible(true);
-
     ui->PageStatut->setVisible(false);
     ui->ParametrageSession->setVisible(false);
     parametrageEleve = open;
     ui->ParametrageEleve->setVisible(open);
-
-    if (open && group != nullptr)
-    {
+    if (open && group != nullptr){
         ui->nomEleveLineEdit->setText(QString(group->getNom()));
+        changerStatusCasque(eleveActuellementParametre->getStatusCasque());
+        changerStatusMicro(eleveActuellementParametre->getStatusMicro());
     }
 }
-
-
 void MainWindow::setupActivitiesComboBox()
 {
     QSqlQuery query("SELECT Nom FROM TypeActivite");
@@ -334,6 +337,15 @@ void MainWindow::updateNomDansBDD(int idEleve, const QString& nouveauNom) {
     }
 }
 
+bool MainWindow::errorBdd(QSqlQuery &query)
+{
+    if(!query.exec())
+    {
+        qDebug() << "Echec de la requête sql ";
+        return false;
+    }
+    return true;
+}
 
 /**
  * Fonctions lié aux icons de raspberry (icons)
@@ -347,23 +359,21 @@ void MainWindow::loadImagesFromDB()
 
     QSqlQuery query("SELECT IP, X, Y, Id_Raspberry FROM Raspberry");
 
-    if (!query.exec()) {
-        qDebug() << "❌ Erreur lors de l'exécution de la requête :" << query.lastError();
-        return;
-    }
+    if (!errorBdd(query)) return;
 
     if (!query.first()) {
-        qDebug() << "ℹ️ Aucun Raspberry trouvé dans la base de données.";
+        qDebug() << "Aucun Raspberry trouvé dans la base de données.";
         return;
     }
 
     // Charger les images
-    QPixmap personPixmap("../img/person.png");
-    QPixmap checkPixmap("../img/check.png");
-    QPixmap microActiverPixmap("../img/micro.png");
-    QPixmap microDesactiverPixmap("../img/mute.png");
-    QPixmap casqueActiverPixmap("../img/earGreen.png");
-    QPixmap casqueDesactiverPixmap("../img/earRed.png");
+    QPixmap personPixmap(":/img/person.png");
+    QPixmap checkPixmap(":/img/check.png");
+    QPixmap microActiverPixmap(":/img/micro.png");
+    QPixmap microDesactiverPixmap(":/img/mute.png");
+    QPixmap casqueActiverPixmap(":/img/earGreen.png");
+    QPixmap casqueDesactiverPixmap(":/img/earRed.png");
+    QPixmap leveLaMainPixmap(":/img/remettre.png");
 
     if (personPixmap.isNull() || checkPixmap.isNull() || microActiverPixmap.isNull()) {
         qWarning("❌ Une ou plusieurs images n'ont pas pu être chargées. Vérifiez les chemins.");
@@ -412,12 +422,31 @@ void MainWindow::loadImagesFromDB()
         QGraphicsPixmapItem* microDesactiver     = makeIcon(microDesactiverPixmap, -7, 0);
         QGraphicsPixmapItem* casqueActiver       = makeIcon(casqueActiverPixmap, 42, 0);
         QGraphicsPixmapItem* casqueDesactiver    = makeIcon(casqueDesactiverPixmap, 42, 0);
+        QGraphicsPixmapItem* leveLaMain          = makeIcon(leveLaMainPixmap, 19, -10);
 
         group->setCheckItem(checkItem);
         group->setMicroActiver(microActiver);
         group->setMicroDesactiver(microDesactiver);
         group->setCasqueActiver(casqueActiver);
         group->setCasqueDesactiver(casqueDesactiver);
+        group->setLeveLaMain(leveLaMain);
+
+        // === Ajout du rond d'état (pastille) ===
+        QGraphicsEllipseItem* groupEtat = new QGraphicsEllipseItem(0, 0, 15, 15); // taille de la pastille
+        groupEtat->setBrush(Qt::gray);
+        groupEtat->setPen(Qt::NoPen);
+        groupEtat->setVisible(false);
+
+        // Positionner à droite de l'image, centré verticalement
+        QRectF imageRect = imageItem->boundingRect();
+        qreal pastilleW = 15;
+        groupEtat->setPos(
+            imageRect.width() + 5,                      // 5 px à droite de l'image
+            (imageRect.height() - pastilleW) / 2        // centré verticalement
+            );
+
+        group->addToGroup(groupEtat);
+        group->setgroupColor(groupEtat);
 
         // Positionner et ajouter à la scène
         group->setPos(x, y);
@@ -437,6 +466,7 @@ void MainWindow::loadImagesFromDB()
 
     ui->PlanClasse->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
 }
+
 
 void MainWindow::mettreAJourAudioPourGroupe(const QString& groupe)
 {
@@ -481,7 +511,7 @@ bool MainWindow::connectToDatabase() {
     }
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("192.168.89.42");
+    db.setHostName("localhost");
     db.setDatabaseName("LaboLangue");
     db.setPort(3306);
     db.setUserName("prof"); // Remplacez par votre nom d'utilisateur
@@ -665,6 +695,10 @@ void MainWindow::on_SessionButton_clicked()
     for(unsigned int i=0; i!=listeParticipant.size(); i++)
     {
         showCheckIconOnGroup(listeParticipant[i]);
+        listeParticipant[i]->getCasqueActiver()->setVisible(false);
+        listeParticipant[i]->getCasqueDesactiver()->setVisible(false);
+        listeParticipant[i]->getMicroDesactiver()->setVisible(false);
+        listeParticipant[i]->getMicroActiver()->setVisible(false);
     }
 
 }
@@ -950,38 +984,51 @@ void MainWindow::on_CreationButton_clicked()
 
 
 void MainWindow::on_casqueSonButton_clicked() {
-    bool isSonActive = ui->casqueSonButton->text() == "Couper le son";
+    bool isCurrentlyOn = eleveActuellementParametre->getStatusCasque();
+    bool newStatus = !isCurrentlyOn;
 
-    if (isSonActive) {
+    if (!newStatus) {
         prof->desactiverSonStudent(eleveActuellementParametre->getIP());
     } else {
         prof->activerSonStudent(eleveActuellementParametre->getIP());
     }
 
-    ui->casqueSonButton->setText(isSonActive ? "Activer le son" : "Couper le son");
-    eleveActuellementParametre->getCasqueActiver()->setVisible(!isSonActive);
-    eleveActuellementParametre->getCasqueDesactiver()->setVisible(isSonActive);
-    ui->casqueSonButton->setStyleSheet(isSonActive
-                                           ? "background-color: #28a745;"    // vert
-                                           : "background-color: rgb(255, 0, 0);"); // rouge
+    changerStatusCasque(newStatus);
 }
 
 void MainWindow::on_microSonButton_clicked() {
-    bool isMicroActive = ui->microSonButton->text() == "Couper le micro";
+    bool isCurrentlyOn = eleveActuellementParametre->getStatusMicro();
+    bool newStatus = !isCurrentlyOn;
 
-    if (isMicroActive) {
+    if (!newStatus) {
         prof->muteStudent(eleveActuellementParametre->getIP());
     } else {
         prof->unmuteStudent(eleveActuellementParametre->getIP());
     }
 
-    ui->microSonButton->setText(isMicroActive ? "Activer le micro" : "Couper le micro");
-    eleveActuellementParametre->getMicroActiver()->setVisible(!isMicroActive);
-    eleveActuellementParametre->getMicroDesactiver()->setVisible(isMicroActive);
-    ui->microSonButton->setStyleSheet(isMicroActive
-                                          ? "background-color: #28a745;"    // vert
-                                          : "background-color: rgb(255, 0, 0);"); // rouge
+    changerStatusMicro(newStatus);
 }
+
+void MainWindow::changerStatusMicro(bool statusMicro) {
+    ui->microSonButton->setText(statusMicro ? "Couper le micro" : "Activer le micro");
+    eleveActuellementParametre->getMicroActiver()->setVisible(statusMicro);
+    eleveActuellementParametre->getMicroDesactiver()->setVisible(!statusMicro);
+    ui->microSonButton->setStyleSheet(statusMicro
+                                          ? "background-color: rgb(255, 0, 0);"
+                                          : "background-color: #28a745;");
+    eleveActuellementParametre->setStatusMicro(statusMicro); // On applique tel quel
+}
+
+void MainWindow::changerStatusCasque(bool statusCasque) {
+    ui->casqueSonButton->setText(statusCasque ? "Couper le son" : "Activer le son");
+    eleveActuellementParametre->getCasqueActiver()->setVisible(statusCasque);
+    eleveActuellementParametre->getCasqueDesactiver()->setVisible(!statusCasque);
+    ui->casqueSonButton->setStyleSheet(statusCasque
+                                           ? "background-color: rgb(255, 0, 0);"
+                                           : "background-color: #28a745;");
+    eleveActuellementParametre->setStatusCasque(statusCasque); // On applique tel quel
+}
+
 
 void MainWindow::on_redemarrerButton_clicked()
 {
@@ -1136,9 +1183,6 @@ void MainWindow::on_envoyerMessageGroupe_clicked()
     qDebug() << "Envoyer le message au groupe de :" << eleveActuellementParametre->getIP();
     //Code fonction
     qDebug() << "Le message à été envoyé";
-
-
-
     QMessageBox::information(
         nullptr,
         "Message envoyé",
@@ -1178,89 +1222,90 @@ void MainWindow::on_modeSombreButton_clicked()
 
 void MainWindow::on_StatutButton_clicked()
 {
+    // Masquer les autres sections
     ui->ParametrageSession->setVisible(false);
     parametrageEleve = false;
     ui->ParametrageEleve->setVisible(false);
+
+    // Afficher les sections de statut
     ui->StatutTableauGroupe->setVisible(true);
     ui->PageStatut->setVisible(true);
 
-    // Crée une table de 12 lignes et 4 colonnes
-    ui->StatutTableauGroupe->setColumnCount(6);
-
-    ui->StatutTableauGroupe->setRowCount(listeRasp.size());
+    // Préparer le tableau
     StatutTableauGroupe = ui->StatutTableauGroupe;
+    StatutTableauGroupe->clear(); // Nettoyer l'ancien contenu
 
-    // Ajouter des en-têtes pour les colonnes
-    QStringList headers = {"Nom", "Numéro de poste", "Travail déposé", "Enregistrement", "Numéro de groupe", "Adresse IP"};
-
-    if (ui->ChoixActivite->currentText() == "QCM") {
-        headers << "QCM";  // Ajoute une colonne "QCM" si l'activité est un QCM
-        StatutTableauGroupe->setColumnCount(7);  // 6 + 1 colonne pour QCM
+    // Déterminer le nombre de colonnes
+    bool isQCM = (ui->ChoixActivite->currentText() == "QCM");
+    QStringList headers = { "Nom", "Numéro de poste", "Travail déposé", "Enregistrement", "Nom de groupe", "Adresse IP" };
+    if (isQCM) {
+        headers << "QCM";
+        StatutTableauGroupe->setColumnCount(7);
     } else {
         StatutTableauGroupe->setColumnCount(6);
     }
 
     StatutTableauGroupe->setHorizontalHeaderLabels(headers);
 
-    // Ajuste les largeurs des colonnes (modifie/ajoute selon besoin)
+    // Définir le nombre de lignes (à adapter selon votre logique)
+    StatutTableauGroupe->setRowCount(listeParticipant.size());
+
+    // Largeurs des colonnes
     StatutTableauGroupe->setColumnWidth(0, 150); // Nom
     StatutTableauGroupe->setColumnWidth(1, 100); // Numéro de poste
     StatutTableauGroupe->setColumnWidth(2, 105); // Travail déposé
     StatutTableauGroupe->setColumnWidth(3, 120); // Enregistrement
     StatutTableauGroupe->setColumnWidth(4, 130); // Numéro de groupe
     StatutTableauGroupe->setColumnWidth(5, 120); // Adresse IP
-
-    if (ui->ChoixActivite->currentText() == "QCM") {
+    if (isQCM) {
         StatutTableauGroupe->setColumnWidth(6, 80); // QCM
     }
 
-    // Remplir les cellules avec des données
-    for (unsigned int row = 0; row < listeParticipant.size(); ++row) {
+    // Remplir les lignes
+    for (int row = 0; row < static_cast<int>(listeParticipant.size()); ++row) {
+        auto participant = listeParticipant[row];
 
-        QTableWidgetItem *itemNom ;
-
-        itemNom = new QTableWidgetItem(listeParticipant[row]->getNom());
+        QTableWidgetItem *itemNom = new QTableWidgetItem(participant->getNom());
         itemNom->setTextAlignment(Qt::AlignCenter);
         StatutTableauGroupe->setItem(row, 0, itemNom);
 
-        QTableWidgetItem *itemID = new QTableWidgetItem(QString::number(listeParticipant[row]->getID()));
+        QTableWidgetItem *itemID = new QTableWidgetItem(QString::number(participant->getID()));
         itemID->setTextAlignment(Qt::AlignCenter);
-        itemID->setFlags(itemID->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
+        itemID->setFlags(itemID->flags() & ~Qt::ItemIsEditable);
         StatutTableauGroupe->setItem(row, 1, itemID);
 
         QTableWidgetItem *itemTravailDepot = new QTableWidgetItem("❌");
         itemTravailDepot->setTextAlignment(Qt::AlignCenter);
-        itemTravailDepot->setFlags(itemTravailDepot->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
+        itemTravailDepot->setFlags(itemTravailDepot->flags() & ~Qt::ItemIsEditable);
         StatutTableauGroupe->setItem(row, 2, itemTravailDepot);
 
-        QPushButton *BoutonEcouter = new QPushButton();
-        BoutonEcouter->setText("Ecouter");
-        BoutonEcouter->setStyleSheet("background-color: gray;");
-        ui->StatutTableauGroupe->setCellWidget(row, 3, BoutonEcouter);
+        QPushButton *boutonEcouter = new QPushButton("Écouter");
+        boutonEcouter->setStyleSheet("background-color: gray;");
+        StatutTableauGroupe->setCellWidget(row, 3, boutonEcouter);
 
-        QTableWidgetItem *nomGroupe = new QTableWidgetItem(listeParticipant[row]->getNomGroupe());
-        nomGroupe->setTextAlignment(Qt::AlignCenter);
-        nomGroupe->setFlags(nomGroupe->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
-        StatutTableauGroupe->setItem(row, 4, nomGroupe);
+        QTableWidgetItem *itemGroupe = new QTableWidgetItem(participant->getNomGroupe());
+        itemGroupe->setTextAlignment(Qt::AlignCenter);
+        itemGroupe->setFlags(itemGroupe->flags() & ~Qt::ItemIsEditable);
+        StatutTableauGroupe->setItem(row, 4, itemGroupe);
 
-        QTableWidgetItem *itemIP = new QTableWidgetItem(listeParticipant[row]->getIP());
+        QTableWidgetItem *itemIP = new QTableWidgetItem(participant->getIP());
         itemIP->setTextAlignment(Qt::AlignCenter);
-        itemIP->setFlags(itemIP->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
+        itemIP->setFlags(itemIP->flags() & ~Qt::ItemIsEditable);
         StatutTableauGroupe->setItem(row, 5, itemIP);
 
-
-
-        if(ui->ChoixActivite->currentText() == "QCM")
-        {
-            QTableWidgetItem *statusQCM = new QTableWidgetItem(QString::number(listeParticipant[row]->getNumQCM()) + "/" + QString::number(qcm->getSize()));
-            statusQCM->setTextAlignment(Qt::AlignCenter);
-            statusQCM->setFlags(statusQCM->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
-            StatutTableauGroupe->setItem(row, 6, statusQCM);
+        if (isQCM && qcm != nullptr) {
+            QString qcmStatut = QString("%1/%2").arg(participant->getNumQCM()).arg(qcm->getSize());
+            QTableWidgetItem *itemQCM = new QTableWidgetItem(qcmStatut);
+            itemQCM->setTextAlignment(Qt::AlignCenter);
+            itemQCM->setFlags(itemQCM->flags() & ~Qt::ItemIsEditable);
+            StatutTableauGroupe->setItem(row, 6, itemQCM);
         }
     }
+    // Connecter une fois (éviter les multiples connexions)
+    disconnect(StatutTableauGroupe, &QTableWidget::itemChanged, this, &MainWindow::changeNameTable); // au cas où
     connect(StatutTableauGroupe, &QTableWidget::itemChanged, this, &MainWindow::changeNameTable);
-    // Afficher le tableau
 }
+
 
 
 void MainWindow::on_cacheButton_clicked()
@@ -1365,5 +1410,30 @@ void MainWindow::onClicked_itemBoutonSupprimerGroupe(iconEleveGroup* eleve)
     loadInformationTable(); // Actualiser le tableau
 }
 
+void MainWindow::on_AideButton_clicked()
+{
+    HelpWindow help(this);
 
+    if (help.exec() != QDialog::Accepted) {
+        return;  // L'utilisateur a fermé sans valider, on arrête
+    }
+}
+
+
+void MainWindow::on_cadenaCloseButton_clicked()
+{
+    movable = true;
+
+    ui->cadenaCloseButton->setVisible(false);
+    ui->cadenaOpenButton->setVisible(true);
+}
+
+
+void MainWindow::on_cadenaOpenButton_clicked()
+{
+    movable = false;
+
+    ui->cadenaCloseButton->setVisible(true);
+    ui->cadenaOpenButton->setVisible(false);
+}
 

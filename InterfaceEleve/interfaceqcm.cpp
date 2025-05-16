@@ -1,8 +1,7 @@
 #include "interfaceqcm.h"
-#include "interfaceenregistrement.h"
 #include "ui_interfaceqcm.h"
 
-InterfaceQCM::InterfaceQCM(QWidget *parent)
+InterfaceQCM::InterfaceQCM(QWidget *parent, const QString &filePath)
     : QDialog(parent)
     , ui(new Ui::InterfaceQCM)
     , isButton1Image(true)
@@ -11,27 +10,40 @@ InterfaceQCM::InterfaceQCM(QWidget *parent)
     , isButton4Image(true)
 {
     ui->setupUi(this);
-    setFixedSize(800,480);
-    this->setWindowTitle("Page de QCM");
-    // Affichage des Images
+    setFixedSize(800, 480);
+    setWindowTitle("Page de QCM");
+
     setButtonIcons();
-
-    udpSocketConsigne.bind(QHostAddress::Any, consignePort);
+    //Consigne
+    if (!udpSocketConsigne.bind(QHostAddress::Any, consignePort)) {
+        qWarning() << "❌ Impossible de binder le port UDP pour la consigne.";
+    }
     connect(&udpSocketConsigne, &QUdpSocket::readyRead, this, &InterfaceQCM::receiveResponse);
-    udpChrono.bind(QHostAddress::Any, chronoPort);
+    //Chrono
+    if (!udpChrono.bind(QHostAddress::Any, chronoPort)) {
+        qWarning() << "❌ Impossible de binder le port UDP pour le chrono.";
+    }
+    connect(&udpChrono, &QUdpSocket::readyRead, this, &InterfaceQCM::onUdpTimeout);
+    //Recup Fichier
+    // Socket pour recevoir un chemin de fichier
+    /*if (!udpSocketNomFichier.bind(QHostAddress::Any, portNomFichier)) {
+        qWarning() << "❌ Impossible de binder le port UDP pour le fichier JSON.";
+    }
+    connect(&udpSocketNomFichier, &QUdpSocket::readyRead, this, &InterfaceQCM::onUdpNomFichierRecu);*/
 
-    // 2) dès qu’on reçoit un datagramme, on va parse mm:ss et fermer
-    connect(&udpChrono, &QUdpSocket::readyRead,
-            this,     &InterfaceQCM::onUdpTimeout);
+
 
     if (!Professor) {
-        ui->textEditFeedBack->setReadOnly(true); // Bloquer l'accès en écriture
-        ui->textEditConsigne->setReadOnly(true); // Bloquer l'accès en écriture
-        ui->textEditAffichageQuestion->setReadOnly(true); // Bloquer l'accès en écriture
+        ui->textEditFeedBack->setReadOnly(true);
+        ui->textEditConsigne->setReadOnly(true);
+        ui->textEditAffichageQuestion->setReadOnly(true);
     }
 
-    loadQuestionsJson(R"("\\CIEL-T171-05\Activites\qsdfgsdg_2025-05-12_14-54\questions.qcmlabo")");
+    if (!QFile::exists(filePath)) {
+        qWarning() << "❌ Fichier non trouvé :" << filePath;
+    }
 
+    loadQuestionsJson(filePath);
     currentQuestionIndex = 0;
     showCurrentQuestion();
 }
@@ -41,31 +53,35 @@ InterfaceQCM::~InterfaceQCM()
     delete ui;
 }
 
-void InterfaceQCM::onUdpTimeout()
+void InterfaceQCM::onUdpNomFichierRecu()
 {
-    while (udpChrono.hasPendingDatagrams()) {
-        QByteArray dg;
-        dg.resize(udpChrono.pendingDatagramSize());
-        udpChrono.readDatagram(dg.data(), dg.size());
-        QString s = QString::fromUtf8(dg).trimmed();
+    while (udpSocketNomFichier.hasPendingDatagrams()) {
+        QByteArray datagram;
+        datagram.resize(udpSocketNomFichier.pendingDatagramSize());
+        udpSocketNomFichier.readDatagram(datagram.data(), datagram.size());
 
-        auto parts = s.split(':');
-        if (parts.size()==2) {
-            int m = parts[0].toInt();
-            int sec = parts[1].toInt();
-            int ms = (m*60 + sec) * 1000;
-            QTimer::singleShot(ms, this, &QDialog::accept);
+        fichierRecu = QString::fromUtf8(datagram).trimmed();
+        qDebug() << "📁 Chemin de fichier JSON reçu par UDP :" << fichierRecu;
+
+        // Charger les questions si le fichier est bien reçu
+        if (QFile::exists(fichierRecu)) {
+            loadQuestionsJson(fichierRecu);
+            currentQuestionIndex = 0;
+            showCurrentQuestion();
+        } else {
+            qWarning() << "❌ Fichier JSON non trouvé :" << fichierRecu;
         }
     }
 }
 
+
 void InterfaceQCM::loadQuestionsJson(const QString &filePath)
 {
     QFile file(filePath);
-    qDebug() << "📂 Tentative d'ouverture du fichier :" << filePath;
+    qDebug() << "📂 Ouverture du fichier JSON :" << filePath;
 
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qWarning() << "❌ Impossible d'ouvrir le fichier : " << file.errorString();
+        qWarning() << "❌ Échec d'ouverture : " << file.errorString();
         return;
     }
 
@@ -74,18 +90,23 @@ void InterfaceQCM::loadQuestionsJson(const QString &filePath)
     QJsonDocument doc = QJsonDocument::fromJson(data, &error);
 
     if (error.error != QJsonParseError::NoError) {
-        qWarning() << "❌ Erreur de parsing JSON :" << error.errorString();
+        qWarning() << "❌ Erreur JSON : " << error.errorString();
+        qWarning() << "Position de l'erreur : " << error.offset;
         return;
     }
 
     if (!doc.isObject()) {
-        qWarning() << "❌ Format invalide : le document JSON n’est pas un objet.";
+        qWarning() << "❌ JSON invalide : document racine non-objet.";
         return;
     }
 
     QJsonObject root = doc.object();
-    questionArray = root["questions"].toArray();
-    qDebug() << "✅ Questions chargées :" << questionArray.size();
+    if (root.contains("questions") && root["questions"].isArray()) {
+        questionArray = root["questions"].toArray();
+        qDebug() << "✅ Nombre de questions chargées :" << questionArray.size();
+    } else {
+        qWarning() << "❌ Clé 'questions' manquante ou invalide.";
+    }
 }
 
 void InterfaceQCM::showCurrentQuestion()
@@ -101,106 +122,30 @@ void InterfaceQCM::showCurrentQuestion()
 
     QJsonArray answers = currentQuestion["answers"].toArray();
 
-    // Réinitialiser les boutons
-    if (answers.size() > 0) {
-        ui->pushButton1->setText(answers[0].toObject()["text"].toString());
-        ui->pushButton1->setVisible(true);
-    } else {
-        ui->pushButton1->setVisible(false);
-    }
+    ui->pushButton1->setVisible(answers.size() > 0);
+    ui->pushButton2->setVisible(answers.size() > 1);
+    ui->pushButton3->setVisible(answers.size() > 2);
+    ui->pushButton4->setVisible(answers.size() > 3);
 
-    if (answers.size() > 1) {
-        ui->pushButton2->setText(answers[1].toObject()["text"].toString());
-        ui->pushButton2->setVisible(true);
-    } else {
-        ui->pushButton2->setVisible(false);
-    }
-
-    if (answers.size() > 2) {
-        ui->pushButton3->setText(answers[2].toObject()["text"].toString());
-        ui->pushButton3->setVisible(true);
-    } else {
-        ui->pushButton3->setVisible(false);
-    }
-
-    if (answers.size() > 3) {
-        ui->pushButton4->setText(answers[3].toObject()["text"].toString());
-        ui->pushButton4->setVisible(true);
-    } else {
-        ui->pushButton4->setVisible(false);
-    }
+    if (answers.size() > 0) ui->pushButton1->setText(answers[0].toObject()["text"].toString());
+    if (answers.size() > 1) ui->pushButton2->setText(answers[1].toObject()["text"].toString());
+    if (answers.size() > 2) ui->pushButton3->setText(answers[2].toObject()["text"].toString());
+    if (answers.size() > 3) ui->pushButton4->setText(answers[3].toObject()["text"].toString());
 
     on_pushButtonEffacerReponse_clicked();
-}
-
-void InterfaceQCM::on_pushButtonQuestionSuivante_clicked()
-{
-    if (currentQuestionIndex >= questionArray.size()) {
-        qDebug() << "❌ Aucune question suivante à afficher.";
-        return;
-    }
-
-    QJsonObject currentQuestion = questionArray[currentQuestionIndex].toObject();
-    QJsonArray answers = currentQuestion["answers"].toArray();
-
-    QString fileName = "C:/Users/Quentin/Documents/Projet/responses.txt";
-    QFile file(fileName);
-
-    if (!file.open(QIODevice::Append | QIODevice::Text)) {
-        qWarning() << "Erreur : impossible d'ouvrir le fichier pour écrire.";
-        return;
-    }
-
-    QTextStream out(&file);
-    out << QString("Question %1:\n").arg(currentQuestionIndex + 1);
-
-    if (!isButton1Image) {
-        QString emoji = answers[0].toObject()["isCorrect"].toBool() ? "✅" : "❌";
-        QString buttonText = ui->pushButton1->text();
-        out << QString("- %1 %2\n").arg(buttonText).arg(emoji);
-    }
-    if (!isButton2Image) {
-        QString emoji = answers[1].toObject()["isCorrect"].toBool() ? "✅" : "❌";
-        QString buttonText = ui->pushButton2->text();
-        out << QString("- %1 %2\n").arg(buttonText).arg(emoji);
-    }
-    if (!isButton3Image) {
-        QString emoji = answers[2].toObject()["isCorrect"].toBool() ? "✅" : "❌";
-        QString buttonText = ui->pushButton3->text();
-        out << QString("- %1 %2\n").arg(buttonText).arg(emoji);
-    }
-    if (!isButton4Image) {
-        QString emoji = answers[3].toObject()["isCorrect"].toBool() ? "✅" : "❌";
-        QString buttonText = ui->pushButton4->text();
-        out << QString("- %1 %2\n").arg(buttonText).arg(emoji);
-    }
-
-    out << "\n";
-    file.close();
-
-    // Aller à la question suivante (si possible)
-    currentQuestionIndex++;
-
-    if (currentQuestionIndex < questionArray.size()) {
-        showCurrentQuestion();
-    } else {
-        qDebug() << "✅ Dernière question atteinte. Fin du QCM.";
-
-        // Appel automatique de la popup pour soumettre
-        on_pushButtonSoumettre_clicked();
-    }
+    ui->pushButtonSoumettre->setEnabled(currentQuestionIndex == questionArray.size() - 1);
 }
 
 void InterfaceQCM::setButtonIcons()
 {
-    auto setIcon = [&](QPushButton *button, const QString &imagePath) {
-        QPixmap image(imagePath);
-        if (image.isNull()) {
-            qWarning() << "Erreur : image non trouvée !";
-        } else {
-            QIcon icon(image);
+    auto setIcon = [](QPushButton *button, const QString &path) {
+        QPixmap pixmap(path);
+        if (!pixmap.isNull()) {
+            QIcon icon(pixmap);
             button->setIcon(icon);
             button->setIconSize(button->size());
+        } else {
+            qWarning() << "❌ Image introuvable :" << path;
         }
     };
 
@@ -212,34 +157,34 @@ void InterfaceQCM::setButtonIcons()
 
 void InterfaceQCM::on_pushButton1_clicked()
 {
-    ui->pushButton1->setStyleSheet("QPushButton { background-color:blue;border: 3px solid white;border-radius: 20px;}");
+    ui->pushButton1->setStyleSheet("background-color:blue; border:3px solid white; border-radius:20px;");
     isButton1Image = false;
 }
 
 void InterfaceQCM::on_pushButton2_clicked()
 {
-    ui->pushButton2->setStyleSheet("QPushButton { background-color:green;border: 3px solid white;border-radius: 20px; }");
+    ui->pushButton2->setStyleSheet("background-color:green; border:3px solid white; border-radius:20px;");
     isButton2Image = false;
 }
 
 void InterfaceQCM::on_pushButton3_clicked()
 {
-    ui->pushButton3->setStyleSheet("QPushButton { background-color:red;border: 3px solid white;border-radius: 20px; }");
+    ui->pushButton3->setStyleSheet("background-color:red; border:3px solid white; border-radius:20px;");
     isButton3Image = false;
 }
 
 void InterfaceQCM::on_pushButton4_clicked()
 {
-    ui->pushButton4->setStyleSheet("QPushButton { background-color:orange;border: 3px solid white;border-radius: 20px; }");
+    ui->pushButton4->setStyleSheet("background-color:orange; border:3px solid white; border-radius:20px;");
     isButton4Image = false;
 }
 
 void InterfaceQCM::on_pushButtonEffacerReponse_clicked()
 {
-    ui->pushButton1->setStyleSheet("QPushButton { background-color:blue; border-radius: 20px; }");
-    ui->pushButton2->setStyleSheet("QPushButton { background-color:green; border-radius: 20px; }");
-    ui->pushButton3->setStyleSheet("QPushButton { background-color:red;border-radius: 20px; }");
-    ui->pushButton4->setStyleSheet("QPushButton { background-color:orange;border-radius: 20px; }");
+    ui->pushButton1->setStyleSheet("background-color:blue; border-radius:20px;");
+    ui->pushButton2->setStyleSheet("background-color:green; border-radius:20px;");
+    ui->pushButton3->setStyleSheet("background-color:red; border-radius:20px;");
+    ui->pushButton4->setStyleSheet("background-color:orange; border-radius:20px;");
 
     isButton1Image = true;
     isButton2Image = true;
@@ -252,36 +197,79 @@ void InterfaceQCM::receiveResponse()
     while (udpSocketConsigne.hasPendingDatagrams()) {
         QByteArray datagram;
         datagram.resize(udpSocketConsigne.pendingDatagramSize());
-
         QHostAddress sender;
-        quint16 senderPort;
-
-        udpSocketConsigne.readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
-
+        quint16 port;
+        udpSocketConsigne.readDatagram(datagram.data(), datagram.size(), &sender, &port);
         QString response = QString::fromUtf8(datagram).trimmed();
-        qDebug() << "📢 Réponse reçue de" << sender.toString() << ":" << response;
+        qDebug() << "📢 Reçu :" << response;
+    }
+}
 
-        if (!response.isEmpty()) {
-            consigne = response;
+void InterfaceQCM::onUdpTimeout()
+{
+    while (udpChrono.hasPendingDatagrams()) {
+        QByteArray dg;
+        dg.resize(udpChrono.pendingDatagramSize());
+        udpChrono.readDatagram(dg.data(), dg.size());
+        QString s = QString::fromUtf8(dg).trimmed();
+        auto parts = s.split(':');
+        if (parts.size() == 2) {
+            int m = parts[0].toInt();
+            int sec = parts[1].toInt();
+            int ms = (m * 60 + sec) * 1000;
+            QTimer::singleShot(ms, this, &QDialog::accept);
         }
+    }
+}
+
+void InterfaceQCM::on_pushButtonQuestionSuivante_clicked()
+{
+    if (currentQuestionIndex < questionArray.size() - 1) {
+        currentQuestionIndex++;
+        showCurrentQuestion();
     }
 }
 
 void InterfaceQCM::on_pushButtonQuestionPrecedente_clicked()
 {
-    if (currentQuestionIndex <= 0) {
-        qDebug() << "❌ Pas de question précédente.";
-        return;
+    if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        showCurrentQuestion();
     }
-
-    currentQuestionIndex--;
-    showCurrentQuestion();
 }
 
 void InterfaceQCM::on_pushButtonSoumettre_clicked()
 {
-    // Affichage popup pour soumettre les réponses
-    QMessageBox::information(this, "Soumettre les réponses", "Vos réponses ont été enregistrées.");
-    // Ferme la fenêtre QCM après soumission
+    if (currentQuestionIndex < 0 || currentQuestionIndex >= questionArray.size()) return;
+
+    const QString docs = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+    const QString folder = QDir(docs).filePath("Travail");
+    if (!QDir(folder).exists()) QDir().mkpath(folder);
+
+    const QString timestamp = QDateTime::currentDateTime().toString("yyyyMMdd_hhmmss");
+    const QString filePath = QDir(folder).filePath(timestamp + ".txt");
+
+    QFile file(filePath);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qWarning() << "❌ Impossible d’écrire dans le fichier.";
+        return;
+    }
+
+    QTextStream out(&file);
+    QJsonObject currentQuestion = questionArray[currentQuestionIndex].toObject();
+    QJsonArray answers = currentQuestion["answers"].toArray();
+
+    out << QString("Question %1:\n").arg(currentQuestionIndex + 1);
+    if (!isButton1Image && answers.size() > 0)
+        out << QString("- %1 %2\n").arg(ui->pushButton1->text(), answers[0].toObject()["isCorrect"].toBool() ? "✅" : "❌");
+    if (!isButton2Image && answers.size() > 1)
+        out << QString("- %1 %2\n").arg(ui->pushButton2->text(), answers[1].toObject()["isCorrect"].toBool() ? "✅" : "❌");
+    if (!isButton3Image && answers.size() > 2)
+        out << QString("- %1 %2\n").arg(ui->pushButton3->text(), answers[2].toObject()["isCorrect"].toBool() ? "✅" : "❌");
+    if (!isButton4Image && answers.size() > 3)
+        out << QString("- %1 %2\n").arg(ui->pushButton4->text(), answers[3].toObject()["isCorrect"].toBool() ? "✅" : "❌");
+
+    file.close();
+    QMessageBox::information(this, "Soumission", "Réponses enregistrées.");
     accept();
 }

@@ -37,6 +37,10 @@ private slots:
     void on_horizontalSlider_sonVideo_actionTriggered(int action);
     void animateButtonClick(QPushButton* btn);
     void on_horizontalSlider_sliderReleased();
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6136a2c945ee1c817e08a9391efe918c1eb4f976
     void on_pushButtonReset_clicked();
     void onUdpTimeout();
 

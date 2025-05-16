@@ -233,7 +233,7 @@ void QCM::addQuestion(QString *nomQ, QString *numQ, QString *nbRep, array<array<
 
     // ---- Bouton croix centré en bas ----
     QPushButton *closeButton = new QPushButton(this);
-    closeButton->setIcon(QIcon("../img/cross-qcm.png"));
+    closeButton->setIcon(QIcon(":/img/cross-qcm.png"));
     closeButton->setIconSize(QSize(20, 20));
     closeButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     closeButton->setFixedHeight(40); // tu peux ajuster ici
