@@ -1172,6 +1172,16 @@ void MainWindow::on_nomEleveLineEdit_editingFinished()
 
 void MainWindow::on_envoyerMessagePersonne_clicked()
 {
+    if(ui->envoyerMessageTextEdit->toPlainText() == ""){
+        qDebug() << "Le message est vide !";
+        QMessageBox::critical(
+            nullptr,
+            "Le message n'a pas pu être envoyé",
+            "Le message est vide est n'a donc pas pu être envoyé.\n"
+            );
+        return;
+    }
+
     qDebug() << "Envoyer le message a :" << eleveActuellementParametre->getIP();
     //Code fonction
     qDebug() << "Le message à été envoyé";
@@ -1187,6 +1197,16 @@ void MainWindow::on_envoyerMessagePersonne_clicked()
 
 void MainWindow::on_envoyerMessageGroupe_clicked()
 {
+    if(ui->envoyerMessageTextEdit->toPlainText() == ""){
+        qDebug() << "Le message est vide !";
+        QMessageBox::critical(
+            nullptr,
+            "Le message n'a pas pu être envoyé",
+            "Le message est vide est n'a donc pas pu être envoyé.\n"
+            );
+        return;
+    }
+
     qDebug() << "Envoyer le message au groupe de :" << eleveActuellementParametre->getIP();
     //Code fonction
     qDebug() << "Le message à été envoyé";
