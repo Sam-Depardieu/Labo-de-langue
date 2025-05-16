@@ -9,6 +9,7 @@ InterfaceVideo::InterfaceVideo(bool co, QWidget *parent)
     , player(new QMediaPlayer(this))  // 🔹 Initialisation de player
     , audioOutput(new QAudioOutput(this))
     , CO(co)
+    , coMode(co)
 {
     ui->setupUi(this);
     if (CO) {
@@ -16,6 +17,16 @@ InterfaceVideo::InterfaceVideo(bool co, QWidget *parent)
         ui->pushButton_Pause->setEnabled(false);
         ui->pushButton_Apres10->setEnabled(false);
         ui->horizontalSlider->setEnabled(false);
+        ui->pushButtonReset->setVisible(true);
+    } else {
+        ui->pushButton_Avant10->setEnabled(true);
+        ui->pushButton_Pause->setEnabled(true);
+        ui->pushButton_Apres10->setEnabled(true);
+        ui->horizontalSlider->setEnabled(true);
+        ui->pushButtonReset->setVisible(false);
+    }
+    if (coMode) {
+        ui->pushButton_SelectVideo->setEnabled(false);
     }
     setFixedSize(800,480);
     this->setWindowTitle("Page de Video");
@@ -112,6 +123,7 @@ void InterfaceVideo::on_pushButton_SelectVideo_clicked()
         player->setSource(QUrl::fromLocalFile(fileName));  // Charger et lire la vidéo
         player->play();
         qDebug() << "Fichier sélectionné : " << fileName;
+        ui->pushButton_SelectVideo->setEnabled(false);
     }
 }
 

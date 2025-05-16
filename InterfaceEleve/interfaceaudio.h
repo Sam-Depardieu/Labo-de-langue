@@ -51,6 +51,7 @@ private:
 
     // Mode de fonctionnement
     bool CO = false;
+    bool coMode;
     int resetCount = 0;
     static constexpr int maxResets = 3;
 

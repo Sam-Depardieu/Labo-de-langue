@@ -15,6 +15,7 @@ InterfaceAudio::InterfaceAudio(bool co, QWidget *parent)
     , player(new QMediaPlayer(this))
     , audioOutput(new QAudioOutput(this))  // 🔹 Initialisation de player
     , CO(co) // 🔹 Initialisation de audioOutput
+    , coMode(co)
 {
     ui->setupUi(this);
     connect(player, &QMediaPlayer::durationChanged, this, [=](qint64 duration) {
@@ -46,14 +47,29 @@ InterfaceAudio::InterfaceAudio(bool co, QWidget *parent)
     ui->pushButton_Play->setVisible(false);
     setFixedSize(800,480);
     if (CO) {
+        // mode "écoute_co" : on verrouille les contrôles
         ui->pushButton_Avant->setEnabled(false);
         ui->pushButton_Pause->setEnabled(false);
         ui->pushButton_Apres->setEnabled(false);
         ui->horizontalSlider->setEnabled(false);
+
+        // on cache le bouton Reset
+        ui->pushButtonReset->setVisible(true);
+    } else {
+        // mode normal : tout est actif
+        ui->pushButton_Avant->setEnabled(true);
+        ui->pushButton_Pause->setEnabled(true);
+        ui->pushButton_Apres->setEnabled(true);
+        ui->horizontalSlider->setEnabled(true);
+
+        // on affiche le bouton Reset
+        ui->pushButtonReset->setVisible(false);
     }
 
     this->setWindowTitle("Page de Comprehension Orale");
-
+    if (coMode) {
+        ui->pushButton_SelectAudio->setEnabled(false);
+    }
      player->setAudioOutput(audioOutput);
     QPixmap imagePlay(":/images/Play"); // Charge l'image
     if (imagePlay.isNull()) {
@@ -162,8 +178,6 @@ void InterfaceAudio::on_pushButton_Avant_clicked()
 {
     animateButtonClick(ui->pushButton_Avant);
     qint64 currentPosition = player->position();
-
-    // Rewind by 10 seconds (10000 milliseconds)
     qint64 newPosition = currentPosition - 10000;
 
     // Ensure we don't go below 0 (start of the video)
@@ -175,8 +189,6 @@ void InterfaceAudio::on_pushButton_Apres_clicked()
 {
     animateButtonClick(ui->pushButton_Apres);
     qint64 currentPosition = player->position();
-
-    // Advance by 10 seconds (10000 milliseconds)
     qint64 newPosition = currentPosition + 10000;
 
     // Set the new position

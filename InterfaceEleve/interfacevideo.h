@@ -37,9 +37,6 @@ private slots:
     void on_horizontalSlider_sonVideo_actionTriggered(int action);
     void animateButtonClick(QPushButton* btn);
     void on_horizontalSlider_sliderReleased();
-
-    void on_pushButton_Avant10_2_clicked();
-
     void on_pushButtonReset_clicked();
     void onUdpTimeout();
 
@@ -53,6 +50,7 @@ private:
     QSlider *slider;
 
     bool CO = false;
+    bool coMode;
     int resetCount = 0;
     static constexpr int maxResets = 3;
     QUdpSocket udpChrono;
