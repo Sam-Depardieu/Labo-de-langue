@@ -61,6 +61,8 @@ public:
     void setgroupColor(QGraphicsEllipseItem* item) { groupEtat = item; }
     void setEtatCouleurEnum(CouleurEtat etat);
     void setCouleurGroup(const QColor& couleur);
+    void setX(unsigned int newX) {x = newX;}
+    void setY(unsigned int newY) {y = newY;}
 
     // === Getters ===
     bool getStatusMicro() const { return statusMicro; }
@@ -104,6 +106,7 @@ private:
     int ID = 0;
     int IDEleve = 0;
     int numQCM = 1;
+    unsigned int x, y;
     bool statusMicro = true;
     bool statusCasque = true;
 

@@ -109,7 +109,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->cadenaOpenButton->setIcon(cadenasOpen);
     ui->cadenaOpenButton->setIconSize(QSize(45, 45));
     ui->cadenaOpenButton->setVisible(false);
-    for(unsigned int i=0; i!=listeRasp.size(); i++) listeRasp[i]->setFlag(QGraphicsItem::ItemIsMovable, false);
 
     ui->modeSombreButton->setIcon(sombrePixmap);
     ui->modeSombreButton->setIconSize(QSize(45, 45));
@@ -478,6 +477,8 @@ void MainWindow::loadImagesFromDB()
         group->setgroupColor(groupEtat);
 
         // Positionner et ajouter à la scène
+        group->setX(x);
+        group->setY(y);
         group->setPos(x, y);
         listeRasp.push_back(group);
         scene->addItem(group);
@@ -490,8 +491,6 @@ void MainWindow::loadImagesFromDB()
             row++;
         }
         id++;
-
-        group->setFlag(QGraphicsItem::ItemIsMovable, false);
 
     } while (query.next());
 
@@ -773,7 +772,9 @@ void MainWindow::on_SessionButton_clicked()
             selectionParticipants = true;
 
         for (iconEleveGroup* eleve : listeRasp) {
-            showCheckIconOnGroup(eleve); // Affiche l’icône de check
+            if (std::find(listeParticipant.begin(), listeParticipant.end(), eleve) != listeParticipant.end()) {
+                showCheckIconOnGroup(eleve); // Affiche l’icône de check
+            }
             eleve->getCasqueActiver()->setVisible(false);
             eleve->getCasqueDesactiver()->setVisible(false);
             eleve->getMicroDesactiver()->setVisible(false);
@@ -1550,7 +1551,7 @@ void MainWindow::on_AideButton_clicked()
 void MainWindow::on_cadenaCloseButton_clicked()
 {
     movable = true;
-    for(unsigned int i=0; i!=listeRasp.size(); i++) listeRasp[i]->setFlag(QGraphicsItem::ItemIsMovable, true);
+
     ui->cadenaCloseButton->setVisible(false);
     ui->cadenaOpenButton->setVisible(true);
 }
@@ -1559,7 +1560,7 @@ void MainWindow::on_cadenaCloseButton_clicked()
 void MainWindow::on_cadenaOpenButton_clicked()
 {
     movable = false;
-    for(unsigned int i=0; i!=listeRasp.size(); i++) listeRasp[i]->setFlag(QGraphicsItem::ItemIsMovable, false);
+
     ui->cadenaCloseButton->setVisible(true);
     ui->cadenaOpenButton->setVisible(false);
 }

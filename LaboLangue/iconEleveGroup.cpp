@@ -7,8 +7,7 @@
 
 iconEleveGroup::iconEleveGroup(int IDEleve, QString ipEleve, QGraphicsTextItem* text, MainWindow* parentWindow) : QGraphicsItemGroup(), mainWindow(parentWindow), nom(QString::number(IDEleve)), IP(ipEleve), ID(IDEleve), textItem(text) {
     setFlag(QGraphicsItem::ItemSendsGeometryChanges);
-    setFlag(QGraphicsItem::ItemIsMovable, true);
-
+    //setFlag(QGraphicsItem::ItemIsSelectable, true);
 }
 
 void iconEleveGroup::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
@@ -73,47 +72,48 @@ void iconEleveGroup::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
 QVariant iconEleveGroup::itemChange(GraphicsItemChange change, const QVariant &value)
 {
     if (change == ItemPositionChange) {
-
         QPointF newPos = value.toPointF();
-        QRectF sceneBounds = scene() ? scene()->sceneRect() : QRectF();  // Vérifier que la scène existe
 
-        if (sceneBounds.isNull()) {
-            return QGraphicsItemGroup::itemChange(change, value);  // Éviter de modifier si la scène n'est pas définie
-        }
-
-        // Taille du groupe
-        QRectF itemBounds = boundingRect();
-
-        // Vérifier les limites et ajuster la position
-        if (newPos.x() < sceneBounds.left()) {
-            newPos.setX(sceneBounds.left());
-        }
-        if (newPos.y() < sceneBounds.top()) {
-            newPos.setY(sceneBounds.top());
-        }
-        if (newPos.x() + itemBounds.width() > sceneBounds.right()) {
-            newPos.setX(sceneBounds.right() - itemBounds.width());
-        }
-        if (newPos.y() + itemBounds.height() > sceneBounds.bottom()) {
-            newPos.setY(sceneBounds.bottom() - itemBounds.height());
+        if (!mainWindow->getMovable()) {
+            // Revenir à la dernière position connue (stockée dans x/y membres)
+            return QPointF(x, y);
         }
 
-        // Mettre à jour la position dans la base de données
-        QSqlQuery query;
-        query.prepare("UPDATE Raspberry SET X = :x, Y = :y WHERE Id_Raspberry = :numPoste");
-        query.bindValue(":x", newPos.x());
-        query.bindValue(":y", newPos.y());
-        query.bindValue(":numPoste", ID);  // Utiliser l'identifiant de la poste
-        if (!query.exec()) {
-            qDebug() << "Erreur lors de la mise à jour de la position :" << query.lastError();
-        }
+        // Limites de la scène
+        QRectF sceneBounds = scene() ? scene()->sceneRect() : QRectF();
+        if (!sceneBounds.isNull()) {
+            QRectF itemBounds = boundingRect();
 
-        return newPos;
+            // Vérification des bords
+            if (newPos.x() < sceneBounds.left())
+                newPos.setX(sceneBounds.left());
+            if (newPos.y() < sceneBounds.top())
+                newPos.setY(sceneBounds.top());
+            if (newPos.x() + itemBounds.width() > sceneBounds.right())
+                newPos.setX(sceneBounds.right() - itemBounds.width());
+            if (newPos.y() + itemBounds.height() > sceneBounds.bottom())
+                newPos.setY(sceneBounds.bottom() - itemBounds.height());
+
+            // Mise à jour en base
+            QSqlQuery query;
+            query.prepare("UPDATE Raspberry SET X = :x, Y = :y WHERE Id_Raspberry = :numPoste");
+            query.bindValue(":x", newPos.x());
+            query.bindValue(":y", newPos.y());
+            query.bindValue(":numPoste", ID);
+            if (!query.exec())
+                qDebug() << "Erreur lors de la mise à jour :" << query.lastError();
+
+            // Mettre à jour les variables internes (position actuelle)
+            x = newPos.x();
+            y = newPos.y();
+
+            return newPos;
+        }
     }
 
     return QGraphicsItemGroup::itemChange(change, value);
-
 }
+
 
 QRectF iconEleveGroup::boundingRect() const {
     QRectF baseRect = QGraphicsItemGroup::boundingRect();
