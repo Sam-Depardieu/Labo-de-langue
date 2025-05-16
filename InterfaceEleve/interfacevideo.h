@@ -38,8 +38,6 @@ private slots:
     void animateButtonClick(QPushButton* btn);
     void on_horizontalSlider_sliderReleased();
 
-    void on_pushButton_Avant10_2_clicked();
-
     void on_pushButtonReset_clicked();
     void onUdpTimeout();
 
