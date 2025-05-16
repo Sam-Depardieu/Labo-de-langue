@@ -108,6 +108,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->cadenaCloseButton->setIconSize(QSize(45, 45));
     ui->cadenaOpenButton->setIcon(cadenasOpen);
     ui->cadenaOpenButton->setIconSize(QSize(45, 45));
+    ui->cadenaOpenButton->setVisible(false);
+    for(unsigned int i=0; i!=listeRasp.size(); i++) listeRasp[i]->setFlag(QGraphicsItem::ItemIsMovable, false);
 
     ui->modeSombreButton->setIcon(sombrePixmap);
     ui->modeSombreButton->setIconSize(QSize(45, 45));
@@ -291,6 +293,8 @@ void MainWindow::resetSession()
     ui->ChoixActivite->setCurrentIndex(0);
     ui->ChoixClasse->setCurrentIndex(0);
     ui->ParametrageSession->setVisible(false);
+    ui->cadenaCloseButton->setVisible(true);
+    ui->cadenaOpenButton->setVisible(false);
 
     //Réinitialisation des boutons
     editStatusButton(ui->PlanButton, false);
@@ -461,6 +465,8 @@ void MainWindow::loadImagesFromDB()
             row++;
         }
         id++;
+
+        group->setFlag(QGraphicsItem::ItemIsMovable, false);
 
     } while (query.next());
 
@@ -1423,7 +1429,7 @@ void MainWindow::on_AideButton_clicked()
 void MainWindow::on_cadenaCloseButton_clicked()
 {
     movable = true;
-
+    for(unsigned int i=0; i!=listeRasp.size(); i++) listeRasp[i]->setFlag(QGraphicsItem::ItemIsMovable, true);
     ui->cadenaCloseButton->setVisible(false);
     ui->cadenaOpenButton->setVisible(true);
 }
@@ -1432,7 +1438,7 @@ void MainWindow::on_cadenaCloseButton_clicked()
 void MainWindow::on_cadenaOpenButton_clicked()
 {
     movable = false;
-
+    for(unsigned int i=0; i!=listeRasp.size(); i++) listeRasp[i]->setFlag(QGraphicsItem::ItemIsMovable, false);
     ui->cadenaCloseButton->setVisible(true);
     ui->cadenaOpenButton->setVisible(false);
 }

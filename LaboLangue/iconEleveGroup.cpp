@@ -7,6 +7,8 @@
 
 iconEleveGroup::iconEleveGroup(int IDEleve, QString ipEleve, QGraphicsTextItem* text, MainWindow* parentWindow) : QGraphicsItemGroup(), mainWindow(parentWindow), nom(QString::number(IDEleve)), IP(ipEleve), ID(IDEleve), textItem(text) {
     setFlag(QGraphicsItem::ItemSendsGeometryChanges);
+    setFlag(QGraphicsItem::ItemIsMovable, true);
+
 }
 
 void iconEleveGroup::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
@@ -69,7 +71,6 @@ void iconEleveGroup::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
 QVariant iconEleveGroup::itemChange(GraphicsItemChange change, const QVariant &value)
 {
     if (change == ItemPositionChange) {
-        if(!mainWindow->getMovable()) return value;
 
         QPointF newPos = value.toPointF();
         QRectF sceneBounds = scene() ? scene()->sceneRect() : QRectF();  // Vérifier que la scène existe
