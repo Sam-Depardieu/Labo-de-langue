@@ -39,11 +39,13 @@ public:
     bool getModeSombre() const { return modeSombre; }
     bool getMovable() const {return movable;};
     QColor getNextAvailableColor();
+    void afficherEtatEleves();
 
     // === Méthodes principales ===
     void continuerCreationSession();
     void toggleSettingEleve(iconEleveGroup *group, bool open);
     void updateCheckItemsVisibility();
+    void mettreAJourEtatsAudioEleves();
 
     // === Données publiques élèves / session ===
     std::vector<iconEleveGroup*> listeRasp;
@@ -113,7 +115,6 @@ private slots:
     void loadInformationTable();
     void on_redemarrerButton_clicked();
     void on_AideButton_clicked();
-
     void on_cadenaCloseButton_clicked();
 
     void on_cadenaOpenButton_clicked();

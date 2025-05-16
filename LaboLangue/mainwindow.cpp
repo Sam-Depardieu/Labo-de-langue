@@ -688,27 +688,81 @@ void MainWindow::loadSession(){
     }
 }
 
-void MainWindow::on_SessionButton_clicked()
+void MainWindow::afficherEtatEleves()
 {
+    // Cacher toutes les pages
     ui->PageStatut->setVisible(false);
     ui->ParametrageEleve->setVisible(false);
-    parametrageEleve = false;
+    ui->ParametrageSession->setVisible(false);
 
-    parametrageSession = true;
-    ui->ParametrageSession->setVisible(!ui->ParametrageSession->isVisible());
+    // Réinitialiser les états
+    parametrageEleve = false;
+    parametrageSession = false;
+    selectionParticipants = false;
+
+    // Afficher le plan
     ui->PlanClasse->setVisible(true);
 
-    if(listeParticipant.size() > 0) selectionParticipants = true;
-    for(unsigned int i=0; i!=listeParticipant.size(); i++)
+    // Remettre les icônes selon le statut de chaque élève
+    for (iconEleveGroup* eleve : listeRasp)
     {
-        showCheckIconOnGroup(listeParticipant[i]);
-        listeParticipant[i]->getCasqueActiver()->setVisible(false);
-        listeParticipant[i]->getCasqueDesactiver()->setVisible(false);
-        listeParticipant[i]->getMicroDesactiver()->setVisible(false);
-        listeParticipant[i]->getMicroActiver()->setVisible(false);
-    }
+        if (eleve->getCheckItem())
+            eleve->getCheckItem()->setVisible(false);
 
+        bool microActif = eleve->getStatusMicro();   // Tu dois avoir ces méthodes dans iconEleveGroup
+        bool casqueActif = eleve->getStatusCasque();
+
+        eleve->getMicroActiver()->setVisible(microActif);
+        eleve->getMicroDesactiver()->setVisible(!microActif);
+        eleve->getCasqueActiver()->setVisible(casqueActif);
+        eleve->getCasqueDesactiver()->setVisible(!casqueActif);
+    }
 }
+
+void MainWindow::mettreAJourEtatsAudioEleves()
+{
+    for (iconEleveGroup* eleve : listeRasp)
+    {
+        bool microActif = eleve->getStatusMicro();
+        bool casqueActif = eleve->getStatusCasque();
+
+        if (eleve->getMicroActiver()) eleve->getMicroActiver()->setVisible(microActif);
+        if (eleve->getMicroDesactiver()) eleve->getMicroDesactiver()->setVisible(!microActif);
+        if (eleve->getCasqueActiver()) eleve->getCasqueActiver()->setVisible(casqueActif);
+        if (eleve->getCasqueDesactiver()) eleve->getCasqueDesactiver()->setVisible(!casqueActif);
+    }
+}
+
+
+
+void MainWindow::on_SessionButton_clicked()
+{
+    bool show = !ui->ParametrageSession->isVisible();
+
+    if (show) {
+        // Affichage du paramétrage session
+        afficherEtatEleves(); // Cache tout proprement avant
+        ui->ParametrageSession->setVisible(true);
+        parametrageSession = true;
+
+        if (!listeParticipant.empty())
+            selectionParticipants = true;
+
+        for (iconEleveGroup* eleve : listeRasp) {
+            showCheckIconOnGroup(eleve); // Affiche l’icône de check
+            eleve->getCasqueActiver()->setVisible(false);
+            eleve->getCasqueDesactiver()->setVisible(false);
+            eleve->getMicroDesactiver()->setVisible(false);
+            eleve->getMicroActiver()->setVisible(false);
+        }
+
+    } else {
+        // Fermeture du paramétrage session → retour à l'état normal
+        afficherEtatEleves();
+    }
+}
+
+
 
 void MainWindow::on_delButton_clicked()
 {

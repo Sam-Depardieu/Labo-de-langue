@@ -49,18 +49,20 @@ void iconEleveGroup::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
             mainWindow->listeEditEleve.push_back(this);
             mainWindow->setNomEtudiantLineEdit(this->getNom());
             qDebug() << "IP : " << getIP();
+            mainWindow->mettreAJourEtatsAudioEleves();
         }
         else if (mainWindow->eleveActuellementParametre == this) {
             mainWindow->toggleSettingEleve(mainWindow->eleveActuellementParametre, false);
-
             mainWindow->listeEditEleve.clear();
             mainWindow->parametrageEleve = false;
             mainWindow->eleveActuellementParametre = nullptr;
+            mainWindow->mettreAJourEtatsAudioEleves();
         }
         else {
-            mainWindow->toggleSettingEleve(mainWindow->eleveActuellementParametre, false); // Ferme l'ancien
-            mainWindow->eleveActuellementParametre = this; // Met à jour le pointeur AVANT d'ouvrir
-            mainWindow->toggleSettingEleve(this, true); // Ouvre avec le nouveau
+            mainWindow->toggleSettingEleve(mainWindow->eleveActuellementParametre, false);
+            mainWindow->eleveActuellementParametre = this;
+            mainWindow->toggleSettingEleve(this, true);
+            mainWindow->mettreAJourEtatsAudioEleves();
         }
     }
 
