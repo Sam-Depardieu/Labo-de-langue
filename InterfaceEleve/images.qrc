@@ -20,5 +20,6 @@
         <file>images/CallProf.png</file>
         <file>images/Pause.png</file>
         <file>images/FeedBack.png</file>
+	<file>images/sonVid.png</file>
     </qresource>
 </RCC>
