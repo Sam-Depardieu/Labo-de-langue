@@ -1,5 +1,6 @@
 #ifndef INTERFACEVIDEO_H
 #define INTERFACEVIDEO_H
+#include "qgraphicsscene.h"
 #include "qslider.h"
 #include <QDialog>
 #include <QMediaPlayer>
@@ -16,6 +17,8 @@
 #include <QMediaPlayer>
 #include <QUdpSocket>
 #include <QTimer>
+#include <QGraphicsVideoItem>
+
 namespace Ui {
 class InterfaceVideo;
 }
@@ -34,11 +37,15 @@ private slots:
     void on_pushButton_Play_clicked();
     void on_pushButton_Pause_clicked();
     void on_pushButton_Apres10_clicked();
-    void on_horizontalSlider_sonVideo_actionTriggered(int action);
+    //void on_horizontalSlider_sonVideo_actionTriggered(int action);
     void animateButtonClick(QPushButton* btn);
     void on_horizontalSlider_sliderReleased();
     void on_pushButtonReset_clicked();
     void onUdpTimeout();
+
+    void on_verticalSlider_sonVideo_valueChanged(int value);
+
+    void on_pushButton_Son_clicked();
 
 protected:
     void closeEvent(QCloseEvent *event);
@@ -48,6 +55,9 @@ private:
     QMediaPlayer *player;
     QAudioOutput *audioOutput;
     QSlider *slider;
+    QGraphicsScene *scene = nullptr;
+    QGraphicsVideoItem *videoItem = nullptr;
+
 
     bool CO = false;
     bool coMode;

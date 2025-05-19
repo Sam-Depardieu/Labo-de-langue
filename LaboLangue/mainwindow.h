@@ -38,11 +38,13 @@ public:
     void setNomEtudiantLineEdit(QString nom);
     bool getModeSombre() const { return modeSombre; }
     bool getMovable() const {return movable;};
+    void afficherEtatEleves();
 
     // === Méthodes principales ===
     void continuerCreationSession();
     void toggleSettingEleve(iconEleveGroup *group, bool open);
     void updateCheckItemsVisibility();
+    void mettreAJourEtatsAudioEleves();
 
     // === Données publiques élèves / session ===
     std::vector<iconEleveGroup*> listeRasp;
@@ -112,12 +114,14 @@ private slots:
     void loadInformationTable();
     void on_redemarrerButton_clicked();
     void on_AideButton_clicked();
-
     void on_cadenaCloseButton_clicked();
 
     void on_cadenaOpenButton_clicked();
 
     bool errorBdd(QSqlQuery& query);
+
+    QList<QColor> listeCouleursDisponibles();
+    QColor couleurDisponible() ;
 
 
 private:
@@ -160,6 +164,8 @@ private:
     void mettreAJourAudioPourGroupe(const QString& groupe);
     void changerStatusMicro (bool statusMicro);
     void changerStatusCasque (bool statusCasque);
+    QMap<QString, QColor> couleursGroup;  // Clé : nom du groupe, Valeur : couleur
+
 };
 
 #endif // MAINWINDOW_H

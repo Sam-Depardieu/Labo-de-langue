@@ -35,11 +35,29 @@ InterfaceVideo::InterfaceVideo(bool co, QWidget *parent)
     audioOutput = new QAudioOutput(this);
     player->setAudioOutput(audioOutput);
 
-    QVideoWidget *videoWidget = new QVideoWidget(this);
-    ui->widgetVideo->setLayout(new QVBoxLayout());         // widgetVideo doit exister dans .ui
-    ui->widgetVideo->layout()->addWidget(videoWidget);
-    player->setVideoOutput(videoWidget);
-    videoWidget->show();
+    // Configuration de la scène pour la graphicsView existante
+    scene = new QGraphicsScene(this);
+    ui->graphicsView->setScene(scene);
+    ui->graphicsView->setStyleSheet("background: black; border: none;");
+    ui->graphicsView->setFrameShape(QFrame::NoFrame);
+    ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    // Création de l'élément vidéo
+    videoItem = new QGraphicsVideoItem();
+    scene->addItem(videoItem);
+    player->setVideoOutput(videoItem);
+
+    // Taille initiale
+    videoItem->setSize(ui->graphicsView->viewport()->size());
+
+    // Mise à jour de la taille quand le viewport change
+
+    // Pour afficher un slider ou widget par-dessus la vidéo :
+    ui->verticalSlider_sonVideo->setParent(ui->graphicsView->viewport());
+    ui->verticalSlider_sonVideo->move(740, 20);  // Ajuste selon ton design
+    ui->verticalSlider_sonVideo->raise();
+
 
     connect(player,&QMediaPlayer::durationChanged,this,[=](qint64 duration){
         ui->horizontalSlider->setRange(0, static_cast<int>(duration));
@@ -98,6 +116,18 @@ InterfaceVideo::InterfaceVideo(bool co, QWidget *parent)
         ui->pushButtonReset->setIcon(icone); // Définit l'icône du bouton
         ui->pushButtonReset->setIconSize(ui->pushButtonReset->size());
     };
+    QPixmap sonVid(":/images/sonVid"); // Charge l'image
+    if (sonVid.isNull()) {
+        qWarning() << "Erreur : image non trouvée !";
+    } else {
+        QIcon icone(sonVid); // Crée une icône
+        ui->pushButton_Son->setIcon(icone); // Définit l'icône du bouton
+        ui->pushButton_Son->setIconSize(ui->pushButton_Son->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
+    }
+
+    ui->horizontalSlider_sonVideo->setVisible(false);
+    ui->verticalSlider_sonVideo->setVisible(false);
+    ui->verticalSlider_sonVideo->raise();
 
     ui->pushButton_Pause->setVisible(true);
     ui->pushButton_Play->setVisible(false);
@@ -110,7 +140,8 @@ InterfaceVideo::~InterfaceVideo()
 
 void InterfaceVideo::on_pushButton_SelectVideo_clicked()
 {
-    QString videoPath = "\\\\192.168.89.42\\Activites";  // Chemin réseau de la Raspberry Pi
+    //QString videoPath = "\\\\192.168.89.42\\Activites";  // Chemin réseau de la Raspberry Pi
+    QString videoPath = "Documents";  // Chemin réseau de la Raspberry Pi
 
     QString fileName = QFileDialog::getOpenFileName(
         this,
@@ -157,10 +188,15 @@ void InterfaceVideo::on_pushButton_Pause_clicked()
     ui->pushButton_Pause->setVisible(false);
     ui->pushButton_Play->setVisible(true);
 }
-void InterfaceVideo::on_horizontalSlider_sonVideo_actionTriggered(int action)
+/*void InterfaceVideo::on_horizontalSlider_sonVideo_actionTriggered(int action)
 {
     int volume = ui->horizontalSlider_sonVideo->value();  // Récupère la valeur du slider
     audioOutput->setVolume(volume / 100.0);
+}*/
+
+void InterfaceVideo::on_verticalSlider_sonVideo_valueChanged(int value)
+{
+    audioOutput->setVolume(value / 100.0);
 }
 
 void InterfaceVideo::closeEvent(QCloseEvent *event)
@@ -252,5 +288,10 @@ void InterfaceVideo::onUdpTimeout()
             QTimer::singleShot(ms, this, &QDialog::accept);
         }
     }
+}
+
+void InterfaceVideo::on_pushButton_Son_clicked()
+{
+    ui->verticalSlider_sonVideo->setVisible(!ui->verticalSlider_sonVideo->isVisible());
 }
 

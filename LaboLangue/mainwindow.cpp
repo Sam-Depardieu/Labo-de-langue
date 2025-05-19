@@ -108,6 +108,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->cadenaCloseButton->setIconSize(QSize(45, 45));
     ui->cadenaOpenButton->setIcon(cadenasOpen);
     ui->cadenaOpenButton->setIconSize(QSize(45, 45));
+    ui->cadenaOpenButton->setVisible(false);
 
     ui->modeSombreButton->setIcon(sombrePixmap);
     ui->modeSombreButton->setIconSize(QSize(45, 45));
@@ -259,40 +260,47 @@ void MainWindow::majStatusQCM()
 
 void MainWindow::resetSession()
 {
-    //Réinitialisation des IDs et des variables
+    // === Réinitialisation des IDs et variables de base ===
     idTypeActivite = -1;
     idClasse = -1;
     idProf = -1;
 
-    //Réinitialisation des listes
+    // === Réinitialisation des listes d'élèves et groupes ===
     listeRasp.clear();
     listeParticipant.clear();
     listeEleveParticipant.clear();
+    listeEditEleve.clear();
+    listeGroup.clear();
+    couleursGroup.clear();
 
-    //Réinitialisation des variables de session
+    // === Réinitialisation des variables d'état ===
     runningSession = false;
     parametrageSession = false;
     selectionParticipants = false;
     selectAllParticipants = false;
     parametrageEleve = false;
     eleveActuellementParametre = nullptr;
+    interfaceQCMOpen = false;
 
-    //Réinitialisation des chaînes de caractères
+    // === Réinitialisation des chaînes de caractères ===
     source.clear();
     nomProf.clear();
     duree.clear();
     nomTypeActivite.clear();
     ui->errorLabel->clear();
 
-    //Réinitialisation des éléments de l'interface graphique
+    // === Réinitialisation de l'interface utilisateur ===
     ui->NomProfLineEdit->clear();
     ui->ConsigneTextEdit->clear();
     ui->DureeActivite->setTime(QTime(0, 0, 0));
     ui->ChoixActivite->setCurrentIndex(0);
     ui->ChoixClasse->setCurrentIndex(0);
     ui->ParametrageSession->setVisible(false);
+    ui->cadenaCloseButton->setVisible(true);
+    ui->cadenaOpenButton->setVisible(false);
+    ui->SourceLabel->clear();
 
-    //Réinitialisation des boutons
+    // === Réinitialisation des boutons ===
     editStatusButton(ui->PlanButton, false);
     editStatusButton(ui->PresenceButton, false);
     editStatusButton(ui->EnregistrementButton, false);
@@ -306,13 +314,31 @@ void MainWindow::resetSession()
     ui->SessionButton->setText("Nouv. Session");
     ui->delButton->setText("Supprimer");
 
-    //Réinitialisation de la scène graphique (si nécessaire)
+    // === Réinitialisation des tableaux s'ils existent ===
+    if (TableauGroupe) TableauGroupe->clearContents();
+
+    if (StatutTableauGroupe) StatutTableauGroupe->clearContents();
+
+    // === Réinitialisation de la scène graphique ===
     if (scene) {
         scene->clear();
-        loadImagesFromDB();
+        loadImagesFromDB();  // Recharge les images depuis la base (avatars, etc.)
     }
 
+    // === Nettoyage AudioCommunicator / réseau si actif ===
+    if (udpSocketPATH) {
+        udpSocketPATH->close();
+        delete udpSocketPATH;
+        udpSocketPATH = nullptr;
+    }
+
+    if (udpSocketQCM) {
+        udpSocketQCM->close();
+        delete udpSocketQCM;
+        udpSocketQCM = nullptr;
+    }
 }
+
 
 void MainWindow::updateEleveNom(iconEleveGroup* eleve, const QString& newName) {
     // 1. Met à jour l'objet élève
@@ -339,13 +365,15 @@ void MainWindow::updateNomDansBDD(int idEleve, const QString& nouveauNom) {
 
 bool MainWindow::errorBdd(QSqlQuery &query)
 {
-    if(!query.exec())
-    {
-        qDebug() << "Echec de la requête sql ";
+    if (!query.exec()) {
+        qDebug() << "[❌ SQL ERROR]";
+        qDebug() << "    ➤ Requête : " << query.lastQuery();
+        qDebug() << "    ➤ Erreur  : " << query.lastError().text();
         return false;
     }
     return true;
 }
+
 
 /**
  * Fonctions lié aux icons de raspberry (icons)
@@ -441,14 +469,17 @@ void MainWindow::loadImagesFromDB()
         QRectF imageRect = imageItem->boundingRect();
         qreal pastilleW = 15;
         groupEtat->setPos(
-            imageRect.width() + 5,                      // 5 px à droite de l'image
-            (imageRect.height() - pastilleW) / 2        // centré verticalement
+            -pastilleW + 50, // 5 pixels à gauche de l'image
+            (imageRect.height() - pastilleW) / 2 // centré verticalement
             );
+
 
         group->addToGroup(groupEtat);
         group->setgroupColor(groupEtat);
 
         // Positionner et ajouter à la scène
+        group->setX(x);
+        group->setY(y);
         group->setPos(x, y);
         listeRasp.push_back(group);
         scene->addItem(group);
@@ -681,27 +712,83 @@ void MainWindow::loadSession(){
     }
 }
 
-void MainWindow::on_SessionButton_clicked()
+void MainWindow::afficherEtatEleves()
 {
+    // Cacher toutes les pages
     ui->PageStatut->setVisible(false);
     ui->ParametrageEleve->setVisible(false);
-    parametrageEleve = false;
+    ui->ParametrageSession->setVisible(false);
 
-    parametrageSession = true;
-    ui->ParametrageSession->setVisible(!ui->ParametrageSession->isVisible());
+    // Réinitialiser les états
+    parametrageEleve = false;
+    parametrageSession = false;
+    selectionParticipants = false;
+
+    // Afficher le plan
     ui->PlanClasse->setVisible(true);
 
-    if(listeParticipant.size() > 0) selectionParticipants = true;
-    for(unsigned int i=0; i!=listeParticipant.size(); i++)
+    // Remettre les icônes selon le statut de chaque élève
+    for (iconEleveGroup* eleve : listeRasp)
     {
-        showCheckIconOnGroup(listeParticipant[i]);
-        listeParticipant[i]->getCasqueActiver()->setVisible(false);
-        listeParticipant[i]->getCasqueDesactiver()->setVisible(false);
-        listeParticipant[i]->getMicroDesactiver()->setVisible(false);
-        listeParticipant[i]->getMicroActiver()->setVisible(false);
-    }
+        if (eleve->getCheckItem())
+            eleve->getCheckItem()->setVisible(false);
 
+        bool microActif = eleve->getStatusMicro();   // Tu dois avoir ces méthodes dans iconEleveGroup
+        bool casqueActif = eleve->getStatusCasque();
+
+        eleve->getMicroActiver()->setVisible(microActif);
+        eleve->getMicroDesactiver()->setVisible(!microActif);
+        eleve->getCasqueActiver()->setVisible(casqueActif);
+        eleve->getCasqueDesactiver()->setVisible(!casqueActif);
+    }
 }
+
+void MainWindow::mettreAJourEtatsAudioEleves()
+{
+    for (iconEleveGroup* eleve : listeRasp)
+    {
+        bool microActif = eleve->getStatusMicro();
+        bool casqueActif = eleve->getStatusCasque();
+
+        if (eleve->getMicroActiver()) eleve->getMicroActiver()->setVisible(microActif);
+        if (eleve->getMicroDesactiver()) eleve->getMicroDesactiver()->setVisible(!microActif);
+        if (eleve->getCasqueActiver()) eleve->getCasqueActiver()->setVisible(casqueActif);
+        if (eleve->getCasqueDesactiver()) eleve->getCasqueDesactiver()->setVisible(!casqueActif);
+    }
+}
+
+
+
+void MainWindow::on_SessionButton_clicked()
+{
+    bool show = !ui->ParametrageSession->isVisible();
+
+    if (show) {
+        // Affichage du paramétrage session
+        afficherEtatEleves(); // Cache tout proprement avant
+        ui->ParametrageSession->setVisible(true);
+        parametrageSession = true;
+
+        if (!listeParticipant.empty())
+            selectionParticipants = true;
+
+        for (iconEleveGroup* eleve : listeRasp) {
+            if (std::find(listeParticipant.begin(), listeParticipant.end(), eleve) != listeParticipant.end()) {
+                showCheckIconOnGroup(eleve); // Affiche l’icône de check
+            }
+            eleve->getCasqueActiver()->setVisible(false);
+            eleve->getCasqueDesactiver()->setVisible(false);
+            eleve->getMicroDesactiver()->setVisible(false);
+            eleve->getMicroActiver()->setVisible(false);
+        }
+
+    } else {
+        // Fermeture du paramétrage session → retour à l'état normal
+        afficherEtatEleves();
+    }
+}
+
+
 
 void MainWindow::on_delButton_clicked()
 {
@@ -1165,6 +1252,16 @@ void MainWindow::on_nomEleveLineEdit_editingFinished()
 
 void MainWindow::on_envoyerMessagePersonne_clicked()
 {
+    if(ui->envoyerMessageTextEdit->toPlainText() == ""){
+        qDebug() << "Le message est vide !";
+        QMessageBox::critical(
+            nullptr,
+            "Le message n'a pas pu être envoyé",
+            "Le message est vide est n'a donc pas pu être envoyé.\n"
+            );
+        return;
+    }
+
     qDebug() << "Envoyer le message a :" << eleveActuellementParametre->getIP();
     //Code fonction
     qDebug() << "Le message à été envoyé";
@@ -1180,6 +1277,16 @@ void MainWindow::on_envoyerMessagePersonne_clicked()
 
 void MainWindow::on_envoyerMessageGroupe_clicked()
 {
+    if(ui->envoyerMessageTextEdit->toPlainText() == ""){
+        qDebug() << "Le message est vide !";
+        QMessageBox::critical(
+            nullptr,
+            "Le message n'a pas pu être envoyé",
+            "Le message est vide est n'a donc pas pu être envoyé.\n"
+            );
+        return;
+    }
+
     qDebug() << "Envoyer le message au groupe de :" << eleveActuellementParametre->getIP();
     //Code fonction
     qDebug() << "Le message à été envoyé";
@@ -1199,7 +1306,7 @@ void MainWindow::on_modeClairButton_clicked()
     ui->ParametrageSession->setStyleSheet("background-color: white;");
     ui->PageStatut->setStyleSheet("background-color: white;");
 
-    ui->centralwidget->setStyleSheet("background-color: gray;");
+    ui->centralwidget->setStyleSheet("background-color: gray; color: black;");
 
     ui->modeClairButton->setVisible(false);
     ui->modeSombreButton->setVisible(true);
@@ -1209,12 +1316,12 @@ void MainWindow::on_modeClairButton_clicked()
 void MainWindow::on_modeSombreButton_clicked()
 {
     modeSombre = true;
-    ui->PageStatut->setStyleSheet("background-color: rgb(160, 160, 160)");
-    ui->ParametrageEleve->setStyleSheet("background-color: rgb(160, 160, 160)");
-    ui->PlanClasse->setStyleSheet("background-color: rgb(160, 160, 160)");
-    ui->ParametrageSession->setStyleSheet("background-color: rgb(160, 160, 160)");
+    ui->PageStatut->setStyleSheet("background-color: rgb(100, 100, 100)");
+    ui->ParametrageEleve->setStyleSheet("background-color: rgb(100, 100, 100)");
+    ui->PlanClasse->setStyleSheet("background-color: rgb(100, 100, 100)");
+    ui->ParametrageSession->setStyleSheet("background-color: rgb(100, 100, 100)");
 
-    ui->centralwidget->setStyleSheet("background-color: black");
+    ui->centralwidget->setStyleSheet("background-color: black; color: white;");
 
     ui->modeClairButton->setVisible(true);
     ui->modeSombreButton->setVisible(false);
@@ -1328,39 +1435,59 @@ void MainWindow::onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve)
 
     QString groupe = eleveActuellementParametre->getNomGroupe();
 
-    // Si aucun groupe encore défini
+    // Si aucun groupe encore défini pour le créateur
     if (groupe.isEmpty()) {
-        // Utiliser le nom saisi si disponible, sinon générer automatiquement
+        // Utiliser le texte saisi si présent, sinon générer automatiquement
         if (!ui->nomGroupeLineEdit->text().isEmpty()) {
             groupe = ui->nomGroupeLineEdit->text();
         } else {
             groupe = "Groupe " + eleveActuellementParametre->getNom();
         }
 
+        // Assigner au créateur et l'ajouter au groupe
         eleveActuellementParametre->setNomGroupe(groupe);
         listeGroup[groupe].push_back(eleveActuellementParametre);
+
+        // Si le groupe est nouveau, générer une couleur non utilisée et la stocker
+        if (!couleursGroup.contains(groupe)) {
+            QColor couleur = couleurDisponible(); // Fonction qui retourne une couleur libre
+            couleursGroup[groupe] = couleur;
+        }
     }
 
-    // Assigner le groupe à l'élève sélectionné
+    // Affecter le groupe à l'élève cliqué
     eleve->setNomGroupe(groupe);
-
     std::vector<iconEleveGroup*>& membres = listeGroup[groupe];
 
-    // Ajouter l’élève s’il n’est pas encore présent
+    // Ajouter l’élève s’il n’est pas déjà dans le groupe
     if (std::find(membres.begin(), membres.end(), eleve) == membres.end()) {
         membres.push_back(eleve);
     }
 
-    // Mettre à jour les affiliate de chaque membre : tous les autres sauf soi-même
+    // Mettre à jour les affiliés et pastilles pour chaque membre
     for (iconEleveGroup* membre : membres) {
+        membre->getAffiliate().clear();  // Nettoyer les anciens affiliés
+
         for (iconEleveGroup* autre : membres) {
             if (membre != autre) {
                 membre->getAffiliate().push_back(autre);
             }
         }
-        qDebug() << membre->getNom() << " → Affiliates count:" << membre->getAffiliate().size();
+
+        // Appliquer la couleur du groupe à la pastille et la positionner à droite
+        if (membre->getgroupColor()) {
+            membre->getgroupColor()->setVisible(true);
+            membre->getgroupColor()->setBrush(couleursGroup[groupe]);
+
+            QRectF rect = membre->sceneBoundingRect();
+            membre->getgroupColor()->setPos(
+                rect.width() + 5,  // 5 px à droite
+                (rect.height() - membre->getgroupColor()->rect().height()) / 2  // centré verticalement
+                );
+        }
     }
-    loadInformationTable(); // Actualiser le tableau
+
+    loadInformationTable(); // Rafraîchir l'interface
 }
 
 void MainWindow::on_nomGroupeLineEdit_returnPressed()
@@ -1376,13 +1503,11 @@ void MainWindow::on_nomGroupeLineEdit_returnPressed()
 
 void MainWindow::onClicked_itemBoutonSupprimerGroupe(iconEleveGroup* eleve)
 {
-    if (!eleve)
-        return;
+    if (!eleve) return;
 
     QString groupe = eleve->getNomGroupe();
 
-    if (groupe.isEmpty() || !listeGroup.contains(groupe))
-        return;
+    if (groupe.isEmpty() || !listeGroup.contains(groupe)) return;
 
     std::vector<iconEleveGroup*>& membres = listeGroup[groupe];
 
@@ -1407,6 +1532,7 @@ void MainWindow::onClicked_itemBoutonSupprimerGroupe(iconEleveGroup* eleve)
 
         qDebug() << membre->getNom() << " → Affiliates count après suppression:" << membre->getAffiliate().size();
     }
+
     loadInformationTable(); // Actualiser le tableau
 }
 
@@ -1419,7 +1545,6 @@ void MainWindow::on_AideButton_clicked()
     }
 }
 
-
 void MainWindow::on_cadenaCloseButton_clicked()
 {
     movable = true;
@@ -1427,7 +1552,6 @@ void MainWindow::on_cadenaCloseButton_clicked()
     ui->cadenaCloseButton->setVisible(false);
     ui->cadenaOpenButton->setVisible(true);
 }
-
 
 void MainWindow::on_cadenaOpenButton_clicked()
 {
@@ -1437,3 +1561,34 @@ void MainWindow::on_cadenaOpenButton_clicked()
     ui->cadenaOpenButton->setVisible(false);
 }
 
+QList<QColor> MainWindow::listeCouleursDisponibles() {
+    return {
+        QColor("#e6194b"), // Rouge
+        QColor("#3cb44b"), // Vert
+        QColor("#ffe119"), // Jaune
+        QColor("#0082c8"), // Bleu
+        QColor("#f58231"), // Orange
+        QColor("#911eb4"), // Violet
+        QColor("#46f0f0"), // Cyan
+        QColor("#f032e6"), // Magenta
+        QColor("#d2f53c"), // Citron vert
+        QColor("#fabebe"), // Rose
+        QColor("#008080"), // Turquoise
+        QColor("#e6beff"), // Lavande
+        QColor("#aa6e28"), // Marron
+        QColor("#fffac8"), // Beige
+        QColor("#800000"), // Bordeaux
+    };
+}
+
+QColor MainWindow::couleurDisponible() {
+    QList<QColor> toutes = listeCouleursDisponibles();
+
+    // Retirer les couleurs déjà utilisées
+    for (const QColor& utilisée : couleursGroup.values()) {
+        toutes.removeAll(utilisée);
+    }
+
+    // Si toutes sont prises, reprendre aléatoirement dans la liste
+    return toutes.isEmpty() ? QColor::fromHsv(rand() % 360, 255, 200) : toutes.first();
+}

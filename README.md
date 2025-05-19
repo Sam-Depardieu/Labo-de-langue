@@ -85,8 +85,8 @@ Pour toute question, veuillez contacter :
 ## Informations complémentaires
 Les ports réseaux suivant seront utilisé :  
 - ``5557`` :
-	- (eleve -> prof)
-	- (prof -> eleve) envoie des commandes mute/demute/activerSon/desactionSon/RESTART
+	- (eleve -> prof) envoie appel prof
+	- (prof -> eleve) envoie des commandes mute/demute/activerSon/desactionSon/RESTART/END
 - ``5558`` :
 	- envoie des informations aux interfaces élève sous la forme de Json ({"nomEleve": "nom_eleve"}, {"nomProf": "nom_prof"}, {"consigne": "consigne"}, {"chrono": "chrono_mm:ss"})
 - ``5559`` :

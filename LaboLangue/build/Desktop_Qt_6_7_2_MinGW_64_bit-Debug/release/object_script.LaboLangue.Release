@@ -1,0 +1,14 @@
+release/AudioCommunicator.o
+release/choixsession.o
+release/helpwindow.o
+release/iconEleveGroup.o
+release/main.o
+release/mainwindow.o
+release/qcm.o
+release/qrc_ressource.o
+release/moc_AudioCommunicator.o
+release/moc_choixsession.o
+release/moc_helpwindow.o
+release/moc_iconEleveGroup.o
+release/moc_mainwindow.o
+release/moc_qcm.o

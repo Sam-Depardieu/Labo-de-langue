@@ -16,7 +16,7 @@
   <widget class="QPushButton" name="pushButton_Apres10">
    <property name="geometry">
     <rect>
-     <x>460</x>
+     <x>500</x>
      <y>430</y>
      <width>45</width>
      <height>45</height>
@@ -29,7 +29,7 @@
   <widget class="QPushButton" name="pushButton_Play">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>400</x>
      <y>430</y>
      <width>45</width>
      <height>45</height>
@@ -42,7 +42,7 @@
   <widget class="QPushButton" name="pushButton_Pause">
    <property name="geometry">
     <rect>
-     <x>340</x>
+     <x>400</x>
      <y>430</y>
      <width>45</width>
      <height>45</height>
@@ -55,7 +55,7 @@
   <widget class="QPushButton" name="pushButton_Avant10">
    <property name="geometry">
     <rect>
-     <x>220</x>
+     <x>300</x>
      <y>430</y>
      <width>45</width>
      <height>45</height>
@@ -78,37 +78,13 @@
     <string>Selectionner Video</string>
    </property>
   </widget>
-  <widget class="QWidget" name="widgetVideo" native="true">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>20</y>
-     <width>781</width>
-     <height>391</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" name="verticalLayout"/>
-  </widget>
-  <widget class="QSlider" name="horizontalSlider_sonVideo">
-   <property name="geometry">
-    <rect>
-     <x>610</x>
-     <y>450</y>
-     <width>160</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-  </widget>
   <widget class="QPushButton" name="pushButton_3">
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>430</y>
-     <width>801</width>
-     <height>51</height>
+     <y>425</y>
+     <width>800</width>
+     <height>55</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -134,7 +110,7 @@
     </rect>
    </property>
    <property name="orientation">
-    <enum>Qt::Horizontal</enum>
+    <enum>Qt::Orientation::Horizontal</enum>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButtonReset">
@@ -150,16 +126,88 @@
     <string/>
    </property>
   </widget>
+  <widget class="QLabel" name="chronoLabel">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>430</y>
+     <width>111</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Segoe UI</family>
+     <pointsize>-1</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel {
+    background-color: #0097a7; /* même ton bleu-vert que ta barre */
+    color: white;
+    border: 2px solid white;
+    border-radius: 8px;
+    font-family: &quot;Segoe UI&quot;, &quot;Arial&quot;, sans-serif;
+    font-weight: bold;
+    font-size: 28px;
+    padding: 5px 15px;
+    qproperty-alignment: 'AlignCenter';
+}
+</string>
+   </property>
+   <property name="text">
+    <string>00:00</string>
+   </property>
+  </widget>
+  <widget class="QSlider" name="verticalSlider_sonVideo">
+   <property name="geometry">
+    <rect>
+     <x>760</x>
+     <y>260</y>
+     <width>16</width>
+     <height>160</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Orientation::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_Son">
+   <property name="geometry">
+    <rect>
+     <x>745</x>
+     <y>430</y>
+     <width>45</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="graphicsView">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>20</y>
+     <width>781</width>
+     <height>391</height>
+    </rect>
+   </property>
+  </widget>
+  <zorder>graphicsView</zorder>
   <zorder>pushButton_3</zorder>
   <zorder>pushButton_Apres10</zorder>
   <zorder>pushButton_Play</zorder>
   <zorder>pushButton_Pause</zorder>
   <zorder>pushButton_Avant10</zorder>
   <zorder>pushButton_SelectVideo</zorder>
-  <zorder>widgetVideo</zorder>
-  <zorder>horizontalSlider_sonVideo</zorder>
   <zorder>horizontalSlider</zorder>
   <zorder>pushButtonReset</zorder>
+  <zorder>chronoLabel</zorder>
+  <zorder>pushButton_Son</zorder>
+  <zorder>verticalSlider_sonVideo</zorder>
  </widget>
  <resources/>
  <connections/>
