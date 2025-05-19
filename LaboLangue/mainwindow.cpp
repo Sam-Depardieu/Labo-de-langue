@@ -260,6 +260,7 @@ void MainWindow::majStatusQCM()
 
 void MainWindow::resetSession()
 {
+    for(unsigned int i=0; i!=listeParticipant.size();i++) prof->sendCommandToStudent(listeParticipant[i]->getIP(), 5557, "END");
     // === Réinitialisation des IDs et variables de base ===
     idTypeActivite = -1;
     idClasse = -1;
