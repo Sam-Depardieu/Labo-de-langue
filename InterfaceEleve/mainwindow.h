@@ -37,6 +37,7 @@ public:
     QString getNomEleve() {return nomEleve;};
     QString getNomProf() {return nomProf;};
     QString getConsigne() {return consigne;};
+    QTime getTime() {return remainingTime;};
 
 
     ~MainWindow();
@@ -64,6 +65,10 @@ private slots:
     void receiveInfo();
     void receiveConsigne();
     void handleRestartCommand();
+    void updateChrono();           // décrémente et met à jour
+    void faireClignoterLabel();   // gère le clignotement
+    void stopClignotement();
+    void startChrono(const QTime &duree);
 
 private:
     Ui::MainWindow *ui;
@@ -89,7 +94,14 @@ private:
     QShortcut *shortcutQcm;
     QShortcut *shortcutAudio;
     QShortcut *shortcutVideo;
-    QTime chrono;
+    QTimer *chronoTimer = nullptr;
+    QTime remainingTime;
+    bool clignotementEtat = false;
+    bool chronoClignote = false;
+
+signals:
+    void chronoMisAJour(const QString &temps);
+    void chronoFini();
 
 
 };

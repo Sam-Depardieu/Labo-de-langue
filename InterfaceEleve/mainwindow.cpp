@@ -406,8 +406,8 @@ void MainWindow::receiveResponse() {
                         nomEleve = value;
                         qDebug() << "👤 Nom de l'élève reçu :" << nomEleve;
                     }else if (key == "chrono"){
-                        chrono = QTime::fromString(value,"mm::ss");
-                        qDebug() << "chrono :" << chrono;
+                        remainingTime = QTime::fromString(value,"mm::ss");
+                        qDebug() << "temps restant :" << remainingTime;
                     } else if (key =="consigne"){
                         consigne =value;
                         qDebug() <<"Consigne: " << consigne;
@@ -470,21 +470,39 @@ void MainWindow::receiveInter(){
 
         if (response == "QCM") {
             currentChild = new InterfaceQCM(this);
+
+            connect(this, &MainWindow::chronoMisAJour, currentChild, &InterfaceQCM::mettreAJourChrono);
+            connect(this, &MainWindow::chronoFini, currentChild, &InterfaceQCM::chronoTermine);
         }
         else if (response == "ecoute") {
             currentChild = new InterfaceAudio(false, this);
+
+            connect(this, &MainWindow::chronoMisAJour, currentChild, &InterfaceAudio::mettreAJourChrono);
+            connect(this, &MainWindow::chronoFini, currentChild, &InterfaceAudio::chronoTermine);
         }
         else if (response == "ecoute_co") {
             currentChild = new InterfaceAudio(true, this);
+
+            connect(this, &MainWindow::chronoMisAJour, currentChild, &InterfaceAudio::mettreAJourChrono);
+            connect(this, &MainWindow::chronoFini, currentChild, &InterfaceAudio::chronoTermine);
         }
         else if (response == "video") {
             currentChild = new InterfaceVideo(false, this);
+
+            connect(this, &MainWindow::chronoMisAJour, currentChild, &InterfaceVideo::mettreAJourChrono);
+            connect(this, &MainWindow::chronoFini, currentChild, &InterfaceVideo::chronoTermine);
         }
         else if (response == "video_co") {
             currentChild = new InterfaceVideo(true, this);
+
+            connect(this, &MainWindow::chronoMisAJour, currentChild, &InterfaceVideo::mettreAJourChrono);
+            connect(this, &MainWindow::chronoFini, currentChild, &InterfaceVideo::chronoTermine);
         }
         else if (response == "enregistrement") {
             currentChild = new InterfaceEnregistrement(this);
+
+            connect(this, &MainWindow::chronoMisAJour, currentChild, &InterfaceEnregistrement::mettreAJourChrono);
+            connect(this, &MainWindow::chronoFini, currentChild, &InterfaceEnregistrement::chronoTermine);
         }
 
         if (currentChild) {
@@ -492,6 +510,47 @@ void MainWindow::receiveInter(){
             currentChild->show();
         }
     }
+}
 
+void MainWindow::startChrono(const QTime &duree)
+{
+    remainingTime = duree;
 
+    if (!chronoTimer) {
+        chronoTimer = new QTimer(this);
+        connect(chronoTimer, &QTimer::timeout, this, &MainWindow::updateChrono);
+    }
+    chronoTimer->start(1000);
+    chronoClignote = false;
+    clignotementEtat = false;
+}
+
+void MainWindow::updateChrono()
+{
+    remainingTime = remainingTime.addSecs(-1);
+    QString temps = remainingTime.toString("mm:ss");
+
+    emit chronoMisAJour(temps); // 🔔 toutes les interfaces reçoivent
+
+    if (remainingTime <= QTime(0, 0, 30)) {
+        faireClignoterLabel();
+    }
+
+    if (remainingTime == QTime(0, 0)) {
+        chronoTimer->stop();
+        stopClignotement();
+        emit chronoFini(); // 🔔 on notifie la fin
+    }
+}
+
+void MainWindow::faireClignoterLabel()
+{
+    clignotementEtat = !clignotementEtat;
+    chronoClignote = true;
+}
+
+void MainWindow::stopClignotement()
+{
+    chronoClignote = false;
+    clignotementEtat = false;
 }

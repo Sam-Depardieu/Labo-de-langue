@@ -232,14 +232,8 @@ compiler_rcc_clean:
 debug/qrc_images.cpp: ../../images.qrc \
 		/usr/lib/qt6/libexec/rcc \
 		../../images/Son.png \
-		../../images/2.png \
 		../../images/Repeter.png \
-		../../images/2Selec.png \
-		../../images/3.png \
-		../../images/4.png \
 		../../images/Avancer.png \
-		../../images/3Selec.png \
-		../../images/1.png \
 		../../images/RevenirALaPhrasePrecedente.png \
 		../../images/Favoris.png \
 		../../images/Pause.png \
@@ -248,15 +242,14 @@ debug/qrc_images.cpp: ../../images.qrc \
 		../../images/CallProf.png \
 		../../images/PasSurveiller.png \
 		../../images/Enregistrer.png \
+		../../images/sonVid.png \
 		../../images/Surveiller.png \
-		../../images/4Selec.png \
 		../../images/Enregistrement.png \
 		../../images/RevenirArriere.png \
 		../../images/Signet.png \
 		../../images/SonSysteme.png \
 		../../images/Apres10.png \
 		../../images/Avant10.png \
-		../../images/1Selec.png \
 		../../images/Effacer.png \
 		../../images/SonEleve.png
 	/usr/lib/qt6/libexec/rcc -name images ../../images.qrc -o debug/qrc_images.cpp
@@ -291,6 +284,7 @@ debug/moc_interfaceaudio.cpp: ../../interfaceaudio.h \
 	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/sam/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Release/debug/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-clang -I/home/sam/Documents/Projet/Labo-de-langue/InterfaceEleve -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtMultimediaWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtSql -I/usr/include/x86_64-linux-gnu/qt6/QtWebSockets -I/usr/include/x86_64-linux-gnu/qt6/QtNetwork -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/llvm-18/lib/clang/18/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../interfaceaudio.h -o debug/moc_interfaceaudio.cpp
 
 debug/moc_interfaceenregistrement.cpp: ../../interfaceenregistrement.h \
+		../../mainwindow.h \
 		debug/moc_predefs.h \
 		/usr/lib/qt6/libexec/moc
 	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/sam/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Release/debug/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-clang -I/home/sam/Documents/Projet/Labo-de-langue/InterfaceEleve -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtMultimediaWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtSql -I/usr/include/x86_64-linux-gnu/qt6/QtWebSockets -I/usr/include/x86_64-linux-gnu/qt6/QtNetwork -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/llvm-18/lib/clang/18/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../interfaceenregistrement.h -o debug/moc_interfaceenregistrement.cpp
@@ -363,11 +357,11 @@ debug/interfaceaudio.o: ../../interfaceaudio.cpp ../../interfaceaudio.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug/interfaceaudio.o ../../interfaceaudio.cpp
 
 debug/interfaceenregistrement.o: ../../interfaceenregistrement.cpp ../../interfaceenregistrement.h \
+		../../mainwindow.h \
 		ui_interfaceenregistrement.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug/interfaceenregistrement.o ../../interfaceenregistrement.cpp
 
 debug/interfaceqcm.o: ../../interfaceqcm.cpp ../../interfaceqcm.h \
-		../../interfaceenregistrement.h \
 		ui_interfaceqcm.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug/interfaceqcm.o ../../interfaceqcm.cpp
 

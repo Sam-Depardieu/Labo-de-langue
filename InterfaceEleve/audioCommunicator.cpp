@@ -212,3 +212,5 @@ void Student::connectToServer() {
     QByteArray joinMessage = "JOIN " + group.toUtf8();
     udpSocket.writeDatagram(joinMessage, serverAddress, serverPort);
 }
+
+

@@ -255,3 +255,21 @@ void InterfaceQCM::on_pushButtonSoumettre_clicked()
     QMessageBox::information(this, "Soumission", "Réponses enregistrées.");
     accept();
 }
+
+void InterfaceQCM::mettreAJourChrono(const QString &temps)
+{
+    ui->chronoLabel->setText(temps);
+
+    if (temps <= "00:30") {
+        static bool clignote = false;
+        clignote = !clignote;
+        ui->chronoLabel->setStyleSheet(
+            clignote ? "background-color: red; color: white;" : "");
+    }
+}
+
+void InterfaceQCM::chronoTermine()
+{
+    ui->chronoLabel->setStyleSheet("");
+    // Autres actions si besoin à la fin du chrono
+}

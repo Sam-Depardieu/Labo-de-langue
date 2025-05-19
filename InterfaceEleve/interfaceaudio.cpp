@@ -312,3 +312,20 @@ void InterfaceAudio::on_pushButton_Son_clicked()
     ui->verticalSlider_sonVideo->setVisible(!ui->verticalSlider_sonVideo->isVisible());
 }
 
+void InterfaceAudio::mettreAJourChrono(const QString &temps)
+{
+    ui->chronoLabel->setText(temps);
+
+    if (temps <= "00:30") {
+        static bool clignote = false;
+        clignote = !clignote;
+        ui->chronoLabel->setStyleSheet(
+            clignote ? "background-color: red; color: white;" : "");
+    }
+}
+
+void InterfaceAudio::chronoTermine()
+{
+    ui->chronoLabel->setStyleSheet("");
+    // Autres actions si besoin à la fin du chrono
+}

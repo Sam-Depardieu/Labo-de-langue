@@ -31,6 +31,10 @@ public:
     explicit InterfaceVideo(bool co, QWidget *parent = nullptr);
     ~InterfaceVideo();
 
+public slots:
+    void mettreAJourChrono(const QString &temps);
+    void chronoTermine();
+
 private slots:
     void on_pushButton_SelectVideo_clicked();
     void on_pushButton_Avant10_clicked();
@@ -41,11 +45,10 @@ private slots:
     void animateButtonClick(QPushButton* btn);
     void on_horizontalSlider_sliderReleased();
     void on_pushButtonReset_clicked();
-
-
     void on_verticalSlider_sonVideo_valueChanged(int value);
-
     void on_pushButton_Son_clicked();
+
+
 
 protected:
     void closeEvent(QCloseEvent *event);

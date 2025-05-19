@@ -53,6 +53,10 @@ public:
     ~InterfaceEnregistrement();
     void receiveResponse();
 
+public slots:
+    void mettreAJourChrono(const QString &temps);
+    void chronoTermine();
+
 private slots:
     void on_pushButtonSpeak_clicked();
     void on_pushButtonPause_clicked();
@@ -73,6 +77,7 @@ private slots:
     void onRecorderErrorOccurred(QMediaRecorder::Error error, const QString &errorString);
     void checkPlaybackPosition(qint64 position);
     void onUdpTimeout();
+
 
 private:
     Ui::InterfaceEnregistrement *ui;
