@@ -86,6 +86,7 @@ public:
     QPushButton *redemarrerButton;
     QPushButton *cadenaOpenButton;
     QPushButton *cadenaCloseButton;
+    QLabel *chronoLabel;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -394,6 +395,25 @@ public:
         cadenaCloseButton->setObjectName("cadenaCloseButton");
         cadenaCloseButton->setGeometry(QRect(610, 80, 20, 20));
         cadenaCloseButton->setStyleSheet(QString::fromUtf8("background-color: transparent; border: none;"));
+        chronoLabel = new QLabel(centralwidget);
+        chronoLabel->setObjectName("chronoLabel");
+        chronoLabel->setGeometry(QRect(10, 10, 111, 45));
+        QFont font;
+        font.setFamilies({QString::fromUtf8("Segoe UI")});
+        font.setBold(true);
+        chronoLabel->setFont(font);
+        chronoLabel->setStyleSheet(QString::fromUtf8("QLabel {\n"
+"    background-color: #0097a7; /* m\303\252me ton bleu-vert que ta barre */\n"
+"    color: white;\n"
+"    border: 2px solid white;\n"
+"    border-radius: 8px;\n"
+"    font-family: \"Segoe UI\", \"Arial\", sans-serif;\n"
+"    font-weight: bold;\n"
+"    font-size: 28px;\n"
+"    padding: 5px 15px;\n"
+"    qproperty-alignment: 'AlignCenter';\n"
+"}\n"
+""));
         MainWindow->setCentralWidget(centralwidget);
         nomGroupeLineEdit->raise();
         nomCreationGroupeLabel->raise();
@@ -452,6 +472,7 @@ public:
         redemarrerButton->raise();
         cadenaOpenButton->raise();
         cadenaCloseButton->raise();
+        chronoLabel->raise();
 
         retranslateUi(MainWindow);
 
@@ -501,8 +522,8 @@ public:
 "hr { height: 1px; border-width: 0; }\n"
 "li.unchecked::marker { content: \"\\2610\"; }\n"
 "li.checked::marker { content: \"\\2612\"; }\n"
-"</style></head><body style=\" font-family:'Ubuntu Sans'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Segoe UI'; font-size:9pt;\"><br /></p></body></html>", nullptr));
+"</style></head><body style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", nullptr));
         envoyerMessageGroupe->setText(QCoreApplication::translate("MainWindow", "Envoyer le message (au groupe)", nullptr));
         modeSombreButton->setText(QString());
         modeClairButton->setText(QString());
@@ -513,6 +534,7 @@ public:
         redemarrerButton->setText(QCoreApplication::translate("MainWindow", "Red\303\251marrer l'appareil", nullptr));
         cadenaOpenButton->setText(QString());
         cadenaCloseButton->setText(QString());
+        chronoLabel->setText(QCoreApplication::translate("MainWindow", "00:00", nullptr));
     } // retranslateUi
 
 };

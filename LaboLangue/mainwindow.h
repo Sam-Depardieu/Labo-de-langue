@@ -152,6 +152,11 @@ private:
     Professor *prof = nullptr;
     bool modeSombre = true;
     bool movable = false;
+    bool clignotementEtat = false;
+    QTimer *chronoTimer;
+    QTime remainingTime;
+    QTimer* clignotementTimer;
+
 
     // === Méthodes utilitaires ===
     void loadImagesFromDB();
@@ -164,6 +169,8 @@ private:
     void mettreAJourAudioPourGroupe(const QString& groupe);
     void changerStatusMicro (bool statusMicro);
     void changerStatusCasque (bool statusCasque);
+    void updateChronoLabel();
+    void faireClignoterLabel();
     QMap<QString, QColor> couleursGroup;  // Clé : nom du groupe, Valeur : couleur
 
 };
