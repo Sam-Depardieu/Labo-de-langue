@@ -38,7 +38,6 @@ public:
     void setNomEtudiantLineEdit(QString nom);
     bool getModeSombre() const { return modeSombre; }
     bool getMovable() const {return movable;};
-    QColor getNextAvailableColor();
     void afficherEtatEleves();
 
     // === Méthodes principales ===

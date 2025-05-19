@@ -298,6 +298,7 @@ void MainWindow::resetSession()
     ui->ParametrageSession->setVisible(false);
     ui->cadenaCloseButton->setVisible(true);
     ui->cadenaOpenButton->setVisible(false);
+    ui->SourceLabel->clear();
 
     // === Réinitialisation des boutons ===
     editStatusButton(ui->PlanButton, false);
@@ -1305,7 +1306,7 @@ void MainWindow::on_modeClairButton_clicked()
     ui->ParametrageSession->setStyleSheet("background-color: white;");
     ui->PageStatut->setStyleSheet("background-color: white;");
 
-    ui->centralwidget->setStyleSheet("background-color: gray;");
+    ui->centralwidget->setStyleSheet("background-color: gray; color: black;");
 
     ui->modeClairButton->setVisible(false);
     ui->modeSombreButton->setVisible(true);
@@ -1315,12 +1316,12 @@ void MainWindow::on_modeClairButton_clicked()
 void MainWindow::on_modeSombreButton_clicked()
 {
     modeSombre = true;
-    ui->PageStatut->setStyleSheet("background-color: rgb(160, 160, 160)");
-    ui->ParametrageEleve->setStyleSheet("background-color: rgb(160, 160, 160)");
-    ui->PlanClasse->setStyleSheet("background-color: rgb(160, 160, 160)");
-    ui->ParametrageSession->setStyleSheet("background-color: rgb(160, 160, 160)");
+    ui->PageStatut->setStyleSheet("background-color: rgb(100, 100, 100)");
+    ui->ParametrageEleve->setStyleSheet("background-color: rgb(100, 100, 100)");
+    ui->PlanClasse->setStyleSheet("background-color: rgb(100, 100, 100)");
+    ui->ParametrageSession->setStyleSheet("background-color: rgb(100, 100, 100)");
 
-    ui->centralwidget->setStyleSheet("background-color: black");
+    ui->centralwidget->setStyleSheet("background-color: black; color: white;");
 
     ui->modeClairButton->setVisible(true);
     ui->modeSombreButton->setVisible(false);
@@ -1489,9 +1490,6 @@ void MainWindow::onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve)
     loadInformationTable(); // Rafraîchir l'interface
 }
 
-
-
-
 void MainWindow::on_nomGroupeLineEdit_returnPressed()
 {
     eleveActuellementParametre->setNomGroupe(ui->nomGroupeLineEdit->text());
@@ -1547,7 +1545,6 @@ void MainWindow::on_AideButton_clicked()
     }
 }
 
-
 void MainWindow::on_cadenaCloseButton_clicked()
 {
     movable = true;
@@ -1556,30 +1553,12 @@ void MainWindow::on_cadenaCloseButton_clicked()
     ui->cadenaOpenButton->setVisible(true);
 }
 
-
 void MainWindow::on_cadenaOpenButton_clicked()
 {
     movable = false;
 
     ui->cadenaCloseButton->setVisible(true);
     ui->cadenaOpenButton->setVisible(false);
-}
-
-QColor MainWindow::getNextAvailableColor() {
-    static QList<QColor> couleurs = {
-        QColor("#F94144"), QColor("#F3722C"), QColor("#F8961E"),
-        QColor("#F9C74F"), QColor("#90BE6D"), QColor("#43AA8B"),
-        QColor("#577590"), QColor("#9D4EDD"), QColor("#6A4C93"),
-        QColor("#FF5C8A")
-    };
-
-    for (const QColor& couleur : couleurs) {
-        if (!couleursGroup.values().contains(couleur)) {
-            return couleur;
-        }
-    }
-
-    return QColor(Qt::gray); // Fallback si plus de couleur dispo
 }
 
 QList<QColor> MainWindow::listeCouleursDisponibles() {
