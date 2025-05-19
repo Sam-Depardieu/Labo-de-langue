@@ -59,10 +59,10 @@ private slots:
     //void onUdpFichierRecu();
     void receiveResponse();
     void receiveCommand(const QString& cmd);
-    void receiveInter(const QString& cmd);
-    void receivePath(const QString& cmd);
-    void receiveInfo(const QString& cmd);
-    void receiveConsigne(const QString& cmd);
+    void receiveInter();
+    void receivePath();
+    void receiveInfo();
+    void receiveConsigne();
     void handleRestartCommand();
 
 private:
