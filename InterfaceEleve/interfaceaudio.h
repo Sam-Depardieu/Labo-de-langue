@@ -39,6 +39,8 @@ private slots:
     void on_pushButtonReset_clicked();
     void onUdpTimeout();
     void receiveChrono();
+    void on_pushButton_Son_clicked();
+
 protected:
     void closeEvent(QCloseEvent *event) override;
 

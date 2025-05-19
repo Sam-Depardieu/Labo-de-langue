@@ -16,7 +16,7 @@
   <widget class="QPushButton" name="pushButton_Play">
    <property name="geometry">
     <rect>
-     <x>330</x>
+     <x>420</x>
      <y>430</y>
      <width>45</width>
      <height>45</height>
@@ -29,7 +29,7 @@
   <widget class="QPushButton" name="pushButton_Avant">
    <property name="geometry">
     <rect>
-     <x>240</x>
+     <x>310</x>
      <y>430</y>
      <width>45</width>
      <height>45</height>
@@ -42,7 +42,7 @@
   <widget class="QPushButton" name="pushButton_Apres">
    <property name="geometry">
     <rect>
-     <x>420</x>
+     <x>520</x>
      <y>430</y>
      <width>45</width>
      <height>45</height>
@@ -55,7 +55,7 @@
   <widget class="QPushButton" name="pushButton_Pause">
    <property name="geometry">
     <rect>
-     <x>330</x>
+     <x>420</x>
      <y>430</y>
      <width>45</width>
      <height>45</height>
@@ -76,30 +76,6 @@
    </property>
    <property name="text">
     <string>Selectionner Audio</string>
-   </property>
-  </widget>
-  <widget class="QWidget" name="horizontalLayoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>9</x>
-     <y>30</y>
-     <width>781</width>
-     <height>371</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="horizontalLayout"/>
-  </widget>
-  <widget class="QSlider" name="horizontalSliderSon">
-   <property name="geometry">
-    <rect>
-     <x>570</x>
-     <y>450</y>
-     <width>160</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton_2">
@@ -150,16 +126,88 @@
     <string/>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButton_Son">
+   <property name="geometry">
+    <rect>
+     <x>740</x>
+     <y>430</y>
+     <width>45</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="graphicsView">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>30</y>
+     <width>781</width>
+     <height>361</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QSlider" name="verticalSlider_sonVideo">
+   <property name="geometry">
+    <rect>
+     <x>760</x>
+     <y>240</y>
+     <width>16</width>
+     <height>160</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="QLabel" name="chronoLabel">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>430</y>
+     <width>111</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Segoe UI</family>
+     <pointsize>-1</pointsize>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel {
+    background-color: #0097a7; /* même ton bleu-vert que ta barre */
+    color: white;
+    border: 2px solid white;
+    border-radius: 8px;
+    font-family: &quot;Segoe UI&quot;, &quot;Arial&quot;, sans-serif;
+    font-weight: bold;
+    font-size: 28px;
+    padding: 5px 15px;
+    qproperty-alignment: 'AlignCenter';
+}
+</string>
+   </property>
+   <property name="text">
+    <string>00:00</string>
+   </property>
+  </widget>
   <zorder>pushButton_2</zorder>
   <zorder>pushButton_Play</zorder>
   <zorder>pushButton_Avant</zorder>
   <zorder>pushButton_Apres</zorder>
   <zorder>pushButton_Pause</zorder>
   <zorder>pushButton_SelectAudio</zorder>
-  <zorder>horizontalLayoutWidget</zorder>
-  <zorder>horizontalSliderSon</zorder>
   <zorder>horizontalSlider</zorder>
   <zorder>pushButtonReset</zorder>
+  <zorder>pushButton_Son</zorder>
+  <zorder>graphicsView</zorder>
+  <zorder>verticalSlider_sonVideo</zorder>
+  <zorder>chronoLabel</zorder>
  </widget>
  <resources/>
  <connections/>

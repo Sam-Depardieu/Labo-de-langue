@@ -112,6 +112,18 @@ InterfaceAudio::InterfaceAudio(bool co, QWidget *parent)
         ui->pushButtonReset->setIconSize(ui->pushButtonReset->size());
 
     };
+    QPixmap sonVid(":/images/sonVid"); // Charge l'image
+    if (sonVid.isNull()) {
+        qWarning() << "Erreur : image non trouvée !";
+    } else {
+        QIcon icone(sonVid); // Crée une icône
+        ui->pushButton_Son->setIcon(icone); // Définit l'icône du bouton
+        ui->pushButton_Son->setIconSize(ui->pushButton_Son->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
+    }
+
+    ui->verticalSlider_sonVideo->setVisible(false);
+    ui->verticalSlider_sonVideo->setVisible(false);
+    ui->verticalSlider_sonVideo->raise();
 }
 
 InterfaceAudio::~InterfaceAudio()
@@ -168,12 +180,6 @@ void InterfaceAudio::on_pushButton_SelectAudio_clicked()
     }
 
 }
-void InterfaceAudio::on_horizontalSliderSon_actionTriggered(int action)
-{
-    int volume = ui->horizontalSliderSon->value();  // Récupère la valeur du slider
-    audioOutput->setVolume(volume / 100.0);
-}
-
 void InterfaceAudio::on_pushButton_Avant_clicked()
 {
     animateButtonClick(ui->pushButton_Avant);
@@ -318,5 +324,11 @@ void InterfaceAudio::receiveChrono()
         // On ne traite qu’un seul chrono par réception
         break;
     }
+}
+
+
+void InterfaceAudio::on_pushButton_Son_clicked()
+{
+    ui->verticalSlider_sonVideo->setVisible(!ui->verticalSlider_sonVideo->isVisible());
 }
 

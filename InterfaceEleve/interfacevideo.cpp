@@ -125,7 +125,7 @@ InterfaceVideo::InterfaceVideo(bool co, QWidget *parent)
         ui->pushButton_Son->setIconSize(ui->pushButton_Son->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
     }
 
-    ui->horizontalSlider_sonVideo->setVisible(false);
+    ui->verticalSlider_sonVideo->setVisible(false);
     ui->verticalSlider_sonVideo->setVisible(false);
     ui->verticalSlider_sonVideo->raise();
 
@@ -140,8 +140,7 @@ InterfaceVideo::~InterfaceVideo()
 
 void InterfaceVideo::on_pushButton_SelectVideo_clicked()
 {
-    //QString videoPath = "\\\\192.168.89.42\\Activites";  // Chemin réseau de la Raspberry Pi
-    QString videoPath = "Documents";  // Chemin réseau de la Raspberry Pi
+    QString videoPath = "\\\\192.168.89.42\\Activites";  // Chemin réseau de la Raspberry Pi
 
     QString fileName = QFileDialog::getOpenFileName(
         this,
