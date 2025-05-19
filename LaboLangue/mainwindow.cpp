@@ -75,6 +75,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->envoyerMessagePersonne->setVisible(false);
     ui->envoyerMessageTextEdit->setVisible(false);
     ui->TableauGroupe->setVisible(false);
+    ui->chronoLabel->setVisible(false);
     ui->envoyerMessageTextEdit->setPlaceholderText("Ecrire un message...");
     // Appliquez le layout à ParametrageEleve
     ui->ParametrageEleve->setLayout(layoutParametrageEleve);
@@ -124,7 +125,41 @@ MainWindow::MainWindow(QWidget *parent)
     ui->ParametrageSession->setStyleSheet("background-color: rgb(160, 160, 160)");
 
     ui->centralwidget->setStyleSheet("background-color: black;");
+
+    chronoTimer = new QTimer(this);
+    connect(chronoTimer, &QTimer::timeout, this, &MainWindow::updateChronoLabel);
+    clignotementTimer = new QTimer(this);
+    connect(clignotementTimer, &QTimer::timeout, this, &MainWindow::faireClignoterLabel);
 }
+
+void MainWindow::faireClignoterLabel()
+{
+    clignotementEtat = !clignotementEtat;
+    if (clignotementEtat)
+        ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: red; border: 2px solid red; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
+    else
+        ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: white; border: 2px solid white; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
+}
+
+void MainWindow::updateChronoLabel()
+{
+    remainingTime = remainingTime.addSecs(-1);
+
+    ui->chronoLabel->setText(remainingTime.toString("mm:ss"));
+
+    if (remainingTime.minute() == 0 && remainingTime.second() < 31) {
+        if (!clignotementTimer->isActive())
+            clignotementTimer->start(500); // clignote toutes les 500 ms
+    }
+
+    if (remainingTime == QTime(0, 0)) {
+        chronoTimer->stop();
+        ui->chronoLabel->setText("00:00");
+        ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: red; border: 2px solid red; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
+        QMessageBox::information(this, "Fin de l'activité", "Pensez à mettre fin à l'activité en cours !");
+    }
+}
+
 
 MainWindow::~MainWindow()
 {
@@ -299,6 +334,7 @@ void MainWindow::resetSession()
     ui->ParametrageSession->setVisible(false);
     ui->cadenaCloseButton->setVisible(true);
     ui->cadenaOpenButton->setVisible(false);
+    ui->chronoLabel->setVisible(false);
     ui->SourceLabel->clear();
 
     // === Réinitialisation des boutons ===
@@ -1053,6 +1089,19 @@ void MainWindow::continuerCreationSession()
                                   "❌ Aucun fichier n'a été enregistré\n"
                                   "Veuillez le mettre manuellement dans " + destPath + ".");
         }
+    }
+
+    remainingTime = ui->DureeActivite->time();
+
+    clignotementEtat = false;
+    clignotementTimer->stop();
+    ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: white; border: 2px solid white; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
+
+    if(remainingTime != QTime(0, 0))
+    {
+        ui->chronoLabel->setVisible(true);
+        ui->chronoLabel->setText(remainingTime.toString("mm:ss"));
+        chronoTimer->start(1000); // met à jour toutes les secondes
     }
 }
 
