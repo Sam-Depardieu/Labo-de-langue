@@ -59,7 +59,11 @@ private slots:
     //void onUdpFichierRecu();
     void receiveResponse();
     void receiveCommand(const QString& cmd);
+    void receiveInter(const QString& cmd);
+    void receivePath(const QString& cmd);
+    void receiveInfo(const QString& cmd);
     void handleRestartCommand();
+
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db;
@@ -84,5 +88,8 @@ private:
     QShortcut *shortcutQcm;
     QShortcut *shortcutAudio;
     QShortcut *shortcutVideo;
+    QTime chrono;
+
+
 };
 #endif // MAINWINDOW_H

@@ -77,12 +77,12 @@ public:
 "}"));
         labelChrono = new QLabel(InterfaceEnregistrement);
         labelChrono->setObjectName("labelChrono");
-        labelChrono->setGeometry(QRect(310, 100, 180, 51));
+        labelChrono->setGeometry(QRect(280, 340, 221, 61));
         QFont font;
         font.setPointSize(20);
         font.setBold(true);
         labelChrono->setFont(font);
-        labelChrono->setAlignment(Qt::AlignmentFlag::AlignCenter);
+        labelChrono->setAlignment(Qt::AlignCenter);
         pushButtonSpeak = new QPushButton(InterfaceEnregistrement);
         pushButtonSpeak->setObjectName("pushButtonSpeak");
         pushButtonSpeak->setGeometry(QRect(350, 250, 81, 81));

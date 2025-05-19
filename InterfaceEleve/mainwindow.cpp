@@ -52,12 +52,6 @@ MainWindow::MainWindow(QWidget *parent)
     });
     this->setWindowTitle("Page de Connexion");
     connectToDatabase();
-
-
-
-
-
-
     udpSocketInfo.bind(QHostAddress::Any, infoPort);
     connect(&udpSocketInfo, &QUdpSocket::readyRead, this, &MainWindow::receiveResponse);
 
@@ -233,10 +227,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 break;
             }
         }
-        // nextId vaut 4 pour {1,2,3,5…}, puis 7 pour {1,2,3,5,6,8…}, etc.
-        // —————————————————————————————————————
 
-        // 3) Pop-up de saisie manuelle de l’ID (INSERT ou UPDATE)
         bool ok;
         int id_raspberry = nextId;
         if (!overrideMode) {
@@ -414,6 +405,12 @@ void MainWindow::receiveResponse() {
                     } else if (key == "nomEleve") {
                         nomEleve = value;
                         qDebug() << "👤 Nom de l'élève reçu :" << nomEleve;
+                    }else if (key == "chrono"){
+                        chrono = QTime::fromString(value,"mm::ss");
+                        qDebug() << "chrono :" << chrono;
+                    } else if (key =="consigne"){
+                        consigne =value;
+                        qDebug() <<"Consigne: " << consigne;
                     } else {
                         qWarning() << "🔍 Clé non reconnue :" << key;
                     }
@@ -424,22 +421,6 @@ void MainWindow::receiveResponse() {
         }
     }
 
-    while (udpSocketConsigne.hasPendingDatagrams()) {
-        QByteArray datagram;
-        datagram.resize(udpSocketConsigne.pendingDatagramSize());
-
-        QHostAddress sender;
-        quint16 senderPort;
-
-        udpSocketConsigne.readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
-
-        QString response = QString::fromUtf8(datagram).trimmed();
-        qDebug() << "📢 Réponse reçue de" << sender.toString() << ":" << response;
-
-        if (!response.isEmpty()) {
-            consigne = response;
-        }
-    }
     while (udpSocketNomFichier->hasPendingDatagrams()) {
         QByteArray datagram;
         datagram.resize(udpSocketNomFichier->pendingDatagramSize());
@@ -461,7 +442,6 @@ void MainWindow::receiveResponse() {
             currentChild = nullptr;
         }
 
-        // ✅ Créer InterfaceQCM avec le chemin reçu
         currentChild = new InterfaceQCM(this, cheminFichier);
         currentChild->setAttribute(Qt::WA_DeleteOnClose);
         currentChild->show();
@@ -474,21 +454,17 @@ void MainWindow::receiveResponse() {
         quint16 senderPort;
         udpSocketInter.readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
 
-        udpSocketInter.readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
-
         QString response = QString::fromUtf8(datagram).trimmed();
         qDebug() << "📢 Interface reçue :" << response;
 
         if (response.isEmpty())
             continue;
 
-        // 1) Fermer l'ancienne interface
         if (currentChild) {
-            currentChild->close();            // ferme la fenêtre
-            currentChild = nullptr;           // on oublie pas de reset le pointeur
+            currentChild->close();
+            currentChild = nullptr;
         }
 
-        // 2) Créer la nouvelle selon la commande
         if (response == "QCM") {
             currentChild = new InterfaceQCM(this);
         }
@@ -508,7 +484,6 @@ void MainWindow::receiveResponse() {
             currentChild = new InterfaceEnregistrement(this);
         }
 
-        // 3) Afficher et s’assurer que la fenêtre se supprime à sa fermeture
         if (currentChild) {
             currentChild->setAttribute(Qt::WA_DeleteOnClose);
             currentChild->show();

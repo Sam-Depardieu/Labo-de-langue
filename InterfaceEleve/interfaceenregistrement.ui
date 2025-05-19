@@ -109,10 +109,10 @@
   <widget class="QLabel" name="labelChrono">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>100</y>
-     <width>180</width>
-     <height>51</height>
+     <x>280</x>
+     <y>340</y>
+     <width>221</width>
+     <height>61</height>
     </rect>
    </property>
    <property name="font">
@@ -125,7 +125,7 @@
     <string/>
    </property>
    <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter</set>
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButtonSpeak">

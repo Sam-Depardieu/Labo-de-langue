@@ -23,7 +23,6 @@ InterfaceQCM::InterfaceQCM(QWidget *parent, const QString &filePath)
     if (!udpChrono.bind(QHostAddress::Any, chronoPort)) {
         qWarning() << "❌ Impossible de binder le port UDP pour le chrono.";
     }
-    connect(&udpChrono, &QUdpSocket::readyRead, this, &InterfaceQCM::onUdpTimeout);
     //Recup Fichier
     // Socket pour recevoir un chemin de fichier
     /*if (!udpSocketNomFichier.bind(QHostAddress::Any, portNomFichier)) {
@@ -202,23 +201,6 @@ void InterfaceQCM::receiveResponse()
         udpSocketConsigne.readDatagram(datagram.data(), datagram.size(), &sender, &port);
         QString response = QString::fromUtf8(datagram).trimmed();
         qDebug() << "📢 Reçu :" << response;
-    }
-}
-
-void InterfaceQCM::onUdpTimeout()
-{
-    while (udpChrono.hasPendingDatagrams()) {
-        QByteArray dg;
-        dg.resize(udpChrono.pendingDatagramSize());
-        udpChrono.readDatagram(dg.data(), dg.size());
-        QString s = QString::fromUtf8(dg).trimmed();
-        auto parts = s.split(':');
-        if (parts.size() == 2) {
-            int m = parts[0].toInt();
-            int sec = parts[1].toInt();
-            int ms = (m * 60 + sec) * 1000;
-            QTimer::singleShot(ms, this, &QDialog::accept);
-        }
     }
 }
 

@@ -150,7 +150,6 @@ void InterfaceVideo::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         case 5: _t->animateButtonClick((*reinterpret_cast< std::add_pointer_t<QPushButton*>>(_a[1]))); break;
         case 6: _t->on_horizontalSlider_sliderReleased(); break;
         case 7: _t->on_pushButtonReset_clicked(); break;
-        case 8: _t->onUdpTimeout(); break;
         case 9: _t->on_verticalSlider_sonVideo_valueChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
         case 10: _t->on_pushButton_Son_clicked(); break;
         default: ;

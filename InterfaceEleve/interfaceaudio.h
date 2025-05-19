@@ -32,12 +32,11 @@ private slots:
     void on_pushButton_Pause_clicked();
     void on_pushButton_Avant_clicked();
     void on_pushButton_Apres_clicked();
-    void on_horizontalSliderSon_actionTriggered(int action);
     void on_horizontalSlider_sliderReleased();
     void animateButtonClick(QPushButton* btn);
 
     void on_pushButtonReset_clicked();
-    void onUdpTimeout();
+
     void receiveChrono();
     void on_pushButton_Son_clicked();
 

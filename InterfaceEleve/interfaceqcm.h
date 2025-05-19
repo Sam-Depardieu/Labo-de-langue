@@ -38,7 +38,7 @@ private slots:
     void on_pushButtonEffacerReponse_clicked();
     void on_pushButtonQuestionSuivante_clicked();
     void on_pushButtonQuestionPrecedente_clicked();
-    void onUdpTimeout();
+
     void onUdpNomFichierRecu();
 
 private:
