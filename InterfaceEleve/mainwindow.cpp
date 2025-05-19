@@ -53,18 +53,18 @@ MainWindow::MainWindow(QWidget *parent)
     this->setWindowTitle("Page de Connexion");
     connectToDatabase();
     udpSocketInfo.bind(QHostAddress::Any, infoPort);
-    connect(&udpSocketInfo, &QUdpSocket::readyRead, this, &MainWindow::receiveResponse);
+    connect(&udpSocketInfo, &QUdpSocket::readyRead, this, &MainWindow::receiveInfo);
 
     udpSocketConsigne.bind(QHostAddress::Any, consignePort);
-    connect(&udpSocketConsigne, &QUdpSocket::readyRead, this, &MainWindow::receiveResponse);
+    connect(&udpSocketConsigne, &QUdpSocket::readyRead, this, &MainWindow::receiveConsigne);
 
     udpSocketInter.bind(QHostAddress::Any, interPort);
-    connect(&udpSocketInter, &QUdpSocket::readyRead, this, &MainWindow::receiveResponse);
+    connect(&udpSocketInter, &QUdpSocket::readyRead, this, &MainWindow::receiveInter);
     udpSocketRestart = new QUdpSocket(this);
 
     udpSocketNomFichier = new QUdpSocket(this);
     udpSocketNomFichier->bind(QHostAddress::Any, portNomFichier);
-    connect(udpSocketNomFichier, &QUdpSocket::readyRead, this, &MainWindow::receiveResponse);
+    connect(udpSocketNomFichier, &QUdpSocket::readyRead, this, &MainWindow::receivePath);
 
     if (!udpSocketRestart->bind(QHostAddress::Any, 5557)) {
         qWarning() << "❌ Impossible de binder le port 5557";
@@ -420,7 +420,8 @@ void MainWindow::receiveResponse() {
             }
         }
     }
-
+}
+void MainWindow::receivePath(){
     while (udpSocketNomFichier->hasPendingDatagrams()) {
         QByteArray datagram;
         datagram.resize(udpSocketNomFichier->pendingDatagramSize());
@@ -446,6 +447,8 @@ void MainWindow::receiveResponse() {
         currentChild->setAttribute(Qt::WA_DeleteOnClose);
         currentChild->show();
     }
+}
+void MainWindow::receiveInter(){
     while (udpSocketInter.hasPendingDatagrams()) {
         QByteArray datagram;
         datagram.resize(udpSocketInter.pendingDatagramSize());

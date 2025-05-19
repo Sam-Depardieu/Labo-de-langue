@@ -51,6 +51,10 @@ constexpr auto qt_meta_stringdata_CLASSMainWindowENDCLASS = QtMocHelpers::string
     "receiveResponse",
     "receiveCommand",
     "cmd",
+    "receiveInter",
+    "receivePath",
+    "receiveInfo",
+    "receiveConsigne",
     "handleRestartCommand"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
@@ -64,7 +68,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSMainWindowENDCLASS[] = {
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-      11,   14, // methods
+      15,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -72,17 +76,21 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSMainWindowENDCLASS[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    0,   80,    2, 0x08,    1 /* Private */,
-       3,    0,   81,    2, 0x08,    2 /* Private */,
-       4,    0,   82,    2, 0x08,    3 /* Private */,
-       5,    0,   83,    2, 0x08,    4 /* Private */,
-       6,    0,   84,    2, 0x08,    5 /* Private */,
-       7,    0,   85,    2, 0x08,    6 /* Private */,
-       8,    1,   86,    2, 0x08,    7 /* Private */,
-      11,    1,   89,    2, 0x08,    9 /* Private */,
-      12,    0,   92,    2, 0x08,   11 /* Private */,
-      13,    1,   93,    2, 0x08,   12 /* Private */,
-      15,    0,   96,    2, 0x08,   14 /* Private */,
+       1,    0,  104,    2, 0x08,    1 /* Private */,
+       3,    0,  105,    2, 0x08,    2 /* Private */,
+       4,    0,  106,    2, 0x08,    3 /* Private */,
+       5,    0,  107,    2, 0x08,    4 /* Private */,
+       6,    0,  108,    2, 0x08,    5 /* Private */,
+       7,    0,  109,    2, 0x08,    6 /* Private */,
+       8,    1,  110,    2, 0x08,    7 /* Private */,
+      11,    1,  113,    2, 0x08,    9 /* Private */,
+      12,    0,  116,    2, 0x08,   11 /* Private */,
+      13,    1,  117,    2, 0x08,   12 /* Private */,
+      15,    1,  120,    2, 0x08,   14 /* Private */,
+      16,    1,  123,    2, 0x08,   16 /* Private */,
+      17,    1,  126,    2, 0x08,   18 /* Private */,
+      18,    1,  129,    2, 0x08,   20 /* Private */,
+      19,    0,  132,    2, 0x08,   22 /* Private */,
 
  // slots: parameters
     QMetaType::Bool,
@@ -94,6 +102,10 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSMainWindowENDCLASS[] = {
     QMetaType::Void, 0x80000000 | 9,   10,
     QMetaType::Void, 0x80000000 | 9,   10,
     QMetaType::Void,
+    QMetaType::Void, QMetaType::QString,   14,
+    QMetaType::Void, QMetaType::QString,   14,
+    QMetaType::Void, QMetaType::QString,   14,
+    QMetaType::Void, QMetaType::QString,   14,
     QMetaType::Void, QMetaType::QString,   14,
     QMetaType::Void,
 
@@ -132,6 +144,18 @@ Q_CONSTINIT const QMetaObject MainWindow::staticMetaObject = { {
         // method 'receiveCommand'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
+        // method 'receiveInter'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
+        // method 'receivePath'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
+        // method 'receiveInfo'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
+        // method 'receiveConsigne'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
         // method 'handleRestartCommand'
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
@@ -155,7 +179,11 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 7: _t->keyReleaseEvent((*reinterpret_cast< std::add_pointer_t<QKeyEvent*>>(_a[1]))); break;
         case 8: _t->receiveResponse(); break;
         case 9: _t->receiveCommand((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
-        case 10: _t->handleRestartCommand(); break;
+        case 10: _t->receiveInter((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
+        case 11: _t->receivePath((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
+        case 12: _t->receiveInfo((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
+        case 13: _t->receiveConsigne((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
+        case 14: _t->handleRestartCommand(); break;
         default: ;
         }
     }
@@ -180,13 +208,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 11)
+        if (_id < 15)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 11;
+        _id -= 15;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 11)
+        if (_id < 15)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 11;
+        _id -= 15;
     }
     return _id;
 }

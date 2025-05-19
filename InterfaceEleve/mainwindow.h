@@ -62,6 +62,7 @@ private slots:
     void receiveInter(const QString& cmd);
     void receivePath(const QString& cmd);
     void receiveInfo(const QString& cmd);
+    void receiveConsigne(const QString& cmd);
     void handleRestartCommand();
 
 private:
