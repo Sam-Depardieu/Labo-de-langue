@@ -52,11 +52,13 @@ MainWindow::MainWindow(QWidget *parent)
     });
     this->setWindowTitle("Page de Connexion");
     connectToDatabase();
-    udpSocketInfo.bind(QHostAddress::Any, infoPort);
-    connect(&udpSocketInfo, &QUdpSocket::readyRead, this, &MainWindow::receiveInfo);
 
     udpSocketInter.bind(QHostAddress::Any, interPort);
     connect(&udpSocketInter, &QUdpSocket::readyRead, this, &MainWindow::receiveInter);
+
+    udpSocketInfo.bind(QHostAddress::Any, infoPort);
+    connect(&udpSocketInfo, &QUdpSocket::readyRead, this, &MainWindow::receiveInfo);
+
     udpSocketRestart = new QUdpSocket(this);
 
     udpSocketNomFichier = new QUdpSocket(this);
@@ -103,10 +105,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 9d7181f91109fa58e3c71e71d212666ba558841b
 void MainWindow::handleRestartCommand()
 {
     while (udpSocketRestart->hasPendingDatagrams()) {
@@ -322,48 +320,6 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
     QMainWindow::keyReleaseEvent(event);
 
 }
-void MainWindow::receiveCommand(const QString &cmd) {
-    // 1) Fermer et détruire l'ancienne interface
-    if (currentChild) {
-        currentChild->close();
-        currentChild = nullptr;
-    }
-
-    // 2) Instancier la nouvelle fenêtre selon la commande
-    if (cmd == "ecoute") {
-        currentChild = new InterfaceAudio(false, this);
-    }
-    else if (cmd == "ecoute_co") {
-        currentChild = new InterfaceAudio(true, this);
-    }
-    else if (cmd == "QCM") {
-        QString filePath = "\\CIEL-T171-05\\Activites\\questions.qcmlabo";
-        currentChild = new InterfaceQCM(this);
-    }
-    else if (cmd == "video") {
-<<<<<<< HEAD
-        currentChild = new InterfaceVideo(false, this,this);
-    }
-    else if (cmd == "video_co") {
-        currentChild = new InterfaceVideo(true, this,this);
-=======
-        currentChild = new InterfaceVideo(false, this, this);
-    }
-    else if (cmd == "video_co") {
-        currentChild = new InterfaceVideo(true, this, this);
->>>>>>> 9d7181f91109fa58e3c71e71d212666ba558841b
-    }
-    else if (cmd == "enregistrement") {
-        currentChild = new InterfaceEnregistrement(this);
-    }
-
-    // 3) Afficher et s’assurer que l’objet est détruit à la fermeture
-    if (currentChild) {
-        currentChild->setAttribute(Qt::WA_DeleteOnClose);
-        currentChild->show();
-    }
-}
-
 
 void MainWindow::receiveInfo() {
     while (udpSocketInfo.hasPendingDatagrams()) {
@@ -459,29 +415,21 @@ void MainWindow::receiveInter(){
 
         if (response == "QCM") {
             currentChild = new InterfaceQCM(this);
-
         }
         else if (response == "ecoute") {
             currentChild = new InterfaceAudio(false, this);
-
-
         }
         else if (response == "ecoute_co") {
             currentChild = new InterfaceAudio(true, this);
-
-
         }
         else if (response == "video") {
             currentChild = new InterfaceVideo(false, this);
-
         }
         else if (response == "video_co") {
             currentChild = new InterfaceVideo(true, this);
-
         }
         else if (response == "enregistrement") {
             currentChild = new InterfaceEnregistrement(this);
-
         }
 
         if (currentChild) {

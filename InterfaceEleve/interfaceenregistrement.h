@@ -49,7 +49,7 @@ class InterfaceEnregistrement : public QDialog {
     Q_OBJECT
 
 public:
-    explicit InterfaceEnregistrement(MainWindow* parentWindow,MainWindow *parent = nullptr);
+    explicit InterfaceEnregistrement(MainWindow* parentWindow, QWidget *parent = nullptr);
     ~InterfaceEnregistrement();
     void receiveResponse();
 
@@ -77,7 +77,7 @@ private slots:
 
 private:
     Ui::InterfaceEnregistrement *ui;
-    MainWindow *parent;
+    MainWindow *mainWindow;
 
     bool isButtonAppelProfImage;
 

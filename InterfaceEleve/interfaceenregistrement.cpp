@@ -7,9 +7,9 @@
 #include <QMessageBox>
 #include <QDir>
 
-InterfaceEnregistrement::InterfaceEnregistrement(MainWindow *parent,MainWindow* parentWindow)
-    : QDialog(parent), ui(new Ui::InterfaceEnregistrement),
-    parent(parent)
+InterfaceEnregistrement::InterfaceEnregistrement(MainWindow* parentWindow, QWidget *parent)
+    : QDialog(parent), ui(new Ui::InterfaceEnregistrement)
+    , mainWindow(parentWindow)
     , isButtonAppelProfImage(true)
 {
     ui->setupUi(this);
@@ -63,10 +63,10 @@ InterfaceEnregistrement::InterfaceEnregistrement(MainWindow *parent,MainWindow* 
         ui->textEditFeedBack->setPlaceholderText("Accès réservé aux professeurs"); // Message d'information
     }
 
-    ui->textEditConsigne->setText(parent->getConsigne());
+    ui->textEditConsigne->setText(mainWindow->getConsigne());
     ui->chronoLabel->setVisible(true);
 
-    remainingTime = parentWindow->getTime();
+    remainingTime = mainWindow->getTime();
 
     // Initialisation des timers
     chronoTimer = new QTimer(this);

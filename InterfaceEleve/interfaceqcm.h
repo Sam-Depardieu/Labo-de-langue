@@ -50,6 +50,8 @@ private slots:
 
 private:
     Ui::InterfaceQCM *ui;
+    MainWindow *mainWindow;
+
     bool isButton1Image;
     bool isButton2Image;
     bool isButton3Image;

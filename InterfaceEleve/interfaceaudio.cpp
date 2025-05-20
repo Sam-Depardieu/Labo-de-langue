@@ -13,6 +13,7 @@
 InterfaceAudio::InterfaceAudio(bool co,MainWindow* parentWindow, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::InterfaceAudio)
+    , mainWindow(parentWindow)
     , player(new QMediaPlayer(this))
     , audioOutput(new QAudioOutput(this))  // 🔹 Initialisation de player
     , CO(co) // 🔹 Initialisation de audioOutput

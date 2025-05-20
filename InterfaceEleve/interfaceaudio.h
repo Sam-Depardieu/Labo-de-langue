@@ -49,6 +49,7 @@ protected:
 
 private:
     Ui::InterfaceAudio *ui;
+    MainWindow *mainWindow;
 
     // Lecture audio
     QMediaPlayer *player;

@@ -5,6 +5,7 @@
 InterfaceQCM::InterfaceQCM(MainWindow *parentWindow,const QString &filePath,QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::InterfaceQCM)
+    , mainWindow(parentWindow)
     , isButton1Image(true)
     , isButton2Image(true)
     , isButton3Image(true)
