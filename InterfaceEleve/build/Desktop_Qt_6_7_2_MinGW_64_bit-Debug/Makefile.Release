@@ -2925,18 +2925,25 @@ release/interfaceaudio.o: ../../interfaceaudio.cpp ../../interfaceaudio.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QApplication \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qapplication.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QHBoxLayout \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qboxlayout.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlayout.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlayoutitem.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qgridlayout.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QGraphicsView \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qgraphicsview.h \
+		C:/Qt/6.7.2/mingw_64/include/QtGui/qpainter.h \
+		C:/Qt/6.7.2/mingw_64/include/QtGui/qtextoption.h \
+		C:/Qt/6.7.2/mingw_64/include/QtGui/qpen.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qscrollarea.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qabstractscrollarea.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qframe.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qgraphicsscene.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QLabel \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlabel.h \
+		C:/Qt/6.7.2/mingw_64/include/QtGui/qpicture.h \
+		C:/Qt/6.7.2/mingw_64/include/QtGui/qtextdocument.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QPushButton \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qpushbutton.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qabstractbutton.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QSlider \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qslider.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qabstractslider.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QWidget \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QStandardPaths \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qstandardpaths.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QMediaRecorder \
@@ -3492,6 +3499,7 @@ release/interfaceqcm.o: ../../interfaceqcm.cpp ../../interfaceqcm.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QString \
 		ui_interfaceqcm.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
+		C:/Qt/6.7.2/mingw_64/include/QtGui/QIcon \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QApplication \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qapplication.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QLabel \
@@ -3757,16 +3765,21 @@ release/interfacevideo.o: ../../interfacevideo.cpp ../../interfacevideo.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QApplication \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qapplication.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QGraphicsView \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qgraphicsview.h \
+		C:/Qt/6.7.2/mingw_64/include/QtGui/qpainter.h \
+		C:/Qt/6.7.2/mingw_64/include/QtGui/qtextoption.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qscrollarea.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qabstractscrollarea.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qframe.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QLabel \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlabel.h \
+		C:/Qt/6.7.2/mingw_64/include/QtGui/qpicture.h \
+		C:/Qt/6.7.2/mingw_64/include/QtGui/qtextdocument.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QPushButton \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qpushbutton.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qabstractbutton.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QSlider \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QVBoxLayout \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qboxlayout.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlayout.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlayoutitem.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qgridlayout.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QWidget \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QStandardPaths \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qstandardpaths.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\interfacevideo.o ..\..\interfacevideo.cpp
@@ -4533,6 +4546,10 @@ release/mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QApplication \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qapplication.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QGraphicsView \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qgraphicsview.h \
+		C:/Qt/6.7.2/mingw_64/include/QtGui/qpainter.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qscrollarea.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QWidget \
 		../../attenteprof.h \
 		C:/Qt/6.7.2/mingw_64/include/QtGui/QMovie \

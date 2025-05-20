@@ -1,12 +1,13 @@
 #include "interfacevideo.h"
 #include "ui_interfacevideo.h"
+#include "mainwindow.h"
 #include <QAudioOutput>
 #include <QStandardPaths>
 
-InterfaceVideo::InterfaceVideo(bool co, QWidget *parent)
+InterfaceVideo::InterfaceVideo(bool co, MainWindow *parentWindow, QWidget *parent)
     : QDialog(parent)
-    , ui(new Ui::InterfaceVideo)
-    , player(new QMediaPlayer(this))  // 🔹 Initialisation de player
+    , ui(new Ui::InterfaceVideo)  // 🔹 Initialisation de player
+    , player(new QMediaPlayer(this))
     , audioOutput(new QAudioOutput(this))
     , CO(co)
     , coMode(co)
@@ -126,6 +127,58 @@ InterfaceVideo::InterfaceVideo(bool co, QWidget *parent)
 
     ui->pushButton_Pause->setVisible(true);
     ui->pushButton_Play->setVisible(false);
+    ui->chronoLabel->setVisible(true);
+
+    remainingTime = parentWindow->getTime();
+
+    // Initialisation des timers
+    chronoTimer = new QTimer(this);
+    connect(chronoTimer, &QTimer::timeout, this, &InterfaceVideo::updateChronoLabel);
+
+    clignotementTimer = new QTimer(this);
+    connect(clignotementTimer, &QTimer::timeout, this, &InterfaceVideo::faireClignoterLabel);
+
+    clignotementEtat = false;
+
+    // Style initial du label
+    ui->chronoLabel->setVisible(true);
+    ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: white; border: 2px solid white; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
+
+    // Affichage du temps initial et démarrage du chrono
+    if (remainingTime.isValid() && remainingTime != QTime(0, 0)) {
+        ui->chronoLabel->setText(remainingTime.toString("mm:ss"));
+        chronoTimer->start(1000);
+    } else {
+        ui->chronoLabel->setText("00:00");
+    }
+}
+
+void InterfaceVideo::faireClignoterLabel()
+{
+    clignotementEtat = !clignotementEtat;
+    if (clignotementEtat)
+        ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: red; border: 2px solid red; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
+    else
+        ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: white; border: 2px solid white; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
+}
+
+void InterfaceVideo::updateChronoLabel()
+{
+    remainingTime = remainingTime.addSecs(-1);
+
+    ui->chronoLabel->setText(remainingTime.toString("mm:ss"));
+
+    if (remainingTime.minute() == 0 && remainingTime.second() < 31) {
+        if (!clignotementTimer->isActive())
+            clignotementTimer->start(500); // clignote toutes les 500 ms
+    }
+
+    if (remainingTime == QTime(0, 0)) {
+        chronoTimer->stop();
+        ui->chronoLabel->setText("00:00");
+        ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: red; border: 2px solid red; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
+        QMessageBox::information(this, "Fin de l'activité", "Pensez à mettre fin à l'activité en cours !");
+    }
 }
 
 InterfaceVideo::~InterfaceVideo()
@@ -266,32 +319,4 @@ void InterfaceVideo::on_pushButtonReset_clicked()
 void InterfaceVideo::on_pushButton_Son_clicked()
 {
     ui->verticalSlider_sonVideo->setVisible(!ui->verticalSlider_sonVideo->isVisible());
-}
-
-void InterfaceVideo::faireClignoterLabel()
-{
-    clignotementEtat = !clignotementEtat;
-    if (clignotementEtat)
-        ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: red; border: 2px solid red; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
-    else
-        ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: white; border: 2px solid white; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
-}
-
-void InterfaceVideo::updateChronoLabel()
-{
-    remainingTime = remainingTime.addSecs(-1);
-
-    ui->chronoLabel->setText(remainingTime.toString("mm:ss"));
-
-    if (remainingTime.minute() == 0 && remainingTime.second() < 31) {
-        if (!clignotementTimer->isActive())
-            clignotementTimer->start(500); // clignote toutes les 500 ms
-    }
-
-    if (remainingTime == QTime(0, 0)) {
-        chronoTimer->stop();
-        ui->chronoLabel->setText("00:00");
-        ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: red; border: 2px solid red; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
-        QMessageBox::information(this, "Fin de l'activité", "Pensez à mettre fin à l'activité en cours !");
-    }
 }
