@@ -33,7 +33,6 @@ class InterfaceVideo : public QDialog
 
 public:
     explicit InterfaceVideo(bool co, MainWindow* parentWindow,QWidget *parent = nullptr);
-
     ~InterfaceVideo();
 
 
