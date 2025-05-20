@@ -46,10 +46,6 @@ private slots:
 
     bool connectToDatabase();
     void on_pushButtonConnexion_clicked();
-<<<<<<< HEAD
-
-=======
->>>>>>> 9d7181f91109fa58e3c71e71d212666ba558841b
     void keyPressEvent(QKeyEvent *event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
 

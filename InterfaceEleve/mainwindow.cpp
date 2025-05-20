@@ -103,10 +103,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 9d7181f91109fa58e3c71e71d212666ba558841b
 void MainWindow::handleRestartCommand()
 {
     while (udpSocketRestart->hasPendingDatagrams()) {
@@ -341,17 +337,10 @@ void MainWindow::receiveCommand(const QString &cmd) {
         currentChild = new InterfaceQCM(this);
     }
     else if (cmd == "video") {
-<<<<<<< HEAD
         currentChild = new InterfaceVideo(false, this,this);
     }
     else if (cmd == "video_co") {
         currentChild = new InterfaceVideo(true, this,this);
-=======
-        currentChild = new InterfaceVideo(false, this, this);
-    }
-    else if (cmd == "video_co") {
-        currentChild = new InterfaceVideo(true, this, this);
->>>>>>> 9d7181f91109fa58e3c71e71d212666ba558841b
     }
     else if (cmd == "enregistrement") {
         currentChild = new InterfaceEnregistrement(this);
