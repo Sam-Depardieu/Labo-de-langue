@@ -94,12 +94,20 @@ InterfaceQCM::~InterfaceQCM()
     delete ui;
 }
 
-void InterfaceQCM::loadQuestionsJson(const QString &filePath)
+void InterfaceQCM::loadQuestionsJson(QString &filePath)
 {
-    QFile file(filePath);
-    qDebug() << "📂 Ouverture du fichier JSON :" << filePath;
+    QFileInfo info(filePath);
+    qDebug() << "📝 Existe ?" << info.exists();
+    qDebug() << "🔒 Lisible ?" << info.isReadable();
+    qDebug() << "👤 Propriétaire ?" << info.owner();
+    qDebug() << "📂 Absolu ?" << info.absoluteFilePath();
 
-    if (!file.open(QIODevice::ReadOnly)) {
+    //QFile file("//CIEL-T171-05/Activites/erytz_2025-05-20_17-37");
+    QString chemin = R"(%1)";
+    QFile file(chemin.arg(filePath));
+    qDebug() << "📂 Ouverture du fichier JSON :" << file.fileName();
+
+    if (!file.open(QIODevice::ReadWrite | QIODevice::Text)) {
         qWarning() << "❌ Échec d'ouverture : " << file.errorString();
         return;
     }

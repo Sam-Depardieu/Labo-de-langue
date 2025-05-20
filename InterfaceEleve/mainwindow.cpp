@@ -387,6 +387,7 @@ void MainWindow::receivePath(){
 
         if (currentChild) {
             currentChild->close();
+            delete currentChild;
             currentChild = nullptr;
         }
 

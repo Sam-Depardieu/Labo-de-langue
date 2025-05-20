@@ -68,7 +68,7 @@ private:
     QJsonArray questionArray;
     int currentQuestionIndex;
 
-    void loadQuestionsJson(const QString &filePath);
+    void loadQuestionsJson(QString &filePath);
     void showCurrentQuestion();
     QUdpSocket udpChrono;
     quint16 chronoPort = 5558;
