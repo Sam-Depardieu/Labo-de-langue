@@ -1,7 +1,8 @@
 #include "interfaceqcm.h"
+#include "mainwindow.h"
 #include "ui_interfaceqcm.h"
 
-InterfaceQCM::InterfaceQCM(QWidget *parent, const QString &filePath)
+InterfaceQCM::InterfaceQCM(MainWindow *parentWindow,const QString &filePath,QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::InterfaceQCM)
     , isButton1Image(true)
@@ -45,7 +46,60 @@ InterfaceQCM::InterfaceQCM(QWidget *parent, const QString &filePath)
     loadQuestionsJson(filePath);
     currentQuestionIndex = 0;
     showCurrentQuestion();
+    ui->chronoLabel->setVisible(true);
+
+    remainingTime = parentWindow->getTime();
+
+    // Initialisation des timers
+    chronoTimer = new QTimer(this);
+    connect(chronoTimer, &QTimer::timeout, this, &InterfaceQCM::updateChronoLabel);
+
+    clignotementTimer = new QTimer(this);
+    connect(clignotementTimer, &QTimer::timeout, this, &InterfaceQCM::faireClignoterLabel);
+
+    clignotementEtat = false;
+
+    // Style initial du label
+    ui->chronoLabel->setVisible(true);
+    ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: white; border: 2px solid white; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
+
+    // Affichage du temps initial et démarrage du chrono
+    if (remainingTime.isValid() && remainingTime != QTime(0, 0)) {
+        ui->chronoLabel->setText(remainingTime.toString("mm:ss"));
+        chronoTimer->start(1000);
+    } else {
+        ui->chronoLabel->setText("00:00");
+    }
 }
+
+void InterfaceQCM::faireClignoterLabel()
+{
+    clignotementEtat = !clignotementEtat;
+    if (clignotementEtat)
+        ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: red; border: 2px solid red; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
+    else
+        ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: white; border: 2px solid white; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
+}
+
+void InterfaceQCM::updateChronoLabel()
+{
+    remainingTime = remainingTime.addSecs(-1);
+
+    ui->chronoLabel->setText(remainingTime.toString("mm:ss"));
+
+    if (remainingTime.minute() == 0 && remainingTime.second() < 31) {
+        if (!clignotementTimer->isActive())
+            clignotementTimer->start(500); // clignote toutes les 500 ms
+    }
+
+    if (remainingTime == QTime(0, 0)) {
+        chronoTimer->stop();
+        ui->chronoLabel->setText("00:00");
+        ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: red; border: 2px solid red; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
+        QMessageBox::information(this, "Fin de l'activité", "Pensez à mettre fin à l'activité en cours !");
+    }
+}
+
 
 InterfaceQCM::~InterfaceQCM()
 {
@@ -256,31 +310,4 @@ void InterfaceQCM::on_pushButtonSoumettre_clicked()
     accept();
 }
 
-void InterfaceQCM::faireClignoterLabel()
-{
-    clignotementEtat = !clignotementEtat;
-    if (clignotementEtat)
-        ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: red; border: 2px solid red; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
-    else
-        ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: white; border: 2px solid white; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
-}
-
-void InterfaceQCM::updateChronoLabel()
-{
-    remainingTime = remainingTime.addSecs(-1);
-
-    ui->chronoLabel->setText(remainingTime.toString("mm:ss"));
-
-    if (remainingTime.minute() == 0 && remainingTime.second() < 31) {
-        if (!clignotementTimer->isActive())
-            clignotementTimer->start(500); // clignote toutes les 500 ms
-    }
-
-    if (remainingTime == QTime(0, 0)) {
-        chronoTimer->stop();
-        ui->chronoLabel->setText("00:00");
-        ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: red; border: 2px solid red; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
-        QMessageBox::information(this, "Fin de l'activité", "Pensez à mettre fin à l'activité en cours !");
-    }
-}
 

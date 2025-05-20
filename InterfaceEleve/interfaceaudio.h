@@ -14,6 +14,8 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
+class MainWindow;
+
 namespace Ui {
 class InterfaceAudio;
 }
@@ -23,7 +25,7 @@ class InterfaceAudio : public QDialog
     Q_OBJECT
 
 public:
-    explicit InterfaceAudio(bool CO, QWidget *parent = nullptr);
+    explicit InterfaceAudio(bool CO, MainWindow* parentWindow,QWidget *parent = nullptr);
     ~InterfaceAudio();
 private slots:
     void on_pushButton_SelectAudio_clicked();

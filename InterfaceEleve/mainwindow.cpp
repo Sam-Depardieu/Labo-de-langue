@@ -421,7 +421,7 @@ void MainWindow::receivePath(){
             currentChild = nullptr;
         }
 
-        currentChild = new InterfaceQCM(this, cheminFichier);
+        //currentChild = new InterfaceQCM(this, cheminFichier);
         currentChild->setAttribute(Qt::WA_DeleteOnClose);
         currentChild->show();
     }

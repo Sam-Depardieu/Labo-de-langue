@@ -42,14 +42,14 @@
 
 namespace Ui {
 class InterfaceEnregistrement;
-class MainWindow;
+
 }
 
 class InterfaceEnregistrement : public QDialog {
     Q_OBJECT
 
 public:
-    explicit InterfaceEnregistrement(MainWindow *parent = nullptr);
+    explicit InterfaceEnregistrement(MainWindow* parentWindow,MainWindow *parent = nullptr);
     ~InterfaceEnregistrement();
     void receiveResponse();
 
