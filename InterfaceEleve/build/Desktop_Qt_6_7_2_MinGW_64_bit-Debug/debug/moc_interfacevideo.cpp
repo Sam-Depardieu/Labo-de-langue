@@ -47,10 +47,11 @@ constexpr auto qt_meta_stringdata_CLASSInterfaceVideoENDCLASS = QtMocHelpers::st
     "btn",
     "on_horizontalSlider_sliderReleased",
     "on_pushButtonReset_clicked",
-    "onUdpTimeout",
     "on_verticalSlider_sonVideo_valueChanged",
     "value",
-    "on_pushButton_Son_clicked"
+    "on_pushButton_Son_clicked",
+    "updateChronoLabel",
+    "faireClignoterLabel"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
 #error "qtmochelpers.h not found or too old."
@@ -63,7 +64,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSInterfaceVideoENDCLASS[] = {
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-      11,   14, // methods
+      12,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -71,17 +72,18 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSInterfaceVideoENDCLASS[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    0,   80,    2, 0x08,    1 /* Private */,
-       3,    0,   81,    2, 0x08,    2 /* Private */,
-       4,    0,   82,    2, 0x08,    3 /* Private */,
-       5,    0,   83,    2, 0x08,    4 /* Private */,
-       6,    0,   84,    2, 0x08,    5 /* Private */,
-       7,    1,   85,    2, 0x08,    6 /* Private */,
-      10,    0,   88,    2, 0x08,    8 /* Private */,
-      11,    0,   89,    2, 0x08,    9 /* Private */,
-      12,    0,   90,    2, 0x08,   10 /* Private */,
-      13,    1,   91,    2, 0x08,   11 /* Private */,
-      15,    0,   94,    2, 0x08,   13 /* Private */,
+       1,    0,   86,    2, 0x08,    1 /* Private */,
+       3,    0,   87,    2, 0x08,    2 /* Private */,
+       4,    0,   88,    2, 0x08,    3 /* Private */,
+       5,    0,   89,    2, 0x08,    4 /* Private */,
+       6,    0,   90,    2, 0x08,    5 /* Private */,
+       7,    1,   91,    2, 0x08,    6 /* Private */,
+      10,    0,   94,    2, 0x08,    8 /* Private */,
+      11,    0,   95,    2, 0x08,    9 /* Private */,
+      12,    1,   96,    2, 0x08,   10 /* Private */,
+      14,    0,   99,    2, 0x08,   12 /* Private */,
+      15,    0,  100,    2, 0x08,   13 /* Private */,
+      16,    0,  101,    2, 0x08,   14 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -92,8 +94,9 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSInterfaceVideoENDCLASS[] = {
     QMetaType::Void, 0x80000000 | 8,    9,
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Void, QMetaType::Int,   13,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Int,   14,
+    QMetaType::Void,
     QMetaType::Void,
 
        0        // eod
@@ -125,12 +128,14 @@ Q_CONSTINIT const QMetaObject InterfaceVideo::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_pushButtonReset_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'onUdpTimeout'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_verticalSlider_sonVideo_valueChanged'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<int, std::false_type>,
         // method 'on_pushButton_Son_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'updateChronoLabel'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'faireClignoterLabel'
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
@@ -150,8 +155,10 @@ void InterfaceVideo::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         case 5: _t->animateButtonClick((*reinterpret_cast< std::add_pointer_t<QPushButton*>>(_a[1]))); break;
         case 6: _t->on_horizontalSlider_sliderReleased(); break;
         case 7: _t->on_pushButtonReset_clicked(); break;
-        case 9: _t->on_verticalSlider_sonVideo_valueChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
-        case 10: _t->on_pushButton_Son_clicked(); break;
+        case 8: _t->on_verticalSlider_sonVideo_valueChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
+        case 9: _t->on_pushButton_Son_clicked(); break;
+        case 10: _t->updateChronoLabel(); break;
+        case 11: _t->faireClignoterLabel(); break;
         default: ;
         }
     }
@@ -176,13 +183,13 @@ int InterfaceVideo::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 11)
+        if (_id < 12)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 11;
+        _id -= 12;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 11)
+        if (_id < 12)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 11;
+        _id -= 12;
     }
     return _id;
 }

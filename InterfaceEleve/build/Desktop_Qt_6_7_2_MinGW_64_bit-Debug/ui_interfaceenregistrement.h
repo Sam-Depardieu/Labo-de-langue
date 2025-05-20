@@ -39,6 +39,7 @@ public:
     QTextEdit *textEditConsigne;
     QLabel *label;
     QLabel *label_2;
+    QLabel *chronoLabel;
 
     void setupUi(QDialog *InterfaceEnregistrement)
     {
@@ -152,6 +153,25 @@ public:
         label_2->setObjectName("label_2");
         label_2->setGeometry(QRect(590, 190, 151, 16));
         label_2->setFont(font1);
+        chronoLabel = new QLabel(InterfaceEnregistrement);
+        chronoLabel->setObjectName("chronoLabel");
+        chronoLabel->setGeometry(QRect(560, 5, 111, 45));
+        QFont font2;
+        font2.setFamilies({QString::fromUtf8("Segoe UI")});
+        font2.setBold(true);
+        chronoLabel->setFont(font2);
+        chronoLabel->setStyleSheet(QString::fromUtf8("QLabel {\n"
+"    background-color: #0097a7; /* m\303\252me ton bleu-vert que ta barre */\n"
+"    color: white;\n"
+"    border: 2px solid white;\n"
+"    border-radius: 8px;\n"
+"    font-family: \"Segoe UI\", \"Arial\", sans-serif;\n"
+"    font-weight: bold;\n"
+"    font-size: 28px;\n"
+"    padding: 5px 15px;\n"
+"    qproperty-alignment: 'AlignCenter';\n"
+"}\n"
+""));
         pushButton_2->raise();
         pushButton->raise();
         pushButtonSon->raise();
@@ -169,6 +189,7 @@ public:
         textEditConsigne->raise();
         label->raise();
         label_2->raise();
+        chronoLabel->raise();
 
         retranslateUi(InterfaceEnregistrement);
 
@@ -209,6 +230,7 @@ public:
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", nullptr));
         label->setText(QCoreApplication::translate("InterfaceEnregistrement", "Messages du professeur", nullptr));
         label_2->setText(QCoreApplication::translate("InterfaceEnregistrement", "Consignes", nullptr));
+        chronoLabel->setText(QCoreApplication::translate("InterfaceEnregistrement", "00:00", nullptr));
     } // retranslateUi
 
 };

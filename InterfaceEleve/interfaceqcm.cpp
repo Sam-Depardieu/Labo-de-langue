@@ -256,20 +256,31 @@ void InterfaceQCM::on_pushButtonSoumettre_clicked()
     accept();
 }
 
-void InterfaceQCM::mettreAJourChrono(const QString &temps)
+void InterfaceQCM::faireClignoterLabel()
 {
-    ui->chronoLabel->setText(temps);
+    clignotementEtat = !clignotementEtat;
+    if (clignotementEtat)
+        ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: red; border: 2px solid red; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
+    else
+        ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: white; border: 2px solid white; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
+}
 
-    if (temps <= "00:30") {
-        static bool clignote = false;
-        clignote = !clignote;
-        ui->chronoLabel->setStyleSheet(
-            clignote ? "background-color: red; color: white;" : "");
+void InterfaceQCM::updateChronoLabel()
+{
+    remainingTime = remainingTime.addSecs(-1);
+
+    ui->chronoLabel->setText(remainingTime.toString("mm:ss"));
+
+    if (remainingTime.minute() == 0 && remainingTime.second() < 31) {
+        if (!clignotementTimer->isActive())
+            clignotementTimer->start(500); // clignote toutes les 500 ms
+    }
+
+    if (remainingTime == QTime(0, 0)) {
+        chronoTimer->stop();
+        ui->chronoLabel->setText("00:00");
+        ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: red; border: 2px solid red; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
+        QMessageBox::information(this, "Fin de l'activité", "Pensez à mettre fin à l'activité en cours !");
     }
 }
 
-void InterfaceQCM::chronoTermine()
-{
-    ui->chronoLabel->setStyleSheet("");
-    // Autres actions si besoin à la fin du chrono
-}

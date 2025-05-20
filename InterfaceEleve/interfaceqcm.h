@@ -29,10 +29,6 @@ public:
     void receiveResponse();
     QString getConsigne() { return consigne; }
 
-public slots:
-    void mettreAJourChrono(const QString &temps);
-    void chronoTermine();
-
 private slots:
     void on_pushButton1_clicked();
     void on_pushButton2_clicked();
@@ -44,7 +40,8 @@ private slots:
     void on_pushButtonQuestionPrecedente_clicked();
 
     void onUdpNomFichierRecu();
-
+    void updateChronoLabel();
+    void faireClignoterLabel();
 
 
 private:
@@ -60,6 +57,7 @@ private:
 
     QString consigne = "";
     bool Professor = false;
+    bool clignotementEtat;
 
     QJsonArray questionArray;
     int currentQuestionIndex;
@@ -72,6 +70,9 @@ private:
     QUdpSocket udpSocketNomFichier;
     quint16 portNomFichier = 5561;
     QString fichierRecu;
+    QTimer *chronoTimer;
+    QTime remainingTime;
+    QTimer* clignotementTimer;
 
 
 };

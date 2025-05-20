@@ -471,38 +471,28 @@ void MainWindow::receiveInter(){
         if (response == "QCM") {
             currentChild = new InterfaceQCM(this);
 
-            connect(this, &MainWindow::chronoMisAJour, currentChild, &InterfaceQCM::mettreAJourChrono);
-            connect(this, &MainWindow::chronoFini, currentChild, &InterfaceQCM::chronoTermine);
         }
         else if (response == "ecoute") {
             currentChild = new InterfaceAudio(false, this);
 
-            connect(this, &MainWindow::chronoMisAJour, currentChild, &InterfaceAudio::mettreAJourChrono);
-            connect(this, &MainWindow::chronoFini, currentChild, &InterfaceAudio::chronoTermine);
+
         }
         else if (response == "ecoute_co") {
             currentChild = new InterfaceAudio(true, this);
 
-            connect(this, &MainWindow::chronoMisAJour, currentChild, &InterfaceAudio::mettreAJourChrono);
-            connect(this, &MainWindow::chronoFini, currentChild, &InterfaceAudio::chronoTermine);
+
         }
         else if (response == "video") {
             currentChild = new InterfaceVideo(false, this);
 
-            connect(this, &MainWindow::chronoMisAJour, currentChild, &InterfaceVideo::mettreAJourChrono);
-            connect(this, &MainWindow::chronoFini, currentChild, &InterfaceVideo::chronoTermine);
         }
         else if (response == "video_co") {
             currentChild = new InterfaceVideo(true, this);
 
-            connect(this, &MainWindow::chronoMisAJour, currentChild, &InterfaceVideo::mettreAJourChrono);
-            connect(this, &MainWindow::chronoFini, currentChild, &InterfaceVideo::chronoTermine);
         }
         else if (response == "enregistrement") {
             currentChild = new InterfaceEnregistrement(this);
 
-            connect(this, &MainWindow::chronoMisAJour, currentChild, &InterfaceEnregistrement::mettreAJourChrono);
-            connect(this, &MainWindow::chronoFini, currentChild, &InterfaceEnregistrement::chronoTermine);
         }
 
         if (currentChild) {
@@ -554,3 +544,11 @@ void MainWindow::stopClignotement()
     chronoClignote = false;
     clignotementEtat = false;
 }
+void MainWindow::receiveConsigne()
+{
+
+}
+void MainWindow::receiveInfo()
+    {
+
+    }

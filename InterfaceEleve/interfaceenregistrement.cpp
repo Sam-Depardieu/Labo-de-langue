@@ -31,7 +31,6 @@ InterfaceEnregistrement::InterfaceEnregistrement(MainWindow *parent)
     audioOutput = new QAudioOutput(this);
     player->setAudioOutput(audioOutput);
     timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, &InterfaceEnregistrement::updateChrono);
     mediaRecorder = new QMediaRecorder(this);
     audioInput = new QAudioInput(this);
     captureSession.setAudioInput(audioInput);
@@ -44,7 +43,6 @@ InterfaceEnregistrement::InterfaceEnregistrement(MainWindow *parent)
     rewindTimer = new QTimer(this);
     captureSession.setAudioInput(audioInput);
     captureSession.setRecorder(mediaRecorder);
-    connect(rewindTimer, &QTimer::timeout, this, &InterfaceEnregistrement::rewindChrono);
     connect(mediaRecorder, &QMediaRecorder::recorderStateChanged, this, &InterfaceEnregistrement::onRecorderStateChanged);
     connect(mediaRecorder, &QMediaRecorder::errorOccurred, this, &InterfaceEnregistrement::onRecorderErrorOccurred);
     udpChrono.bind(QHostAddress::Any, chronoPort);
@@ -368,41 +366,6 @@ void InterfaceEnregistrement::on_pushButtonAvancer_clicked()
     }
 }
 
-void InterfaceEnregistrement::updateChrono()
-{
-    if (isRewinding) {
-        return;
-    }
-    totalSecondes++;
-    updateChronoLabel();
-}
-
-void InterfaceEnregistrement::rewindChrono()
-{
-    if (totalSecondes > 1) {
-        lastRecordedTime = totalSecondes;
-    }
-
-    if (totalSecondes > 0) {
-        totalSecondes--;
-        updateChronoLabel();
-    } else {
-        qDebug() << "Chrono à zéro, dernier temps enregistré : " << lastRecordedTime;
-        rewindTimer->stop();
-        isRewinding = false;
-    }
-}
-
-void InterfaceEnregistrement::updateChronoLabel()
-{
-    int heures = totalSecondes / 3600;
-    int minutes = (totalSecondes % 3600) / 60;
-    int secondes = totalSecondes % 60;
-    ui->labelChrono->setText(QString::number(heures).rightJustified(2, '0') + ":" +
-                             QString::number(minutes).rightJustified(2, '0') + ":" +
-                             QString::number(secondes).rightJustified(2, '0'));
-}
-
 void InterfaceEnregistrement::on_pushButtonAppelProf_clicked()
 {
     ui->pushButtonAppelProf->setStyleSheet("QPushButton { background-color: none; border: none; }");
@@ -526,21 +489,30 @@ void InterfaceEnregistrement::receiveResponse() {
     }
 }
 
-
-void InterfaceEnregistrement::mettreAJourChrono(const QString &temps)
+void InterfaceEnregistrement::faireClignoterLabel()
 {
-    ui->chronoLabel->setText(temps);
-
-    if (temps <= "00:30") {
-        static bool clignote = false;
-        clignote = !clignote;
-        ui->chronoLabel->setStyleSheet(
-            clignote ? "background-color: red; color: white;" : "");
-    }
+    clignotementEtat = !clignotementEtat;
+    if (clignotementEtat)
+        ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: red; border: 2px solid red; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
+    else
+        ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: white; border: 2px solid white; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
 }
 
-void InterfaceEnregistrement::chronoTermine()
+void InterfaceEnregistrement::updateChronoLabel()
 {
-    ui->chronoLabel->setStyleSheet("");
-    // Autres actions si besoin à la fin du chrono
+    remainingTime = remainingTime.addSecs(-1);
+
+    ui->chronoLabel->setText(remainingTime.toString("mm:ss"));
+
+    if (remainingTime.minute() == 0 && remainingTime.second() < 31) {
+        if (!clignotementTimer->isActive())
+            clignotementTimer->start(500); // clignote toutes les 500 ms
+    }
+
+    if (remainingTime == QTime(0, 0)) {
+        chronoTimer->stop();
+        ui->chronoLabel->setText("00:00");
+        ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: red; border: 2px solid red; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
+        QMessageBox::information(this, "Fin de l'activité", "Pensez à mettre fin à l'activité en cours !");
+    }
 }

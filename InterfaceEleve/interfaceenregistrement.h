@@ -53,10 +53,6 @@ public:
     ~InterfaceEnregistrement();
     void receiveResponse();
 
-public slots:
-    void mettreAJourChrono(const QString &temps);
-    void chronoTermine();
-
 private slots:
     void on_pushButtonSpeak_clicked();
     void on_pushButtonPause_clicked();
@@ -69,9 +65,9 @@ private slots:
     void on_pushButtonPlay_clicked();
     void animateButtonClick(QPushButton* btn);
 
-    void updateChrono();
-    void rewindChrono();
+
     void updateChronoLabel();
+    void faireClignoterLabel();
 
     void onRecorderStateChanged(QMediaRecorder::RecorderState state);
     void onRecorderErrorOccurred(QMediaRecorder::Error error, const QString &errorString);
@@ -109,6 +105,7 @@ private:
     bool speakButtonClicked = false;
     bool isButtonSpeak = false;
     bool isTeacher = false;
+    bool clignotementEtat;
 
     // Timers
     QTimer *timer;
@@ -134,6 +131,10 @@ private:
     QUdpSocket udpChrono;
     quint16 chronoPort =5558;
     QString lastAudioFilePath;
+    QTimer *chronoTimer;
+    QTime remainingTime;
+    QTimer* clignotementTimer;
+
 
 };
 

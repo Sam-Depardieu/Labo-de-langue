@@ -31,9 +31,6 @@ public:
     explicit InterfaceVideo(bool co, QWidget *parent = nullptr);
     ~InterfaceVideo();
 
-public slots:
-    void mettreAJourChrono(const QString &temps);
-    void chronoTermine();
 
 private slots:
     void on_pushButton_SelectVideo_clicked();
@@ -47,7 +44,8 @@ private slots:
     void on_pushButtonReset_clicked();
     void on_verticalSlider_sonVideo_valueChanged(int value);
     void on_pushButton_Son_clicked();
-
+    void updateChronoLabel();
+    void faireClignoterLabel();
 
 
 protected:
@@ -64,10 +62,15 @@ private:
 
     bool CO = false;
     bool coMode;
+    bool clignotementEtat;
     int resetCount = 0;
     static constexpr int maxResets = 3;
     QUdpSocket udpChrono;
     quint16 chronoPort =5558;
+    QTimer *chronoTimer;
+    QTime remainingTime;
+    QTimer* clignotementTimer;
+
 
 };
 
