@@ -26,7 +26,7 @@ class InterfaceQCM : public QDialog
     Q_OBJECT
 
 public:
-    explicit InterfaceQCM(MainWindow* parentWindow, const QString &filePath = "",QWidget *parent = nullptr);
+    explicit InterfaceQCM(MainWindow* parentWindow, QWidget *parent = nullptr);
     ~InterfaceQCM();
     void receiveResponse();
     QString getConsigne() { return consigne; }
@@ -41,7 +41,6 @@ private slots:
     void on_pushButtonQuestionSuivante_clicked();
     void on_pushButtonQuestionPrecedente_clicked();
 
-    void onUdpNomFichierRecu();
     void updateChronoLabel();
     void faireClignoterLabel();
 
@@ -76,7 +75,7 @@ private:
 
     QUdpSocket udpSocketNomFichier;
     quint16 portNomFichier = 5561;
-    QString fichierRecu;
+    QString sessionPATH;
     QTimer *chronoTimer;
     QTime remainingTime;
     QTimer* clignotementTimer;

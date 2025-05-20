@@ -38,6 +38,7 @@ public:
     QString getNomProf() {return nomProf;};
     QString getConsigne() {return consigne;};
     QTime getTime() {return remainingTime;};
+    QString getSessionPATH() {return sessionPATH;};
 
 
     ~MainWindow();
@@ -69,14 +70,19 @@ private:
     QString nomEleve = "";
     QString nomProf = "";
     QString consigne = "";
+    QString sessionPATH = "";
 
     QUdpSocket udpSocketInfo;
     quint16 infoPort = 5558;
+
     QUdpSocket udpSocketInter;
     quint16 interPort = 5560;
+
     QUdpSocket *udpSocketRestart;
+
     QUdpSocket *udpSocketNomFichier;
     quint16 portNomFichier = 5561;
+
     QWidget *currentChild = nullptr;
     QShortcut *shortcutQcm;
     QShortcut *shortcutAudio;

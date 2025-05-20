@@ -53,7 +53,9 @@ MainWindow::MainWindow(QWidget *parent)
     this->setWindowTitle("Page de Connexion");
     connectToDatabase();
 
-    udpSocketInter.bind(QHostAddress::Any, interPort);
+    // DEBUG socket bind + connect
+    bool ok = udpSocketInter.bind(QHostAddress::AnyIPv4, 5560); // QHostAddress::AnyIPv4 = 0.0.0.0
+    qDebug() << "📡 BIND udpSocketInter ok ? " << ok;
     connect(&udpSocketInter, &QUdpSocket::readyRead, this, &MainWindow::receiveInter);
 
     udpSocketInfo.bind(QHostAddress::Any, infoPort);
@@ -332,7 +334,7 @@ void MainWindow::receiveInfo() {
         udpSocketInfo.readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
 
         QString response = QString::fromUtf8(datagram).trimmed();
-        qDebug() << "📢 Réponse reçue de" << sender.toString() << ":" << response;
+        qDebug() << "📢 I reçue de" << sender.toString() << ":" << response;
 
         if (!response.isEmpty()) {
             // Vérifie que le message contient bien ':'
@@ -388,11 +390,13 @@ void MainWindow::receivePath(){
             currentChild = nullptr;
         }
 
-        //currentChild = new InterfaceQCM(this, cheminFichier);
+        sessionPATH = cheminFichier;
+        /*currentChild = new InterfaceQCM(this, cheminFichier);
         currentChild->setAttribute(Qt::WA_DeleteOnClose);
-        currentChild->show();
+        currentChild->show();*/
     }
 }
+
 void MainWindow::receiveInter(){
     while (udpSocketInter.hasPendingDatagrams()) {
         QByteArray datagram;

@@ -2,7 +2,7 @@
 #include "mainwindow.h"
 #include "ui_interfaceqcm.h"
 
-InterfaceQCM::InterfaceQCM(MainWindow *parentWindow,const QString &filePath,QWidget *parent)
+InterfaceQCM::InterfaceQCM(MainWindow *parentWindow ,QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::InterfaceQCM)
     , mainWindow(parentWindow)
@@ -16,24 +16,9 @@ InterfaceQCM::InterfaceQCM(MainWindow *parentWindow,const QString &filePath,QWid
     setFixedSize(800, 480);
     setWindowTitle("Page de QCM");
 
+    sessionPATH = mainWindow->getSessionPATH();
+
     setButtonIcons();
-    //Consigne
-    if (!udpSocketConsigne.bind(QHostAddress::Any, consignePort)) {
-        qWarning() << "❌ Impossible de binder le port UDP pour la consigne.";
-    }
-    connect(&udpSocketConsigne, &QUdpSocket::readyRead, this, &InterfaceQCM::receiveResponse);
-    //Chrono
-    if (!udpChrono.bind(QHostAddress::Any, chronoPort)) {
-        qWarning() << "❌ Impossible de binder le port UDP pour le chrono.";
-    }
-    //Recup Fichier
-    // Socket pour recevoir un chemin de fichier
-    /*if (!udpSocketNomFichier.bind(QHostAddress::Any, portNomFichier)) {
-        qWarning() << "❌ Impossible de binder le port UDP pour le fichier JSON.";
-    }
-    connect(&udpSocketNomFichier, &QUdpSocket::readyRead, this, &InterfaceQCM::onUdpNomFichierRecu);*/
-
-
 
     if (!Professor) {
         ui->textEditFeedBack->setReadOnly(true);
@@ -42,11 +27,11 @@ InterfaceQCM::InterfaceQCM(MainWindow *parentWindow,const QString &filePath,QWid
         ui->textEditAffichageQuestion->setReadOnly(true);
     }
 
-    if (!QFile::exists(filePath)) {
-        qWarning() << "❌ Fichier non trouvé :" << filePath;
+    if (!QFile::exists(sessionPATH)) {
+        qWarning() << "❌ Fichier non trouvé :" << sessionPATH;
     }
 
-    loadQuestionsJson(filePath);
+    loadQuestionsJson(sessionPATH);
     currentQuestionIndex = 0;
     showCurrentQuestion();
     ui->chronoLabel->setVisible(true);
@@ -109,34 +94,12 @@ InterfaceQCM::~InterfaceQCM()
     delete ui;
 }
 
-void InterfaceQCM::onUdpNomFichierRecu()
-{
-    while (udpSocketNomFichier.hasPendingDatagrams()) {
-        QByteArray datagram;
-        datagram.resize(udpSocketNomFichier.pendingDatagramSize());
-        udpSocketNomFichier.readDatagram(datagram.data(), datagram.size());
-
-        fichierRecu = QString::fromUtf8(datagram).trimmed();
-        qDebug() << "📁 Chemin de fichier JSON reçu par UDP :" << fichierRecu;
-
-        // Charger les questions si le fichier est bien reçu
-        if (QFile::exists(fichierRecu)) {
-            loadQuestionsJson(fichierRecu);
-            currentQuestionIndex = 0;
-            showCurrentQuestion();
-        } else {
-            qWarning() << "❌ Fichier JSON non trouvé :" << fichierRecu;
-        }
-    }
-}
-
-
 void InterfaceQCM::loadQuestionsJson(const QString &filePath)
 {
     QFile file(filePath);
     qDebug() << "📂 Ouverture du fichier JSON :" << filePath;
 
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+    if (!file.open(QIODevice::ReadOnly)) {
         qWarning() << "❌ Échec d'ouverture : " << file.errorString();
         return;
     }

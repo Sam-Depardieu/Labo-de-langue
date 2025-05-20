@@ -1048,9 +1048,9 @@ void MainWindow::continuerCreationSession()
             activite[5] = "video_co";
             activite[6] = "enregistrement";
 
+            prof->sendCommandToStudent(eleve->getIP(), 5558, QString("chrono,%1").arg(duree));
             prof->sendCommandToStudent(eleve->getIP(), 5561, sessionFolder);
             prof->sendCommandToStudent(eleve->getIP(), 5560, activite[idTypeActivite]);
-            prof->sendCommandToStudent(eleve->getIP(), 5558, "{chrono, "+duree+"}");
         }
     }
 

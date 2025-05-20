@@ -4261,8 +4261,7 @@ debug/choixsession.o: ../../choixsession.cpp ../../choixsession.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QPropertyAnimation \
 		../../helpwindow.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QWidget \
-		ui_choixsession.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QApplication
+		ui_choixsession.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\choixsession.o ..\..\choixsession.cpp
 
 debug/helpwindow.o: ../../helpwindow.cpp ../../helpwindow.h \
@@ -4464,16 +4463,16 @@ debug/helpwindow.o: ../../helpwindow.cpp ../../helpwindow.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QDialog \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qdialog.h \
 		ui_helpwindow.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QApplication \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qapplication.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QHBoxLayout \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qboxlayout.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlayout.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlayoutitem.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qgridlayout.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QHeaderView \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qheaderview.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QFile \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qfile.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qfiledevice.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QJsonDocument \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qjsondocument.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QJsonArray \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qjsonarray.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QTableWidgetItem \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qtablewidget.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qtableview.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qabstractitemview.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qabstractscrollarea.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qframe.h \
@@ -4489,20 +4488,6 @@ debug/helpwindow.o: ../../helpwindow.cpp ../../helpwindow.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qtabbar.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qtabwidget.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qrubberband.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QPushButton \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qpushbutton.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qabstractbutton.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QTableWidget \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qtablewidget.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qtableview.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QFile \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qfile.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qfiledevice.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QJsonDocument \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qjsondocument.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QJsonArray \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qjsonarray.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QTableWidgetItem \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QDebug \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QLabel \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlabel.h \
@@ -6609,13 +6594,7 @@ debug/mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QWidget \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlerror.h \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlquery.h \
-		ui_mainwindow.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QApplication \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QComboBox \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QGraphicsView \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QHeaderView \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QTextEdit \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QTimeEdit
+		ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\mainwindow.o ..\..\mainwindow.cpp
 
 debug/qcm.o: ../../qcm.cpp ../../qcm.h \
@@ -6874,10 +6853,6 @@ debug/qcm.o: ../../qcm.cpp ../../qcm.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qscrollbar.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qabstractslider.h \
 		ui_qcm.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QApplication \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qapplication.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QWidget \
 		../../mainwindow.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QMainWindow \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qmainwindow.h \
@@ -7017,6 +6992,7 @@ debug/qcm.o: ../../qcm.cpp ../../qcm.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qurlquery.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qvarianthash.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QHash \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QVariant \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qvariantlist.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qvariantmap.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qvector.h \
@@ -7204,6 +7180,7 @@ debug/qcm.o: ../../qcm.cpp ../../qcm.h \
 		C:/Qt/6.7.2/mingw_64/include/QtGui/QAction \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qactiongroup.h \
 		C:/Qt/6.7.2/mingw_64/include/QtGui/QActionGroup \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qapplication.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qbuttongroup.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qcalendarwidget.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qcolordialog.h \
@@ -7313,7 +7290,8 @@ debug/qcm.o: ../../qcm.cpp ../../qcm.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QListWidget \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QDir \
 		C:/Qt/6.7.2/mingw_64/include/QtGui/QStandardItemModel \
-		../../helpwindow.h
+		../../helpwindow.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QWidget
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\qcm.o ..\..\qcm.cpp
 
 debug/qrc_ressource.o: debug/qrc_ressource.cpp 
