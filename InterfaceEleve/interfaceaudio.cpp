@@ -1,4 +1,5 @@
 #include "interfaceaudio.h"
+#include "mainwindow.h"
 #include "ui_interfaceaudio.h"
 #include <QAudioOutput>
 #include <QStandardPaths>
@@ -9,7 +10,7 @@
 #include <QHostAddress>
 #include <QDebug>
 
-InterfaceAudio::InterfaceAudio(bool co, QWidget *parent)
+InterfaceAudio::InterfaceAudio(bool co,MainWindow* parentWindow, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::InterfaceAudio)
     , player(new QMediaPlayer(this))
@@ -124,6 +125,29 @@ InterfaceAudio::InterfaceAudio(bool co, QWidget *parent)
     ui->verticalSlider_sonVideo->setVisible(false);
     ui->verticalSlider_sonVideo->setVisible(false);
     ui->verticalSlider_sonVideo->raise();
+    ui->chronoLabel->setVisible(true);
+
+    remainingTime = parentWindow->getTime();
+    chronoTimer = new QTimer(this);
+
+    connect(chronoTimer, &QTimer::timeout, this, &InterfaceAudio::updateChronoLabel);
+
+    clignotementTimer = new QTimer(this);
+    connect(clignotementTimer, &QTimer::timeout, this, &InterfaceAudio::faireClignoterLabel);
+
+    clignotementEtat = false;
+
+    // Style initial du label
+    ui->chronoLabel->setVisible(true);
+    ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: white; border: 2px solid white; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
+
+    // Affichage du temps initial et démarrage du chrono
+    if (remainingTime.isValid() && remainingTime != QTime(0, 0)) {
+        ui->chronoLabel->setText(remainingTime.toString("mm:ss"));
+        chronoTimer->start(1000);
+    } else {
+        ui->chronoLabel->setText("00:00");
+    }
 }
 
 InterfaceAudio::~InterfaceAudio()
@@ -339,3 +363,4 @@ void InterfaceAudio::updateChronoLabel()
         QMessageBox::information(this, "Fin de l'activité", "Pensez à mettre fin à l'activité en cours !");
     }
 }
+

@@ -55,9 +55,6 @@ MainWindow::MainWindow(QWidget *parent)
     udpSocketInfo.bind(QHostAddress::Any, infoPort);
     connect(&udpSocketInfo, &QUdpSocket::readyRead, this, &MainWindow::receiveInfo);
 
-    udpSocketConsigne.bind(QHostAddress::Any, consignePort);
-    connect(&udpSocketConsigne, &QUdpSocket::readyRead, this, &MainWindow::receiveConsigne);
-
     udpSocketInter.bind(QHostAddress::Any, interPort);
     connect(&udpSocketInter, &QUdpSocket::readyRead, this, &MainWindow::receiveInter);
     udpSocketRestart = new QUdpSocket(this);
@@ -101,18 +98,15 @@ void MainWindow::on_pushButtonConnexion_clicked()
     //this->hide();
 }
 
-void MainWindow::on_pushButtonEnregistrement_clicked()
-{
-    InterfaceEnregistrement *interfaceEnregistrement = new InterfaceEnregistrement(this);
-    interfaceEnregistrement->show();
-}
-
 MainWindow::~MainWindow()
 {
     delete ui;
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9d7181f91109fa58e3c71e71d212666ba558841b
 void MainWindow::handleRestartCommand()
 {
     while (udpSocketRestart->hasPendingDatagrams()) {
@@ -304,7 +298,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
     // Touche 4 → Vidéo (lecture simple)
     if (event->key() == Qt::Key_4) {
-        auto *video = new InterfaceVideo(false, this);
+        auto *video = new InterfaceVideo(false, this, this);
         video->setAttribute(Qt::WA_DeleteOnClose);
         video->show();
         return;
@@ -344,14 +338,20 @@ void MainWindow::receiveCommand(const QString &cmd) {
     }
     else if (cmd == "QCM") {
         QString filePath = "\\CIEL-T171-05\\Activites\\questions.qcmlabo";
-
         currentChild = new InterfaceQCM(this);
     }
     else if (cmd == "video") {
+<<<<<<< HEAD
         currentChild = new InterfaceVideo(false, this,this);
     }
     else if (cmd == "video_co") {
         currentChild = new InterfaceVideo(true, this,this);
+=======
+        currentChild = new InterfaceVideo(false, this, this);
+    }
+    else if (cmd == "video_co") {
+        currentChild = new InterfaceVideo(true, this, this);
+>>>>>>> 9d7181f91109fa58e3c71e71d212666ba558841b
     }
     else if (cmd == "enregistrement") {
         currentChild = new InterfaceEnregistrement(this);
@@ -365,7 +365,7 @@ void MainWindow::receiveCommand(const QString &cmd) {
 }
 
 
-void MainWindow::receiveResponse() {
+void MainWindow::receiveInfo() {
     while (udpSocketInfo.hasPendingDatagrams()) {
         QByteArray datagram;
         datagram.resize(udpSocketInfo.pendingDatagramSize());
@@ -380,8 +380,8 @@ void MainWindow::receiveResponse() {
 
         if (!response.isEmpty()) {
             // Vérifie que le message contient bien ':'
-            if (response.contains(":")) {
-                QStringList parts = response.split(":");
+            if (response.contains(",")) {
+                QStringList parts = response.split(",");
 
                 if (parts.size() == 2) {
                     QString key = parts[0].trimmed();
@@ -394,7 +394,8 @@ void MainWindow::receiveResponse() {
                         nomEleve = value;
                         qDebug() << "👤 Nom de l'élève reçu :" << nomEleve;
                     }else if (key == "chrono"){
-                        remainingTime = QTime::fromString(value,"mm::ss");
+                        remainingTime = QTime::fromString(value,"mm:ss");
+                        qDebug() << "temps restant :" << value;
                         qDebug() << "temps restant :" << remainingTime;
                     } else if (key =="consigne"){
                         consigne =value;
@@ -431,7 +432,7 @@ void MainWindow::receivePath(){
             currentChild = nullptr;
         }
 
-        currentChild = new InterfaceQCM(this, cheminFichier);
+        //currentChild = new InterfaceQCM(this, cheminFichier);
         currentChild->setAttribute(Qt::WA_DeleteOnClose);
         currentChild->show();
     }
@@ -536,7 +537,3 @@ void MainWindow::receiveConsigne()
 {
 
 }
-void MainWindow::receiveInfo()
-    {
-
-    }

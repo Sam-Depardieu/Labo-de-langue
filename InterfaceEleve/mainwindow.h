@@ -45,14 +45,15 @@ public:
 private slots:
 
     bool connectToDatabase();
-    void on_pushButtonEnregistrement_clicked();
     void on_pushButtonConnexion_clicked();
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9d7181f91109fa58e3c71e71d212666ba558841b
     void keyPressEvent(QKeyEvent *event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
 
     //void onUdpFichierRecu();
-    void receiveResponse();
     void receiveCommand(const QString& cmd);
     void receiveInter();
     void receivePath();
@@ -77,8 +78,6 @@ private:
 
     QUdpSocket udpSocketInfo;
     quint16 infoPort = 5558;
-    QUdpSocket udpSocketConsigne;
-    quint16 consignePort = 5558;
     QUdpSocket udpSocketInter;
     QUdpSocket *udpSocketRestart;
     quint16 interPort = 5560;

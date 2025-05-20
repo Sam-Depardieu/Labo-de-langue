@@ -20,6 +20,9 @@
 #include <QTimer>
 #include <QGraphicsVideoItem>
 
+// === Projet ===
+class MainWindow;
+
 namespace Ui {
 class InterfaceVideo;
 }
@@ -29,7 +32,11 @@ class InterfaceVideo : public QDialog
     Q_OBJECT
 
 public:
+<<<<<<< HEAD
     explicit InterfaceVideo(bool co, MainWindow* parentWindow,QWidget *parent = nullptr);
+=======
+    explicit InterfaceVideo(bool co, MainWindow* parentWindow ,QWidget *parent = nullptr);
+>>>>>>> 9d7181f91109fa58e3c71e71d212666ba558841b
     ~InterfaceVideo();
 
 
@@ -53,6 +60,7 @@ protected:
     void closeEvent(QCloseEvent *event);
 
 private:
+    MainWindow* mainWindow;
     Ui::InterfaceVideo *ui;
     QMediaPlayer *player;
     QAudioOutput *audioOutput;

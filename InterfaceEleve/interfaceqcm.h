@@ -15,8 +15,10 @@
 #include <QStandardPaths>
 #include <QString>
 
+class MainWindow;
 namespace Ui {
 class InterfaceQCM;
+
 }
 
 class InterfaceQCM : public QDialog
@@ -24,7 +26,7 @@ class InterfaceQCM : public QDialog
     Q_OBJECT
 
 public:
-    explicit InterfaceQCM(QWidget *parent = nullptr, const QString &filePath = "");
+    explicit InterfaceQCM(MainWindow* parentWindow, const QString &filePath = "",QWidget *parent = nullptr);
     ~InterfaceQCM();
     void receiveResponse();
     QString getConsigne() { return consigne; }
