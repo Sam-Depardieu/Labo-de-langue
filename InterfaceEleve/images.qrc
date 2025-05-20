@@ -17,9 +17,9 @@
         <file>images/SonSysteme.png</file>
         <file>images/Surveiller.png</file>
         <file>images/Enregistrer.png</file>
-        <file>images/CallProf.png</file>
         <file>images/Pause.png</file>
         <file>images/FeedBack.png</file>
-	<file>images/sonVid.png</file>
+        <file>images/sonVid.png</file>
+        <file>images/CallProf.png</file>
     </qresource>
 </RCC>

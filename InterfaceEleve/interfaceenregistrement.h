@@ -79,6 +79,8 @@ private:
     Ui::InterfaceEnregistrement *ui;
     MainWindow *parent;
 
+    bool isButtonAppelProfImage;
+
     // Audio/vidéo
     QMediaRecorder *mediaRecorder;
     QMediaPlayer *player;
@@ -104,7 +106,7 @@ private:
     bool isRecordingPaused = false;
     bool speakButtonClicked = false;
     bool isButtonSpeak = false;
-    bool isTeacher = false;
+    bool Professor = false;
     bool clignotementEtat;
 
     // Timers

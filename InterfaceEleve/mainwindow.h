@@ -48,12 +48,6 @@ private slots:
     void on_pushButtonEnregistrement_clicked();
     void on_pushButtonConnexion_clicked();
 
-    void on_pushButtonInterfaceQCM_clicked();
-
-    void on_pushButtonInterfaceAudio_clicked();
-
-    void on_pushButtonInterfaceVideo_clicked();
-
     void keyPressEvent(QKeyEvent *event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
 

@@ -10,9 +10,9 @@
 InterfaceEnregistrement::InterfaceEnregistrement(MainWindow *parent)
     : QDialog(parent), ui(new Ui::InterfaceEnregistrement),
     parent(parent)
+    , isButtonAppelProfImage(true)
 {
     ui->setupUi(this);
-    ui->labelAppelProf->hide();
     ui->pushButtonPause->setVisible(true);
     ui->pushButtonPlay->setVisible(false);
     // Pour fixer la taille de la page et le titre
@@ -21,8 +21,6 @@ InterfaceEnregistrement::InterfaceEnregistrement(MainWindow *parent)
     this->setWindowTitle("Page d'Enregistrement");
     udpSocket.bind(QHostAddress::Any, responsePort);
     connect(&udpSocket, &QUdpSocket::readyRead, this, &InterfaceEnregistrement::receiveResponse);
-
-
 
     // Initialisation des autres composants et variables
     mediaRecorder = new QMediaRecorder(this);
@@ -38,7 +36,6 @@ InterfaceEnregistrement::InterfaceEnregistrement(MainWindow *parent)
     QMediaFormat fmt;
     fmt.setFileFormat(QMediaFormat::FileFormat::Wave);
     mediaRecorder->setMediaFormat(fmt);
-
 
     rewindTimer = new QTimer(this);
     captureSession.setAudioInput(audioInput);
@@ -61,7 +58,7 @@ InterfaceEnregistrement::InterfaceEnregistrement(MainWindow *parent)
     lastRecordedTime = 0;
 
     // Vérifier si l'utilisateur est un professeur
-    if (!isTeacher) {
+    if (!Professor) {
         ui->textEditFeedBack->setReadOnly(true); // Bloquer l'accès en écriture
         ui->textEditFeedBack->setPlaceholderText("Accès réservé aux professeurs"); // Message d'information
     }
@@ -368,9 +365,9 @@ void InterfaceEnregistrement::on_pushButtonAvancer_clicked()
 
 void InterfaceEnregistrement::on_pushButtonAppelProf_clicked()
 {
-    ui->pushButtonAppelProf->setStyleSheet("QPushButton { background-color: none; border: none; }");
-    ui->labelAppelProf->show();
-    qWarning() << "Label Appel Prof affiche";
+    ui->pushButtonAppelProf->setStyleSheet(" border:1px solid white; border-radius:20px;");
+    isButtonAppelProfImage = false;
+
 
     QUdpSocket *udpSocket = new QUdpSocket(this);
     QJsonObject message;

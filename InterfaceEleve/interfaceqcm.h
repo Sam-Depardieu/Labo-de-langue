@@ -44,12 +44,15 @@ private slots:
     void faireClignoterLabel();
 
 
+    void on_pushButtonAppelProf_clicked();
+
 private:
     Ui::InterfaceQCM *ui;
     bool isButton1Image;
     bool isButton2Image;
     bool isButton3Image;
     bool isButton4Image;
+    bool isButtonAppelProfImage;
     void setButtonIcons();
 
     QUdpSocket udpSocketConsigne;

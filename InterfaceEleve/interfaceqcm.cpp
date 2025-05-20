@@ -8,6 +8,7 @@ InterfaceQCM::InterfaceQCM(QWidget *parent, const QString &filePath)
     , isButton2Image(true)
     , isButton3Image(true)
     , isButton4Image(true)
+    , isButtonAppelProfImage(true)
 {
     ui->setupUi(this);
     setFixedSize(800, 480);
@@ -34,6 +35,7 @@ InterfaceQCM::InterfaceQCM(QWidget *parent, const QString &filePath)
 
     if (!Professor) {
         ui->textEditFeedBack->setReadOnly(true);
+        ui->textEditFeedBack->setPlaceholderText("Accès réservé aux professeurs");
         ui->textEditConsigne->setReadOnly(true);
         ui->textEditAffichageQuestion->setReadOnly(true);
     }
@@ -152,6 +154,7 @@ void InterfaceQCM::setButtonIcons()
     setIcon(ui->pushButtonQuestionSuivante, ":/images/Avancer");
     setIcon(ui->pushButtonQuestionPrecedente, ":/images/RevenirArriere");
     setIcon(ui->pushButtonSoumettre, ":/images/Enregistrer");
+    setIcon(ui->pushButtonAppelProf, ":/images/CallProf");
 }
 
 void InterfaceQCM::on_pushButton1_clicked()
@@ -282,5 +285,12 @@ void InterfaceQCM::updateChronoLabel()
         ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: red; border: 2px solid red; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
         QMessageBox::information(this, "Fin de l'activité", "Pensez à mettre fin à l'activité en cours !");
     }
+}
+
+
+void InterfaceQCM::on_pushButtonAppelProf_clicked()
+{
+    ui->pushButtonAppelProf->setStyleSheet(" border:1px solid white; border-radius:20px;");
+    isButtonAppelProfImage = false;
 }
 

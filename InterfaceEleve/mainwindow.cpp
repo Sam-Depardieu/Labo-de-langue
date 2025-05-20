@@ -112,22 +112,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_pushButtonInterfaceQCM_clicked()
-{
-    InterfaceQCM *interfaceQCM = new InterfaceQCM(this);
-    interfaceQCM->show();
-}
 
-void MainWindow::on_pushButtonInterfaceAudio_clicked()
-{
-    InterfaceAudio *interfaceAudio = new InterfaceAudio(this);
-    interfaceAudio->show();
-}
-void MainWindow::on_pushButtonInterfaceVideo_clicked()
-{
-    InterfaceVideo *interfaceVideo = new InterfaceVideo(this);
-    interfaceVideo->show();
-}
 void MainWindow::handleRestartCommand()
 {
     while (udpSocketRestart->hasPendingDatagrams()) {
@@ -363,7 +348,10 @@ void MainWindow::receiveCommand(const QString &cmd) {
         currentChild = new InterfaceQCM(this);
     }
     else if (cmd == "video") {
-        currentChild = new InterfaceVideo(this);
+        currentChild = new InterfaceVideo(false, this,this);
+    }
+    else if (cmd == "video_co") {
+        currentChild = new InterfaceVideo(true, this,this);
     }
     else if (cmd == "enregistrement") {
         currentChild = new InterfaceEnregistrement(this);
