@@ -103,11 +103,11 @@ void InterfaceQCM::loadQuestionsJson(QString &filePath)
     qDebug() << "📂 Absolu ?" << info.absoluteFilePath();
 
     //QFile file("//CIEL-T171-05/Activites/erytz_2025-05-20_17-37");
-    QString chemin = R"(%1)";
+    QString chemin = R"(%1/questions.qcmlabo)";
     QFile file(chemin.arg(filePath));
     qDebug() << "📂 Ouverture du fichier JSON :" << file.fileName();
 
-    if (!file.open(QIODevice::ReadWrite | QIODevice::Text)) {
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qWarning() << "❌ Échec d'ouverture : " << file.errorString();
         return;
     }
