@@ -22,6 +22,7 @@ TEMPLATE = app
 SOURCES += \
     attenteprof.cpp \
     audioCommunicator.cpp \
+    avancementqcm.cpp \
     interfaceaudio.cpp \
     interfaceenregistrement.cpp \
     interfaceqcm.cpp \
@@ -32,6 +33,7 @@ SOURCES += \
 HEADERS += \
     attenteprof.h \
     audioCommunicator.h \
+    avancementqcm.h \
     interfaceaudio.h \
     interfaceenregistrement.h \
     interfaceqcm.h \

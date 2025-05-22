@@ -57,6 +57,13 @@ InterfaceEnregistrement::InterfaceEnregistrement(MainWindow* parentWindow, QWidg
     isRecordingPaused = false;
     lastRecordedTime = 0;
 
+    QFile file("feedback.txt");
+    if (file.open(QIODevice::Append | QIODevice::Text)) {
+        QTextStream out(&file);
+        out<<"";
+        file.close();
+    }
+
     // Vérifier si l'utilisateur est un professeur
     if (!Professor) {
         ui->textEditFeedBack->setReadOnly(true); // Bloquer l'accès en écriture
@@ -458,47 +465,6 @@ void InterfaceEnregistrement::onRecorderStateChanged(QMediaRecorder::RecorderSta
 void InterfaceEnregistrement::onRecorderErrorOccurred(QMediaRecorder::Error error, const QString &errorString)
 {
     qDebug() << "Erreur d'enregistrement:" << errorString;
-}
-void InterfaceEnregistrement::showFeedbackDialog()
-{
-    QDialog *dialog = new QDialog(this);
-    dialog->setWindowTitle("Donner votre avis");
-    QLabel *label = new QLabel("Merci de donner votre avis sur cette activité :", dialog);
-    QTextEdit *feedbackEdit = new QTextEdit(dialog);
-    QSpinBox *ratingSpin = new QSpinBox(dialog);
-    ratingSpin->setRange(1, 5);
-    QPushButton *submitBtn = new QPushButton("Envoyer", dialog);
-    QPushButton *cancelBtn = new QPushButton("Annuler", dialog);
-    QVBoxLayout *layout = new QVBoxLayout(dialog);
-    layout->addWidget(label);
-    layout->addWidget(feedbackEdit);
-    layout->addWidget(new QLabel("Notez cette activité (1 à 5) :"));
-    layout->addWidget(ratingSpin);
-    QHBoxLayout *btnLayout = new QHBoxLayout();
-    btnLayout->addWidget(cancelBtn);
-    btnLayout->addWidget(submitBtn);
-    layout->addLayout(btnLayout);
-
-    connect(submitBtn, &QPushButton::clicked, this, [=]() {
-        QString feedback = feedbackEdit->toPlainText();
-        int rating = ratingSpin->value();
-        if (!feedback.isEmpty()) {
-            QFile file("feedback.txt");
-            if (file.open(QIODevice::Append | QIODevice::Text)) {
-                QTextStream out(&file);
-                out << "Feedback: " << feedback << "\n";
-                out << "Note: " << rating << "\n";
-                file.close();
-            }
-            QMessageBox::information(dialog, "Merci", "Votre avis a été enregistré.");
-        } else {
-            QMessageBox::warning(dialog, "Erreur", "Veuillez écrire un commentaire.");
-        }
-        dialog->accept();
-    });
-
-    connect(cancelBtn, &QPushButton::clicked, dialog, &QDialog::reject);
-    dialog->exec();
 }
 
 void InterfaceEnregistrement::receiveResponse() {

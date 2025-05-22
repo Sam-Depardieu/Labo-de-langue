@@ -323,6 +323,11 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
 
 }
 
+void MainWindow::askPATH()
+{
+
+}
+
 void MainWindow::receiveInfo() {
     while (udpSocketInfo.hasPendingDatagrams()) {
         QByteArray datagram;

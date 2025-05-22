@@ -41,6 +41,7 @@ private slots:
     void on_pushButtonQuestionSuivante_clicked();
     void on_pushButtonQuestionPrecedente_clicked();
 
+    void onAnswerClicked(QPushButton *bouton, bool status);
     void updateChronoLabel();
     void faireClignoterLabel();
 
@@ -51,10 +52,10 @@ private:
     Ui::InterfaceQCM *ui;
     MainWindow *mainWindow;
 
-    bool isButton1Image;
-    bool isButton2Image;
-    bool isButton3Image;
-    bool isButton4Image;
+    bool isButton1Image = false;
+    bool isButton2Image = false;
+    bool isButton3Image = false;
+    bool isButton4Image = false;
     bool isButtonAppelProfImage;
     void setButtonIcons();
 

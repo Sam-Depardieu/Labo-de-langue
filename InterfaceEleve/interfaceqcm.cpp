@@ -1,15 +1,15 @@
 #include "interfaceqcm.h"
 #include "mainwindow.h"
+#include "avancementqcm.h"
+#include <QStandardItemModel>
+
+
 #include "ui_interfaceqcm.h"
 
 InterfaceQCM::InterfaceQCM(MainWindow *parentWindow ,QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::InterfaceQCM)
     , mainWindow(parentWindow)
-    , isButton1Image(true)
-    , isButton2Image(true)
-    , isButton3Image(true)
-    , isButton4Image(true)
     , isButtonAppelProfImage(true)
 {
     ui->setupUi(this);
@@ -24,7 +24,6 @@ InterfaceQCM::InterfaceQCM(MainWindow *parentWindow ,QWidget *parent)
         ui->textEditFeedBack->setReadOnly(true);
         ui->textEditFeedBack->setPlaceholderText("Accès réservé aux professeurs");
         ui->textEditConsigne->setReadOnly(true);
-        ui->textEditAffichageQuestion->setReadOnly(true);
     }
 
     if (!QFile::exists(sessionPATH)) {
@@ -58,6 +57,19 @@ InterfaceQCM::InterfaceQCM(MainWindow *parentWindow ,QWidget *parent)
     } else {
         ui->chronoLabel->setText("00:00");
     }
+
+    auto *model = new QStandardItemModel(this);
+
+    for (int i = 0; i < questionArray.size(); ++i) {
+        QStandardItem *item = new QStandardItem();
+        item->setData(QColor(Qt::gray), Qt::UserRole + 1);  // statut initial
+        model->appendRow(item);
+    }
+
+    ui->listViewAvancement->setModel(model);
+    ui->listViewAvancement->setItemDelegate(new AvancementQCM(this));
+    ui->listViewAvancement->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
 }
 
 void InterfaceQCM::faireClignoterLabel()
@@ -96,14 +108,8 @@ InterfaceQCM::~InterfaceQCM()
 
 void InterfaceQCM::loadQuestionsJson(QString &filePath)
 {
-    QFileInfo info(filePath);
-    qDebug() << "📝 Existe ?" << info.exists();
-    qDebug() << "🔒 Lisible ?" << info.isReadable();
-    qDebug() << "👤 Propriétaire ?" << info.owner();
-    qDebug() << "📂 Absolu ?" << info.absoluteFilePath();
-
     //QFile file("//CIEL-T171-05/Activites/erytz_2025-05-20_17-37");
-    QString chemin = R"(%1/questions.qcmlabo)";
+    QString chemin = R"(//CIEL-T171-05/Activites/erytz_2025-05-20_17-37/questions.qcmlabo)";
     QFile file(chemin.arg(filePath));
     qDebug() << "📂 Ouverture du fichier JSON :" << file.fileName();
 
@@ -134,6 +140,8 @@ void InterfaceQCM::loadQuestionsJson(QString &filePath)
     } else {
         qWarning() << "❌ Clé 'questions' manquante ou invalide.";
     }
+
+    ui->pushButtonQuestionPrecedente->setEnabled(false);
 }
 
 void InterfaceQCM::showCurrentQuestion()
@@ -183,28 +191,51 @@ void InterfaceQCM::setButtonIcons()
     setIcon(ui->pushButtonAppelProf, ":/images/CallProf");
 }
 
+void InterfaceQCM::onAnswerClicked(QPushButton *bouton, bool status)
+{
+    QString color;
+
+    // Trouver la couleur en fonction du bouton
+    if (bouton == ui->pushButton1) {
+        color = "blue";
+        isButton1Image = !status;
+    }
+    else if (bouton == ui->pushButton2) {
+        color = "green";
+        isButton2Image = !status;
+    }
+    else if (bouton == ui->pushButton3) {
+        color = "red";
+        isButton3Image = !status;
+    }
+    else if (bouton == ui->pushButton4) {
+        color = "orange";
+        isButton4Image = !status;
+    }
+
+    if(status) bouton->setStyleSheet("background-color:" + color + "; border:3px solid white; border-radius:20px;");
+    else bouton->setStyleSheet("background-color:" + color + "; border-radius:20px;");
+}
+
+
 void InterfaceQCM::on_pushButton1_clicked()
 {
-    ui->pushButton1->setStyleSheet("background-color:blue; border:3px solid white; border-radius:20px;");
-    isButton1Image = false;
+    onAnswerClicked(ui->pushButton1, isButton1Image);
 }
 
 void InterfaceQCM::on_pushButton2_clicked()
 {
-    ui->pushButton2->setStyleSheet("background-color:green; border:3px solid white; border-radius:20px;");
-    isButton2Image = false;
+    onAnswerClicked(ui->pushButton2, isButton2Image);
 }
 
 void InterfaceQCM::on_pushButton3_clicked()
 {
-    ui->pushButton3->setStyleSheet("background-color:red; border:3px solid white; border-radius:20px;");
-    isButton3Image = false;
+    onAnswerClicked(ui->pushButton3, isButton3Image);
 }
 
 void InterfaceQCM::on_pushButton4_clicked()
 {
-    ui->pushButton4->setStyleSheet("background-color:orange; border:3px solid white; border-radius:20px;");
-    isButton4Image = false;
+    onAnswerClicked(ui->pushButton4, isButton4Image);
 }
 
 void InterfaceQCM::on_pushButtonEffacerReponse_clicked()
@@ -214,10 +245,10 @@ void InterfaceQCM::on_pushButtonEffacerReponse_clicked()
     ui->pushButton3->setStyleSheet("background-color:red; border-radius:20px;");
     ui->pushButton4->setStyleSheet("background-color:orange; border-radius:20px;");
 
-    isButton1Image = true;
-    isButton2Image = true;
-    isButton3Image = true;
-    isButton4Image = true;
+    isButton1Image = false;
+    isButton2Image = false;
+    isButton3Image = false;
+    isButton4Image = false;
 }
 
 void InterfaceQCM::receiveResponse()
@@ -235,10 +266,14 @@ void InterfaceQCM::receiveResponse()
 
 void InterfaceQCM::on_pushButtonQuestionSuivante_clicked()
 {
+    ui->pushButtonQuestionPrecedente->setEnabled(true);
     if (currentQuestionIndex < questionArray.size() - 1) {
         currentQuestionIndex++;
         showCurrentQuestion();
     }
+
+    if(currentQuestionIndex == questionArray.size() -1)
+        ui->pushButtonQuestionSuivante->setEnabled(false);
 }
 
 void InterfaceQCM::on_pushButtonQuestionPrecedente_clicked()
@@ -247,6 +282,11 @@ void InterfaceQCM::on_pushButtonQuestionPrecedente_clicked()
         currentQuestionIndex--;
         showCurrentQuestion();
     }
+    if(currentQuestionIndex != questionArray.size() -1)
+        ui->pushButtonQuestionSuivante->setEnabled(true);
+
+    if(currentQuestionIndex == 0)
+        ui->pushButtonQuestionPrecedente->setEnabled(false);
 }
 
 void InterfaceQCM::on_pushButtonSoumettre_clicked()

@@ -50,6 +50,7 @@ private slots:
     void keyPressEvent(QKeyEvent *event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
 
+    void askPATH();
     void receiveInter();
     void receivePath();
     void receiveInfo();
@@ -82,6 +83,9 @@ private:
 
     QUdpSocket *udpSocketNomFichier;
     quint16 portNomFichier = 5561;
+
+    QUdpSocket udpSocketDemande;
+    quint16 portDemande = 5561;
 
     QWidget *currentChild = nullptr;
     QShortcut *shortcutQcm;

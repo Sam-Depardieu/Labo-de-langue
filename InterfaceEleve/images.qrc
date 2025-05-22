@@ -21,5 +21,6 @@
         <file>images/FeedBack.png</file>
         <file>images/sonVid.png</file>
         <file>images/CallProf.png</file>
+	<file>images/cross.png</file>
     </qresource>
 </RCC>

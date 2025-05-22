@@ -335,7 +335,7 @@ void MainWindow::resetSession()
     ui->cadenaCloseButton->setVisible(true);
     ui->cadenaOpenButton->setVisible(false);
     ui->chronoLabel->setVisible(false);
-    ui->SourceLabel->clear();
+    ui->envoyerMessageTextEdit->clear();
 
     // === Réinitialisation des boutons ===
     editStatusButton(ui->PlanButton, false);
@@ -1049,7 +1049,7 @@ void MainWindow::continuerCreationSession()
             activite[6] = "enregistrement";
 
             prof->sendCommandToStudent(eleve->getIP(), 5558, QString("chrono,%1").arg(duree));
-            prof->sendCommandToStudent(eleve->getIP(), 5561, sessionFolder);
+            prof->sendCommandToStudent(eleve->getIP(), 5561, QString(sessionFolder));
             prof->sendCommandToStudent(eleve->getIP(), 5560, activite[idTypeActivite]);
         }
     }
@@ -1089,7 +1089,9 @@ void MainWindow::continuerCreationSession()
                                   "❌ Aucun fichier n'a été enregistré\n"
                                   "Veuillez le mettre manuellement dans " + destPath + ".");
         }
+
     }
+    QFile(sessionSave).close();
 
     remainingTime = ui->DureeActivite->time();
 
