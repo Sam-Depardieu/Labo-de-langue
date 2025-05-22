@@ -3,6 +3,7 @@
 #include "interfaceenregistrement.h"
 #include "interfaceqcm.h"
 #include "interfacevideo.h"
+#include "audioCommunicator.h"
 #include "ui_mainwindow.h"
 #include "attenteprof.h"
 #include <QKeyEvent>
@@ -363,6 +364,10 @@ void MainWindow::receiveInfo() {
                     } else if (key =="consigne"){
                         consigne =value;
                         qDebug() <<"Consigne: " << consigne;
+                    }else if (key == "portGroup"){
+                        int port = value.toInt();
+                        Student student(port);
+
                     } else {
                         qWarning() << "🔍 Clé non reconnue :" << key;
                     }

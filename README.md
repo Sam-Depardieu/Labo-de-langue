@@ -88,7 +88,7 @@ Les ports réseaux suivant seront utilisé :
 	- (eleve -> prof) envoie appel prof
 	- (prof -> eleve) envoie des commandes mute/demute/activerSon/desactionSon/RESTART/END
 - ``5558`` :
-	- envoie des informations aux interfaces élève sous la forme de Json ({"nomEleve": "nom_eleve"}, {"nomProf": "nom_prof"}, {"consigne": "consigne"}, {"chrono": "chrono_mm:ss"})
+	- envoie des informations aux interfaces élève sous la forme de Json ("nomEleve": "nom_eleve"; "nomProf": "nom_prof"; "consigne": "consigne"; "chrono", "chrono_mm:ss"; "portGroup", "numPort")
 - ``5559`` :
   	- (prof -> eleve) envoie des commentaire/message aux interfaces élève
   	- (eleve -> prof) envoie du numéro de QCM en cours

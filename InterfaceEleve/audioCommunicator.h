@@ -17,7 +17,7 @@
 class Student: public QObject {
     Q_OBJECT
 public:
-    Student(QObject *parent = nullptr);
+    Student(int port, QObject *parent=nullptr);
 
     void toggleMute(bool mute);
 
@@ -36,7 +36,7 @@ private:
     //QString serverIp = "192.168.89.41"; // L'adresse IP du serveur
     void connectToServer();
     QUdpSocket udpSocket;
-    quint16 audioPort = 12346;
+    quint16 audioPort;
     quint16 serverPort = 12345;
     QHostAddress serverAddress = QHostAddress("192.168.64.19"); // L'adresse IP du serveur
     QAudioSource *audioSource;  // Source audio pour capter l'audio du professeur
