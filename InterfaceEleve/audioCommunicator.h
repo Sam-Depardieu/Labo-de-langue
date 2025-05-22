@@ -55,4 +55,5 @@ private:
 };
 
 
+
 #endif // AUDIOCOMMUNICATOR_H

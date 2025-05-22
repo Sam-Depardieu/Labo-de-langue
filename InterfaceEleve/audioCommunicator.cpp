@@ -10,8 +10,8 @@
 #include <QThread>
 #include <zmq/zmq.hpp>
 
-Student::Student(int port, QObject *parent)
-    : QObject(parent), context(1), audioPort(port) {
+
+Student::Student(int port, QObject *parent ) : QObject(parent), audioPort(port) {
 
     // Format audio compatible professeur
     QAudioFormat format;

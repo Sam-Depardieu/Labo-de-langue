@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "audioCommunicator.h"
 #include <QMainWindow>
 #include <QtSql/QSqlDatabase>
 #include <QtSql/QSqlQuery>
@@ -72,6 +73,7 @@ private:
     QString nomProf = "";
     QString consigne = "";
     QString sessionPATH = "";
+    QMap<int, Student*> students;
 
     QUdpSocket udpSocketInfo;
     quint16 infoPort = 5558;

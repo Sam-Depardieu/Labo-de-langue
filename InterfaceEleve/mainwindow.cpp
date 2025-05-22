@@ -85,7 +85,7 @@ bool MainWindow::connectToDatabase() {
         return true; // La connexion existe déjà
     }
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("192.168.89.42");
+    db.setHostName("192.168.64.1");
     db.setDatabaseName("LaboLangue");
     db.setUserName("prof");
     db.setPassword("okokok");
@@ -365,8 +365,17 @@ void MainWindow::receiveInfo() {
                         consigne =value;
                         qDebug() <<"Consigne: " << consigne;
                     }else if (key == "portGroup"){
+                        qDebug() << "value : " << value;
                         int port = value.toInt();
-                        Student student(port);
+                        qDebug() << "port : " << port;
+
+                        if (!students.contains(port)) {
+                            Student* student = new Student(port, this);  // `this` = parent = MainWindow
+                            students.insert(port, student);
+                            qDebug() << "✅ Student initialisé sur le port " << port;
+                        } else {
+                            qDebug() << "⚠️ Student déjà existant sur ce port : " << port;
+                        }
 
                     } else {
                         qWarning() << "🔍 Clé non reconnue :" << key;

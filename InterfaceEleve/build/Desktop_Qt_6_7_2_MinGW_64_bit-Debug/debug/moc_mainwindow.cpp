@@ -7,6 +7,8 @@
 *****************************************************************************/
 
 #include "../../../mainwindow.h"
+#include <QtNetwork/QSslPreSharedKeyAuthenticator>
+#include <QtNetwork/QSslError>
 #include <QtGui/qtextcursor.h>
 #include <QtCore/qmetatype.h>
 
