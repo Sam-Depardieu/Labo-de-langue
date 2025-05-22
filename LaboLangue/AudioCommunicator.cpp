@@ -107,26 +107,32 @@ QString Professor::getStudentStatus(const QString& studentIp) {
 void Professor::sendAudioData() {
     QByteArray data = audioSourceDevice->readAll();
 
-    if (data.isEmpty()) return;  // Si aucune donnée audio, on ne fait rien
+    if (data.isEmpty()) return;
+
+    qDebug() << "[Professor] Envoi flux audio de taille:" << data.size();
 
     try {
         zmq::message_t message(data.constData(), data.size());
         pushSocket->send(message, zmq::send_flags::none);
     } catch (const std::runtime_error &e) {
-        // Erreur lors de l'envoi des données
+        qWarning() << "[Professor] Erreur lors de l'envoi des données audio:" << e.what();
     }
 }
+
 
 // Réception des données audio des étudiants
 void Professor::receiveAudioData() {
     zmq::message_t message;
-    zmq::recv_result_t result = pullSocket->recv(message, zmq::recv_flags::dontwait);  // Réception non bloquante
+    zmq::recv_result_t result = pullSocket->recv(message, zmq::recv_flags::dontwait);
 
     if (!result) return;
 
     QByteArray data(static_cast<char*>(message.data()), message.size());
-    audioSinkDevice->write(data);  // Lecture des données audio reçues
+    qDebug() << "[Professor] Réception flux audio de taille:" << data.size();
+
+    audioSinkDevice->write(data);
 }
+
 
 void Professor::processPendingDatagrams() {
     while (udpSocket.hasPendingDatagrams()) {

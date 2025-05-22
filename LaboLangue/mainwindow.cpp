@@ -1048,7 +1048,7 @@ void MainWindow::continuerCreationSession()
             activite[5] = "video_co";
             activite[6] = "enregistrement";
 
-            prof->sendCommandToStudent(eleve->getIP(), 5558, QString("chrono,%1").arg(duree));
+            if(duree != nullptr || duree != "00:00") prof->sendCommandToStudent(eleve->getIP(), 5558, QString("chrono,%1").arg(duree));
             prof->sendCommandToStudent(eleve->getIP(), 5561, QString(sessionFolder));
             prof->sendCommandToStudent(eleve->getIP(), 5560, activite[idTypeActivite]);
         }
@@ -1538,15 +1538,15 @@ void MainWindow::onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve)
                 );
         }
 
+        if (!portsAudioGroupes.contains(groupe)) {
+            portsAudioGroupes[groupe] = prochainPortAudioDisponible++;
+        }
+
         int portAudio = portsAudioGroupes[groupe];
         QString commande = "portGroup," + QString::number(portAudio);
 
         if (prof) {
-            prof->sendCommandToStudent(membre->getIP(), 5557, commande);
-        }
-
-        if (!portsAudioGroupes.contains(groupe)) {
-            portsAudioGroupes[groupe] = prochainPortAudioDisponible++;
+            prof->sendCommandToStudent(membre->getIP(), 5558, commande);
         }
     }
 
@@ -1655,3 +1655,12 @@ QColor MainWindow::couleurDisponible() {
     // Si toutes sont prises, reprendre aléatoirement dans la liste
     return toutes.isEmpty() ? QColor::fromHsv(rand() % 360, 255, 200) : toutes.first();
 }
+
+void MainWindow::on_reloadButton_clicked()
+{
+    if (scene) {
+        scene->clear();
+        loadImagesFromDB();  // Recharge les images depuis la base (avatars, etc.)
+    }
+}
+

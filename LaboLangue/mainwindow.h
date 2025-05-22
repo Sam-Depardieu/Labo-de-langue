@@ -124,6 +124,8 @@ private slots:
     QColor couleurDisponible() ;
 
 
+    void on_reloadButton_clicked();
+
 private:
     // === Interface graphique ===
     QGraphicsScene *scene = nullptr;
@@ -139,7 +141,7 @@ private:
     int idProf = -1;
     int idClasse = -1;
     int idTypeActivite = -1;
-    QString duree;
+    QString duree = "00:00";
     QString nomTypeActivite;
 
     // === Audio & Réseau ===

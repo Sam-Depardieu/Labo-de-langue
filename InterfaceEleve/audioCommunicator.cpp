@@ -82,13 +82,16 @@ void Student::sendAudioData() {
     QByteArray data = audioSourceDevice->readAll();
     if (data.isEmpty()) return;
 
+    qDebug() << "[Student] Envoi flux audio de taille:" << data.size();
+
     try {
         zmq::message_t message(data.constData(), data.size());
         pushSocket.send(message, zmq::send_flags::dontwait);
     } catch (const zmq::error_t &e) {
-        qWarning() << "❌ Erreur ZeroMQ (envoi audio) :" << e.what();
+        qWarning() << "[Student] Erreur ZeroMQ (envoi audio):" << e.what();
     }
 }
+
 
 // Réception audio via ZeroMQ
 void Student::receiveAudioData() {
@@ -97,11 +100,13 @@ void Student::receiveAudioData() {
     if (!result) return;
 
     QByteArray data(static_cast<char*>(message.data()), message.size());
+    qDebug() << "[Student] Réception flux audio de taille:" << data.size();
 
     if (!data.isEmpty() && audioSinkDevice) {
         audioSinkDevice->write(data);
     }
 }
+
 
 void Student::connectToProfControlChannel()
 {
