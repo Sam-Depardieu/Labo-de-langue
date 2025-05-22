@@ -364,20 +364,27 @@ void MainWindow::receiveInfo() {
                     } else if (key =="consigne"){
                         consigne =value;
                         qDebug() <<"Consigne: " << consigne;
-                    }else if (key == "portGroup"){
-                        qDebug() << "value : " << value;
+                    }else if (key == "portGroup") {
+                        qDebug() << "🎧 Port audio de groupe reçu: " << value;
                         int port = value.toInt();
-                        qDebug() << "port : " << port;
 
                         if (!students.contains(port)) {
-                            Student* student = new Student(port, this);  // `this` = parent = MainWindow
-                            students.insert(port, student);
-                            qDebug() << "✅ Student initialisé sur le port " << port;
-                        } else {
-                            qDebug() << "⚠️ Student déjà existant sur ce port : " << port;
-                        }
+                            Student* student = new Student(this);
+                            student->setPortGroupAudio(port);         // Assigne le port reçu
+                            student->initializeAudioCommunication();  // Initialise la socket pull
 
-                    }else {
+                            students.insert(port, student);
+
+                            qDebug() << "✅ Nouveau Student créé et connecté au port de groupe : " << port;
+                        } else {
+                            Student* existingStudent = students.value(port);
+                            existingStudent->setPortGroupAudio(port);
+                            existingStudent->initializeAudioCommunication();  // Re-initialise au cas où
+
+                            qDebug() << "♻️ Student déjà existant mis à jour pour le port : " << port;
+                        }
+                    }
+                    else {
                         qWarning() << "🔍 Clé non reconnue :" << key;
                     }
                 }

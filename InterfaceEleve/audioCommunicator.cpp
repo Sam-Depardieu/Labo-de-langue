@@ -6,6 +6,7 @@ Student::Student(QObject* parent)
 {
     inputDevice = QMediaDevices::defaultAudioInput();
     outputDevice = QMediaDevices::defaultAudioOutput();
+    startAudio();
 
     connect(&sendTimer, &QTimer::timeout, this, &Student::sendAudioData);
     connect(&receiveTimer, &QTimer::timeout, this, &Student::receiveAudioData);
@@ -99,27 +100,67 @@ void Student::stopAudio() {
 
 // Envoi périodique de l'audio au groupe
 void Student::sendAudioData() {
-    if (!audioInput || isMuted || !pushSocket) return;
+    if (!audioInput) {
+        qDebug() << "[Student] Aucun périphérique d'entrée audio.";
+        return;
+    }
+
+    if (isMuted) {
+        qDebug() << "[Student] Microphone muet - aucune donnée envoyée.";
+        return;
+    }
+
+    if (!pushSocket) {
+        qDebug() << "[Student] Socket PUSH non initialisée.";
+        return;
+    }
 
     QByteArray data = audioInput->readAll();
-    if (data.isEmpty()) return;
+    if (data.isEmpty()) {
+        qDebug() << "[Student] Aucun audio lu depuis le micro.";
+        return;
+    }
 
-    zmq::message_t message(data.constData(), data.size());
-    pushSocket->send(message, zmq::send_flags::none);
+    qDebug() << "[Student] Envoi de" << data.size() << "octets audio au groupe (port:" << portGroupAudio << ")";
+
+    try {
+        zmq::message_t message(data.constData(), data.size());
+        pushSocket->send(message, zmq::send_flags::none);
+    } catch (const zmq::error_t& e) {
+        qWarning() << "[Student] Erreur lors de l'envoi audio via ZMQ:" << e.what();
+    }
 }
+
 
 // Réception de l'audio du groupe
 void Student::receiveAudioData() {
-    if (!pullSocket || !audioOutput) return;
+    if (!pullSocket) {
+        qDebug() << "[Student] Socket PULL non initialisée.";
+        return;
+    }
+
+    if (!audioOutput) {
+        qDebug() << "[Student] Aucun périphérique de sortie audio.";
+        return;
+    }
 
     zmq::message_t message;
     zmq::recv_result_t result = pullSocket->recv(message, zmq::recv_flags::dontwait);
 
-    if (result) {
-        QByteArray data(static_cast<char*>(message.data()), message.size());
-        audioOutput->write(data);
+    if (!result) {
+        qDebug() << "[Student] Aucun flux audio reçu à ce cycle.";
+        return;
+    }
+
+    QByteArray data(static_cast<char*>(message.data()), message.size());
+    qDebug() << "[Student] Reçu" << data.size() << "octets audio du groupe (port:" << portGroupAudio << ")";
+
+    qint64 bytesWritten = audioOutput->write(data);
+    if (bytesWritten <= 0) {
+        qWarning() << "[Student] Échec lors de l'écriture de l'audio sur la sortie.";
     }
 }
+
 
 // Réception des commandes UDP
 void Student::handleCommand() {
@@ -148,5 +189,27 @@ void Student::handleCommand() {
                 setGroupPort(newPort);
             }
         }
+    }
+}
+
+void Student::initializeAudioCommunication() {
+    if (portGroupAudio == -1 || profIP.isEmpty()) {
+        qWarning() << "[Student] Port ou IP du prof non défini pour audio.";
+        return;
+    }
+
+    try {
+        if (pullSocket) {
+            delete pullSocket;
+            pullSocket = nullptr;
+        }
+
+        pullSocket = new zmq::socket_t(context, ZMQ_PULL);
+        QString addr = "tcp://" + profIP + ":" + QString::number(portGroupAudio);
+        pullSocket->connect(addr.toStdString());
+
+        qDebug() << "[Student] Connecté au flux audio du groupe sur" << addr;
+    } catch (const zmq::error_t& e) {
+        qWarning() << "[Student] Erreur lors de la connexion audio au prof:" << e.what();
     }
 }

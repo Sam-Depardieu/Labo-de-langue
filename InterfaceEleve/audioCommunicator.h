@@ -24,11 +24,14 @@ public:
     explicit Student(QObject* parent = nullptr);
 
     void setIP(const QString& ip);
+    void setProfIp(QString ip) {profIP = ip;}
     QString getIP() const;
 
     void setGroupPort(int port);  // Reçoit le port du groupe attribué
     void startAudio();
     void stopAudio();
+    void setPortGroupAudio(int port) { portGroupAudio = port; }
+    void initializeAudioCommunication();  // déclaration
 
 public slots:
     void handleCommand();  // UDP : mute, unmute, etc.
@@ -37,6 +40,7 @@ public slots:
 
 private:
     QString studentIp;
+    QString profIP;
     int portGroupAudio = -1;
 
     // ZeroMQ
