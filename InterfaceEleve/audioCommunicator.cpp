@@ -11,18 +11,19 @@
 #include <zmq/zmq.hpp>
 
 
-Student::Student(int port, QObject *parent ) : QObject(parent), audioPort(port) {
-
-    // Format audio compatible professeur
+Student::Student(int port, QObject *parent)
+    : QObject(parent), audioPort(port), isMuted(false)
+{
+    // 1. Définition du format audio (mono, 16kHz, 16-bit)
     QAudioFormat format;
     format.setSampleRate(16000);
     format.setChannelCount(1);
     format.setSampleFormat(QAudioFormat::Int16);
 
+    // 2. Périphériques audio
     inputDeviceInfo = QMediaDevices::defaultAudioInput();
     outputDeviceInfo = QMediaDevices::defaultAudioOutput();
 
-    // Micro
     if (!inputDeviceInfo.isNull()) {
         qDebug() << "🎤 Micro détecté:" << inputDeviceInfo.description();
         audioSource = new QAudioSource(inputDeviceInfo, format);
@@ -33,7 +34,6 @@ Student::Student(int port, QObject *parent ) : QObject(parent), audioPort(port) 
         return;
     }
 
-    // Haut-parleur
     if (!outputDeviceInfo.isNull()) {
         qDebug() << "🔊 Haut-parleur détecté:" << outputDeviceInfo.description();
         audioSink = new QAudioSink(outputDeviceInfo, format);
@@ -44,42 +44,16 @@ Student::Student(int port, QObject *parent ) : QObject(parent), audioPort(port) 
         return;
     }
 
-    // Connexion ZeroMQ
-    try {
-        pushSocket.connect("tcp://localhost:5556");  // Vers professeur (pull)
-        pullSocket.connect("tcp://localhost:5555");  // Depuis professeur (push)
-    } catch (const zmq::error_t &e) {
-        QMessageBox::critical(nullptr, "Erreur ZeroMQ",
-                              "Erreur lors de la connexion ZeroMQ : " + QString::fromStdString(e.what()));
-        return;
-    }
-
-    // Timers
+    // 3. Timers pour envoi et réception audio
     connect(&sendAudioTimer, &QTimer::timeout, this, &Student::sendAudioData);
-    sendAudioTimer.start(100);  // Envoi toutes les 100 ms
+    connect(&receiveAudioTimer, &QTimer::timeout, this, &Student::receiveAudioData);
 
-    connect(&receiveAudioTimer, &QTimer::timeout, this, &Student::receiveAudioDataZMQ);
-    receiveAudioTimer.start(100);  // Réception toutes les 100 ms
+    // 4. Configuration du socket UDP pour recevoir les commandes du professeur (mute, portGroup, etc.)
+    connectToProfControlChannel();
 
-    connectToServer();
-}
-
-// Commandes UDP : mute, unmute
-void Student::receiveResponse() {
-    while (udpSocket.hasPendingDatagrams()) {
-        QByteArray datagram;
-        datagram.resize(udpSocket.pendingDatagramSize());
-        QHostAddress sender;
-        quint16 senderPort;
-        udpSocket.readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
-        QString response = QString::fromUtf8(datagram);
-        qDebug() << "📢 Commande reçue de" << sender.toString() << ":" << response;
-        if (response.trimmed() == "mute") {
-            toggleMute(true);
-        } else if (response.trimmed() == "unmute") {
-            toggleMute(false);
-        }
-    }
+    // 5. Timer pour écouter les commandes UDP
+    connect(&commandPollingTimer, &QTimer::timeout, this, &Student::receiveCommandFromProf);
+    commandPollingTimer.start(100); // écoute toutes les 100 ms
 }
 
 void Student::toggleMute(bool mute) {
@@ -117,7 +91,7 @@ void Student::sendAudioData() {
 }
 
 // Réception audio via ZeroMQ
-void Student::receiveAudioDataZMQ() {
+void Student::receiveAudioData() {
     zmq::message_t message;
     auto result = pullSocket.recv(message, zmq::recv_flags::dontwait);
     if (!result) return;
@@ -129,23 +103,63 @@ void Student::receiveAudioDataZMQ() {
     }
 }
 
-// Rejoint un groupe via UDP
-void Student::connectToServer() {
-    QByteArray joinMessage = "JOIN " + group.toUtf8();
-    udpSocket.writeDatagram(joinMessage, serverAddress, serverPort);
+void Student::connectToProfControlChannel()
+{
+    udpSocket.bind(audioPort, QUdpSocket::ShareAddress);  // écoute sur le port donné
+    serverAddress = QHostAddress("192.168.64.1");         // IP du professeur
+    serverPort = 5558;                                    // Port utilisé par le prof pour envoyer les commandes
 }
 
-// Pour lire un son local (non utilisé dans ZeroMQ)
-void Student::playFeedback() {
-    QAudioFormat format;
-    format.setSampleRate(16000);
-    format.setChannelCount(1);
-    format.setSampleFormat(QAudioFormat::Int16);
+void Student::setupAudioSockets(int port)
+{
+    try {
+        // Ferme les anciens sockets si redéfini
+        pushSocket.close();
+        pullSocket.close();
 
-    audioSink = new QAudioSink(format, this);
-    QFile audioFile("feedback_teacher.wav");
-    if (audioFile.open(QIODevice::ReadOnly)) {
-        QIODevice *device = audioSink->start();
-        device->write(audioFile.readAll());
+        // Push = envoie aux autres
+        pushSocket = zmq::socket_t(context, ZMQ_PUSH);
+        pushSocket.connect("tcp://192.168.64.1:" + std::to_string(port));  // vers les autres élèves via prof (ou relais)
+
+        // Pull = reçoit des autres
+        pullSocket = zmq::socket_t(context, ZMQ_PULL);
+        QString bindAddress = "tcp://*:" + QString::number(port + 1); // Ex: 5556/5557
+        pullSocket.bind(bindAddress.toStdString());
+
+        qDebug() << "✅ Sockets ZMQ configurés pour le groupe sur ports : " << port << "/" << port + 1;
+
+        sendAudioTimer.start(100);
+        receiveAudioTimer.start(100);
+
+    } catch (const zmq::error_t &e) {
+        qWarning() << "❌ Erreur lors de la configuration ZMQ :" << e.what();
+    }
+}
+
+
+void Student::receiveCommandFromProf()
+{
+    while (udpSocket.hasPendingDatagrams()) {
+        QByteArray datagram;
+        datagram.resize(udpSocket.pendingDatagramSize());
+        QHostAddress sender;
+        quint16 senderPort;
+
+        udpSocket.readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
+        QString response = QString::fromUtf8(datagram).trimmed();
+        qDebug() << "🔔 Commande UDP reçue :" << response;
+
+        if (response.startsWith("portGroup,")) {
+            QStringList parts = response.split(",");
+            if (parts.size() == 2) {
+                int newPort = parts[1].toInt();
+                qDebug() << "🔌 Port audio du groupe : " << newPort;
+                setupAudioSockets(newPort);  // méthode qui configure ZMQ
+            }
+        } else if (response == "mute") {
+            toggleMute(true);
+        } else if (response == "unmute") {
+            toggleMute(false);
+        }
     }
 }

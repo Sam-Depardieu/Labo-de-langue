@@ -25,9 +25,11 @@ public:
 
 private slots:
     void sendAudioData();
-    void receiveAudioDataZMQ();
-    void receiveResponse();
+    void receiveAudioData();
     void toggleMute(bool mute);
+    void connectToProfControlChannel();
+    void receiveCommandFromProf();
+    void setupAudioSockets(int port);
 
 private:
     QAudioSource *audioSource = nullptr;
@@ -38,6 +40,9 @@ private:
     QAudioDevice inputDeviceInfo;
     QAudioDevice outputDeviceInfo;
 
+    bool isMuted = false;
+    QTimer commandPollingTimer;
+
     QTimer sendAudioTimer;
     QTimer receiveAudioTimer;
 
@@ -45,7 +50,7 @@ private:
     int audioPort;
     quint16 responsePort = 5557;
 
-    QHostAddress serverAddress = QHostAddress("127.0.0.1");
+    QHostAddress serverAddress = QHostAddress("192.168.64.1");
     quint16 serverPort = 5555;
     QString group = "default";
 

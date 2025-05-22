@@ -364,7 +364,7 @@ void MainWindow::receiveInfo() {
                     } else if (key =="consigne"){
                         consigne =value;
                         qDebug() <<"Consigne: " << consigne;
-                    }else if (key == "portGroup"){
+                    }/*else if (key == "portGroup"){
                         qDebug() << "value : " << value;
                         int port = value.toInt();
                         qDebug() << "port : " << port;
@@ -377,7 +377,7 @@ void MainWindow::receiveInfo() {
                             qDebug() << "⚠️ Student déjà existant sur ce port : " << port;
                         }
 
-                    } else {
+                    }*/ else {
                         qWarning() << "🔍 Clé non reconnue :" << key;
                     }
                 }
