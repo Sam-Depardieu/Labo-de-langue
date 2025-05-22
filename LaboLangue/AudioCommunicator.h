@@ -16,6 +16,7 @@
 #include <QDebug>
 #include <QString>
 #include <QMediaDevices>
+#include <QMap>
 
 #include <zmq/zmq.hpp>
 
@@ -34,23 +35,32 @@ public:
     void desactiverSonStudent(const QString& studentIp);
     void sendCommandToStudent(const QString& studentIp, int port, const QString& command);
     void fermerCommunications();
-
     QString getStudentStatus(const QString& studentIp);
 
+    // Ajoute un nouveau groupe audio
+    void addAudioGroup(const QString& groupName, int portAudio);
+
 public slots:
-    void sendAudioData();      // Envoi périodique de l'audio (100 ms)
-    void receiveAudioData();   // Réception audio des étudiants
+    void sendAudioData();                // (Optionnel) Envoi global
+    void receiveAudioData();            // (Optionnel) Réception globale
+    void sendAudioDataToGroup(const QString& groupName);
+    void receiveAudioDataFromGroup(const QString& groupName);
     void processPendingDatagrams();
 
 private:
     QString serverIp = "localhost";  // Adresse du serveur audio
 
-    // ZeroMQ
     zmq::context_t context;
-    zmq::socket_t* pushSocket = nullptr;
-    zmq::socket_t* pullSocket = nullptr;
-    QMap<QString, zmq::socket_t*> pushSocketsGroup;
 
+    // Structure pour un groupe audio
+    struct AudioGroupSockets {
+        zmq::socket_t* pushSocket;
+        zmq::socket_t* pullSocket;
+        QTimer* sendTimer;
+        QTimer* receiveTimer;
+    };
+
+    QMap<QString, AudioGroupSockets> audioGroupMap;
 
     // Qt Audio
     QAudioSource* audioSource = nullptr;
@@ -60,9 +70,11 @@ private:
     QAudioDevice inputDeviceInfo;
     QAudioDevice outputDeviceInfo;
 
-    // Qt
+    // Timers généraux (utiles si 1 seul groupe)
     QTimer sendAudioTimer;
     QTimer receiveAudioTimer;
+
+    // Réseau
     QUdpSocket udpSocket;
 
     // Messages d'erreur

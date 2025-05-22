@@ -1,64 +1,69 @@
-#ifndef AUDIOCOMMUNICATOR_H
-#define AUDIOCOMMUNICATOR_H
+#ifndef STUDENT_H
+#define STUDENT_H
 
-#include "zmq/zmq.hpp"
-#include <QtNetwork>
 #include <QObject>
 #include <QAudioInput>
 #include <QAudioOutput>
 #include <QAudioSource>
 #include <QAudioSink>
 #include <QIODevice>
+#include <QUdpSocket>
+#include <QTimer>
+#include <QAudioDevice>
+#include <QMediaDevices>
+#include <QHostAddress>
 #include <QString>
 #include <QDebug>
-#include <QMediaDevices>
-#include <QTimer>
 
+#include <zmq/zmq.hpp>
 
 class Student : public QObject {
     Q_OBJECT
 
 public:
-    Student(int port, QObject *parent = nullptr);
-    void connectToServer();
-    void playFeedback();
+    explicit Student(QObject* parent = nullptr);
 
-private slots:
+    void setIP(const QString& ip);
+    QString getIP() const;
+
+    void setGroupPort(int port);  // Reçoit le port du groupe attribué
+    void startAudio();
+    void stopAudio();
+
+public slots:
+    void handleCommand();  // UDP : mute, unmute, etc.
     void sendAudioData();
     void receiveAudioData();
-    void toggleMute(bool mute);
-    void connectToProfControlChannel();
-    void receiveCommandFromProf();
-    void setupAudioSockets(int port);
 
 private:
-    QAudioSource *audioSource = nullptr;
-    QIODevice *audioSourceDevice = nullptr;
-    QAudioSink *audioSink = nullptr;
-    QIODevice *audioSinkDevice = nullptr;
+    QString studentIp;
+    int portGroupAudio = -1;
 
-    QAudioDevice inputDeviceInfo;
-    QAudioDevice outputDeviceInfo;
-
-    bool isMuted = false;
-    QTimer commandPollingTimer;
-
-    QTimer sendAudioTimer;
-    QTimer receiveAudioTimer;
-
-    QUdpSocket udpSocket;
-    int audioPort;
-    quint16 responsePort = 5564;
-
-    QHostAddress serverAddress = QHostAddress("192.168.64.1");
-    quint16 serverPort = 5555;
-    QString group = "default";
-
+    // ZeroMQ
     zmq::context_t context;
-    zmq::socket_t pushSocket;
-    zmq::socket_t pullSocket;
+    zmq::socket_t* pushSocket = nullptr;
+    zmq::socket_t* pullSocket = nullptr;
+
+    // Audio
+    QAudioSource* audioSource = nullptr;
+    QAudioSink* audioSink = nullptr;
+    QIODevice* audioInput = nullptr;
+    QIODevice* audioOutput = nullptr;
+    QAudioDevice inputDevice;
+    QAudioDevice outputDevice;
+
+    // Réseaux
+    QUdpSocket udpSocket;
+
+    // Timers
+    QTimer sendTimer;
+    QTimer receiveTimer;
+
+    // État
+    bool isMuted = false;
+
+    void setupZMQ();
+    void closeZMQ();
 };
 
-
-
-#endif // AUDIOCOMMUNICATOR_H
+#endif // STUDENT_H
