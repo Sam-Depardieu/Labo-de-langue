@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "audioCommunicator.h"
 #include <QMainWindow>
 #include <QtSql/QSqlDatabase>
 #include <QtSql/QSqlQuery>
@@ -38,6 +39,7 @@ public:
     QString getNomProf() {return nomProf;};
     QString getConsigne() {return consigne;};
     QTime getTime() {return remainingTime;};
+    QString getSessionPATH() {return sessionPATH;};
 
 
     ~MainWindow();
@@ -49,6 +51,7 @@ private slots:
     void keyPressEvent(QKeyEvent *event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
 
+    void askPATH();
     void receiveInter();
     void receivePath();
     void receiveInfo();
@@ -69,14 +72,23 @@ private:
     QString nomEleve = "";
     QString nomProf = "";
     QString consigne = "";
+    QString sessionPATH = "";
+    QMap<int, Student*> students;
 
     QUdpSocket udpSocketInfo;
     quint16 infoPort = 5558;
+
     QUdpSocket udpSocketInter;
     quint16 interPort = 5560;
+
     QUdpSocket *udpSocketRestart;
+
     QUdpSocket *udpSocketNomFichier;
     quint16 portNomFichier = 5561;
+
+    QUdpSocket udpSocketDemande;
+    quint16 portDemande = 5561;
+
     QWidget *currentChild = nullptr;
     QShortcut *shortcutQcm;
     QShortcut *shortcutAudio;

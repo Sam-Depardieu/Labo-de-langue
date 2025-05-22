@@ -42,11 +42,11 @@ InterfaceEnregistrement::InterfaceEnregistrement(MainWindow* parentWindow, QWidg
     captureSession.setRecorder(mediaRecorder);
     connect(mediaRecorder, &QMediaRecorder::recorderStateChanged, this, &InterfaceEnregistrement::onRecorderStateChanged);
     connect(mediaRecorder, &QMediaRecorder::errorOccurred, this, &InterfaceEnregistrement::onRecorderErrorOccurred);
-    udpChrono.bind(QHostAddress::Any, chronoPort);
 
-    // 2) dès qu’on reçoit un datagramme, on va parse mm:ss et fermer
-    connect(&udpChrono, &QUdpSocket::readyRead,
-            this,     &InterfaceEnregistrement::onUdpTimeout);
+    clignotementTimer = new QTimer(this);
+    connect(clignotementTimer, &QTimer::timeout, this, &InterfaceEnregistrement::faireClignoterLabel);
+
+    clignotementEtat = false;
 
     // Affichage des Images
     setButtonIcons();
@@ -56,6 +56,13 @@ InterfaceEnregistrement::InterfaceEnregistrement(MainWindow* parentWindow, QWidg
     speakButtonClicked = false;
     isRecordingPaused = false;
     lastRecordedTime = 0;
+
+    QFile file("feedback.txt");
+    if (file.open(QIODevice::Append | QIODevice::Text)) {
+        QTextStream out(&file);
+        out<<"";
+        file.close();
+    }
 
     // Vérifier si l'utilisateur est un professeur
     if (!Professor) {
@@ -68,16 +75,6 @@ InterfaceEnregistrement::InterfaceEnregistrement(MainWindow* parentWindow, QWidg
     ui->chronoLabel->setVisible(true);
 
     remainingTime = mainWindow->getTime();
-
-    // Initialisation des timers
-    chronoTimer = new QTimer(this);
-    connect(chronoTimer, &QTimer::timeout, this, &InterfaceEnregistrement::updateChronoLabel);
-
-    clignotementTimer = new QTimer(this);
-    connect(clignotementTimer, &QTimer::timeout, this, &InterfaceEnregistrement::faireClignoterLabel);
-
-    clignotementEtat = false;
-
     // Style initial du label
     ui->chronoLabel->setVisible(true);
     ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: white; border: 2px solid white; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
@@ -459,47 +456,6 @@ void InterfaceEnregistrement::onRecorderStateChanged(QMediaRecorder::RecorderSta
 void InterfaceEnregistrement::onRecorderErrorOccurred(QMediaRecorder::Error error, const QString &errorString)
 {
     qDebug() << "Erreur d'enregistrement:" << errorString;
-}
-void InterfaceEnregistrement::showFeedbackDialog()
-{
-    QDialog *dialog = new QDialog(this);
-    dialog->setWindowTitle("Donner votre avis");
-    QLabel *label = new QLabel("Merci de donner votre avis sur cette activité :", dialog);
-    QTextEdit *feedbackEdit = new QTextEdit(dialog);
-    QSpinBox *ratingSpin = new QSpinBox(dialog);
-    ratingSpin->setRange(1, 5);
-    QPushButton *submitBtn = new QPushButton("Envoyer", dialog);
-    QPushButton *cancelBtn = new QPushButton("Annuler", dialog);
-    QVBoxLayout *layout = new QVBoxLayout(dialog);
-    layout->addWidget(label);
-    layout->addWidget(feedbackEdit);
-    layout->addWidget(new QLabel("Notez cette activité (1 à 5) :"));
-    layout->addWidget(ratingSpin);
-    QHBoxLayout *btnLayout = new QHBoxLayout();
-    btnLayout->addWidget(cancelBtn);
-    btnLayout->addWidget(submitBtn);
-    layout->addLayout(btnLayout);
-
-    connect(submitBtn, &QPushButton::clicked, this, [=]() {
-        QString feedback = feedbackEdit->toPlainText();
-        int rating = ratingSpin->value();
-        if (!feedback.isEmpty()) {
-            QFile file("feedback.txt");
-            if (file.open(QIODevice::Append | QIODevice::Text)) {
-                QTextStream out(&file);
-                out << "Feedback: " << feedback << "\n";
-                out << "Note: " << rating << "\n";
-                file.close();
-            }
-            QMessageBox::information(dialog, "Merci", "Votre avis a été enregistré.");
-        } else {
-            QMessageBox::warning(dialog, "Erreur", "Veuillez écrire un commentaire.");
-        }
-        dialog->accept();
-    });
-
-    connect(cancelBtn, &QPushButton::clicked, dialog, &QDialog::reject);
-    dialog->exec();
 }
 
 void InterfaceEnregistrement::receiveResponse() {

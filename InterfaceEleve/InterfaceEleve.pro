@@ -10,8 +10,8 @@ QT += websockets
 
 TEMPLATE = app
 
-#INCLUDEPATH += C:/msys64/mingw64/include
-#LIBS += -L C:/msys64/mingw64/lib -lzmq
+INCLUDEPATH += $$PWD/zmq/include
+LIBS += -L$$PWD/zmq/ -lzmq  # MSVC
 
 #INCLUDEPATH += cppzmq\include
 
@@ -22,6 +22,7 @@ TEMPLATE = app
 SOURCES += \
     attenteprof.cpp \
     audioCommunicator.cpp \
+    avancementqcm.cpp \
     interfaceaudio.cpp \
     interfaceenregistrement.cpp \
     interfaceqcm.cpp \
@@ -32,6 +33,7 @@ SOURCES += \
 HEADERS += \
     attenteprof.h \
     audioCommunicator.h \
+    avancementqcm.h \
     interfaceaudio.h \
     interfaceenregistrement.h \
     interfaceqcm.h \

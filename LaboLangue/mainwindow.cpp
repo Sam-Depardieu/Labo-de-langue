@@ -335,7 +335,7 @@ void MainWindow::resetSession()
     ui->cadenaCloseButton->setVisible(true);
     ui->cadenaOpenButton->setVisible(false);
     ui->chronoLabel->setVisible(false);
-    ui->SourceLabel->clear();
+    ui->envoyerMessageTextEdit->clear();
 
     // === Réinitialisation des boutons ===
     editStatusButton(ui->PlanButton, false);
@@ -1048,9 +1048,9 @@ void MainWindow::continuerCreationSession()
             activite[5] = "video_co";
             activite[6] = "enregistrement";
 
-            prof->sendCommandToStudent(eleve->getIP(), 5561, sessionFolder);
+            if(duree != nullptr || duree != "00:00") prof->sendCommandToStudent(eleve->getIP(), 5558, QString("chrono,%1").arg(duree));
+            prof->sendCommandToStudent(eleve->getIP(), 5561, QString(sessionFolder));
             prof->sendCommandToStudent(eleve->getIP(), 5560, activite[idTypeActivite]);
-            prof->sendCommandToStudent(eleve->getIP(), 5558, "{chrono, "+duree+"}");
         }
     }
 
@@ -1089,7 +1089,9 @@ void MainWindow::continuerCreationSession()
                                   "❌ Aucun fichier n'a été enregistré\n"
                                   "Veuillez le mettre manuellement dans " + destPath + ".");
         }
+
     }
+    QFile(sessionSave).close();
 
     remainingTime = ui->DureeActivite->time();
 
@@ -1535,6 +1537,17 @@ void MainWindow::onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve)
                 (rect.height() - membre->getgroupColor()->rect().height()) / 2  // centré verticalement
                 );
         }
+
+        if (!portsAudioGroupes.contains(groupe)) {
+            portsAudioGroupes[groupe] = prochainPortAudioDisponible++;
+        }
+
+        int portAudio = portsAudioGroupes[groupe];
+        QString commande = "portGroup," + QString::number(portAudio);
+
+        if (prof) {
+            prof->sendCommandToStudent(membre->getIP(), 5558, commande);
+        }
     }
 
     loadInformationTable(); // Rafraîchir l'interface
@@ -1642,3 +1655,12 @@ QColor MainWindow::couleurDisponible() {
     // Si toutes sont prises, reprendre aléatoirement dans la liste
     return toutes.isEmpty() ? QColor::fromHsv(rand() % 360, 255, 200) : toutes.first();
 }
+
+void MainWindow::on_reloadButton_clicked()
+{
+    if (scene) {
+        scene->clear();
+        loadImagesFromDB();  // Recharge les images depuis la base (avatars, etc.)
+    }
+}
+

@@ -87,6 +87,7 @@ public:
     QPushButton *cadenaOpenButton;
     QPushButton *cadenaCloseButton;
     QLabel *chronoLabel;
+    QPushButton *reloadButton;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -414,6 +415,10 @@ public:
 "    qproperty-alignment: 'AlignCenter';\n"
 "}\n"
 ""));
+        reloadButton = new QPushButton(centralwidget);
+        reloadButton->setObjectName("reloadButton");
+        reloadButton->setGeometry(QRect(610, 110, 20, 20));
+        reloadButton->setStyleSheet(QString::fromUtf8("background-color: transparent; border: none;"));
         MainWindow->setCentralWidget(centralwidget);
         nomGroupeLineEdit->raise();
         nomCreationGroupeLabel->raise();
@@ -473,6 +478,7 @@ public:
         cadenaOpenButton->raise();
         cadenaCloseButton->raise();
         chronoLabel->raise();
+        reloadButton->raise();
 
         retranslateUi(MainWindow);
 
@@ -535,6 +541,7 @@ public:
         cadenaOpenButton->setText(QString());
         cadenaCloseButton->setText(QString());
         chronoLabel->setText(QCoreApplication::translate("MainWindow", "00:00", nullptr));
+        reloadButton->setText(QString());
     } // retranslateUi
 
 };

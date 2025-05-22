@@ -1040,6 +1040,22 @@ border:none;
      <string>00:00</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="reloadButton">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>110</y>
+      <width>20</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: transparent; border: none;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
    <zorder>nomGroupeLineEdit</zorder>
    <zorder>nomCreationGroupeLabel</zorder>
    <zorder>alignerTableau_2</zorder>
@@ -1098,6 +1114,7 @@ border:none;
    <zorder>cadenaOpenButton</zorder>
    <zorder>cadenaCloseButton</zorder>
    <zorder>chronoLabel</zorder>
+   <zorder>reloadButton</zorder>
   </widget>
  </widget>
  <resources/>

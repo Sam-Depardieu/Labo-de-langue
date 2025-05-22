@@ -35,10 +35,7 @@ private slots:
     void on_pushButton_Apres_clicked();
     void on_horizontalSlider_sliderReleased();
     void animateButtonClick(QPushButton* btn);
-
     void on_pushButtonReset_clicked();
-
-    void receiveChrono();
     void on_pushButton_Son_clicked();
     void updateChronoLabel();
     void faireClignoterLabel();

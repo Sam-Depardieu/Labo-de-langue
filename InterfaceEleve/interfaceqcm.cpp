@@ -1,52 +1,36 @@
 #include "interfaceqcm.h"
 #include "mainwindow.h"
+#include "avancementqcm.h"
+#include <QStandardItemModel>
+
+
 #include "ui_interfaceqcm.h"
 
-InterfaceQCM::InterfaceQCM(MainWindow *parentWindow,const QString &filePath,QWidget *parent)
+InterfaceQCM::InterfaceQCM(MainWindow *parentWindow ,QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::InterfaceQCM)
     , mainWindow(parentWindow)
-    , isButton1Image(true)
-    , isButton2Image(true)
-    , isButton3Image(true)
-    , isButton4Image(true)
     , isButtonAppelProfImage(true)
 {
     ui->setupUi(this);
     setFixedSize(800, 480);
     setWindowTitle("Page de QCM");
 
+    sessionPATH = mainWindow->getSessionPATH();
+
     setButtonIcons();
-    //Consigne
-    if (!udpSocketConsigne.bind(QHostAddress::Any, consignePort)) {
-        qWarning() << "❌ Impossible de binder le port UDP pour la consigne.";
-    }
-    connect(&udpSocketConsigne, &QUdpSocket::readyRead, this, &InterfaceQCM::receiveResponse);
-    //Chrono
-    if (!udpChrono.bind(QHostAddress::Any, chronoPort)) {
-        qWarning() << "❌ Impossible de binder le port UDP pour le chrono.";
-    }
-    //Recup Fichier
-    // Socket pour recevoir un chemin de fichier
-    /*if (!udpSocketNomFichier.bind(QHostAddress::Any, portNomFichier)) {
-        qWarning() << "❌ Impossible de binder le port UDP pour le fichier JSON.";
-    }
-    connect(&udpSocketNomFichier, &QUdpSocket::readyRead, this, &InterfaceQCM::onUdpNomFichierRecu);*/
-
-
 
     if (!Professor) {
         ui->textEditFeedBack->setReadOnly(true);
         ui->textEditFeedBack->setPlaceholderText("Accès réservé aux professeurs");
         ui->textEditConsigne->setReadOnly(true);
-        ui->textEditAffichageQuestion->setReadOnly(true);
     }
 
-    if (!QFile::exists(filePath)) {
-        qWarning() << "❌ Fichier non trouvé :" << filePath;
+    if (!QFile::exists(sessionPATH)) {
+        qWarning() << "❌ Fichier non trouvé :" << sessionPATH;
     }
 
-    loadQuestionsJson(filePath);
+    loadQuestionsJson(sessionPATH);
     currentQuestionIndex = 0;
     showCurrentQuestion();
     ui->chronoLabel->setVisible(true);
@@ -73,6 +57,19 @@ InterfaceQCM::InterfaceQCM(MainWindow *parentWindow,const QString &filePath,QWid
     } else {
         ui->chronoLabel->setText("00:00");
     }
+
+    auto *model = new QStandardItemModel(this);
+
+    for (int i = 0; i < questionArray.size(); ++i) {
+        QStandardItem *item = new QStandardItem();
+        item->setData(QColor(Qt::gray), Qt::UserRole + 1);  // statut initial
+        model->appendRow(item);
+    }
+
+    ui->listViewAvancement->setModel(model);
+    ui->listViewAvancement->setItemDelegate(new AvancementQCM(this));
+    ui->listViewAvancement->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
 }
 
 void InterfaceQCM::faireClignoterLabel()
@@ -109,32 +106,12 @@ InterfaceQCM::~InterfaceQCM()
     delete ui;
 }
 
-void InterfaceQCM::onUdpNomFichierRecu()
+void InterfaceQCM::loadQuestionsJson(QString &filePath)
 {
-    while (udpSocketNomFichier.hasPendingDatagrams()) {
-        QByteArray datagram;
-        datagram.resize(udpSocketNomFichier.pendingDatagramSize());
-        udpSocketNomFichier.readDatagram(datagram.data(), datagram.size());
-
-        fichierRecu = QString::fromUtf8(datagram).trimmed();
-        qDebug() << "📁 Chemin de fichier JSON reçu par UDP :" << fichierRecu;
-
-        // Charger les questions si le fichier est bien reçu
-        if (QFile::exists(fichierRecu)) {
-            loadQuestionsJson(fichierRecu);
-            currentQuestionIndex = 0;
-            showCurrentQuestion();
-        } else {
-            qWarning() << "❌ Fichier JSON non trouvé :" << fichierRecu;
-        }
-    }
-}
-
-
-void InterfaceQCM::loadQuestionsJson(const QString &filePath)
-{
-    QFile file(filePath);
-    qDebug() << "📂 Ouverture du fichier JSON :" << filePath;
+    //QFile file("//CIEL-T171-05/Activites/erytz_2025-05-20_17-37");
+    QString chemin = R"(//CIEL-T171-05/Activites/erytz_2025-05-20_17-37/questions.qcmlabo)";
+    QFile file(chemin.arg(filePath));
+    qDebug() << "📂 Ouverture du fichier JSON :" << file.fileName();
 
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qWarning() << "❌ Échec d'ouverture : " << file.errorString();
@@ -163,6 +140,8 @@ void InterfaceQCM::loadQuestionsJson(const QString &filePath)
     } else {
         qWarning() << "❌ Clé 'questions' manquante ou invalide.";
     }
+
+    ui->pushButtonQuestionPrecedente->setEnabled(false);
 }
 
 void InterfaceQCM::showCurrentQuestion()
@@ -212,28 +191,51 @@ void InterfaceQCM::setButtonIcons()
     setIcon(ui->pushButtonAppelProf, ":/images/CallProf");
 }
 
+void InterfaceQCM::onAnswerClicked(QPushButton *bouton, bool status)
+{
+    QString color;
+
+    // Trouver la couleur en fonction du bouton
+    if (bouton == ui->pushButton1) {
+        color = "blue";
+        isButton1Image = !status;
+    }
+    else if (bouton == ui->pushButton2) {
+        color = "green";
+        isButton2Image = !status;
+    }
+    else if (bouton == ui->pushButton3) {
+        color = "red";
+        isButton3Image = !status;
+    }
+    else if (bouton == ui->pushButton4) {
+        color = "orange";
+        isButton4Image = !status;
+    }
+
+    if(status) bouton->setStyleSheet("background-color:" + color + "; border:3px solid white; border-radius:20px;");
+    else bouton->setStyleSheet("background-color:" + color + "; border-radius:20px;");
+}
+
+
 void InterfaceQCM::on_pushButton1_clicked()
 {
-    ui->pushButton1->setStyleSheet("background-color:blue; border:3px solid white; border-radius:20px;");
-    isButton1Image = false;
+    onAnswerClicked(ui->pushButton1, isButton1Image);
 }
 
 void InterfaceQCM::on_pushButton2_clicked()
 {
-    ui->pushButton2->setStyleSheet("background-color:green; border:3px solid white; border-radius:20px;");
-    isButton2Image = false;
+    onAnswerClicked(ui->pushButton2, isButton2Image);
 }
 
 void InterfaceQCM::on_pushButton3_clicked()
 {
-    ui->pushButton3->setStyleSheet("background-color:red; border:3px solid white; border-radius:20px;");
-    isButton3Image = false;
+    onAnswerClicked(ui->pushButton3, isButton3Image);
 }
 
 void InterfaceQCM::on_pushButton4_clicked()
 {
-    ui->pushButton4->setStyleSheet("background-color:orange; border:3px solid white; border-radius:20px;");
-    isButton4Image = false;
+    onAnswerClicked(ui->pushButton4, isButton4Image);
 }
 
 void InterfaceQCM::on_pushButtonEffacerReponse_clicked()
@@ -243,10 +245,10 @@ void InterfaceQCM::on_pushButtonEffacerReponse_clicked()
     ui->pushButton3->setStyleSheet("background-color:red; border-radius:20px;");
     ui->pushButton4->setStyleSheet("background-color:orange; border-radius:20px;");
 
-    isButton1Image = true;
-    isButton2Image = true;
-    isButton3Image = true;
-    isButton4Image = true;
+    isButton1Image = false;
+    isButton2Image = false;
+    isButton3Image = false;
+    isButton4Image = false;
 }
 
 void InterfaceQCM::receiveResponse()
@@ -264,10 +266,14 @@ void InterfaceQCM::receiveResponse()
 
 void InterfaceQCM::on_pushButtonQuestionSuivante_clicked()
 {
+    ui->pushButtonQuestionPrecedente->setEnabled(true);
     if (currentQuestionIndex < questionArray.size() - 1) {
         currentQuestionIndex++;
         showCurrentQuestion();
     }
+
+    if(currentQuestionIndex == questionArray.size() -1)
+        ui->pushButtonQuestionSuivante->setEnabled(false);
 }
 
 void InterfaceQCM::on_pushButtonQuestionPrecedente_clicked()
@@ -276,6 +282,11 @@ void InterfaceQCM::on_pushButtonQuestionPrecedente_clicked()
         currentQuestionIndex--;
         showCurrentQuestion();
     }
+    if(currentQuestionIndex != questionArray.size() -1)
+        ui->pushButtonQuestionSuivante->setEnabled(true);
+
+    if(currentQuestionIndex == 0)
+        ui->pushButtonQuestionPrecedente->setEnabled(false);
 }
 
 void InterfaceQCM::on_pushButtonSoumettre_clicked()

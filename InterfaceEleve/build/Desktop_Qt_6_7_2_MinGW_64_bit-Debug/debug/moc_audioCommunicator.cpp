@@ -7,8 +7,6 @@
 *****************************************************************************/
 
 #include "../../../audioCommunicator.h"
-#include <QtNetwork/QSslPreSharedKeyAuthenticator>
-#include <QtNetwork/QSslError>
 #include <QtCore/qmetatype.h>
 
 #include <QtCore/qtmochelpers.h>
@@ -38,12 +36,10 @@ namespace {
 struct qt_meta_stringdata_CLASSStudentENDCLASS_t {};
 constexpr auto qt_meta_stringdata_CLASSStudentENDCLASS = QtMocHelpers::stringData(
     "Student",
-    "sendAudioData",
+    "handleCommand",
     "",
-    "receiveAudioData",
-    "playFeedback",
-    "receiveResponse",
-    "checkForDatagrams"
+    "sendAudioData",
+    "receiveAudioData"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
 #error "qtmochelpers.h not found or too old."
@@ -56,7 +52,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSStudentENDCLASS[] = {
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-       5,   14, // methods
+       3,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -64,15 +60,11 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSStudentENDCLASS[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    0,   44,    2, 0x0a,    1 /* Public */,
-       3,    0,   45,    2, 0x0a,    2 /* Public */,
-       4,    0,   46,    2, 0x0a,    3 /* Public */,
-       5,    0,   47,    2, 0x0a,    4 /* Public */,
-       6,    0,   48,    2, 0x0a,    5 /* Public */,
+       1,    0,   32,    2, 0x0a,    1 /* Public */,
+       3,    0,   33,    2, 0x0a,    2 /* Public */,
+       4,    0,   34,    2, 0x0a,    3 /* Public */,
 
  // slots: parameters
-    QMetaType::Void,
-    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -89,15 +81,11 @@ Q_CONSTINIT const QMetaObject Student::staticMetaObject = { {
     qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSStudentENDCLASS_t,
         // Q_OBJECT / Q_GADGET
         QtPrivate::TypeAndForceComplete<Student, std::true_type>,
+        // method 'handleCommand'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'sendAudioData'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'receiveAudioData'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'playFeedback'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'receiveResponse'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'checkForDatagrams'
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
@@ -109,11 +97,9 @@ void Student::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
         auto *_t = static_cast<Student *>(_o);
         (void)_t;
         switch (_id) {
-        case 0: _t->sendAudioData(); break;
-        case 1: _t->receiveAudioData(); break;
-        case 2: _t->playFeedback(); break;
-        case 3: _t->receiveResponse(); break;
-        case 4: _t->checkForDatagrams(); break;
+        case 0: _t->handleCommand(); break;
+        case 1: _t->sendAudioData(); break;
+        case 2: _t->receiveAudioData(); break;
         default: ;
         }
     }
@@ -139,13 +125,13 @@ int Student::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 5)
+        if (_id < 3)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 5;
+        _id -= 3;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 5)
+        if (_id < 3)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 5;
+        _id -= 3;
     }
     return _id;
 }

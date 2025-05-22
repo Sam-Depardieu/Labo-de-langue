@@ -124,6 +124,8 @@ private slots:
     QColor couleurDisponible() ;
 
 
+    void on_reloadButton_clicked();
+
 private:
     // === Interface graphique ===
     QGraphicsScene *scene = nullptr;
@@ -139,7 +141,7 @@ private:
     int idProf = -1;
     int idClasse = -1;
     int idTypeActivite = -1;
-    QString duree;
+    QString duree = "00:00";
     QString nomTypeActivite;
 
     // === Audio & Réseau ===
@@ -147,6 +149,10 @@ private:
     unsigned int portPATH = 5559;
     QUdpSocket* udpSocketQCM = nullptr;
     unsigned int portQCM = 5559;
+    QMap<QString, int> portsAudioGroupes; // Groupe → port (ex: "Groupe A" → 6000)
+    int prochainPortAudioDisponible = 6000;
+    QMap<QString, zmq::socket_t*> pushSocketsGroup;
+
 
     // === Divers ===
     Professor *prof = nullptr;

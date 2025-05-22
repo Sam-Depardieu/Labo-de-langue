@@ -3,6 +3,7 @@
 #include "interfaceenregistrement.h"
 #include "interfaceqcm.h"
 #include "interfacevideo.h"
+#include "audioCommunicator.h"
 #include "ui_mainwindow.h"
 #include "attenteprof.h"
 #include <QKeyEvent>
@@ -53,7 +54,9 @@ MainWindow::MainWindow(QWidget *parent)
     this->setWindowTitle("Page de Connexion");
     connectToDatabase();
 
-    udpSocketInter.bind(QHostAddress::Any, interPort);
+    // DEBUG socket bind + connect
+    bool ok = udpSocketInter.bind(QHostAddress::AnyIPv4, 5560); // QHostAddress::AnyIPv4 = 0.0.0.0
+    qDebug() << "📡 BIND udpSocketInter ok ? " << ok;
     connect(&udpSocketInter, &QUdpSocket::readyRead, this, &MainWindow::receiveInter);
 
     udpSocketInfo.bind(QHostAddress::Any, infoPort);
@@ -82,7 +85,7 @@ bool MainWindow::connectToDatabase() {
         return true; // La connexion existe déjà
     }
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("192.168.89.42");
+    db.setHostName("192.168.64.1");
     db.setDatabaseName("LaboLangue");
     db.setUserName("prof");
     db.setPassword("okokok");
@@ -321,6 +324,11 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
 
 }
 
+void MainWindow::askPATH()
+{
+
+}
+
 void MainWindow::receiveInfo() {
     while (udpSocketInfo.hasPendingDatagrams()) {
         QByteArray datagram;
@@ -332,7 +340,7 @@ void MainWindow::receiveInfo() {
         udpSocketInfo.readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
 
         QString response = QString::fromUtf8(datagram).trimmed();
-        qDebug() << "📢 Réponse reçue de" << sender.toString() << ":" << response;
+        qDebug() << "📢 I reçue de" << sender.toString() << ":" << response;
 
         if (!response.isEmpty()) {
             // Vérifie que le message contient bien ':'
@@ -356,7 +364,27 @@ void MainWindow::receiveInfo() {
                     } else if (key =="consigne"){
                         consigne =value;
                         qDebug() <<"Consigne: " << consigne;
-                    } else {
+                    }else if (key == "portGroup") {
+                        qDebug() << "🎧 Port audio de groupe reçu: " << value;
+                        int port = value.toInt();
+
+                        if (!students.contains(port)) {
+                            Student* student = new Student(this);
+                            student->setPortGroupAudio(port);         // Assigne le port reçu
+                            student->initializeAudioCommunication();  // Initialise la socket pull
+
+                            students.insert(port, student);
+
+                            qDebug() << "✅ Nouveau Student créé et connecté au port de groupe : " << port;
+                        } else {
+                            Student* existingStudent = students.value(port);
+                            existingStudent->setPortGroupAudio(port);
+                            existingStudent->initializeAudioCommunication();  // Re-initialise au cas où
+
+                            qDebug() << "♻️ Student déjà existant mis à jour pour le port : " << port;
+                        }
+                    }
+                    else {
                         qWarning() << "🔍 Clé non reconnue :" << key;
                     }
                 }
@@ -385,14 +413,17 @@ void MainWindow::receivePath(){
 
         if (currentChild) {
             currentChild->close();
+            delete currentChild;
             currentChild = nullptr;
         }
 
-        //currentChild = new InterfaceQCM(this, cheminFichier);
+        sessionPATH = cheminFichier;
+        /*currentChild = new InterfaceQCM(this, cheminFichier);
         currentChild->setAttribute(Qt::WA_DeleteOnClose);
-        currentChild->show();
+        currentChild->show();*/
     }
 }
+
 void MainWindow::receiveInter(){
     while (udpSocketInter.hasPendingDatagrams()) {
         QByteArray datagram;

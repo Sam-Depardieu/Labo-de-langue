@@ -127,7 +127,6 @@ private:
 
     // Fonctions internes
     void setupVolumeMenu();
-    void showFeedbackDialog();
     void setButtonIcons();
     void setButtonIcon(QPushButton *button, const QString &imagePath);
     QUdpSocket udpChrono;
