@@ -43,6 +43,15 @@ InterfaceEnregistrement::InterfaceEnregistrement(MainWindow* parentWindow, QWidg
     connect(mediaRecorder, &QMediaRecorder::recorderStateChanged, this, &InterfaceEnregistrement::onRecorderStateChanged);
     connect(mediaRecorder, &QMediaRecorder::errorOccurred, this, &InterfaceEnregistrement::onRecorderErrorOccurred);
     udpChrono.bind(QHostAddress::Any, chronoPort);
+    // Initialisation des timers
+    chronoTimer = new QTimer(this);
+    connect(chronoTimer, &QTimer::timeout, this, &InterfaceEnregistrement::updateChronoLabel);
+
+    clignotementTimer = new QTimer(this);
+    connect(clignotementTimer, &QTimer::timeout, this, &InterfaceEnregistrement::faireClignoterLabel);
+
+    clignotementEtat = false;
+
 
     // 2) dès qu’on reçoit un datagramme, on va parse mm:ss et fermer
     connect(&udpChrono, &QUdpSocket::readyRead,
@@ -74,16 +83,6 @@ InterfaceEnregistrement::InterfaceEnregistrement(MainWindow* parentWindow, QWidg
     ui->chronoLabel->setVisible(true);
 
     remainingTime = mainWindow->getTime();
-
-    // Initialisation des timers
-    chronoTimer = new QTimer(this);
-    connect(chronoTimer, &QTimer::timeout, this, &InterfaceEnregistrement::updateChronoLabel);
-
-    clignotementTimer = new QTimer(this);
-    connect(clignotementTimer, &QTimer::timeout, this, &InterfaceEnregistrement::faireClignoterLabel);
-
-    clignotementEtat = false;
-
     // Style initial du label
     ui->chronoLabel->setVisible(true);
     ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: white; border: 2px solid white; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");

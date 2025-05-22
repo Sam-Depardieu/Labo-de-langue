@@ -3822,9 +3822,13 @@ debug/interfaceqcm.o: ../../interfaceqcm.cpp ../../interfaceqcm.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QLabel \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlabel.h \
 		C:/Qt/6.7.2/mingw_64/include/QtGui/qpicture.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QListView \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlistview.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qabstractitemview.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qabstractscrollarea.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/qitemselectionmodel.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QTextEdit \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qtextedit.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qabstractscrollarea.h
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qtextedit.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\interfaceqcm.o ..\..\interfaceqcm.cpp
 
 debug/interfacevideo.o: ../../interfacevideo.cpp ../../interfacevideo.h \

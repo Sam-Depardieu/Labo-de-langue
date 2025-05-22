@@ -8,7 +8,7 @@
 #include <QAudioSink>
 #include <QMessageBox>
 
-Student::Student(QObject *parent) : QObject(parent) {
+Student::Student(int port, QObject *parent ) : QObject(parent), audioPort(port) {
     // Initialisation du socket UDP pour recevoir les réponses
     udpSocket.bind(QHostAddress::Any, responsePort);
     connect(&udpSocket, &QUdpSocket::readyRead, this, &Student::receiveResponse);
