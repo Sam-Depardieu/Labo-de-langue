@@ -368,7 +368,14 @@ void MainWindow::receiveInfo() {
                         qDebug() << "value : " << value;
                         int port = value.toInt();
                         qDebug() << "port : " << port;
-                        Student student(port);
+
+                        if (!students.contains(port)) {
+                            Student* student = new Student(port, this);  // `this` = parent = MainWindow
+                            students.insert(port, student);
+                            qDebug() << "✅ Student initialisé sur le port " << port;
+                        } else {
+                            qDebug() << "⚠️ Student déjà existant sur ce port : " << port;
+                        }
 
                     } else {
                         qWarning() << "🔍 Clé non reconnue :" << key;

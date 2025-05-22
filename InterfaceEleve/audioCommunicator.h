@@ -37,8 +37,8 @@ private:
     void connectToServer();
     QUdpSocket udpSocket;
     quint16 audioPort;
-    quint16 serverPort = 12345;
-    QHostAddress serverAddress = QHostAddress("192.168.64.19"); // L'adresse IP du serveur
+    quint16 serverPort = 12346;
+    QHostAddress serverAddress = QHostAddress("192.168.64.1"); // L'adresse IP du serveur
     QAudioSource *audioSource;  // Source audio pour capter l'audio du professeur
     QAudioSink *audioSink;  // Sortie audio pour jouer l'audio des étudiants
     QIODevice *audioSourceDevice;  // Dispositif pour lire les données audio du professeur
