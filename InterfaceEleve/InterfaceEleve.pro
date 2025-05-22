@@ -10,8 +10,8 @@ QT += websockets
 
 TEMPLATE = app
 
-#INCLUDEPATH += C:/msys64/mingw64/include
-#LIBS += -L C:/msys64/mingw64/lib -lzmq
+INCLUDEPATH += $$PWD/zmq/include
+LIBS += -L$$PWD/zmq/ -lzmq  # MSVC
 
 #INCLUDEPATH += cppzmq\include
 

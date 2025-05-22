@@ -10,8 +10,6 @@ int main(int argc, char *argv[])
     qApp->setStyleSheet("QPushButton { background-color: transparent; border: none; }");
 
 
-    Student profAudio;
-
     // Utiliser un timer pour envoyer et recevoir l'audio
     /*
     QTimer timer;
