@@ -1537,6 +1537,17 @@ void MainWindow::onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve)
                 (rect.height() - membre->getgroupColor()->rect().height()) / 2  // centré verticalement
                 );
         }
+
+        int portAudio = portsAudioGroupes[groupe];
+        QString commande = "portGroup," + QString::number(portAudio);
+
+        if (prof) {
+            prof->sendCommandToStudent(membre->getIP(), 5557, commande);
+        }
+
+        if (!portsAudioGroupes.contains(groupe)) {
+            portsAudioGroupes[groupe] = prochainPortAudioDisponible++;
+        }
     }
 
     loadInformationTable(); // Rafraîchir l'interface

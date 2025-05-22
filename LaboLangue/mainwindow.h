@@ -147,6 +147,10 @@ private:
     unsigned int portPATH = 5559;
     QUdpSocket* udpSocketQCM = nullptr;
     unsigned int portQCM = 5559;
+    QMap<QString, int> portsAudioGroupes; // Groupe → port (ex: "Groupe A" → 6000)
+    int prochainPortAudioDisponible = 6000;
+    QMap<QString, zmq::socket_t*> pushSocketsGroup;
+
 
     // === Divers ===
     Professor *prof = nullptr;

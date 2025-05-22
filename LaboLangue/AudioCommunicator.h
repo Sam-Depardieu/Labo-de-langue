@@ -49,6 +49,8 @@ private:
     zmq::context_t context;
     zmq::socket_t* pushSocket = nullptr;
     zmq::socket_t* pullSocket = nullptr;
+    QMap<QString, zmq::socket_t*> pushSocketsGroup;
+
 
     // Qt Audio
     QAudioSource* audioSource = nullptr;
