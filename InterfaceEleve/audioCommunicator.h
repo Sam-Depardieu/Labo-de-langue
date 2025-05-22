@@ -48,7 +48,7 @@ private:
 
     QUdpSocket udpSocket;
     int audioPort;
-    quint16 responsePort = 5557;
+    quint16 responsePort = 5564;
 
     QHostAddress serverAddress = QHostAddress("192.168.64.1");
     quint16 serverPort = 5555;

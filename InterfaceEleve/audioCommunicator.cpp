@@ -43,6 +43,7 @@ Student::Student(int port, QObject *parent)
                               "❌ Aucun haut-parleur détecté.\nConnectez un haut-parleur et redémarrez l'application.");
         return;
     }
+    setupAudioSockets(port);
 
     // 3. Timers pour envoi et réception audio
     connect(&sendAudioTimer, &QTimer::timeout, this, &Student::sendAudioData);
@@ -52,8 +53,8 @@ Student::Student(int port, QObject *parent)
     connectToProfControlChannel();
 
     // 5. Timer pour écouter les commandes UDP
-    connect(&commandPollingTimer, &QTimer::timeout, this, &Student::receiveCommandFromProf);
-    commandPollingTimer.start(100); // écoute toutes les 100 ms
+    udpSocket.bind(QHostAddress::Any, responsePort);
+    connect(&udpSocket, &QUdpSocket::readyRead, this, &::Student::receiveCommandFromProf);
 }
 
 void Student::toggleMute(bool mute) {
