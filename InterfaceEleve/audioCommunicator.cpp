@@ -78,6 +78,8 @@ void Student::toggleMute(bool mute) {
 
 // Envoi audio via ZeroMQ
 void Student::sendAudioData() {
+    qDebug() << "[DEBUG] sendAudioData appelé.";
+
     if (!audioSourceDevice) return;
     QByteArray data = audioSourceDevice->readAll();
     if (data.isEmpty()) return;
@@ -117,6 +119,8 @@ void Student::connectToProfControlChannel()
 
 void Student::setupAudioSockets(int port)
 {
+    qDebug() << "[DEBUG] setupAudioSockets appelé avec port:" << port;
+
     try {
         // Ferme les anciens sockets si redéfini
         pushSocket.close();

@@ -46,7 +46,7 @@ Professor::Professor(MainWindow *parentWindow) : context(1), mainWindow(parentWi
     // Initialisation des sockets ZeroMQ pour l'envoi et la réception d'audio
     try {
         pushSocket = new zmq::socket_t(context, ZMQ_PUSH);
-        pushSocket->connect("tcp://localhost:5555");
+        pushSocket->bind("tcp://*:5555");  // <-- bind ici
 
         pullSocket = new zmq::socket_t(context, ZMQ_PULL);
         pullSocket->bind("tcp://*:5556");
