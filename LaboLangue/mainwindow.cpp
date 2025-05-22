@@ -336,6 +336,7 @@ void MainWindow::resetSession()
     ui->cadenaOpenButton->setVisible(false);
     ui->chronoLabel->setVisible(false);
     ui->envoyerMessageTextEdit->clear();
+    ui->TableauGroupe->setVisible(false);
 
     // === Réinitialisation des boutons ===
     editStatusButton(ui->PlanButton, false);
@@ -773,10 +774,13 @@ void MainWindow::afficherEtatEleves()
         bool microActif = eleve->getStatusMicro();   // Tu dois avoir ces méthodes dans iconEleveGroup
         bool casqueActif = eleve->getStatusCasque();
 
-        eleve->getMicroActiver()->setVisible(microActif);
-        eleve->getMicroDesactiver()->setVisible(!microActif);
-        eleve->getCasqueActiver()->setVisible(casqueActif);
-        eleve->getCasqueDesactiver()->setVisible(!casqueActif);
+        if(runningSession)
+        {
+            eleve->getMicroActiver()->setVisible(microActif);
+            eleve->getMicroDesactiver()->setVisible(!microActif);
+            eleve->getCasqueActiver()->setVisible(casqueActif);
+            eleve->getCasqueDesactiver()->setVisible(!casqueActif);
+        }
     }
 }
 
