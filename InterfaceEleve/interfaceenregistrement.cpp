@@ -61,6 +61,7 @@ InterfaceEnregistrement::InterfaceEnregistrement(MainWindow* parentWindow, QWidg
     if (!Professor) {
         ui->textEditFeedBack->setReadOnly(true); // Bloquer l'accès en écriture
         ui->textEditFeedBack->setPlaceholderText("Accès réservé aux professeurs"); // Message d'information
+        ui->textEditConsigne->setReadOnly(true); // Bloquer l'accès en écriture
     }
 
     ui->textEditConsigne->setText(mainWindow->getConsigne());
