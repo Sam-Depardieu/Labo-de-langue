@@ -42,20 +42,11 @@ InterfaceEnregistrement::InterfaceEnregistrement(MainWindow* parentWindow, QWidg
     captureSession.setRecorder(mediaRecorder);
     connect(mediaRecorder, &QMediaRecorder::recorderStateChanged, this, &InterfaceEnregistrement::onRecorderStateChanged);
     connect(mediaRecorder, &QMediaRecorder::errorOccurred, this, &InterfaceEnregistrement::onRecorderErrorOccurred);
-    udpChrono.bind(QHostAddress::Any, chronoPort);
-    // Initialisation des timers
-    chronoTimer = new QTimer(this);
-    connect(chronoTimer, &QTimer::timeout, this, &InterfaceEnregistrement::updateChronoLabel);
 
     clignotementTimer = new QTimer(this);
     connect(clignotementTimer, &QTimer::timeout, this, &InterfaceEnregistrement::faireClignoterLabel);
 
     clignotementEtat = false;
-
-
-    // 2) dès qu’on reçoit un datagramme, on va parse mm:ss et fermer
-    connect(&udpChrono, &QUdpSocket::readyRead,
-            this,     &InterfaceEnregistrement::onUdpTimeout);
 
     // Affichage des Images
     setButtonIcons();

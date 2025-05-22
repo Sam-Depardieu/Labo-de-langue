@@ -28,23 +28,6 @@ InterfaceAudio::InterfaceAudio(bool co,MainWindow* parentWindow, QWidget *parent
         ui->horizontalSlider->setValue(static_cast<int>(position));
     });
 
-    {
-        // bind() sur l'instance udpChrono, pas sur QAbstractSocket::UdpSocket !
-        if (!udpChrono.bind(
-                QHostAddress::AnyIPv4,      // écoute sur toutes les interfaces IPv4
-                5558,
-                QUdpSocket::ShareAddress |
-                    QUdpSocket::ReuseAddressHint
-                ))
-        {
-            qCritical() << "Impossible de binder UDP sur le port 5558 :"
-                        << udpChrono.errorString();
-        }
-        else {
-            connect(&udpChrono, &QUdpSocket::readyRead,
-                    this,      &InterfaceAudio::receiveChrono);
-        }
-    }
     ui->pushButton_Pause->setVisible(true);
     ui->pushButton_Play->setVisible(false);
     setFixedSize(800,480);
@@ -277,60 +260,6 @@ void InterfaceAudio::on_pushButtonReset_clicked()
                                  .arg(resetCount)
                                  .arg(maxResets));
 }
-void InterfaceAudio::receiveChrono()
-{
-    while (udpChrono.hasPendingDatagrams()) {
-        QByteArray datagram;
-        datagram.resize(int(udpChrono.pendingDatagramSize()));
-
-        QHostAddress sender;
-        quint16 senderPort;
-        udpChrono.readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
-        qDebug() << "📢 Chrono reçu de" << sender.toString() << ":" << datagram;
-
-        // 1) Parse JSON
-        QJsonParseError err;
-        QJsonDocument doc = QJsonDocument::fromJson(datagram, &err);
-        if (err.error != QJsonParseError::NoError || !doc.isObject()) {
-            qWarning() << "⛔ JSON invalide pour chrono:" << err.errorString();
-            continue;
-        }
-
-        QJsonObject obj = doc.object();
-        if (!obj.contains("chrono") || !obj.value("chrono").isString()) {
-            qWarning() << "⛔ Aucun champ \"chrono\" ou type incorrect";
-            continue;
-        }
-
-        QString chronoStr = obj.value("chrono").toString();   // ex: "05:30"
-        QStringList parts = chronoStr.split(':');
-        if (parts.size() != 2) {
-            qWarning() << "⛔ Format chrono inattendu (MM:SS)";
-            continue;
-        }
-
-        bool okMin, okSec;
-        int minutes = parts[0].toInt(&okMin);
-        int seconds = parts[1].toInt(&okSec);
-        if (!okMin || !okSec) {
-            qWarning() << "⛔ Impossible de convertir minutes/secondes";
-            continue;
-        }
-
-        int totalMs = (minutes * 60 + seconds) * 1000;
-        qDebug() << "⏳ Démarrage du timer pour" << minutes << "min" << seconds << "sec";
-
-        // 2) Lance un single-shot pour fermer l'interface à la fin du chrono
-        QTimer::singleShot(totalMs, this, [this]() {
-            qDebug() << "⏰ Temps écoulé, fermeture de l'interface.";
-            this->close();
-        });
-
-        // On ne traite qu’un seul chrono par réception
-        break;
-    }
-}
-
 
 void InterfaceAudio::on_pushButton_Son_clicked()
 {
