@@ -28,7 +28,7 @@ public:
     QPushButton *pushButtonClear;
     QPushButton *pushButtonAppelProf;
     QPushButton *pushButton_2;
-    QLabel *labelChrono;
+    QLabel *chrono_enregistrement;
     QPushButton *pushButtonSpeak;
     QPushButton *pushButton;
     QPushButton *pushButtonPause;
@@ -77,14 +77,14 @@ public:
 "    border-radius: 5px; /* Optionnel : coins arrondis */\n"
 "    font-weight: bold; /* Optionnel : texte en gras */\n"
 "}"));
-        labelChrono = new QLabel(InterfaceEnregistrement);
-        labelChrono->setObjectName("labelChrono");
-        labelChrono->setGeometry(QRect(280, 340, 221, 61));
+        chrono_enregistrement = new QLabel(InterfaceEnregistrement);
+        chrono_enregistrement->setObjectName("chrono_enregistrement");
+        chrono_enregistrement->setGeometry(QRect(280, 340, 221, 61));
         QFont font;
         font.setPointSize(20);
         font.setBold(true);
-        labelChrono->setFont(font);
-        labelChrono->setAlignment(Qt::AlignmentFlag::AlignCenter);
+        chrono_enregistrement->setFont(font);
+        chrono_enregistrement->setAlignment(Qt::AlignmentFlag::AlignCenter);
         pushButtonSpeak = new QPushButton(InterfaceEnregistrement);
         pushButtonSpeak->setObjectName("pushButtonSpeak");
         pushButtonSpeak->setGeometry(QRect(350, 250, 81, 81));
@@ -180,7 +180,7 @@ public:
         pushButtonSon->raise();
         pushButtonAvancer->raise();
         pushButtonClear->raise();
-        labelChrono->raise();
+        chrono_enregistrement->raise();
         pushButtonSpeak->raise();
         pushButtonPause->raise();
         pushButtonRetourArriere->raise();
@@ -206,7 +206,7 @@ public:
         pushButtonClear->setText(QString());
         pushButtonAppelProf->setText(QString());
         pushButton_2->setText(QString());
-        labelChrono->setText(QString());
+        chrono_enregistrement->setText(QString());
         pushButtonSpeak->setText(QString());
         pushButton->setText(QCoreApplication::translate("InterfaceEnregistrement", "Interface Enregistrement", nullptr));
         pushButtonPause->setText(QString());

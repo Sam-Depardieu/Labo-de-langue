@@ -106,7 +106,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QLabel" name="labelChrono">
+  <widget class="QLabel" name="chrono_enregistrement">
    <property name="geometry">
     <rect>
      <x>280</x>
@@ -383,7 +383,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
   <zorder>pushButtonSon</zorder>
   <zorder>pushButtonAvancer</zorder>
   <zorder>pushButtonClear</zorder>
-  <zorder>labelChrono</zorder>
+  <zorder>chrono_enregistrement</zorder>
   <zorder>pushButtonSpeak</zorder>
   <zorder>pushButtonPause</zorder>
   <zorder>pushButtonRetourArriere</zorder>

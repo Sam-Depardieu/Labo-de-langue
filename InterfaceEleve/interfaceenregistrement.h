@@ -64,10 +64,11 @@ private slots:
     void on_pushButtonEnregistrer_clicked();
     void on_pushButtonPlay_clicked();
     void animateButtonClick(QPushButton* btn);
-
-
-    void updateChronoLabel();
-    void faireClignoterLabel();
+    void rewindChrono();
+    void updateChrono();
+    void updateChronoenregistrement();
+    //void updateChronoLabel();
+    //void faireClignoterLabel();
 
     void onRecorderStateChanged(QMediaRecorder::RecorderState state);
     void onRecorderErrorOccurred(QMediaRecorder::Error error, const QString &errorString);

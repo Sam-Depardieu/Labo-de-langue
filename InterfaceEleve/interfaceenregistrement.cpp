@@ -8,112 +8,98 @@
 #include <QDir>
 
 InterfaceEnregistrement::InterfaceEnregistrement(MainWindow* parentWindow, QWidget *parent)
-    : QDialog(parent), ui(new Ui::InterfaceEnregistrement)
-    , mainWindow(parentWindow)
-    , isButtonAppelProfImage(true)
+    : QDialog(parent),
+    ui(new Ui::InterfaceEnregistrement),
+    mainWindow(parentWindow),
+    isButtonAppelProfImage(true)
 {
     ui->setupUi(this);
+    setFixedSize(800, 480);
+    this->setWindowTitle("Page d'Enregistrement");
+
+    // Affichage initial des boutons
     ui->pushButtonPause->setVisible(true);
     ui->pushButtonPlay->setVisible(false);
-    // Pour fixer la taille de la page et le titre
-    setFixedSize(800, 480);
 
-    this->setWindowTitle("Page d'Enregistrement");
+    // UDP pour réponses prof
     udpSocket.bind(QHostAddress::Any, responsePort);
     connect(&udpSocket, &QUdpSocket::readyRead, this, &InterfaceEnregistrement::receiveResponse);
 
-    // Initialisation des autres composants et variables
+    // Initialisation audio / enregistrement
     mediaRecorder = new QMediaRecorder(this);
-    player = new QMediaPlayer(this);
     audioInput = new QAudioInput(this);
     audioOutput = new QAudioOutput(this);
+    player = new QMediaPlayer(this);
     player->setAudioOutput(audioOutput);
-    timer = new QTimer(this);
-    mediaRecorder = new QMediaRecorder(this);
-    audioInput = new QAudioInput(this);
+
+    // Configuration de la session de capture
     captureSession.setAudioInput(audioInput);
     captureSession.setRecorder(mediaRecorder);
+
+    // Format d'enregistrement
     QMediaFormat fmt;
     fmt.setFileFormat(QMediaFormat::FileFormat::Wave);
     mediaRecorder->setMediaFormat(fmt);
 
-    rewindTimer = new QTimer(this);
-    captureSession.setAudioInput(audioInput);
-    captureSession.setRecorder(mediaRecorder);
+    // Timers
+    timer = new QTimer(this);             // pour chrono d'enregistrement
+    rewindTimer = new QTimer(this);       // retour arrière
+    chronoTimer = new QTimer(this);       // pour le compte à rebours global
+
+    connect(timer, &QTimer::timeout, this, &InterfaceEnregistrement::updateChrono);
+    connect(rewindTimer, &QTimer::timeout, this, &InterfaceEnregistrement::rewindChrono);
+    connect(chronoTimer, &QTimer::timeout, this, &InterfaceEnregistrement::updateChronoenregistrement);
     connect(mediaRecorder, &QMediaRecorder::recorderStateChanged, this, &InterfaceEnregistrement::onRecorderStateChanged);
     connect(mediaRecorder, &QMediaRecorder::errorOccurred, this, &InterfaceEnregistrement::onRecorderErrorOccurred);
 
-    clignotementTimer = new QTimer(this);
-    connect(clignotementTimer, &QTimer::timeout, this, &InterfaceEnregistrement::faireClignoterLabel);
+    // UDP chrono (fermeture automatique)
+    udpChrono.bind(QHostAddress::Any, chronoPort);
+    connect(&udpChrono, &QUdpSocket::readyRead, this, &InterfaceEnregistrement::onUdpTimeout);
 
-    clignotementEtat = false;
-
-    // Affichage des Images
+    // Affichage des icônes de bouton
     setButtonIcons();
 
+    // Initialisation des variables
     isRewinding = false;
     totalSecondes = 0;
     speakButtonClicked = false;
     isRecordingPaused = false;
     lastRecordedTime = 0;
 
+    // Initialisation du fichier feedback
     QFile file("feedback.txt");
     if (file.open(QIODevice::Append | QIODevice::Text)) {
         QTextStream out(&file);
-        out<<"";
+        out << "";
         file.close();
     }
 
-    // Vérifier si l'utilisateur est un professeur
+    // Vérification rôle utilisateur
     if (!Professor) {
-        ui->textEditFeedBack->setReadOnly(true); // Bloquer l'accès en écriture
-        ui->textEditFeedBack->setPlaceholderText("Accès réservé aux professeurs"); // Message d'information
-        ui->textEditConsigne->setReadOnly(true); // Bloquer l'accès en écriture
+        ui->textEditFeedBack->setReadOnly(true);
+        ui->textEditFeedBack->setPlaceholderText("Accès réservé aux professeurs");
+        ui->textEditConsigne->setReadOnly(true);
     }
 
+    // Chargement des consignes
     ui->textEditConsigne->setText(mainWindow->getConsigne());
+
+    // Chrono global (chronoLabel)
     ui->chronoLabel->setVisible(true);
+    ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: white; border: 2px solid white; border-radius: 8px; font-family: 'Segoe UI', 'Arial'; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
 
     remainingTime = mainWindow->getTime();
-    // Style initial du label
-    ui->chronoLabel->setVisible(true);
-    ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: white; border: 2px solid white; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
-
-    // Affichage du temps initial et démarrage du chrono
     if (remainingTime.isValid() && remainingTime != QTime(0, 0)) {
         ui->chronoLabel->setText(remainingTime.toString("mm:ss"));
         chronoTimer->start(1000);
     } else {
         ui->chronoLabel->setText("00:00");
     }
-}
 
-void InterfaceEnregistrement::faireClignoterLabel()
-{
-    clignotementEtat = !clignotementEtat;
-    if (clignotementEtat)
-        ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: red; border: 2px solid red; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
-    else
-        ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: white; border: 2px solid white; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
-}
-
-void InterfaceEnregistrement::updateChronoLabel()
-{
-    remainingTime = remainingTime.addSecs(-1);
-
-    ui->chronoLabel->setText(remainingTime.toString("mm:ss"));
-
-    if (remainingTime.minute() == 0 && remainingTime.second() < 31) {
-        if (!clignotementTimer->isActive())
-            clignotementTimer->start(500); // clignote toutes les 500 ms
-    }
-
-    if (remainingTime == QTime(0, 0)) {
-        chronoTimer->stop();
-        ui->chronoLabel->setText("00:00");
-        ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: red; border: 2px solid red; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
-        QMessageBox::information(this, "Fin de l'activité", "Pensez à mettre fin à l'activité en cours !");
-    }
+    // Chrono enregistrement (chrono_enregistrement)
+    ui->chrono_enregistrement->setText("00:00:00");
+    ui->chrono_enregistrement->setVisible(true);
+    ui->chrono_enregistrement->setStyleSheet("font-size: 24px; font-weight: bold; color: black;");
 }
 
 InterfaceEnregistrement::~InterfaceEnregistrement()
@@ -126,6 +112,7 @@ InterfaceEnregistrement::~InterfaceEnregistrement()
     delete timer;
     delete rewindTimer;
 }
+
 void InterfaceEnregistrement::onUdpTimeout()
 {
     // on peut recevoir plusieurs paquets, on les vide tous
@@ -196,7 +183,7 @@ void InterfaceEnregistrement::on_pushButtonSpeak_clicked()
 
     // 3) Réinitialiser le chrono
     totalSecondes = 0;
-    ui->labelChrono->setText("00:00:00");
+    ui->chrono_enregistrement->setText("00:00:00");
 
     // 4) Configurer & lancer l’enregistrement + chrono
     QMediaFormat fmt;
@@ -222,14 +209,14 @@ void InterfaceEnregistrement::on_pushButtonEnregistrer_clicked()
         mediaRecorder->stop();
         timer->stop();
         totalSecondes = 0;
-        ui->labelChrono->setText("00:00:00");
+        ui->chrono_enregistrement->setText("00:00:00");
         ui->pushButtonPause->setVisible(false);
         ui->pushButtonPlay ->setVisible(true);
         qDebug() << "🛑 Enregistrement arrêté via Enregistrer.";
     }
     // 2) Réinitialiser le chrono
     totalSecondes = 0;
-    ui->labelChrono->setText("00:00:00");
+    ui->chrono_enregistrement->setText("00:00:00");
 
     // 3) Préparer le dossier et le chemin du fichier
     const QString docs = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
@@ -298,29 +285,29 @@ void InterfaceEnregistrement::on_pushButtonPlay_clicked()
 void InterfaceEnregistrement::on_pushButtonClear_clicked()
 {
     animateButtonClick(ui->pushButtonClear);
+
+    // 1) Stopper l'enregistrement s'il est actif ou en pause
     if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState ||
         mediaRecorder->recorderState() == QMediaRecorder::PausedState) {
         mediaRecorder->stop();
         qDebug() << "🛑 Enregistrement stoppé par Clear.";
     }
 
-    // 2) Arrêter le timer s'il tourne
+    // 2) Arrêter le timer du chrono d'enregistrement
     if (timer->isActive()) {
         timer->stop();
         qDebug() << "⏱ Timer stoppé par Clear.";
     }
 
-    // 3) Réinitialiser le chrono à zéro
+    // 3) Réinitialiser le chrono d'enregistrement
     totalSecondes = 0;
-    ui->labelChrono->setText("00:00:00");
+    ui->chrono_enregistrement->setText("00:00:00");
 
-    // 4) Remettre l'UI en mode « prêt » : on cache les contrôles Play/Pause
-    ui->pushButtonPause->setVisible(false);
+    // 4) Réinitialiser les boutons : Pause visible, Play caché
+    ui->pushButtonPause->setVisible(true);
     ui->pushButtonPlay ->setVisible(false);
-    // (le bouton Speak reste visible pour démarrer un nouvel enregistrement)
 
-    qDebug() << "Chrono remis à zéro. Fichier inchangé :"
-             << audioFilePath;
+    qDebug() << "🔁 Interface remise à zéro. Pause réaffiché. Fichier inchangé :" << audioFilePath;
 }
 
 void InterfaceEnregistrement::animateButtonClick(QPushButton* btn) {
@@ -393,7 +380,7 @@ void InterfaceEnregistrement::on_pushButtonRetourArriere_clicked()
 {
     if (totalSecondes == 0 && lastRecordedTime > 0) {
         totalSecondes = lastRecordedTime;
-        updateChronoLabel();
+        updateChronoenregistrement();
         qDebug() << "Retour au dernier temps enregistré : " << totalSecondes;
     } else if (totalSecondes > 0 && !isRewinding) {
         isRewinding = true;
@@ -413,11 +400,50 @@ void InterfaceEnregistrement::on_pushButtonAvancer_clicked()
     }
 }
 
+void InterfaceEnregistrement::updateChrono()
+{
+    if (isRewinding) {
+        return;
+    }
+    totalSecondes++;
+    updateChronoenregistrement();
+}
+
+void InterfaceEnregistrement::rewindChrono()
+{
+    if (totalSecondes > 1) {
+        lastRecordedTime = totalSecondes;
+    }
+
+    if (totalSecondes > 0) {
+        totalSecondes--;
+        updateChronoenregistrement();
+    } else {
+        qDebug() << "⏹ Chrono à zéro, dernier temps enregistré : " << lastRecordedTime;
+        rewindTimer->stop();
+        isRewinding = false;
+
+        // ✅ Forcer l'état initial des boutons : Pause visible, Play masqué
+        ui->pushButtonPause->setVisible(true);
+        ui->pushButtonPlay ->setVisible(false);
+    }
+}
+
+void InterfaceEnregistrement::updateChronoenregistrement()
+{
+    int heures = totalSecondes / 3600;
+    int minutes = (totalSecondes % 3600) / 60;
+    int secondes = totalSecondes % 60;
+    ui->chrono_enregistrement->setText(QString::number(heures).rightJustified(2, '0') + ":" +
+                             QString::number(minutes).rightJustified(2, '0') + ":" +
+                             QString::number(secondes).rightJustified(2, '0'));
+}
+
 void InterfaceEnregistrement::on_pushButtonAppelProf_clicked()
 {
-    ui->pushButtonAppelProf->setStyleSheet(" border:1px solid white; border-radius:20px;");
-    isButtonAppelProfImage = false;
-
+    ui->pushButtonAppelProf->setStyleSheet("QPushButton { background-color: none; border: none; }");
+    //ui->labelAppelProf->show();
+    qWarning() << "Label Appel Prof affiche";
 
     QUdpSocket *udpSocket = new QUdpSocket(this);
     QJsonObject message;
@@ -457,7 +483,6 @@ void InterfaceEnregistrement::onRecorderErrorOccurred(QMediaRecorder::Error erro
 {
     qDebug() << "Erreur d'enregistrement:" << errorString;
 }
-
 void InterfaceEnregistrement::receiveResponse() {
     while (udpSocket.hasPendingDatagrams()) {
         QByteArray datagram;
@@ -494,5 +519,3 @@ void InterfaceEnregistrement::receiveResponse() {
         }
     }
 }
-
-
