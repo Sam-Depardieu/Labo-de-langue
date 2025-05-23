@@ -97,65 +97,100 @@ void Professor::addAudioGroup(const QString& groupName, int portAudio)
 // Envoi audio à un groupe
 void Professor::sendAudioDataToGroup(const QString& groupName)
 {
-    if (!audioGroupMap.contains(groupName)) return;
-
-    if (!audioSourceDevice || audioSourceDevice->bytesAvailable() <= 0)
+    if (!audioGroupMap.contains(groupName)) {
+        qWarning() << "[sendAudioDataToGroup] Groupe inconnu:" << groupName;
         return;
+    }
+
+    if (!audioSourceDevice) {
+        qWarning() << "[sendAudioDataToGroup] audioSourceDevice est null !";
+        return;
+    }
+
+    if (audioSourceDevice->bytesAvailable() <= 0) {
+        qDebug() << "[sendAudioDataToGroup] Rien à lire";
+        return;
+    }
+
     QByteArray data = audioSourceDevice->readAll();
 
-    if (data.isEmpty()) return;
+    if (data.isEmpty()) {
+        qWarning() << "[sendAudioDataToGroup] Data vide";
+        return;
+    }
 
     auto& push = audioGroupMap[groupName].pushSocket;
 
     try {
         zmq::message_t msg(data.constData(), data.size());
         push->send(msg, zmq::send_flags::none);
-        qDebug() << "[Professor]" << groupName << " - audio envoyé de taille:" << data.size();
-    } catch (...) {
-        qWarning() << "[Professor] Erreur d'envoi ZMQ groupe" << groupName;
+        qDebug() << "[Professor]" << groupName << " - audio envoyé, taille:" << data.size();
+    } catch (const std::exception& e) {
+        qWarning() << "[Professor] Erreur d'envoi ZMQ:" << e.what();
     }
 }
+
 
 // Réception audio d’un groupe
 void Professor::receiveAudioDataFromGroup(const QString& groupName)
 {
-    if (!audioGroupMap.contains(groupName)) return;
+    if (!audioGroupMap.contains(groupName)) {
+        qWarning() << "[receiveAudioDataFromGroup] Groupe inconnu:" << groupName;
+        return;
+    }
 
     auto& group = audioGroupMap[groupName];
     auto& pull = group.pullSocket;
 
     zmq::message_t msg;
     auto result = pull->recv(msg, zmq::recv_flags::dontwait);
-    if (!result) return;
+    if (!result) {
+        qDebug() << "[receiveAudioDataFromGroup] Rien reçu pour" << groupName;
+        return;
+    }
 
     QByteArray rawData(static_cast<char*>(msg.data()), msg.size());
+    qDebug() << "[receiveAudioDataFromGroup] Message brut reçu, taille:" << rawData.size();
 
     int sepIndex = rawData.indexOf('|');
-    if (sepIndex == -1) return;
+    if (sepIndex == -1) {
+        qWarning() << "[receiveAudioDataFromGroup] Format invalide (pas de '|') reçu !";
+        return;
+    }
 
     QByteArray senderIp = rawData.left(sepIndex);
     QByteArray audioData = rawData.mid(sepIndex + 1);
 
-    // Ne pas jouer le son si le prof est l'émetteur
-    if (senderIp != getLocalIp().toUtf8()) {
-        audioSinkDevice->write(audioData);
+    QString senderIpStr = QString::fromUtf8(senderIp);
+    QString localIp = getLocalIp();
+    qDebug() << "[receiveAudioDataFromGroup] senderIp =" << senderIpStr << ", localIp =" << localIp;
+
+    if (!audioSinkDevice) {
+        qWarning() << "[receiveAudioDataFromGroup] audioSinkDevice est null !";
+        return;
     }
 
-    // Rediffuser à tous les élèves sauf celui qui a parlé
-    for (iconEleveGroup* membre : listeGroup[groupName]) {
+    if (senderIpStr != localIp) {
+        audioSinkDevice->write(audioData);
+        qDebug() << "[receiveAudioDataFromGroup] Son joué";
+    } else {
+        qDebug() << "[receiveAudioDataFromGroup] Ignoré (émis localement)";
+    }
+
+    for (iconEleveGroup* membre : mainWindow->listeGroup[groupName]) {
         if (membre->getIP().toUtf8() == senderIp) continue;
 
         try {
             QByteArray message = membre->getIP().toUtf8() + "|" + audioData;
             zmq::message_t forwardMsg(message.constData(), message.size());
             group.pushSocket->send(forwardMsg, zmq::send_flags::none);
-        } catch (...) {
-            qWarning() << "[Professor] Erreur relai ZMQ pour" << membre->getIP();
+            qDebug() << "[Professor] Relai ZMQ vers" << membre->getIP();
+        } catch (const std::exception& e) {
+            qWarning() << "[Professor] Erreur relai ZMQ:" << e.what();
         }
     }
-
-    qDebug() << "[Professor] Audio reçu de" << senderIp << "relayé au groupe" << groupName;
 }
+
 
 
 // Commandes UDP

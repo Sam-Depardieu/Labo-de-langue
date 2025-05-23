@@ -39,11 +39,11 @@ void Student::setupZMQ() {
     try {
         // PUSH pour envoyer
         pushSocket = new zmq::socket_t(context, ZMQ_PUSH);
-        pushSocket->connect(("tcp://192.168.64.1:" + QString::number(portGroupAudio)).toStdString());
+        pushSocket->connect(("tcp://192.168.64.1:" + QString::number(portGroupAudio + 1)).toStdString());
 
         // PULL pour recevoir
         pullSocket = new zmq::socket_t(context, ZMQ_PULL);
-        pullSocket->connect(("tcp://192.168.64.1:" + QString::number(portGroupAudio + 1)).toStdString());
+        pullSocket->connect(("tcp://192.168.64.1:" + QString::number(portGroupAudio)).toStdString());
     } catch (const zmq::error_t& e) {
         qCritical() << "Erreur ZMQ (setup) :" << e.what();
     }

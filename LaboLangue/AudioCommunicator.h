@@ -84,12 +84,7 @@ private:
 
     QString getLocalIp()
     {
-        for (const QHostAddress& addr : QNetworkInterface::allAddresses()) {
-            if (addr.protocol() == QAbstractSocket::IPv4Protocol && !addr.isLoopback()) {
-                return addr.toString();
-            }
-        }
-        return "127.0.0.1";
+        return "192.168.64.1";
     }
 
 };
