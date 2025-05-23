@@ -30,7 +30,6 @@ public:
     void setGroupPort(int port);  // Reçoit le port du groupe attribué
     void startAudio();
     void stopAudio();
-    void setPortGroupAudio(int port) { portGroupAudio = port; }
     void initializeAudioCommunication();  // déclaration
 
 public slots:

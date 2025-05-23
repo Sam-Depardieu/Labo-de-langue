@@ -370,7 +370,7 @@ void MainWindow::receiveInfo() {
 
                         if (!students.contains(port)) {
                             Student* student = new Student(this);
-                            student->setPortGroupAudio(port);         // Assigne le port reçu
+                            student->setGroupPort(port);         // Assigne le port reçu
                             student->initializeAudioCommunication();  // Initialise la socket pull
 
                             students.insert(port, student);
@@ -378,7 +378,7 @@ void MainWindow::receiveInfo() {
                             qDebug() << "✅ Nouveau Student créé et connecté au port de groupe : " << port;
                         } else {
                             Student* existingStudent = students.value(port);
-                            existingStudent->setPortGroupAudio(port);
+                            existingStudent->setGroupPort(port);
                             existingStudent->initializeAudioCommunication();  // Re-initialise au cas où
 
                             qDebug() << "♻️ Student déjà existant mis à jour pour le port : " << port;
