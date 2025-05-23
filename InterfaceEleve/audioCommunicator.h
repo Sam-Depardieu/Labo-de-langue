@@ -29,6 +29,7 @@ public slots:
     void changeAudioGroup(const QHostAddress& newAddress, quint16 newPort);
     void onAudioSourceStateChanged(QAudio::State newState);
     void initializeAudioCommunication();
+    void muteAudio();
 
 private:
     void connectToGroup();
@@ -51,6 +52,7 @@ private:
     QIODevice* outputDevice = nullptr;
 
     QTimer sendTimer;
+    bool isMuted = false;
 };
 
 #endif // STUDENT_H

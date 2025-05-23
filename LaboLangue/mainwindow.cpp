@@ -1603,6 +1603,9 @@ void MainWindow::onClicked_itemBoutonSupprimerGroupe(iconEleveGroup* eleve)
     eleve->getAffiliate().clear();
     eleve->setNomGroupe("");
 
+    // Couper la communication audio avec cet élève
+    eleve->stopAudio();  // <-- Assure-toi que cette méthode existe dans iconEleveGroup
+
     // Mettre à jour les affiliates des autres membres
     for (iconEleveGroup* membre : membres) {
         std::vector<iconEleveGroup*> autres;
@@ -1617,6 +1620,7 @@ void MainWindow::onClicked_itemBoutonSupprimerGroupe(iconEleveGroup* eleve)
 
     loadInformationTable(); // Actualiser le tableau
 }
+
 
 void MainWindow::on_AideButton_clicked()
 {
