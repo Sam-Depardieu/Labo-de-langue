@@ -2,83 +2,55 @@
 #define STUDENT_H
 
 #include <QObject>
-#include <QAudioInput>
-#include <QAudioOutput>
+#include <QHostAddress>
+#include <QUdpSocket>
 #include <QAudioSource>
 #include <QAudioSink>
-#include <QIODevice>
-#include <QUdpSocket>
-#include <QTimer>
 #include <QAudioDevice>
-#include <QMediaDevices>
-#include <QHostAddress>
-#include <QString>
-#include <QDebug>
-#include <QNetworkInterface>
+#include <QAudioFormat>
+#include <QTimer>
 
-#include <zmq/zmq.hpp>
-
-class Student : public QObject {
+class Student : public QObject
+{
     Q_OBJECT
-
 public:
-    explicit Student(QObject* parent = nullptr);
+    explicit Student(const QString &groupName, const QHostAddress &groupAddress, quint16 groupPort, QObject *parent = nullptr);
+    ~Student();
 
-    void setIP(const QString& ip);
-    void setProfIp(QString ip) {profIP = ip;}
-    QString getIP() const;
-
-    void setGroupPort(int port);  // Reçoit le port du groupe attribué
-    void startAudio();
+    void setProfIp(const QString& ip);  // si besoin, sinon tu peux l'enlever
     void stopAudio();
-    void initializeAudioCommunication();  // déclaration
+
+signals:
 
 public slots:
-    void handleCommand();  // UDP : mute, unmute, etc.
-    void sendAudioData();
-    void receiveAudioData();
+    void captureAndSendAudio();
+    void receiveAudio();
+    void processCommands();
+    void changeAudioGroup(const QHostAddress& newAddress, quint16 newPort);
+    void onAudioSourceStateChanged(QAudio::State newState);
+    void initializeAudioCommunication();
 
 private:
-    QString studentIp;
-    QString profIP;
-    int portGroupAudio = -1;
+    void connectToGroup();
+    void connectToServer();  // si tu utilises encore cette méthode
 
-    // ZeroMQ
-    zmq::context_t context;
-    zmq::socket_t* pushSocket = nullptr;
-    zmq::socket_t* pullSocket = nullptr;
+    QString group;
+    QHostAddress groupAddress;
+    quint16 groupPort;
 
-    // Audio
-    QAudioSource* audioSource = nullptr;
-    QAudioSink* audioSink = nullptr;
-    QIODevice* audioInput = nullptr;
-    QIODevice* audioOutput = nullptr;
-    QAudioDevice inputDevice;
-    QAudioDevice outputDevice;
+    QString serverIp;       // Si tu veux stocker l'IP du prof, ou sinon enlever
+    QHostAddress serverAddress;  // Adresse du serveur / groupe multicast actuel
+    quint16 serverPort;          // Port actuel utilisé
 
-    // Réseaux
     QUdpSocket udpSocket;
 
-    // Timers
+    QAudioSource* audioInput = nullptr;
+    QAudioSink* audioOutput = nullptr;
+
+    QIODevice* inputDevice = nullptr;
+    QIODevice* outputDevice = nullptr;
+
     QTimer sendTimer;
-    QTimer receiveTimer;
-
-    // État
-    bool isMuted = false;
-
-    void setupZMQ();
-    void closeZMQ();
-
-    QString getLocalIp()
-    {
-        for (const QHostAddress& addr : QNetworkInterface::allAddresses()) {
-            if (addr.protocol() == QAbstractSocket::IPv4Protocol && !addr.isLoopback()) {
-                return addr.toString();
-            }
-        }
-        return "127.0.0.1";
-    }
-
 };
 
 #endif // STUDENT_H

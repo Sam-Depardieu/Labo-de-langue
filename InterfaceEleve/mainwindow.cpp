@@ -340,60 +340,78 @@ void MainWindow::receiveInfo() {
         udpSocketInfo.readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
 
         QString response = QString::fromUtf8(datagram).trimmed();
-        qDebug() << "📢 I reçue de" << sender.toString() << ":" << response;
+        qDebug() << "📢 Message reçu de" << sender.toString() << ":" << response;
 
-        if (!response.isEmpty()) {
-            // Vérifie que le message contient bien ':'
-            if (response.contains(",")) {
-                QStringList parts = response.split(",");
+        if (response.isEmpty())
+            continue;
 
-                if (parts.size() == 2) {
-                    QString key = parts[0].trimmed();
-                    QString value = parts[1].trimmed();
+        if (!response.contains(",")) {
+            qWarning() << "⛔ Format invalide (attendu clé,valeur)";
+            continue;
+        }
 
-                    if (key == "nomProf") {
-                        nomProf = value;
-                        qDebug() << "👤 Nom du prof reçu :" << nomProf;
-                    } else if (key == "nomEleve") {
-                        nomEleve = value;
-                        qDebug() << "👤 Nom de l'élève reçu :" << nomEleve;
-                    }else if (key == "chrono"){
-                        remainingTime = QTime::fromString(value,"mm:ss");
-                        qDebug() << "temps restant :" << value;
-                        qDebug() << "temps restant :" << remainingTime;
-                    } else if (key =="consigne"){
-                        consigne =value;
-                        qDebug() <<"Consigne: " << consigne;
-                    }else if (key == "portGroup") {
-                        qDebug() << "🎧 Port audio de groupe reçu: " << value;
-                        int port = value.toInt();
+        QStringList parts = response.split(",");
+        if (parts.size() != 2) {
+            qWarning() << "⛔ Format invalide (attendu clé,valeur)";
+            continue;
+        }
 
-                        if (!students.contains(port)) {
-                            Student* student = new Student(this);
-                            student->setGroupPort(port);         // Assigne le port reçu
-                            student->initializeAudioCommunication();  // Initialise la socket pull
+        QString key = parts[0].trimmed();
+        QString value = parts[1].trimmed();
 
-                            students.insert(port, student);
+        if (key == "nomProf") {
+            nomProf = value;
+            qDebug() << "👤 Nom du prof reçu :" << nomProf;
 
-                            qDebug() << "✅ Nouveau Student créé et connecté au port de groupe : " << port;
-                        } else {
-                            Student* existingStudent = students.value(port);
-                            existingStudent->setGroupPort(port);
-                            existingStudent->initializeAudioCommunication();  // Re-initialise au cas où
+        } else if (key == "nomEleve") {
+            nomEleve = value;
+            qDebug() << "👤 Nom de l'élève reçu :" << nomEleve;
 
-                            qDebug() << "♻️ Student déjà existant mis à jour pour le port : " << port;
-                        }
-                    }
-                    else {
-                        qWarning() << "🔍 Clé non reconnue :" << key;
-                    }
-                }
-            } else {
-                qWarning() << "⛔ Format invalide (attendu nom:valeur)";
+        } else if (key == "chrono") {
+            remainingTime = QTime::fromString(value, "mm:ss");
+            qDebug() << "⏳ Temps restant :" << value;
+
+        } else if (key == "consigne") {
+            consigne = value;
+            qDebug() << "📝 Consigne :" << consigne;
+
+        } else if (key == "portGroup") {
+            bool ok;
+            int port = value.toInt(&ok);
+            if (!ok || port <= 0 || port > 65535) {
+                qWarning() << "Port invalide reçu pour portGroup:" << value;
+                return;
             }
+
+            qDebug() << "🎧 Changement de groupe, port audio :" << port;
+
+            // Supprimer l'étudiant courant si existant (arrêt audio, libération)
+            if (currentStudent) {
+                currentStudent->stopAudio();
+                currentStudent->deleteLater();
+                currentStudent = nullptr;
+            }
+
+            // Créer l'étudiant avec le port reçu (on ne crée que là)
+            // À adapter : ici on passe groupe, adresse, port selon ton constructeur Student
+            QString groupName = "defaultGroup"; // à remplacer si tu as le nom du groupe
+            QHostAddress profAddress("192.168.64.1"); // IP du prof à configurer dynamiquement si besoin
+
+            currentStudent = new Student(groupName, profAddress, static_cast<quint16>(port), this);
+            // currentStudent->setProfIp("192.168.64.1"); // Si tu as encore cette méthode, sinon passe via constructeur
+            // currentStudent->setGroupPort(port); // Idem, si constructeur gère déjà le port
+
+            currentStudent->initializeAudioCommunication();
+
+            qDebug() << "✅ Étudiant initialisé pour le groupe audio";
+        }
+        else {
+            qWarning() << "🔍 Clé non reconnue :" << key;
         }
     }
 }
+
+
 void MainWindow::receivePath(){
     while (udpSocketNomFichier->hasPendingDatagrams()) {
         QByteArray datagram;

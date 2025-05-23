@@ -72,6 +72,8 @@ InterfaceQCM::InterfaceQCM(MainWindow *parentWindow ,QWidget *parent)
 
 }
 
+
+
 void InterfaceQCM::faireClignoterLabel()
 {
     clignotementEtat = !clignotementEtat;
@@ -171,6 +173,7 @@ void InterfaceQCM::showCurrentQuestion()
     ui->pushButtonSoumettre->setEnabled(currentQuestionIndex == questionArray.size() - 1);
 }
 
+
 void InterfaceQCM::setButtonIcons()
 {
     auto setIcon = [](QPushButton *button, const QString &path) {
@@ -191,30 +194,77 @@ void InterfaceQCM::setButtonIcons()
     setIcon(ui->pushButtonAppelProf, ":/images/CallProf");
 }
 
-void InterfaceQCM::onAnswerClicked(QPushButton *bouton, bool status)
+void InterfaceQCM::onAnswerClicked(QPushButton *bouton, bool /*status*/)
 {
     QString color;
+    bool *isButtonImage = nullptr;
 
-    // Trouver la couleur en fonction du bouton
     if (bouton == ui->pushButton1) {
         color = "blue";
-        isButton1Image = !status;
+        isButtonImage = &isButton1Image;
     }
     else if (bouton == ui->pushButton2) {
         color = "green";
-        isButton2Image = !status;
+        isButtonImage = &isButton2Image;
     }
     else if (bouton == ui->pushButton3) {
         color = "red";
-        isButton3Image = !status;
+        isButtonImage = &isButton3Image;
     }
     else if (bouton == ui->pushButton4) {
         color = "orange";
-        isButton4Image = !status;
+        isButtonImage = &isButton4Image;
     }
 
-    if(status) bouton->setStyleSheet("background-color:" + color + "; border:3px solid white; border-radius:20px;");
-    else bouton->setStyleSheet("background-color:" + color + "; border-radius:20px;");
+    if (isButtonImage) {
+        // Inverser la sélection
+        *isButtonImage = !(*isButtonImage);
+
+        // Appliquer style selon la nouvelle valeur
+        if (*isButtonImage) {
+            bouton->setStyleSheet(QString("background-color:%1; border:3px solid white; border-radius:20px;").arg(color));
+        } else {
+            bouton->setStyleSheet(QString("background-color:%1; border-radius:20px;").arg(color));
+        }
+    }
+
+    // Mettre à jour les réponses utilisateur avec les nouvelles valeurs
+    userAnswers[currentQuestionIndex] = {
+        isButton1Image,
+        isButton2Image,
+        isButton3Image,
+        isButton4Image
+    };
+
+    updateAvancement(currentQuestionIndex);
+}
+void InterfaceQCM::updateAvancement(int questionIndex)
+{
+    auto model = qobject_cast<QStandardItemModel*>(ui->listViewAvancement->model());
+    if (!model) return;
+
+    QStandardItem *item = model->item(questionIndex);
+    if (!item) return;
+
+    // Si l'utilisateur a répondu à cette question (au moins une réponse sélectionnée)
+    bool repondu = false;
+    QVector<bool> reponses = userAnswers.value(questionIndex);
+    for (bool rep : reponses) {
+        if (rep) {
+            repondu = true;
+            break;
+        }
+    }
+
+    if (repondu) {
+        item->setData(QColor(Qt::green), Qt::UserRole + 1);
+    } else {
+        item->setData(QColor(Qt::gray), Qt::UserRole + 1);
+    }
+
+    // Forcer la vue à rafraîchir cet item
+    QModelIndex idx = model->index(questionIndex, 0);
+    model->dataChanged(idx, idx);
 }
 
 
@@ -249,6 +299,12 @@ void InterfaceQCM::on_pushButtonEffacerReponse_clicked()
     isButton2Image = false;
     isButton3Image = false;
     isButton4Image = false;
+
+    // Met à jour la structure userAnswers aussi (important)
+    userAnswers[currentQuestionIndex] = {false, false, false, false};
+
+    updateAvancement(currentQuestionIndex);
+
 }
 
 void InterfaceQCM::receiveResponse()
@@ -291,8 +347,6 @@ void InterfaceQCM::on_pushButtonQuestionPrecedente_clicked()
 
 void InterfaceQCM::on_pushButtonSoumettre_clicked()
 {
-    if (currentQuestionIndex < 0 || currentQuestionIndex >= questionArray.size()) return;
-
     const QString docs = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
     const QString folder = QDir(docs).filePath("Travail");
     if (!QDir(folder).exists()) QDir().mkpath(folder);
@@ -307,23 +361,42 @@ void InterfaceQCM::on_pushButtonSoumettre_clicked()
     }
 
     QTextStream out(&file);
-    QJsonObject currentQuestion = questionArray[currentQuestionIndex].toObject();
-    QJsonArray answers = currentQuestion["answers"].toArray();
 
-    out << QString("Question %1:\n").arg(currentQuestionIndex + 1);
-    if (!isButton1Image && answers.size() > 0)
-        out << QString("- %1 %2\n").arg(ui->pushButton1->text(), answers[0].toObject()["isCorrect"].toBool() ? "✅" : "❌");
-    if (!isButton2Image && answers.size() > 1)
-        out << QString("- %1 %2\n").arg(ui->pushButton2->text(), answers[1].toObject()["isCorrect"].toBool() ? "✅" : "❌");
-    if (!isButton3Image && answers.size() > 2)
-        out << QString("- %1 %2\n").arg(ui->pushButton3->text(), answers[2].toObject()["isCorrect"].toBool() ? "✅" : "❌");
-    if (!isButton4Image && answers.size() > 3)
-        out << QString("- %1 %2\n").arg(ui->pushButton4->text(), answers[3].toObject()["isCorrect"].toBool() ? "✅" : "❌");
+    for (int i = 0; i < questionArray.size(); ++i) {
+        QJsonObject question = questionArray[i].toObject();
+        QJsonArray answers = question["answers"].toArray();
+        out << QString("Question %1: %2\n").arg(i + 1).arg(question["text"].toString());
+
+        QVector<bool> etats = userAnswers.value(i, QVector<bool>());
+
+        if (answers.size() > 0 && etats.size() > 0 && etats[0])
+            out << QString("- %1 %2\n").arg(answers[0].toObject()["text"].toString(),
+                                            answers[0].toObject()["isCorrect"].toBool() ? "✅" : "❌");
+
+
+        if (answers.size() > 1 && etats.size() > 1 && etats[1])
+            out << QString("- %1 %2\n").arg(answers[1].toObject()["text"].toString(),
+                                            answers[1].toObject()["isCorrect"].toBool() ? "✅" : "❌");
+
+        if (answers.size() > 2 && etats.size() > 2 && etats[2])
+            out << QString("- %1 %2\n").arg(answers[2].toObject()["text"].toString(),
+                                            answers[2].toObject()["isCorrect"].toBool() ? "✅" : "❌");
+
+        if (answers.size() > 3 && etats.size() > 3 && etats[3])
+            out << QString("- %1 %2\n").arg(answers[3].toObject()["text"].toString(),
+                                            answers[3].toObject()["isCorrect"].toBool() ? "✅" : "❌");
+
+
+        out << "\n";
+    }
 
     file.close();
     QMessageBox::information(this, "Soumission", "Réponses enregistrées.");
     accept();
 }
+
+
+
 
 
 
