@@ -64,16 +64,15 @@ private slots:
     void on_pushButtonEnregistrer_clicked();
     void on_pushButtonPlay_clicked();
     void animateButtonClick(QPushButton* btn);
-    void rewindChrono();
     void updateChrono();
-    void updateChronoenregistrement();
-    //void updateChronoLabel();
+    void rewindChrono();
+    void updateChronoLabel();
     //void faireClignoterLabel();
 
     void onRecorderStateChanged(QMediaRecorder::RecorderState state);
     void onRecorderErrorOccurred(QMediaRecorder::Error error, const QString &errorString);
     void checkPlaybackPosition(qint64 position);
-    void onUdpTimeout();
+    //void onUdpTimeout();
 
 
 private:
@@ -108,7 +107,7 @@ private:
     bool speakButtonClicked = false;
     bool isButtonSpeak = false;
     bool Professor = false;
-    bool clignotementEtat;
+    //bool clignotementEtat;
 
     // Timers
     QTimer *timer;
@@ -130,13 +129,14 @@ private:
     void setupVolumeMenu();
     void setButtonIcons();
     void setButtonIcon(QPushButton *button, const QString &imagePath);
+    /*
     QUdpSocket udpChrono;
     quint16 chronoPort =5558;
     QString lastAudioFilePath;
     QTimer *chronoTimer;
     QTime remainingTime;
     QTimer* clignotementTimer;
-
+    */
 
 };
 
