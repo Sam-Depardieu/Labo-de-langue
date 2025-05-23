@@ -16,10 +16,10 @@ CXX           = g++
 DEFINES       = -DUNICODE -D_UNICODE -DWIN32 -DMINGW_HAS_SECURE_API=1 -DQT_QML_DEBUG -DQT_NO_DEBUG -DQT_MULTIMEDIAWIDGETS_LIB -DQT_MULTIMEDIA_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WEBSOCKETS_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB -DQT_NEEDS_QMAIN
 CFLAGS        = -fno-keep-inline-dllexport -O2 -Wall -Wextra -Wextra $(DEFINES)
 CXXFLAGS      = -fno-keep-inline-dllexport -O2 -std=gnu++1z -Wall -Wextra -Wextra -fexceptions -mthreads $(DEFINES)
-INCPATH       = -I../../../InterfaceEleve -I. -IC:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve/zmq/include -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -Irelease -I. -I/include -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ 
+INCPATH       = -I../../../InterfaceEleve -I. -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve/zmq/include -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -Irelease -I. -I/include -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ 
 LINKER      =        g++
 LFLAGS        =        -Wl,-s -mthreads
-LIBS        =        -LC:\Users\Quentin\Documents\Projet\Labo-de-langue\InterfaceEleve\zmq -lzmq C:\Qt\6.7.2\mingw_64\lib\libQt6MultimediaWidgets.a C:\Qt\6.7.2\mingw_64\lib\libQt6Multimedia.a C:\Qt\6.7.2\mingw_64\lib\libQt6Widgets.a C:\Qt\6.7.2\mingw_64\lib\libQt6Gui.a C:\Qt\6.7.2\mingw_64\lib\libQt6Sql.a C:\Qt\6.7.2\mingw_64\lib\libQt6WebSockets.a C:\Qt\6.7.2\mingw_64\lib\libQt6Network.a C:\Qt\6.7.2\mingw_64\lib\libQt6Core.a -lmingw32 C:\Qt\6.7.2\mingw_64\lib\libQt6EntryPoint.a -lshell32  
+LIBS        =        -LE:\Documents\Projet\Labo-de-langue\InterfaceEleve\zmq -lzmq C:\Qt\6.7.2\mingw_64\lib\libQt6MultimediaWidgets.a C:\Qt\6.7.2\mingw_64\lib\libQt6Multimedia.a C:\Qt\6.7.2\mingw_64\lib\libQt6Widgets.a C:\Qt\6.7.2\mingw_64\lib\libQt6Gui.a C:\Qt\6.7.2\mingw_64\lib\libQt6Sql.a C:\Qt\6.7.2\mingw_64\lib\libQt6WebSockets.a C:\Qt\6.7.2\mingw_64\lib\libQt6Network.a C:\Qt\6.7.2\mingw_64\lib\libQt6Core.a -lmingw32 C:\Qt\6.7.2\mingw_64\lib\libQt6EntryPoint.a -lshell32  
 QMAKE         = C:\Qt\6.7.2\mingw_64\bin\qmake.exe
 DEL_FILE      = del
 CHK_DIR_EXISTS= if not exist
@@ -389,7 +389,7 @@ release/moc_attenteprof.cpp: ../../attenteprof.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qfactoryinterface.h \
 		release/moc_predefs.h \
 		C:/Qt/6.7.2/mingw_64/bin/moc.exe
-	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include C:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/release/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IC:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve -IC:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve/zmq/include -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\attenteprof.h -o release\moc_attenteprof.cpp
+	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include E:/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/release/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve/zmq/include -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\attenteprof.h -o release\moc_attenteprof.cpp
 
 release/moc_audioCommunicator.cpp: ../../audioCommunicator.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QObject \
@@ -539,11 +539,13 @@ release/moc_audioCommunicator.cpp: ../../audioCommunicator.h \
 		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QHostAddress \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QString \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QDebug \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QNetworkInterface \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkinterface.h \
 		../../zmq/zmq.hpp \
 		../../zmq.h \
 		release/moc_predefs.h \
 		C:/Qt/6.7.2/mingw_64/bin/moc.exe
-	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include C:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/release/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IC:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve -IC:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve/zmq/include -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\audioCommunicator.h -o release\moc_audioCommunicator.cpp
+	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include E:/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/release/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve/zmq/include -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\audioCommunicator.h -o release\moc_audioCommunicator.cpp
 
 release/moc_interfaceaudio.cpp: ../../interfaceaudio.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QDialog \
@@ -784,7 +786,7 @@ release/moc_interfaceaudio.cpp: ../../interfaceaudio.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qjsonobject.h \
 		release/moc_predefs.h \
 		C:/Qt/6.7.2/mingw_64/bin/moc.exe
-	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include C:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/release/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IC:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve -IC:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve/zmq/include -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\interfaceaudio.h -o release\moc_interfaceaudio.cpp
+	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include E:/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/release/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve/zmq/include -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\interfaceaudio.h -o release\moc_interfaceaudio.cpp
 
 release/moc_interfaceenregistrement.cpp: ../../interfaceenregistrement.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QDialog \
@@ -1079,6 +1081,8 @@ release/moc_interfaceenregistrement.cpp: ../../interfaceenregistrement.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qmediadevices.h \
 		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QHostAddress \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QString \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QNetworkInterface \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkinterface.h \
 		../../zmq/zmq.hpp \
 		../../zmq.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QMainWindow \
@@ -1093,8 +1097,6 @@ release/moc_interfaceenregistrement.cpp: ../../interfaceenregistrement.h \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlquery.h \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlError \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlerror.h \
-		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QNetworkInterface \
-		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkinterface.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QInputDialog \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qinputdialog.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlineedit.h \
@@ -1104,7 +1106,7 @@ release/moc_interfaceenregistrement.cpp: ../../interfaceenregistrement.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qprocess.h \
 		release/moc_predefs.h \
 		C:/Qt/6.7.2/mingw_64/bin/moc.exe
-	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include C:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/release/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IC:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve -IC:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve/zmq/include -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\interfaceenregistrement.h -o release\moc_interfaceenregistrement.cpp
+	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include E:/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/release/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve/zmq/include -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\interfaceenregistrement.h -o release\moc_interfaceenregistrement.cpp
 
 release/moc_interfaceqcm.cpp: ../../interfaceqcm.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QDialog \
@@ -1336,7 +1338,7 @@ release/moc_interfaceqcm.cpp: ../../interfaceqcm.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QString \
 		release/moc_predefs.h \
 		C:/Qt/6.7.2/mingw_64/bin/moc.exe
-	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include C:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/release/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IC:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve -IC:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve/zmq/include -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\interfaceqcm.h -o release\moc_interfaceqcm.cpp
+	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include E:/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/release/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve/zmq/include -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\interfaceqcm.h -o release\moc_interfaceqcm.cpp
 
 release/moc_interfacevideo.cpp: ../../interfacevideo.h \
 		../../mainwindow.h \
@@ -1488,6 +1490,8 @@ release/moc_interfacevideo.cpp: ../../interfacevideo.h \
 		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QHostAddress \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QString \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QDebug \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QNetworkInterface \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkinterface.h \
 		../../zmq/zmq.hpp \
 		../../zmq.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QMainWindow \
@@ -1572,8 +1576,6 @@ release/moc_interfacevideo.cpp: ../../interfacevideo.h \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlquery.h \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlError \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlerror.h \
-		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QNetworkInterface \
-		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkinterface.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QInputDialog \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qinputdialog.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlineedit.h \
@@ -1637,7 +1639,7 @@ release/moc_interfacevideo.cpp: ../../interfacevideo.h \
 		C:/Qt/6.7.2/mingw_64/include/QtGui/qpainterpath.h \
 		release/moc_predefs.h \
 		C:/Qt/6.7.2/mingw_64/bin/moc.exe
-	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include C:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/release/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IC:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve -IC:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve/zmq/include -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\interfacevideo.h -o release\moc_interfacevideo.cpp
+	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include E:/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/release/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve/zmq/include -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\interfacevideo.h -o release\moc_interfacevideo.cpp
 
 release/moc_mainwindow.cpp: ../../mainwindow.h \
 		../../audioCommunicator.h \
@@ -1788,6 +1790,8 @@ release/moc_mainwindow.cpp: ../../mainwindow.h \
 		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QHostAddress \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QString \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QDebug \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QNetworkInterface \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkinterface.h \
 		../../zmq/zmq.hpp \
 		../../zmq.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QMainWindow \
@@ -1872,8 +1876,6 @@ release/moc_mainwindow.cpp: ../../mainwindow.h \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlquery.h \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlError \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlerror.h \
-		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QNetworkInterface \
-		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkinterface.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QInputDialog \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qinputdialog.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlineedit.h \
@@ -1901,7 +1903,7 @@ release/moc_mainwindow.cpp: ../../mainwindow.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qprocess.h \
 		release/moc_predefs.h \
 		C:/Qt/6.7.2/mingw_64/bin/moc.exe
-	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include C:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/release/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IC:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve -IC:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve/zmq/include -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\mainwindow.h -o release\moc_mainwindow.cpp
+	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include E:/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/release/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve -IE:/Documents/Projet/Labo-de-langue/InterfaceEleve/zmq/include -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\mainwindow.h -o release\moc_mainwindow.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -2304,6 +2306,8 @@ release/audioCommunicator.o: ../../audioCommunicator.cpp ../../audioCommunicator
 		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QHostAddress \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QString \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QDebug \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QNetworkInterface \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkinterface.h \
 		../../zmq/zmq.hpp \
 		../../zmq.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\audioCommunicator.o ..\..\audioCommunicator.cpp
@@ -2769,6 +2773,8 @@ release/interfaceaudio.o: ../../interfaceaudio.cpp ../../interfaceaudio.h \
 		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QHostAddress \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QString \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QDebug \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QNetworkInterface \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkinterface.h \
 		../../zmq/zmq.hpp \
 		../../zmq.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QMainWindow \
@@ -2783,8 +2789,6 @@ release/interfaceaudio.o: ../../interfaceaudio.cpp ../../interfaceaudio.h \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlquery.h \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlError \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlerror.h \
-		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QNetworkInterface \
-		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkinterface.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QInputDialog \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qinputdialog.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlineedit.h \
@@ -3103,6 +3107,8 @@ release/interfaceenregistrement.o: ../../interfaceenregistrement.cpp ../../inter
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qmediadevices.h \
 		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QHostAddress \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QString \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QNetworkInterface \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkinterface.h \
 		../../zmq/zmq.hpp \
 		../../zmq.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QMainWindow \
@@ -3117,8 +3123,6 @@ release/interfaceenregistrement.o: ../../interfaceenregistrement.cpp ../../inter
 		C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlquery.h \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlError \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlerror.h \
-		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QNetworkInterface \
-		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkinterface.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QInputDialog \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qinputdialog.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlineedit.h \
@@ -3379,6 +3383,8 @@ release/interfaceqcm.o: ../../interfaceqcm.cpp ../../interfaceqcm.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QMediaDevices \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qmediadevices.h \
 		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QHostAddress \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QNetworkInterface \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkinterface.h \
 		../../zmq/zmq.hpp \
 		../../zmq.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QMainWindow \
@@ -3393,8 +3399,6 @@ release/interfaceqcm.o: ../../interfaceqcm.cpp ../../interfaceqcm.h \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlquery.h \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlError \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlerror.h \
-		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QNetworkInterface \
-		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkinterface.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QInputDialog \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qinputdialog.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlineedit.h \
@@ -3578,6 +3582,8 @@ release/interfacevideo.o: ../../interfacevideo.cpp ../../interfacevideo.h \
 		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QHostAddress \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QString \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QDebug \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QNetworkInterface \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkinterface.h \
 		../../zmq/zmq.hpp \
 		../../zmq.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QMainWindow \
@@ -3662,8 +3668,6 @@ release/interfacevideo.o: ../../interfacevideo.cpp ../../interfacevideo.h \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlquery.h \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlError \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlerror.h \
-		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QNetworkInterface \
-		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkinterface.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QInputDialog \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qinputdialog.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlineedit.h \
@@ -3879,6 +3883,8 @@ release/main.o: ../../main.cpp ../../mainwindow.h \
 		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QHostAddress \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QString \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QDebug \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QNetworkInterface \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkinterface.h \
 		../../zmq/zmq.hpp \
 		../../zmq.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QMainWindow \
@@ -3963,8 +3969,6 @@ release/main.o: ../../main.cpp ../../mainwindow.h \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlquery.h \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlError \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlerror.h \
-		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QNetworkInterface \
-		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkinterface.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QInputDialog \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qinputdialog.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlineedit.h \
@@ -4143,6 +4147,8 @@ release/mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QHostAddress \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QString \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QDebug \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QNetworkInterface \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkinterface.h \
 		../../zmq/zmq.hpp \
 		../../zmq.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QMainWindow \
@@ -4227,8 +4233,6 @@ release/mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlquery.h \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlError \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlerror.h \
-		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QNetworkInterface \
-		C:/Qt/6.7.2/mingw_64/include/QtNetwork/qnetworkinterface.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QInputDialog \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qinputdialog.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qlineedit.h \
