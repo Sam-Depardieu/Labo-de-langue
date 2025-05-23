@@ -18,6 +18,7 @@
 #include "qcm.h"
 #include "choixsession.h"
 #include "helpwindow.h"
+#include "gestionSession.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -177,6 +178,7 @@ private:
     void faireClignoterLabel();
     QMap<QString, QColor> couleursGroup;  // Clé : nom du groupe, Valeur : couleur
 
+    gestionSession* gestion_Session;
 };
 
 #endif // MAINWINDOW_H

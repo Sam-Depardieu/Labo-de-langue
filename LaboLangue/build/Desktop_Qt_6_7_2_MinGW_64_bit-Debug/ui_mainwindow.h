@@ -384,7 +384,7 @@ public:
         nomGroupeLineEdit->setGeometry(QRect(260, 320, 281, 41));
         AppelerButton = new QPushButton(centralwidget);
         AppelerButton->setObjectName("AppelerButton");
-        AppelerButton->setGeometry(QRect(720, 280, 171, 24));
+        AppelerButton->setGeometry(QRect(680, 310, 171, 24));
         redemarrerButton = new QPushButton(centralwidget);
         redemarrerButton->setObjectName("redemarrerButton");
         redemarrerButton->setGeometry(QRect(1100, 280, 171, 24));
@@ -420,6 +420,7 @@ public:
         reloadButton->setGeometry(QRect(610, 110, 20, 20));
         reloadButton->setStyleSheet(QString::fromUtf8("background-color: transparent; border: none;"));
         MainWindow->setCentralWidget(centralwidget);
+        ParametrageSession->raise();
         nomGroupeLineEdit->raise();
         nomCreationGroupeLabel->raise();
         alignerTableau_2->raise();
@@ -433,7 +434,6 @@ public:
         AideButton->raise();
         EnregistrementButton->raise();
         PlanClasse->raise();
-        ParametrageSession->raise();
         NomProfLabel->raise();
         NomProfLineEdit->raise();
         ChoixActLabel->raise();

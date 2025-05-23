@@ -951,8 +951,8 @@ border:none;
    <widget class="QPushButton" name="AppelerButton">
     <property name="geometry">
      <rect>
-      <x>720</x>
-      <y>280</y>
+      <x>680</x>
+      <y>310</y>
       <width>171</width>
       <height>24</height>
      </rect>
@@ -1056,6 +1056,7 @@ border:none;
      <string/>
     </property>
    </widget>
+   <zorder>ParametrageSession</zorder>
    <zorder>nomGroupeLineEdit</zorder>
    <zorder>nomCreationGroupeLabel</zorder>
    <zorder>alignerTableau_2</zorder>
@@ -1069,7 +1070,6 @@ border:none;
    <zorder>AideButton</zorder>
    <zorder>EnregistrementButton</zorder>
    <zorder>PlanClasse</zorder>
-   <zorder>ParametrageSession</zorder>
    <zorder>NomProfLabel</zorder>
    <zorder>NomProfLineEdit</zorder>
    <zorder>ChoixActLabel</zorder>
