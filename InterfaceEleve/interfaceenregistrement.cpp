@@ -53,9 +53,10 @@ InterfaceEnregistrement::InterfaceEnregistrement(MainWindow* parentWindow, QWidg
     connect(mediaRecorder, &QMediaRecorder::errorOccurred, this, &InterfaceEnregistrement::onRecorderErrorOccurred);
 
     // UDP chrono (fermeture automatique)
+    /*
     udpChrono.bind(QHostAddress::Any, chronoPort);
     connect(&udpChrono, &QUdpSocket::readyRead, this, &InterfaceEnregistrement::onUdpTimeout);
-
+    */
     // Affichage des icônes de bouton
     setButtonIcons();
 
@@ -83,7 +84,7 @@ InterfaceEnregistrement::InterfaceEnregistrement(MainWindow* parentWindow, QWidg
 
     // Chargement des consignes
     ui->textEditConsigne->setText(mainWindow->getConsigne());
-
+    /*
     // Chrono global (chronoLabel)
     ui->chronoLabel->setVisible(true);
     ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: white; border: 2px solid white; border-radius: 8px; font-family: 'Segoe UI', 'Arial'; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
@@ -100,6 +101,7 @@ InterfaceEnregistrement::InterfaceEnregistrement(MainWindow* parentWindow, QWidg
     ui->chrono_enregistrement->setText("00:00:00");
     ui->chrono_enregistrement->setVisible(true);
     ui->chrono_enregistrement->setStyleSheet("font-size: 24px; font-weight: bold; color: black;");
+    */
 }
 
 InterfaceEnregistrement::~InterfaceEnregistrement()
