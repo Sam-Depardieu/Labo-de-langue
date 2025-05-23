@@ -121,49 +121,45 @@ void InterfaceEnregistrement::setButtonIcons()
 
 void InterfaceEnregistrement::on_pushButtonSpeak_clicked()
 {
+    if (timer->isActive()) {
+        timer->stop();
+    }
+    totalSecondes = 0;
+    ui->chrono_enregistrement->setText("00:00:00");
+    qDebug() << "🔄 Chrono remis à zéro via Speak.";
+
+    // --- 2) Si un enregistrement est déjà en cours, on l'arrête proprement ---
     if (mediaRecorder->recorderState() != QMediaRecorder::StoppedState) {
         mediaRecorder->stop();
-        timer->stop();
         qDebug() << "🛑 Enregistrement existant stoppé via Speak.";
     }
 
-    // 2) Supprimer l’ancien fichier réellement enregistré
-    if (!audioFilePath.isEmpty() && QFile::exists(audioFilePath)) {
+    // --- 3) Préparer le dossier Travail et le nom de fichier fixe ---
+    const QString docs   = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+    const QString folder = QDir(docs).filePath("Travail");
+    if (!QDir(folder).exists()) QDir().mkpath(folder);
+    audioFilePath = QDir(folder).filePath("enregistrement.wav");
+
+    // --- 4) Supprimer l’ancien fichier s’il existe ---
+    if (QFile::exists(audioFilePath)) {
         QFile::remove(audioFilePath);
         qDebug() << "🗑 Ancien enregistrement supprimé :" << audioFilePath;
     }
 
-    // 3) Préparer le dossier & chemin du nouveau fichier
-    const QString docs   = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
-    const QString folder = QDir(docs).filePath("Travail");
-    if (!QDir(folder).exists()) QDir().mkpath(folder);
-
-    const QString timestamp = QDateTime::currentDateTime().toString("yyyyMMdd_hhmmss");
-    audioFilePath = QDir(folder).filePath(timestamp + ".wav");
-    qDebug() << "🎙 Création du fichier :" << audioFilePath;
-
-    // 4) Réinitialiser le chrono
-    totalSecondes = 0;
-    ui->chrono_enregistrement->setText("00:00:00");
-
-    // 5) Configurer & lancer l’enregistrement
+    // --- 5) Configurer & lancer le nouvel enregistrement ---
     QMediaFormat fmt;
     fmt.setFileFormat(QMediaFormat::FileFormat::Wave);
     mediaRecorder->setMediaFormat(fmt);
     mediaRecorder->setOutputLocation(QUrl::fromLocalFile(audioFilePath));
     mediaRecorder->record();
 
-    // 6) Redémarrer le timer en s'assurant qu'il est arrêté d'abord
-    timer->stop();
+    // --- 6) Relancer le timer pour le chrono d’enregistrement ---
     timer->start(1000);
 
-    // 7) Mémoriser ce fichier pour la prochaine suppression
-    audioFilePath = audioFilePath;
-
-    // 8) Mettre à jour l’UI
+    // --- 7) Mettre à jour l’UI des boutons ---
     ui->pushButtonPause->setVisible(true);
     ui->pushButtonPlay ->setVisible(false);
-    qDebug() << "▶️ Nouvel enregistrement démarré";
+    qDebug() << "▶️ Nouvel enregistrement démarré, fichier :" << audioFilePath;
 }
 void InterfaceEnregistrement::on_pushButtonEnregistrer_clicked()
 {
@@ -215,37 +211,44 @@ void InterfaceEnregistrement::on_pushButtonEnregistrer_clicked()
 }
 void InterfaceEnregistrement::on_pushButtonPause_clicked()
 {
+    // 0) Si on était en rewind, on l'interrompt d'abord
+    if (isRewinding) {
+        rewindTimer->stop();
+        isRewinding = false;
+        qDebug() << "⏸️ Rewind stoppé à" << totalSecondes << "s";
+    }
     // 1) Arrêt immédiat du chrono, quel que soit le recorderState
     if (timer->isActive())
         timer->stop();
 
-    // met en pause l'enregistrement si on enregistre
+    // 2) met en pause l'enregistrement si on enregistre
     if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState)
         mediaRecorder->pause();
 
-    // UI : cacher Pause, afficher Play
+    // 3) UI : cacher Pause, afficher Play
     ui->pushButtonPause->setVisible(false);
-    ui->pushButtonPlay->setVisible(true);
+    ui->pushButtonPlay ->setVisible(true);
 
     qDebug() << "⏸️ Chrono et enregistrement mis en pause à" << totalSecondes;
 }
 
 void InterfaceEnregistrement::on_pushButtonPlay_clicked()
 {
-    // 1) Relance du chrono
+    // 1) Relance du chrono (sauf si on est encore en rewind, mais on désactive rewind dans pause)
     if (!timer->isActive())
         timer->start(1000);
 
-    // reprend l'enregistrement si on était en pause
+    // 2) reprend l'enregistrement si on était en pause
     if (mediaRecorder->recorderState() == QMediaRecorder::PausedState)
         mediaRecorder->record();
 
-    // UI : cacher Play, afficher Pause
-    ui->pushButtonPlay->setVisible(false);
+    // 3) UI : cacher Play, afficher Pause
+    ui->pushButtonPlay ->setVisible(false);
     ui->pushButtonPause->setVisible(true);
 
     qDebug() << "▶️ Chrono et enregistrement repris à" << totalSecondes;
 }
+
 
 void InterfaceEnregistrement::on_pushButtonClear_clicked()
 {
@@ -335,8 +338,8 @@ void InterfaceEnregistrement::updateChronoLabel()
 }
 void InterfaceEnregistrement::on_pushButtonAppelProf_clicked()
 {
-    ui->pushButtonAppelProf->setStyleSheet("QPushButton { background-color: none; border: none; }");
-    qWarning() << "Label Appel Prof affiche";
+    ui->pushButtonAppelProf->setStyleSheet(" border:1px solid white; border-radius:20px;");
+    isButtonAppelProfImage = false;
 
     QUdpSocket *udpSocket = new QUdpSocket(this);
     QJsonObject message;

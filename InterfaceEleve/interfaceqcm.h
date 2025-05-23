@@ -63,17 +63,20 @@ private:
     bool isButtonAppelProfImage;
     void setButtonIcons();
 
-    QUdpSocket udpSocketConsigne;
-    quint16 consignePort = 5558;
+
 
     QString consigne = "";
     bool Professor = false;
     bool clignotementEtat;
 
+
     QJsonArray questionArray;
     int currentQuestionIndex;
 
     void loadQuestionsJson(QString &filePath);
+    void loadConsigneJson(QString &filePath);
+    QUdpSocket udpSocketConsigne;
+    quint16 consignePort = 5558;
     void showCurrentQuestion();
     QUdpSocket udpChrono;
     quint16 chronoPort = 5558;

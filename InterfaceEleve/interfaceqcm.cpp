@@ -31,9 +31,16 @@ InterfaceQCM::InterfaceQCM(MainWindow *parentWindow ,QWidget *parent)
     }
 
     loadQuestionsJson(sessionPATH);
+
+    loadConsigneJson(sessionPATH);
+
+
     currentQuestionIndex = 0;
     showCurrentQuestion();
     ui->chronoLabel->setVisible(true);
+
+
+
 
     remainingTime = parentWindow->getTime();
 
@@ -69,6 +76,7 @@ InterfaceQCM::InterfaceQCM(MainWindow *parentWindow ,QWidget *parent)
     ui->listViewAvancement->setModel(model);
     ui->listViewAvancement->setItemDelegate(new AvancementQCM(this));
     ui->listViewAvancement->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
 
 }
 
@@ -111,7 +119,7 @@ InterfaceQCM::~InterfaceQCM()
 void InterfaceQCM::loadQuestionsJson(QString &filePath)
 {
     //QFile file("//CIEL-T171-05/Activites/erytz_2025-05-20_17-37");
-    QString chemin = R"(//CIEL-T171-05/Activites/erytz_2025-05-20_17-37/questions.qcmlabo)";
+    QString chemin = R"(%1/questions.qcmlabo)";
     QFile file(chemin.arg(filePath));
     qDebug() << "📂 Ouverture du fichier JSON :" << file.fileName();
 
@@ -188,6 +196,47 @@ void InterfaceQCM::showCurrentQuestion()
 
     // Le bouton "Soumettre" activé seulement si dernière question
     ui->pushButtonSoumettre->setEnabled(currentQuestionIndex == questionArray.size() - 1);
+}
+
+void InterfaceQCM::loadConsigneJson(QString &filePath)
+{
+    QString cheminConsigne = QString("%1/config.labo").arg(filePath);
+    QFile file(cheminConsigne);
+
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QMessageBox::warning(this, "Erreur", "Impossible d'ouvrir le fichier consigne JSON.");
+        return;
+    }
+
+    QByteArray jsonData = file.readAll();
+    file.close();
+
+    QJsonDocument doc = QJsonDocument::fromJson(jsonData);
+    if (doc.isNull() || !doc.isObject()) {
+        QMessageBox::warning(this, "Erreur", "Le fichier consigne JSON n'est pas valide.");
+        return;
+    }
+
+    QJsonObject obj = doc.object();
+
+    // Extraction du port
+    QString portStr = obj.value("port").toString();
+    bool ok;
+    quint16 portNum = portStr.toUShort(&ok);
+    if (ok) {
+        consignePort = portNum;
+        qDebug() << "Port consigne chargé:" << consignePort;
+    } /*else {
+        qWarning() << "Conversion du port consigne impossible, valeur par défaut utilisée:" << consignePort;
+    }*/
+
+    // Extraction de la consigne
+    consigne = obj.value("consigne").toString();
+
+    // Affichage dans le textEditConsigne avec "Consigne :"
+    QString currentText = ui->textEditConsigne->toPlainText(); // Conserve l'ancien texte
+    currentText += QString(" %1\n").arg(consigne);   // Ajoute la nouvelle consigne formatée
+    ui->textEditConsigne->setPlainText(currentText);           // Met à jour le champ texte
 }
 
 
@@ -411,15 +460,10 @@ void InterfaceQCM::on_pushButtonSoumettre_clicked()
         out << "\n";
     }
 
-    file.close();
+    //file.close();
     QMessageBox::information(this, "Soumission", "Réponses enregistrées.");
     accept();
 }
-
-
-
-
-
 
 void InterfaceQCM::on_pushButtonAppelProf_clicked()
 {
