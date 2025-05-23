@@ -1,6 +1,7 @@
 #ifndef STUDENT_H
 #define STUDENT_H
 
+#include "qnetworkinterface.h"
 #include <QObject>
 #include <QAudioInput>
 #include <QAudioOutput>
@@ -67,6 +68,17 @@ private:
 
     void setupZMQ();
     void closeZMQ();
+
+    QString getLocalIp()
+    {
+        for (const QHostAddress& addr : QNetworkInterface::allAddresses()) {
+            if (addr.protocol() == QAbstractSocket::IPv4Protocol && !addr.isLoopback()) {
+                return addr.toString();
+            }
+        }
+        return "127.0.0.1";
+    }
+
 };
 
 #endif // STUDENT_H

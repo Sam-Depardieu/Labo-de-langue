@@ -40,9 +40,10 @@ namespace {
 struct qt_meta_stringdata_CLASSProfessorENDCLASS_t {};
 constexpr auto qt_meta_stringdata_CLASSProfessorENDCLASS = QtMocHelpers::stringData(
     "Professor",
-    "sendAudioData",
+    "sendAudioDataToGroup",
     "",
-    "receiveAudioData",
+    "groupName",
+    "receiveAudioDataFromGroup",
     "processPendingDatagrams"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
@@ -64,13 +65,13 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSProfessorENDCLASS[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    0,   32,    2, 0x0a,    1 /* Public */,
-       3,    0,   33,    2, 0x0a,    2 /* Public */,
-       4,    0,   34,    2, 0x0a,    3 /* Public */,
+       1,    1,   32,    2, 0x0a,    1 /* Public */,
+       4,    1,   35,    2, 0x0a,    3 /* Public */,
+       5,    0,   38,    2, 0x0a,    5 /* Public */,
 
  // slots: parameters
-    QMetaType::Void,
-    QMetaType::Void,
+    QMetaType::Void, QMetaType::QString,    3,
+    QMetaType::Void, QMetaType::QString,    3,
     QMetaType::Void,
 
        0        // eod
@@ -85,10 +86,12 @@ Q_CONSTINIT const QMetaObject Professor::staticMetaObject = { {
     qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSProfessorENDCLASS_t,
         // Q_OBJECT / Q_GADGET
         QtPrivate::TypeAndForceComplete<Professor, std::true_type>,
-        // method 'sendAudioData'
+        // method 'sendAudioDataToGroup'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'receiveAudioData'
+        QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
+        // method 'receiveAudioDataFromGroup'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
         // method 'processPendingDatagrams'
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
@@ -101,13 +104,12 @@ void Professor::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, v
         auto *_t = static_cast<Professor *>(_o);
         (void)_t;
         switch (_id) {
-        case 0: _t->sendAudioData(); break;
-        case 1: _t->receiveAudioData(); break;
+        case 0: _t->sendAudioDataToGroup((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
+        case 1: _t->receiveAudioDataFromGroup((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
         case 2: _t->processPendingDatagrams(); break;
         default: ;
         }
     }
-    (void)_a;
 }
 
 const QMetaObject *Professor::metaObject() const

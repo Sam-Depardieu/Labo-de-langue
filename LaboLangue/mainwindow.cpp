@@ -1520,6 +1520,9 @@ void MainWindow::onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve)
         membres.push_back(eleve);
     }
 
+    int portAudio;
+    QString commande;
+
     // Mettre à jour les affiliés et pastilles pour chaque membre
     for (iconEleveGroup* membre : membres) {
         membre->getAffiliate().clear();  // Nettoyer les anciens affiliés
@@ -1546,8 +1549,12 @@ void MainWindow::onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve)
             portsAudioGroupes[groupe] = prochainPortAudioDisponible++;
         }
 
-        int portAudio = portsAudioGroupes[groupe];
-        QString commande = "portGroup," + QString::number(portAudio);
+        if (prof && !prof->audioGroupExists(groupe)) {
+            prof->addAudioGroup(groupe, portsAudioGroupes[groupe]);
+        }
+
+        portAudio = portsAudioGroupes[groupe];
+        commande = "portGroup," + QString::number(portAudio);
 
         if (prof) {
             prof->sendCommandToStudent(membre->getIP(), 5558, commande);

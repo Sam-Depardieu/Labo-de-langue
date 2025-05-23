@@ -36,13 +36,12 @@ public:
     void sendCommandToStudent(const QString& studentIp, int port, const QString& command);
     void fermerCommunications();
     QString getStudentStatus(const QString& studentIp);
+    bool audioGroupExists(const QString& groupName) const {return audioGroupMap.contains(groupName);}
 
     // Ajoute un nouveau groupe audio
     void addAudioGroup(const QString& groupName, int portAudio);
 
 public slots:
-    void sendAudioData();                // (Optionnel) Envoi global
-    void receiveAudioData();            // (Optionnel) Réception globale
     void sendAudioDataToGroup(const QString& groupName);
     void receiveAudioDataFromGroup(const QString& groupName);
     void processPendingDatagrams();
@@ -82,6 +81,17 @@ private:
     bool audioError = false;
 
     MainWindow* mainWindow = nullptr;
+
+    QString getLocalIp()
+    {
+        for (const QHostAddress& addr : QNetworkInterface::allAddresses()) {
+            if (addr.protocol() == QAbstractSocket::IPv4Protocol && !addr.isLoopback()) {
+                return addr.toString();
+            }
+        }
+        return "127.0.0.1";
+    }
+
 };
 
 #endif // AUDIOCOMMUNICATOR_H

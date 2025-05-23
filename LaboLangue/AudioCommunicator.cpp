@@ -77,7 +77,12 @@ void Professor::addAudioGroup(const QString& groupName, int portAudio)
     auto sendTimer = new QTimer(this);
     auto receiveTimer = new QTimer(this);
 
-    connect(sendTimer, &QTimer::timeout, this, [=]() { sendAudioDataToGroup(groupName); });
+    connect(sendTimer, &QTimer::timeout, this, [this, groupName]() {
+        if (audioGroupMap.contains(groupName)) {
+            sendAudioDataToGroup(groupName);
+        }
+    });
+
     connect(receiveTimer, &QTimer::timeout, this, [=]() { receiveAudioDataFromGroup(groupName); });
 
     sendTimer->start(100);
@@ -94,7 +99,10 @@ void Professor::sendAudioDataToGroup(const QString& groupName)
 {
     if (!audioGroupMap.contains(groupName)) return;
 
+    if (!audioSourceDevice || audioSourceDevice->bytesAvailable() <= 0)
+        return;
     QByteArray data = audioSourceDevice->readAll();
+
     if (data.isEmpty()) return;
 
     auto& push = audioGroupMap[groupName].pushSocket;
@@ -113,17 +121,42 @@ void Professor::receiveAudioDataFromGroup(const QString& groupName)
 {
     if (!audioGroupMap.contains(groupName)) return;
 
-    auto& pull = audioGroupMap[groupName].pullSocket;
+    auto& group = audioGroupMap[groupName];
+    auto& pull = group.pullSocket;
 
     zmq::message_t msg;
     auto result = pull->recv(msg, zmq::recv_flags::dontwait);
-
     if (!result) return;
 
-    QByteArray data(static_cast<char*>(msg.data()), msg.size());
-    audioSinkDevice->write(data);
-    qDebug() << "[Professor]" << groupName << " - audio reçu de taille:" << data.size();
+    QByteArray rawData(static_cast<char*>(msg.data()), msg.size());
+
+    int sepIndex = rawData.indexOf('|');
+    if (sepIndex == -1) return;
+
+    QByteArray senderIp = rawData.left(sepIndex);
+    QByteArray audioData = rawData.mid(sepIndex + 1);
+
+    // Ne pas jouer le son si le prof est l'émetteur
+    if (senderIp != getLocalIp().toUtf8()) {
+        audioSinkDevice->write(audioData);
+    }
+
+    // Rediffuser à tous les élèves sauf celui qui a parlé
+    for (iconEleveGroup* membre : listeGroup[groupName]) {
+        if (membre->getIP().toUtf8() == senderIp) continue;
+
+        try {
+            QByteArray message = membre->getIP().toUtf8() + "|" + audioData;
+            zmq::message_t forwardMsg(message.constData(), message.size());
+            group.pushSocket->send(forwardMsg, zmq::send_flags::none);
+        } catch (...) {
+            qWarning() << "[Professor] Erreur relai ZMQ pour" << membre->getIP();
+        }
+    }
+
+    qDebug() << "[Professor] Audio reçu de" << senderIp << "relayé au groupe" << groupName;
 }
+
 
 // Commandes UDP
 void Professor::sendCommandToStudent(const QString& studentIp, int port, const QString& command)
