@@ -1,7 +1,6 @@
 #ifndef STUDENT_H
 #define STUDENT_H
 
-#include "qnetworkinterface.h"
 #include <QObject>
 #include <QAudioInput>
 #include <QAudioOutput>
@@ -15,6 +14,7 @@
 #include <QHostAddress>
 #include <QString>
 #include <QDebug>
+#include <QNetworkInterface>
 
 #include <zmq/zmq.hpp>
 

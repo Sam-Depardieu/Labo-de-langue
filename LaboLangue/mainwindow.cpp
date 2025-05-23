@@ -1561,8 +1561,20 @@ void MainWindow::onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve)
         }
     }
 
+    prof->sendCommandToStudent(eleveActuellementParametre->getIP(), 5558, commande);
+
     loadInformationTable(); // Rafraîchir l'interface
 }
+
+bool MainWindow::portEstDejaUtilise(int port)
+{
+    QTcpSocket socket;
+    socket.connectToHost(QHostAddress::LocalHost, port);
+    bool used = socket.waitForConnected(10);
+    socket.abort(); // ferme immédiatement
+    return used;
+}
+
 
 void MainWindow::on_nomGroupeLineEdit_returnPressed()
 {

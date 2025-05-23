@@ -77,12 +77,7 @@ void Professor::addAudioGroup(const QString& groupName, int portAudio)
     auto sendTimer = new QTimer(this);
     auto receiveTimer = new QTimer(this);
 
-    connect(sendTimer, &QTimer::timeout, this, [this, groupName]() {
-        if (audioGroupMap.contains(groupName)) {
-            sendAudioDataToGroup(groupName);
-        }
-    });
-
+    connect(sendTimer, &QTimer::timeout, this, [=]() { sendAudioDataToGroup(groupName); });
     connect(receiveTimer, &QTimer::timeout, this, [=]() { receiveAudioDataFromGroup(groupName); });
 
     sendTimer->start(100);
@@ -99,10 +94,7 @@ void Professor::sendAudioDataToGroup(const QString& groupName)
 {
     if (!audioGroupMap.contains(groupName)) return;
 
-    if (!audioSourceDevice || audioSourceDevice->bytesAvailable() <= 0)
-        return;
     QByteArray data = audioSourceDevice->readAll();
-
     if (data.isEmpty()) return;
 
     auto& push = audioGroupMap[groupName].pushSocket;
@@ -117,44 +109,32 @@ void Professor::sendAudioDataToGroup(const QString& groupName)
 }
 
 // Réception audio d’un groupe
+// Reçoit l’audio d’un élève et le rediffuse au groupe
 void Professor::receiveAudioDataFromGroup(const QString& groupName)
 {
     if (!audioGroupMap.contains(groupName)) return;
 
     auto& group = audioGroupMap[groupName];
     auto& pull = group.pullSocket;
+    auto& push = group.pushSocket;
 
     zmq::message_t msg;
     auto result = pull->recv(msg, zmq::recv_flags::dontwait);
     if (!result) return;
 
-    QByteArray rawData(static_cast<char*>(msg.data()), msg.size());
+    QByteArray data(static_cast<char*>(msg.data()), msg.size());
 
-    int sepIndex = rawData.indexOf('|');
-    if (sepIndex == -1) return;
+    // Le professeur peut entendre aussi
+    //audioSinkDevice->write(data);
 
-    QByteArray senderIp = rawData.left(sepIndex);
-    QByteArray audioData = rawData.mid(sepIndex + 1);
-
-    // Ne pas jouer le son si le prof est l'émetteur
-    if (senderIp != getLocalIp().toUtf8()) {
-        audioSinkDevice->write(audioData);
+    // Rediffusion à tous les élèves du groupe
+    try {
+        zmq::message_t forwardMsg(data.constData(), data.size());
+        push->send(forwardMsg, zmq::send_flags::none);
+        qDebug() << "[Professor]" << groupName << " - audio relayé de taille:" << data.size();
+    } catch (...) {
+        qWarning() << "[Professor] Erreur de relai ZMQ groupe" << groupName;
     }
-
-    // Rediffuser à tous les élèves sauf celui qui a parlé
-    for (iconEleveGroup* membre : listeGroup[groupName]) {
-        if (membre->getIP().toUtf8() == senderIp) continue;
-
-        try {
-            QByteArray message = membre->getIP().toUtf8() + "|" + audioData;
-            zmq::message_t forwardMsg(message.constData(), message.size());
-            group.pushSocket->send(forwardMsg, zmq::send_flags::none);
-        } catch (...) {
-            qWarning() << "[Professor] Erreur relai ZMQ pour" << membre->getIP();
-        }
-    }
-
-    qDebug() << "[Professor] Audio reçu de" << senderIp << "relayé au groupe" << groupName;
 }
 
 

@@ -37,17 +37,20 @@ void Student::setGroupPort(int port) {
 
 void Student::setupZMQ() {
     try {
-        // PUSH pour envoyer
+        // PUSH vers le prof → port + 1
         pushSocket = new zmq::socket_t(context, ZMQ_PUSH);
-        pushSocket->connect(("tcp://192.168.64.1:" + QString::number(portGroupAudio)).toStdString());
+        pushSocket->connect(("tcp://"+profIP+":" + QString::number(portGroupAudio + 1)).toStdString());
 
-        // PULL pour recevoir
+        // PULL depuis le prof ← port
         pullSocket = new zmq::socket_t(context, ZMQ_PULL);
-        pullSocket->connect(("tcp://192.168.64.1:" + QString::number(portGroupAudio + 1)).toStdString());
+        pullSocket->connect(("tcp://"+profIP+":" + QString::number(portGroupAudio)).toStdString());
+
+        qDebug() << "[Student] PUSH →" << portGroupAudio + 1 << ", PULL ←" << portGroupAudio;
     } catch (const zmq::error_t& e) {
         qCritical() << "Erreur ZMQ (setup) :" << e.what();
     }
 }
+
 
 void Student::closeZMQ() {
     if (pushSocket) {
@@ -115,25 +118,21 @@ void Student::sendAudioData() {
         return;
     }
 
-    QByteArray audioData = audioInput->readAll();
-    if (audioData.isEmpty()) {
+    QByteArray data = audioInput->readAll();
+    if (data.isEmpty()) {
         qDebug() << "[Student] Aucun audio lu depuis le micro.";
         return;
     }
 
-    // Préparer le message avec IP + '|' + audioData
-    QByteArray messageData = getLocalIp().toUtf8() + '|' + audioData;
-
-    qDebug() << "[Student] Envoi de" << audioData.size() << "octets audio au groupe (port:" << portGroupAudio << ")";
+    qDebug() << "[Student] Envoi de" << data.size() << "octets audio au groupe (port:" << portGroupAudio << ")";
 
     try {
-        zmq::message_t message(messageData.constData(), messageData.size());
+        zmq::message_t message(data.constData(), data.size());
         pushSocket->send(message, zmq::send_flags::none);
     } catch (const zmq::error_t& e) {
         qWarning() << "[Student] Erreur lors de l'envoi audio via ZMQ:" << e.what();
     }
 }
-
 
 
 // Réception de l'audio du groupe
@@ -156,28 +155,12 @@ void Student::receiveAudioData() {
         return;
     }
 
-    QByteArray rawData(static_cast<char*>(message.data()), message.size());
+    QByteArray data(static_cast<char*>(message.data()), message.size());
+    qDebug() << "[Student] Reçu" << data.size() << "octets audio du groupe (port:" << portGroupAudio << ")";
 
-    // Séparer IP de l'expéditeur et données audio
-    int sepIndex = rawData.indexOf('|');
-    if (sepIndex == -1) {
-        qWarning() << "[Student] Format du message audio invalide.";
-        return;
-    }
-
-    QByteArray senderIp = rawData.left(sepIndex);
-    QByteArray audioData = rawData.mid(sepIndex + 1);
-
-    if (senderIp == getLocalIp().toUtf8()) {
-        // C'est notre propre voix, ne pas jouer
-        return;
-    }
-
-    qint64 bytesWritten = audioOutput->write(audioData);
+    qint64 bytesWritten = audioOutput->write(data);
     if (bytesWritten <= 0) {
         qWarning() << "[Student] Échec lors de l'écriture de l'audio sur la sortie.";
-    } else {
-        qDebug() << "[Student] Audio joué, taille:" << audioData.size();
     }
 }
 
