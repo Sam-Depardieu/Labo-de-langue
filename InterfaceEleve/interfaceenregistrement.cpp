@@ -441,9 +441,8 @@ void InterfaceEnregistrement::updateChronoenregistrement()
 
 void InterfaceEnregistrement::on_pushButtonAppelProf_clicked()
 {
-    ui->pushButtonAppelProf->setStyleSheet("QPushButton { background-color: none; border: none; }");
-    //ui->labelAppelProf->show();
-    qWarning() << "Label Appel Prof affiche";
+    ui->pushButtonAppelProf->setStyleSheet(" border:1px solid white; border-radius:20px;");
+    isButtonAppelProfImage = false;
 
     QUdpSocket *udpSocket = new QUdpSocket(this);
     QJsonObject message;
