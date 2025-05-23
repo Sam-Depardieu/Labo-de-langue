@@ -10,9 +10,6 @@ CONFIG -= app_bundle
 TARGET = LaboLangue
 TEMPLATE = app
 
-INCLUDEPATH += $$PWD/zmq/include
-LIBS += -L$$PWD/zmq/ -lzmq  # MSVC
-
 QT += multimedia multimediawidgets
 
 # You can make your code fail to compile if it uses deprecated APIs.
@@ -22,6 +19,7 @@ QT += multimedia multimediawidgets
 SOURCES += \
     AudioCommunicator.cpp \
     choixsession.cpp \
+    gestionSession.cpp \
     helpwindow.cpp \
     iconEleveGroup.cpp \
     main.cpp \
@@ -31,6 +29,7 @@ SOURCES += \
 HEADERS += \
     AudioCommunicator.h \
     choixsession.h \
+    gestionSession.h \
     helpwindow.h \
     iconEleveGroup.h \
     mainwindow.h \
