@@ -87,9 +87,12 @@ private:
 
     QUdpSocket *udpSocketNomFichier;
     quint16 portNomFichier = 5561;
+    QUdpSocket udpSocketConsigne;
+    quint16 portConsigne = 5558;
 
     QUdpSocket udpSocketDemande;
     quint16 portDemande = 5561;
+
 
     QWidget *currentChild = nullptr;
     QShortcut *shortcutQcm;

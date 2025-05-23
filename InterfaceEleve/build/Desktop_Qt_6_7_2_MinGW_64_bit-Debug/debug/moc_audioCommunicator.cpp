@@ -36,10 +36,18 @@ namespace {
 struct qt_meta_stringdata_CLASSStudentENDCLASS_t {};
 constexpr auto qt_meta_stringdata_CLASSStudentENDCLASS = QtMocHelpers::stringData(
     "Student",
-    "handleCommand",
+    "captureAndSendAudio",
     "",
-    "sendAudioData",
-    "receiveAudioData"
+    "receiveAudio",
+    "processCommands",
+    "changeAudioGroup",
+    "QHostAddress",
+    "newAddress",
+    "newPort",
+    "onAudioSourceStateChanged",
+    "QAudio::State",
+    "newState",
+    "initializeAudioCommunication"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
 #error "qtmochelpers.h not found or too old."
@@ -52,7 +60,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSStudentENDCLASS[] = {
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-       3,   14, // methods
+       6,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -60,13 +68,19 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSStudentENDCLASS[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    0,   32,    2, 0x0a,    1 /* Public */,
-       3,    0,   33,    2, 0x0a,    2 /* Public */,
-       4,    0,   34,    2, 0x0a,    3 /* Public */,
+       1,    0,   50,    2, 0x0a,    1 /* Public */,
+       3,    0,   51,    2, 0x0a,    2 /* Public */,
+       4,    0,   52,    2, 0x0a,    3 /* Public */,
+       5,    2,   53,    2, 0x0a,    4 /* Public */,
+       9,    1,   58,    2, 0x0a,    7 /* Public */,
+      12,    0,   61,    2, 0x0a,    9 /* Public */,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void, 0x80000000 | 6, QMetaType::UShort,    7,    8,
+    QMetaType::Void, 0x80000000 | 10,   11,
     QMetaType::Void,
 
        0        // eod
@@ -81,11 +95,20 @@ Q_CONSTINIT const QMetaObject Student::staticMetaObject = { {
     qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSStudentENDCLASS_t,
         // Q_OBJECT / Q_GADGET
         QtPrivate::TypeAndForceComplete<Student, std::true_type>,
-        // method 'handleCommand'
+        // method 'captureAndSendAudio'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'sendAudioData'
+        // method 'receiveAudio'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'receiveAudioData'
+        // method 'processCommands'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'changeAudioGroup'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<const QHostAddress &, std::false_type>,
+        QtPrivate::TypeAndForceComplete<quint16, std::false_type>,
+        // method 'onAudioSourceStateChanged'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<QAudio::State, std::false_type>,
+        // method 'initializeAudioCommunication'
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
@@ -97,13 +120,15 @@ void Student::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
         auto *_t = static_cast<Student *>(_o);
         (void)_t;
         switch (_id) {
-        case 0: _t->handleCommand(); break;
-        case 1: _t->sendAudioData(); break;
-        case 2: _t->receiveAudioData(); break;
+        case 0: _t->captureAndSendAudio(); break;
+        case 1: _t->receiveAudio(); break;
+        case 2: _t->processCommands(); break;
+        case 3: _t->changeAudioGroup((*reinterpret_cast< std::add_pointer_t<QHostAddress>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<quint16>>(_a[2]))); break;
+        case 4: _t->onAudioSourceStateChanged((*reinterpret_cast< std::add_pointer_t<QAudio::State>>(_a[1]))); break;
+        case 5: _t->initializeAudioCommunication(); break;
         default: ;
         }
     }
-    (void)_a;
 }
 
 const QMetaObject *Student::metaObject() const
@@ -125,13 +150,13 @@ int Student::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 3)
+        if (_id < 6)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 3;
+        _id -= 6;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 3)
+        if (_id < 6)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 3;
+        _id -= 6;
     }
     return _id;
 }

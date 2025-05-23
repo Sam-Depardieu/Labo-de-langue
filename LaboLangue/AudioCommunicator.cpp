@@ -90,8 +90,4 @@ void Professeur::sendCommandToStudent(const QString& studentIp, int port, const 
     qDebug() << "[Command] vers" << studentIp << ":" << command;
 }
 
-// Commandes audio individuelles
-void Professeur::muteStudent(const QString& studentIp) { sendCommandToStudent(studentIp, 5557, "mute"); }
-void Professeur::unmuteStudent(const QString& studentIp) { sendCommandToStudent(studentIp, 5557, "unmute"); }
-void Professeur::activerSonStudent(const QString& studentIp) { sendCommandToStudent(studentIp, 5557, "activerSon"); }
-void Professeur::desactiverSonStudent(const QString& studentIp) { sendCommandToStudent(studentIp, 5557, "desactiverSon"); }
+

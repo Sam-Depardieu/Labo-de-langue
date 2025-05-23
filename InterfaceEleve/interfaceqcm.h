@@ -45,8 +45,11 @@ private slots:
     void updateChronoLabel();
     void faireClignoterLabel();
 
-
     void on_pushButtonAppelProf_clicked();
+
+    void updateAvancement(int questionIndex);
+
+
 
 private:
     Ui::InterfaceQCM *ui;
@@ -80,6 +83,7 @@ private:
     QTimer *chronoTimer;
     QTime remainingTime;
     QTimer* clignotementTimer;
+    QMap<int, QVector<bool>> userAnswers;  // Index de la question → [état bouton1, bouton2, bouton3, bouton4]
 
 
 };

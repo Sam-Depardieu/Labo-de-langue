@@ -150,11 +150,10 @@ private:
     unsigned int portQCM = 5559;
     QMap<QString, int> portsAudioGroupes; // Groupe → port (ex: "Groupe A" → 6000)
     int prochainPortAudioDisponible = 6000;
-    QMap<QString, zmq::socket_t*> pushSocketsGroup;
 
 
     // === Divers ===
-    Professor *prof = nullptr;
+    Professeur *prof = nullptr;
     bool modeSombre = true;
     bool movable = false;
     bool clignotementEtat = false;
