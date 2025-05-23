@@ -1,12 +1,38 @@
 #include "gestionSession.h"
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QDateTime>
 #include <QDebug>
 
 // Constructeur
-gestionSession::gestionSession(QSqlDatabase db, QObject *parent)
-    : QObject(parent), m_db(db) {}
+gestionSession::gestionSession(MainWindow *mainW, QSqlDatabase db, QObject *parent)
+    : QObject(parent), mainWindow(mainW), m_db(db) {
+    auto *ui = mainWindow->ui;
+
+    // Créer le layout principal pour le parametrage de session avec les éléments disposés
+    QVBoxLayout *layoutParametrageSession = new QVBoxLayout();
+    layoutParametrageSession->setContentsMargins(8, 8, 15, 8);
+    layoutParametrageSession->setAlignment(Qt::AlignCenter | Qt::AlignTop);
+    // Ajout des sections dans le layoutParametrageSession
+    mainWindow->addHorizontalLayout(layoutParametrageSession, {ui->NomProfLabel, ui->NomProfLineEdit, ui->loadSession});
+    mainWindow->addHorizontalLayout(layoutParametrageSession, {ui->ChoixActLabel, ui->ChoixActivite});
+    mainWindow->addHorizontalLayout(layoutParametrageSession, {ui->DureeLabel, ui->DureeActivite});
+    mainWindow->addHorizontalLayout(layoutParametrageSession, {ui->ClasseLabel, ui->ChoixClasse});
+    mainWindow->addHorizontalLayout(layoutParametrageSession, {ui->ParticipantsLabel, ui->selectAll, ui->selectManuel});
+    mainWindow->addHorizontalLayout(layoutParametrageSession, {ui->SourceLabel, ui->NameSourceLabel, ui->SourceButton});
+    mainWindow->addHorizontalLayout(layoutParametrageSession, {ui->ConsigneLabel, ui->ConsigneTextEdit});
+    QHBoxLayout *hLayoutParametrageSession = new QHBoxLayout();
+    hLayoutParametrageSession->addWidget(ui->errorLabel);
+    layoutParametrageSession->addLayout(hLayoutParametrageSession);
+    layoutParametrageSession->addSpacing(10);
+    mainWindow->addHorizontalLayout(layoutParametrageSession, {ui->delButton, ui->echapButton, ui->validButton});
+    // Appliquez le layout à ParametrageSession
+    ui->ParametrageSession->setLayout(layoutParametrageSession);
+
+    ui->ParametrageSession->setVisible(false);
+}
 
 
 QStringList gestionSession::getActivites() {
@@ -115,4 +141,88 @@ bool gestionSession::validerEtEnregistrerSession(const QString &nomProf, const Q
         participant->getCasqueActiver()->setVisible(true);
     }
     return true;
+}
+
+void gestionSession::reset()
+{
+    for(unsigned int i=0; i!=mainWindow->listeParticipant.size();i++) mainWindow->getProf()->sendCommandToStudent(mainWindow->listeParticipant[i]->getIP(), 5557, "END");
+    // === Réinitialisation des IDs et variables de base ===
+    mainWindow->setIdTypeActivite(-1);
+    mainWindow->setIdClasse(-1);
+    mainWindow->setIdProf(-1);
+
+    // === Réinitialisation des listes d'élèves et groupes ===
+    mainWindow->listeRasp.clear();
+    mainWindow->listeParticipant.clear();
+    mainWindow->listeEleveParticipant.clear();
+    mainWindow->listeEditEleve.clear();
+    mainWindow->listeGroup.clear();
+    mainWindow->couleursGroup.clear();
+
+    // === Réinitialisation des variables d'état ===
+    mainWindow->runningSession = false;
+    mainWindow->parametrageSession = false;
+    mainWindow->selectionParticipants = false;
+    mainWindow->selectAllParticipants = false;
+    mainWindow->parametrageEleve = false;
+    mainWindow->eleveActuellementParametre = nullptr;
+    mainWindow->interfaceQCMOpen = false;
+
+    // === Réinitialisation des chaînes de caractères ===
+    mainWindow->getSource()->clear();
+    mainWindow->getNomProf()->clear();
+    mainWindow->getDuree()->clear();
+    mainWindow->getNomTypeActivite()->clear();
+    mainWindow->ui->errorLabel->clear();
+
+    // === Réinitialisation de l'interface utilisateur ===
+    mainWindow->ui->NomProfLineEdit->clear();
+    mainWindow->ui->ConsigneTextEdit->clear();
+    mainWindow->ui->DureeActivite->setTime(QTime(0, 0, 0));
+    mainWindow->ui->ChoixActivite->setCurrentIndex(0);
+    mainWindow->ui->ChoixClasse->setCurrentIndex(0);
+    mainWindow->ui->ParametrageSession->setVisible(false);
+    mainWindow->ui->cadenaCloseButton->setVisible(true);
+    mainWindow->ui->cadenaOpenButton->setVisible(false);
+    mainWindow->ui->chronoLabel->setVisible(false);
+    mainWindow->ui->envoyerMessageTextEdit->clear();
+    mainWindow->ui->TableauGroupe->setVisible(false);
+
+    // === Réinitialisation des boutons ===
+    mainWindow->editStatusButton(mainWindow->ui->PlanButton, false);
+    mainWindow->editStatusButton(mainWindow->ui->PresenceButton, false);
+    mainWindow->editStatusButton(mainWindow->ui->EnregistrementButton, false);
+    mainWindow->editStatusButton(mainWindow->ui->AppelButton, false);
+    mainWindow->editStatusButton(mainWindow->ui->StatutButton, false);
+    mainWindow->editStatusButton(mainWindow->ui->selectAll, true);
+    mainWindow->editStatusButton(mainWindow->ui->selectManuel, true);
+    mainWindow->ui->selectManuel->setStyleSheet("background-color: gray;");
+    mainWindow->ui->selectAll->setStyleSheet("background-color: gray;");
+
+    mainWindow->ui->SessionButton->setText("Nouv. Session");
+    mainWindow->ui->delButton->setText("Supprimer");
+
+    // === Réinitialisation des tableaux s'ils existent ===
+    if (mainWindow->TableauGroupe) mainWindow->TableauGroupe->clearContents();
+
+    if (mainWindow->StatutTableauGroupe) mainWindow->StatutTableauGroupe->clearContents();
+
+    // === Réinitialisation de la scène graphique ===
+    if (mainWindow->scene) {
+        mainWindow->scene->clear();
+        mainWindow->loadImagesFromDB();  // Recharge les images depuis la base (avatars, etc.)
+    }
+
+    // === Nettoyage AudioCommunicator / réseau si actif ===
+    if (mainWindow->udpSocketPATH) {
+        mainWindow->udpSocketPATH->close();
+        delete mainWindow->udpSocketPATH;
+        mainWindow->udpSocketPATH = nullptr;
+    }
+
+    if (mainWindow->udpSocketQCM) {
+        mainWindow->udpSocketQCM->close();
+        delete mainWindow->udpSocketQCM;
+        mainWindow->udpSocketQCM = nullptr;
+    }
 }

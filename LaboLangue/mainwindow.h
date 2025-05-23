@@ -17,7 +17,6 @@
 #include "AudioCommunicator.h"
 #include "qcm.h"
 #include "choixsession.h"
-#include "helpwindow.h"
 #include "gestionSession.h"
 
 QT_BEGIN_NAMESPACE
@@ -35,11 +34,24 @@ public:
 
     // === Accesseurs publics ===
     QString getSessionFolder() const { return sessionFolder; }
+    QString* getSource() {return &source;}
+    QString* getNomProf() {return &nomProf;}
+    QString* getDuree() {return &duree;}
+    QString* getNomTypeActivite() {return &nomTypeActivite;}
+
+    Professeur* getProf() {return prof;};
+
     void setSource(QString newSource) { source = newSource; }
     void setNomEtudiantLineEdit(QString nom);
+    void setIdTypeActivite(unsigned int newId) {idTypeActivite = newId;};
+    void setIdProf(unsigned int newId) {idProf = newId;};
+    void setIdClasse(unsigned int newId) {idClasse = newId;};
     bool getModeSombre() const { return modeSombre; }
     bool getMovable() const {return movable;};
     void afficherEtatEleves();
+    void addHorizontalLayout(QVBoxLayout *layout, std::initializer_list<QWidget*> widgets);
+    void editStatusButton(QPushButton *button, bool status);
+
 
     // === Méthodes principales ===
     void continuerCreationSession();
@@ -55,6 +67,9 @@ public:
     iconEleveGroup* eleveActuellementParametre = nullptr;
     QMap<QString, std::vector<iconEleveGroup*>> listeGroup;
     QCM *qcm = nullptr;
+    QMap<QString, QColor> couleursGroup;  // Clé : nom du groupe, Valeur : couleur
+    void loadImagesFromDB();
+
 
     // === États de l’interface ===
     bool parametrageSession = false;
@@ -64,7 +79,19 @@ public:
     bool runningSession = false;
     bool interfaceQCMOpen = false;
 
+    // === Audio & Réseau ===
+    QUdpSocket* udpSocketPATH = nullptr;
+    unsigned int portPATH = 5559;
+    QUdpSocket* udpSocketQCM = nullptr;
+    unsigned int portQCM = 5559;
+    QMap<QString, int> portsAudioGroupes; // Groupe → port (ex: "Groupe A" → 6000)
+    int prochainPortAudioDisponible = 6000;
+
     Ui::MainWindow *ui;
+    QTableWidget* TableauGroupe = nullptr;
+    QTableWidget* StatutTableauGroupe = nullptr;
+    QGraphicsScene *scene = nullptr;
+    QGraphicsPixmapItem *item = nullptr;
 
 private slots:
     // === Boutons principaux ===
@@ -128,10 +155,6 @@ private slots:
 
 private:
     // === Interface graphique ===
-    QGraphicsScene *scene = nullptr;
-    QGraphicsPixmapItem *item = nullptr;
-    QTableWidget* TableauGroupe = nullptr;
-    QTableWidget* StatutTableauGroupe = nullptr;
 
     // === Base de données ===
     QSqlDatabase db;
@@ -144,15 +167,6 @@ private:
     QString duree = "00:00";
     QString nomTypeActivite;
 
-    // === Audio & Réseau ===
-    QUdpSocket* udpSocketPATH = nullptr;
-    unsigned int portPATH = 5559;
-    QUdpSocket* udpSocketQCM = nullptr;
-    unsigned int portQCM = 5559;
-    QMap<QString, int> portsAudioGroupes; // Groupe → port (ex: "Groupe A" → 6000)
-    int prochainPortAudioDisponible = 6000;
-
-
     // === Divers ===
     Professeur *prof = nullptr;
     bool modeSombre = true;
@@ -164,11 +178,8 @@ private:
 
 
     // === Méthodes utilitaires ===
-    void loadImagesFromDB();
     bool connectToDatabase();
     void onImageGroupDoubleClicked();
-    void editStatusButton(QPushButton *button, bool status);
-    void addHorizontalLayout(QVBoxLayout *layout, std::initializer_list<QWidget*> widgets);
     void showCheckIconOnGroup(iconEleveGroup *group);
     void onClicked_itemBoutonSupprimerGroupe(iconEleveGroup* eleve);
     void mettreAJourAudioPourGroupe(const QString& groupe);
@@ -176,7 +187,6 @@ private:
     void changerStatusCasque (bool statusCasque);
     void updateChronoLabel();
     void faireClignoterLabel();
-    QMap<QString, QColor> couleursGroup;  // Clé : nom du groupe, Valeur : couleur
 
     gestionSession* gestion_Session;
 };

@@ -4,145 +4,122 @@
 #include "ui_mainwindow.h"
 
 // CONSTRUCTEUR
-    MainWindow::MainWindow(QWidget *parent)
-        : QMainWindow(parent)
-        , ui(new Ui::MainWindow)
-    {
-        ui->setupUi(this);
-        //setWindowFlags(Qt::FramelessWindowHint);  // Supprime la barre de titre et les boutons
-        //showFullScreen();
-        connectToDatabase();
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent)
+    , ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+    //setWindowFlags(Qt::FramelessWindowHint);  // Supprime la barre de titre et les boutons
+    //showFullScreen();
+    connectToDatabase();
+
+    gestion_Session = new gestionSession(this, QSqlDatabase::database());
+
+    // Création de la scène
+    scene = new QGraphicsScene(0, 0, 631, 681, this);
+    ui->PlanClasse->setScene(scene);
 
 
-        gestion_Session = new gestionSession(QSqlDatabase::database());
+    ui->ParametrageEleve->setVisible(false);
+
+    // Désactivation des boutons
+    editStatusButton(ui->PlanButton, false);
+    editStatusButton(ui->PresenceButton, false);
+    editStatusButton(ui->EnregistrementButton, false);
+    editStatusButton(ui->AppelButton, false);
+    editStatusButton(ui->StatutButton, false);
+    editStatusButton(ui->CreationButton, false);
+
+    // Créer le layout principal pour la gestion audio des élèves et des groupes avec les éléments disposés
+    QVBoxLayout *layoutParametrageEleve = new QVBoxLayout();
+    layoutParametrageEleve->setContentsMargins(8, 8, 15, 8);
+    layoutParametrageEleve->setAlignment(Qt::AlignCenter | Qt::AlignTop);
+    // Ajout des sections dans le layoutParametrageEleve
+    addHorizontalLayout(layoutParametrageEleve, {ui->nomGroupeLabel, ui->nomEleveLineEdit, ui->Communication});
+    addHorizontalLayout(layoutParametrageEleve, {ui->microSonButton, ui->casqueSonButton});
+    addHorizontalLayout(layoutParametrageEleve, {ui->creerGroupeButton, ui->annulerButton});
+    addHorizontalLayout(layoutParametrageEleve, {ui->AppelerButton, ui->redemarrerButton});
+    addHorizontalLayout(layoutParametrageEleve, {ui->nomCreationGroupeLabel, ui->nomGroupeLineEdit});
+    addHorizontalLayout(layoutParametrageEleve, {ui->alignerTableau, ui->TableauGroupe, ui->envoyerMessageTextEdit});
+    addHorizontalLayout(layoutParametrageEleve, {ui->envoyerMessagePersonne, ui->envoyerMessageGroupe});
+    layoutParametrageEleve->addSpacing(10);
+    // Changement des couleurs des boutons de la page
+    ui->casqueSonButton->setStyleSheet("background-color: rgb(255, 0, 0)");
+    ui->microSonButton->setStyleSheet("background-color: rgb(255, 0, 0)");
+    ui->Communication->setStyleSheet("background-color: gray;");
+    ui->creerGroupeButton->setStyleSheet("background-color: gray;");
+    ui->redemarrerButton->setStyleSheet("background-color: orange;");
+    ui->AppelerButton->setStyleSheet("background-color: #28a745;");
+    ui->annulerButton->setStyleSheet("background-color: gray");
+    // Cacher les boutons de la page
+    ui->nomCreationGroupeLabel->setVisible(false);
+    ui->nomGroupeLineEdit->setVisible(false);
+    ui->envoyerMessageGroupe->setVisible(false);
+    ui->envoyerMessagePersonne->setVisible(false);
+    ui->envoyerMessageTextEdit->setVisible(false);
+    ui->TableauGroupe->setVisible(false);
+    ui->chronoLabel->setVisible(false);
+    ui->envoyerMessageTextEdit->setPlaceholderText("Ecrire un message...");
+    // Appliquez le layout à ParametrageEleve
+    ui->ParametrageEleve->setLayout(layoutParametrageEleve);
 
 
+    // Créer le layout principal pour le parametrage de session avec les éléments disposés
+    QVBoxLayout *layoutPageStatut = new QVBoxLayout();
+    layoutPageStatut->setContentsMargins(8, 8, 15, 8);
+    layoutPageStatut->setAlignment(Qt::AlignCenter | Qt::AlignTop);
+    // Ajout des sections dans le layoutPageStatut
+    addHorizontalLayout(layoutPageStatut, {ui->alignerTableau_2, ui->StatutTableauGroupe});
+    layoutPageStatut->addSpacing(10);
+    // Appliquez le layout à PageStatut
+    ui->PageStatut->setLayout(layoutPageStatut);
+    ui->alignerTableau_2->setVisible(false);
+    ui->PageStatut->setVisible(false);
 
-        // Création de la scène
-        scene = new QGraphicsScene(0, 0, 631, 681, this);
-        ui->PlanClasse->setScene(scene);
+    // Initialiser les ComboBoxes et charger les images depuis la base de données
+    setupClassesComboBox();
+    setupActivitiesComboBox();
+    loadImagesFromDB();
 
-        ui->ParametrageSession->setVisible(false);
-        ui->ParametrageEleve->setVisible(false);
+    QPixmap clairPixmap(":/img/clair.png");
+    QPixmap sombrePixmap(":/img/sombre.png");
+    QPixmap cadenasOpen(":/img/cadenasOpen.png");
+    QPixmap cadenasClose(":/img/cadenasClose.png");
 
-        // Désactivation des boutons
-        editStatusButton(ui->PlanButton, false);
-        editStatusButton(ui->PresenceButton, false);
-        editStatusButton(ui->EnregistrementButton, false);
-        editStatusButton(ui->AppelButton, false);
-        editStatusButton(ui->StatutButton, false);
-        editStatusButton(ui->CreationButton, false);
+    ui->cadenaCloseButton->setIcon(cadenasClose);
+    ui->cadenaCloseButton->setIconSize(QSize(45, 45));
+    ui->cadenaOpenButton->setIcon(cadenasOpen);
+    ui->cadenaOpenButton->setIconSize(QSize(45, 45));
+    ui->cadenaOpenButton->setVisible(false);
 
-        // Créer le layout principal pour le parametrage de session avec les éléments disposés
-        QVBoxLayout *layoutParametrageSession = new QVBoxLayout();
-        layoutParametrageSession->setContentsMargins(8, 8, 15, 8);
-        layoutParametrageSession->setAlignment(Qt::AlignCenter | Qt::AlignTop);
-        // Ajout des sections dans le layoutParametrageSession
-        addHorizontalLayout(layoutParametrageSession, {ui->NomProfLabel, ui->NomProfLineEdit, ui->loadSession});
-        addHorizontalLayout(layoutParametrageSession, {ui->ChoixActLabel, ui->ChoixActivite});
-        addHorizontalLayout(layoutParametrageSession, {ui->DureeLabel, ui->DureeActivite});
-        addHorizontalLayout(layoutParametrageSession, {ui->ClasseLabel, ui->ChoixClasse});
-        addHorizontalLayout(layoutParametrageSession, {ui->ParticipantsLabel, ui->selectAll, ui->selectManuel});
-        addHorizontalLayout(layoutParametrageSession, {ui->SourceLabel, ui->NameSourceLabel, ui->SourceButton});
-        addHorizontalLayout(layoutParametrageSession, {ui->ConsigneLabel, ui->ConsigneTextEdit});
-        QHBoxLayout *hLayoutParametrageSession = new QHBoxLayout();
-        hLayoutParametrageSession->addWidget(ui->errorLabel);
-        layoutParametrageSession->addLayout(hLayoutParametrageSession);
-        layoutParametrageSession->addSpacing(10);
-        addHorizontalLayout(layoutParametrageSession, {ui->delButton, ui->echapButton, ui->validButton});
-        // Appliquez le layout à ParametrageSession
-        ui->ParametrageSession->setLayout(layoutParametrageSession);
+    ui->modeSombreButton->setIcon(sombrePixmap);
+    ui->modeSombreButton->setIconSize(QSize(45, 45));
+    ui->modeClairButton->setIcon(clairPixmap);
+    ui->modeClairButton->setIconSize(QSize(45, 45));
 
-        // Créer le layout principal pour la gestion audio des élèves et des groupes avec les éléments disposés
-        QVBoxLayout *layoutParametrageEleve = new QVBoxLayout();
-        layoutParametrageEleve->setContentsMargins(8, 8, 15, 8);
-        layoutParametrageEleve->setAlignment(Qt::AlignCenter | Qt::AlignTop);
-        // Ajout des sections dans le layoutParametrageEleve
-        addHorizontalLayout(layoutParametrageEleve, {ui->nomGroupeLabel, ui->nomEleveLineEdit, ui->Communication});
-        addHorizontalLayout(layoutParametrageEleve, {ui->microSonButton, ui->casqueSonButton});
-        addHorizontalLayout(layoutParametrageEleve, {ui->creerGroupeButton, ui->annulerButton});
-        addHorizontalLayout(layoutParametrageEleve, {ui->AppelerButton, ui->redemarrerButton});
-        addHorizontalLayout(layoutParametrageEleve, {ui->nomCreationGroupeLabel, ui->nomGroupeLineEdit});
-        addHorizontalLayout(layoutParametrageEleve, {ui->alignerTableau, ui->TableauGroupe, ui->envoyerMessageTextEdit});
-        addHorizontalLayout(layoutParametrageEleve, {ui->envoyerMessagePersonne, ui->envoyerMessageGroupe});
-        layoutParametrageEleve->addSpacing(10);
-        // Changement des couleurs des boutons de la page
-        ui->casqueSonButton->setStyleSheet("background-color: rgb(255, 0, 0)");
-        ui->microSonButton->setStyleSheet("background-color: rgb(255, 0, 0)");
-        ui->Communication->setStyleSheet("background-color: gray;");
-        ui->creerGroupeButton->setStyleSheet("background-color: gray;");
-        ui->redemarrerButton->setStyleSheet("background-color: orange;");
-        ui->AppelerButton->setStyleSheet("background-color: #28a745;");
-        ui->annulerButton->setStyleSheet("background-color: gray");
-        // Cacher les boutons de la page
-        ui->nomCreationGroupeLabel->setVisible(false);
-        ui->nomGroupeLineEdit->setVisible(false);
-        ui->envoyerMessageGroupe->setVisible(false);
-        ui->envoyerMessagePersonne->setVisible(false);
-        ui->envoyerMessageTextEdit->setVisible(false);
-        ui->TableauGroupe->setVisible(false);
-        ui->chronoLabel->setVisible(false);
-        ui->envoyerMessageTextEdit->setPlaceholderText("Ecrire un message...");
-        // Appliquez le layout à ParametrageEleve
-        ui->ParametrageEleve->setLayout(layoutParametrageEleve);
+    ui->modeClairButton->setVisible(true);
+    ui->modeSombreButton->setVisible(false);
 
+    ui->PageStatut->setStyleSheet("background-color: rgb(160, 160, 160)");
+    ui->ParametrageEleve->setStyleSheet("background-color: rgb(160, 160, 160)");
+    ui->PlanClasse->setStyleSheet("background-color: rgb(160, 160, 160)");
+    ui->ParametrageSession->setStyleSheet("background-color: rgb(160, 160, 160)");
 
-        // Créer le layout principal pour le parametrage de session avec les éléments disposés
-        QVBoxLayout *layoutPageStatut = new QVBoxLayout();
-        layoutPageStatut->setContentsMargins(8, 8, 15, 8);
-        layoutPageStatut->setAlignment(Qt::AlignCenter | Qt::AlignTop);
-        // Ajout des sections dans le layoutPageStatut
-        addHorizontalLayout(layoutPageStatut, {ui->alignerTableau_2, ui->StatutTableauGroupe});
-        layoutPageStatut->addSpacing(10);
-        // Appliquez le layout à PageStatut
-        ui->PageStatut->setLayout(layoutPageStatut);
-        ui->alignerTableau_2->setVisible(false);
-        ui->PageStatut->setVisible(false);
+    ui->centralwidget->setStyleSheet("background-color: black;");
 
-        // Initialiser les ComboBoxes et charger les images depuis la base de données
-        setupClassesComboBox();
-        setupActivitiesComboBox();
-        loadImagesFromDB();
-
-        QPixmap clairPixmap(":/img/clair.png");
-        QPixmap sombrePixmap(":/img/sombre.png");
-        QPixmap cadenasOpen(":/img/cadenasOpen.png");
-        QPixmap cadenasClose(":/img/cadenasClose.png");
-
-        ui->cadenaCloseButton->setIcon(cadenasClose);
-        ui->cadenaCloseButton->setIconSize(QSize(45, 45));
-        ui->cadenaOpenButton->setIcon(cadenasOpen);
-        ui->cadenaOpenButton->setIconSize(QSize(45, 45));
-        ui->cadenaOpenButton->setVisible(false);
-
-        ui->modeSombreButton->setIcon(sombrePixmap);
-        ui->modeSombreButton->setIconSize(QSize(45, 45));
-        ui->modeClairButton->setIcon(clairPixmap);
-        ui->modeClairButton->setIconSize(QSize(45, 45));
-
-        ui->modeClairButton->setVisible(true);
-        ui->modeSombreButton->setVisible(false);
-
-        ui->PageStatut->setStyleSheet("background-color: rgb(160, 160, 160)");
-        ui->ParametrageEleve->setStyleSheet("background-color: rgb(160, 160, 160)");
-        ui->PlanClasse->setStyleSheet("background-color: rgb(160, 160, 160)");
-        ui->ParametrageSession->setStyleSheet("background-color: rgb(160, 160, 160)");
-
-        ui->centralwidget->setStyleSheet("background-color: black;");
-
-        chronoTimer = new QTimer(this);
-        connect(chronoTimer, &QTimer::timeout, this, &MainWindow::updateChronoLabel);
-        clignotementTimer = new QTimer(this);
-        connect(clignotementTimer, &QTimer::timeout, this, &MainWindow::faireClignoterLabel);
-    }
+    chronoTimer = new QTimer(this);
+    connect(chronoTimer, &QTimer::timeout, this, &MainWindow::updateChronoLabel);
+    clignotementTimer = new QTimer(this);
+    connect(clignotementTimer, &QTimer::timeout, this, &MainWindow::faireClignoterLabel);
+}
 
 // DESTRUCTEUR
-    MainWindow::~MainWindow()
-    {
-        ui->PlanClasse->setScene(nullptr); // Déconnecter la scène avant de la supprimer
-        delete scene;
-        delete ui;
-    }
+MainWindow::~MainWindow()
+{
+    ui->PlanClasse->setScene(nullptr); // Déconnecter la scène avant de la supprimer
+    delete scene;
+    delete ui;
+}
 
 // GESTIONSESSION
     // Le professeur choisis le type d'activité
@@ -203,8 +180,7 @@
         continuerCreationSession();
     }
 
-
-
+    void MainWindow::resetSession(){ gestion_Session->reset();}
 
 
 void MainWindow::faireClignoterLabel()
@@ -234,9 +210,6 @@ void MainWindow::updateChronoLabel()
         QMessageBox::information(this, "Fin de l'activité", "Pensez à mettre fin à l'activité en cours !");
     }
 }
-
-
-
 
 // Ouverture page paramétrage Eleve
 void MainWindow::toggleSettingEleve(iconEleveGroup *group, bool open){
@@ -325,89 +298,6 @@ void MainWindow::majStatusQCM()
     }
 }
 
-void MainWindow::resetSession()
-{
-    for(unsigned int i=0; i!=listeParticipant.size();i++) prof->sendCommandToStudent(listeParticipant[i]->getIP(), 5557, "END");
-    // === Réinitialisation des IDs et variables de base ===
-    idTypeActivite = -1;
-    idClasse = -1;
-    idProf = -1;
-
-    // === Réinitialisation des listes d'élèves et groupes ===
-    listeRasp.clear();
-    listeParticipant.clear();
-    listeEleveParticipant.clear();
-    listeEditEleve.clear();
-    listeGroup.clear();
-    couleursGroup.clear();
-
-    // === Réinitialisation des variables d'état ===
-    runningSession = false;
-    parametrageSession = false;
-    selectionParticipants = false;
-    selectAllParticipants = false;
-    parametrageEleve = false;
-    eleveActuellementParametre = nullptr;
-    interfaceQCMOpen = false;
-
-    // === Réinitialisation des chaînes de caractères ===
-    source.clear();
-    nomProf.clear();
-    duree.clear();
-    nomTypeActivite.clear();
-    ui->errorLabel->clear();
-
-    // === Réinitialisation de l'interface utilisateur ===
-    ui->NomProfLineEdit->clear();
-    ui->ConsigneTextEdit->clear();
-    ui->DureeActivite->setTime(QTime(0, 0, 0));
-    ui->ChoixActivite->setCurrentIndex(0);
-    ui->ChoixClasse->setCurrentIndex(0);
-    ui->ParametrageSession->setVisible(false);
-    ui->cadenaCloseButton->setVisible(true);
-    ui->cadenaOpenButton->setVisible(false);
-    ui->chronoLabel->setVisible(false);
-    ui->envoyerMessageTextEdit->clear();
-    ui->TableauGroupe->setVisible(false);
-
-    // === Réinitialisation des boutons ===
-    editStatusButton(ui->PlanButton, false);
-    editStatusButton(ui->PresenceButton, false);
-    editStatusButton(ui->EnregistrementButton, false);
-    editStatusButton(ui->AppelButton, false);
-    editStatusButton(ui->StatutButton, false);
-    editStatusButton(ui->selectAll, true);
-    editStatusButton(ui->selectManuel, true);
-    ui->selectManuel->setStyleSheet("background-color: gray;");
-    ui->selectAll->setStyleSheet("background-color: gray;");
-
-    ui->SessionButton->setText("Nouv. Session");
-    ui->delButton->setText("Supprimer");
-
-    // === Réinitialisation des tableaux s'ils existent ===
-    if (TableauGroupe) TableauGroupe->clearContents();
-
-    if (StatutTableauGroupe) StatutTableauGroupe->clearContents();
-
-    // === Réinitialisation de la scène graphique ===
-    if (scene) {
-        scene->clear();
-        loadImagesFromDB();  // Recharge les images depuis la base (avatars, etc.)
-    }
-
-    // === Nettoyage AudioCommunicator / réseau si actif ===
-    if (udpSocketPATH) {
-        udpSocketPATH->close();
-        delete udpSocketPATH;
-        udpSocketPATH = nullptr;
-    }
-
-    if (udpSocketQCM) {
-        udpSocketQCM->close();
-        delete udpSocketQCM;
-        udpSocketQCM = nullptr;
-    }
-}
 
 
 void MainWindow::updateEleveNom(iconEleveGroup* eleve, const QString& newName) {
