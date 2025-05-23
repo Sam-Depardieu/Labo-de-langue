@@ -460,7 +460,7 @@ void InterfaceQCM::on_pushButtonSoumettre_clicked()
         out << "\n";
     }
 
-    file.close();
+    //file.close();
     QMessageBox::information(this, "Soumission", "Réponses enregistrées.");
     accept();
 }
