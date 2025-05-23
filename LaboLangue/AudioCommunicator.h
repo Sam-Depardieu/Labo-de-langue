@@ -1,92 +1,44 @@
-#ifndef AUDIOCOMMUNICATOR_H
-#define AUDIOCOMMUNICATOR_H
-
-#include "iconEleveGroup.h"
+#ifndef PROFESSOR_H
+#define PROFESSOR_H
 
 #include <QObject>
-#include <QAudioInput>
-#include <QAudioOutput>
-#include <QAudioSource>
-#include <QAudioSink>
-#include <QIODevice>
-#include <QTimer>
 #include <QUdpSocket>
-#include <QHostAddress>
-#include <QMessageBox>
-#include <QDebug>
-#include <QString>
-#include <QMediaDevices>
 #include <QMap>
+#include <QSet>
+#include <QHostAddress>
+#include <QVector>
 
-#include <zmq/zmq.hpp>
-
-class MainWindow;
-
-class Professor : public QObject {
+class Professeur : public QObject
+{
     Q_OBJECT
-
 public:
-    explicit Professor(MainWindow* parentWindow);
+    explicit Professeur(QObject *parent = nullptr);
 
-    // Fonctions de contrôle audio
-    void muteStudent(const QString& studentIp);
-    void unmuteStudent(const QString& studentIp);
-    void activerSonStudent(const QString& studentIp);
-    void desactiverSonStudent(const QString& studentIp);
+    // Ajouter un groupe avec un nom et un port
+    void addAudioGroup(const QString& groupName, quint16 port);
+    bool audioGroupExists(const QString& groupName) const{ return groups.contains(groupName); };
     void sendCommandToStudent(const QString& studentIp, int port, const QString& command);
-    void fermerCommunications();
-    QString getStudentStatus(const QString& studentIp);
-    bool audioGroupExists(const QString& groupName) const {return audioGroupMap.contains(groupName);}
 
-    // Ajoute un nouveau groupe audio
-    void addAudioGroup(const QString& groupName, int portAudio);
+    void muteStudent(const QString& studentIp) { sendCommandToStudent(studentIp, 5557, "mute"); }
+    void unmuteStudent(const QString& studentIp) { sendCommandToStudent(studentIp, 5557, "unmute"); }
+    void activerSonStudent(const QString& studentIp) { sendCommandToStudent(studentIp, 5557, "activerSon"); }
+    void desactiverSonStudent(const QString& studentIp) { sendCommandToStudent(studentIp, 5557, "desactiverSon"); }
 
-public slots:
-    void sendAudioDataToGroup(const QString& groupName);
-    void receiveAudioDataFromGroup(const QString& groupName);
+signals:
+    void message(QString);
+
+private slots:
     void processPendingDatagrams();
 
 private:
-    QString serverIp = "localhost";  // Adresse du serveur audio
-
-    zmq::context_t context;
-
-    // Structure pour un groupe audio
-    struct AudioGroupSockets {
-        zmq::socket_t* pushSocket;
-        zmq::socket_t* pullSocket;
-        QTimer* sendTimer;
-        QTimer* receiveTimer;
+    struct GroupInfo {
+        QUdpSocket* socket = nullptr;
+        QSet<QHostAddress> clients;  // Si besoin plus tard
     };
 
-    QMap<QString, AudioGroupSockets> audioGroupMap;
-
-    // Qt Audio
-    QAudioSource* audioSource = nullptr;
-    QAudioSink* audioSink = nullptr;
-    QIODevice* audioSourceDevice = nullptr;
-    QIODevice* audioSinkDevice = nullptr;
-    QAudioDevice inputDeviceInfo;
-    QAudioDevice outputDeviceInfo;
-
-    // Timers généraux (utiles si 1 seul groupe)
-    QTimer sendAudioTimer;
-    QTimer receiveAudioTimer;
-
-    // Réseau
     QUdpSocket udpSocket;
 
-    // Messages d'erreur
-    bool microError = false;
-    bool audioError = false;
-
-    MainWindow* mainWindow = nullptr;
-
-    QString getLocalIp()
-    {
-        return "192.168.64.1";
-    }
-
+    QMap<QString, GroupInfo> groups;  // groupName -> info
 };
 
-#endif // AUDIOCOMMUNICATOR_H
+#endif // PROFESSOR_H

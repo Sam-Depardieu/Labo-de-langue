@@ -1491,89 +1491,85 @@ void MainWindow::onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve)
 
     QString groupe = eleveActuellementParametre->getNomGroupe();
 
-    // Si aucun groupe encore défini pour le créateur
+    // Si le créateur n'a pas encore de groupe assigné
     if (groupe.isEmpty()) {
-        // Utiliser le texte saisi si présent, sinon générer automatiquement
+        // Prendre la saisie ou générer un nom
         if (!ui->nomGroupeLineEdit->text().isEmpty()) {
-            groupe = ui->nomGroupeLineEdit->text();
+            groupe = ui->nomGroupeLineEdit->text().trimmed();
         } else {
             groupe = "Groupe " + eleveActuellementParametre->getNom();
         }
 
-        // Assigner au créateur et l'ajouter au groupe
+        // Affecter ce groupe au créateur
         eleveActuellementParametre->setNomGroupe(groupe);
+
+        // Ajouter le créateur dans la liste du groupe
         listeGroup[groupe].push_back(eleveActuellementParametre);
 
-        // Si le groupe est nouveau, générer une couleur non utilisée et la stocker
+        // Si nouveau groupe, créer une couleur et allouer un port audio
         if (!couleursGroup.contains(groupe)) {
-            QColor couleur = couleurDisponible(); // Fonction qui retourne une couleur libre
+            QColor couleur = couleurDisponible();  // ta fonction pour couleur libre
             couleursGroup[groupe] = couleur;
-        }
-    }
-
-    // Affecter le groupe à l'élève cliqué
-    eleve->setNomGroupe(groupe);
-    std::vector<iconEleveGroup*>& membres = listeGroup[groupe];
-
-    // Ajouter l’élève s’il n’est pas déjà dans le groupe
-    if (std::find(membres.begin(), membres.end(), eleve) == membres.end()) {
-        membres.push_back(eleve);
-    }
-
-    int portAudio;
-    QString commande;
-
-    // Mettre à jour les affiliés et pastilles pour chaque membre
-    for (iconEleveGroup* membre : membres) {
-        membre->getAffiliate().clear();  // Nettoyer les anciens affiliés
-
-        for (iconEleveGroup* autre : membres) {
-            if (membre != autre) {
-                membre->getAffiliate().push_back(autre);
-            }
-        }
-
-        // Appliquer la couleur du groupe à la pastille et la positionner à droite
-        if (membre->getgroupColor()) {
-            membre->getgroupColor()->setVisible(true);
-            membre->getgroupColor()->setBrush(couleursGroup[groupe]);
-
-            QRectF rect = membre->sceneBoundingRect();
-            membre->getgroupColor()->setPos(
-                rect.width() + 5,  // 5 px à droite
-                (rect.height() - membre->getgroupColor()->rect().height()) / 2  // centré verticalement
-                );
         }
 
         if (!portsAudioGroupes.contains(groupe)) {
             portsAudioGroupes[groupe] = prochainPortAudioDisponible++;
         }
 
+        // Créer le groupe audio côté serveur professeur s'il n'existe pas
         if (prof && !prof->audioGroupExists(groupe)) {
             prof->addAudioGroup(groupe, portsAudioGroupes[groupe]);
         }
+    }
 
-        portAudio = portsAudioGroupes[groupe];
-        commande = "portGroup," + QString::number(portAudio);
+    // Affecter le groupe à l'élève cliqué
+    eleve->setNomGroupe(groupe);
 
+    // Récupérer la liste des membres
+    std::vector<iconEleveGroup*>& membres = listeGroup[groupe];
+
+    // Ajouter l'élève s'il n'est pas déjà membre
+    if (std::find(membres.begin(), membres.end(), eleve) == membres.end()) {
+        membres.push_back(eleve);
+    }
+
+    int portAudio = portsAudioGroupes[groupe];
+    QString commande = "portGroup," + QString::number(portAudio);
+
+    // Mettre à jour la liste des affiliés (membres du groupe) et pastille couleur
+    for (iconEleveGroup* membre : membres) {
+        // Nettoyer affiliés actuels
+        membre->getAffiliate().clear();
+
+        // Ajouter les autres membres en affiliés
+        for (iconEleveGroup* autre : membres) {
+            if (membre != autre) {
+                membre->getAffiliate().push_back(autre);
+            }
+        }
+
+        // Appliquer couleur de groupe à la pastille et positionner à droite
+        if (membre->getgroupColor()) {
+            membre->getgroupColor()->setVisible(true);
+            membre->getgroupColor()->setBrush(couleursGroup[groupe]);
+
+            QRectF rect = membre->sceneBoundingRect();
+            membre->getgroupColor()->setPos(
+                rect.width() + 5,  // décallage à droite
+                (rect.height() - membre->getgroupColor()->rect().height()) / 2  // centré verticalement
+                );
+        }
+
+        // Envoi commande UDP au client pour changer de port audio groupe
         if (prof) {
             prof->sendCommandToStudent(membre->getIP(), 5558, commande);
+            qDebug() << "[MainWindow] Commande envoyée à " << membre->getIP() << ":" << commande;
         }
     }
 
-    prof->sendCommandToStudent(eleveActuellementParametre->getIP(), 5558, commande);
-
-    loadInformationTable(); // Rafraîchir l'interface
+    loadInformationTable(); // Rafraîchir affichage
 }
 
-bool MainWindow::portEstDejaUtilise(int port)
-{
-    QTcpSocket socket;
-    socket.connectToHost(QHostAddress::LocalHost, port);
-    bool used = socket.waitForConnected(10);
-    socket.abort(); // ferme immédiatement
-    return used;
-}
 
 
 void MainWindow::on_nomGroupeLineEdit_returnPressed()

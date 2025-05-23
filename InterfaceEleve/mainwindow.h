@@ -74,6 +74,8 @@ private:
     QString consigne = "";
     QString sessionPATH = "";
     QMap<int, Student*> students;
+    Student* currentStudent = nullptr;  // membre de la classe MainWindow
+
 
     QUdpSocket udpSocketInfo;
     quint16 infoPort = 5558;
