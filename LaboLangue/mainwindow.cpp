@@ -1006,7 +1006,7 @@ void MainWindow::on_validButton_clicked()
         participant->getCasqueActiver()->setVisible(true);
     }
 
-    prof = new Professor(this);
+    prof = new Professeur(this);
 
     saveSessionData(!runningSession);
 

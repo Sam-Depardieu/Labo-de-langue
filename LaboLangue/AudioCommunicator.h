@@ -24,9 +24,6 @@ public:
     void activerSonStudent(const QString& studentIp) { sendCommandToStudent(studentIp, 5557, "activerSon"); }
     void desactiverSonStudent(const QString& studentIp) { sendCommandToStudent(studentIp, 5557, "desactiverSon"); }
 
-signals:
-    void message(QString);
-
 private slots:
     void processPendingDatagrams();
 

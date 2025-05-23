@@ -10,14 +10,14 @@ Professeur::Professeur(QObject *parent)
 void Professeur::addAudioGroup(const QString& groupName, quint16 port)
 {
     if (groups.contains(groupName)) {
-        emit message(QString("Le groupe %1 existe déjà").arg(groupName));
+        qDebug() << "Le groupe" << groupName << "existe déjà";
         return;
     }
 
     QUdpSocket* socket = new QUdpSocket(this);
     bool bindResult = socket->bind(QHostAddress::AnyIPv4, port);
     if (!bindResult) {
-        emit message(QString("Erreur bind port %1 pour groupe %2").arg(port).arg(groupName));
+        qDebug() << "Erreur bind port" << port << "pour groupe" << groupName;
         delete socket;
         return;
     }
@@ -29,7 +29,7 @@ void Professeur::addAudioGroup(const QString& groupName, quint16 port)
 
     connect(socket, &QUdpSocket::readyRead, this, &Professeur::processPendingDatagrams);
 
-    emit message(QString("Groupe audio %1 créé sur le port %2").arg(groupName).arg(port));
+    qDebug() << "Groupe audio" << groupName << "créé sur le port" << port;
 }
 
 void Professeur::processPendingDatagrams()
@@ -49,7 +49,7 @@ void Professeur::processPendingDatagrams()
     }
 
     if (groupName.isEmpty()) {
-        emit message("Socket inconnu pour processPendingDatagrams");
+        qDebug() << "Socket inconnu pour processPendingDatagrams";
         return;
     }
 
@@ -61,22 +61,21 @@ void Professeur::processPendingDatagrams()
 
         socket->readDatagram(buffer.data(), buffer.size(), &sender, &senderPort);
 
-        // Pour l'instant on ne traite pas les JOIN, on se contente de rediffuser
+        // Ajout du client s'il n'est pas déjà dans la liste (QSet donc insert)
+        if (!groups[groupName].clients.contains(sender)) {
+            groups[groupName].clients.insert(sender);
+            qDebug() << "Ajout client" << sender.toString() << "au groupe" << groupName;
+        }
 
-        emit message(QString("Groupe %1: paquet reçu de %2, taille %3 bytes")
-                         .arg(groupName)
-                         .arg(sender.toString())
-                         .arg(buffer.size()));
+        qDebug() << "Groupe" << groupName << ": paquet reçu de" << sender.toString()
+                 << ", taille" << buffer.size() << "bytes";
 
-        // Rediffuser à tous les clients du groupe (on pourrait gérer clients plus tard)
+        // Rediffuser à tous les clients du groupe sauf l'envoyeur
         for (const QHostAddress& client : groups[groupName].clients) {
             if (client != sender) {
                 socket->writeDatagram(buffer, client, senderPort);
             }
         }
-
-        // Pour le moment, si on ne gère pas clients, on ne rediffuse pas
-        // Tu peux ajouter la gestion clients plus tard
     }
 }
 
@@ -89,5 +88,3 @@ void Professeur::sendCommandToStudent(const QString& studentIp, int port, const 
     udpSocket.writeDatagram(datagram, addr, port);
     qDebug() << "[Command] vers" << studentIp << ":" << command;
 }
-
-
