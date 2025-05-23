@@ -66,7 +66,6 @@ void iconEleveGroup::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
     }
 
     QGraphicsItemGroup::mouseDoubleClickEvent(event);
-
 }
 
 QVariant iconEleveGroup::itemChange(GraphicsItemChange change, const QVariant &value)
