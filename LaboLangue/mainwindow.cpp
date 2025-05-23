@@ -1546,8 +1546,14 @@ void MainWindow::onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve)
         }
 
         if (!portsAudioGroupes.contains(groupe)) {
-            portsAudioGroupes[groupe] = prochainPortAudioDisponible++;
+            int portTest = prochainPortAudioDisponible;
+            while (portEstDejaUtilise(portTest) || portEstDejaUtilise(portTest + 1)) {
+                portTest += 2;  // Saut de 2 pour push/pull
+            }
+            portsAudioGroupes[groupe] = portTest;
+            prochainPortAudioDisponible = portTest + 2;
         }
+
 
         if (prof && !prof->audioGroupExists(groupe)) {
             prof->addAudioGroup(groupe, portsAudioGroupes[groupe]);
@@ -1563,6 +1569,16 @@ void MainWindow::onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve)
 
     loadInformationTable(); // Rafraîchir l'interface
 }
+
+bool MainWindow::portEstDejaUtilise(int port)
+{
+    QTcpSocket socket;
+    socket.connectToHost(QHostAddress::LocalHost, port);
+    bool used = socket.waitForConnected(10);
+    socket.abort(); // ferme immédiatement
+    return used;
+}
+
 
 void MainWindow::on_nomGroupeLineEdit_returnPressed()
 {

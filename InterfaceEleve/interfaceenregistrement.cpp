@@ -231,15 +231,11 @@ void InterfaceEnregistrement::on_pushButtonEnregistrer_clicked()
 void InterfaceEnregistrement::on_pushButtonPause_clicked()
 {
     if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState) {
-        // Mémoriser le point de pause
-        lastRecordedTime = totalSecondes;
-
         mediaRecorder->pause();
         timer->stop();
-        qDebug() << "⏸️ Enregistrement en pause, lastRecordedTime =" << lastRecordedTime;
     }
     ui->pushButtonPause->setVisible(false);
-    ui->pushButtonPlay ->setVisible(true);
+    ui->pushButtonPlay->setVisible(true);
 }
 void InterfaceEnregistrement::on_pushButtonPlay_clicked()
 {
@@ -349,17 +345,14 @@ void InterfaceEnregistrement::on_pushButtonSon_clicked()
 
 void InterfaceEnregistrement::on_pushButtonRetourArriere_clicked()
 {
-    // Si on est déjà à zéro mais qu'on a un dernier point, restaurer
     if (totalSecondes == 0 && lastRecordedTime > 0) {
         totalSecondes = lastRecordedTime;
         updateChronoenregistrement();
-        qDebug() << "🔄 Retour au dernier temps enregistré :" << totalSecondes;
-
-        // Sinon, si on peut reculer et qu'on n'est pas déjà en train de rembobiner
+        qDebug() << "Retour au dernier temps enregistré : " << totalSecondes;
     } else if (totalSecondes > 0 && !isRewinding) {
         isRewinding = true;
         rewindTimer->start(100);
-        qDebug() << "⏪ Retour arrière en cours depuis" << totalSecondes;
+        qDebug() << "Retour arrière en cours";
     }
 }
 

@@ -122,7 +122,7 @@ private slots:
 
     QList<QColor> listeCouleursDisponibles();
     QColor couleurDisponible() ;
-
+    bool portEstDejaUtilise(int port);
 
     void on_reloadButton_clicked();
 
