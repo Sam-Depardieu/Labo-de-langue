@@ -236,7 +236,7 @@ void InterfaceQCM::onAnswerClicked(QPushButton *bouton, bool /*status*/)
         isButton4Image
     };
 
-    updateAvancement(currentQuestionIndex);
+    //updateAvancement(currentQuestionIndex);
 }
 void InterfaceQCM::updateAvancement(int questionIndex)
 {
@@ -322,15 +322,19 @@ void InterfaceQCM::receiveResponse()
 
 void InterfaceQCM::on_pushButtonQuestionSuivante_clicked()
 {
+    // Mettre à jour l'avancement de la question courante **uniquement ici**
+    updateAvancement(currentQuestionIndex);
+
     ui->pushButtonQuestionPrecedente->setEnabled(true);
     if (currentQuestionIndex < questionArray.size() - 1) {
         currentQuestionIndex++;
         showCurrentQuestion();
     }
 
-    if(currentQuestionIndex == questionArray.size() -1)
+    if (currentQuestionIndex == questionArray.size() - 1)
         ui->pushButtonQuestionSuivante->setEnabled(false);
 }
+
 
 void InterfaceQCM::on_pushButtonQuestionPrecedente_clicked()
 {
