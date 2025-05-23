@@ -119,7 +119,7 @@ InterfaceQCM::~InterfaceQCM()
 void InterfaceQCM::loadQuestionsJson(QString &filePath)
 {
     //QFile file("//CIEL-T171-05/Activites/erytz_2025-05-20_17-37");
-    QString chemin = R"(//CIEL-T171-05/Activites/erytz_2025-05-20_17-37/questions.qcmlabo)";
+    QString chemin = R"(%1/questions.qcmlabo)";
     QFile file(chemin.arg(filePath));
     qDebug() << "📂 Ouverture du fichier JSON :" << file.fileName();
 
@@ -200,7 +200,7 @@ void InterfaceQCM::showCurrentQuestion()
 
 void InterfaceQCM::loadConsigneJson(QString &filePath)
 {
-    QString cheminConsigne = "//CIEL-T171-05/Activites/erytz_2025-05-20_17-37/config.labo";
+    QString cheminConsigne = QString("%1/config.labo").arg(filePath);
     QFile file(cheminConsigne);
 
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -464,11 +464,6 @@ void InterfaceQCM::on_pushButtonSoumettre_clicked()
     QMessageBox::information(this, "Soumission", "Réponses enregistrées.");
     accept();
 }
-
-
-
-
-
 
 void InterfaceQCM::on_pushButtonAppelProf_clicked()
 {
