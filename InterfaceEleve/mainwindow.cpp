@@ -120,14 +120,41 @@ void MainWindow::handleRestartCommand()
                                        datagram.size(),
                                        &sender,
                                        &senderPort);
-        QString cmd = QString::fromUtf8(datagram).trimmed();
+        QString cmd = QString::fromUtf8(datagram).trimmed().toUtf8();
         qDebug() << "📢 RECV:" << cmd << "depuis" << sender.toString();
 
-        if (cmd == "RESTART") {
+        if (cmd == "mute") {
+            qDebug() << "🔇 Commande MUTE reçue";
+            // Appelle ta fonction mute audio ici, par exemple :
+            if(currentStudent) currentStudent->muteAudio();
+        }
+        else if (cmd == "unmute") {
+            qDebug() << "🔈 Commande DEMUTE reçue";
+            // Appelle ta fonction unmute audio ici, par exemple :
+            if(currentStudent) currentStudent->unmuteAudio();
+        }
+        else if (cmd == "activerSon") {
+            qDebug() << "✅ Commande ACTIVER SON reçue";
+            // Active la diffusion sonore
+        }
+        else if (cmd == "desactionSon") {
+            qDebug() << "🚫 Commande DESACTIVER SON reçue";
+            // Désactive la diffusion sonore
+        }
+        else if (cmd == "RESTART") {
             qDebug() << "♻️ Redémarrage imminent…";
+            // Effectue l'opération de redémarrage
+        }
+        else if (cmd == "END") {
+            qDebug() << "🛑 Fin de la session reçue";
+            // Traite la fin de session (fermeture, nettoyage, etc.)
+        }
+        else {
+            qDebug() << "⚠️ Commande inconnue reçue :" << cmd;
         }
     }
 }
+
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
@@ -530,6 +557,8 @@ void MainWindow::stopClignotement()
     chronoClignote = false;
     clignotementEtat = false;
 }
+
+
 void MainWindow::receiveConsigne()
 {
 
