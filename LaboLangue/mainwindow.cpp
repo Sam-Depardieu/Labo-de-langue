@@ -1553,7 +1553,6 @@ void MainWindow::onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve)
             prof->addAudioGroup(groupe, portsAudioGroupes[groupe]);
         }
 
-
         portAudio = portsAudioGroupes[groupe];
         commande = "portGroup," + QString::number(portAudio);
 
