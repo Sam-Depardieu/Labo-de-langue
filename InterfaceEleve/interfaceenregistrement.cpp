@@ -215,37 +215,44 @@ void InterfaceEnregistrement::on_pushButtonEnregistrer_clicked()
 }
 void InterfaceEnregistrement::on_pushButtonPause_clicked()
 {
+    // 0) Si on était en rewind, on l'interrompt d'abord
+    if (isRewinding) {
+        rewindTimer->stop();
+        isRewinding = false;
+        qDebug() << "⏸️ Rewind stoppé à" << totalSecondes << "s";
+    }
     // 1) Arrêt immédiat du chrono, quel que soit le recorderState
     if (timer->isActive())
         timer->stop();
 
-    // met en pause l'enregistrement si on enregistre
+    // 2) met en pause l'enregistrement si on enregistre
     if (mediaRecorder->recorderState() == QMediaRecorder::RecordingState)
         mediaRecorder->pause();
 
-    // UI : cacher Pause, afficher Play
+    // 3) UI : cacher Pause, afficher Play
     ui->pushButtonPause->setVisible(false);
-    ui->pushButtonPlay->setVisible(true);
+    ui->pushButtonPlay ->setVisible(true);
 
     qDebug() << "⏸️ Chrono et enregistrement mis en pause à" << totalSecondes;
 }
 
 void InterfaceEnregistrement::on_pushButtonPlay_clicked()
 {
-    // 1) Relance du chrono
+    // 1) Relance du chrono (sauf si on est encore en rewind, mais on désactive rewind dans pause)
     if (!timer->isActive())
         timer->start(1000);
 
-    // reprend l'enregistrement si on était en pause
+    // 2) reprend l'enregistrement si on était en pause
     if (mediaRecorder->recorderState() == QMediaRecorder::PausedState)
         mediaRecorder->record();
 
-    // UI : cacher Play, afficher Pause
-    ui->pushButtonPlay->setVisible(false);
+    // 3) UI : cacher Play, afficher Pause
+    ui->pushButtonPlay ->setVisible(false);
     ui->pushButtonPause->setVisible(true);
 
     qDebug() << "▶️ Chrono et enregistrement repris à" << totalSecondes;
 }
+
 
 void InterfaceEnregistrement::on_pushButtonClear_clicked()
 {
