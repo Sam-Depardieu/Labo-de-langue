@@ -48,6 +48,12 @@ private slots:
 
     void on_pushButtonAppelProf_clicked();
 
+
+    void receiveConsigne();
+    void updateAvancement(int questionIndex);
+
+
+
 private:
     Ui::InterfaceQCM *ui;
     MainWindow *mainWindow;

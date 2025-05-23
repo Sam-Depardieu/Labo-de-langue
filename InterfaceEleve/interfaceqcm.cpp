@@ -72,6 +72,8 @@ InterfaceQCM::InterfaceQCM(MainWindow *parentWindow ,QWidget *parent)
 
 }
 
+
+
 void InterfaceQCM::faireClignoterLabel()
 {
     clignotementEtat = !clignotementEtat;
@@ -233,13 +235,37 @@ void InterfaceQCM::onAnswerClicked(QPushButton *bouton, bool /*status*/)
         isButton3Image,
         isButton4Image
     };
+
+    updateAvancement(currentQuestionIndex);
 }
+void InterfaceQCM::updateAvancement(int questionIndex)
+{
+    auto model = qobject_cast<QStandardItemModel*>(ui->listViewAvancement->model());
+    if (!model) return;
 
+    QStandardItem *item = model->item(questionIndex);
+    if (!item) return;
 
+    // Si l'utilisateur a répondu à cette question (au moins une réponse sélectionnée)
+    bool repondu = false;
+    QVector<bool> reponses = userAnswers.value(questionIndex);
+    for (bool rep : reponses) {
+        if (rep) {
+            repondu = true;
+            break;
+        }
+    }
 
+    if (repondu) {
+        item->setData(QColor(Qt::green), Qt::UserRole + 1);
+    } else {
+        item->setData(QColor(Qt::gray), Qt::UserRole + 1);
+    }
 
-
-
+    // Forcer la vue à rafraîchir cet item
+    QModelIndex idx = model->index(questionIndex, 0);
+    model->dataChanged(idx, idx);
+}
 
 
 void InterfaceQCM::on_pushButton1_clicked()
@@ -273,6 +299,12 @@ void InterfaceQCM::on_pushButtonEffacerReponse_clicked()
     isButton2Image = false;
     isButton3Image = false;
     isButton4Image = false;
+
+    // Met à jour la structure userAnswers aussi (important)
+    userAnswers[currentQuestionIndex] = {false, false, false, false};
+
+    updateAvancement(currentQuestionIndex);
+
 }
 
 void InterfaceQCM::receiveResponse()
