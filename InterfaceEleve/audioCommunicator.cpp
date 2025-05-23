@@ -255,13 +255,23 @@ void Student::muteAudio()
         audioOutput->stop(); // Couper la diffusion audio
     }
 
-    // Optionnel : vider les buffers si besoin
-    // ...
-
-    // Tu peux aussi ajouter un booléen pour garder l'état mute
     isMuted = true;
 }
 
+void Student::unmuteAudio()
+{
+    qDebug() << "🔇 Audio muté pour l'élève";
+
+    if (audioInput) {
+        audioInput->start();  // Arrêter la capture micro
+    }
+
+    if (audioOutput) {
+        audioOutput->start(); // Couper la diffusion audio
+    }
+
+    isMuted = false;
+}
 
 void Student::stopAudio()
 {

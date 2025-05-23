@@ -29,7 +29,9 @@ public slots:
     void changeAudioGroup(const QHostAddress& newAddress, quint16 newPort);
     void onAudioSourceStateChanged(QAudio::State newState);
     void initializeAudioCommunication();
+
     void muteAudio();
+    void unmuteAudio();
 
 private:
     void connectToGroup();

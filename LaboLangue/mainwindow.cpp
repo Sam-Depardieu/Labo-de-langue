@@ -1604,7 +1604,7 @@ void MainWindow::onClicked_itemBoutonSupprimerGroupe(iconEleveGroup* eleve)
     eleve->setNomGroupe("");
 
     // Couper la communication audio avec cet élève
-    eleve->stopAudio();  // <-- Assure-toi que cette méthode existe dans iconEleveGroup
+    prof->muteStudent(eleve->getIP());  // <-- Assure-toi que cette méthode existe dans iconEleveGroup
 
     // Mettre à jour les affiliates des autres membres
     for (iconEleveGroup* membre : membres) {
