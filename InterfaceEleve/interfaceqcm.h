@@ -31,6 +31,7 @@ public:
     void receiveResponse();
     QString getConsigne() { return consigne; }
 
+
 private slots:
     void on_pushButton1_clicked();
     void on_pushButton2_clicked();

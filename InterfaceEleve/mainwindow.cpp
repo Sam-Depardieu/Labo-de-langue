@@ -557,6 +557,8 @@ void MainWindow::stopClignotement()
     chronoClignote = false;
     clignotementEtat = false;
 }
+
+
 void MainWindow::receiveConsigne()
 {
 

@@ -169,7 +169,24 @@ void InterfaceQCM::showCurrentQuestion()
     if (answers.size() > 2) ui->pushButton3->setText(answers[2].toObject()["text"].toString());
     if (answers.size() > 3) ui->pushButton4->setText(answers[3].toObject()["text"].toString());
 
-    on_pushButtonEffacerReponse_clicked();
+    // Récupérer les réponses mémorisées pour la question courante
+    QVector<bool> reponses = userAnswers.value(currentQuestionIndex, {false, false, false, false});
+
+    // Mettre à jour les flags internes
+    isButton1Image = (reponses.size() > 0) ? reponses[0] : false;
+    isButton2Image = (reponses.size() > 1) ? reponses[1] : false;
+    isButton3Image = (reponses.size() > 2) ? reponses[2] : false;
+    isButton4Image = (reponses.size() > 3) ? reponses[3] : false;
+
+    // Appliquer le style selon l'état de chaque bouton
+    ui->pushButton1->setStyleSheet(isButton1Image ? "background-color:blue; border:3px solid white; border-radius:20px;" : "background-color:blue; border-radius:20px;");
+    ui->pushButton2->setStyleSheet(isButton2Image ? "background-color:green; border:3px solid white; border-radius:20px;" : "background-color:green; border-radius:20px;");
+    ui->pushButton3->setStyleSheet(isButton3Image ? "background-color:red; border:3px solid white; border-radius:20px;" : "background-color:red; border-radius:20px;");
+    ui->pushButton4->setStyleSheet(isButton4Image ? "background-color:orange; border:3px solid white; border-radius:20px;" : "background-color:orange; border-radius:20px;");
+
+    // Le bouton "Effacer réponse" doit aussi refléter la sélection (possible à faire si nécessaire)
+
+    // Le bouton "Soumettre" activé seulement si dernière question
     ui->pushButtonSoumettre->setEnabled(currentQuestionIndex == questionArray.size() - 1);
 }
 
