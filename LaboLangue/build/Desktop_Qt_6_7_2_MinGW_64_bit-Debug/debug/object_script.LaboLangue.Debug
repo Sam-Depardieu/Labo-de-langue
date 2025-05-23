@@ -1,5 +1,6 @@
 debug/AudioCommunicator.o
 debug/choixsession.o
+debug/gestionSession.o
 debug/helpwindow.o
 debug/iconEleveGroup.o
 debug/main.o
@@ -8,6 +9,7 @@ debug/qcm.o
 debug/qrc_ressource.o
 debug/moc_AudioCommunicator.o
 debug/moc_choixsession.o
+debug/moc_gestionSession.o
 debug/moc_helpwindow.o
 debug/moc_iconEleveGroup.o
 debug/moc_mainwindow.o
