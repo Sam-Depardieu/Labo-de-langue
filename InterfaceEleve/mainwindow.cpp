@@ -120,7 +120,7 @@ void MainWindow::handleRestartCommand()
                                        datagram.size(),
                                        &sender,
                                        &senderPort);
-        QString cmd = QString::fromUtf8(datagram).trimmed();
+        QString cmd = QString::fromUtf8(datagram).trimmed().toUtf8();
         qDebug() << "📢 RECV:" << cmd << "depuis" << sender.toString();
 
         if (cmd == "mute") {
@@ -128,7 +128,7 @@ void MainWindow::handleRestartCommand()
             // Appelle ta fonction mute audio ici, par exemple :
             if(currentStudent) currentStudent->muteAudio();
         }
-        else if (cmd == "demute") {
+        else if (cmd == "unmute") {
             qDebug() << "🔈 Commande DEMUTE reçue";
             // Appelle ta fonction unmute audio ici, par exemple :
             if(currentStudent) currentStudent->unmuteAudio();
