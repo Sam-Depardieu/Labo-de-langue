@@ -73,7 +73,7 @@ public:
     QString getNom() const { return nom; }
     QString getIP() const { return IP; }
     QString getNomGroupe() const { return nomGroupe; }
-    std::vector<iconEleveGroup*> getAffiliate() const { return affiliate; }
+    std::vector<iconEleveGroup*>& getAffiliate() { return affiliate; }
     QGraphicsEllipseItem* getgroupColor() const { return groupEtat; }
 
     QGraphicsTextItem* getTextItem() const { return textItem; }

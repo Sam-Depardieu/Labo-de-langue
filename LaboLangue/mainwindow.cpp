@@ -1546,18 +1546,13 @@ void MainWindow::onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve)
         }
 
         if (!portsAudioGroupes.contains(groupe)) {
-            int portTest = prochainPortAudioDisponible;
-            while (portEstDejaUtilise(portTest) || portEstDejaUtilise(portTest + 1)) {
-                portTest += 2;  // Saut de 2 pour push/pull
-            }
-            portsAudioGroupes[groupe] = portTest;
-            prochainPortAudioDisponible = portTest + 2;
+            portsAudioGroupes[groupe] = prochainPortAudioDisponible++;
         }
-
 
         if (prof && !prof->audioGroupExists(groupe)) {
             prof->addAudioGroup(groupe, portsAudioGroupes[groupe]);
         }
+
 
         portAudio = portsAudioGroupes[groupe];
         commande = "portGroup," + QString::number(portAudio);
@@ -1566,6 +1561,8 @@ void MainWindow::onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve)
             prof->sendCommandToStudent(membre->getIP(), 5558, commande);
         }
     }
+
+    prof->sendCommandToStudent(eleveActuellementParametre->getIP(), 5558, commande);
 
     loadInformationTable(); // Rafraîchir l'interface
 }

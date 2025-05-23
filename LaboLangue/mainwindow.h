@@ -38,6 +38,7 @@ public:
     void setNomEtudiantLineEdit(QString nom);
     bool getModeSombre() const { return modeSombre; }
     bool getMovable() const {return movable;};
+    bool portEstDejaUtilise(int port);
     void afficherEtatEleves();
 
     // === Méthodes principales ===
@@ -122,7 +123,6 @@ private slots:
 
     QList<QColor> listeCouleursDisponibles();
     QColor couleurDisponible() ;
-    bool portEstDejaUtilise(int port);
 
     void on_reloadButton_clicked();
 
