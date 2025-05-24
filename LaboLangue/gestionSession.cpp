@@ -38,7 +38,7 @@ gestionSession::gestionSession(MainWindow *mainW, QSqlDatabase db, QObject *pare
 QStringList gestionSession::getActivites() {
     QStringList activites;
     QSqlQuery query(database);
-    if (!query.exec("SELECT Nom FROM TypeActivite")) {
+    if (!query.exec("SELECT Nom FROM TypeActivite ORDER BY Id_TypeActivite ASC")) {
         qDebug() << "Erreur lors de l'exécution de la requête :" << query.lastError();
         return activites;
     }
@@ -143,6 +143,187 @@ bool gestionSession::validerEtEnregistrerSession(const QString &nomProf, const Q
     return true;
 }
 
+void gestionSession::loadSession() {
+    choixSession choix(mainWindow);
+    if (choix.exec() != QDialog::Accepted) {
+        return;
+    }
+
+    QFile file(*mainWindow->getSource());  // récupère la source depuis MainWindow
+
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qWarning() << "❌ Impossible d'ouvrir le fichier : " << mainWindow->getSource();
+        return;
+    }
+
+    QByteArray jsonData = file.readAll();
+    file.close();
+
+    QJsonParseError parseError;
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonData, &parseError);
+
+    if (parseError.error != QJsonParseError::NoError) {
+        qWarning() << "❌ Erreur de parsing JSON :" << parseError.errorString();
+        return;
+    }
+
+    if (!jsonDoc.isObject()) {
+        qWarning() << "❌ Le JSON n’est pas un objet valide.";
+        return;
+    }
+
+    QJsonObject obj = jsonDoc.object();
+
+    QString nomProf = obj["nomProf"].toString();
+    mainWindow->getNomProf()->operator=(nomProf);
+
+    int idTypeActivite = obj["idTypeActivite"].toInt();
+    int idClasse = obj["idClasse"].toInt();
+    QString consigne = obj["consigne"].toString();
+
+    mainWindow->setIdTypeActivite(idTypeActivite);
+    mainWindow->setIdClasse(idClasse);
+    mainWindow->ui->NomProfLineEdit->setText(nomProf);
+    mainWindow->ui->ChoixActivite->setCurrentIndex(idTypeActivite);
+    mainWindow->ui->ChoixClasse->setCurrentIndex(idClasse);
+    mainWindow->ui->ConsigneTextEdit->setText(consigne);
+
+    QJsonArray participants = obj["participants"].toArray();
+    for (const QJsonValue &val : participants) {
+        int id = val.toInt();
+
+        for (iconEleveGroup* group : mainWindow->listeRasp) {
+            if (group->getID() == id) {
+                if (!group->getCheckItem()->isVisible()) {
+                    mainWindow->showCheckIconOnGroup(group);
+                }
+                mainWindow->listeParticipant.push_back(group);
+                break;
+            }
+        }
+    }
+}
+
+void gestionSession::continuerCreationSession()
+{
+    unsigned int i = 1;
+    for (auto *eleve : mainWindow->listeRasp) {
+        if (std::find(mainWindow->listeParticipant.begin(), mainWindow->listeParticipant.end(), eleve) == mainWindow->listeParticipant.end()) {
+            eleve->setVisible(false);
+        } else {
+            QString nomAuto = QString("Élève %1").arg(i++);
+            mainWindow->updateEleveNom(eleve, nomAuto);
+
+            QMap<int, QString> activite {
+                {0, "QCM"},
+                {1, "ecoute"},
+                {2, "ecoute_co"},
+                {3, "video"},
+                {4, "video_co"},
+                {5, "enregistrement"}
+            };
+
+            if (!mainWindow->getDuree()->isEmpty() && *mainWindow->getDuree() != QString("00:00")) {
+                mainWindow->getProf()->sendCommandToStudent(eleve->getIP(), 5558, QString("chrono,%1").arg(*mainWindow->getDuree()));
+            }
+            mainWindow->getProf()->sendCommandToStudent(eleve->getIP(), 5561, QString(mainWindow->getSessionFolder()));
+            qDebug() << mainWindow->getIdTypeActivite();
+            mainWindow->getProf()->sendCommandToStudent(eleve->getIP(), 5560, activite[mainWindow->getIdTypeActivite()]);
+        }
+    }
+
+    auto ui = mainWindow->ui;
+
+    mainWindow->editStatusButton(ui->PlanButton, true);
+    mainWindow->editStatusButton(ui->PresenceButton, true);
+    mainWindow->editStatusButton(ui->EnregistrementButton, true);
+    mainWindow->editStatusButton(ui->AppelButton, true);
+    mainWindow->editStatusButton(ui->StatutButton, true);
+    mainWindow->editStatusButton(ui->selectAll, false);
+    mainWindow->editStatusButton(ui->selectManuel, false);
+
+    mainWindow->selectionParticipants = false;
+    mainWindow->selectAllParticipants = false;
+    mainWindow->parametrageSession = false;
+    ui->ParametrageSession->setVisible(false);
+
+    if (!mainWindow->runningSession) {
+        ui->SessionButton->setText("Session \nen cours");
+        ui->delButton->setText("Fin session");
+    }
+
+    mainWindow->runningSession = true;
+
+    QString sessionSave = mainWindow->getSessionFolder() + "\\";
+
+    if (!mainWindow->getSource()->isEmpty()) {
+        QFileInfo fileInfo(*mainWindow->getSource());
+        QDir dir;
+        if (!dir.exists(sessionSave)) dir.mkpath(sessionSave);
+
+        QString finalName = mainWindow->getNewName().isEmpty() ? fileInfo.fileName() : mainWindow->getNewName();
+        QString destPath = sessionSave + finalName;
+
+        if (QFile::copy(*mainWindow->getSource(), destPath)) {
+            QMessageBox::critical(nullptr, "Fichier enregistré avec succès",
+                                  "✅ Fichier bien enregistré \nLe fichier audio/vidéo a été enregistré dans " + destPath);
+        } else {
+            QMessageBox::critical(nullptr, "Fichier non enregistré",
+                                  "❌ Aucun fichier n'a été enregistré\n"
+                                  "Veuillez le mettre manuellement dans " + destPath + ".");
+        }
+    }
+
+    QFile(sessionSave).close();
+    mainWindow->remainingTime = ui->DureeActivite->time();
+
+    mainWindow->clignotementEtat = false;
+    mainWindow->clignotementTimer->stop();
+    ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: white; border: 2px solid white; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
+
+    if (mainWindow->remainingTime != QTime(0, 0)) {
+        ui->chronoLabel->setVisible(true);
+        ui->chronoLabel->setText(mainWindow->remainingTime.toString("mm:ss"));
+        mainWindow->chronoTimer->start(1000);
+    }
+}
+
+void gestionSession::on_SourceButton_clicked() {
+    QString documentsPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+
+    QString filePath  = QFileDialog::getOpenFileName(
+        nullptr,
+        "Sélectionner un fichier source",
+        documentsPath,
+        (mainWindow->getNomTypeActivite()->contains("Ecoute") ? "Audio Files (*.mp3 *.wav *.ogg *.flac *.aac)" : "Vidéos (*.mp4 *.avi *.mkv *.mov *.wmv)")
+        );
+
+    if (filePath.isEmpty()) return;
+
+    QFileInfo fileInfo(filePath);
+    QString extension = fileInfo.completeSuffix();
+
+    // Demander un nouveau nom à l'utilisateur
+    bool ok;
+    QString nouveauNom = QInputDialog::getText(
+        nullptr,
+        "Nom du fichier",
+        "Entrez un nom pour le fichier sélectionné (sans extension) :",
+        QLineEdit::Normal,
+        fileInfo.baseName(),
+        &ok
+        );
+
+    if (!ok || nouveauNom.trimmed().isEmpty()) return;
+
+    // Génère un nouveau chemin temporaire avec le nouveau nom
+    QString nouveauNomComplet = nouveauNom + "." + extension;
+    mainWindow->setNewNameFolder(nouveauNomComplet);
+
+    mainWindow->ui->NameSourceLabel->setText(nouveauNomComplet);
+}
+
+
 void gestionSession::reset()
 {
     for(unsigned int i=0; i!=mainWindow->listeParticipant.size();i++) mainWindow->getProf()->sendCommandToStudent(mainWindow->listeParticipant[i]->getIP(), 5557, "END");
@@ -187,6 +368,7 @@ void gestionSession::reset()
     mainWindow->ui->chronoLabel->setVisible(false);
     mainWindow->ui->envoyerMessageTextEdit->clear();
     mainWindow->ui->TableauGroupe->setVisible(false);
+    mainWindow->ui->NameSourceLabel->clear();
 
     // === Réinitialisation des boutons ===
     mainWindow->editStatusButton(mainWindow->ui->PlanButton, false);

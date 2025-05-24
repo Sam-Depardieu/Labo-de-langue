@@ -22,6 +22,10 @@ public:
     bool validerEtEnregistrerSession(const QString &nomProf, const QString &nomActivite, const QString &nomClasse, const QTime &dureeActivite,
         const QString &consigne, const QString &source, std::vector<iconEleveGroup*> &participants, std::vector<int> &idsParticipants, int &idProf,
         bool sessionExistante);
+    void loadSession();
+    void continuerCreationSession();
+    void on_SourceButton_clicked();
+
 
     QStringList getActivites();
     QStringList getClasses();

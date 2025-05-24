@@ -38,9 +38,12 @@ public:
     QString* getNomProf() {return &nomProf;}
     QString* getDuree() {return &duree;}
     QString* getNomTypeActivite() {return &nomTypeActivite;}
-
+    int getIdTypeActivite() {return idTypeActivite;}
+    QString getNewName() {return newNameFolder;}
+    gestionSession* getGestionSession() {return gestion_Session;}
     Professeur* getProf() {return prof;};
 
+    void setNewNameFolder(QString newName) { newNameFolder = newName;}
     void setSource(QString newSource) { source = newSource; }
     void setNomEtudiantLineEdit(QString nom);
     void setIdTypeActivite(unsigned int newId) {idTypeActivite = newId;};
@@ -51,6 +54,9 @@ public:
     void afficherEtatEleves();
     void addHorizontalLayout(QVBoxLayout *layout, std::initializer_list<QWidget*> widgets);
     void editStatusButton(QPushButton *button, bool status);
+    void showCheckIconOnGroup(iconEleveGroup *group);
+    void updateEleveNom(iconEleveGroup* eleve, const QString& newName);
+    void updateNomDansBDD(int idEleve, const QString& nouveauNom);
 
 
     // === Méthodes principales ===
@@ -93,6 +99,11 @@ public:
     QGraphicsScene *scene = nullptr;
     QGraphicsPixmapItem *item = nullptr;
 
+    bool clignotementEtat = false;
+    QTimer *chronoTimer;
+    QTime remainingTime;
+    QTimer* clignotementTimer;
+
 private slots:
     // === Boutons principaux ===
     void on_PlanButton_clicked();
@@ -102,7 +113,6 @@ private slots:
 
     // === Gestion session ===
     void on_loadSession_clicked();
-    void loadSession();
     void saveSessionData(bool isNewSession);
     void resetSession();
     void setupActivitiesComboBox();
@@ -137,8 +147,6 @@ private slots:
     // === Autres fonctionnalités ===
     void majStatusQCM();
     void changeNameTable(QTableWidgetItem* item);
-    void updateEleveNom(iconEleveGroup* eleve, const QString& newName);
-    void updateNomDansBDD(int idEleve, const QString& nouveauNom);
     void loadInformationTable();
     void on_redemarrerButton_clicked();
     void on_AideButton_clicked();
@@ -160,6 +168,7 @@ private:
     QSqlDatabase db;
     QString source;
     QString sessionFolder;
+    QString newNameFolder;
     QString nomProf;
     int idProf = -1;
     int idClasse = -1;
@@ -171,16 +180,11 @@ private:
     Professeur *prof = nullptr;
     bool modeSombre = true;
     bool movable = false;
-    bool clignotementEtat = false;
-    QTimer *chronoTimer;
-    QTime remainingTime;
-    QTimer* clignotementTimer;
 
 
     // === Méthodes utilitaires ===
     bool connectToDatabase();
     void onImageGroupDoubleClicked();
-    void showCheckIconOnGroup(iconEleveGroup *group);
     void onClicked_itemBoutonSupprimerGroupe(iconEleveGroup* eleve);
     void mettreAJourAudioPourGroupe(const QString& groupe);
     void changerStatusMicro (bool statusMicro);
