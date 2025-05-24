@@ -144,6 +144,11 @@ MainWindow::~MainWindow()
             ui->errorLabel->setText("Veuillez remplir tous les champs !");
             return;
         }
+        if ((nomTypeActivite.contains("video") || nomTypeActivite.contains("ecoute")) && source == nullptr)
+        {
+            ui->errorLabel->setText("Veuillez indiquer un fichier audio ou video.");
+            return;
+        }
         listeEleveParticipant.clear();
         int idProf = -1;
         bool ok = gestion_Session->validerEtEnregistrerSession(
@@ -722,6 +727,8 @@ void MainWindow::on_ChoixActivite_currentIndexChanged(int index)
     QString selectedActivity = ui->ChoixActivite->itemText(index);
     idTypeActivite = index;
     nomTypeActivite = ui->ChoixActivite->currentText();
+    if(nomTypeActivite == "QCM") ui->SourceButton->setDisabled(true);
+    else ui->SourceButton->setEnabled(true);
 }
 
 void MainWindow::on_selectManuel_clicked()
