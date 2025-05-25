@@ -1056,6 +1056,56 @@ border:none;
      <string/>
     </property>
    </widget>
+   <widget class="QPushButton" name="PauseStatutButton">
+    <property name="geometry">
+     <rect>
+      <x>710</x>
+      <y>150</y>
+      <width>171</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: red;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="LectureStatutButton">
+    <property name="geometry">
+     <rect>
+      <x>990</x>
+      <y>150</y>
+      <width>171</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: green;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="RunningActivite">
+    <property name="geometry">
+     <rect>
+      <x>690</x>
+      <y>80</y>
+      <width>131</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Activitée en cours :</string>
+    </property>
+   </widget>
+   <zorder>AppelerButton</zorder>
+   <zorder>redemarrerButton</zorder>
+   <zorder>LectureStatutButton</zorder>
+   <zorder>PauseStatutButton</zorder>
+   <zorder>RunningActivite</zorder>
    <zorder>ParametrageSession</zorder>
    <zorder>nomGroupeLineEdit</zorder>
    <zorder>nomCreationGroupeLabel</zorder>
@@ -1109,8 +1159,6 @@ border:none;
    <zorder>modeClairButton</zorder>
    <zorder>PageStatut</zorder>
    <zorder>cacheButton</zorder>
-   <zorder>AppelerButton</zorder>
-   <zorder>redemarrerButton</zorder>
    <zorder>cadenaOpenButton</zorder>
    <zorder>cadenaCloseButton</zorder>
    <zorder>chronoLabel</zorder>

@@ -147,6 +147,7 @@ release/qrc_ressource.cpp: ../../ressources/ressource.qrc \
 		../../ressources/check.png \
 		../../ressources/cross-qcm.png \
 		../../ressources/micro.png \
+		../../ressources/pause.png \
 		../../ressources/cadenasClose.png \
 		../../ressources/earGreen.png \
 		../../ressources/earRed.png \
@@ -154,6 +155,7 @@ release/qrc_ressource.cpp: ../../ressources/ressource.qrc \
 		../../ressources/sortAZ.png \
 		../../ressources/sortZA.png \
 		../../ressources/mute.png \
+		../../ressources/play.png \
 		../../ressources/person.png
 	C:\Qt\6.7.2\mingw_64\bin\rcc.exe -name ressource --no-zstd ..\..\ressources\ressource.qrc -o release\qrc_ressource.cpp
 
@@ -2729,8 +2731,6 @@ release/moc_mainwindow.cpp: ../../mainwindow.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QDir \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QDebug \
 		C:/Qt/6.7.2/mingw_64/include/QtGui/QStandardItemModel \
-		../../helpwindow.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QWidget \
 		../../gestionSession.h \
 		release/moc_predefs.h \
 		C:/Qt/6.7.2/mingw_64/bin/moc.exe
@@ -3842,11 +3842,10 @@ release/choixsession.o: ../../choixsession.cpp ../../choixsession.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QFileDialog \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QStandardPaths \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QPropertyAnimation \
-		../../helpwindow.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QWidget \
 		../../gestionSession.h \
 		ui_choixsession.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QApplication
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QApplication \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QWidget
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\choixsession.o ..\..\choixsession.cpp
 
 release/gestionSession.o: ../../gestionSession.cpp ../../gestionSession.h \
@@ -4501,16 +4500,46 @@ release/gestionSession.o: ../../gestionSession.cpp ../../gestionSession.h \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/qtsqlglobal.h \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/qtsql-config.h \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/qtsqlexports.h \
+		../../mainwindow.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QMainWindow \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QGraphicsScene \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QPushButton \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QTableWidget \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QUdpSocket \
+		../../AudioCommunicator.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QSet \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QHostAddress \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QVector \
+		../../qcm.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QDialog \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QVBoxLayout \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QHBoxLayout \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QGridLayout \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QScrollArea \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QGroupBox \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QSpinBox \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QLineEdit \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QLabel \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QCheckBox \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QMessageBox \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QJsonDocument \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QJsonObject \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QJsonArray \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QFile \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QFileInfo \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QFileDialog \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QStandardPaths \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QPropertyAnimation \
+		../../choixsession.h \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QListWidget \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QDir \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QDebug \
+		C:/Qt/6.7.2/mingw_64/include/QtGui/QStandardItemModel \
 		ui_mainwindow.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QApplication \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QComboBox \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QGraphicsView \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QHeaderView \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QLabel \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QLineEdit \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QMainWindow \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QPushButton \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QTableWidget \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QTextEdit \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QTimeEdit \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QWidget \
@@ -4518,8 +4547,7 @@ release/gestionSession.o: ../../gestionSession.cpp ../../gestionSession.h \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlquery.h \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/QSqlError \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlerror.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QDateTime \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QDebug
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QDateTime
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\gestionSession.o ..\..\gestionSession.cpp
 
 release/helpwindow.o: ../../helpwindow.cpp ../../helpwindow.h \
@@ -5453,8 +5481,6 @@ release/iconEleveGroup.o: ../../iconEleveGroup.cpp ../../iconEleveGroup.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QDir \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QDebug \
 		C:/Qt/6.7.2/mingw_64/include/QtGui/QStandardItemModel \
-		../../helpwindow.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QWidget \
 		../../gestionSession.h \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlerror.h \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlquery.h
@@ -6146,8 +6172,6 @@ release/main.o: ../../main.cpp ../../mainwindow.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QDir \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QDebug \
 		C:/Qt/6.7.2/mingw_64/include/QtGui/QStandardItemModel \
-		../../helpwindow.h \
-		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QWidget \
 		../../gestionSession.h \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlerror.h \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlquery.h \
@@ -6848,9 +6872,9 @@ release/mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QDir \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QDebug \
 		C:/Qt/6.7.2/mingw_64/include/QtGui/QStandardItemModel \
+		../../gestionSession.h \
 		../../helpwindow.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QWidget \
-		../../gestionSession.h \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlerror.h \
 		C:/Qt/6.7.2/mingw_64/include/QtSql/qsqlquery.h \
 		ui_mainwindow.h \
@@ -7551,7 +7575,6 @@ release/qcm.o: ../../qcm.cpp ../../qcm.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QDir \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QDebug \
 		C:/Qt/6.7.2/mingw_64/include/QtGui/QStandardItemModel \
-		../../helpwindow.h \
 		../../gestionSession.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\qcm.o ..\..\qcm.cpp
 

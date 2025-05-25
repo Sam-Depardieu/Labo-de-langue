@@ -17,5 +17,7 @@
     <file>sortZA.png</file>
     <file>cadenasOpen.png</file>
     <file>cadenasClose.png</file>
+    <file>play.png</file>
+    <file>pause.png</file>
   </qresource>
 </RCC>

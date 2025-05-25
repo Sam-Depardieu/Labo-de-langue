@@ -88,6 +88,9 @@ public:
     QPushButton *cadenaCloseButton;
     QLabel *chronoLabel;
     QPushButton *reloadButton;
+    QPushButton *PauseStatutButton;
+    QPushButton *LectureStatutButton;
+    QLabel *RunningActivite;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -419,7 +422,23 @@ public:
         reloadButton->setObjectName("reloadButton");
         reloadButton->setGeometry(QRect(610, 110, 20, 20));
         reloadButton->setStyleSheet(QString::fromUtf8("background-color: transparent; border: none;"));
+        PauseStatutButton = new QPushButton(centralwidget);
+        PauseStatutButton->setObjectName("PauseStatutButton");
+        PauseStatutButton->setGeometry(QRect(710, 150, 171, 24));
+        PauseStatutButton->setStyleSheet(QString::fromUtf8("background-color: red;"));
+        LectureStatutButton = new QPushButton(centralwidget);
+        LectureStatutButton->setObjectName("LectureStatutButton");
+        LectureStatutButton->setGeometry(QRect(990, 150, 171, 24));
+        LectureStatutButton->setStyleSheet(QString::fromUtf8("background-color: green;"));
+        RunningActivite = new QLabel(centralwidget);
+        RunningActivite->setObjectName("RunningActivite");
+        RunningActivite->setGeometry(QRect(690, 80, 131, 16));
         MainWindow->setCentralWidget(centralwidget);
+        AppelerButton->raise();
+        redemarrerButton->raise();
+        LectureStatutButton->raise();
+        PauseStatutButton->raise();
+        RunningActivite->raise();
         ParametrageSession->raise();
         nomGroupeLineEdit->raise();
         nomCreationGroupeLabel->raise();
@@ -473,8 +492,6 @@ public:
         modeClairButton->raise();
         PageStatut->raise();
         cacheButton->raise();
-        AppelerButton->raise();
-        redemarrerButton->raise();
         cadenaOpenButton->raise();
         cadenaCloseButton->raise();
         chronoLabel->raise();
@@ -542,6 +559,9 @@ public:
         cadenaCloseButton->setText(QString());
         chronoLabel->setText(QCoreApplication::translate("MainWindow", "00:00", nullptr));
         reloadButton->setText(QString());
+        PauseStatutButton->setText(QString());
+        LectureStatutButton->setText(QString());
+        RunningActivite->setText(QCoreApplication::translate("MainWindow", "Activit\303\251e en cours :", nullptr));
     } // retranslateUi
 
 };

@@ -70,12 +70,20 @@ MainWindow::MainWindow(QWidget *parent)
     layoutPageStatut->setContentsMargins(8, 8, 15, 8);
     layoutPageStatut->setAlignment(Qt::AlignCenter | Qt::AlignTop);
     // Ajout des sections dans le layoutPageStatut
+    layoutPageStatut->addWidget(ui->RunningActivite);
+    addHorizontalLayout(layoutPageStatut, {ui->LectureStatutButton, ui->PauseStatutButton});
     addHorizontalLayout(layoutPageStatut, {ui->alignerTableau_2, ui->StatutTableauGroupe});
     layoutPageStatut->addSpacing(10);
     // Appliquez le layout à PageStatut
     ui->PageStatut->setLayout(layoutPageStatut);
     ui->alignerTableau_2->setVisible(false);
     ui->PageStatut->setVisible(false);
+
+    ui->LectureStatutButton->setVisible(false);
+    ui->PauseStatutButton->setVisible(false);
+
+    ui->LectureStatutButton->setIcon(QIcon(QPixmap(":/img/play.png")));
+    ui->PauseStatutButton->setIcon(QIcon(QPixmap(":/img/pause.png")));
 
     // Initialiser les ComboBoxes et charger les images depuis la base de données
     setupClassesComboBox();
@@ -177,8 +185,8 @@ MainWindow::~MainWindow()
             udpSocketQCM->bind(45454, QUdpSocket::ShareAddress);
             connect(udpSocketQCM, &QUdpSocket::readyRead, this, &MainWindow::majStatusQCM);
             if (!interfaceQCMOpen) {
-                QCM *qcmWindow = new QCM(this, this);
-                qcmWindow->show();
+                qcm = new QCM(this, this);
+                qcm->show();
                 interfaceQCMOpen = true;
             }
             return;
@@ -784,8 +792,8 @@ void MainWindow::on_echapButton_clicked()
 
 void MainWindow::on_CreationButton_clicked()
 {
-    QCM *qcmWindow = new QCM(this, this);
-    if(!interfaceQCMOpen) qcmWindow->show();
+    qcm = new QCM(this, this);
+    if(!interfaceQCMOpen) qcm->show();
     interfaceQCMOpen = true;
 }
 
@@ -1053,6 +1061,7 @@ void MainWindow::on_modeSombreButton_clicked()
 
 void MainWindow::on_StatutButton_clicked()
 {
+    ui->RunningActivite->setText("Activitée en cours :\t"+ui->ChoixActivite->currentText());
     // Masquer les autres sections
     ui->ParametrageSession->setVisible(false);
     parametrageEleve = false;
@@ -1060,6 +1069,8 @@ void MainWindow::on_StatutButton_clicked()
 
     // Afficher les sections de statut
     ui->StatutTableauGroupe->setVisible(true);
+    ui->LectureStatutButton->setVisible(true);
+    ui->PauseStatutButton->setVisible(true);
     ui->PageStatut->setVisible(true);
 
     // Préparer le tableau
@@ -1068,13 +1079,18 @@ void MainWindow::on_StatutButton_clicked()
 
     // Déterminer le nombre de colonnes
     bool isQCM = (ui->ChoixActivite->currentText() == "QCM");
-    QStringList headers = { "Nom", "Numéro de poste", "Travail déposé", "Enregistrement", "Nom de groupe", "Adresse IP" };
+    bool isEnregistremnt = (ui->ChoixActivite->currentText() == "Enregistrement");
+    QStringList headers = { "Nom", "Numéro de poste", "Travail déposé"};
     if (isQCM) {
-        headers << "QCM";
-        StatutTableauGroupe->setColumnCount(7);
-    } else {
-        StatutTableauGroupe->setColumnCount(6);
+        headers << "Avancement";
     }
+    else if(isEnregistremnt)
+    {
+        headers << "Enregistrement";
+    }
+
+    headers << "Nom de groupe" << "Adresse IP";
+    StatutTableauGroupe->setColumnCount(6);
 
     StatutTableauGroupe->setHorizontalHeaderLabels(headers);
 
@@ -1088,9 +1104,8 @@ void MainWindow::on_StatutButton_clicked()
     StatutTableauGroupe->setColumnWidth(3, 120); // Enregistrement
     StatutTableauGroupe->setColumnWidth(4, 130); // Numéro de groupe
     StatutTableauGroupe->setColumnWidth(5, 120); // Adresse IP
-    if (isQCM) {
-        StatutTableauGroupe->setColumnWidth(6, 80); // QCM
-    }
+
+    qDebug() << isQCM;
 
     // Remplir les lignes
     for (int row = 0; row < static_cast<int>(listeParticipant.size()); ++row) {
@@ -1110,10 +1125,6 @@ void MainWindow::on_StatutButton_clicked()
         itemTravailDepot->setFlags(itemTravailDepot->flags() & ~Qt::ItemIsEditable);
         StatutTableauGroupe->setItem(row, 2, itemTravailDepot);
 
-        QPushButton *boutonEcouter = new QPushButton("Écouter");
-        boutonEcouter->setStyleSheet("background-color: gray;");
-        StatutTableauGroupe->setCellWidget(row, 3, boutonEcouter);
-
         QTableWidgetItem *itemGroupe = new QTableWidgetItem(participant->getNomGroupe());
         itemGroupe->setTextAlignment(Qt::AlignCenter);
         itemGroupe->setFlags(itemGroupe->flags() & ~Qt::ItemIsEditable);
@@ -1124,12 +1135,19 @@ void MainWindow::on_StatutButton_clicked()
         itemIP->setFlags(itemIP->flags() & ~Qt::ItemIsEditable);
         StatutTableauGroupe->setItem(row, 5, itemIP);
 
-        if (isQCM && qcm != nullptr) {
-            QString qcmStatut = QString("%1/%2").arg(participant->getNumQCM()).arg(qcm->getSize());
+        if (isQCM) {
+            int numQCM = participant->getNumQCM();
+            int totalQCM = (qcm != nullptr) ? qcm->getSize() : 0;
+            QString qcmStatut = QString("%1/%2").arg(numQCM).arg(totalQCM);
             QTableWidgetItem *itemQCM = new QTableWidgetItem(qcmStatut);
             itemQCM->setTextAlignment(Qt::AlignCenter);
             itemQCM->setFlags(itemQCM->flags() & ~Qt::ItemIsEditable);
-            StatutTableauGroupe->setItem(row, 6, itemQCM);
+            StatutTableauGroupe->setItem(row, 3, itemQCM);
+        }
+        else {
+            QPushButton *boutonEcouter = new QPushButton("Écouter");
+            boutonEcouter->setStyleSheet("background-color: gray;");
+            StatutTableauGroupe->setCellWidget(row, 3, boutonEcouter);
         }
     }
     // Connecter une fois (éviter les multiples connexions)
@@ -1353,3 +1371,18 @@ void MainWindow::on_reloadButton_clicked()
     }
 }
 
+void MainWindow::on_LectureStatutButton_clicked()
+{
+    for(unsigned int i=0; i!=listeParticipant.size(); i++)
+    {
+        prof->sendCommandToStudent(listeParticipant[i]->getIP(), 5558, "lecture");
+    }
+}
+
+void MainWindow::on_PauseStatutButton_clicked()
+{
+    for(unsigned int i=0; i!=listeParticipant.size(); i++)
+    {
+        prof->sendCommandToStudent(listeParticipant[i]->getIP(), 5558, "pause");
+    }
+}
