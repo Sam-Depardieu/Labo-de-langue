@@ -1367,7 +1367,7 @@ void MainWindow::on_reloadButton_clicked()
 {
     if (scene) {
         scene->clear();
-        loadImagesFromDB();  // Recharge les images depuis la base (avatars, etc.)
+        loadImagesFromDB();
     }
 }
 

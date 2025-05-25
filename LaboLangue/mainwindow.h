@@ -161,6 +161,10 @@ private slots:
 
     void on_reloadButton_clicked();
 
+    void on_LectureStatutButton_clicked();
+
+    void on_PauseStatutButton_clicked();
+
 private:
     // === Interface graphique ===
 
