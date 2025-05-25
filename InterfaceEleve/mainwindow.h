@@ -40,6 +40,10 @@ public:
     QString getConsigne() {return consigne;};
     QTime getTime() {return remainingTime;};
     QString getSessionPATH() {return sessionPATH;};
+    QString getIpProf() {return ipProf;}
+
+
+    void sendCommandToProf(const QString& profIp, int port, const QString& command);
 
 
     ~MainWindow();
@@ -71,11 +75,13 @@ private:
 
     QString nomEleve = "";
     QString nomProf = "";
+    QString ipProf = "";
     QString consigne = "";
     QString sessionPATH = "";
     QMap<int, Student*> students;
     Student* currentStudent = nullptr;  // membre de la classe MainWindow
 
+    QUdpSocket udpSocket;
 
     QUdpSocket udpSocketInfo;
     quint16 infoPort = 5558;

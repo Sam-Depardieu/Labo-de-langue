@@ -40,6 +40,7 @@ public:
     QString* getNomTypeActivite() {return &nomTypeActivite;}
     int getIdTypeActivite() {return idTypeActivite;}
     QString getNewName() {return newNameFolder;}
+    QString getIpProf() {return ip;}
     gestionSession* getGestionSession() {return gestion_Session;}
     Professeur* getProf() {return prof;};
 
@@ -90,6 +91,8 @@ public:
     unsigned int portPATH = 5559;
     QUdpSocket* udpSocketQCM = nullptr;
     unsigned int portQCM = 5559;
+    QUdpSocket* udpSocketAppel = nullptr;
+    unsigned int portAppel = 5557;
     QMap<QString, int> portsAudioGroupes; // Groupe → port (ex: "Groupe A" → 6000)
     int prochainPortAudioDisponible = 6000;
 
@@ -179,6 +182,7 @@ private:
     int idTypeActivite = -1;
     QString duree = "00:00";
     QString nomTypeActivite;
+    QString ip;
 
     // === Divers ===
     Professeur *prof = nullptr;
@@ -196,7 +200,9 @@ private:
     void updateChronoLabel();
     void faireClignoterLabel();
 
-    gestionSession* gestion_Session;
+    void demandeAide();
+
+    gestionSession *gestion_Session;
 };
 
 #endif // MAINWINDOW_H

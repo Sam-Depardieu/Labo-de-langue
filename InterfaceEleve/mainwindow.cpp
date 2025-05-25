@@ -369,6 +369,13 @@ void MainWindow::receiveInfo() {
         QString response = QString::fromUtf8(datagram).trimmed();
         qDebug() << "📢 Message reçu de" << sender.toString() << ":" << response;
 
+        if (sender.protocol() == QAbstractSocket::IPv4Protocol) {
+            ipProf = sender.toString();
+            qDebug() << "📡 Adresse IPv4 de l'expéditeur :" << ipProf;
+        } else {
+            qDebug() << "🌐 Adresse non IPv4 reçue, ignorée :" << sender.toString();
+        }
+
         if (response.isEmpty())
             continue;
 
@@ -390,7 +397,11 @@ void MainWindow::receiveInfo() {
             nomProf = value;
             qDebug() << "👤 Nom du prof reçu :" << nomProf;
 
-        } else if (key == "nomEleve") {
+        } else if (key == "ipProf") {
+            ipProf = value;
+            qDebug() << "👤 Adresse ip prof reçu :" << ipProf;
+
+        }else if (key == "nomEleve") {
             nomEleve = value;
             qDebug() << "👤 Nom de l'élève reçu :" << nomEleve;
 
@@ -558,6 +569,15 @@ void MainWindow::stopClignotement()
     clignotementEtat = false;
 }
 
+void MainWindow::sendCommandToProf(const QString& profIp, int port, const QString& command)
+{
+    if (command.isEmpty()) return;
+
+    QByteArray datagram = command.toUtf8();
+    QHostAddress addr(profIp);
+    udpSocket.writeDatagram(datagram, addr, port);
+    qDebug() << "[Command] vers" << profIp << ":" << command;
+}
 
 void MainWindow::receiveConsigne()
 {

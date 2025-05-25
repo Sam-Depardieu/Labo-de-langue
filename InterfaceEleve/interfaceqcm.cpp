@@ -469,5 +469,6 @@ void InterfaceQCM::on_pushButtonAppelProf_clicked()
 {
     ui->pushButtonAppelProf->setStyleSheet(" border:1px solid white; border-radius:20px;");
     isButtonAppelProfImage = false;
+    mainWindow->sendCommandToProf(mainWindow->getIpProf(), 5557, "help");
 }
 

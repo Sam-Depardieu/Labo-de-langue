@@ -16,6 +16,46 @@ MainWindow::MainWindow(QWidget *parent)
 
     gestion_Session = new gestionSession(this, QSqlDatabase::database());
 
+    QString ip;
+
+    const QList<QNetworkInterface> interfaces = QNetworkInterface::allInterfaces();
+
+    for (const QNetworkInterface &interface : interfaces) {
+        QString name = interface.humanReadableName().toLower();
+        QString systemName = interface.name().toLower();
+
+        // On filtre les interfaces virtuelles ou inutiles
+        if (interface.flags().testFlag(QNetworkInterface::IsUp) &&
+            interface.flags().testFlag(QNetworkInterface::IsRunning) &&
+            !interface.flags().testFlag(QNetworkInterface::IsLoopBack) &&
+            !name.contains("virtual") &&
+            !name.contains("vmware") &&
+            !name.contains("tunnel") &&
+            !name.contains("vbox") &&
+            !name.contains("loopback") &&
+            !name.contains("docker") &&
+            !systemName.contains("vmnet") &&
+            !systemName.contains("npf") &&
+            !systemName.contains("vnic")) {
+
+            // On récupère l'adresse IPv4
+            for (const QNetworkAddressEntry &entry : interface.addressEntries()) {
+                QHostAddress address = entry.ip();
+                if (address.protocol() == QAbstractSocket::IPv4Protocol) {
+                    ip = address.toString();
+                    qDebug() << "Interface réseau :" << interface.humanReadableName();
+                    qDebug() << "Adresse IP physique trouvée :" << ip;
+                    break; // On sort dès qu'on a trouvé
+                }
+            }
+        }
+    }
+    qDebug() << "Adresse IP physique trouvée :" << ip;
+
+
+    if (ip.isEmpty())
+        qDebug() << "Aucune adresse IP valide trouvée.";
+
     // Création de la scène
     scene = new QGraphicsScene(0, 0, 631, 681, this);
     ui->PlanClasse->setScene(scene);
@@ -120,6 +160,38 @@ MainWindow::MainWindow(QWidget *parent)
     connect(chronoTimer, &QTimer::timeout, this, &MainWindow::updateChronoLabel);
     clignotementTimer = new QTimer(this);
     connect(clignotementTimer, &QTimer::timeout, this, &MainWindow::faireClignoterLabel);
+
+    udpSocketAppel = new QUdpSocket(this);
+    connect(udpSocketAppel, &QUdpSocket::readyRead, this, &MainWindow::demandeAide);
+}
+
+void MainWindow::demandeAide()
+{
+
+    while (udpSocketAppel->hasPendingDatagrams()) {
+        QByteArray datagram;
+        datagram.resize(udpSocketAppel->pendingDatagramSize());
+        QHostAddress sender;
+        quint16 senderPort;
+
+        udpSocketAppel->readDatagram(datagram.data(),
+                                       datagram.size(),
+                                       &sender,
+                                       &senderPort);
+        QString cmd = QString::fromUtf8(datagram).trimmed().toUtf8();
+        qDebug() << "📢 RECV:" << cmd << "depuis" << sender.toString();
+
+        if (cmd == "help") {
+            qDebug() << "🔇 Commande MUTE reçue";
+            for(unsigned int i=0; i!=listeParticipant.size(); i++)
+            {
+                if(listeParticipant[i]->getIP() == sender.toString())
+                {
+                    listeParticipant[i]->getLeveMain()->setVisible(true);
+                }
+            }
+        }
+    }
 }
 
 // DESTRUCTEUR
@@ -1375,7 +1447,7 @@ void MainWindow::on_LectureStatutButton_clicked()
 {
     for(unsigned int i=0; i!=listeParticipant.size(); i++)
     {
-        prof->sendCommandToStudent(listeParticipant[i]->getIP(), 5558, "lecture");
+        prof->sendCommandToStudent(listeParticipant[i]->getIP(), 5557, "lecture");
     }
 }
 
@@ -1383,6 +1455,6 @@ void MainWindow::on_PauseStatutButton_clicked()
 {
     for(unsigned int i=0; i!=listeParticipant.size(); i++)
     {
-        prof->sendCommandToStudent(listeParticipant[i]->getIP(), 5558, "pause");
+        prof->sendCommandToStudent(listeParticipant[i]->getIP(), 5557, "pause");
     }
 }

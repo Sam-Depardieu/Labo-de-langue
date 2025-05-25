@@ -41,6 +41,7 @@ private slots:
     void faireClignoterLabel();
 
 
+    void receiveCmd();
 protected:
     void closeEvent(QCloseEvent *event) override;
 
@@ -58,6 +59,9 @@ private:
     bool clignotementEtat;
     int resetCount = 0;
     static constexpr int maxResets = 3;
+
+    QUdpSocket udpSocketCMD;
+    quint16 cmdPort = 5557;
 
     QUdpSocket udpChrono;
     quint16 chronoPort =5558;

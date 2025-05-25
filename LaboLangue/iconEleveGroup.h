@@ -83,6 +83,7 @@ public:
     QGraphicsPixmapItem* getMicroDesactiver() const { return microDesactiver; }
     QGraphicsPixmapItem* getCasqueActiver() const { return casqueActiver; }
     QGraphicsPixmapItem* getCasqueDesactiver() const { return casqueDesactiver; }
+    QGraphicsPixmapItem* getLeveMain() const { return leveMain;}
 
     QColor couleurDepuisEtat(CouleurEtat etat);
 

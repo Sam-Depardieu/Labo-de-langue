@@ -133,6 +133,9 @@ InterfaceVideo::InterfaceVideo(bool co, MainWindow *parentWindow, QWidget *paren
 
     remainingTime = parentWindow->getTime();
 
+    udpSocketCMD.bind(QHostAddress::Any, cmdPort);
+    connect(&udpSocketCMD, &QUdpSocket::readyRead, this, &InterfaceVideo::receiveCmd);
+
     // Initialisation des timers
     chronoTimer = new QTimer(this);
     connect(chronoTimer, &QTimer::timeout, this, &InterfaceVideo::updateChronoLabel);
@@ -152,6 +155,24 @@ InterfaceVideo::InterfaceVideo(bool co, MainWindow *parentWindow, QWidget *paren
         chronoTimer->start(1000);
     } else {
         ui->chronoLabel->setText("00:00");
+    }
+}
+
+void InterfaceVideo::receiveCmd() {
+    while (udpSocketCMD.hasPendingDatagrams()) {
+        QByteArray datagram;
+        datagram.resize(udpSocketCMD.pendingDatagramSize());
+
+        QHostAddress sender;
+        quint16 senderPort;
+
+        udpSocketCMD.readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
+
+        QString response = QString::fromUtf8(datagram).trimmed();
+        qDebug() << "📢 Message reçu de" << sender.toString() << ":" << response;
+
+        if(response == "pause") on_pushButton_Pause_clicked();
+        else if (response == "lecture") on_pushButton_Play_clicked();
     }
 }
 

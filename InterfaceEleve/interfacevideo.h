@@ -51,7 +51,7 @@ private slots:
     void updateChronoLabel();
     void faireClignoterLabel();
 
-
+    void receiveCmd();
 protected:
     void closeEvent(QCloseEvent *event);
 
@@ -65,6 +65,8 @@ private:
     QGraphicsScene *scene = nullptr;
     QGraphicsVideoItem *videoItem = nullptr;
 
+    QUdpSocket udpSocketCMD;
+    quint16 cmdPort = 5557;
 
     bool CO = false;
     bool coMode;
