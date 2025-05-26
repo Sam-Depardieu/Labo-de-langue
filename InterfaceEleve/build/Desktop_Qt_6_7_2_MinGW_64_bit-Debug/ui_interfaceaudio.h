@@ -54,11 +54,14 @@ public:
         pushButton_Pause->setGeometry(QRect(420, 430, 45, 45));
         pushButton_SelectAudio = new QPushButton(InterfaceAudio);
         pushButton_SelectAudio->setObjectName("pushButton_SelectAudio");
-        pushButton_SelectAudio->setGeometry(QRect(0, 0, 111, 24));
+        pushButton_SelectAudio->setGeometry(QRect(10, 0, 171, 24));
+        QFont font;
+        font.setPointSize(11);
+        pushButton_SelectAudio->setFont(font);
         horizontalSlider = new QSlider(InterfaceAudio);
         horizontalSlider->setObjectName("horizontalSlider");
         horizontalSlider->setGeometry(QRect(10, 400, 781, 20));
-        horizontalSlider->setOrientation(Qt::Orientation::Horizontal);
+        horizontalSlider->setOrientation(Qt::Horizontal);
         pushButtonReset = new QPushButton(InterfaceAudio);
         pushButtonReset->setObjectName("pushButtonReset");
         pushButtonReset->setGeometry(QRect(10, 430, 45, 45));
@@ -71,14 +74,14 @@ public:
         verticalSlider_sonVideo = new QSlider(InterfaceAudio);
         verticalSlider_sonVideo->setObjectName("verticalSlider_sonVideo");
         verticalSlider_sonVideo->setGeometry(QRect(760, 240, 16, 160));
-        verticalSlider_sonVideo->setOrientation(Qt::Orientation::Vertical);
+        verticalSlider_sonVideo->setOrientation(Qt::Vertical);
         chronoLabel = new QLabel(InterfaceAudio);
         chronoLabel->setObjectName("chronoLabel");
         chronoLabel->setGeometry(QRect(110, 430, 111, 45));
-        QFont font;
-        font.setFamilies({QString::fromUtf8("Segoe UI")});
-        font.setBold(true);
-        chronoLabel->setFont(font);
+        QFont font1;
+        font1.setFamilies({QString::fromUtf8("Segoe UI")});
+        font1.setBold(true);
+        chronoLabel->setFont(font1);
         chronoLabel->setStyleSheet(QString::fromUtf8("QLabel {\n"
 "    background-color: rgb(0, 151, 178); /* m\303\252me ton bleu-vert que ta barre */\n"
 "    color: white;\n"

@@ -235,21 +235,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             actionDone = true;
             return;
         }
-
-        // Sinon, demande nom utilisateur
-        bool ok;
-        QString userName = QInputDialog::getText(this, tr("Nouveau Raspberry Pi"),
-                                                 tr("Nom utilisateur:"), QLineEdit::Normal,
-                                                 "", &ok);
-        if (!ok || userName.isEmpty()) {
-            QMessageBox::warning(this, tr("Annulé"), tr("Nom utilisateur requis."));
-            return;
-        }
-
         // Insert nouvelle entrée
         QSqlQuery insert;
-        insert.prepare("INSERT INTO Raspberry (nom_utilisateur, ip, mac) VALUES (:nom, :ip, :mac)");
-        insert.bindValue(":nom", userName);
+        insert.prepare("INSERT INTO Raspberry (ip, mac) VALUES (:ip, :mac)");
         insert.bindValue(":ip", ipAddress);
         insert.bindValue(":mac", macAddress);
         if (!insert.exec()) {
