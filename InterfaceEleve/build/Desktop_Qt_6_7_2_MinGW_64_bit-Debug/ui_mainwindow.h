@@ -53,13 +53,16 @@ public:
 "    font-weight: bold; /* Optionnel : texte en gras */"));
         label = new QLabel(centralwidget);
         label->setObjectName("label");
-        label->setGeometry(QRect(370, 30, 101, 16));
+        label->setGeometry(QRect(360, 15, 181, 31));
+        QFont font;
+        font.setPointSize(16);
+        label->setFont(font);
         label_2 = new QLabel(centralwidget);
         label_2->setObjectName("label_2");
-        label_2->setGeometry(QRect(250, 70, 321, 91));
+        label_2->setGeometry(QRect(280, 70, 320, 90));
         label_Loading = new QLabel(centralwidget);
         label_Loading->setObjectName("label_Loading");
-        label_Loading->setGeometry(QRect(310, 160, 191, 121));
+        label_Loading->setGeometry(QRect(325, 160, 150, 150));
         label_Loading->setStyleSheet(QString::fromUtf8("background-color : transparent;\n"
 "border:none;\n"
 ""));

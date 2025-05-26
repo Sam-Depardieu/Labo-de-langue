@@ -6,7 +6,6 @@
 #include "interfacevideo.h"
 #include "audioCommunicator.h"
 #include "ui_mainwindow.h"
-#include "attenteprof.h"
 #include <QKeyEvent>
 #include <QMessageBox>
 #include <QInputDialog>
