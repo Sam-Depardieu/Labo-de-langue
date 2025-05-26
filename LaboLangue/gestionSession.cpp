@@ -210,7 +210,6 @@ void gestionSession::continuerCreationSession()
 
     auto ui = mainWindow->ui;
 
-    mainWindow->editStatusButton(ui->PlanButton, true);
     mainWindow->editStatusButton(ui->PresenceButton, true);
     mainWindow->editStatusButton(ui->EnregistrementButton, true);
     mainWindow->editStatusButton(ui->AppelButton, true);
@@ -357,8 +356,8 @@ void gestionSession::reset()
     mainWindow->interfaceQCMOpen = false;
 
     // === Réinitialisation des chaînes de caractères ===
-    mainWindow->getNewName().clear();
-    //mainWindow->setNewNameFolder("");
+    mainWindow->getSessionFolder().clear();
+
     mainWindow->getSource().clear();
     mainWindow->getNomProf()->clear();
     mainWindow->getDuree()->clear();
@@ -380,7 +379,6 @@ void gestionSession::reset()
     mainWindow->ui->NameSourceLabel->clear();
 
     // === Réinitialisation des boutons ===
-    mainWindow->editStatusButton(mainWindow->ui->PlanButton, false);
     mainWindow->editStatusButton(mainWindow->ui->PresenceButton, false);
     mainWindow->editStatusButton(mainWindow->ui->EnregistrementButton, false);
     mainWindow->editStatusButton(mainWindow->ui->AppelButton, false);
