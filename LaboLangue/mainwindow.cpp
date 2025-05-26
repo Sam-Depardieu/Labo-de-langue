@@ -1286,13 +1286,14 @@ void MainWindow::onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve)
         }
     }
 
+    // ======= Sauvegarder les membres avant modification ========
+    std::vector<iconEleveGroup*> anciensMembres = listeGroup[groupe];
+
     // Affecter le groupe à l'élève cliqué
     eleve->setNomGroupe(groupe);
 
-    // Récupérer la liste des membres
-    std::vector<iconEleveGroup*>& membres = listeGroup[groupe];
-
     // Ajouter l'élève s'il n'est pas déjà membre
+    std::vector<iconEleveGroup*>& membres = listeGroup[groupe];
     if (std::find(membres.begin(), membres.end(), eleve) == membres.end()) {
         membres.push_back(eleve);
     }
@@ -1300,32 +1301,28 @@ void MainWindow::onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve)
     int portAudio = portsAudioGroupes[groupe];
     QString commande = "portGroup," + QString::number(portAudio);
 
-    // Mettre à jour la liste des affiliés (membres du groupe) et pastille couleur
+    // Mettre à jour la liste des affiliés et couleur
     for (iconEleveGroup* membre : membres) {
-        // Nettoyer affiliés actuels
         membre->getAffiliate().clear();
-
-        // Ajouter les autres membres en affiliés
         for (iconEleveGroup* autre : membres) {
             if (membre != autre) {
                 membre->getAffiliate().push_back(autre);
             }
         }
 
-        // Appliquer couleur de groupe à la pastille et positionner à droite
         if (membre->getgroupColor()) {
             membre->getgroupColor()->setVisible(true);
             membre->getgroupColor()->setBrush(couleursGroup[groupe]);
 
             QRectF rect = membre->sceneBoundingRect();
             membre->getgroupColor()->setPos(
-                rect.width() + 5,  // décallage à droite
-                (rect.height() - membre->getgroupColor()->rect().height()) / 2  // centré verticalement
+                rect.width() + 5,
+                (rect.height() - membre->getgroupColor()->rect().height()) / 2
                 );
         }
 
-        // Envoi commande UDP au client pour changer de port audio groupe
-        if (prof) {
+        // ======= N'envoyer la commande qu'aux nouveaux membres ========
+        if (prof && std::find(anciensMembres.begin(), anciensMembres.end(), membre) == anciensMembres.end()) {
             prof->sendCommandToStudent(membre->getIP(), 5558, commande);
             qDebug() << "[MainWindow] Commande envoyée à " << membre->getIP() << ":" << commande;
         }
@@ -1333,6 +1330,7 @@ void MainWindow::onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve)
 
     loadInformationTable(); // Rafraîchir affichage
 }
+
 
 void MainWindow::on_nomGroupeLineEdit_returnPressed()
 {
