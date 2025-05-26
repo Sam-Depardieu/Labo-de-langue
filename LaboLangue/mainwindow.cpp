@@ -64,7 +64,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->ParametrageEleve->setVisible(false);
 
     // Désactivation des boutons
-    editStatusButton(ui->PlanButton, false);
     editStatusButton(ui->PresenceButton, false);
     editStatusButton(ui->EnregistrementButton, false);
     editStatusButton(ui->AppelButton, false);
