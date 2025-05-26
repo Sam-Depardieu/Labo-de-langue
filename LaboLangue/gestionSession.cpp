@@ -357,6 +357,8 @@ void gestionSession::reset()
     mainWindow->interfaceQCMOpen = false;
 
     // === Réinitialisation des chaînes de caractères ===
+    mainWindow->getNewName().clear();
+    //mainWindow->setNewNameFolder("");
     mainWindow->getSource().clear();
     mainWindow->getNomProf()->clear();
     mainWindow->getDuree()->clear();

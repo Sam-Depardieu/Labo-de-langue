@@ -123,7 +123,6 @@ QRectF iconEleveGroup::boundingRect() const {
     return baseRect;
 }
 
-
 QColor iconEleveGroup::couleurDepuisEtat(CouleurEtat etat) {
     switch (etat) {
     case CouleurEtat::Rouge:      return Qt::red;

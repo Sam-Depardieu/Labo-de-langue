@@ -163,11 +163,8 @@ private slots:
     QColor couleurDisponible() ;
 
     void on_reloadButton_clicked();
-
     void on_LectureStatutButton_clicked();
-
     void on_PauseStatutButton_clicked();
-
     void on_lectureButton_clicked();
 
 private:
