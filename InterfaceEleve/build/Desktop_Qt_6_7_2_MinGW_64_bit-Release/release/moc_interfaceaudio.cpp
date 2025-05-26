@@ -26,53 +26,48 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 namespace {
 struct qt_meta_stringdata_InterfaceAudio_t {
-    uint offsetsAndSizes[34];
+    uint offsetsAndSizes[32];
     char stringdata0[15];
-    char stringdata1[18];
+    char stringdata1[34];
     char stringdata2[1];
-    char stringdata3[6];
-    char stringdata4[14];
-    char stringdata5[34];
-    char stringdata6[27];
-    char stringdata7[28];
-    char stringdata8[28];
-    char stringdata9[28];
-    char stringdata10[35];
-    char stringdata11[19];
-    char stringdata12[13];
-    char stringdata13[4];
-    char stringdata14[27];
-    char stringdata15[14];
-    char stringdata16[26];
+    char stringdata3[27];
+    char stringdata4[28];
+    char stringdata5[28];
+    char stringdata6[28];
+    char stringdata7[35];
+    char stringdata8[19];
+    char stringdata9[13];
+    char stringdata10[4];
+    char stringdata11[27];
+    char stringdata12[26];
+    char stringdata13[18];
+    char stringdata14[20];
+    char stringdata15[11];
 };
 #define QT_MOC_LITERAL(ofs, len) \
     uint(sizeof(qt_meta_stringdata_InterfaceAudio_t::offsetsAndSizes) + ofs), len 
 Q_CONSTINIT static const qt_meta_stringdata_InterfaceAudio_t qt_meta_stringdata_InterfaceAudio = {
     {
         QT_MOC_LITERAL(0, 14),  // "InterfaceAudio"
-        QT_MOC_LITERAL(15, 17),  // "mettreAJourChrono"
-        QT_MOC_LITERAL(33, 0),  // ""
-        QT_MOC_LITERAL(34, 5),  // "temps"
-        QT_MOC_LITERAL(40, 13),  // "chronoTermine"
-        QT_MOC_LITERAL(54, 33),  // "on_pushButton_SelectAudio_cli..."
-        QT_MOC_LITERAL(88, 26),  // "on_pushButton_Play_clicked"
-        QT_MOC_LITERAL(115, 27),  // "on_pushButton_Pause_clicked"
-        QT_MOC_LITERAL(143, 27),  // "on_pushButton_Avant_clicked"
-        QT_MOC_LITERAL(171, 27),  // "on_pushButton_Apres_clicked"
-        QT_MOC_LITERAL(199, 34),  // "on_horizontalSlider_sliderRel..."
-        QT_MOC_LITERAL(234, 18),  // "animateButtonClick"
-        QT_MOC_LITERAL(253, 12),  // "QPushButton*"
-        QT_MOC_LITERAL(266, 3),  // "btn"
-        QT_MOC_LITERAL(270, 26),  // "on_pushButtonReset_clicked"
-        QT_MOC_LITERAL(297, 13),  // "receiveChrono"
-        QT_MOC_LITERAL(311, 25)   // "on_pushButton_Son_clicked"
+        QT_MOC_LITERAL(15, 33),  // "on_pushButton_SelectAudio_cli..."
+        QT_MOC_LITERAL(49, 0),  // ""
+        QT_MOC_LITERAL(50, 26),  // "on_pushButton_Play_clicked"
+        QT_MOC_LITERAL(77, 27),  // "on_pushButton_Pause_clicked"
+        QT_MOC_LITERAL(105, 27),  // "on_pushButton_Avant_clicked"
+        QT_MOC_LITERAL(133, 27),  // "on_pushButton_Apres_clicked"
+        QT_MOC_LITERAL(161, 34),  // "on_horizontalSlider_sliderRel..."
+        QT_MOC_LITERAL(196, 18),  // "animateButtonClick"
+        QT_MOC_LITERAL(215, 12),  // "QPushButton*"
+        QT_MOC_LITERAL(228, 3),  // "btn"
+        QT_MOC_LITERAL(232, 26),  // "on_pushButtonReset_clicked"
+        QT_MOC_LITERAL(259, 25),  // "on_pushButton_Son_clicked"
+        QT_MOC_LITERAL(285, 17),  // "updateChronoLabel"
+        QT_MOC_LITERAL(303, 19),  // "faireClignoterLabel"
+        QT_MOC_LITERAL(323, 10)   // "receiveCmd"
     },
     "InterfaceAudio",
-    "mettreAJourChrono",
-    "",
-    "temps",
-    "chronoTermine",
     "on_pushButton_SelectAudio_clicked",
+    "",
     "on_pushButton_Play_clicked",
     "on_pushButton_Pause_clicked",
     "on_pushButton_Avant_clicked",
@@ -82,8 +77,10 @@ Q_CONSTINIT static const qt_meta_stringdata_InterfaceAudio_t qt_meta_stringdata_
     "QPushButton*",
     "btn",
     "on_pushButtonReset_clicked",
-    "receiveChrono",
-    "on_pushButton_Son_clicked"
+    "on_pushButton_Son_clicked",
+    "updateChronoLabel",
+    "faireClignoterLabel",
+    "receiveCmd"
 };
 #undef QT_MOC_LITERAL
 } // unnamed namespace
@@ -102,29 +99,29 @@ Q_CONSTINIT static const uint qt_meta_data_InterfaceAudio[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    1,   86,    2, 0x0a,    1 /* Public */,
-       4,    0,   89,    2, 0x0a,    3 /* Public */,
-       5,    0,   90,    2, 0x08,    4 /* Private */,
-       6,    0,   91,    2, 0x08,    5 /* Private */,
-       7,    0,   92,    2, 0x08,    6 /* Private */,
-       8,    0,   93,    2, 0x08,    7 /* Private */,
-       9,    0,   94,    2, 0x08,    8 /* Private */,
-      10,    0,   95,    2, 0x08,    9 /* Private */,
-      11,    1,   96,    2, 0x08,   10 /* Private */,
-      14,    0,   99,    2, 0x08,   12 /* Private */,
-      15,    0,  100,    2, 0x08,   13 /* Private */,
-      16,    0,  101,    2, 0x08,   14 /* Private */,
+       1,    0,   86,    2, 0x08,    1 /* Private */,
+       3,    0,   87,    2, 0x08,    2 /* Private */,
+       4,    0,   88,    2, 0x08,    3 /* Private */,
+       5,    0,   89,    2, 0x08,    4 /* Private */,
+       6,    0,   90,    2, 0x08,    5 /* Private */,
+       7,    0,   91,    2, 0x08,    6 /* Private */,
+       8,    1,   92,    2, 0x08,    7 /* Private */,
+      11,    0,   95,    2, 0x08,    9 /* Private */,
+      12,    0,   96,    2, 0x08,   10 /* Private */,
+      13,    0,   97,    2, 0x08,   11 /* Private */,
+      14,    0,   98,    2, 0x08,   12 /* Private */,
+      15,    0,   99,    2, 0x08,   13 /* Private */,
 
  // slots: parameters
-    QMetaType::Void, QMetaType::QString,    3,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Void, 0x80000000 | 9,   10,
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 12,   13,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -141,11 +138,6 @@ Q_CONSTINIT const QMetaObject InterfaceAudio::staticMetaObject = { {
     qt_incomplete_metaTypeArray<qt_meta_stringdata_InterfaceAudio_t,
         // Q_OBJECT / Q_GADGET
         QtPrivate::TypeAndForceComplete<InterfaceAudio, std::true_type>,
-        // method 'mettreAJourChrono'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
-        // method 'chronoTermine'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_pushButton_SelectAudio_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_pushButton_Play_clicked'
@@ -163,9 +155,13 @@ Q_CONSTINIT const QMetaObject InterfaceAudio::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<QPushButton *, std::false_type>,
         // method 'on_pushButtonReset_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'receiveChrono'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_pushButton_Son_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'updateChronoLabel'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'faireClignoterLabel'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'receiveCmd'
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
@@ -177,18 +173,18 @@ void InterfaceAudio::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         auto *_t = static_cast<InterfaceAudio *>(_o);
         (void)_t;
         switch (_id) {
-        case 0: _t->mettreAJourChrono((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
-        case 1: _t->chronoTermine(); break;
-        case 2: _t->on_pushButton_SelectAudio_clicked(); break;
-        case 3: _t->on_pushButton_Play_clicked(); break;
-        case 4: _t->on_pushButton_Pause_clicked(); break;
-        case 5: _t->on_pushButton_Avant_clicked(); break;
-        case 6: _t->on_pushButton_Apres_clicked(); break;
-        case 7: _t->on_horizontalSlider_sliderReleased(); break;
-        case 8: _t->animateButtonClick((*reinterpret_cast< std::add_pointer_t<QPushButton*>>(_a[1]))); break;
-        case 9: _t->on_pushButtonReset_clicked(); break;
-        case 10: _t->receiveChrono(); break;
-        case 11: _t->on_pushButton_Son_clicked(); break;
+        case 0: _t->on_pushButton_SelectAudio_clicked(); break;
+        case 1: _t->on_pushButton_Play_clicked(); break;
+        case 2: _t->on_pushButton_Pause_clicked(); break;
+        case 3: _t->on_pushButton_Avant_clicked(); break;
+        case 4: _t->on_pushButton_Apres_clicked(); break;
+        case 5: _t->on_horizontalSlider_sliderReleased(); break;
+        case 6: _t->animateButtonClick((*reinterpret_cast< std::add_pointer_t<QPushButton*>>(_a[1]))); break;
+        case 7: _t->on_pushButtonReset_clicked(); break;
+        case 8: _t->on_pushButton_Son_clicked(); break;
+        case 9: _t->updateChronoLabel(); break;
+        case 10: _t->faireClignoterLabel(); break;
+        case 11: _t->receiveCmd(); break;
         default: ;
         }
     }

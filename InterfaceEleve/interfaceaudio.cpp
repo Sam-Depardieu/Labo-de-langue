@@ -136,10 +136,10 @@ InterfaceAudio::InterfaceAudio(bool co,MainWindow* parentWindow, QWidget *parent
         ui->chronoLabel->setText("00:00");
     }
 
-    QFile file(mainWindow->getSessionPATH() + "\\" + mainWindow->getNomFichier());
+    QFile file(mainWindow->getSessionPATH() + "/" + mainWindow->getNomFichier());
 
     if (mainWindow->getNomFichier() != nullptr) {
-        player->setSource(QUrl::fromLocalFile(mainWindow->getSessionPATH() + "\\" + mainWindow->getNomFichier()));  // Charger et lire l'audio
+        player->setSource(QUrl::fromLocalFile(file.fileName()));  // Charger et lire l'audio
         player->play();
         qDebug() << "Fichier sélectionné : " << file.fileName() << file.exists();
     }

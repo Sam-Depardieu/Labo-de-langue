@@ -26,47 +26,54 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 namespace {
 struct qt_meta_stringdata_InterfaceQCM_t {
-    uint offsetsAndSizes[28];
+    uint offsetsAndSizes[38];
     char stringdata0[13];
-    char stringdata1[18];
+    char stringdata1[23];
     char stringdata2[1];
-    char stringdata3[6];
-    char stringdata4[14];
+    char stringdata3[23];
+    char stringdata4[23];
     char stringdata5[23];
-    char stringdata6[23];
-    char stringdata7[23];
-    char stringdata8[23];
-    char stringdata9[31];
-    char stringdata10[36];
-    char stringdata11[38];
-    char stringdata12[40];
-    char stringdata13[20];
+    char stringdata6[31];
+    char stringdata7[36];
+    char stringdata8[38];
+    char stringdata9[40];
+    char stringdata10[16];
+    char stringdata11[13];
+    char stringdata12[7];
+    char stringdata13[7];
+    char stringdata14[18];
+    char stringdata15[20];
+    char stringdata16[31];
+    char stringdata17[17];
+    char stringdata18[14];
 };
 #define QT_MOC_LITERAL(ofs, len) \
     uint(sizeof(qt_meta_stringdata_InterfaceQCM_t::offsetsAndSizes) + ofs), len 
 Q_CONSTINIT static const qt_meta_stringdata_InterfaceQCM_t qt_meta_stringdata_InterfaceQCM = {
     {
         QT_MOC_LITERAL(0, 12),  // "InterfaceQCM"
-        QT_MOC_LITERAL(13, 17),  // "mettreAJourChrono"
-        QT_MOC_LITERAL(31, 0),  // ""
-        QT_MOC_LITERAL(32, 5),  // "temps"
-        QT_MOC_LITERAL(38, 13),  // "chronoTermine"
-        QT_MOC_LITERAL(52, 22),  // "on_pushButton1_clicked"
-        QT_MOC_LITERAL(75, 22),  // "on_pushButton2_clicked"
-        QT_MOC_LITERAL(98, 22),  // "on_pushButton3_clicked"
-        QT_MOC_LITERAL(121, 22),  // "on_pushButton4_clicked"
-        QT_MOC_LITERAL(144, 30),  // "on_pushButtonSoumettre_clicked"
-        QT_MOC_LITERAL(175, 35),  // "on_pushButtonEffacerReponse_c..."
-        QT_MOC_LITERAL(211, 37),  // "on_pushButtonQuestionSuivante..."
-        QT_MOC_LITERAL(249, 39),  // "on_pushButtonQuestionPreceden..."
-        QT_MOC_LITERAL(289, 19)   // "onUdpNomFichierRecu"
+        QT_MOC_LITERAL(13, 22),  // "on_pushButton1_clicked"
+        QT_MOC_LITERAL(36, 0),  // ""
+        QT_MOC_LITERAL(37, 22),  // "on_pushButton2_clicked"
+        QT_MOC_LITERAL(60, 22),  // "on_pushButton3_clicked"
+        QT_MOC_LITERAL(83, 22),  // "on_pushButton4_clicked"
+        QT_MOC_LITERAL(106, 30),  // "on_pushButtonSoumettre_clicked"
+        QT_MOC_LITERAL(137, 35),  // "on_pushButtonEffacerReponse_c..."
+        QT_MOC_LITERAL(173, 37),  // "on_pushButtonQuestionSuivante..."
+        QT_MOC_LITERAL(211, 39),  // "on_pushButtonQuestionPreceden..."
+        QT_MOC_LITERAL(251, 15),  // "onAnswerClicked"
+        QT_MOC_LITERAL(267, 12),  // "QPushButton*"
+        QT_MOC_LITERAL(280, 6),  // "bouton"
+        QT_MOC_LITERAL(287, 6),  // "status"
+        QT_MOC_LITERAL(294, 17),  // "updateChronoLabel"
+        QT_MOC_LITERAL(312, 19),  // "faireClignoterLabel"
+        QT_MOC_LITERAL(332, 30),  // "on_pushButtonAppelProf_clicked"
+        QT_MOC_LITERAL(363, 16),  // "updateAvancement"
+        QT_MOC_LITERAL(380, 13)   // "questionIndex"
     },
     "InterfaceQCM",
-    "mettreAJourChrono",
-    "",
-    "temps",
-    "chronoTermine",
     "on_pushButton1_clicked",
+    "",
     "on_pushButton2_clicked",
     "on_pushButton3_clicked",
     "on_pushButton4_clicked",
@@ -74,7 +81,15 @@ Q_CONSTINIT static const qt_meta_stringdata_InterfaceQCM_t qt_meta_stringdata_In
     "on_pushButtonEffacerReponse_clicked",
     "on_pushButtonQuestionSuivante_clicked",
     "on_pushButtonQuestionPrecedente_clicked",
-    "onUdpNomFichierRecu"
+    "onAnswerClicked",
+    "QPushButton*",
+    "bouton",
+    "status",
+    "updateChronoLabel",
+    "faireClignoterLabel",
+    "on_pushButtonAppelProf_clicked",
+    "updateAvancement",
+    "questionIndex"
 };
 #undef QT_MOC_LITERAL
 } // unnamed namespace
@@ -85,7 +100,7 @@ Q_CONSTINIT static const uint qt_meta_data_InterfaceQCM[] = {
       10,       // revision
        0,       // classname
        0,    0, // classinfo
-      11,   14, // methods
+      13,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -93,20 +108,21 @@ Q_CONSTINIT static const uint qt_meta_data_InterfaceQCM[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    1,   80,    2, 0x0a,    1 /* Public */,
-       4,    0,   83,    2, 0x0a,    3 /* Public */,
-       5,    0,   84,    2, 0x08,    4 /* Private */,
-       6,    0,   85,    2, 0x08,    5 /* Private */,
-       7,    0,   86,    2, 0x08,    6 /* Private */,
-       8,    0,   87,    2, 0x08,    7 /* Private */,
-       9,    0,   88,    2, 0x08,    8 /* Private */,
-      10,    0,   89,    2, 0x08,    9 /* Private */,
-      11,    0,   90,    2, 0x08,   10 /* Private */,
-      12,    0,   91,    2, 0x08,   11 /* Private */,
-      13,    0,   92,    2, 0x08,   12 /* Private */,
+       1,    0,   92,    2, 0x08,    1 /* Private */,
+       3,    0,   93,    2, 0x08,    2 /* Private */,
+       4,    0,   94,    2, 0x08,    3 /* Private */,
+       5,    0,   95,    2, 0x08,    4 /* Private */,
+       6,    0,   96,    2, 0x08,    5 /* Private */,
+       7,    0,   97,    2, 0x08,    6 /* Private */,
+       8,    0,   98,    2, 0x08,    7 /* Private */,
+       9,    0,   99,    2, 0x08,    8 /* Private */,
+      10,    2,  100,    2, 0x08,    9 /* Private */,
+      14,    0,  105,    2, 0x08,   12 /* Private */,
+      15,    0,  106,    2, 0x08,   13 /* Private */,
+      16,    0,  107,    2, 0x08,   14 /* Private */,
+      17,    1,  108,    2, 0x08,   15 /* Private */,
 
  // slots: parameters
-    QMetaType::Void, QMetaType::QString,    3,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -115,8 +131,11 @@ Q_CONSTINIT static const uint qt_meta_data_InterfaceQCM[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Void, 0x80000000 | 11, QMetaType::Bool,   12,   13,
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::Int,   18,
 
        0        // eod
 };
@@ -130,11 +149,6 @@ Q_CONSTINIT const QMetaObject InterfaceQCM::staticMetaObject = { {
     qt_incomplete_metaTypeArray<qt_meta_stringdata_InterfaceQCM_t,
         // Q_OBJECT / Q_GADGET
         QtPrivate::TypeAndForceComplete<InterfaceQCM, std::true_type>,
-        // method 'mettreAJourChrono'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
-        // method 'chronoTermine'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_pushButton1_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_pushButton2_clicked'
@@ -151,8 +165,19 @@ Q_CONSTINIT const QMetaObject InterfaceQCM::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_pushButtonQuestionPrecedente_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'onUdpNomFichierRecu'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>
+        // method 'onAnswerClicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<QPushButton *, std::false_type>,
+        QtPrivate::TypeAndForceComplete<bool, std::false_type>,
+        // method 'updateChronoLabel'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'faireClignoterLabel'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_pushButtonAppelProf_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'updateAvancement'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<int, std::false_type>
     >,
     nullptr
 } };
@@ -163,18 +188,31 @@ void InterfaceQCM::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id
         auto *_t = static_cast<InterfaceQCM *>(_o);
         (void)_t;
         switch (_id) {
-        case 0: _t->mettreAJourChrono((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
-        case 1: _t->chronoTermine(); break;
-        case 2: _t->on_pushButton1_clicked(); break;
-        case 3: _t->on_pushButton2_clicked(); break;
-        case 4: _t->on_pushButton3_clicked(); break;
-        case 5: _t->on_pushButton4_clicked(); break;
-        case 6: _t->on_pushButtonSoumettre_clicked(); break;
-        case 7: _t->on_pushButtonEffacerReponse_clicked(); break;
-        case 8: _t->on_pushButtonQuestionSuivante_clicked(); break;
-        case 9: _t->on_pushButtonQuestionPrecedente_clicked(); break;
-        case 10: _t->onUdpNomFichierRecu(); break;
+        case 0: _t->on_pushButton1_clicked(); break;
+        case 1: _t->on_pushButton2_clicked(); break;
+        case 2: _t->on_pushButton3_clicked(); break;
+        case 3: _t->on_pushButton4_clicked(); break;
+        case 4: _t->on_pushButtonSoumettre_clicked(); break;
+        case 5: _t->on_pushButtonEffacerReponse_clicked(); break;
+        case 6: _t->on_pushButtonQuestionSuivante_clicked(); break;
+        case 7: _t->on_pushButtonQuestionPrecedente_clicked(); break;
+        case 8: _t->onAnswerClicked((*reinterpret_cast< std::add_pointer_t<QPushButton*>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<bool>>(_a[2]))); break;
+        case 9: _t->updateChronoLabel(); break;
+        case 10: _t->faireClignoterLabel(); break;
+        case 11: _t->on_pushButtonAppelProf_clicked(); break;
+        case 12: _t->updateAvancement((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
         default: ;
+        }
+    } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
+        switch (_id) {
+        default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
+        case 8:
+            switch (*reinterpret_cast<int*>(_a[1])) {
+            default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
+            case 0:
+                *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType::fromType< QPushButton* >(); break;
+            }
+            break;
         }
     }
 }
@@ -198,13 +236,13 @@ int InterfaceQCM::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 11)
+        if (_id < 13)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 11;
+        _id -= 13;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 11)
-            *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 11;
+        if (_id < 13)
+            qt_static_metacall(this, _c, _id, _a);
+        _id -= 13;
     }
     return _id;
 }

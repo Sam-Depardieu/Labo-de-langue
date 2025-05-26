@@ -40,9 +40,6 @@ InterfaceQCM::InterfaceQCM(MainWindow *parentWindow ,QWidget *parent)
     showCurrentQuestion();
     ui->chronoLabel->setVisible(true);
 
-
-
-
     remainingTime = parentWindow->getTime();
 
     // Initialisation des timers
@@ -77,11 +74,7 @@ InterfaceQCM::InterfaceQCM(MainWindow *parentWindow ,QWidget *parent)
     ui->listViewAvancement->setModel(model);
     ui->listViewAvancement->setItemDelegate(new AvancementQCM(this));
     ui->listViewAvancement->setEditTriggers(QAbstractItemView::NoEditTriggers);
-
-
 }
-
-
 
 void InterfaceQCM::faireClignoterLabel()
 {

@@ -14,6 +14,7 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QListView>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QTextEdit>
 
@@ -25,7 +26,6 @@ public:
     QPushButton *pushButtonQuestionSuivante;
     QPushButton *pushButtonEffacerReponse;
     QPushButton *pushButtonQuestionPrecedente;
-    QPushButton *pushButton;
     QLabel *labelQuestion;
     QPushButton *pushButton1;
     QPushButton *pushButton2;
@@ -34,11 +34,12 @@ public:
     QTextEdit *textEditConsigne;
     QTextEdit *textEditFeedBack;
     QPushButton *pushButtonSoumettre;
-    QTextEdit *textEditAffichageQuestion;
     QLabel *chronoLabel;
     QLabel *label;
     QLabel *label_2;
     QPushButton *pushButtonAppelProf;
+    QListView *listViewAvancement;
+    QLabel *label_3;
 
     void setupUi(QDialog *InterfaceQCM)
     {
@@ -57,18 +58,9 @@ public:
         pushButtonQuestionPrecedente->setObjectName("pushButtonQuestionPrecedente");
         pushButtonQuestionPrecedente->setGeometry(QRect(10, 5, 45, 45));
         pushButtonQuestionPrecedente->setStyleSheet(QString::fromUtf8(""));
-        pushButton = new QPushButton(InterfaceQCM);
-        pushButton->setObjectName("pushButton");
-        pushButton->setGeometry(QRect(0, 0, 800, 55));
-        pushButton->setStyleSheet(QString::fromUtf8("QPushButton {\n"
-"    background-color: rgb(0, 151, 178); /* Fond bleu */\n"
-"    color: white; /* Texte en blanc */\n"
-"    border: none; /* Enlever le contour si n\303\251cessaire */\n"
-"    font-weight: bold; /* Optionnel : texte en gras */\n"
-"}"));
         labelQuestion = new QLabel(InterfaceQCM);
         labelQuestion->setObjectName("labelQuestion");
-        labelQuestion->setGeometry(QRect(170, 160, 491, 71));
+        labelQuestion->setGeometry(QRect(160, 150, 491, 71));
         labelQuestion->setStyleSheet(QString::fromUtf8(" font-weight: bold; /* Optionnel : texte en gras */"));
         pushButton1 = new QPushButton(InterfaceQCM);
         pushButton1->setObjectName("pushButton1");
@@ -126,21 +118,8 @@ public:
 ""));
         pushButtonSoumettre = new QPushButton(InterfaceQCM);
         pushButtonSoumettre->setObjectName("pushButtonSoumettre");
-        pushButtonSoumettre->setGeometry(QRect(80, 5, 45, 45));
+        pushButtonSoumettre->setGeometry(QRect(740, 5, 45, 45));
         pushButtonSoumettre->setStyleSheet(QString::fromUtf8(""));
-        textEditAffichageQuestion = new QTextEdit(InterfaceQCM);
-        textEditAffichageQuestion->setObjectName("textEditAffichageQuestion");
-        textEditAffichageQuestion->setGeometry(QRect(660, 230, 131, 241));
-        textEditAffichageQuestion->setStyleSheet(QString::fromUtf8("QTextEdit {\n"
-"    background-color: #f5f5f5;\n"
-"    border: 2px solid #007a8c;\n"
-"    border-radius: 10px;\n"
-"    padding: 8px;\n"
-"    font-size: 14px;\n"
-"    font-family: \"Segoe UI\", sans-serif;\n"
-"    color: #333;\n"
-"}\n"
-""));
         chronoLabel = new QLabel(InterfaceQCM);
         chronoLabel->setObjectName("chronoLabel");
         chronoLabel->setGeometry(QRect(170, 5, 111, 45));
@@ -177,7 +156,24 @@ public:
 "    border: none;"));
         QIcon icon(QIcon::fromTheme(QString::fromUtf8("call-start")));
         pushButtonAppelProf->setIcon(icon);
-        pushButton->raise();
+        listViewAvancement = new QListView(InterfaceQCM);
+        listViewAvancement->setObjectName("listViewAvancement");
+        listViewAvancement->setGeometry(QRect(650, 230, 141, 241));
+        listViewAvancement->setStyleSheet(QString::fromUtf8("background-color: #f5f5f5;\n"
+"border: 2px solid #007a8c;\n"
+"border-radius: 10px;\n"
+"padding: 8px;\n"
+"font-size: 14px;\n"
+"color: #333;"));
+        label_3 = new QLabel(InterfaceQCM);
+        label_3->setObjectName("label_3");
+        label_3->setGeometry(QRect(0, 0, 800, 55));
+        label_3->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 151, 178); /* Fond bleu */\n"
+"    color: white; /* Texte en blanc */\n"
+"    border: none; /* Enlever le contour si n\303\251cessaire */\n"
+"    border-radius: 5px; /* Optionnel : coins arrondis */\n"
+"    font-weight: bold; /* Optionnel : texte en gras */"));
+        label_3->raise();
         pushButtonQuestionSuivante->raise();
         pushButtonQuestionPrecedente->raise();
         labelQuestion->raise();
@@ -189,11 +185,11 @@ public:
         textEditConsigne->raise();
         textEditFeedBack->raise();
         pushButtonSoumettre->raise();
-        textEditAffichageQuestion->raise();
         chronoLabel->raise();
         label->raise();
         label_2->raise();
         pushButtonAppelProf->raise();
+        listViewAvancement->raise();
 
         retranslateUi(InterfaceQCM);
 
@@ -206,7 +202,6 @@ public:
         pushButtonQuestionSuivante->setText(QString());
         pushButtonEffacerReponse->setText(QString());
         pushButtonQuestionPrecedente->setText(QString());
-        pushButton->setText(QCoreApplication::translate("InterfaceQCM", "Interface QCM", nullptr));
         labelQuestion->setText(QCoreApplication::translate("InterfaceQCM", "Question n\302\260", nullptr));
         pushButton1->setText(QCoreApplication::translate("InterfaceQCM", "1 :", nullptr));
         pushButton2->setText(QCoreApplication::translate("InterfaceQCM", "2 :", nullptr));
@@ -219,7 +214,7 @@ public:
 "li.unchecked::marker { content: \"\\2610\"; }\n"
 "li.checked::marker { content: \"\\2612\"; }\n"
 "</style></head><body style=\" font-family:'Segoe UI','sans-serif'; font-size:14px; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Segoe UI'; font-size:9pt;\">Consignes :</span></p></body></html>", nullptr));
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:'Segoe UI'; font-size:9pt; font-weight:700;\">Consignes :</span></p></body></html>", nullptr));
         textEditFeedBack->setHtml(QCoreApplication::translate("InterfaceQCM", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
@@ -229,18 +224,11 @@ public:
 "</style></head><body style=\" font-family:'Segoe UI','sans-serif'; font-size:14px; font-weight:400; font-style:normal;\">\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", nullptr));
         pushButtonSoumettre->setText(QString());
-        textEditAffichageQuestion->setHtml(QCoreApplication::translate("InterfaceQCM", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"hr { height: 1px; border-width: 0; }\n"
-"li.unchecked::marker { content: \"\\2610\"; }\n"
-"li.checked::marker { content: \"\\2612\"; }\n"
-"</style></head><body style=\" font-family:'Segoe UI','sans-serif'; font-size:14px; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Segoe UI'; font-size:9pt;\"><br /></p></body></html>", nullptr));
         chronoLabel->setText(QCoreApplication::translate("InterfaceQCM", "00:00", nullptr));
         label->setText(QCoreApplication::translate("InterfaceQCM", "Messages du professeur", nullptr));
         label_2->setText(QCoreApplication::translate("InterfaceQCM", "Avancement", nullptr));
         pushButtonAppelProf->setText(QString());
+        label_3->setText(QString());
     } // retranslateUi
 
 };
