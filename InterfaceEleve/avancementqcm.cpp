@@ -1,3 +1,4 @@
+
 #include "avancementqcm.h"
 
 AvancementQCM::AvancementQCM(QObject *parent) : QStyledItemDelegate(parent) {}
