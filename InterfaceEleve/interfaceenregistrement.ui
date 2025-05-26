@@ -88,9 +88,9 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>430</y>
+     <y>425</y>
      <width>801</width>
-     <height>55</height>
+     <height>61</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -125,7 +125,7 @@
     <string/>
    </property>
    <property name="alignment">
-    <set>Qt::AlignCenter</set>
+    <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButtonSpeak">
@@ -142,28 +142,6 @@
    </property>
    <property name="text">
     <string/>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButton">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>800</width>
-     <height>55</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QPushButton {
-    background-color: rgb(0, 151, 178); /* Fond bleu */
-    color: white; /* Texte en blanc */
-    border: none; /* Enlever le contour si nécessaire */
-    border-radius: 5px; /* Optionnel : coins arrondis */
-    font-weight: bold; /* Optionnel : texte en gras */
-}</string>
-   </property>
-   <property name="text">
-    <string>Interface Enregistrement</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButtonPause">
@@ -340,13 +318,13 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </rect>
    </property>
    <property name="orientation">
-    <enum>Qt::Vertical</enum>
+    <enum>Qt::Orientation::Vertical</enum>
    </property>
   </widget>
   <widget class="QLabel" name="chronoLabel">
    <property name="geometry">
     <rect>
-     <x>120</x>
+     <x>110</x>
      <y>430</y>
      <width>111</width>
      <height>45</height>
@@ -377,9 +355,32 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <string>00:00</string>
    </property>
   </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>55</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(0, 151, 178); /* Fond bleu */
+    color: white; /* Texte en blanc */
+    border: none; /* Enlever le contour si nécessaire */
+    border-radius: 5px; /* Optionnel : coins arrondis */
+    font-weight: bold; /* Optionnel : texte en gras */</string>
+   </property>
+   <property name="text">
+    <string>Interface Enregistrement</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignmentFlag::AlignCenter</set>
+   </property>
+  </widget>
+  <zorder>label_3</zorder>
   <zorder>verticalSlider_son</zorder>
   <zorder>pushButton_2</zorder>
-  <zorder>pushButton</zorder>
   <zorder>pushButtonSon</zorder>
   <zorder>pushButtonAvancer</zorder>
   <zorder>pushButtonClear</zorder>

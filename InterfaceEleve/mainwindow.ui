@@ -14,44 +14,10 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QGraphicsView" name="footer">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>400</y>
-      <width>800</width>
-      <height>80</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(0, 151, 178); /* Fond bleu */
-    color: white; /* Texte en blanc */
-    border: none; /* Enlever le contour si nécessaire */
-    border-radius: 5px; /* Optionnel : coins arrondis */
-    font-weight: bold; /* Optionnel : texte en gras */</string>
-    </property>
-   </widget>
-   <widget class="QGraphicsView" name="bottom">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>801</width>
-      <height>81</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(0, 151, 178); /* Fond bleu */
-    color: white; /* Texte en blanc */
-    border: none; /* Enlever le contour si nécessaire */
-    border-radius: 5px; /* Optionnel : coins arrondis */
-    font-weight: bold; /* Optionnel : texte en gras */</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>360</x>
+      <x>340</x>
       <y>15</y>
       <width>181</width>
       <height>31</height>
@@ -69,7 +35,7 @@
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>280</x>
+      <x>260</x>
       <y>70</y>
       <width>320</width>
       <height>90</height>
@@ -82,7 +48,7 @@
    <widget class="QLabel" name="label_Loading">
     <property name="geometry">
      <rect>
-      <x>325</x>
+      <x>310</x>
       <y>160</y>
       <width>150</width>
       <height>150</height>
@@ -97,11 +63,51 @@ border:none;
      <string/>
     </property>
    </widget>
-   <zorder>bottom</zorder>
-   <zorder>footer</zorder>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>801</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(0, 151, 178); /* Fond bleu */
+    color: white; /* Texte en blanc */
+    border: none; /* Enlever le contour si nécessaire */
+    border-radius: 5px; /* Optionnel : coins arrondis */
+    font-weight: bold; /* Optionnel : texte en gras */</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>400</y>
+      <width>800</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(0, 151, 178); /* Fond bleu */
+    color: white; /* Texte en blanc */
+    border: none; /* Enlever le contour si nécessaire */
+    border-radius: 5px; /* Optionnel : coins arrondis */
+    font-weight: bold; /* Optionnel : texte en gras */</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <zorder>label_3</zorder>
    <zorder>label</zorder>
    <zorder>label_2</zorder>
    <zorder>label_Loading</zorder>
+   <zorder>label_4</zorder>
   </widget>
  </widget>
  <resources/>

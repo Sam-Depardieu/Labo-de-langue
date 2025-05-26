@@ -61,27 +61,6 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>800</width>
-     <height>55</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QPushButton {
-    background-color: rgb(0, 151, 178); /* Fond bleu */
-    color: white; /* Texte en blanc */
-    border: none; /* Enlever le contour si nécessaire */
-    font-weight: bold; /* Optionnel : texte en gras */
-}</string>
-   </property>
-   <property name="text">
-    <string>Interface QCM</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="labelQuestion">
    <property name="geometry">
     <rect>
@@ -362,7 +341,27 @@ font-size: 14px;
 color: #333;</string>
    </property>
   </widget>
-  <zorder>pushButton</zorder>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>55</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(0, 151, 178); /* Fond bleu */
+    color: white; /* Texte en blanc */
+    border: none; /* Enlever le contour si nécessaire */
+    border-radius: 5px; /* Optionnel : coins arrondis */
+    font-weight: bold; /* Optionnel : texte en gras */</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <zorder>label_3</zorder>
   <zorder>pushButtonQuestionSuivante</zorder>
   <zorder>pushButtonQuestionPrecedente</zorder>
   <zorder>labelQuestion</zorder>
