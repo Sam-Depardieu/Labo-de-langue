@@ -59,19 +59,21 @@ MainWindow::MainWindow(QWidget *parent)
     this->setWindowTitle("Page de Connexion");
     connectToDatabase();
 
+
+    udpSocketInfo.bind(QHostAddress::Any, infoPort);
+    connect(&udpSocketInfo, &QUdpSocket::readyRead, this, &MainWindow::receiveInfo);
+
+    udpSocketNomFichier = new QUdpSocket(this);
+    udpSocketNomFichier->bind(QHostAddress::Any, portNomFichier);
+    connect(udpSocketNomFichier, &QUdpSocket::readyRead, this, &MainWindow::receivePath);
+
     // DEBUG socket bind + connect
     bool ok = udpSocketInter.bind(QHostAddress::AnyIPv4, 5560); // QHostAddress::AnyIPv4 = 0.0.0.0
     qDebug() << "📡 BIND udpSocketInter ok ? " << ok;
     connect(&udpSocketInter, &QUdpSocket::readyRead, this, &MainWindow::receiveInter);
 
-    udpSocketInfo.bind(QHostAddress::Any, infoPort);
-    connect(&udpSocketInfo, &QUdpSocket::readyRead, this, &MainWindow::receiveInfo);
 
     udpSocketRestart = new QUdpSocket(this);
-
-    udpSocketNomFichier = new QUdpSocket(this);
-    udpSocketNomFichier->bind(QHostAddress::Any, portNomFichier);
-    connect(udpSocketNomFichier, &QUdpSocket::readyRead, this, &MainWindow::receivePath);
 
     if (!udpSocketRestart->bind(QHostAddress::Any, 5557)) {
         qWarning() << "❌ Impossible de binder le port 5557";
@@ -474,13 +476,8 @@ void MainWindow::receivePath(){
         quint16 senderPort;
         udpSocketNomFichier->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
 
-        QString cheminFichier = QString::fromUtf8(datagram).trimmed();
+        QString cheminFichier = QString("/mnt/partage/"+QString::fromUtf8(datagram).trimmed());
         qDebug() << "📄 Chemin reçu :" << cheminFichier;
-
-        if (!QFile::exists(cheminFichier)) {
-            qWarning() << "❌ Fichier introuvable :" << cheminFichier;
-            return;
-        }
 
         if (currentChild) {
             currentChild->close();
@@ -488,7 +485,7 @@ void MainWindow::receivePath(){
             currentChild = nullptr;
         }
 
-        sessionPATH = "/mnt/partage/" + cheminFichier;
+        sessionPATH = cheminFichier;
     }
 }
 
