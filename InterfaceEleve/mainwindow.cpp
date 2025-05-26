@@ -253,6 +253,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         return;
     }
 
+
+
     // Ouvrir interfaces selon touche 1, 2, 3, 4
     switch (event->key()) {
     case Qt::Key_1: {
