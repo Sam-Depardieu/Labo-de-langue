@@ -78,28 +78,6 @@
     <string>Selectionner Audio</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
-   <property name="geometry">
-    <rect>
-     <x>-10</x>
-     <y>425</y>
-     <width>831</width>
-     <height>61</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QPushButton {
-    background-color: rgb(0, 151, 178); /* Fond bleu */
-    color: white; /* Texte en blanc */
-    border: none; /* Enlever le contour si nécessaire */
-    border-radius: 5px; /* Optionnel : coins arrondis */
-    font-weight: bold; /* Optionnel : texte en gras */
-}</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
   <widget class="QSlider" name="horizontalSlider">
    <property name="geometry">
     <rect>
@@ -110,7 +88,7 @@
     </rect>
    </property>
    <property name="orientation">
-    <enum>Qt::Horizontal</enum>
+    <enum>Qt::Orientation::Horizontal</enum>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButtonReset">
@@ -159,7 +137,7 @@
     </rect>
    </property>
    <property name="orientation">
-    <enum>Qt::Vertical</enum>
+    <enum>Qt::Orientation::Vertical</enum>
    </property>
   </widget>
   <widget class="QLabel" name="chronoLabel">
@@ -196,7 +174,27 @@
     <string>00:00</string>
    </property>
   </widget>
-  <zorder>pushButton_2</zorder>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>-10</x>
+     <y>425</y>
+     <width>831</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(0, 151, 178); /* Fond bleu */
+    color: white; /* Texte en blanc */
+    border: none; /* Enlever le contour si nécessaire */
+    border-radius: 5px; /* Optionnel : coins arrondis */
+    font-weight: bold; /* Optionnel : texte en gras */</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <zorder>label_3</zorder>
   <zorder>pushButton_Play</zorder>
   <zorder>pushButton_Avant</zorder>
   <zorder>pushButton_Apres</zorder>

@@ -14,24 +14,56 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QGraphicsView" name="footer">
+   <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>400</y>
-      <width>800</width>
-      <height>80</height>
+      <x>340</x>
+      <y>15</y>
+      <width>181</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Interface Elève</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>70</y>
+      <width>320</width>
+      <height>90</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:26pt; font-weight:700;&quot;&gt;Attente professeur&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_Loading">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>160</y>
+      <width>150</width>
+      <height>150</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(0, 151, 178); /* Fond bleu */
-    color: white; /* Texte en blanc */
-    border: none; /* Enlever le contour si nécessaire */
-    border-radius: 5px; /* Optionnel : coins arrondis */
-    font-weight: bold; /* Optionnel : texte en gras */</string>
+     <string notr="true">background-color : transparent;
+border:none;
+</string>
+    </property>
+    <property name="text">
+     <string/>
     </property>
    </widget>
-   <widget class="QGraphicsView" name="bottom">
+   <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -47,56 +79,35 @@
     border-radius: 5px; /* Optionnel : coins arrondis */
     font-weight: bold; /* Optionnel : texte en gras */</string>
     </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>370</x>
-      <y>30</y>
-      <width>101</width>
-      <height>16</height>
-     </rect>
-    </property>
     <property name="text">
-     <string>Interface Elève</string>
+     <string/>
     </property>
    </widget>
-   <widget class="QLabel" name="label_2">
+   <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
-      <x>250</x>
-      <y>70</y>
-      <width>321</width>
-      <height>91</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:26pt; font-weight:700;&quot;&gt;Attente professeur&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_Loading">
-    <property name="geometry">
-     <rect>
-      <x>310</x>
-      <y>160</y>
-      <width>191</width>
-      <height>121</height>
+      <x>0</x>
+      <y>400</y>
+      <width>800</width>
+      <height>80</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color : transparent;
-border:none;
-</string>
+     <string notr="true">background-color: rgb(0, 151, 178); /* Fond bleu */
+    color: white; /* Texte en blanc */
+    border: none; /* Enlever le contour si nécessaire */
+    border-radius: 5px; /* Optionnel : coins arrondis */
+    font-weight: bold; /* Optionnel : texte en gras */</string>
     </property>
     <property name="text">
      <string/>
     </property>
    </widget>
-   <zorder>bottom</zorder>
-   <zorder>footer</zorder>
+   <zorder>label_3</zorder>
    <zorder>label</zorder>
    <zorder>label_2</zorder>
    <zorder>label_Loading</zorder>
+   <zorder>label_4</zorder>
   </widget>
  </widget>
  <resources/>
