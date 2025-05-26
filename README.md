@@ -121,6 +121,7 @@ Ajoutez un montage fichier sur les raspberry :
  - sudo apt install qt6-base-dev qt6-multimedia-dev qt6-websockets-dev libqt6multimedia6 libqt6multimediawidgets6
  - sudo apt install -y libmariadb-dev libqt6sql6-mysql
  - qmake6 ../InterfaceEleve.pro
+ - cmake .. -DCMAKE_BUILD_TYPE=Debug
  - cmake --build . --parallel
  - /Documents/Projet/Labo-de-langue/InterfaceEleve/build$ ./InterfaceEleve
 
