@@ -26,6 +26,9 @@ class InterfaceAudio : public QDialog
 
 public:
     explicit InterfaceAudio(bool CO, MainWindow* parentWindow,QWidget *parent = nullptr);
+
+    void setAudioPause(bool pause);
+
     ~InterfaceAudio();
 private slots:
     void on_pushButton_SelectAudio_clicked();
@@ -39,7 +42,6 @@ private slots:
     void on_pushButton_Son_clicked();
     void updateChronoLabel();
     void faireClignoterLabel();
-
 
     void receiveCmd();
 protected:

@@ -135,6 +135,14 @@ InterfaceAudio::InterfaceAudio(bool co,MainWindow* parentWindow, QWidget *parent
     } else {
         ui->chronoLabel->setText("00:00");
     }
+
+    QFile file(mainWindow->getSessionPATH() + "\\" + mainWindow->getNomFichier());
+
+    if (mainWindow->getNomFichier() != nullptr) {
+        player->setSource(QUrl::fromLocalFile(mainWindow->getSessionPATH() + "\\" + mainWindow->getNomFichier()));  // Charger et lire l'audio
+        player->play();
+        qDebug() << "Fichier sélectionné : " << file.fileName() << file.exists();
+    }
 }
 
 void InterfaceAudio::receiveCmd() {
@@ -160,18 +168,28 @@ InterfaceAudio::~InterfaceAudio()
     delete ui;
 }
 
+void InterfaceAudio::setAudioPause(bool pause)
+{
+    if (pause) {
+        player->pause();
+    } else {
+        player->play();
+    }
+
+    ui->pushButton_Pause->setVisible(!pause);
+    ui->pushButton_Play->setVisible(pause);
+}
+
 void InterfaceAudio::on_pushButton_Play_clicked()
 {
-    player->play();
-    ui->pushButton_Pause->setVisible(true);
-    ui->pushButton_Play->setVisible(false);
+    setAudioPause(false); // Jouer
 }
+
 void InterfaceAudio::on_pushButton_Pause_clicked()
 {
-    player->pause();
-    ui->pushButton_Pause->setVisible(false);
-    ui->pushButton_Play->setVisible(true);
+    setAudioPause(true); // Mettre en pause
 }
+
 void InterfaceAudio::on_pushButton_SelectAudio_clicked()
 {
     QString videoPath = "\\\\192.168.64.1\\Activites";  // Adresse réseau correcte

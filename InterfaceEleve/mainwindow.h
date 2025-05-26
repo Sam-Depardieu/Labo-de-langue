@@ -41,6 +41,7 @@ public:
     QTime getTime() {return remainingTime;};
     QString getSessionPATH() {return sessionPATH;};
     QString getIpProf() {return ipProf;}
+    QString getNomFichier() {return nomFichier;}
 
 
     void sendCommandToProf(const QString& profIp, int port, const QString& command);
@@ -99,6 +100,8 @@ private:
     QUdpSocket udpSocketDemande;
     quint16 portDemande = 5561;
 
+    InterfaceAudio* interAudio = nullptr;
+    InterfaceVideo* interVideo = nullptr;
 
     QWidget *currentChild = nullptr;
     QShortcut *shortcutQcm;
@@ -108,6 +111,8 @@ private:
     QTime remainingTime;
     bool clignotementEtat = false;
     bool chronoClignote = false;
+    QString interface = "";
+    QString nomFichier = "";
 
 signals:
     void chronoMisAJour(const QString &temps);

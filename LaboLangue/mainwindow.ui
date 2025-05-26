@@ -711,23 +711,23 @@ border-radius: 10px;</string>
      <string>Poste séléctioné :</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="annulerButton">
+   <widget class="QPushButton" name="pauseButton">
     <property name="geometry">
      <rect>
-      <x>1000</x>
+      <x>900</x>
       <y>230</y>
       <width>171</width>
       <height>24</height>
      </rect>
     </property>
     <property name="text">
-     <string>Annuler</string>
+     <string>Pause</string>
     </property>
    </widget>
    <widget class="QPushButton" name="creerGroupeButton">
     <property name="geometry">
      <rect>
-      <x>770</x>
+      <x>680</x>
       <y>230</y>
       <width>201</width>
       <height>24</height>
@@ -1101,6 +1101,19 @@ border:none;
      <string>Activitée en cours :</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="lectureButton">
+    <property name="geometry">
+     <rect>
+      <x>1100</x>
+      <y>230</y>
+      <width>171</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Lecture</string>
+    </property>
+   </widget>
    <zorder>AppelerButton</zorder>
    <zorder>redemarrerButton</zorder>
    <zorder>LectureStatutButton</zorder>
@@ -1146,7 +1159,7 @@ border:none;
    <zorder>microSonButton</zorder>
    <zorder>casqueSonButton</zorder>
    <zorder>nomGroupeLabel</zorder>
-   <zorder>annulerButton</zorder>
+   <zorder>pauseButton</zorder>
    <zorder>creerGroupeButton</zorder>
    <zorder>alignerTableau</zorder>
    <zorder>TableauGroupe</zorder>
@@ -1163,6 +1176,7 @@ border:none;
    <zorder>cadenaCloseButton</zorder>
    <zorder>chronoLabel</zorder>
    <zorder>reloadButton</zorder>
+   <zorder>lectureButton</zorder>
   </widget>
  </widget>
  <resources/>
