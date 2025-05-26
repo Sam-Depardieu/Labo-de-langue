@@ -1389,8 +1389,7 @@ void MainWindow::onClicked_itemBoutonSupprimerGroupe(iconEleveGroup* eleve)
 }
 
 
-void MainWindow::on_AideButton_clicked()
-{
+void MainWindow::on_AideButton_clicked(){
     HelpWindow help(this);
 
     if (help.exec() != QDialog::Accepted) {
@@ -1398,18 +1397,14 @@ void MainWindow::on_AideButton_clicked()
     }
 }
 
-void MainWindow::on_cadenaCloseButton_clicked()
-{
+void MainWindow::on_cadenaCloseButton_clicked(){
     movable = true;
-
     ui->cadenaCloseButton->setVisible(false);
     ui->cadenaOpenButton->setVisible(true);
 }
 
-void MainWindow::on_cadenaOpenButton_clicked()
-{
+void MainWindow::on_cadenaOpenButton_clicked(){
     movable = false;
-
     ui->cadenaCloseButton->setVisible(true);
     ui->cadenaOpenButton->setVisible(false);
 }
@@ -1433,6 +1428,7 @@ QList<QColor> MainWindow::listeCouleursDisponibles() {
         QColor("#800000"), // Bordeaux
     };
 }
+
 
 QColor MainWindow::couleurDisponible() {
     QList<QColor> toutes = listeCouleursDisponibles();
