@@ -18,6 +18,7 @@
 #include <QJsonObject>
 #include <QHostAddress>
 #include <QProcess>
+#include <QKeyEvent>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -43,7 +44,6 @@ public:
     QString getIpProf() {return ipProf;}
     QString getNomFichier() {return nomFichier;}
 
-
     void sendCommandToProf(const QString& profIp, int port, const QString& command);
 
 
@@ -55,12 +55,9 @@ private slots:
     void on_pushButtonConnexion_clicked();
     void keyPressEvent(QKeyEvent *event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
-
-    void askPATH();
     void receiveInter();
     void receivePath();
     void receiveInfo();
-    void receiveConsigne();
     void handleRestartCommand();
     void updateChrono();           // décrémente et met à jour
     void faireClignoterLabel();   // gère le clignotement

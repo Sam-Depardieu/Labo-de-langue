@@ -298,7 +298,8 @@ MainWindow::~MainWindow()
         QString hostName = QHostInfo::localHostName();
         QString networkPath = QString(R"(\\%1\Activites\)").arg("CIEL-T171-05");
         QString timestamp = QDateTime::currentDateTime().toString("yyyy-MM-dd_HH-mm");
-        sessionFolder = networkPath + sanitizedName + "_" + timestamp;
+        sessionFolder = sanitizedName + "_" + timestamp;
+        sessionPATH = networkPath + sanitizedName + "_" + timestamp;
         qDebug() << sessionFolder;
 
         // Création du dossier de session

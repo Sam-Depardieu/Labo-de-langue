@@ -61,7 +61,7 @@ public:
 "    font-weight: bold; /* Optionnel : texte en gras */"));
         label = new QLabel(centralwidget);
         label->setObjectName("label");
-        label->setGeometry(QRect(370, 30, 81, 16));
+        label->setGeometry(QRect(370, 30, 101, 16));
         MainWindow->setCentralWidget(centralwidget);
 
         retranslateUi(MainWindow);
