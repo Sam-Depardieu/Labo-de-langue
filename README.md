@@ -122,6 +122,8 @@ Ajoutez un montage fichier sur les raspberry :
  - sudo apt install -y libmariadb-dev libqt6sql6-mysql
  - qmake6 ../InterfaceEleve.pro
  - cmake .. -DCMAKE_BUILD_TYPE=Debug
+ - qmake6 ..
+ - make -j1
  - cmake --build . --parallel
  - /Documents/Projet/Labo-de-langue/InterfaceEleve/build$ ./InterfaceEleve
 
