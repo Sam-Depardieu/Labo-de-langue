@@ -33,8 +33,10 @@ class InterfaceVideo : public QDialog
 
 public:
     explicit InterfaceVideo(bool co, MainWindow* parentWindow,QWidget *parent = nullptr);
-    ~InterfaceVideo();
 
+    void setVideoPause(bool pause);
+
+    ~InterfaceVideo();
 
 private slots:
     void on_pushButton_SelectVideo_clicked();

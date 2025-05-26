@@ -1171,6 +1171,7 @@ void MainWindow::on_StatutButton_clicked()
     {
         headers << "Enregistrement";
     }
+    else headers << "Travail en cours";
 
     headers << "Nom de groupe" << "Adresse IP";
     StatutTableauGroupe->setColumnCount(6);

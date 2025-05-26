@@ -246,19 +246,28 @@ void InterfaceVideo::on_pushButton_Apres10_clicked()
     player->setPosition(newPosition);
 }
 
+void InterfaceVideo::setVideoPause(bool pause)
+{
+    if (pause) {
+        player->pause();
+    } else {
+        player->play();
+    }
+
+    ui->pushButton_Pause->setVisible(!pause);
+    ui->pushButton_Play->setVisible(pause);
+}
+
 void InterfaceVideo::on_pushButton_Play_clicked()
 {
-    player->play();
-    ui->pushButton_Pause->setVisible(true);
-    ui->pushButton_Play->setVisible(false);
+    setVideoPause(false); // Jouer
 }
 
 void InterfaceVideo::on_pushButton_Pause_clicked()
 {
-    player->pause();
-    ui->pushButton_Pause->setVisible(false);
-    ui->pushButton_Play->setVisible(true);
+    setVideoPause(true); // Mettre en pause
 }
+
 /*void InterfaceVideo::on_horizontalSlider_sonVideo_actionTriggered(int action)
 {
     int volume = ui->horizontalSlider_sonVideo->value();  // Récupère la valeur du slider

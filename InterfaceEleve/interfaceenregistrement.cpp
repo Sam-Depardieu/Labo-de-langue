@@ -135,11 +135,14 @@ void InterfaceEnregistrement::on_pushButtonSpeak_clicked()
     }
 
     // --- 3) Préparer le dossier Travail et le nom de fichier fixe ---
-    const QString docs   = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+    const QString docs = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
     const QString folder = QDir(docs).filePath("Travail");
-    if (!QDir(folder).exists()) QDir().mkpath(folder);
-    audioFilePath = QDir(folder).filePath("enregistrement.wav");
+    if (!QDir(folder).exists())
+        QDir().mkpath(folder);
 
+    const QString timestamp = QDateTime::currentDateTime().toString("yyyyMMdd_hhmmss");
+    audioFilePath = QDir(folder).filePath(timestamp + ".wav");
+    qDebug() << "🎙 Fichier cible :" << audioFilePath;
     // --- 4) Supprimer l’ancien fichier s’il existe ---
     if (QFile::exists(audioFilePath)) {
         QFile::remove(audioFilePath);
