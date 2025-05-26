@@ -1,9 +1,9 @@
 Session créée par 
 Classe : 
-Date : 2025-05-26 14:18:57
+Date : 2025-05-26 14:59:25
 Id Prof : -1
 Activité : Ecoute
 Source : //ciel-t171-05/Activites/ciel-clip-officiel.mp3
 Consigne : 
-Durée : 
+Durée : 00:00
 Participants : 12
