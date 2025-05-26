@@ -115,17 +115,13 @@ Ajoutez un montage fichier sur les raspberry :
  - mdkir /Documents/Projet
  - git clone [https://github.com/Sam-Depardieu/Labo-de-langue.git]
  - cd Documents/projet/Labo-de-Langue/InterfaceEleve/build
- - mkdir build
- - cmake ..
  - sudo apt update && sudo apt upgrade
  - sudo apt install qt6-base-dev qt6-multimedia-dev qt6-websockets-dev libqt6multimedia6 libqt6multimediawidgets6
  - sudo apt install -y libmariadb-dev libqt6sql6-mysql
  - qmake6 ../InterfaceEleve.pro
  - cmake .. -DCMAKE_BUILD_TYPE=Debug
- - qmake6 ..
  - make -j1
- - cmake --build . --parallel
- - /Documents/Projet/Labo-de-langue/InterfaceEleve/build$ ./InterfaceEleve
+ - ./InterfaceEleve
 
 
 
