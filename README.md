@@ -108,6 +108,5 @@ Installer MSYS2 (si ce n'est pas encore fait)
 	pacman -Su
  - Ouvrez MSYS2 MinGW 64-bit (pas MSYS2 MSYS) et exécutez :
 	pacman -S mingw-w64-x86_64-zeromq
- - Ajoutez les chemins suivants dans votre fichier .pro de Qt Creator :
-	INCLUDEPATH += C:/msys64/mingw64/include
-	LIBS += -LC:/msys64/mingw64/lib -lzmq
+ - Ajoutez un montage fichier sur les raspberry :
+   	sudo mount -t cifs //{ip_prof}/Activites /mnt/partage -o username=$usr,password=$passwd,uid=$(id -u),gid=$(id -g),cache=none
