@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "interfaceaudio.h"
+#include <unistd.h>
 #include "interfaceenregistrement.h"
 #include "interfaceqcm.h"
 #include "interfacevideo.h"
@@ -467,7 +468,6 @@ void MainWindow::receiveInfo() {
     }
 }
 
-
 void MainWindow::receivePath(){
     while (udpSocketNomFichier->hasPendingDatagrams()) {
         QByteArray datagram;
@@ -491,10 +491,7 @@ void MainWindow::receivePath(){
             currentChild = nullptr;
         }
 
-        sessionPATH = cheminFichier;
-        /*currentChild = new InterfaceQCM(this, cheminFichier);
-        currentChild->setAttribute(Qt::WA_DeleteOnClose);
-        currentChild->show();*/
+        sessionPATH = "/mnt/partage/" + cheminFichier;
     }
 }
 

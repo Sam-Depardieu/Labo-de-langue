@@ -43,6 +43,7 @@ public:
     QString getIpProf() {return ipProf;}
     QString getNomFichier() {return nomFichier;}
 
+    bool monterPartageSMB(const QString& smbSource, const QString& mountPoint);
 
     void sendCommandToProf(const QString& profIp, int port, const QString& command);
 
