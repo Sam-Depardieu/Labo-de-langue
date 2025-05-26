@@ -23,7 +23,7 @@ public:
         const QString &consigne, const QString &source, std::vector<iconEleveGroup*> &participants, std::vector<int> &idsParticipants, int &idProf,
         bool sessionExistante);
     void loadSession();
-    void continuerCreationSession();
+    void continuerCreationSession(bool sessionExistante);
     void on_SourceButton_clicked();
 
 

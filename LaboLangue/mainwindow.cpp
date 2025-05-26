@@ -264,7 +264,7 @@ MainWindow::~MainWindow()
             }
             return;
         }
-        gestion_Session->continuerCreationSession();
+        gestion_Session->continuerCreationSession(runningSession);
     }
 
     void MainWindow::on_loadSession_clicked()
