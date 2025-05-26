@@ -195,7 +195,14 @@ void InterfaceQCM::showCurrentQuestion()
     // Le bouton "Effacer réponse" doit aussi refléter la sélection (possible à faire si nécessaire)
 
     // Le bouton "Soumettre" activé seulement si dernière question
-    ui->pushButtonSoumettre->setEnabled(currentQuestionIndex == questionArray.size() - 1);
+    if (currentQuestionIndex == questionArray.size() - 1) {
+        ui->pushButtonSoumettre->show();      // Affiche le bouton
+        ui->pushButtonQuestionSuivante->hide();
+        ui->pushButtonSoumettre->setEnabled(currentQuestionIndex == questionArray.size() - 1);
+    } else {
+        ui->pushButtonSoumettre->hide();      // Cache le bouton
+        ui->pushButtonQuestionSuivante->show();
+    }
 }
 
 void InterfaceQCM::loadConsigneJson(QString &filePath)
