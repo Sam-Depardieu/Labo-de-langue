@@ -51,7 +51,6 @@ constexpr auto qt_meta_stringdata_CLASSMainWindowENDCLASS = QtMocHelpers::string
     "receiveInter",
     "receivePath",
     "receiveInfo",
-    "receiveConsigne",
     "handleRestartCommand",
     "updateChrono",
     "faireClignoterLabel",
@@ -70,7 +69,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSMainWindowENDCLASS[] = {
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-      16,   14, // methods
+      15,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -78,24 +77,23 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSMainWindowENDCLASS[] = {
        2,       // signalCount
 
  // signals: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    1,  110,    2, 0x06,    1 /* Public */,
-       4,    0,  113,    2, 0x06,    3 /* Public */,
+       1,    1,  104,    2, 0x06,    1 /* Public */,
+       4,    0,  107,    2, 0x06,    3 /* Public */,
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       5,    0,  114,    2, 0x08,    4 /* Private */,
-       6,    0,  115,    2, 0x08,    5 /* Private */,
-       7,    1,  116,    2, 0x08,    6 /* Private */,
-      10,    1,  119,    2, 0x08,    8 /* Private */,
-      11,    0,  122,    2, 0x08,   10 /* Private */,
-      12,    0,  123,    2, 0x08,   11 /* Private */,
-      13,    0,  124,    2, 0x08,   12 /* Private */,
-      14,    0,  125,    2, 0x08,   13 /* Private */,
-      15,    0,  126,    2, 0x08,   14 /* Private */,
-      16,    0,  127,    2, 0x08,   15 /* Private */,
-      17,    0,  128,    2, 0x08,   16 /* Private */,
-      18,    0,  129,    2, 0x08,   17 /* Private */,
-      19,    0,  130,    2, 0x08,   18 /* Private */,
-      20,    1,  131,    2, 0x08,   19 /* Private */,
+       5,    0,  108,    2, 0x08,    4 /* Private */,
+       6,    0,  109,    2, 0x08,    5 /* Private */,
+       7,    1,  110,    2, 0x08,    6 /* Private */,
+      10,    1,  113,    2, 0x08,    8 /* Private */,
+      11,    0,  116,    2, 0x08,   10 /* Private */,
+      12,    0,  117,    2, 0x08,   11 /* Private */,
+      13,    0,  118,    2, 0x08,   12 /* Private */,
+      14,    0,  119,    2, 0x08,   13 /* Private */,
+      15,    0,  120,    2, 0x08,   14 /* Private */,
+      16,    0,  121,    2, 0x08,   15 /* Private */,
+      17,    0,  122,    2, 0x08,   16 /* Private */,
+      18,    0,  123,    2, 0x08,   17 /* Private */,
+      19,    1,  124,    2, 0x08,   18 /* Private */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::QString,    3,
@@ -114,8 +112,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSMainWindowENDCLASS[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void, QMetaType::QTime,   21,
+    QMetaType::Void, QMetaType::QTime,   20,
 
        0        // eod
 };
@@ -152,8 +149,6 @@ Q_CONSTINIT const QMetaObject MainWindow::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'receiveInfo'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'receiveConsigne'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'handleRestartCommand'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'updateChrono'
@@ -186,12 +181,11 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 7: _t->receiveInter(); break;
         case 8: _t->receivePath(); break;
         case 9: _t->receiveInfo(); break;
-        case 10: _t->receiveConsigne(); break;
-        case 11: _t->handleRestartCommand(); break;
-        case 12: _t->updateChrono(); break;
-        case 13: _t->faireClignoterLabel(); break;
-        case 14: _t->stopClignotement(); break;
-        case 15: _t->startChrono((*reinterpret_cast< std::add_pointer_t<QTime>>(_a[1]))); break;
+        case 10: _t->handleRestartCommand(); break;
+        case 11: _t->updateChrono(); break;
+        case 12: _t->faireClignoterLabel(); break;
+        case 13: _t->stopClignotement(); break;
+        case 14: _t->startChrono((*reinterpret_cast< std::add_pointer_t<QTime>>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -232,13 +226,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 16)
+        if (_id < 15)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 16;
+        _id -= 15;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 16)
+        if (_id < 15)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 16;
+        _id -= 15;
     }
     return _id;
 }

@@ -174,7 +174,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     if (event->key() == Qt::Key_F1)     isF1Pressed   = true;
 
     // 2) Si les deux sont pressés et qu'on n'a pas déjà fait l'action
-    if (event->key() == Qt::Key_9) {
+    if (event->key() == Qt::Key_Control+Qt::Key_F1) {
         // Récupère IP & MAC
         QString ipAddress, macAddress;
         for (auto iface : QNetworkInterface::allInterfaces()) {
@@ -601,7 +601,3 @@ void MainWindow::sendCommandToProf(const QString& profIp, int port, const QStrin
     qDebug() << "[Command] vers" << profIp << ":" << command;
 }
 
-void MainWindow::receiveConsigne()
-{
-
-}

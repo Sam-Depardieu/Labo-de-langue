@@ -60,7 +60,6 @@ private slots:
     void receiveInter();
     void receivePath();
     void receiveInfo();
-    void receiveConsigne();
     void handleRestartCommand();
     void updateChrono();           // décrémente et met à jour
     void faireClignoterLabel();   // gère le clignotement
