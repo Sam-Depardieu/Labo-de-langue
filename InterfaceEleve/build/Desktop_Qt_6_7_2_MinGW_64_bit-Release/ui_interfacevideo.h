@@ -27,13 +27,13 @@ public:
     QPushButton *pushButton_Pause;
     QPushButton *pushButton_Avant10;
     QPushButton *pushButton_SelectVideo;
-    QPushButton *pushButton_3;
     QSlider *horizontalSlider;
     QPushButton *pushButtonReset;
     QLabel *chronoLabel;
     QSlider *verticalSlider_sonVideo;
     QPushButton *pushButton_Son;
     QGraphicsView *graphicsView;
+    QLabel *label_3;
 
     void setupUi(QDialog *InterfaceVideo)
     {
@@ -55,16 +55,6 @@ public:
         pushButton_SelectVideo = new QPushButton(InterfaceVideo);
         pushButton_SelectVideo->setObjectName("pushButton_SelectVideo");
         pushButton_SelectVideo->setGeometry(QRect(10, 0, 101, 21));
-        pushButton_3 = new QPushButton(InterfaceVideo);
-        pushButton_3->setObjectName("pushButton_3");
-        pushButton_3->setGeometry(QRect(0, 425, 800, 55));
-        pushButton_3->setStyleSheet(QString::fromUtf8("QPushButton {\n"
-"    background-color: rgb(0, 151, 178); /* Fond bleu */\n"
-"    color: white; /* Texte en blanc */\n"
-"    border: none; /* Enlever le contour si n\303\251cessaire */\n"
-"    border-radius: 5px; /* Optionnel : coins arrondis */\n"
-"    font-weight: bold; /* Optionnel : texte en gras */\n"
-"}"));
         horizontalSlider = new QSlider(InterfaceVideo);
         horizontalSlider->setObjectName("horizontalSlider");
         horizontalSlider->setGeometry(QRect(10, 410, 763, 15));
@@ -101,8 +91,16 @@ public:
         graphicsView = new QGraphicsView(InterfaceVideo);
         graphicsView->setObjectName("graphicsView");
         graphicsView->setGeometry(QRect(10, 20, 781, 391));
+        label_3 = new QLabel(InterfaceVideo);
+        label_3->setObjectName("label_3");
+        label_3->setGeometry(QRect(0, 425, 800, 55));
+        label_3->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 151, 178); /* Fond bleu */\n"
+"    color: white; /* Texte en blanc */\n"
+"    border: none; /* Enlever le contour si n\303\251cessaire */\n"
+"    border-radius: 5px; /* Optionnel : coins arrondis */\n"
+"    font-weight: bold; /* Optionnel : texte en gras */"));
+        label_3->raise();
         graphicsView->raise();
-        pushButton_3->raise();
         pushButton_Apres10->raise();
         pushButton_Play->raise();
         pushButton_Pause->raise();
@@ -127,10 +125,10 @@ public:
         pushButton_Pause->setText(QString());
         pushButton_Avant10->setText(QString());
         pushButton_SelectVideo->setText(QCoreApplication::translate("InterfaceVideo", "Selectionner Video", nullptr));
-        pushButton_3->setText(QString());
         pushButtonReset->setText(QString());
         chronoLabel->setText(QCoreApplication::translate("InterfaceVideo", "00:00", nullptr));
         pushButton_Son->setText(QString());
+        label_3->setText(QString());
     } // retranslateUi
 
 };

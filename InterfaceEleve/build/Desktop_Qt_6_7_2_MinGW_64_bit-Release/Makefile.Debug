@@ -51,8 +51,7 @@ OBJECTS_DIR   = debug/
 
 ####### Files
 
-SOURCES       = ../../attenteprof.cpp \
-		../../audioCommunicator.cpp \
+SOURCES       = ../../audioCommunicator.cpp \
 		../../avancementqcm.cpp \
 		../../interfaceaudio.cpp \
 		../../interfaceenregistrement.cpp \
@@ -61,15 +60,13 @@ SOURCES       = ../../attenteprof.cpp \
 		../../main.cpp \
 		../../mainwindow.cpp debug/qrc_images.cpp \
 		debug/qrc_videos.cpp \
-		debug/moc_attenteprof.cpp \
 		debug/moc_audioCommunicator.cpp \
 		debug/moc_interfaceaudio.cpp \
 		debug/moc_interfaceenregistrement.cpp \
 		debug/moc_interfaceqcm.cpp \
 		debug/moc_interfacevideo.cpp \
 		debug/moc_mainwindow.cpp
-OBJECTS       = debug/attenteprof.o \
-		debug/audioCommunicator.o \
+OBJECTS       = debug/audioCommunicator.o \
 		debug/avancementqcm.o \
 		debug/interfaceaudio.o \
 		debug/interfaceenregistrement.o \
@@ -79,7 +76,6 @@ OBJECTS       = debug/attenteprof.o \
 		debug/mainwindow.o \
 		debug/qrc_images.o \
 		debug/qrc_videos.o \
-		debug/moc_attenteprof.o \
 		debug/moc_audioCommunicator.o \
 		debug/moc_interfaceaudio.o \
 		debug/moc_interfaceenregistrement.o \
@@ -161,15 +157,13 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/exceptions.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/lex.prf \
-		../../../../InterfaceEleve.pro ../../attenteprof.h \
-		../../audioCommunicator.h \
+		../../../../InterfaceEleve.pro ../../audioCommunicator.h \
 		../../avancementqcm.h \
 		../../interfaceaudio.h \
 		../../interfaceenregistrement.h \
 		../../interfaceqcm.h \
 		../../interfacevideo.h \
-		../../mainwindow.h ../../attenteprof.cpp \
-		../../audioCommunicator.cpp \
+		../../mainwindow.h ../../audioCommunicator.cpp \
 		../../avancementqcm.cpp \
 		../../interfaceaudio.cpp \
 		../../interfaceenregistrement.cpp \
@@ -185,7 +179,7 @@ TARGET        = InterfaceEleve
 first: all
 ####### Build rules
 
-InterfaceEleve: ui_attenteprof.h ui_interfaceaudio.h ui_interfaceenregistrement.h ui_interfaceqcm.h ui_interfacevideo.h ui_mainwindow.h $(OBJECTS)  
+InterfaceEleve: ui_interfaceaudio.h ui_interfaceenregistrement.h ui_interfaceqcm.h ui_interfacevideo.h ui_mainwindow.h $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET)  $(OBJECTS) $(OBJCOMP) $(LIBS)
 
 qmake: FORCE
@@ -204,9 +198,9 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../../images.qrc ../../videos.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../../attenteprof.h ../../audioCommunicator.h ../../avancementqcm.h ../../interfaceaudio.h ../../interfaceenregistrement.h ../../interfaceqcm.h ../../interfacevideo.h ../../mainwindow.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../../attenteprof.cpp ../../audioCommunicator.cpp ../../avancementqcm.cpp ../../interfaceaudio.cpp ../../interfaceenregistrement.cpp ../../interfaceqcm.cpp ../../interfacevideo.cpp ../../main.cpp ../../mainwindow.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../../attenteprof.ui ../../interfaceaudio.ui ../../interfaceenregistrement.ui ../../interfaceqcm.ui ../../interfacevideo.ui ../../mainwindow.ui $(DISTDIR)/
+	$(COPY_FILE) --parents ../../audioCommunicator.h ../../avancementqcm.h ../../interfaceaudio.h ../../interfaceenregistrement.h ../../interfaceqcm.h ../../interfacevideo.h ../../mainwindow.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../../audioCommunicator.cpp ../../avancementqcm.cpp ../../interfaceaudio.cpp ../../interfaceenregistrement.cpp ../../interfaceqcm.cpp ../../interfacevideo.cpp ../../main.cpp ../../mainwindow.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../../interfaceaudio.ui ../../interfaceenregistrement.ui ../../interfaceqcm.ui ../../interfacevideo.ui ../../mainwindow.ui $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -269,14 +263,9 @@ compiler_moc_predefs_clean:
 debug/moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/data/dummy.cpp
 	clang++ -pipe -g -std=gnu++1z -Wall -Wextra -fPIC -dM -E -o debug/moc_predefs.h /usr/lib/x86_64-linux-gnu/qt6/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: debug/moc_attenteprof.cpp debug/moc_audioCommunicator.cpp debug/moc_interfaceaudio.cpp debug/moc_interfaceenregistrement.cpp debug/moc_interfaceqcm.cpp debug/moc_interfacevideo.cpp debug/moc_mainwindow.cpp
+compiler_moc_header_make_all: debug/moc_audioCommunicator.cpp debug/moc_interfaceaudio.cpp debug/moc_interfaceenregistrement.cpp debug/moc_interfaceqcm.cpp debug/moc_interfacevideo.cpp debug/moc_mainwindow.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) debug/moc_attenteprof.cpp debug/moc_audioCommunicator.cpp debug/moc_interfaceaudio.cpp debug/moc_interfaceenregistrement.cpp debug/moc_interfaceqcm.cpp debug/moc_interfacevideo.cpp debug/moc_mainwindow.cpp
-debug/moc_attenteprof.cpp: ../../attenteprof.h \
-		debug/moc_predefs.h \
-		/usr/lib/qt6/libexec/moc
-	/usr/lib/qt6/libexec/moc $(DEFINES) --include /home/sam/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Release/debug/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt6/mkspecs/linux-clang -I/home/sam/Documents/Projet/Labo-de-langue/InterfaceEleve -I/usr/include/x86_64-linux-gnu/qt6 -I/usr/include/x86_64-linux-gnu/qt6/QtMultimediaWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt6/QtWidgets -I/usr/include/x86_64-linux-gnu/qt6/QtGui -I/usr/include/x86_64-linux-gnu/qt6/QtSql -I/usr/include/x86_64-linux-gnu/qt6/QtWebSockets -I/usr/include/x86_64-linux-gnu/qt6/QtNetwork -I/usr/include/x86_64-linux-gnu/qt6/QtCore -I. -I/usr/include/c++/13 -I/usr/include/x86_64-linux-gnu/c++/13 -I/usr/include/c++/13/backward -I/usr/lib/llvm-18/lib/clang/18/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../attenteprof.h -o debug/moc_attenteprof.cpp
-
+	-$(DEL_FILE) debug/moc_audioCommunicator.cpp debug/moc_interfaceaudio.cpp debug/moc_interfaceenregistrement.cpp debug/moc_interfaceqcm.cpp debug/moc_interfacevideo.cpp debug/moc_mainwindow.cpp
 debug/moc_audioCommunicator.cpp: ../../audioCommunicator.h \
 		debug/moc_predefs.h \
 		/usr/lib/qt6/libexec/moc
@@ -316,13 +305,9 @@ compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
-compiler_uic_make_all: ui_attenteprof.h ui_interfaceaudio.h ui_interfaceenregistrement.h ui_interfaceqcm.h ui_interfacevideo.h ui_mainwindow.h
+compiler_uic_make_all: ui_interfaceaudio.h ui_interfaceenregistrement.h ui_interfaceqcm.h ui_interfacevideo.h ui_mainwindow.h
 compiler_uic_clean:
-	-$(DEL_FILE) ui_attenteprof.h ui_interfaceaudio.h ui_interfaceenregistrement.h ui_interfaceqcm.h ui_interfacevideo.h ui_mainwindow.h
-ui_attenteprof.h: ../../attenteprof.ui \
-		/usr/lib/qt6/libexec/uic
-	/usr/lib/qt6/libexec/uic ../../attenteprof.ui -o ui_attenteprof.h
-
+	-$(DEL_FILE) ui_interfaceaudio.h ui_interfaceenregistrement.h ui_interfaceqcm.h ui_interfacevideo.h ui_mainwindow.h
 ui_interfaceaudio.h: ../../interfaceaudio.ui \
 		/usr/lib/qt6/libexec/uic
 	/usr/lib/qt6/libexec/uic ../../interfaceaudio.ui -o ui_interfaceaudio.h
@@ -352,10 +337,6 @@ compiler_lex_clean:
 compiler_clean: compiler_rcc_clean compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
 
 ####### Compile
-
-debug/attenteprof.o: ../../attenteprof.cpp ../../attenteprof.h \
-		ui_attenteprof.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug/attenteprof.o ../../attenteprof.cpp
 
 debug/audioCommunicator.o: ../../audioCommunicator.cpp ../../audioCommunicator.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug/audioCommunicator.o ../../audioCommunicator.cpp
@@ -398,8 +379,7 @@ debug/mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		../../interfaceenregistrement.h \
 		../../interfaceqcm.h \
 		../../interfacevideo.h \
-		ui_mainwindow.h \
-		../../attenteprof.h
+		ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug/mainwindow.o ../../mainwindow.cpp
 
 debug/qrc_images.o: debug/qrc_images.cpp 
@@ -407,9 +387,6 @@ debug/qrc_images.o: debug/qrc_images.cpp
 
 debug/qrc_videos.o: debug/qrc_videos.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug/qrc_videos.o debug/qrc_videos.cpp
-
-debug/moc_attenteprof.o: debug/moc_attenteprof.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug/moc_attenteprof.o debug/moc_attenteprof.cpp
 
 debug/moc_audioCommunicator.o: debug/moc_audioCommunicator.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug/moc_audioCommunicator.o debug/moc_audioCommunicator.cpp

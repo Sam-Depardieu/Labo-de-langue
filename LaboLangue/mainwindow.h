@@ -44,6 +44,12 @@ public:
     gestionSession* getGestionSession() {return gestion_Session;}
     Professeur* getProf() {return prof;};
 
+    //Reset des sources
+    void resetSources(){source.clear();};
+    void resetSessionFolder(){sessionFolder.clear();};
+    void resetName(){newNameFolder.clear();};
+
+
     void setNewNameFolder(QString newName) { newNameFolder = newName;}
     void setSource(QString newSource) { source = newSource; }
     void setNomEtudiantLineEdit(QString nom);
@@ -163,11 +169,8 @@ private slots:
     QColor couleurDisponible() ;
 
     void on_reloadButton_clicked();
-
     void on_LectureStatutButton_clicked();
-
     void on_PauseStatutButton_clicked();
-
     void on_lectureButton_clicked();
 
 private:

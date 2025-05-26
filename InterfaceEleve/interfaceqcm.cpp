@@ -155,48 +155,54 @@ void InterfaceQCM::showCurrentQuestion()
     }
 
     QJsonObject currentQuestion = questionArray[currentQuestionIndex].toObject();
-    QString questionText = currentQuestion["text"].toString();
-    ui->labelQuestion->setText(questionText);
 
-    QJsonArray answers = currentQuestion["answers"].toArray();
+    // Récupérer le texte avec la clé "text"
+    QString questionText = currentQuestion.value("text").toString();
+
+    // Si vide, garder le texte déjà affiché (ex: au lancement)
+    if (questionText.isEmpty()) {
+        questionText = ui->labelQuestion->text();
+    }
+
+    // Ajouter le préfixe "Question n°X: "
+    QString displayText = QString("Question n°%1: %2").arg(currentQuestionIndex + 1).arg(questionText);
+    ui->labelQuestion->setText(displayText);
+
+    // -- suite du code pour les réponses et boutons --
+    QJsonArray answers = currentQuestion.value("answers").toArray();
 
     ui->pushButton1->setVisible(answers.size() > 0);
     ui->pushButton2->setVisible(answers.size() > 1);
     ui->pushButton3->setVisible(answers.size() > 2);
     ui->pushButton4->setVisible(answers.size() > 3);
 
-    if (answers.size() > 0) ui->pushButton1->setText(answers[0].toObject()["text"].toString());
-    if (answers.size() > 1) ui->pushButton2->setText(answers[1].toObject()["text"].toString());
-    if (answers.size() > 2) ui->pushButton3->setText(answers[2].toObject()["text"].toString());
-    if (answers.size() > 3) ui->pushButton4->setText(answers[3].toObject()["text"].toString());
+    if (answers.size() > 0) ui->pushButton1->setText(answers[0].toObject().value("text").toString());
+    if (answers.size() > 1) ui->pushButton2->setText(answers[1].toObject().value("text").toString());
+    if (answers.size() > 2) ui->pushButton3->setText(answers[2].toObject().value("text").toString());
+    if (answers.size() > 3) ui->pushButton4->setText(answers[3].toObject().value("text").toString());
 
-    // Récupérer les réponses mémorisées pour la question courante
-    QVector<bool> reponses = userAnswers.value(currentQuestionIndex, {false, false, false, false});
+    QVector<bool> reponses = userAnswers.value(currentQuestionIndex, QVector<bool>());
 
-    // Mettre à jour les flags internes
     isButton1Image = (reponses.size() > 0) ? reponses[0] : false;
     isButton2Image = (reponses.size() > 1) ? reponses[1] : false;
     isButton3Image = (reponses.size() > 2) ? reponses[2] : false;
     isButton4Image = (reponses.size() > 3) ? reponses[3] : false;
 
-    // Appliquer le style selon l'état de chaque bouton
     ui->pushButton1->setStyleSheet(isButton1Image ? "background-color:blue; border:3px solid white; border-radius:20px;" : "background-color:blue; border-radius:20px;");
     ui->pushButton2->setStyleSheet(isButton2Image ? "background-color:green; border:3px solid white; border-radius:20px;" : "background-color:green; border-radius:20px;");
     ui->pushButton3->setStyleSheet(isButton3Image ? "background-color:red; border:3px solid white; border-radius:20px;" : "background-color:red; border-radius:20px;");
     ui->pushButton4->setStyleSheet(isButton4Image ? "background-color:orange; border:3px solid white; border-radius:20px;" : "background-color:orange; border-radius:20px;");
 
-    // Le bouton "Effacer réponse" doit aussi refléter la sélection (possible à faire si nécessaire)
-
-    // Le bouton "Soumettre" activé seulement si dernière question
     if (currentQuestionIndex == questionArray.size() - 1) {
-        ui->pushButtonSoumettre->show();      // Affiche le bouton
+        ui->pushButtonSoumettre->show();
         ui->pushButtonQuestionSuivante->hide();
-        ui->pushButtonSoumettre->setEnabled(currentQuestionIndex == questionArray.size() - 1);
+        ui->pushButtonSoumettre->setEnabled(true);
     } else {
-        ui->pushButtonSoumettre->hide();      // Cache le bouton
+        ui->pushButtonSoumettre->hide();
         ui->pushButtonQuestionSuivante->show();
     }
 }
+
 
 void InterfaceQCM::loadConsigneJson(QString &filePath)
 {
@@ -417,6 +423,18 @@ void InterfaceQCM::on_pushButtonQuestionPrecedente_clicked()
 
 void InterfaceQCM::on_pushButtonSoumettre_clicked()
 {
+    // Demander confirmation à l'utilisateur
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "Confirmation",
+                                  "Voulez-vous enregistrer vos réponses ?",
+                                  QMessageBox::Yes | QMessageBox::No);
+
+    if (reply == QMessageBox::No) {
+        // L'utilisateur ne veut pas enregistrer, on retourne simplement
+        return;
+    }
+
+    // Sinon, continuer l'enregistrement
     const QString docs = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
     const QString folder = QDir(docs).filePath("Travail");
     if (!QDir(folder).exists()) QDir().mkpath(folder);
@@ -426,7 +444,7 @@ void InterfaceQCM::on_pushButtonSoumettre_clicked()
 
     QFile file(filePath);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        qWarning() << "❌ Impossible d’écrire dans le fichier.";
+        QMessageBox::critical(this, "Erreur", "❌ Impossible d’écrire dans le fichier.");
         return;
     }
 
@@ -439,31 +457,28 @@ void InterfaceQCM::on_pushButtonSoumettre_clicked()
 
         QVector<bool> etats = userAnswers.value(i, QVector<bool>());
 
-        if (answers.size() > 0 && etats.size() > 0 && etats[0])
-            out << QString("- %1 %2\n").arg(answers[0].toObject()["text"].toString(),
-                                            answers[0].toObject()["isCorrect"].toBool() ? "✅" : "❌");
-
-
-        if (answers.size() > 1 && etats.size() > 1 && etats[1])
-            out << QString("- %1 %2\n").arg(answers[1].toObject()["text"].toString(),
-                                            answers[1].toObject()["isCorrect"].toBool() ? "✅" : "❌");
-
-        if (answers.size() > 2 && etats.size() > 2 && etats[2])
-            out << QString("- %1 %2\n").arg(answers[2].toObject()["text"].toString(),
-                                            answers[2].toObject()["isCorrect"].toBool() ? "✅" : "❌");
-
-        if (answers.size() > 3 && etats.size() > 3 && etats[3])
-            out << QString("- %1 %2\n").arg(answers[3].toObject()["text"].toString(),
-                                            answers[3].toObject()["isCorrect"].toBool() ? "✅" : "❌");
-
+        for (int j = 0; j < answers.size(); ++j) {
+            if (j < etats.size() && etats[j]) {
+                QJsonObject answer = answers[j].toObject();
+                QString text = answer["text"].toString();
+                bool isCorrect = answer["isCorrect"].toBool();
+                out << QString("- %1 %2\n").arg(text, isCorrect ? "✅" : "❌");
+            }
+        }
 
         out << "\n";
     }
 
-    //file.close();
-    QMessageBox::information(this, "Soumission", "Réponses enregistrées.");
+    file.close();
+
+    // Confirmer à l'utilisateur que le fichier a bien été enregistré
+    QMessageBox::information(this, "Réponses enregistrées",
+                             "✅ Vos réponses ont été enregistrées avec succès dans:\n\n" + filePath);
+
+    // Fermer la fenêtre
     accept();
 }
+
 
 void InterfaceQCM::on_pushButtonAppelProf_clicked()
 {

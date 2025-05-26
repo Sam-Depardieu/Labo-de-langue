@@ -27,13 +27,13 @@ public:
     QPushButton *pushButton_Apres;
     QPushButton *pushButton_Pause;
     QPushButton *pushButton_SelectAudio;
-    QPushButton *pushButton_2;
     QSlider *horizontalSlider;
     QPushButton *pushButtonReset;
     QPushButton *pushButton_Son;
     QGraphicsView *graphicsView;
     QSlider *verticalSlider_sonVideo;
     QLabel *chronoLabel;
+    QLabel *label_3;
 
     void setupUi(QDialog *InterfaceAudio)
     {
@@ -55,20 +55,10 @@ public:
         pushButton_SelectAudio = new QPushButton(InterfaceAudio);
         pushButton_SelectAudio->setObjectName("pushButton_SelectAudio");
         pushButton_SelectAudio->setGeometry(QRect(0, 0, 111, 24));
-        pushButton_2 = new QPushButton(InterfaceAudio);
-        pushButton_2->setObjectName("pushButton_2");
-        pushButton_2->setGeometry(QRect(-10, 425, 831, 61));
-        pushButton_2->setStyleSheet(QString::fromUtf8("QPushButton {\n"
-"    background-color: rgb(0, 151, 178); /* Fond bleu */\n"
-"    color: white; /* Texte en blanc */\n"
-"    border: none; /* Enlever le contour si n\303\251cessaire */\n"
-"    border-radius: 5px; /* Optionnel : coins arrondis */\n"
-"    font-weight: bold; /* Optionnel : texte en gras */\n"
-"}"));
         horizontalSlider = new QSlider(InterfaceAudio);
         horizontalSlider->setObjectName("horizontalSlider");
         horizontalSlider->setGeometry(QRect(10, 400, 781, 20));
-        horizontalSlider->setOrientation(Qt::Horizontal);
+        horizontalSlider->setOrientation(Qt::Orientation::Horizontal);
         pushButtonReset = new QPushButton(InterfaceAudio);
         pushButtonReset->setObjectName("pushButtonReset");
         pushButtonReset->setGeometry(QRect(10, 430, 45, 45));
@@ -81,7 +71,7 @@ public:
         verticalSlider_sonVideo = new QSlider(InterfaceAudio);
         verticalSlider_sonVideo->setObjectName("verticalSlider_sonVideo");
         verticalSlider_sonVideo->setGeometry(QRect(760, 240, 16, 160));
-        verticalSlider_sonVideo->setOrientation(Qt::Vertical);
+        verticalSlider_sonVideo->setOrientation(Qt::Orientation::Vertical);
         chronoLabel = new QLabel(InterfaceAudio);
         chronoLabel->setObjectName("chronoLabel");
         chronoLabel->setGeometry(QRect(110, 430, 111, 45));
@@ -101,7 +91,15 @@ public:
 "    qproperty-alignment: 'AlignCenter';\n"
 "}\n"
 ""));
-        pushButton_2->raise();
+        label_3 = new QLabel(InterfaceAudio);
+        label_3->setObjectName("label_3");
+        label_3->setGeometry(QRect(-10, 425, 831, 61));
+        label_3->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 151, 178); /* Fond bleu */\n"
+"    color: white; /* Texte en blanc */\n"
+"    border: none; /* Enlever le contour si n\303\251cessaire */\n"
+"    border-radius: 5px; /* Optionnel : coins arrondis */\n"
+"    font-weight: bold; /* Optionnel : texte en gras */"));
+        label_3->raise();
         pushButton_Play->raise();
         pushButton_Avant->raise();
         pushButton_Apres->raise();
@@ -127,10 +125,10 @@ public:
         pushButton_Apres->setText(QString());
         pushButton_Pause->setText(QString());
         pushButton_SelectAudio->setText(QCoreApplication::translate("InterfaceAudio", "Selectionner Audio", nullptr));
-        pushButton_2->setText(QString());
         pushButtonReset->setText(QString());
         pushButton_Son->setText(QString());
         chronoLabel->setText(QCoreApplication::translate("InterfaceAudio", "00:00", nullptr));
+        label_3->setText(QString());
     } // retranslateUi
 
 };

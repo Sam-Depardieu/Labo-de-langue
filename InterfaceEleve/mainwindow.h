@@ -18,6 +18,9 @@
 #include <QJsonObject>
 #include <QHostAddress>
 #include <QProcess>
+#include <QKeyEvent>
+#include <QDialog>
+#include <QMovie>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -51,15 +54,11 @@ public:
 private slots:
 
     bool connectToDatabase();
-    void on_pushButtonConnexion_clicked();
     void keyPressEvent(QKeyEvent *event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
-
-    void askPATH();
     void receiveInter();
     void receivePath();
     void receiveInfo();
-    void receiveConsigne();
     void handleRestartCommand();
     void updateChrono();           // décrémente et met à jour
     void faireClignoterLabel();   // gère le clignotement
@@ -112,6 +111,11 @@ private:
     bool chronoClignote = false;
     QString interface = "";
     QString nomFichier = "";
+
+    QMovie *loadingMovie;
+
+    void startLoading();
+    void stopLoading();
 
 signals:
     void chronoMisAJour(const QString &temps);

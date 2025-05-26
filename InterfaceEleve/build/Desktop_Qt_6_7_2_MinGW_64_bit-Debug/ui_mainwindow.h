@@ -11,10 +11,8 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
-#include <QtWidgets/QPushButton>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -23,10 +21,11 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralwidget;
-    QPushButton *pushButtonConnexion;
-    QGraphicsView *footer;
-    QGraphicsView *bottom;
     QLabel *label;
+    QLabel *label_2;
+    QLabel *label_Loading;
+    QLabel *label_3;
+    QLabel *label_4;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -35,34 +34,43 @@ public:
         MainWindow->resize(800, 480);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
-        pushButtonConnexion = new QPushButton(centralwidget);
-        pushButtonConnexion->setObjectName("pushButtonConnexion");
-        pushButtonConnexion->setGeometry(QRect(370, 200, 80, 25));
-        QFont font;
-        font.setBold(false);
-        pushButtonConnexion->setFont(font);
-        pushButtonConnexion->setCursor(QCursor(Qt::CursorShape::ArrowCursor));
-        pushButtonConnexion->setStyleSheet(QString::fromUtf8("Black"));
-        footer = new QGraphicsView(centralwidget);
-        footer->setObjectName("footer");
-        footer->setGeometry(QRect(0, 400, 800, 80));
-        footer->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 151, 178); /* Fond bleu */\n"
-"    color: white; /* Texte en blanc */\n"
-"    border: none; /* Enlever le contour si n\303\251cessaire */\n"
-"    border-radius: 5px; /* Optionnel : coins arrondis */\n"
-"    font-weight: bold; /* Optionnel : texte en gras */"));
-        bottom = new QGraphicsView(centralwidget);
-        bottom->setObjectName("bottom");
-        bottom->setGeometry(QRect(0, 0, 801, 81));
-        bottom->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 151, 178); /* Fond bleu */\n"
-"    color: white; /* Texte en blanc */\n"
-"    border: none; /* Enlever le contour si n\303\251cessaire */\n"
-"    border-radius: 5px; /* Optionnel : coins arrondis */\n"
-"    font-weight: bold; /* Optionnel : texte en gras */"));
         label = new QLabel(centralwidget);
         label->setObjectName("label");
-        label->setGeometry(QRect(370, 30, 81, 16));
+        label->setGeometry(QRect(340, 15, 181, 31));
+        QFont font;
+        font.setPointSize(16);
+        label->setFont(font);
+        label_2 = new QLabel(centralwidget);
+        label_2->setObjectName("label_2");
+        label_2->setGeometry(QRect(260, 70, 320, 90));
+        label_Loading = new QLabel(centralwidget);
+        label_Loading->setObjectName("label_Loading");
+        label_Loading->setGeometry(QRect(310, 160, 150, 150));
+        label_Loading->setStyleSheet(QString::fromUtf8("background-color : transparent;\n"
+"border:none;\n"
+""));
+        label_3 = new QLabel(centralwidget);
+        label_3->setObjectName("label_3");
+        label_3->setGeometry(QRect(0, 0, 801, 81));
+        label_3->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 151, 178); /* Fond bleu */\n"
+"    color: white; /* Texte en blanc */\n"
+"    border: none; /* Enlever le contour si n\303\251cessaire */\n"
+"    border-radius: 5px; /* Optionnel : coins arrondis */\n"
+"    font-weight: bold; /* Optionnel : texte en gras */"));
+        label_4 = new QLabel(centralwidget);
+        label_4->setObjectName("label_4");
+        label_4->setGeometry(QRect(0, 400, 800, 80));
+        label_4->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 151, 178); /* Fond bleu */\n"
+"    color: white; /* Texte en blanc */\n"
+"    border: none; /* Enlever le contour si n\303\251cessaire */\n"
+"    border-radius: 5px; /* Optionnel : coins arrondis */\n"
+"    font-weight: bold; /* Optionnel : texte en gras */"));
         MainWindow->setCentralWidget(centralwidget);
+        label_3->raise();
+        label->raise();
+        label_2->raise();
+        label_Loading->raise();
+        label_4->raise();
 
         retranslateUi(MainWindow);
 
@@ -72,8 +80,11 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
-        pushButtonConnexion->setText(QCoreApplication::translate("MainWindow", "Connexion", nullptr));
         label->setText(QCoreApplication::translate("MainWindow", "Interface El\303\250ve", nullptr));
+        label_2->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:26pt; font-weight:700;\">Attente professeur</span></p></body></html>", nullptr));
+        label_Loading->setText(QString());
+        label_3->setText(QString());
+        label_4->setText(QString());
     } // retranslateUi
 
 };

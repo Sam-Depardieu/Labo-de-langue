@@ -26,7 +26,6 @@ public:
     QPushButton *pushButtonQuestionSuivante;
     QPushButton *pushButtonEffacerReponse;
     QPushButton *pushButtonQuestionPrecedente;
-    QPushButton *pushButton;
     QLabel *labelQuestion;
     QPushButton *pushButton1;
     QPushButton *pushButton2;
@@ -40,6 +39,7 @@ public:
     QLabel *label_2;
     QPushButton *pushButtonAppelProf;
     QListView *listViewAvancement;
+    QLabel *label_3;
 
     void setupUi(QDialog *InterfaceQCM)
     {
@@ -58,15 +58,6 @@ public:
         pushButtonQuestionPrecedente->setObjectName("pushButtonQuestionPrecedente");
         pushButtonQuestionPrecedente->setGeometry(QRect(10, 5, 45, 45));
         pushButtonQuestionPrecedente->setStyleSheet(QString::fromUtf8(""));
-        pushButton = new QPushButton(InterfaceQCM);
-        pushButton->setObjectName("pushButton");
-        pushButton->setGeometry(QRect(0, 0, 800, 55));
-        pushButton->setStyleSheet(QString::fromUtf8("QPushButton {\n"
-"    background-color: rgb(0, 151, 178); /* Fond bleu */\n"
-"    color: white; /* Texte en blanc */\n"
-"    border: none; /* Enlever le contour si n\303\251cessaire */\n"
-"    font-weight: bold; /* Optionnel : texte en gras */\n"
-"}"));
         labelQuestion = new QLabel(InterfaceQCM);
         labelQuestion->setObjectName("labelQuestion");
         labelQuestion->setGeometry(QRect(160, 150, 491, 71));
@@ -174,7 +165,15 @@ public:
 "padding: 8px;\n"
 "font-size: 14px;\n"
 "color: #333;"));
-        pushButton->raise();
+        label_3 = new QLabel(InterfaceQCM);
+        label_3->setObjectName("label_3");
+        label_3->setGeometry(QRect(0, 0, 800, 55));
+        label_3->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 151, 178); /* Fond bleu */\n"
+"    color: white; /* Texte en blanc */\n"
+"    border: none; /* Enlever le contour si n\303\251cessaire */\n"
+"    border-radius: 5px; /* Optionnel : coins arrondis */\n"
+"    font-weight: bold; /* Optionnel : texte en gras */"));
+        label_3->raise();
         pushButtonQuestionSuivante->raise();
         pushButtonQuestionPrecedente->raise();
         labelQuestion->raise();
@@ -203,7 +202,6 @@ public:
         pushButtonQuestionSuivante->setText(QString());
         pushButtonEffacerReponse->setText(QString());
         pushButtonQuestionPrecedente->setText(QString());
-        pushButton->setText(QCoreApplication::translate("InterfaceQCM", "Interface QCM", nullptr));
         labelQuestion->setText(QCoreApplication::translate("InterfaceQCM", "Question n\302\260", nullptr));
         pushButton1->setText(QCoreApplication::translate("InterfaceQCM", "1 :", nullptr));
         pushButton2->setText(QCoreApplication::translate("InterfaceQCM", "2 :", nullptr));
@@ -230,6 +228,7 @@ public:
         label->setText(QCoreApplication::translate("InterfaceQCM", "Messages du professeur", nullptr));
         label_2->setText(QCoreApplication::translate("InterfaceQCM", "Avancement", nullptr));
         pushButtonAppelProf->setText(QString());
+        label_3->setText(QString());
     } // retranslateUi
 
 };

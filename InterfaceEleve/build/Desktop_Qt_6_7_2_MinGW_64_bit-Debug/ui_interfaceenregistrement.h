@@ -30,7 +30,6 @@ public:
     QPushButton *pushButton_2;
     QLabel *chrono_enregistrement;
     QPushButton *pushButtonSpeak;
-    QPushButton *pushButton;
     QPushButton *pushButtonPause;
     QPushButton *pushButtonRetourArriere;
     QPushButton *pushButtonEnregistrer;
@@ -41,6 +40,7 @@ public:
     QLabel *label_2;
     QSlider *verticalSlider_son;
     QLabel *chronoLabel;
+    QLabel *label_3;
 
     void setupUi(QDialog *InterfaceEnregistrement)
     {
@@ -69,7 +69,7 @@ public:
         pushButtonAppelProf->setIcon(icon);
         pushButton_2 = new QPushButton(InterfaceEnregistrement);
         pushButton_2->setObjectName("pushButton_2");
-        pushButton_2->setGeometry(QRect(0, 430, 801, 55));
+        pushButton_2->setGeometry(QRect(0, 425, 801, 61));
         pushButton_2->setStyleSheet(QString::fromUtf8("QPushButton {\n"
 "    background-color: rgb(0, 151, 178); /* Fond bleu */\n"
 "    color: white; /* Texte en blanc */\n"
@@ -84,21 +84,11 @@ public:
         font.setPointSize(20);
         font.setBold(true);
         chrono_enregistrement->setFont(font);
-        chrono_enregistrement->setAlignment(Qt::AlignCenter);
+        chrono_enregistrement->setAlignment(Qt::AlignmentFlag::AlignCenter);
         pushButtonSpeak = new QPushButton(InterfaceEnregistrement);
         pushButtonSpeak->setObjectName("pushButtonSpeak");
         pushButtonSpeak->setGeometry(QRect(350, 250, 81, 81));
         pushButtonSpeak->setStyleSheet(QString::fromUtf8(""));
-        pushButton = new QPushButton(InterfaceEnregistrement);
-        pushButton->setObjectName("pushButton");
-        pushButton->setGeometry(QRect(0, 0, 800, 55));
-        pushButton->setStyleSheet(QString::fromUtf8("QPushButton {\n"
-"    background-color: rgb(0, 151, 178); /* Fond bleu */\n"
-"    color: white; /* Texte en blanc */\n"
-"    border: none; /* Enlever le contour si n\303\251cessaire */\n"
-"    border-radius: 5px; /* Optionnel : coins arrondis */\n"
-"    font-weight: bold; /* Optionnel : texte en gras */\n"
-"}"));
         pushButtonPause = new QPushButton(InterfaceEnregistrement);
         pushButtonPause->setObjectName("pushButtonPause");
         pushButtonPause->setGeometry(QRect(350, 90, 81, 81));
@@ -154,10 +144,10 @@ public:
         verticalSlider_son = new QSlider(InterfaceEnregistrement);
         verticalSlider_son->setObjectName("verticalSlider_son");
         verticalSlider_son->setGeometry(QRect(760, 250, 16, 160));
-        verticalSlider_son->setOrientation(Qt::Vertical);
+        verticalSlider_son->setOrientation(Qt::Orientation::Vertical);
         chronoLabel = new QLabel(InterfaceEnregistrement);
         chronoLabel->setObjectName("chronoLabel");
-        chronoLabel->setGeometry(QRect(120, 430, 111, 45));
+        chronoLabel->setGeometry(QRect(110, 430, 111, 45));
         QFont font2;
         font2.setFamilies({QString::fromUtf8("Segoe UI")});
         font2.setBold(true);
@@ -174,9 +164,18 @@ public:
 "    qproperty-alignment: 'AlignCenter';\n"
 "}\n"
 ""));
+        label_3 = new QLabel(InterfaceEnregistrement);
+        label_3->setObjectName("label_3");
+        label_3->setGeometry(QRect(0, 0, 800, 55));
+        label_3->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 151, 178); /* Fond bleu */\n"
+"    color: white; /* Texte en blanc */\n"
+"    border: none; /* Enlever le contour si n\303\251cessaire */\n"
+"    border-radius: 5px; /* Optionnel : coins arrondis */\n"
+"    font-weight: bold; /* Optionnel : texte en gras */"));
+        label_3->setAlignment(Qt::AlignmentFlag::AlignCenter);
+        label_3->raise();
         verticalSlider_son->raise();
         pushButton_2->raise();
-        pushButton->raise();
         pushButtonSon->raise();
         pushButtonAvancer->raise();
         pushButtonClear->raise();
@@ -208,7 +207,6 @@ public:
         pushButton_2->setText(QString());
         chrono_enregistrement->setText(QString());
         pushButtonSpeak->setText(QString());
-        pushButton->setText(QCoreApplication::translate("InterfaceEnregistrement", "Interface Enregistrement", nullptr));
         pushButtonPause->setText(QString());
         pushButtonRetourArriere->setText(QString());
         pushButtonEnregistrer->setText(QString());
@@ -232,6 +230,7 @@ public:
         label->setText(QCoreApplication::translate("InterfaceEnregistrement", "Messages du professeur", nullptr));
         label_2->setText(QCoreApplication::translate("InterfaceEnregistrement", "Consignes", nullptr));
         chronoLabel->setText(QCoreApplication::translate("InterfaceEnregistrement", "00:00", nullptr));
+        label_3->setText(QCoreApplication::translate("InterfaceEnregistrement", "Interface Enregistrement", nullptr));
     } // retranslateUi
 
 };

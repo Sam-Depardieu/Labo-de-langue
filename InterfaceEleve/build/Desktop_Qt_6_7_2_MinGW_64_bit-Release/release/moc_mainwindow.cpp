@@ -27,29 +27,26 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 namespace {
 struct qt_meta_stringdata_MainWindow_t {
-    uint offsetsAndSizes[44];
+    uint offsetsAndSizes[38];
     char stringdata0[11];
     char stringdata1[15];
     char stringdata2[1];
     char stringdata3[6];
     char stringdata4[11];
     char stringdata5[18];
-    char stringdata6[31];
-    char stringdata7[14];
-    char stringdata8[11];
-    char stringdata9[6];
-    char stringdata10[16];
-    char stringdata11[8];
-    char stringdata12[13];
-    char stringdata13[12];
-    char stringdata14[12];
-    char stringdata15[16];
-    char stringdata16[21];
-    char stringdata17[13];
-    char stringdata18[20];
-    char stringdata19[17];
-    char stringdata20[12];
-    char stringdata21[6];
+    char stringdata6[14];
+    char stringdata7[11];
+    char stringdata8[6];
+    char stringdata9[16];
+    char stringdata10[13];
+    char stringdata11[12];
+    char stringdata12[12];
+    char stringdata13[21];
+    char stringdata14[13];
+    char stringdata15[20];
+    char stringdata16[17];
+    char stringdata17[12];
+    char stringdata18[6];
 };
 #define QT_MOC_LITERAL(ofs, len) \
     uint(sizeof(qt_meta_stringdata_MainWindow_t::offsetsAndSizes) + ofs), len 
@@ -61,22 +58,19 @@ Q_CONSTINIT static const qt_meta_stringdata_MainWindow_t qt_meta_stringdata_Main
         QT_MOC_LITERAL(27, 5),  // "temps"
         QT_MOC_LITERAL(33, 10),  // "chronoFini"
         QT_MOC_LITERAL(44, 17),  // "connectToDatabase"
-        QT_MOC_LITERAL(62, 30),  // "on_pushButtonConnexion_clicked"
-        QT_MOC_LITERAL(93, 13),  // "keyPressEvent"
-        QT_MOC_LITERAL(107, 10),  // "QKeyEvent*"
-        QT_MOC_LITERAL(118, 5),  // "event"
-        QT_MOC_LITERAL(124, 15),  // "keyReleaseEvent"
-        QT_MOC_LITERAL(140, 7),  // "askPATH"
-        QT_MOC_LITERAL(148, 12),  // "receiveInter"
-        QT_MOC_LITERAL(161, 11),  // "receivePath"
-        QT_MOC_LITERAL(173, 11),  // "receiveInfo"
-        QT_MOC_LITERAL(185, 15),  // "receiveConsigne"
-        QT_MOC_LITERAL(201, 20),  // "handleRestartCommand"
-        QT_MOC_LITERAL(222, 12),  // "updateChrono"
-        QT_MOC_LITERAL(235, 19),  // "faireClignoterLabel"
-        QT_MOC_LITERAL(255, 16),  // "stopClignotement"
-        QT_MOC_LITERAL(272, 11),  // "startChrono"
-        QT_MOC_LITERAL(284, 5)   // "duree"
+        QT_MOC_LITERAL(62, 13),  // "keyPressEvent"
+        QT_MOC_LITERAL(76, 10),  // "QKeyEvent*"
+        QT_MOC_LITERAL(87, 5),  // "event"
+        QT_MOC_LITERAL(93, 15),  // "keyReleaseEvent"
+        QT_MOC_LITERAL(109, 12),  // "receiveInter"
+        QT_MOC_LITERAL(122, 11),  // "receivePath"
+        QT_MOC_LITERAL(134, 11),  // "receiveInfo"
+        QT_MOC_LITERAL(146, 20),  // "handleRestartCommand"
+        QT_MOC_LITERAL(167, 12),  // "updateChrono"
+        QT_MOC_LITERAL(180, 19),  // "faireClignoterLabel"
+        QT_MOC_LITERAL(200, 16),  // "stopClignotement"
+        QT_MOC_LITERAL(217, 11),  // "startChrono"
+        QT_MOC_LITERAL(229, 5)   // "duree"
     },
     "MainWindow",
     "chronoMisAJour",
@@ -84,16 +78,13 @@ Q_CONSTINIT static const qt_meta_stringdata_MainWindow_t qt_meta_stringdata_Main
     "temps",
     "chronoFini",
     "connectToDatabase",
-    "on_pushButtonConnexion_clicked",
     "keyPressEvent",
     "QKeyEvent*",
     "event",
     "keyReleaseEvent",
-    "askPATH",
     "receiveInter",
     "receivePath",
     "receiveInfo",
-    "receiveConsigne",
     "handleRestartCommand",
     "updateChrono",
     "faireClignoterLabel",
@@ -110,7 +101,7 @@ Q_CONSTINIT static const uint qt_meta_data_MainWindow[] = {
       10,       // revision
        0,       // classname
        0,    0, // classinfo
-      16,   14, // methods
+      13,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -118,24 +109,21 @@ Q_CONSTINIT static const uint qt_meta_data_MainWindow[] = {
        2,       // signalCount
 
  // signals: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    1,  110,    2, 0x06,    1 /* Public */,
-       4,    0,  113,    2, 0x06,    3 /* Public */,
+       1,    1,   92,    2, 0x06,    1 /* Public */,
+       4,    0,   95,    2, 0x06,    3 /* Public */,
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       5,    0,  114,    2, 0x08,    4 /* Private */,
-       6,    0,  115,    2, 0x08,    5 /* Private */,
-       7,    1,  116,    2, 0x08,    6 /* Private */,
-      10,    1,  119,    2, 0x08,    8 /* Private */,
-      11,    0,  122,    2, 0x08,   10 /* Private */,
-      12,    0,  123,    2, 0x08,   11 /* Private */,
-      13,    0,  124,    2, 0x08,   12 /* Private */,
-      14,    0,  125,    2, 0x08,   13 /* Private */,
-      15,    0,  126,    2, 0x08,   14 /* Private */,
-      16,    0,  127,    2, 0x08,   15 /* Private */,
-      17,    0,  128,    2, 0x08,   16 /* Private */,
-      18,    0,  129,    2, 0x08,   17 /* Private */,
-      19,    0,  130,    2, 0x08,   18 /* Private */,
-      20,    1,  131,    2, 0x08,   19 /* Private */,
+       5,    0,   96,    2, 0x08,    4 /* Private */,
+       6,    1,   97,    2, 0x08,    5 /* Private */,
+       9,    1,  100,    2, 0x08,    7 /* Private */,
+      10,    0,  103,    2, 0x08,    9 /* Private */,
+      11,    0,  104,    2, 0x08,   10 /* Private */,
+      12,    0,  105,    2, 0x08,   11 /* Private */,
+      13,    0,  106,    2, 0x08,   12 /* Private */,
+      14,    0,  107,    2, 0x08,   13 /* Private */,
+      15,    0,  108,    2, 0x08,   14 /* Private */,
+      16,    0,  109,    2, 0x08,   15 /* Private */,
+      17,    1,  110,    2, 0x08,   16 /* Private */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::QString,    3,
@@ -143,10 +131,8 @@ Q_CONSTINIT static const uint qt_meta_data_MainWindow[] = {
 
  // slots: parameters
     QMetaType::Bool,
-    QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 8,    9,
-    QMetaType::Void, 0x80000000 | 8,    9,
-    QMetaType::Void,
+    QMetaType::Void, 0x80000000 | 7,    8,
+    QMetaType::Void, 0x80000000 | 7,    8,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -154,8 +140,7 @@ Q_CONSTINIT static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void, QMetaType::QTime,   21,
+    QMetaType::Void, QMetaType::QTime,   18,
 
        0        // eod
 };
@@ -176,23 +161,17 @@ Q_CONSTINIT const QMetaObject MainWindow::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'connectToDatabase'
         QtPrivate::TypeAndForceComplete<bool, std::false_type>,
-        // method 'on_pushButtonConnexion_clicked'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'keyPressEvent'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<QKeyEvent *, std::false_type>,
         // method 'keyReleaseEvent'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<QKeyEvent *, std::false_type>,
-        // method 'askPATH'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'receiveInter'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'receivePath'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'receiveInfo'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'receiveConsigne'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'handleRestartCommand'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
@@ -219,19 +198,16 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 1: _t->chronoFini(); break;
         case 2: { bool _r = _t->connectToDatabase();
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
-        case 3: _t->on_pushButtonConnexion_clicked(); break;
-        case 4: _t->keyPressEvent((*reinterpret_cast< std::add_pointer_t<QKeyEvent*>>(_a[1]))); break;
-        case 5: _t->keyReleaseEvent((*reinterpret_cast< std::add_pointer_t<QKeyEvent*>>(_a[1]))); break;
-        case 6: _t->askPATH(); break;
-        case 7: _t->receiveInter(); break;
-        case 8: _t->receivePath(); break;
-        case 9: _t->receiveInfo(); break;
-        case 10: _t->receiveConsigne(); break;
-        case 11: _t->handleRestartCommand(); break;
-        case 12: _t->updateChrono(); break;
-        case 13: _t->faireClignoterLabel(); break;
-        case 14: _t->stopClignotement(); break;
-        case 15: _t->startChrono((*reinterpret_cast< std::add_pointer_t<QTime>>(_a[1]))); break;
+        case 3: _t->keyPressEvent((*reinterpret_cast< std::add_pointer_t<QKeyEvent*>>(_a[1]))); break;
+        case 4: _t->keyReleaseEvent((*reinterpret_cast< std::add_pointer_t<QKeyEvent*>>(_a[1]))); break;
+        case 5: _t->receiveInter(); break;
+        case 6: _t->receivePath(); break;
+        case 7: _t->receiveInfo(); break;
+        case 8: _t->handleRestartCommand(); break;
+        case 9: _t->updateChrono(); break;
+        case 10: _t->faireClignoterLabel(); break;
+        case 11: _t->stopClignotement(); break;
+        case 12: _t->startChrono((*reinterpret_cast< std::add_pointer_t<QTime>>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -272,13 +248,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 16)
+        if (_id < 13)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 16;
+        _id -= 13;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 16)
+        if (_id < 13)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 16;
+        _id -= 13;
     }
     return _id;
 }

@@ -30,7 +30,6 @@ class Ui_MainWindow
 public:
     QWidget *centralwidget;
     QPushButton *LigneHaut;
-    QPushButton *PlanButton;
     QPushButton *PresenceButton;
     QPushButton *SessionButton;
     QPushButton *AppelButton;
@@ -109,22 +108,12 @@ public:
         LigneHaut->setGeometry(QRect(-40, -40, 1641, 101));
         LigneHaut->setAutoFillBackground(false);
         LigneHaut->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 151, 178);"));
-        PlanButton = new QPushButton(centralwidget);
-        PlanButton->setObjectName("PlanButton");
-        PlanButton->setGeometry(QRect(250, 10, 91, 41));
-        QSizePolicy sizePolicy(QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Ignored);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(PlanButton->sizePolicy().hasHeightForWidth());
-        PlanButton->setSizePolicy(sizePolicy);
-        PlanButton->setStyleSheet(QString::fromUtf8("background-color: black;\n"
-"font: 9pt \"Segoe UI\";\n"
-"color: white;\n"
-"border: 1px solid white;\n"
-"border-radius: 10px;"));
         PresenceButton = new QPushButton(centralwidget);
         PresenceButton->setObjectName("PresenceButton");
         PresenceButton->setGeometry(QRect(350, 10, 91, 41));
+        QSizePolicy sizePolicy(QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Ignored);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(PresenceButton->sizePolicy().hasHeightForWidth());
         PresenceButton->setSizePolicy(sizePolicy);
         PresenceButton->setStyleSheet(QString::fromUtf8("background-color: black;\n"
@@ -449,7 +438,6 @@ public:
         alignerTableau_2->raise();
         StatutTableauGroupe->raise();
         LigneHaut->raise();
-        PlanButton->raise();
         PresenceButton->raise();
         SessionButton->raise();
         AppelButton->raise();
@@ -511,7 +499,6 @@ public:
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
         LigneHaut->setText(QString());
-        PlanButton->setText(QCoreApplication::translate("MainWindow", "Plan de classe", nullptr));
         PresenceButton->setText(QCoreApplication::translate("MainWindow", "Pr\303\251sence", nullptr));
         SessionButton->setText(QCoreApplication::translate("MainWindow", "Nouv. Session", nullptr));
         AppelButton->setText(QCoreApplication::translate("MainWindow", "Appeler tous", nullptr));
