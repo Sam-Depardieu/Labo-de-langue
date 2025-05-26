@@ -17,7 +17,6 @@ TEMPLATE = app
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    attenteprof.cpp \
     audioCommunicator.cpp \
     avancementqcm.cpp \
     interfaceaudio.cpp \
@@ -28,7 +27,6 @@ SOURCES += \
     mainwindow.cpp
 
 HEADERS += \
-    attenteprof.h \
     audioCommunicator.h \
     avancementqcm.h \
     interfaceaudio.h \
@@ -38,7 +36,6 @@ HEADERS += \
     mainwindow.h
 
 FORMS += \
-    attenteprof.ui \
     interfaceaudio.ui \
     interfaceenregistrement.ui \
     interfaceqcm.ui \

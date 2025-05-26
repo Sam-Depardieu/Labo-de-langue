@@ -14,7 +14,6 @@
 #include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
-#include <QtWidgets/QPushButton>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -23,10 +22,11 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralwidget;
-    QPushButton *pushButtonConnexion;
     QGraphicsView *footer;
     QGraphicsView *bottom;
     QLabel *label;
+    QLabel *label_2;
+    QLabel *label_Loading;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -35,14 +35,6 @@ public:
         MainWindow->resize(800, 480);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
-        pushButtonConnexion = new QPushButton(centralwidget);
-        pushButtonConnexion->setObjectName("pushButtonConnexion");
-        pushButtonConnexion->setGeometry(QRect(370, 200, 80, 25));
-        QFont font;
-        font.setBold(false);
-        pushButtonConnexion->setFont(font);
-        pushButtonConnexion->setCursor(QCursor(Qt::CursorShape::ArrowCursor));
-        pushButtonConnexion->setStyleSheet(QString::fromUtf8("Black"));
         footer = new QGraphicsView(centralwidget);
         footer->setObjectName("footer");
         footer->setGeometry(QRect(0, 400, 800, 80));
@@ -62,7 +54,21 @@ public:
         label = new QLabel(centralwidget);
         label->setObjectName("label");
         label->setGeometry(QRect(370, 30, 101, 16));
+        label_2 = new QLabel(centralwidget);
+        label_2->setObjectName("label_2");
+        label_2->setGeometry(QRect(250, 70, 321, 91));
+        label_Loading = new QLabel(centralwidget);
+        label_Loading->setObjectName("label_Loading");
+        label_Loading->setGeometry(QRect(310, 160, 191, 121));
+        label_Loading->setStyleSheet(QString::fromUtf8("background-color : transparent;\n"
+"border:none;\n"
+""));
         MainWindow->setCentralWidget(centralwidget);
+        bottom->raise();
+        footer->raise();
+        label->raise();
+        label_2->raise();
+        label_Loading->raise();
 
         retranslateUi(MainWindow);
 
@@ -72,8 +78,9 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
-        pushButtonConnexion->setText(QCoreApplication::translate("MainWindow", "Connexion", nullptr));
         label->setText(QCoreApplication::translate("MainWindow", "Interface El\303\250ve", nullptr));
+        label_2->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:26pt; font-weight:700;\">Attente professeur</span></p></body></html>", nullptr));
+        label_Loading->setText(QString());
     } // retranslateUi
 
 };
