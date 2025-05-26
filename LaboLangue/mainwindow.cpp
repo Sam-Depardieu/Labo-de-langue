@@ -78,7 +78,7 @@ MainWindow::MainWindow(QWidget *parent)
     // Ajout des sections dans le layoutParametrageEleve
     addHorizontalLayout(layoutParametrageEleve, {ui->nomGroupeLabel, ui->nomEleveLineEdit, ui->Communication});
     addHorizontalLayout(layoutParametrageEleve, {ui->microSonButton, ui->casqueSonButton});
-    addHorizontalLayout(layoutParametrageEleve, {ui->creerGroupeButton, ui->annulerButton});
+    addHorizontalLayout(layoutParametrageEleve, {ui->creerGroupeButton, ui->pauseButton, ui->lectureButton});
     addHorizontalLayout(layoutParametrageEleve, {ui->AppelerButton, ui->redemarrerButton});
     addHorizontalLayout(layoutParametrageEleve, {ui->nomCreationGroupeLabel, ui->nomGroupeLineEdit});
     addHorizontalLayout(layoutParametrageEleve, {ui->alignerTableau, ui->TableauGroupe, ui->envoyerMessageTextEdit});
@@ -91,8 +91,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->creerGroupeButton->setStyleSheet("background-color: gray;");
     ui->redemarrerButton->setStyleSheet("background-color: orange;");
     ui->AppelerButton->setStyleSheet("background-color: #28a745;");
-    ui->annulerButton->setStyleSheet("background-color: gray");
+    ui->pauseButton->setStyleSheet("background-color: rgb(255, 0, 0)");
+    ui->lectureButton->setStyleSheet("background-color: #28a745;");
     // Cacher les boutons de la page
+    ui->lectureButton->setVisible(false);
     ui->nomCreationGroupeLabel->setVisible(false);
     ui->nomGroupeLineEdit->setVisible(false);
     ui->envoyerMessageGroupe->setVisible(false);
@@ -925,11 +927,20 @@ void MainWindow::on_redemarrerButton_clicked()
     qDebug() << "ip:" << eleveActuellementParametre->getIP() << ":RESTART";
 }
 
-void MainWindow::on_annulerButton_clicked()
+void MainWindow::on_pauseButton_clicked()
 {
-    parametrageEleve = false;
-    ui->ParametrageEleve->setVisible(false);
+    ui->pauseButton->setVisible(false);
+    ui->lectureButton->setVisible(true);
+    prof->sendCommandToStudent(eleveActuellementParametre->getIP(), 5557, "pause");
 }
+
+void MainWindow::on_lectureButton_clicked()
+{
+    ui->lectureButton->setVisible(false);
+    ui->pauseButton->setVisible(true);
+    prof->sendCommandToStudent(eleveActuellementParametre->getIP(), 5557, "lecture");
+}
+
 
 void MainWindow::changeNameTable(QTableWidgetItem* item) {
     if (item->column() != 0) return; // Ne gérer que la colonne "Nom"
@@ -1458,3 +1469,5 @@ void MainWindow::on_PauseStatutButton_clicked()
         prof->sendCommandToStudent(listeParticipant[i]->getIP(), 5557, "pause");
     }
 }
+
+

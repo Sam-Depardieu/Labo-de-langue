@@ -139,7 +139,7 @@ private slots:
     void on_creerGroupeButton_clicked();
     void on_nomGroupeLineEdit_returnPressed();
     void on_nomEleveLineEdit_editingFinished();
-    void on_annulerButton_clicked();
+    void on_pauseButton_clicked();
     void onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve);
 
     // === Apparence ===
@@ -167,6 +167,8 @@ private slots:
     void on_LectureStatutButton_clicked();
 
     void on_PauseStatutButton_clicked();
+
+    void on_lectureButton_clicked();
 
 private:
     // === Interface graphique ===

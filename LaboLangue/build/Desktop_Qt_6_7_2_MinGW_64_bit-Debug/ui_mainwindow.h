@@ -65,7 +65,7 @@ public:
     QPushButton *microSonButton;
     QPushButton *casqueSonButton;
     QLabel *nomGroupeLabel;
-    QPushButton *annulerButton;
+    QPushButton *pauseButton;
     QPushButton *creerGroupeButton;
     QLabel *alignerTableau;
     QTableWidget *TableauGroupe;
@@ -91,6 +91,7 @@ public:
     QPushButton *PauseStatutButton;
     QPushButton *LectureStatutButton;
     QLabel *RunningActivite;
+    QPushButton *lectureButton;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -322,12 +323,12 @@ public:
         nomGroupeLabel = new QLabel(centralwidget);
         nomGroupeLabel->setObjectName("nomGroupeLabel");
         nomGroupeLabel->setGeometry(QRect(680, 90, 101, 41));
-        annulerButton = new QPushButton(centralwidget);
-        annulerButton->setObjectName("annulerButton");
-        annulerButton->setGeometry(QRect(1000, 230, 171, 24));
+        pauseButton = new QPushButton(centralwidget);
+        pauseButton->setObjectName("pauseButton");
+        pauseButton->setGeometry(QRect(900, 230, 171, 24));
         creerGroupeButton = new QPushButton(centralwidget);
         creerGroupeButton->setObjectName("creerGroupeButton");
-        creerGroupeButton->setGeometry(QRect(770, 230, 201, 24));
+        creerGroupeButton->setGeometry(QRect(680, 230, 201, 24));
         alignerTableau = new QLabel(centralwidget);
         alignerTableau->setObjectName("alignerTableau");
         alignerTableau->setGeometry(QRect(700, 380, 31, 291));
@@ -364,7 +365,7 @@ public:
 ""));
         PageStatut = new QGraphicsView(centralwidget);
         PageStatut->setObjectName("PageStatut");
-        PageStatut->setGeometry(QRect(660, 70, 631, 681));
+        PageStatut->setGeometry(QRect(-60, 70, 631, 681));
         PageStatut->setStyleSheet(QString::fromUtf8("background-color: white;"));
         alignerTableau_2 = new QLabel(centralwidget);
         alignerTableau_2->setObjectName("alignerTableau_2");
@@ -433,6 +434,9 @@ public:
         RunningActivite = new QLabel(centralwidget);
         RunningActivite->setObjectName("RunningActivite");
         RunningActivite->setGeometry(QRect(690, 80, 131, 16));
+        lectureButton = new QPushButton(centralwidget);
+        lectureButton->setObjectName("lectureButton");
+        lectureButton->setGeometry(QRect(1100, 230, 171, 24));
         MainWindow->setCentralWidget(centralwidget);
         AppelerButton->raise();
         redemarrerButton->raise();
@@ -479,7 +483,7 @@ public:
         microSonButton->raise();
         casqueSonButton->raise();
         nomGroupeLabel->raise();
-        annulerButton->raise();
+        pauseButton->raise();
         creerGroupeButton->raise();
         alignerTableau->raise();
         TableauGroupe->raise();
@@ -496,6 +500,7 @@ public:
         cadenaCloseButton->raise();
         chronoLabel->raise();
         reloadButton->raise();
+        lectureButton->raise();
 
         retranslateUi(MainWindow);
 
@@ -534,7 +539,7 @@ public:
         microSonButton->setText(QCoreApplication::translate("MainWindow", "Couper le micro", nullptr));
         casqueSonButton->setText(QCoreApplication::translate("MainWindow", "Couper le son", nullptr));
         nomGroupeLabel->setText(QCoreApplication::translate("MainWindow", "Poste s\303\251l\303\251ction\303\251 :", nullptr));
-        annulerButton->setText(QCoreApplication::translate("MainWindow", "Annuler", nullptr));
+        pauseButton->setText(QCoreApplication::translate("MainWindow", "Pause", nullptr));
         creerGroupeButton->setText(QCoreApplication::translate("MainWindow", "Creer un groupe", nullptr));
         alignerTableau->setText(QString());
         Communication->setText(QCoreApplication::translate("MainWindow", "Communication", nullptr));
@@ -562,6 +567,7 @@ public:
         PauseStatutButton->setText(QString());
         LectureStatutButton->setText(QString());
         RunningActivite->setText(QCoreApplication::translate("MainWindow", "Activit\303\251e en cours :", nullptr));
+        lectureButton->setText(QCoreApplication::translate("MainWindow", "Lecture", nullptr));
     } // retranslateUi
 
 };
