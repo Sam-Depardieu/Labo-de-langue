@@ -34,7 +34,7 @@ public:
 
     // === Accesseurs publics ===
     QString getSessionFolder() const { return sessionFolder; }
-    QString* getSource() {return &source;}
+    QString getSource() {return source;}
     QString* getNomProf() {return &nomProf;}
     QString* getDuree() {return &duree;}
     QString* getNomTypeActivite() {return &nomTypeActivite;}

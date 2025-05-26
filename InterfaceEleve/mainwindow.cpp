@@ -426,6 +426,11 @@ void MainWindow::receiveInfo() {
             consigne = value;
             qDebug() << "📝 Consigne :" << consigne;
 
+        }
+        else if (key == "nomFichier") {
+            nomFichier = value;
+            qDebug() << "📝 nom du fichier :" << nomFichier;
+
         } else if (key == "portGroup") {
             bool ok;
             int port = value.toInt(&ok);
