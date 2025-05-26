@@ -105,27 +105,6 @@ void Student::captureAndSendAudio()
 
 void Student::receiveAudio()
 {
-    if (!audioOutput) return;
-
-    while (udpSocket.hasPendingDatagrams()) {
-        QByteArray datagram;
-        datagram.resize(int(udpSocket.pendingDatagramSize()));
-
-        udpSocket.readDatagram(datagram.data(), datagram.size());
-
-        if (!datagram.isEmpty()) {
-            if (audioOutput->state() != QAudio::ActiveState) {
-                outputDevice = audioOutput->start();
-            }
-            if (outputDevice) {
-                outputDevice->write(datagram);
-            }
-        }
-    }
-}
-
-void Student::processCommands()
-{
     while (udpSocket.hasPendingDatagrams()) {
         QByteArray datagram;
         datagram.resize(int(udpSocket.pendingDatagramSize()));
@@ -133,32 +112,14 @@ void Student::processCommands()
         quint16 senderPort;
         udpSocket.readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
 
-        QString message = QString::fromUtf8(datagram).trimmed();
-        qDebug() << "[Student] Commande reçue :" << message;
+        qDebug() << "📥 Réception audio de" << sender.toString() << ":" << senderPort
+                 << "| taille:" << datagram.size();
 
-        if (message.startsWith("portGroup,")) {
-            QStringList parts = message.split(',');
-            if (parts.size() == 2) {
-                bool ok;
-                quint16 newPort = parts[1].toUShort(&ok);
-                if (ok && newPort != serverPort) {
-                    qDebug() << "Changement de port audio vers :" << newPort;
-                    changeAudioGroup(serverAddress, newPort);
-                }
-            }
-        } else if (message.startsWith("groupChange,")) {
-            QStringList parts = message.split(',');
-            if (parts.size() == 3) {
-                QHostAddress newAddress(parts[1]);
-                bool ok;
-                quint16 newPort = parts[2].toUShort(&ok);
-                if (ok && (newAddress != serverAddress || newPort != serverPort)) {
-                    qDebug() << "Changement de groupe multicast vers :" << newAddress.toString() << ":" << newPort;
-                    changeAudioGroup(newAddress, newPort);
-                }
-            }
-        }
-        // Autres commandes à ajouter ici...
+        if (!audioOutput) return;
+        if (audioOutput->state() != QAudio::ActiveState)
+            outputDevice = audioOutput->start();
+        if (outputDevice)
+            outputDevice->write(datagram);
     }
 }
 

@@ -20,11 +20,13 @@ find_package(Qt6 REQUIRED COMPONENTS
 set(SOURCES
   main.cpp
   interfaceenregistrement.cpp
+  audioCommunicator.cpp
   # ... ajoutez ici tous vos .cpp
 )
 
 set(HEADERS
   interfaceenregistrement.h
+  audioCommunicator.h
   # ... vos .h
 )
 

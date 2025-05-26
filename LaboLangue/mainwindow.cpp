@@ -1463,4 +1463,8 @@ void MainWindow::on_PauseStatutButton_clicked()
     }
 }
 
+void MainWindow::on_AppelButton_clicked()
+{
+    prof->setBroadcastEnabled(!prof->getBroadcastEnabled());
+}
 

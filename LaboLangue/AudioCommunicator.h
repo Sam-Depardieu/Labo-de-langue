@@ -23,6 +23,10 @@ public:
     void unmuteStudent(const QString& studentIp) { sendCommandToStudent(studentIp, 5557, "unmute"); }
     void activerSonStudent(const QString& studentIp) { sendCommandToStudent(studentIp, 5557, "activerSon"); }
     void desactiverSonStudent(const QString& studentIp) { sendCommandToStudent(studentIp, 5557, "desactiverSon"); }
+    void broadcast(const QByteArray& audioData, const QHostAddress& excludeAddress, quint16 excludePort);
+
+    void setBroadcastEnabled(bool enabled) {broadcastEnabled = enabled;};
+    bool getBroadcastEnabled(){return broadcastEnabled;}
 
 private slots:
     void processPendingDatagrams();
@@ -34,7 +38,7 @@ private:
     };
 
     QUdpSocket udpSocket;
-
+    bool broadcastEnabled;
     QMap<QString, GroupInfo> groups;  // groupName -> info
 };
 

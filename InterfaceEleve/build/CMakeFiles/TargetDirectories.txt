@@ -1,0 +1,5 @@
+/home/sam/Documents/Projet/Labo-de-langue/InterfaceEleve/build/CMakeFiles/InterfaceEleve.dir
+/home/sam/Documents/Projet/Labo-de-langue/InterfaceEleve/build/CMakeFiles/edit_cache.dir
+/home/sam/Documents/Projet/Labo-de-langue/InterfaceEleve/build/CMakeFiles/rebuild_cache.dir
+/home/sam/Documents/Projet/Labo-de-langue/InterfaceEleve/build/CMakeFiles/InterfaceEleve_autogen_timestamp_deps.dir
+/home/sam/Documents/Projet/Labo-de-langue/InterfaceEleve/build/CMakeFiles/InterfaceEleve_autogen.dir

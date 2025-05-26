@@ -173,6 +173,8 @@ private slots:
     void on_PauseStatutButton_clicked();
     void on_lectureButton_clicked();
 
+    void on_AppelButton_clicked();
+
 private:
     // === Interface graphique ===
 
