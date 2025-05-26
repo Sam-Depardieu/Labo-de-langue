@@ -251,7 +251,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
    </property>
    <property name="styleSheet">
     <string notr="true">QLabel {
-    background-color: #0097a7; /* même ton bleu-vert que ta barre */
+    background-color: rgb(0, 151, 178); /* même ton bleu-vert que ta barre */
     color: white;
     border: 2px solid white;
     border-radius: 8px;
@@ -354,7 +354,6 @@ color: #333;</string>
     <string notr="true">background-color: rgb(0, 151, 178); /* Fond bleu */
     color: white; /* Texte en blanc */
     border: none; /* Enlever le contour si nécessaire */
-    border-radius: 5px; /* Optionnel : coins arrondis */
     font-weight: bold; /* Optionnel : texte en gras */</string>
    </property>
    <property name="text">

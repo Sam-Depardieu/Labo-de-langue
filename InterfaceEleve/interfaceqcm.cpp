@@ -18,6 +18,7 @@ InterfaceQCM::InterfaceQCM(MainWindow *parentWindow ,QWidget *parent)
 
     sessionPATH = mainWindow->getSessionPATH();
 
+
     setButtonIcons();
 
     if (!Professor) {
