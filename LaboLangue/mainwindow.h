@@ -177,6 +177,7 @@ private:
     QSqlDatabase db;
     QString source;
     QString sessionFolder;
+    QString sessionPATH;
     QString newNameFolder;
     QString nomProf;
     int idProf = -1;
