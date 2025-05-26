@@ -156,6 +156,12 @@ InterfaceVideo::InterfaceVideo(bool co, MainWindow *parentWindow, QWidget *paren
     } else {
         ui->chronoLabel->setText("00:00");
     }
+
+    if (mainWindow->getNomFichier() != nullptr) {
+        player->setSource(QUrl::fromLocalFile(mainWindow->getSessionPATH() + "//" + mainWindow->getNomFichier()));  // Charger et lire l'audio
+        player->play();
+        qDebug() << "Fichier sélectionné : " << mainWindow->getSessionPATH() + "//" + mainWindow->getNomFichier();
+    }
 }
 
 void InterfaceVideo::receiveCmd() {

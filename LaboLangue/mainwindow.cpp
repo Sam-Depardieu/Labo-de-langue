@@ -963,7 +963,7 @@ void MainWindow::changeNameTable(QTableWidgetItem* item) {
 void MainWindow::loadInformationTable()
 {
     // Crée une table de 12 lignes et 4 colonnes
-    ui->TableauGroupe->setColumnCount(5);
+    ui->TableauGroupe->setColumnCount(4);
 
     ui->TableauGroupe->setRowCount(listeRasp.size());
     TableauGroupe = ui->TableauGroupe;
@@ -974,7 +974,7 @@ void MainWindow::loadInformationTable()
     TableauGroupe->setColumnWidth(1, 100); // Numéro de poste
     TableauGroupe->setColumnWidth(2, 130); // Ajoutez au groupe
     TableauGroupe->setColumnWidth(4, 120); // Nom du groupe
-    TableauGroupe->setColumnWidth(5, 80); // Adresse IP
+
 
     // Remplir les cellules avec des données
     for (unsigned int row = 0; row < listeParticipant.size(); ++row) {
@@ -1017,11 +1017,6 @@ void MainWindow::loadInformationTable()
         nomGroupe->setTextAlignment(Qt::AlignCenter);
         nomGroupe->setFlags(nomGroupe->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
         TableauGroupe->setItem(row, 3, nomGroupe);
-
-        QTableWidgetItem *itemIP = new QTableWidgetItem(listeParticipant[row]->getIP());
-        itemIP->setTextAlignment(Qt::AlignCenter);
-        itemIP->setFlags(itemIP->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
-        TableauGroupe->setItem(row, 4, itemIP);
     }
     connect(TableauGroupe, &QTableWidget::itemChanged, this, &MainWindow::changeNameTable);
     // Afficher le tableau
@@ -1152,9 +1147,16 @@ void MainWindow::on_StatutButton_clicked()
 
     // Afficher les sections de statut
     ui->StatutTableauGroupe->setVisible(true);
-    ui->LectureStatutButton->setVisible(true);
-    ui->PauseStatutButton->setVisible(true);
     ui->PageStatut->setVisible(true);
+
+    if(ui->ChoixActivite->currentText() == "QCM"){
+        ui->LectureStatutButton->setVisible(false);
+        ui->PauseStatutButton->setVisible(false);
+    }
+    else{
+        ui->LectureStatutButton->setVisible(true);
+        ui->PauseStatutButton->setVisible(true);
+    }
 
     // Préparer le tableau
     StatutTableauGroupe = ui->StatutTableauGroupe;
@@ -1174,7 +1176,7 @@ void MainWindow::on_StatutButton_clicked()
     else headers << "Travail en cours";
 
     headers << "Nom de groupe" << "Adresse IP";
-    StatutTableauGroupe->setColumnCount(6);
+    StatutTableauGroupe->setColumnCount(5);
 
     StatutTableauGroupe->setHorizontalHeaderLabels(headers);
 
@@ -1187,7 +1189,6 @@ void MainWindow::on_StatutButton_clicked()
     StatutTableauGroupe->setColumnWidth(2, 105); // Travail déposé
     StatutTableauGroupe->setColumnWidth(3, 120); // Enregistrement
     StatutTableauGroupe->setColumnWidth(4, 130); // Numéro de groupe
-    StatutTableauGroupe->setColumnWidth(5, 120); // Adresse IP
 
     qDebug() << isQCM;
 
@@ -1213,11 +1214,6 @@ void MainWindow::on_StatutButton_clicked()
         itemGroupe->setTextAlignment(Qt::AlignCenter);
         itemGroupe->setFlags(itemGroupe->flags() & ~Qt::ItemIsEditable);
         StatutTableauGroupe->setItem(row, 4, itemGroupe);
-
-        QTableWidgetItem *itemIP = new QTableWidgetItem(participant->getIP());
-        itemIP->setTextAlignment(Qt::AlignCenter);
-        itemIP->setFlags(itemIP->flags() & ~Qt::ItemIsEditable);
-        StatutTableauGroupe->setItem(row, 5, itemIP);
 
         if (isQCM) {
             int numQCM = participant->getNumQCM();

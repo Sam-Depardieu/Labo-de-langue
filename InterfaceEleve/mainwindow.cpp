@@ -170,14 +170,13 @@ void MainWindow::handleRestartCommand()
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
-    if (event->key() == Qt::Key_Control) isCtrlPressed = true;
-    if (event->key() == Qt::Key_F1)     isF1Pressed   = true;
-
-    // 2) Si les deux sont pressés et qu'on n'a pas déjà fait l'action
-    if (event->key() == Qt::Key_9) {
-        // Récupère IP & MAC
+    if (event->key() == Qt::Key_F1
+        && (event->modifiers() & Qt::ControlModifier)
+        && !actionDone)
+    {
+        // — 1) Récupération IP & MAC —
         QString ipAddress, macAddress;
-        for (auto iface : QNetworkInterface::allInterfaces()) {
+        for (const auto &iface : QNetworkInterface::allInterfaces()) {
             if (!(iface.flags() & QNetworkInterface::IsUp) ||
                 !(iface.flags() & QNetworkInterface::IsRunning))
                 continue;
@@ -193,60 +192,57 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         }
         if (ipAddress.isEmpty() || macAddress.isEmpty()) {
             QMessageBox::warning(this,
-                                 "Erreur réseau",
-                                 "Impossible de récupérer IP/MAC.");
+                                 tr("Erreur réseau"),
+                                 tr("Impossible de récupérer IP/MAC."));
             return;
         }
 
-        QSqlQuery q;
-
-        // —————————————————————————————————————
-        // 3) Si la MAC existe déjà, on met juste à jour l’IP
-        q.prepare("SELECT COUNT(*) FROM Raspberry WHERE mac = :mac");
-        q.bindValue(":mac", macAddress);
-        if (!q.exec() || !q.next()) {
-            QMessageBox::critical(this, "Erreur BDD", q.lastError().text());
+        // — 2) Si MAC existante : UPDATE IP seule —
+        QSqlQuery checkMac;
+        checkMac.prepare("SELECT COUNT(*) FROM Raspberry WHERE mac = :mac");
+        checkMac.bindValue(":mac", macAddress);
+        if (!checkMac.exec() || !checkMac.next()) {
+            QMessageBox::critical(this, tr("Erreur BDD"), checkMac.lastError().text());
             return;
         }
-        if (q.value(0).toInt() > 0) {
-            // update IP seulement
+        if (checkMac.value(0).toInt() > 0) {
             QSqlQuery upd;
             upd.prepare("UPDATE Raspberry SET ip = :ip WHERE mac = :mac");
             upd.bindValue(":ip", ipAddress);
             upd.bindValue(":mac", macAddress);
             if (!upd.exec()) {
-                QMessageBox::critical(this, "Erreur UPDATE", upd.lastError().text());
+                QMessageBox::critical(this, tr("Erreur UPDATE"), upd.lastError().text());
             } else {
-                QMessageBox::information(this, "Succès",
-                                         QString("IP mise à jour pour la MAC %1").arg(macAddress));
+                QMessageBox::information(this, tr("Succès"),
+                                         tr("IP mise à jour pour la MAC %1").arg(macAddress));
                 actionDone = true;
             }
             return;
         }
 
-        // —————————————————————————————————————
-        // 4) Sinon, on vérifie si l’IP existe déjà (insert vs override)
-        q.prepare("SELECT COUNT(*) FROM Raspberry WHERE ip = :ip");
-        q.bindValue(":ip", ipAddress);
-        if (!q.exec() || !q.next()) {
-            QMessageBox::critical(this, "Erreur BDD", q.lastError().text());
+        // — 3) Sinon, on vérifie IP existante pour INSERT vs OVERRIDE —
+        QSqlQuery checkIp;
+        checkIp.prepare("SELECT COUNT(*) FROM Raspberry WHERE ip = :ip");
+        checkIp.bindValue(":ip", ipAddress);
+        if (!checkIp.exec() || !checkIp.next()) {
+            QMessageBox::critical(this, tr("Erreur BDD"), checkIp.lastError().text());
             return;
         }
-        bool overrideMode = q.value(0).toInt() > 0;
+        bool overrideMode = checkIp.value(0).toInt() > 0;
         if (overrideMode) {
             if (QMessageBox::question(
-                    this, "IP déjà présente",
-                    QString("L'IP %1 existe déjà.\nModifier son ID ?").arg(ipAddress),
+                    this,
+                    tr("IP déjà présente"),
+                    tr("L'IP %1 existe déjà.\nModifier son ID ?").arg(ipAddress),
                     QMessageBox::Yes|QMessageBox::No
                     ) != QMessageBox::Yes)
                 return;
         }
 
-        // —————————————————————————————————————
-        // 5) Recherche du plus petit ID libre
+        // — 4) Recherche du plus petit ID libre —
         QSqlQuery idQuery;
         if (!idQuery.exec("SELECT id_raspberry FROM Raspberry ORDER BY id_raspberry")) {
-            QMessageBox::critical(this, "Erreur BDD", idQuery.lastError().text());
+            QMessageBox::critical(this, tr("Erreur BDD"), idQuery.lastError().text());
             return;
         }
         int nextId = 1;
@@ -256,25 +252,25 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             else if (existingId > nextId) break;
         }
 
-        // 6) Choix de l’ID
+        // — 5) Choix de l’ID auprès de l’utilisateur —
         bool ok;
         int id_raspberry = QInputDialog::getInt(
             this,
-            overrideMode ? "Override d'ID" : "Choix de l'ID",
+            overrideMode ? tr("Override d'ID") : tr("Choix de l'ID"),
             overrideMode
-                ? QString("Entrez le nouvel ID pour l'IP %1 :").arg(ipAddress)
-                : "Entrez l'ID Raspberry à utiliser :",
+                ? tr("Entrez le nouvel ID pour l'IP %1 :").arg(ipAddress)
+                : tr("Entrez l'ID Raspberry à utiliser :"),
             nextId, 1, 1000, 1, &ok);
         if (!ok) return;
 
-        // 7) Calcul de X/Y
+        // — 6) Calcul des coordonnées X/Y pour affichage éventuel —
         const int maxPerRow = 7, spacing = 50;
         int column = (id_raspberry - 1) % maxPerRow;
         int row    = (id_raspberry - 1) / maxPerRow;
         int x = column * (spacing + 10);
         int y = row    * (spacing + 10);
 
-        // 8) INSERT ou UPDATE sur l’ID & MAC & X/Y
+        // — 7) INSERT ou UPDATE final —
         QSqlQuery finalQ;
         if (overrideMode) {
             finalQ.prepare(R"(
@@ -293,26 +289,27 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                   (:id, :ip, :mac, :x, :y)
             )");
         }
-        finalQ.bindValue(":id",  id_raspberry);
-        finalQ.bindValue(":ip",  ipAddress);
+        finalQ.bindValue(":id", id_raspberry);
+        finalQ.bindValue(":ip", ipAddress);
         finalQ.bindValue(":mac", macAddress);
-        finalQ.bindValue(":x",   x);
-        finalQ.bindValue(":y",   y);
+        finalQ.bindValue(":x", x);
+        finalQ.bindValue(":y", y);
 
         if (!finalQ.exec()) {
             QMessageBox::critical(
                 this,
-                overrideMode ? "Erreur UPDATE" : "Erreur INSERT",
+                overrideMode ? tr("Erreur UPDATE") : tr("Erreur INSERT"),
                 finalQ.lastError().text());
         } else {
             QMessageBox::information(
                 this,
-                "Succès",
+                tr("Succès"),
                 overrideMode
-                    ? "ID mis à jour avec succès."
-                    : "Nouveau Raspberry inséré avec succès.");
+                    ? tr("ID mis à jour avec succès.")
+                    : tr("Nouveau Raspberry inséré avec succès."));
             actionDone = true;
         }
+        return;
     }
     if (event->key() == Qt::Key_1) {
         auto *rec = new InterfaceEnregistrement(this);
@@ -425,6 +422,11 @@ void MainWindow::receiveInfo() {
         } else if (key == "consigne") {
             consigne = value;
             qDebug() << "📝 Consigne :" << consigne;
+
+        }
+        else if (key == "nomFichier") {
+            nomFichier = value;
+            qDebug() << "📝 nom du fichier :" << nomFichier;
 
         } else if (key == "portGroup") {
             bool ok;

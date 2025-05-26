@@ -34,7 +34,7 @@ public:
 
     // === Accesseurs publics ===
     QString getSessionFolder() const { return sessionFolder; }
-    QString* getSource() {return &source;}
+    QString getSource() {return source;}
     QString* getNomProf() {return &nomProf;}
     QString* getDuree() {return &duree;}
     QString* getNomTypeActivite() {return &nomTypeActivite;}
@@ -163,11 +163,8 @@ private slots:
     QColor couleurDisponible() ;
 
     void on_reloadButton_clicked();
-
     void on_LectureStatutButton_clicked();
-
     void on_PauseStatutButton_clicked();
-
     void on_lectureButton_clicked();
 
 private:

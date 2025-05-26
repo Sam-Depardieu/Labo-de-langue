@@ -149,7 +149,7 @@ void gestionSession::loadSession() {
         return;
     }
 
-    QFile file(*mainWindow->getSource());  // récupère la source depuis MainWindow
+    QFile file(mainWindow->getSource());  // récupère la source depuis MainWindow
 
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         qWarning() << "❌ Impossible d'ouvrir le fichier : " << mainWindow->getSource();
@@ -207,31 +207,6 @@ void gestionSession::loadSession() {
 void gestionSession::continuerCreationSession()
 {
     unsigned int i = 1;
-    for (auto *eleve : mainWindow->listeRasp) {
-        if (std::find(mainWindow->listeParticipant.begin(), mainWindow->listeParticipant.end(), eleve) == mainWindow->listeParticipant.end()) {
-            eleve->setVisible(false);
-        } else {
-            QString nomAuto = QString("Élève %1").arg(i++);
-            mainWindow->updateEleveNom(eleve, nomAuto);
-
-            QMap<int, QString> activite {
-                {0, "QCM"},
-                {1, "ecoute"},
-                {2, "ecoute_co"},
-                {3, "video"},
-                {4, "video_co"},
-                {5, "enregistrement"}
-            };
-
-            if (!mainWindow->getDuree()->isEmpty() && *mainWindow->getDuree() != QString("00:00")) {
-                mainWindow->getProf()->sendCommandToStudent(eleve->getIP(), 5558, QString("chrono,%1").arg(*mainWindow->getDuree()));
-            }
-            mainWindow->getProf()->sendCommandToStudent(eleve->getIP(), 5561, QString(mainWindow->getSessionFolder()));
-            mainWindow->getProf()->sendCommandToStudent(eleve->getIP(), 5560, activite[mainWindow->getIdTypeActivite()]);
-            //qDebug() << mainWindow->getIpProf();
-            //mainWindow->getProf()->sendCommandToStudent(eleve->getIP(), 5558, "ipProf:"+QString(mainWindow->getIpProf()));
-        }
-    }
 
     auto ui = mainWindow->ui;
 
@@ -257,15 +232,15 @@ void gestionSession::continuerCreationSession()
 
     QString sessionSave = mainWindow->getSessionFolder() + "\\";
 
-    if (!mainWindow->getSource()->isEmpty()) {
-        QFileInfo fileInfo(*mainWindow->getSource());
+    if (!mainWindow->getSource().isEmpty()) {
+        QFileInfo fileInfo(mainWindow->getSource());
         QDir dir;
         if (!dir.exists(sessionSave)) dir.mkpath(sessionSave);
 
         QString finalName = mainWindow->getNewName().isEmpty() ? fileInfo.fileName() : mainWindow->getNewName();
         QString destPath = sessionSave + finalName;
 
-        if (QFile::copy(*mainWindow->getSource(), destPath)) {
+        if (QFile::copy(mainWindow->getSource(), destPath)) {
             QMessageBox::critical(nullptr, "Fichier enregistré avec succès",
                                   "✅ Fichier bien enregistré \nLe fichier audio/vidéo a été enregistré dans " + destPath);
         } else {
@@ -286,6 +261,36 @@ void gestionSession::continuerCreationSession()
         ui->chronoLabel->setVisible(true);
         ui->chronoLabel->setText(mainWindow->remainingTime.toString("mm:ss"));
         mainWindow->chronoTimer->start(1000);
+    }
+
+    for (auto *eleve : mainWindow->listeRasp) {
+        if (std::find(mainWindow->listeParticipant.begin(), mainWindow->listeParticipant.end(), eleve) == mainWindow->listeParticipant.end()) {
+            eleve->setVisible(false);
+        } else {
+            QString nomAuto = QString("Élève %1").arg(i++);
+            mainWindow->updateEleveNom(eleve, nomAuto);
+
+            QMap<int, QString> activite {
+                {0, "QCM"},
+                {1, "ecoute"},
+                {2, "ecoute_co"},
+                {3, "video"},
+                {4, "video_co"},
+                {5, "enregistrement"}
+            };
+
+            QFileInfo fileInfo(mainWindow->getSource());
+            QString finalName = mainWindow->getNewName().isEmpty() ? fileInfo.fileName() : mainWindow->getNewName();
+            mainWindow->getProf()->sendCommandToStudent(eleve->getIP(), 5558, QString("nomFichier,"+mainWindow->getNewName()));
+            if (!mainWindow->getDuree()->isEmpty() && *mainWindow->getDuree() != QString("00:00")) {
+                mainWindow->getProf()->sendCommandToStudent(eleve->getIP(), 5558, QString("chrono,%1").arg(*mainWindow->getDuree()));
+            }
+            mainWindow->getProf()->sendCommandToStudent(eleve->getIP(), 5561, QString(mainWindow->getSessionFolder()));
+            mainWindow->getProf()->sendCommandToStudent(eleve->getIP(), 5560, activite[mainWindow->getIdTypeActivite()]);
+
+            //qDebug() << mainWindow->getIpProf();
+            //mainWindow->getProf()->sendCommandToStudent(eleve->getIP(), 5558, "ipProf:"+QString(mainWindow->getIpProf()));
+        }
     }
 }
 
@@ -320,6 +325,7 @@ void gestionSession::on_SourceButton_clicked() {
     // Génère un nouveau chemin temporaire avec le nouveau nom
     QString nouveauNomComplet = nouveauNom + "." + extension;
     mainWindow->setNewNameFolder(nouveauNomComplet);
+    mainWindow->setSource(filePath);
 
     mainWindow->ui->NameSourceLabel->setText(nouveauNomComplet);
 }
@@ -351,7 +357,9 @@ void gestionSession::reset()
     mainWindow->interfaceQCMOpen = false;
 
     // === Réinitialisation des chaînes de caractères ===
-    mainWindow->getSource()->clear();
+    mainWindow->getNewName().clear();
+    //mainWindow->setNewNameFolder("");
+    mainWindow->getSource().clear();
     mainWindow->getNomProf()->clear();
     mainWindow->getDuree()->clear();
     mainWindow->getNomTypeActivite()->clear();
