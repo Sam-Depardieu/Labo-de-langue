@@ -99,6 +99,8 @@ private:
     QUdpSocket udpSocketDemande;
     quint16 portDemande = 5561;
 
+    InterfaceAudio* interAudio = nullptr;
+    InterfaceVideo* interVideo = nullptr;
 
     QWidget *currentChild = nullptr;
     QShortcut *shortcutQcm;
@@ -108,6 +110,7 @@ private:
     QTime remainingTime;
     bool clignotementEtat = false;
     bool chronoClignote = false;
+    QString interface = "";
 
 signals:
     void chronoMisAJour(const QString &temps);

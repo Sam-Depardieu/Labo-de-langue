@@ -28,12 +28,14 @@ MainWindow::MainWindow(QWidget *parent)
         auto *rec = new InterfaceEnregistrement(this);
         rec->setAttribute(Qt::WA_DeleteOnClose);
         rec->show();
+        interface = "rec";
     });
     shortcutQcm = new QShortcut(QKeySequence(Qt::Key_2), this);
     connect(shortcutQcm, &QShortcut::activated, this, [this]() {
         auto *qcm = new InterfaceQCM(this);
         qcm->setAttribute(Qt::WA_DeleteOnClose);
         qcm->show();
+        interface = "qcm";
     });
 
     // Raccourci Touche 3 → Audio (écoute simple)
@@ -42,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent)
         auto *audio = new InterfaceAudio(false, this);
         audio->setAttribute(Qt::WA_DeleteOnClose);
         audio->show();
+        interface = "audio";
     });
 
     // Raccourci Touche 4 → Vidéo (lecture simple)
@@ -50,6 +53,7 @@ MainWindow::MainWindow(QWidget *parent)
         auto *video = new InterfaceVideo(false, this);
         video->setAttribute(Qt::WA_DeleteOnClose);
         video->show();
+        interface = "video";
     });
     this->setWindowTitle("Page de Connexion");
     connectToDatabase();
@@ -149,6 +153,14 @@ void MainWindow::handleRestartCommand()
             qDebug() << "🛑 Fin de la session reçue";
             // Traite la fin de session (fermeture, nettoyage, etc.)
         }
+        else if (cmd == "pause") {
+            if(interAudio) interAudio->setAudioPause(true);
+            if(interVideo) interVideo->setVideoPause(true);
+        }
+        else if (cmd == "lecture") {
+            if(interAudio) interAudio->setAudioPause(false);
+            if(interVideo) interVideo->setVideoPause(false);
+        }
         else {
             qDebug() << "⚠️ Commande inconnue reçue :" << cmd;
         }
@@ -163,7 +175,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     if (event->key() == Qt::Key_F1)     isF1Pressed   = true;
 
     // 2) Si les deux sont pressés et qu'on n'a pas déjà fait l'action
-    if (isCtrlPressed && isF1Pressed && !actionDone) {
+    if (event->key() == Qt::Key_9) {
         // Récupère IP & MAC
         QString ipAddress, macAddress;
         for (auto iface : QNetworkInterface::allInterfaces()) {
@@ -504,16 +516,20 @@ void MainWindow::receiveInter(){
             currentChild = new InterfaceQCM(this);
         }
         else if (response == "ecoute") {
-            currentChild = new InterfaceAudio(false, this);
+            interAudio = new InterfaceAudio(false, this);
+            currentChild = interAudio;
         }
         else if (response == "ecoute_co") {
-            currentChild = new InterfaceAudio(true, this);
+            interAudio = new InterfaceAudio(true, this);
+            currentChild = interAudio;
         }
         else if (response == "video") {
-            currentChild = new InterfaceVideo(false, this);
+            interVideo = new InterfaceVideo(false, this);
+            currentChild = interVideo;
         }
         else if (response == "video_co") {
-            currentChild = new InterfaceVideo(true, this);
+            interVideo = new InterfaceVideo(false, this);
+            currentChild = interVideo;
         }
         else if (response == "enregistrement") {
             currentChild = new InterfaceEnregistrement(this);
