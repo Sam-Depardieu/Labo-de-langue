@@ -127,7 +127,7 @@ public:
 ""));
         pushButtonSoumettre = new QPushButton(InterfaceQCM);
         pushButtonSoumettre->setObjectName("pushButtonSoumettre");
-        pushButtonSoumettre->setGeometry(QRect(80, 5, 45, 45));
+        pushButtonSoumettre->setGeometry(QRect(740, 5, 45, 45));
         pushButtonSoumettre->setStyleSheet(QString::fromUtf8(""));
         chronoLabel = new QLabel(InterfaceQCM);
         chronoLabel->setObjectName("chronoLabel");
