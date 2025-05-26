@@ -10,9 +10,6 @@ QT += websockets
 
 TEMPLATE = app
 
-INCLUDEPATH += $$PWD/zmq/include
-LIBS += -L$$PWD/zmq/ -lzmq  # MSVC
-
 #INCLUDEPATH += cppzmq\include
 
 # You can make your code fail to compile if it uses deprecated APIs.

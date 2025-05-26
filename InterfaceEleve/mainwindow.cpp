@@ -171,13 +171,13 @@ void MainWindow::handleRestartCommand()
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Control) isCtrlPressed = true;
-    if (event->key() == Qt::Key_F1)     isF1Pressed   = true;
+    if (event->key() == Qt::Key_F1)     isF1Pressed = true;
 
-    // 2) Si les deux sont pressés et qu'on n'a pas déjà fait l'action
-    if (event->key() == Qt::Key_Control+Qt::Key_F1) {
-        // Récupère IP & MAC
+    // Détection Ctrl + F1
+    if (isCtrlPressed && isF1Pressed && !actionDone) {
+        // Récupération IP & MAC
         QString ipAddress, macAddress;
-        for (auto iface : QNetworkInterface::allInterfaces()) {
+        for (const auto &iface : QNetworkInterface::allInterfaces()) {
             if (!(iface.flags() & QNetworkInterface::IsUp) ||
                 !(iface.flags() & QNetworkInterface::IsRunning))
                 continue;
@@ -193,164 +193,100 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         }
         if (ipAddress.isEmpty() || macAddress.isEmpty()) {
             QMessageBox::warning(this,
-                                 "Erreur réseau",
-                                 "Impossible de récupérer IP/MAC.");
+                                 tr("Erreur réseau"),
+                                 tr("Impossible de récupérer IP/MAC."));
             return;
         }
 
-        QSqlQuery q;
-
-        // —————————————————————————————————————
-        // 3) Si la MAC existe déjà, on met juste à jour l’IP
-        q.prepare("SELECT COUNT(*) FROM Raspberry WHERE mac = :mac");
-        q.bindValue(":mac", macAddress);
-        if (!q.exec() || !q.next()) {
-            QMessageBox::critical(this, "Erreur BDD", q.lastError().text());
+        // Vérifier si MAC existe dans BDD
+        QSqlQuery checkMac;
+        checkMac.prepare("SELECT COUNT(*) FROM Raspberry WHERE mac = :mac");
+        checkMac.bindValue(":mac", macAddress);
+        if (!checkMac.exec() || !checkMac.next()) {
+            QMessageBox::critical(this, tr("Erreur BDD"), checkMac.lastError().text());
             return;
         }
-        if (q.value(0).toInt() > 0) {
-            // update IP seulement
+
+        if (checkMac.value(0).toInt() > 0) {
+            // Update IP si MAC existe
             QSqlQuery upd;
             upd.prepare("UPDATE Raspberry SET ip = :ip WHERE mac = :mac");
             upd.bindValue(":ip", ipAddress);
             upd.bindValue(":mac", macAddress);
             if (!upd.exec()) {
-                QMessageBox::critical(this, "Erreur UPDATE", upd.lastError().text());
+                QMessageBox::critical(this, tr("Erreur UPDATE"), upd.lastError().text());
             } else {
-                QMessageBox::information(this, "Succès",
-                                         QString("IP mise à jour pour la MAC %1").arg(macAddress));
-                actionDone = true;
+                QMessageBox::information(this, tr("Succès"), tr("IP mise à jour pour MAC existante."));
             }
-            return;
-        }
-
-        // —————————————————————————————————————
-        // 4) Sinon, on vérifie si l’IP existe déjà (insert vs override)
-        q.prepare("SELECT COUNT(*) FROM Raspberry WHERE ip = :ip");
-        q.bindValue(":ip", ipAddress);
-        if (!q.exec() || !q.next()) {
-            QMessageBox::critical(this, "Erreur BDD", q.lastError().text());
-            return;
-        }
-        bool overrideMode = q.value(0).toInt() > 0;
-        if (overrideMode) {
-            if (QMessageBox::question(
-                    this, "IP déjà présente",
-                    QString("L'IP %1 existe déjà.\nModifier son ID ?").arg(ipAddress),
-                    QMessageBox::Yes|QMessageBox::No
-                    ) != QMessageBox::Yes)
-                return;
-        }
-
-        // —————————————————————————————————————
-        // 5) Recherche du plus petit ID libre
-        QSqlQuery idQuery;
-        if (!idQuery.exec("SELECT id_raspberry FROM Raspberry ORDER BY id_raspberry")) {
-            QMessageBox::critical(this, "Erreur BDD", idQuery.lastError().text());
-            return;
-        }
-        int nextId = 1;
-        while (idQuery.next()) {
-            int existingId = idQuery.value(0).toInt();
-            if (existingId == nextId) ++nextId;
-            else if (existingId > nextId) break;
-        }
-
-        // 6) Choix de l’ID
-        bool ok;
-        int id_raspberry = QInputDialog::getInt(
-            this,
-            overrideMode ? "Override d'ID" : "Choix de l'ID",
-            overrideMode
-                ? QString("Entrez le nouvel ID pour l'IP %1 :").arg(ipAddress)
-                : "Entrez l'ID Raspberry à utiliser :",
-            nextId, 1, 1000, 1, &ok);
-        if (!ok) return;
-
-        // 7) Calcul de X/Y
-        const int maxPerRow = 7, spacing = 50;
-        int column = (id_raspberry - 1) % maxPerRow;
-        int row    = (id_raspberry - 1) / maxPerRow;
-        int x = column * (spacing + 10);
-        int y = row    * (spacing + 10);
-
-        // 8) INSERT ou UPDATE sur l’ID & MAC & X/Y
-        QSqlQuery finalQ;
-        if (overrideMode) {
-            finalQ.prepare(R"(
-                UPDATE Raspberry
-                   SET id_raspberry = :id,
-                       mac          = :mac,
-                       x            = :x,
-                       y            = :y
-                 WHERE ip = :ip
-            )");
-        } else {
-            finalQ.prepare(R"(
-                INSERT INTO Raspberry
-                  (id_raspberry, ip, mac, x, y)
-                VALUES
-                  (:id, :ip, :mac, :x, :y)
-            )");
-        }
-        finalQ.bindValue(":id",  id_raspberry);
-        finalQ.bindValue(":ip",  ipAddress);
-        finalQ.bindValue(":mac", macAddress);
-        finalQ.bindValue(":x",   x);
-        finalQ.bindValue(":y",   y);
-
-        if (!finalQ.exec()) {
-            QMessageBox::critical(
-                this,
-                overrideMode ? "Erreur UPDATE" : "Erreur INSERT",
-                finalQ.lastError().text());
-        } else {
-            QMessageBox::information(
-                this,
-                "Succès",
-                overrideMode
-                    ? "ID mis à jour avec succès."
-                    : "Nouveau Raspberry inséré avec succès.");
             actionDone = true;
+            return;
         }
+
+        // Sinon, demande nom utilisateur
+        bool ok;
+        QString userName = QInputDialog::getText(this, tr("Nouveau Raspberry Pi"),
+                                                 tr("Nom utilisateur:"), QLineEdit::Normal,
+                                                 "", &ok);
+        if (!ok || userName.isEmpty()) {
+            QMessageBox::warning(this, tr("Annulé"), tr("Nom utilisateur requis."));
+            return;
+        }
+
+        // Insert nouvelle entrée
+        QSqlQuery insert;
+        insert.prepare("INSERT INTO Raspberry (nom_utilisateur, ip, mac) VALUES (:nom, :ip, :mac)");
+        insert.bindValue(":nom", userName);
+        insert.bindValue(":ip", ipAddress);
+        insert.bindValue(":mac", macAddress);
+        if (!insert.exec()) {
+            QMessageBox::critical(this, tr("Erreur INSERT"), insert.lastError().text());
+            return;
+        }
+
+        // Broadcast UDP
+        QByteArray data = macAddress.toUtf8();
+        udpSocket.writeDatagram(data, QHostAddress::Broadcast, 5560);
+
+        actionDone = true;
+        return;
     }
-    if (event->key() == Qt::Key_1) {
+
+    // Ouvrir interfaces selon touche 1, 2, 3, 4
+    switch (event->key()) {
+    case Qt::Key_1: {
         auto *rec = new InterfaceEnregistrement(this);
         rec->setAttribute(Qt::WA_DeleteOnClose);
         rec->show();
-        return;
+        break;
     }
-
-    // Touche 2 → QCM
-    if (event->key() == Qt::Key_2) {
+    case Qt::Key_2: {
         auto *qcm = new InterfaceQCM(this);
         qcm->setAttribute(Qt::WA_DeleteOnClose);
         qcm->show();
-        return;
+        break;
     }
-
-    // Touche 3 → Audio (écoute simple)
-    if (event->key() == Qt::Key_3) {
+    case Qt::Key_3: {
         auto *audio = new InterfaceAudio(false, this);
         audio->setAttribute(Qt::WA_DeleteOnClose);
         audio->show();
-        return;
+        break;
     }
-
-    // Touche 4 → Vidéo (lecture simple)
-    if (event->key() == Qt::Key_4) {
-        auto *video = new InterfaceVideo(false, this, this);
+    case Qt::Key_4: {
+        auto *video = new InterfaceVideo(false, this);
         video->setAttribute(Qt::WA_DeleteOnClose);
         video->show();
-        return;
+        break;
     }
-    // Enfin, on laisse Qt traiter le reste
-    QMainWindow::keyPressEvent(event);
-    // Appelle l’implémentation parente pour les autres touches
+    default:
+        break;
+    }
+
     QMainWindow::keyPressEvent(event);
 }
+
 void MainWindow::keyReleaseEvent(QKeyEvent *event)
-{ if (event->key() == Qt::Key_Control) {
+{
+    if (event->key() == Qt::Key_Control) {
         isCtrlPressed = false;
     }
     if (event->key() == Qt::Key_F1) {
@@ -361,13 +297,8 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
     // actionDone = false; // Par exemple, tu pourrais mettre ceci ici pour que l'action puisse être répétée plus tard
 
     QMainWindow::keyReleaseEvent(event);
-
 }
 
-void MainWindow::askPATH()
-{
-
-}
 
 void MainWindow::receiveInfo() {
     while (udpSocketInfo.hasPendingDatagrams()) {
@@ -468,7 +399,8 @@ void MainWindow::receiveInfo() {
 }
 
 
-void MainWindow::receivePath(){
+void MainWindow::receivePath()
+{
     while (udpSocketNomFichier->hasPendingDatagrams()) {
         QByteArray datagram;
         datagram.resize(udpSocketNomFichier->pendingDatagramSize());
@@ -600,4 +532,3 @@ void MainWindow::sendCommandToProf(const QString& profIp, int port, const QStrin
     udpSocket.writeDatagram(datagram, addr, port);
     qDebug() << "[Command] vers" << profIp << ":" << command;
 }
-

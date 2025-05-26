@@ -18,6 +18,7 @@
 #include <QJsonObject>
 #include <QHostAddress>
 #include <QProcess>
+#include <QKeyEvent>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -55,8 +56,6 @@ private slots:
     void on_pushButtonConnexion_clicked();
     void keyPressEvent(QKeyEvent *event) override;
     void keyReleaseEvent(QKeyEvent *event) override;
-
-    void askPATH();
     void receiveInter();
     void receivePath();
     void receiveInfo();

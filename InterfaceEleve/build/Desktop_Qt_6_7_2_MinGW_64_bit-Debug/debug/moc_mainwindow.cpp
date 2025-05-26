@@ -177,7 +177,6 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 3: _t->on_pushButtonConnexion_clicked(); break;
         case 4: _t->keyPressEvent((*reinterpret_cast< std::add_pointer_t<QKeyEvent*>>(_a[1]))); break;
         case 5: _t->keyReleaseEvent((*reinterpret_cast< std::add_pointer_t<QKeyEvent*>>(_a[1]))); break;
-        case 6: _t->askPATH(); break;
         case 7: _t->receiveInter(); break;
         case 8: _t->receivePath(); break;
         case 9: _t->receiveInfo(); break;
