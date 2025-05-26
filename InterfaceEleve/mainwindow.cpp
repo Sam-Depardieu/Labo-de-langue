@@ -18,10 +18,14 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , loadingMovie(new QMovie(":/videos/loading.gif"))
 {
     ui->setupUi(this);
     //Affiche juste la barre de titre, sans les boutons Fermer, Minimiser, Maximiser
     //setWindowFlags(Qt::Dialog | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
+
+    ui->label_Loading->setMovie(loadingMovie);
+    loadingMovie->start();
 
     setFixedSize(800,480);
     auto *shortcut = new QShortcut(QKeySequence(Qt::Key_1), this);
@@ -83,6 +87,8 @@ MainWindow::MainWindow(QWidget *parent)
         qDebug() << "✅ En écoute RESTART sur 5557";
     }
 
+
+
 }
 
 bool MainWindow::connectToDatabase() {
@@ -101,16 +107,22 @@ bool MainWindow::connectToDatabase() {
     return true;
 }
 
-void MainWindow::on_pushButtonConnexion_clicked()
-{
-    AttenteProf *attenteProf = new AttenteProf(this);
-    attenteProf->show();
-    //this->hide();
-}
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete loadingMovie;
+}
+
+void MainWindow::startLoading()
+{
+    ui->label_Loading->setVisible(true);
+    loadingMovie->start();
+}
+void MainWindow::stopLoading()
+{
+    ui->label_Loading->setVisible(false);
+    loadingMovie->stop();
 }
 
 void MainWindow::handleRestartCommand()
