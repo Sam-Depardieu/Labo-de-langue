@@ -241,7 +241,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
   <widget class="QPushButton" name="pushButtonSoumettre">
    <property name="geometry">
     <rect>
-     <x>80</x>
+     <x>740</x>
      <y>5</y>
      <width>45</width>
      <height>45</height>
