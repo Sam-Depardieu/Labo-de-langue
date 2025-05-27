@@ -260,6 +260,9 @@ void gestionSession::continuerCreationSession(bool sessionExistante)
 
     if (mainWindow->remainingTime != QTime(0, 0)) {
         ui->chronoLabel->setVisible(true);
+        ui->enleveTemps->setVisible(true);
+        ui->ajouterTemps->setVisible(true);
+        ui->tempsChronoLineEdit->setVisible(true);
         ui->chronoLabel->setText(mainWindow->remainingTime.toString("mm:ss"));
         mainWindow->chronoTimer->start(1000);
     }
@@ -378,6 +381,9 @@ void gestionSession::reset()
     mainWindow->ui->cadenaCloseButton->setVisible(true);
     mainWindow->ui->cadenaOpenButton->setVisible(false);
     mainWindow->ui->chronoLabel->setVisible(false);
+    mainWindow->ui->enleveTemps->setVisible(false);
+    mainWindow->ui->ajouterTemps->setVisible(false);
+    mainWindow->ui->tempsChronoLineEdit->setVisible(false);
     mainWindow->ui->envoyerMessageTextEdit->clear();
     mainWindow->ui->TableauGroupe->setVisible(false);
     mainWindow->ui->NameSourceLabel->clear();

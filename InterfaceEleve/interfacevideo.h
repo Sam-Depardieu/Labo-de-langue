@@ -39,7 +39,6 @@ public:
     ~InterfaceVideo();
 
 private slots:
-    void on_pushButton_SelectVideo_clicked();
     void on_pushButton_Avant10_clicked();
     void on_pushButton_Play_clicked();
     void on_pushButton_Pause_clicked();
