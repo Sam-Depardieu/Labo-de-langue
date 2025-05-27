@@ -65,24 +65,6 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_SelectAudio">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>0</y>
-     <width>171</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>11</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Selectionner Audio</string>
-   </property>
-  </widget>
   <widget class="QSlider" name="horizontalSlider">
    <property name="geometry">
     <rect>
@@ -93,7 +75,7 @@
     </rect>
    </property>
    <property name="orientation">
-    <enum>Qt::Orientation::Horizontal</enum>
+    <enum>Qt::Horizontal</enum>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButtonReset">
@@ -142,7 +124,7 @@
     </rect>
    </property>
    <property name="orientation">
-    <enum>Qt::Orientation::Vertical</enum>
+    <enum>Qt::Vertical</enum>
    </property>
   </widget>
   <widget class="QLabel" name="chronoLabel">
@@ -223,7 +205,6 @@
   <zorder>pushButton_Avant</zorder>
   <zorder>pushButton_Apres</zorder>
   <zorder>pushButton_Pause</zorder>
-  <zorder>pushButton_SelectAudio</zorder>
   <zorder>horizontalSlider</zorder>
   <zorder>pushButtonReset</zorder>
   <zorder>pushButton_Son</zorder>
