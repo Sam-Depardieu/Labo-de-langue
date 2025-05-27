@@ -36,17 +36,6 @@ bool Professeur::audioGroupExists(const QString& groupName) const
     return groups.contains(groupName);
 }
 
-void Professeur::sendCommandToStudent(const QString& studentIp, quint16 port, const QString& cmd)
-{
-    QUdpSocket socket;
-    QByteArray data = cmd.toUtf8();
-    QHostAddress address(studentIp);
-
-    socket.writeDatagram(data, address, port);
-    // Pas besoin de socket persistant ici, on crée juste pour envoyer
-    qDebug() << "[Professeur] Commande envoyée à" << studentIp << ":" << cmd;
-}
-
 void Professeur::onAudioDatagramReceived()
 {
     QUdpSocket* socket = qobject_cast<QUdpSocket*>(sender());
@@ -88,19 +77,19 @@ void Professeur::onAudioDatagramReceived()
         // Si l'expéditeur est muté, ne pas redistribuer son audio
         if (group.mutedMembers.contains(senderStr)) {
             qDebug() << "Audio de" << senderStr << "ignoré (muted)";
-            continue; // on ignore ce paquet
+            continue;
         }
 
         // Redistribuer à tous les membres sauf l'expéditeur
         for (const QString& memberStr : group.members) {
             if (memberStr != senderStr) {
                 QHostAddress memberAddress(memberStr);
-                socket->writeDatagram(datagram, memberAddress, senderPort);
+                socket->writeDatagram(datagram, memberAddress, group.port); // ✅ ici le bon port
             }
         }
     }
-
 }
+
 
 void Professeur::muteStudent(const QString& studentIp)
 {
