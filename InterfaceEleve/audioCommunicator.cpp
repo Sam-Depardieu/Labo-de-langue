@@ -11,6 +11,47 @@ Student::Student(const QString &groupName, const QHostAddress &groupAddress, qui
     serverPort(groupPort),
     udpSocket(this)
 {
+    auto inputDevices = QMediaDevices::audioInputs();
+
+    qDebug() << "Périphériques d'entrée disponibles :";
+
+    // Afficher les noms des périphériques d'entrée audio
+    for (const QAudioDevice &device : inputDevices) {
+        qDebug() << "ENTREE :" << device.id() << "," << device.description();
+    }
+    for (const QAudioDevice &device : inputDevices) {
+        qDebug() << "Périphérique d'entrée : " << device.description();
+
+        QAudioDevice deviceInfo(device);
+        QAudioFormat format;
+
+        // Vérification de plusieurs configurations de format
+        QList<QAudioFormat::SampleFormat> formatsToTest = {
+            QAudioFormat::Int16,
+            QAudioFormat::Int32,
+            QAudioFormat::Float,
+            QAudioFormat::UInt8
+        };
+
+        for (QAudioFormat::SampleFormat formatType : formatsToTest) {
+            format.setSampleFormat(formatType);
+            format.setSampleRate(48000);  // Fréquence d'échantillonnage à 44.1 kHz
+            format.setChannelCount(2);    // Mono
+
+            if (deviceInfo.isFormatSupported(format)) {
+                qDebug() << "Format supporté :"
+                         << "SampleRate:" << format.sampleRate()
+                         << "Channels:" << format.channelCount()
+                         << "SampleFormat:" << format.sampleFormat();
+            } else {
+                qDebug() << "Format non supporté :"
+                         << "SampleRate:" << format.sampleRate()
+                         << "Channels:" << format.channelCount()
+                         << "SampleFormat:" << format.sampleFormat();
+            }
+        }
+    }
+
     // Configuration audio (à adapter si besoin)
     QAudioFormat format;
     format.setSampleRate(44100);
