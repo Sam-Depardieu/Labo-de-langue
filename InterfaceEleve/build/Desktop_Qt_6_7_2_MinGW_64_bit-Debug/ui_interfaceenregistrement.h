@@ -24,7 +24,6 @@ class Ui_InterfaceEnregistrement
 {
 public:
     QPushButton *pushButtonSon;
-    QPushButton *pushButtonAvancer;
     QPushButton *pushButtonClear;
     QPushButton *pushButtonAppelProf;
     QPushButton *pushButton_2;
@@ -53,10 +52,6 @@ public:
         pushButtonSon->setGeometry(QRect(730, 430, 45, 45));
         pushButtonSon->setAutoFillBackground(false);
         pushButtonSon->setStyleSheet(QString::fromUtf8(""));
-        pushButtonAvancer = new QPushButton(InterfaceEnregistrement);
-        pushButtonAvancer->setObjectName("pushButtonAvancer");
-        pushButtonAvancer->setGeometry(QRect(500, 90, 81, 81));
-        pushButtonAvancer->setStyleSheet(QString::fromUtf8(""));
         pushButtonClear = new QPushButton(InterfaceEnregistrement);
         pushButtonClear->setObjectName("pushButtonClear");
         pushButtonClear->setGeometry(QRect(610, 430, 45, 45));
@@ -77,23 +72,23 @@ public:
 "    font-weight: bold; /* Optionnel : texte en gras */"));
         chrono_enregistrement = new QLabel(InterfaceEnregistrement);
         chrono_enregistrement->setObjectName("chrono_enregistrement");
-        chrono_enregistrement->setGeometry(QRect(280, 340, 221, 61));
+        chrono_enregistrement->setGeometry(QRect(320, 340, 221, 61));
         QFont font;
         font.setPointSize(20);
         font.setBold(true);
         chrono_enregistrement->setFont(font);
-        chrono_enregistrement->setAlignment(Qt::AlignCenter);
+        chrono_enregistrement->setAlignment(Qt::AlignmentFlag::AlignCenter);
         pushButtonSpeak = new QPushButton(InterfaceEnregistrement);
         pushButtonSpeak->setObjectName("pushButtonSpeak");
-        pushButtonSpeak->setGeometry(QRect(350, 250, 81, 81));
+        pushButtonSpeak->setGeometry(QRect(390, 240, 81, 81));
         pushButtonSpeak->setStyleSheet(QString::fromUtf8(""));
         pushButtonPause = new QPushButton(InterfaceEnregistrement);
         pushButtonPause->setObjectName("pushButtonPause");
-        pushButtonPause->setGeometry(QRect(350, 90, 81, 81));
+        pushButtonPause->setGeometry(QRect(390, 90, 81, 81));
         pushButtonPause->setStyleSheet(QString::fromUtf8(""));
         pushButtonRetourArriere = new QPushButton(InterfaceEnregistrement);
         pushButtonRetourArriere->setObjectName("pushButtonRetourArriere");
-        pushButtonRetourArriere->setGeometry(QRect(200, 90, 81, 81));
+        pushButtonRetourArriere->setGeometry(QRect(210, 90, 81, 81));
         pushButtonRetourArriere->setStyleSheet(QString::fromUtf8(""));
         pushButtonEnregistrer = new QPushButton(InterfaceEnregistrement);
         pushButtonEnregistrer->setObjectName("pushButtonEnregistrer");
@@ -114,7 +109,7 @@ public:
 ""));
         pushButtonPlay = new QPushButton(InterfaceEnregistrement);
         pushButtonPlay->setObjectName("pushButtonPlay");
-        pushButtonPlay->setGeometry(QRect(350, 90, 81, 81));
+        pushButtonPlay->setGeometry(QRect(390, 90, 81, 81));
         pushButtonPlay->setStyleSheet(QString::fromUtf8(""));
         textEditConsigne = new QTextEdit(InterfaceEnregistrement);
         textEditConsigne->setObjectName("textEditConsigne");
@@ -142,7 +137,7 @@ public:
         verticalSlider_son = new QSlider(InterfaceEnregistrement);
         verticalSlider_son->setObjectName("verticalSlider_son");
         verticalSlider_son->setGeometry(QRect(760, 250, 16, 160));
-        verticalSlider_son->setOrientation(Qt::Vertical);
+        verticalSlider_son->setOrientation(Qt::Orientation::Vertical);
         chronoLabel = new QLabel(InterfaceEnregistrement);
         chronoLabel->setObjectName("chronoLabel");
         chronoLabel->setGeometry(QRect(110, 430, 111, 45));
@@ -169,16 +164,15 @@ public:
 "    color: white; /* Texte en blanc */\n"
 "    border: none; /* Enlever le contour si n\303\251cessaire */\n"
 "    font-weight: bold; /* Optionnel : texte en gras */"));
-        label_3->setAlignment(Qt::AlignCenter);
+        label_3->setAlignment(Qt::AlignmentFlag::AlignCenter);
         verticalSlider_sonVideo = new QSlider(InterfaceEnregistrement);
         verticalSlider_sonVideo->setObjectName("verticalSlider_sonVideo");
         verticalSlider_sonVideo->setGeometry(QRect(780, 60, 16, 160));
-        verticalSlider_sonVideo->setOrientation(Qt::Vertical);
+        verticalSlider_sonVideo->setOrientation(Qt::Orientation::Vertical);
         label_3->raise();
         verticalSlider_son->raise();
         pushButton_2->raise();
         pushButtonSon->raise();
-        pushButtonAvancer->raise();
         pushButtonClear->raise();
         chrono_enregistrement->raise();
         pushButtonSpeak->raise();
@@ -203,7 +197,6 @@ public:
     {
         InterfaceEnregistrement->setWindowTitle(QCoreApplication::translate("InterfaceEnregistrement", "Dialog", nullptr));
         pushButtonSon->setText(QString());
-        pushButtonAvancer->setText(QString());
         pushButtonClear->setText(QString());
         pushButtonAppelProf->setText(QString());
         pushButton_2->setText(QString());

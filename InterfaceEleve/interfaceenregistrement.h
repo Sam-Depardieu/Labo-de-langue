@@ -55,7 +55,6 @@ private slots:
     void on_pushButtonSon_clicked();
     void on_pushButtonRetourArriere_clicked();
     void on_pushButtonAppelProf_clicked();
-    void on_pushButtonAvancer_clicked();
     void on_pushButtonEnregistrer_clicked();
     void on_pushButtonPlay_clicked();
     void animateButtonClick(QPushButton* btn);
