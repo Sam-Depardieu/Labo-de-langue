@@ -1,4 +1,5 @@
 #include "interfaceqcm.h"
+#include "build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ui_interfaceqcm.h"
 #include "mainwindow.h"
 #include "avancementqcm.h"
 #include <QStandardItemModel>
@@ -486,5 +487,7 @@ void InterfaceQCM::on_pushButtonAppelProf_clicked()
     ui->pushButtonAppelProf->setStyleSheet(" border:1px solid white; border-radius:20px;");
     isButtonAppelProfImage = false;
     mainWindow->sendCommandToProf(mainWindow->getIpProf(), 5557, "help");
+    qDebug()<<"appel prof envoyer";
 }
+
 

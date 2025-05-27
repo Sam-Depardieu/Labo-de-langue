@@ -61,7 +61,7 @@ public:
         horizontalSlider = new QSlider(InterfaceVideo);
         horizontalSlider->setObjectName("horizontalSlider");
         horizontalSlider->setGeometry(QRect(10, 410, 763, 15));
-        horizontalSlider->setOrientation(Qt::Horizontal);
+        horizontalSlider->setOrientation(Qt::Orientation::Horizontal);
         pushButtonReset = new QPushButton(InterfaceVideo);
         pushButtonReset->setObjectName("pushButtonReset");
         pushButtonReset->setGeometry(QRect(20, 430, 45, 45));
@@ -87,8 +87,8 @@ public:
 ""));
         verticalSlider_sonVideo = new QSlider(InterfaceVideo);
         verticalSlider_sonVideo->setObjectName("verticalSlider_sonVideo");
-        verticalSlider_sonVideo->setGeometry(QRect(780, 250, 16, 160));
-        verticalSlider_sonVideo->setOrientation(Qt::Vertical);
+        verticalSlider_sonVideo->setGeometry(QRect(770, 250, 16, 160));
+        verticalSlider_sonVideo->setOrientation(Qt::Orientation::Vertical);
         pushButton_Son = new QPushButton(InterfaceVideo);
         pushButton_Son->setObjectName("pushButton_Son");
         pushButton_Son->setGeometry(QRect(745, 430, 45, 45));

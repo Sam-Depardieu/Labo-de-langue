@@ -28,6 +28,7 @@ InterfaceAudio::InterfaceAudio(bool co,MainWindow* parentWindow, QWidget *parent
         ui->horizontalSlider->setValue(static_cast<int>(position));
     });
 
+
     ui->pushButton_Pause->setVisible(true);
     ui->pushButton_Play->setVisible(false);
     setFixedSize(800,480);
@@ -106,7 +107,6 @@ InterfaceAudio::InterfaceAudio(bool co,MainWindow* parentWindow, QWidget *parent
         ui->pushButton_Son->setIconSize(ui->pushButton_Son->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
     }
 
-    ui->verticalSlider_sonVideo->setVisible(false);
     ui->verticalSlider_sonVideo->setVisible(false);
     ui->verticalSlider_sonVideo->raise();
     ui->chronoLabel->setVisible(true);
@@ -302,7 +302,28 @@ void InterfaceAudio::on_pushButtonReset_clicked()
 
 void InterfaceAudio::on_pushButton_Son_clicked()
 {
-    ui->verticalSlider_sonVideo->setVisible(!ui->verticalSlider_sonVideo->isVisible());
+    // 1. Afficher ou cacher le slider de volume
+    bool visible = ui->verticalSlider_sonVideo->isVisible();
+    ui->verticalSlider_sonVideo->setVisible(!visible);
+
+    // 2. Si on l'affiche pour la première fois, on initialise
+    if (!visible) {
+        ui->verticalSlider_sonVideo->setRange(0, 100);
+
+        // 🔄 Corrigé : récupérer correctement le volume actuel
+        int volume = static_cast<int>(audioOutput->volume() * 50);
+        ui->verticalSlider_sonVideo->setValue(volume);
+
+        // 3. Connecter une seule fois le signal du slider
+        static bool sliderConnected = false;
+        if (!sliderConnected) {
+            connect(ui->verticalSlider_sonVideo, &QSlider::valueChanged, this, [=](int value) {
+                audioOutput->setVolume(value / 100.0);
+                qDebug() << "Volume réglé à :" << value;
+            });
+            sliderConnected = true;
+        }
+    }
 }
 
 void InterfaceAudio::faireClignoterLabel()

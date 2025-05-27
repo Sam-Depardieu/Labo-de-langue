@@ -20,6 +20,8 @@ InterfaceEnregistrement::InterfaceEnregistrement(MainWindow* parentWindow,QWidge
     // Initialisation des boutons
     ui->pushButtonPause->setVisible(true);
     ui->pushButtonPlay->setVisible(false);
+    ui->verticalSlider_sonVideo->setVisible(false); // Cacher au démarrage
+
 
     // UDP pour feedback
     udpSocket.bind(QHostAddress::Any, responsePort);
@@ -461,44 +463,30 @@ void InterfaceEnregistrement::animateButtonClick(QPushButton* btn) {
 }
 void InterfaceEnregistrement::on_pushButtonSon_clicked()
 {
-    QDialog popup(this);
-    popup.setWindowTitle(" ");
-    popup.setGeometry(1075, 330, 20, 150); // Positionne la fenêtre popup à (1030, 330) avec une taille de 20x150
-    popup.setFixedSize(80, 150);
-    popup.setModal(true);
+    // 1. Afficher ou cacher le slider de volume
+    bool visible = ui->verticalSlider_sonVideo->isVisible();
+    ui->verticalSlider_sonVideo->setVisible(!visible);
 
-    // Création du slider vertical
-    QSlider *slider = new QSlider(Qt::Vertical, &popup);
-    slider->setRange(0, 100);
-    int volume = static_cast<int>(audioOutput->volume() * 100);
-    slider->setValue(volume);
-    audioOutput->setVolume(volume / 100.0);
+    // 2. Si on l'affiche pour la première fois, on initialise
+    if (!visible) {
+        ui->verticalSlider_sonVideo->setRange(0, 100);
 
-    // Label et bouton
-    QLabel *label = new QLabel("Son", &popup);
-    QPushButton *closeButton = new QPushButton("Fermer", &popup);
+        // 🔄 Corrigé : récupérer correctement le volume actuel
+        int volume = static_cast<int>(audioOutput->volume() * 50);
+        ui->verticalSlider_sonVideo->setValue(volume);
 
-    // Layouts
-    QVBoxLayout *mainLayout = new QVBoxLayout(&popup);
-    QHBoxLayout *slidersLayout = new QHBoxLayout();
-    slidersLayout->addWidget(label);
-    slidersLayout->addWidget(slider);
-    mainLayout->addLayout(slidersLayout);
-    mainLayout->addWidget(closeButton);
-    popup.setLayout(mainLayout);
-
-    // Connexion des signaux
-    QObject::connect(slider, &QSlider::valueChanged, this, [=](int value) {
-        audioOutput->setVolume(value / 100.0);
-        qDebug() << "Volume réglé à :" << value;
-    });
-
-    QObject::connect(closeButton, &QPushButton::clicked, &popup, &QDialog::accept);
-
-    // Affichage de la popup
-    popup.exec();
-
+        // 3. Connecter une seule fois le signal du slider
+        static bool sliderConnected = false;
+        if (!sliderConnected) {
+            connect(ui->verticalSlider_sonVideo, &QSlider::valueChanged, this, [=](int value) {
+                audioOutput->setVolume(value / 100.0);
+                qDebug() << "Volume réglé à :" << value;
+            });
+            sliderConnected = true;
+        }
+    }
 }
+
 void InterfaceEnregistrement::receiveResponse() {
     while (udpSocket.hasPendingDatagrams()) {
         QByteArray datagram;
