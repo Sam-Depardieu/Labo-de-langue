@@ -10,6 +10,7 @@
 #define UI_INTERFACEAUDIO_H
 
 #include <QtCore/QVariant>
+#include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QGraphicsView>
@@ -34,6 +35,7 @@ public:
     QSlider *verticalSlider_sonVideo;
     QLabel *chronoLabel;
     QLabel *label_3;
+    QPushButton *pushButtonAppelProf;
 
     void setupUi(QDialog *InterfaceAudio)
     {
@@ -61,7 +63,7 @@ public:
         horizontalSlider = new QSlider(InterfaceAudio);
         horizontalSlider->setObjectName("horizontalSlider");
         horizontalSlider->setGeometry(QRect(10, 400, 781, 20));
-        horizontalSlider->setOrientation(Qt::Horizontal);
+        horizontalSlider->setOrientation(Qt::Orientation::Horizontal);
         pushButtonReset = new QPushButton(InterfaceAudio);
         pushButtonReset->setObjectName("pushButtonReset");
         pushButtonReset->setGeometry(QRect(10, 430, 45, 45));
@@ -73,8 +75,8 @@ public:
         graphicsView->setGeometry(QRect(10, 30, 781, 361));
         verticalSlider_sonVideo = new QSlider(InterfaceAudio);
         verticalSlider_sonVideo->setObjectName("verticalSlider_sonVideo");
-        verticalSlider_sonVideo->setGeometry(QRect(760, 240, 16, 160));
-        verticalSlider_sonVideo->setOrientation(Qt::Vertical);
+        verticalSlider_sonVideo->setGeometry(QRect(770, 240, 16, 160));
+        verticalSlider_sonVideo->setOrientation(Qt::Orientation::Vertical);
         chronoLabel = new QLabel(InterfaceAudio);
         chronoLabel->setObjectName("chronoLabel");
         chronoLabel->setGeometry(QRect(110, 430, 111, 45));
@@ -101,6 +103,13 @@ public:
 "    color: white; /* Texte en blanc */\n"
 "    border: none; /* Enlever le contour si n\303\251cessaire */\n"
 "    font-weight: bold; /* Optionnel : texte en gras */"));
+        pushButtonAppelProf = new QPushButton(InterfaceAudio);
+        pushButtonAppelProf->setObjectName("pushButtonAppelProf");
+        pushButtonAppelProf->setGeometry(QRect(640, 430, 45, 45));
+        pushButtonAppelProf->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
+"    border: none;"));
+        QIcon icon(QIcon::fromTheme(QString::fromUtf8("call-start")));
+        pushButtonAppelProf->setIcon(icon);
         label_3->raise();
         pushButton_Play->raise();
         pushButton_Avant->raise();
@@ -113,6 +122,7 @@ public:
         graphicsView->raise();
         verticalSlider_sonVideo->raise();
         chronoLabel->raise();
+        pushButtonAppelProf->raise();
 
         retranslateUi(InterfaceAudio);
 
@@ -131,6 +141,7 @@ public:
         pushButton_Son->setText(QString());
         chronoLabel->setText(QCoreApplication::translate("InterfaceAudio", "00:00", nullptr));
         label_3->setText(QString());
+        pushButtonAppelProf->setText(QString());
     } // retranslateUi
 
 };

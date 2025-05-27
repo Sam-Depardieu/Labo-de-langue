@@ -63,6 +63,7 @@ public:
 
     void afficherEtatEleves();
     void addHorizontalLayout(QVBoxLayout *layout, std::initializer_list<QWidget*> widgets);
+    void editStatusButtonHeader(QPushButton *button, bool status);
     void editStatusButton(QPushButton *button, bool status);
     void showCheckIconOnGroup(iconEleveGroup *group);
     void updateEleveNom(iconEleveGroup* eleve, const QString& newName);

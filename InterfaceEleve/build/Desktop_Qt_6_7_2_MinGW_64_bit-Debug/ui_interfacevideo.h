@@ -10,6 +10,7 @@
 #define UI_INTERFACEVIDEO_H
 
 #include <QtCore/QVariant>
+#include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QGraphicsView>
@@ -34,6 +35,7 @@ public:
     QPushButton *pushButton_Son;
     QGraphicsView *graphicsView;
     QLabel *label_3;
+    QPushButton *pushButtonAppelProf;
 
     void setupUi(QDialog *InterfaceVideo)
     {
@@ -61,7 +63,7 @@ public:
         horizontalSlider = new QSlider(InterfaceVideo);
         horizontalSlider->setObjectName("horizontalSlider");
         horizontalSlider->setGeometry(QRect(10, 410, 763, 15));
-        horizontalSlider->setOrientation(Qt::Horizontal);
+        horizontalSlider->setOrientation(Qt::Orientation::Horizontal);
         pushButtonReset = new QPushButton(InterfaceVideo);
         pushButtonReset->setObjectName("pushButtonReset");
         pushButtonReset->setGeometry(QRect(20, 430, 45, 45));
@@ -87,8 +89,8 @@ public:
 ""));
         verticalSlider_sonVideo = new QSlider(InterfaceVideo);
         verticalSlider_sonVideo->setObjectName("verticalSlider_sonVideo");
-        verticalSlider_sonVideo->setGeometry(QRect(780, 250, 16, 160));
-        verticalSlider_sonVideo->setOrientation(Qt::Vertical);
+        verticalSlider_sonVideo->setGeometry(QRect(770, 250, 16, 160));
+        verticalSlider_sonVideo->setOrientation(Qt::Orientation::Vertical);
         pushButton_Son = new QPushButton(InterfaceVideo);
         pushButton_Son->setObjectName("pushButton_Son");
         pushButton_Son->setGeometry(QRect(745, 430, 45, 45));
@@ -102,6 +104,13 @@ public:
 "    color: white; /* Texte en blanc */\n"
 "    border: none; /* Enlever le contour si n\303\251cessaire */\n"
 "    font-weight: bold; /* Optionnel : texte en gras */"));
+        pushButtonAppelProf = new QPushButton(InterfaceVideo);
+        pushButtonAppelProf->setObjectName("pushButtonAppelProf");
+        pushButtonAppelProf->setGeometry(QRect(630, 430, 45, 45));
+        pushButtonAppelProf->setStyleSheet(QString::fromUtf8("background-color: transparent;\n"
+"    border: none;"));
+        QIcon icon(QIcon::fromTheme(QString::fromUtf8("call-start")));
+        pushButtonAppelProf->setIcon(icon);
         label_3->raise();
         graphicsView->raise();
         pushButton_Apres10->raise();
@@ -114,6 +123,7 @@ public:
         chronoLabel->raise();
         pushButton_Son->raise();
         verticalSlider_sonVideo->raise();
+        pushButtonAppelProf->raise();
 
         retranslateUi(InterfaceVideo);
 
@@ -132,6 +142,7 @@ public:
         chronoLabel->setText(QCoreApplication::translate("InterfaceVideo", "00:00", nullptr));
         pushButton_Son->setText(QString());
         label_3->setText(QString());
+        pushButtonAppelProf->setText(QString());
     } // retranslateUi
 
 };

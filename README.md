@@ -123,5 +123,9 @@ Ajoutez un montage fichier sur les raspberry :
  - make -j1
  - ./InterfaceEleve
 
+ - Ce donner accès a un dossier
+ - sudo chown quentin:quentin /chemin/vers/mon_fichier
+
+
 
 

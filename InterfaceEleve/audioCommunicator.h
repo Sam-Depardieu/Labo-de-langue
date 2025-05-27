@@ -25,7 +25,6 @@ signals:
 public slots:
     void captureAndSendAudio();
     void receiveAudio();
-    void processCommands();
     void changeAudioGroup(const QHostAddress& newAddress, quint16 newPort);
     void onAudioSourceStateChanged(QAudio::State newState);
     void initializeAudioCommunication();

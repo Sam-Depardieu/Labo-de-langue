@@ -28,6 +28,7 @@ InterfaceAudio::InterfaceAudio(bool co,MainWindow* parentWindow, QWidget *parent
         ui->horizontalSlider->setValue(static_cast<int>(position));
     });
 
+
     ui->pushButton_Pause->setVisible(true);
     ui->pushButton_Play->setVisible(false);
     setFixedSize(800,480);
@@ -106,7 +107,15 @@ InterfaceAudio::InterfaceAudio(bool co,MainWindow* parentWindow, QWidget *parent
         ui->pushButton_Son->setIconSize(ui->pushButton_Son->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
     }
 
-    ui->verticalSlider_sonVideo->setVisible(false);
+    QPixmap AppelProf(":/images/CallProf"); // Charge l'image
+    if (AppelProf.isNull()) {
+        qWarning() << "Erreur : image non trouvée !";
+    } else {
+        QIcon icone(AppelProf); // Crée une icône
+        ui->pushButtonAppelProf->setIcon(icone); // Définit l'icône du bouton
+        ui->pushButtonAppelProf->setIconSize(ui->pushButtonAppelProf->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
+    }
+
     ui->verticalSlider_sonVideo->setVisible(false);
     ui->verticalSlider_sonVideo->raise();
     ui->chronoLabel->setVisible(true);
@@ -192,7 +201,7 @@ void InterfaceAudio::on_pushButton_Pause_clicked()
 
 void InterfaceAudio::on_pushButton_SelectAudio_clicked()
 {
-    QString videoPath = "\\\\192.168.64.1\\Activites";  // Adresse réseau correcte
+    QString videoPath = "/mnt/Activites";  // Adresse réseau correcte
 
     QString fileName = QFileDialog::getOpenFileName(
         this,
@@ -302,7 +311,28 @@ void InterfaceAudio::on_pushButtonReset_clicked()
 
 void InterfaceAudio::on_pushButton_Son_clicked()
 {
-    ui->verticalSlider_sonVideo->setVisible(!ui->verticalSlider_sonVideo->isVisible());
+    // 1. Afficher ou cacher le slider de volume
+    bool visible = ui->verticalSlider_sonVideo->isVisible();
+    ui->verticalSlider_sonVideo->setVisible(!visible);
+
+    // 2. Si on l'affiche pour la première fois, on initialise
+    if (!visible) {
+        ui->verticalSlider_sonVideo->setRange(0, 100);
+
+        // 🔄 Corrigé : récupérer correctement le volume actuel
+        int volume = static_cast<int>(audioOutput->volume() * 50);
+        ui->verticalSlider_sonVideo->setValue(volume);
+
+        // 3. Connecter une seule fois le signal du slider
+        static bool sliderConnected = false;
+        if (!sliderConnected) {
+            connect(ui->verticalSlider_sonVideo, &QSlider::valueChanged, this, [=](int value) {
+                audioOutput->setVolume(value / 100.0);
+                qDebug() << "Volume réglé à :" << value;
+            });
+            sliderConnected = true;
+        }
+    }
 }
 
 void InterfaceAudio::faireClignoterLabel()
@@ -331,5 +361,14 @@ void InterfaceAudio::updateChronoLabel()
         ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: red; border: 2px solid red; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
         QMessageBox::information(this, "Fin de l'activité", "Pensez à mettre fin à l'activité en cours !");
     }
+}
+
+
+void InterfaceAudio::on_pushButtonAppelProf_clicked()
+{
+    ui->pushButtonAppelProf->setEnabled(false); // désactive le bouton
+    ui->pushButtonAppelProf->setStyleSheet("border:1px solid white; border-radius:20px;");
+    mainWindow->sendCommandToProf(mainWindow->getIpProf(), 5557, "help");
+    qDebug() << "appel prof envoyer";
 }
 

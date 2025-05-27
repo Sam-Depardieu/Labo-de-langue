@@ -64,11 +64,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->ParametrageEleve->setVisible(false);
 
     // Désactivation des boutons
-    editStatusButton(ui->PresenceButton, false);
-    editStatusButton(ui->EnregistrementButton, false);
-    editStatusButton(ui->AppelButton, false);
-    editStatusButton(ui->StatutButton, false);
-    editStatusButton(ui->CreationButton, false);
+    editStatusButtonHeader(ui->PresenceButton, false);
+    editStatusButtonHeader(ui->EnregistrementButton, false);
+    editStatusButtonHeader(ui->AppelButton, false);
+    editStatusButtonHeader(ui->StatutButton, false);
+    editStatusButtonHeader(ui->CreationButton, false);
 
     ui->chronoLabel->setVisible(false);
     ui->enleveTemps->setVisible(false);
@@ -82,6 +82,7 @@ MainWindow::MainWindow(QWidget *parent)
     layoutParametrageEleve->setContentsMargins(8, 8, 15, 8);
     layoutParametrageEleve->setAlignment(Qt::AlignCenter | Qt::AlignTop);
     // Ajout des sections dans le layoutParametrageEleve
+    ui->creerGroupeButton->setEnabled(false);
     addHorizontalLayout(layoutParametrageEleve, {ui->nomGroupeLabel, ui->nomEleveLineEdit, ui->Communication});
     addHorizontalLayout(layoutParametrageEleve, {ui->microSonButton, ui->casqueSonButton});
     addHorizontalLayout(layoutParametrageEleve, {ui->creerGroupeButton, ui->pauseButton, ui->lectureButton});
@@ -233,7 +234,7 @@ MainWindow::~MainWindow()
             ui->errorLabel->setText("Veuillez remplir tous les champs !");
             return;
         }
-        if ((nomTypeActivite.contains("video") || nomTypeActivite.contains("ecoute")) && source == nullptr)
+        if ((nomTypeActivite.contains("video") || nomTypeActivite.contains("ecoute")) && (source.isNull() || source != ""))
         {
             ui->errorLabel->setText("Veuillez indiquer un fichier audio ou video.");
             return;
@@ -260,7 +261,7 @@ MainWindow::~MainWindow()
         saveSessionData(!runningSession);
         // Si activité QCM
         if (ui->ChoixActivite->currentText() == "QCM") {
-            editStatusButton(ui->CreationButton, true);
+            editStatusButtonHeader(ui->CreationButton, true);
             on_CreationButton_clicked();
             udpSocketQCM = new QUdpSocket(this);
             udpSocketQCM->bind(45454, QUdpSocket::ShareAddress);
@@ -311,7 +312,7 @@ MainWindow::~MainWindow()
 
         // Création du dossier de session
         QDir dir;
-        if (!dir.exists(sessionFolder) && !dir.mkpath(sessionFolder)) {
+        if (!dir.exists(sessionPATH) && !dir.mkpath(sessionPATH)) {
             qDebug() << "❌ Erreur : Impossible de créer le dossier de session.";
             return;
         }
@@ -321,7 +322,7 @@ MainWindow::~MainWindow()
             {"nomProf", nomProf},
             {"idTypeActivite", idTypeActivite},
             {"idClasse", idClasse},
-            {"fichier", sessionFolder}
+            {"fichier", sessionPATH}
         };
 
         QString generalConfigPath = networkPath + "generalConfig.laboconfig";
@@ -348,7 +349,7 @@ MainWindow::~MainWindow()
             {"participants", participantsArray}
         };
 
-        QString configPath = sessionFolder + "/config.labo";
+        QString configPath = sessionPATH + "/config.labo";
         QFile sessionConfigFile(configPath);
         if (sessionConfigFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
             sessionConfigFile.write(QJsonDocument(sessionConfig).toJson(QJsonDocument::Indented));
@@ -358,7 +359,7 @@ MainWindow::~MainWindow()
         }
 
         // ---------- Écriture de `bilan.txt` ----------
-        QString bilanPath = sessionFolder + "/bilan.txt";
+        QString bilanPath = sessionPATH + "/bilan.txt";
         QFile bilanFile(bilanPath);
         if (bilanFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
             QTextStream stream(&bilanFile);
@@ -427,6 +428,19 @@ void MainWindow::setNomEtudiantLineEdit(QString nom)
     ui->nomEleveLineEdit->setText(nom);
 }
 
+void MainWindow::editStatusButtonHeader(QPushButton *button, bool status)
+{
+    button->setEnabled(status);
+    if(status == false)
+    {
+        button->setStyleSheet(
+            "background-color: #cccccc; font: 9pt \"Segoe UI\"; color: #999999; "
+            "border: 1px solid #999999; border-radius: 10px;"
+            );
+    }
+    else button->setStyleSheet("background-color: black;\nfont: 9pt \"Segoe UI\";\ncolor: white;\nborder: 1px solid white;\nborder-radius:10px;");
+}
+
 void MainWindow::editStatusButton(QPushButton *button, bool status)
 {
     button->setEnabled(status);
@@ -439,7 +453,7 @@ void MainWindow::editStatusButton(QPushButton *button, bool status)
     }
     else
     {
-        button->setStyleSheet("background-color: black;\nfont: 9pt \"Segoe UI\";\ncolor: white;\nborder: 1px solid white;\nborder-radius:10px;");
+        button->setStyleSheet("");
     }
 
 }
@@ -499,6 +513,7 @@ void MainWindow::updateEleveNom(iconEleveGroup* eleve, const QString& newName) {
     // 1. Met à jour l'objet élève
     eleve->setTextItem(newName);
     eleve->setNom(newName);
+    prof->sendCommandToStudent(eleve->getIP(), 5558, "nomEleve,"+newName);
 
     // 2. Met à jour la base de données
     updateNomDansBDD(eleve->getIDEleve(), newName);
@@ -817,8 +832,13 @@ void MainWindow::on_ChoixActivite_currentIndexChanged(int index)
     QString selectedActivity = ui->ChoixActivite->itemText(index);
     idTypeActivite = index;
     nomTypeActivite = ui->ChoixActivite->currentText();
-    if(nomTypeActivite == "QCM") ui->SourceButton->setDisabled(true);
-    else ui->SourceButton->setEnabled(true);
+    if(nomTypeActivite == "QCM")
+    {
+        ui->NameSourceLabel->clear();
+        editStatusButton(ui->SourceButton, false);
+    }
+    else editStatusButton(ui->SourceButton, true);
+    if(nomTypeActivite == "Enregistrement") ui->creerGroupeButton->setEnabled(true);
 }
 
 void MainWindow::on_selectManuel_clicked()
@@ -1266,22 +1286,17 @@ void MainWindow::onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve)
 
     // Si le créateur n'a pas encore de groupe assigné
     if (groupe.isEmpty()) {
-        // Prendre la saisie ou générer un nom
         if (!ui->nomGroupeLineEdit->text().isEmpty()) {
             groupe = ui->nomGroupeLineEdit->text().trimmed();
         } else {
             groupe = "Groupe " + eleveActuellementParametre->getNom();
         }
 
-        // Affecter ce groupe au créateur
         eleveActuellementParametre->setNomGroupe(groupe);
-
-        // Ajouter le créateur dans la liste du groupe
         listeGroup[groupe].push_back(eleveActuellementParametre);
 
-        // Si nouveau groupe, créer une couleur et allouer un port audio
         if (!couleursGroup.contains(groupe)) {
-            QColor couleur = couleurDisponible();  // ta fonction pour couleur libre
+            QColor couleur = couleurDisponible();
             couleursGroup[groupe] = couleur;
         }
 
@@ -1289,14 +1304,10 @@ void MainWindow::onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve)
             portsAudioGroupes[groupe] = prochainPortAudioDisponible++;
         }
 
-        // Créer le groupe audio côté serveur professeur s'il n'existe pas
         if (prof && !prof->audioGroupExists(groupe)) {
             prof->addAudioGroup(groupe, portsAudioGroupes[groupe]);
         }
     }
-
-    // ======= Sauvegarder les membres avant modification ========
-    std::vector<iconEleveGroup*> anciensMembres = listeGroup[groupe];
 
     // Affecter le groupe à l'élève cliqué
     eleve->setNomGroupe(groupe);
@@ -1310,7 +1321,6 @@ void MainWindow::onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve)
     int portAudio = portsAudioGroupes[groupe];
     QString commande = "portGroup," + QString::number(portAudio);
 
-    // Mettre à jour la liste des affiliés et couleur
     for (iconEleveGroup* membre : membres) {
         membre->getAffiliate().clear();
         for (iconEleveGroup* autre : membres) {
@@ -1330,15 +1340,16 @@ void MainWindow::onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve)
                 );
         }
 
-        // ======= N'envoyer la commande qu'aux nouveaux membres ========
-        if (prof && std::find(anciensMembres.begin(), anciensMembres.end(), membre) == anciensMembres.end()) {
+        // Envoyer la commande à tous les membres
+        if (prof) {
             prof->sendCommandToStudent(membre->getIP(), 5558, commande);
             qDebug() << "[MainWindow] Commande envoyée à " << membre->getIP() << ":" << commande;
         }
     }
 
-    loadInformationTable(); // Rafraîchir affichage
+    loadInformationTable();
 }
+
 
 
 void MainWindow::on_nomGroupeLineEdit_returnPressed()

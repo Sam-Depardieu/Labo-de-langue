@@ -44,6 +44,8 @@ private slots:
     void faireClignoterLabel();
 
     void receiveCmd();
+    void on_pushButtonAppelProf_clicked();
+
 protected:
     void closeEvent(QCloseEvent *event) override;
 

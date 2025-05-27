@@ -193,7 +193,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>210</y>
+     <y>220</y>
      <width>211</width>
      <height>201</height>
     </rect>
@@ -241,7 +241,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
    <property name="geometry">
     <rect>
      <x>580</x>
-     <y>210</y>
+     <y>220</y>
      <width>211</width>
      <height>201</height>
     </rect>
@@ -273,7 +273,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>190</y>
+     <y>200</y>
      <width>151</width>
      <height>16</height>
     </rect>
@@ -291,7 +291,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
    <property name="geometry">
     <rect>
      <x>590</x>
-     <y>190</y>
+     <y>200</y>
      <width>151</width>
      <height>16</height>
     </rect>
@@ -374,6 +374,19 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
   </widget>
+  <widget class="QSlider" name="verticalSlider_sonVideo">
+   <property name="geometry">
+    <rect>
+     <x>780</x>
+     <y>60</y>
+     <width>16</width>
+     <height>160</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Orientation::Vertical</enum>
+   </property>
+  </widget>
   <zorder>label_3</zorder>
   <zorder>verticalSlider_son</zorder>
   <zorder>pushButton_2</zorder>
@@ -392,6 +405,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
   <zorder>label</zorder>
   <zorder>label_2</zorder>
   <zorder>chronoLabel</zorder>
+  <zorder>verticalSlider_sonVideo</zorder>
  </widget>
  <resources/>
  <connections/>

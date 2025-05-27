@@ -34,6 +34,8 @@ InterfaceVideo::InterfaceVideo(bool co, MainWindow *parentWindow, QWidget *paren
     setFixedSize(800,480);
     this->setWindowTitle("Page de Video");
 
+
+
     player = new QMediaPlayer(this);
     audioOutput = new QAudioOutput(this);
     player->setAudioOutput(audioOutput);
@@ -57,8 +59,10 @@ InterfaceVideo::InterfaceVideo(bool co, MainWindow *parentWindow, QWidget *paren
     // Mise à jour de la taille quand le viewport change
 
     // Pour afficher un slider ou widget par-dessus la vidéo :
-    ui->verticalSlider_sonVideo->setParent(ui->graphicsView->viewport());
-    ui->verticalSlider_sonVideo->move(740, 20);  // Ajuste selon ton design
+    //ui->verticalSlider_sonVideo->setParent(ui->graphicsView->viewport());
+    //ui->verticalSlider_sonVideo->move(740, 20);  // Ajuste selon ton design
+    ui->verticalSlider_sonVideo->setVisible(false); // Cacher au démarrage
+
     ui->verticalSlider_sonVideo->raise();
 
 
@@ -123,7 +127,15 @@ InterfaceVideo::InterfaceVideo(bool co, MainWindow *parentWindow, QWidget *paren
         ui->pushButton_Son->setIconSize(ui->pushButton_Son->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
     }
 
-    ui->verticalSlider_sonVideo->setVisible(false);
+    QPixmap AppelProf(":/images/CallProf"); // Charge l'image
+    if (AppelProf.isNull()) {
+        qWarning() << "Erreur : image non trouvée !";
+    } else {
+        QIcon icone(AppelProf); // Crée une icône
+        ui->pushButtonAppelProf->setIcon(icone); // Définit l'icône du bouton
+        ui->pushButtonAppelProf->setIconSize(ui->pushButtonAppelProf->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
+    }
+
     ui->verticalSlider_sonVideo->setVisible(false);
     ui->verticalSlider_sonVideo->raise();
 
@@ -358,5 +370,36 @@ void InterfaceVideo::on_pushButtonReset_clicked()
 }
 void InterfaceVideo::on_pushButton_Son_clicked()
 {
-    ui->verticalSlider_sonVideo->setVisible(!ui->verticalSlider_sonVideo->isVisible());
+    // 1. Afficher ou cacher le slider de volume
+    bool visible = ui->verticalSlider_sonVideo->isVisible();
+    ui->verticalSlider_sonVideo->setVisible(!visible);
+
+    // 2. Si on l'affiche pour la première fois, on initialise
+    if (!visible) {
+        ui->verticalSlider_sonVideo->setRange(0, 100);
+
+        // 🔄 Corrigé : récupérer correctement le volume actuel
+        int volume = static_cast<int>(audioOutput->volume() * 50);
+        ui->verticalSlider_sonVideo->setValue(volume);
+
+        // 3. Connecter une seule fois le signal du slider
+        static bool sliderConnected = false;
+        if (!sliderConnected) {
+            connect(ui->verticalSlider_sonVideo, &QSlider::valueChanged, this, [=](int value) {
+                audioOutput->setVolume(value / 100.0);
+                qDebug() << "Volume réglé à :" << value;
+            });
+            sliderConnected = true;
+        }
+    }
 }
+
+
+void InterfaceVideo::on_pushButtonAppelProf_clicked()
+{
+    ui->pushButtonAppelProf->setEnabled(false); // désactive le bouton
+    ui->pushButtonAppelProf->setStyleSheet("border:1px solid white; border-radius:20px;");
+    mainWindow->sendCommandToProf(mainWindow->getIpProf(), 5557, "help");
+    qDebug() << "appel prof envoyer";
+}
+

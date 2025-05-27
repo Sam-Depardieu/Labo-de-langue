@@ -390,7 +390,8 @@ void QCM::saveQuestions()
     rootObject["questions"] = questionsArray;
 
     // Chemin du fichier de sauvegarde
-    QString savePath = mainWindow->getSessionFolder() + "/questions.qcmlabo";
+    QString savePath = "\\\\CIEL-T171-05\\Activites\\" + mainWindow->getSessionFolder() + "\\questions.qcmlabo";
+    qDebug() << savePath;
     QFile file(savePath);
 
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -404,11 +405,9 @@ void QCM::saveQuestions()
 
     QMessageBox::information(this, "Sauvegarde terminée", "Les questions ont été sauvegardées avec succès dans :\n" + savePath);
 
-    if(!mainWindow->runningSession)
-    {
-        mainWindow->getGestionSession()->continuerCreationSession(true);
-        mainWindow->interfaceQCMOpen = false;
-    }
+    mainWindow->getGestionSession()->continuerCreationSession(true);
+    mainWindow->interfaceQCMOpen = false;
+
     this->close(); // si besoin
 }
 
