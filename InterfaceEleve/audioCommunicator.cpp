@@ -18,12 +18,13 @@ Student::Student(const QString &groupName, const QHostAddress &groupAddress, qui
         qDebug() << "ENTREE :" << device.id() << "," << device.description();
     }
 
+    // Config audio mono 48kHz 16 bits signé (compatible USB audio mono)
     QAudioFormat format;
-    format.setSampleRate(48000);       // 48000 Hz compatible avec ta carte
-    format.setChannelCount(1);         // Mono
-    format.setSampleFormat(QAudioFormat::Int16); // Signed 16 bits
+    format.setSampleRate(48000);
+    format.setChannelCount(1);
+    format.setSampleFormat(QAudioFormat::Int16);
 
-    // Trouver la carte USB par description
+    // Recherche périphérique USB correspondant (ex: "Audio Adapter")
     QAudioDevice inputDeviceInfo;
     bool found = false;
     for (const QAudioDevice &device : inputDevices) {
@@ -46,15 +47,58 @@ Student::Student(const QString &groupName, const QHostAddress &groupAddress, qui
 
     audioInput = new QAudioSource(inputDeviceInfo, format, this);
 
+    // Initialisation sortie audio avec le même format
+    QAudioDevice outputDeviceInfo = QMediaDevices::defaultAudioOutput();
+    if (!outputDeviceInfo.isFormatSupported(format)) {
+        qWarning() << "❌ Format audio non supporté par le périphérique de sortie.";
+        return;
+    }
+    audioOutput = new QAudioSink(outputDeviceInfo, format, this);
+
     connect(audioInput, &QAudioSource::stateChanged, this, &Student::onAudioSourceStateChanged);
 
     connectToGroup();
+
+    initializeAudioCommunication();
 
     connect(&sendTimer, &QTimer::timeout, this, &Student::captureAndSendAudio);
     sendTimer.start(20);
 }
 
+void Student::initializeAudioCommunication()
+{
+    if (audioInput) {
+        if (inputDevice) {
+            inputDevice->close();
+            inputDevice = nullptr;
+        }
+        inputDevice = audioInput->start();
+        if (!inputDevice) {
+            qWarning() << "Impossible de démarrer la capture audio";
+            return;
+        }
+    }
 
+    if (audioOutput) {
+        if (outputDevice) {
+            outputDevice->close();
+            outputDevice = nullptr;
+        }
+        outputDevice = audioOutput->start();
+        if (!outputDevice) {
+            qWarning() << "Impossible de démarrer la sortie audio";
+            return;
+        }
+    }
+
+    connect(&udpSocket, &QUdpSocket::readyRead, this, &Student::receiveAudio);
+
+    if (!sendTimer.isActive()) {
+        sendTimer.start(20);
+    }
+
+    qDebug() << "Communication audio initialisée.";
+}
 
 Student::~Student()
 {
@@ -72,7 +116,6 @@ Student::~Student()
 
 void Student::connectToGroup()
 {
-    // Quitte l'ancien groupe si nécessaire
     if (udpSocket.state() == QAbstractSocket::BoundState) {
         udpSocket.leaveMulticastGroup(serverAddress);
         udpSocket.close();
@@ -85,13 +128,12 @@ void Student::connectToGroup()
     }
 
     if (!udpSocket.joinMulticastGroup(serverAddress)) {
-        qWarning() << "Échec de la jointure du groupe multicast:" << serverAddress.toString();
+        qWarning() << "Échec de la jointure du groupe multicast:" << serverAddress.toString()
+                   << "| Erreur socket:" << udpSocket.errorString();
         return;
     }
 
     qDebug() << "Connecté au groupe multicast" << group << "@" << serverAddress.toString() << ":" << serverPort;
-
-    connect(&udpSocket, &QUdpSocket::readyRead, this, &Student::receiveAudio);
 }
 
 void Student::captureAndSendAudio()
@@ -107,7 +149,6 @@ void Student::captureAndSendAudio()
         }
     }
 
-    // Lit toutes les données disponibles sur le QIODevice
     while (inputDevice->bytesAvailable() > 0) {
         QByteArray audioData = inputDevice->read(inputDevice->bytesAvailable());
         if (!audioData.isEmpty()) {
@@ -115,7 +156,6 @@ void Student::captureAndSendAudio()
         }
     }
 }
-
 
 void Student::receiveAudio()
 {
@@ -130,10 +170,14 @@ void Student::receiveAudio()
                  << "| taille:" << datagram.size();
 
         if (!audioOutput) return;
-        if (audioOutput->state() != QAudio::ActiveState)
+
+        if (audioOutput->state() != QAudio::ActiveState) {
             outputDevice = audioOutput->start();
-        if (outputDevice)
+        }
+
+        if (outputDevice) {
             outputDevice->write(datagram);
+        }
     }
 }
 
@@ -179,45 +223,6 @@ void Student::onAudioSourceStateChanged(QAudio::State newState)
     }
 }
 
-void Student::initializeAudioCommunication()
-{
-    // Configurer ou redémarrer la capture audio
-    if (audioInput) {
-        if (inputDevice) {
-            inputDevice->close();
-            inputDevice = nullptr;
-        }
-        inputDevice = audioInput->start();
-        if (!inputDevice) {
-            qWarning() << "Impossible de démarrer la capture audio";
-            return;
-        }
-    }
-
-    // Configurer la sortie audio
-    if (audioOutput) {
-        if (outputDevice) {
-            outputDevice->close();
-            outputDevice = nullptr;
-        }
-        outputDevice = audioOutput->start();
-        if (!outputDevice) {
-            qWarning() << "Impossible de démarrer la sortie audio";
-            return;
-        }
-    }
-
-    // Connecter la socket UDP (si ce n’est pas déjà fait)
-    connect(&udpSocket, &QUdpSocket::readyRead, this, &Student::receiveAudio);
-
-    // Démarrer le timer qui va capturer et envoyer régulièrement l’audio
-    if (!sendTimer.isActive()) {
-        sendTimer.start(20); // toutes les 20ms (ou ajuster selon besoins)
-    }
-
-    qDebug() << "Communication audio initialisée.";
-}
-
 void Student::muteAudio()
 {
     qDebug() << "🔇 Audio muté pour l'élève";
@@ -235,18 +240,17 @@ void Student::muteAudio()
 
 void Student::unmuteAudio()
 {
-    qDebug() << "🔇 Audio muté pour l'élève";
+    qDebug() << "🔊 Audio démuté pour l'élève";  // <-- texte corrigé
 
     if (audioInput) {
-        audioInput->start();  // Arrêter la capture micro
+        audioInput->start();
     }
-
     if (audioOutput) {
-        audioOutput->start(); // Couper la diffusion audio
+        audioOutput->start();
     }
-
     isMuted = false;
 }
+
 
 void Student::stopAudio()
 {
