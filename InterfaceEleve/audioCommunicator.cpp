@@ -27,7 +27,7 @@ Student::Student(const QString &groupName, const QHostAddress &groupAddress, qui
     QAudioDevice inputDeviceInfo;
     bool found = false;
     for (const QAudioDevice &device : inputDevices) {
-        if (device.description().contains("USB Audio Device")) {
+        if (device.description().contains("USB")) {
             inputDeviceInfo = device;
             found = true;
             break;
