@@ -124,28 +124,24 @@ void Student::receiveAudio()
     }
 }
 
-void Student::changeAudioGroup(const QHostAddress& newAddress, quint16 newPort)
+void Student::changeAudioGroup(const QHostAddress& profAddress, quint16 profPort)
 {
     if (udpSocket.state() == QAbstractSocket::BoundState) {
-        udpSocket.leaveMulticastGroup(serverAddress);
         udpSocket.close();
     }
 
-    serverAddress = newAddress;
-    serverPort = newPort;
-
-    if (!udpSocket.bind(QHostAddress::AnyIPv4, serverPort,
+    // Bind local sur port aléatoire (0) ou fixe si tu veux (ex: 12345)
+    if (!udpSocket.bind(QHostAddress::AnyIPv4, 0,
                         QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint)) {
-        qWarning() << "Erreur de liaison UDP sur le port multicast:" << serverPort;
+        qWarning() << "Erreur de liaison UDP locale pour réception audio";
         return;
     }
 
-    if (!udpSocket.joinMulticastGroup(serverAddress)) {
-        qWarning() << "Erreur lors de la jointure du groupe multicast:" << serverAddress.toString();
-        return;
-    }
+    serverAddress = profAddress;
+    serverPort = profPort;
 
-    qDebug() << "Rejoint le groupe multicast" << serverAddress.toString() << "port" << serverPort;
+    qDebug() << "Élève bind local sur le port" << udpSocket.localPort();
+    qDebug() << "Audio envoyé vers" << serverAddress.toString() << "port" << serverPort;
 }
 
 void Student::onAudioSourceStateChanged(QAudio::State newState)
