@@ -82,7 +82,7 @@ public:
         font.setPointSize(20);
         font.setBold(true);
         chrono_enregistrement->setFont(font);
-        chrono_enregistrement->setAlignment(Qt::AlignmentFlag::AlignCenter);
+        chrono_enregistrement->setAlignment(Qt::AlignCenter);
         pushButtonSpeak = new QPushButton(InterfaceEnregistrement);
         pushButtonSpeak->setObjectName("pushButtonSpeak");
         pushButtonSpeak->setGeometry(QRect(350, 250, 81, 81));
@@ -131,7 +131,7 @@ public:
 ""));
         label = new QLabel(InterfaceEnregistrement);
         label->setObjectName("label");
-        label->setGeometry(QRect(10, 200, 151, 16));
+        label->setGeometry(QRect(40, 185, 151, 31));
         QFont font1;
         font1.setBold(true);
         label->setFont(font1);
@@ -142,7 +142,7 @@ public:
         verticalSlider_son = new QSlider(InterfaceEnregistrement);
         verticalSlider_son->setObjectName("verticalSlider_son");
         verticalSlider_son->setGeometry(QRect(760, 250, 16, 160));
-        verticalSlider_son->setOrientation(Qt::Orientation::Vertical);
+        verticalSlider_son->setOrientation(Qt::Vertical);
         chronoLabel = new QLabel(InterfaceEnregistrement);
         chronoLabel->setObjectName("chronoLabel");
         chronoLabel->setGeometry(QRect(110, 430, 111, 45));
@@ -169,11 +169,11 @@ public:
 "    color: white; /* Texte en blanc */\n"
 "    border: none; /* Enlever le contour si n\303\251cessaire */\n"
 "    font-weight: bold; /* Optionnel : texte en gras */"));
-        label_3->setAlignment(Qt::AlignmentFlag::AlignCenter);
+        label_3->setAlignment(Qt::AlignCenter);
         verticalSlider_sonVideo = new QSlider(InterfaceEnregistrement);
         verticalSlider_sonVideo->setObjectName("verticalSlider_sonVideo");
         verticalSlider_sonVideo->setGeometry(QRect(780, 60, 16, 160));
-        verticalSlider_sonVideo->setOrientation(Qt::Orientation::Vertical);
+        verticalSlider_sonVideo->setOrientation(Qt::Vertical);
         label_3->raise();
         verticalSlider_son->raise();
         pushButton_2->raise();
@@ -229,7 +229,7 @@ public:
 "li.checked::marker { content: \"\\2612\"; }\n"
 "</style></head><body style=\" font-family:'Segoe UI','sans-serif'; font-size:14px; font-weight:400; font-style:normal;\">\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", nullptr));
-        label->setText(QCoreApplication::translate("InterfaceEnregistrement", "Messages du professeur", nullptr));
+        label->setText(QCoreApplication::translate("InterfaceEnregistrement", "<p><center>Messages du professeur</center></p>", nullptr));
         label_2->setText(QCoreApplication::translate("InterfaceEnregistrement", "Consignes", nullptr));
         chronoLabel->setText(QCoreApplication::translate("InterfaceEnregistrement", "00:00", nullptr));
         label_3->setText(QCoreApplication::translate("InterfaceEnregistrement", "Interface Enregistrement", nullptr));

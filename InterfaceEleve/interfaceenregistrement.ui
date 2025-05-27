@@ -122,7 +122,7 @@
     <string/>
    </property>
    <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter</set>
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButtonSpeak">
@@ -272,10 +272,10 @@ li.checked::marker { content: &quot;\2612&quot;; }
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>200</y>
+     <x>40</x>
+     <y>185</y>
      <width>151</width>
-     <height>16</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="font">
@@ -284,7 +284,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </font>
    </property>
    <property name="text">
-    <string>Messages du professeur</string>
+    <string>&lt;p&gt;&lt;center&gt;Messages du professeur&lt;/center&gt;&lt;/p&gt;</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_2">
@@ -315,7 +315,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </rect>
    </property>
    <property name="orientation">
-    <enum>Qt::Orientation::Vertical</enum>
+    <enum>Qt::Vertical</enum>
    </property>
   </widget>
   <widget class="QLabel" name="chronoLabel">
@@ -371,7 +371,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <string>Interface Enregistrement</string>
    </property>
    <property name="alignment">
-    <set>Qt::AlignmentFlag::AlignCenter</set>
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QSlider" name="verticalSlider_sonVideo">
@@ -384,7 +384,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </rect>
    </property>
    <property name="orientation">
-    <enum>Qt::Orientation::Vertical</enum>
+    <enum>Qt::Vertical</enum>
    </property>
   </widget>
   <zorder>label_3</zorder>

@@ -270,10 +270,10 @@ li.checked::marker { content: &quot;\2612&quot;; }
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>210</y>
-     <width>141</width>
-     <height>16</height>
+     <x>40</x>
+     <y>195</y>
+     <width>81</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="font">
@@ -282,7 +282,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </font>
    </property>
    <property name="text">
-    <string>Messages du professeur</string>
+    <string>&lt;p&gt;Messages du &lt;br&gt;professeur&lt;/p&gt;</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_2">
