@@ -63,7 +63,7 @@ MainWindow::MainWindow(QWidget *parent)
     connectToDatabase();
 
 
-    udpSocketInfo.bind(QHostAddress::Any, infoPort);
+    udpSocketInfo.bind(QHostAddress::AnyIPv4, infoPort);
     connect(&udpSocketInfo, &QUdpSocket::readyRead, this, &MainWindow::receiveInfo);
 
     udpSocketNomFichier = new QUdpSocket(this);
@@ -379,7 +379,7 @@ void MainWindow::receiveInfo() {
         udpSocketInfo.readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
 
         QString response = QString::fromUtf8(datagram).trimmed();
-        qDebug() << "📢 Message reçu de" << sender.toString() << ":" << response;
+        qDebug() << "📢 Message reçu de" << sender.toString();
 
         if (sender.protocol() == QAbstractSocket::IPv4Protocol) {
             ipProf = sender.toString();
@@ -582,12 +582,12 @@ void MainWindow::stopClignotement()
     clignotementEtat = false;
 }
 
-void MainWindow::sendCommandToProf(const QString& profIp, int port, const QString& command)
+void MainWindow::sendCommandToProf(const QString& ipProf, int port, const QString& command)
 {
     if (command.isEmpty()) return;
 
     QByteArray datagram = command.toUtf8();
-    QHostAddress addr(profIp);
+    QHostAddress addr(ipProf);
     udpSocket.writeDatagram(datagram, addr, port);
-    qDebug() << "[Command] vers" << profIp << ":" << command;
+    qDebug() << "[Command] vers" << ipProf << ":" << command;
 }

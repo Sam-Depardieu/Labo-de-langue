@@ -368,7 +368,12 @@ void InterfaceAudio::on_pushButtonAppelProf_clicked()
 {
     ui->pushButtonAppelProf->setEnabled(false); // désactive le bouton
     ui->pushButtonAppelProf->setStyleSheet("border:1px solid white; border-radius:20px;");
-    mainWindow->sendCommandToProf(mainWindow->getIpProf(), 5557, "help");
-    qDebug() << "appel prof envoyer";
+
+    // Récupérer l'adresse IP du professeur depuis MainWindow
+    QString ipProf = mainWindow->getIpProf();
+
+    // Envoyer le message "help" à l'adresse IP du professeur
+    mainWindow->sendCommandToProf(ipProf, 5557, "help");
+    qDebug() << "Appel prof envoyé à l'adresse IP : " << ipProf;
 }
 
