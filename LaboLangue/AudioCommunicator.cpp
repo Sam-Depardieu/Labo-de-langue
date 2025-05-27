@@ -9,7 +9,7 @@ Professeur::Professeur(QObject* parent)
 void Professeur::addAudioGroup(const QString& groupName, quint16 port)
 {
     if (groups.contains(groupName)) {
-        emit debugMessage(QString("Le groupe '%1' existe déjà").arg(groupName));
+        qDebug() << QString("Le groupe '%1' existe déjà").arg(groupName);
         return;
     }
 
@@ -19,7 +19,7 @@ void Professeur::addAudioGroup(const QString& groupName, quint16 port)
 
     // Bind le socket au port attribué pour ce groupe (écoute UDP)
     if (!group.socket->bind(QHostAddress::AnyIPv4, port)) {
-        emit debugMessage(QString("Impossible de binder le port %1 pour le groupe %2").arg(port).arg(groupName));
+        qDebug() << QString("Impossible de binder le port %1 pour le groupe %2").arg(port).arg(groupName);
         group.socket->deleteLater();
         return;
     }
@@ -28,7 +28,7 @@ void Professeur::addAudioGroup(const QString& groupName, quint16 port)
 
     groups[groupName] = group;
 
-    emit debugMessage(QString("Groupe '%1' créé sur le port %2").arg(groupName).arg(port));
+    qDebug() << QString("Groupe '%1' créé sur le port %2").arg(groupName).arg(port);
 }
 
 bool Professeur::audioGroupExists(const QString& groupName) const

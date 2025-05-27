@@ -44,7 +44,7 @@ void Student::setGroupPort(quint16 port)
 
     bool success = udpSocket->bind(QHostAddress::AnyIPv4, groupPort);
     if (!success) {
-        qWarning() << "Impossible de binder sur le port UDP" << groupPort;
+        qDebug() << "Impossible de binder sur le port UDP" << groupPort;
         return;
     }
     qDebug() << "Student bind sur port UDP groupe:" << groupPort;
@@ -78,29 +78,29 @@ void Student::startAudio()
     QAudioDevice outputDevice = QMediaDevices::defaultAudioOutput();
 
     if (!inputDevice.isFormatSupported(format)) {
-        qWarning() << "Format audio non supporté par l'entrée, utilisation du format par défaut";
-        format = inputDevice.nearestFormat(format);
+        qDebug() << "Format audio non supporté par l'entrée, utilisation du format par défaut";
+        return;
     }
 
     if (!outputDevice.isFormatSupported(format)) {
-        qWarning() << "Format audio non supporté par la sortie, utilisation du format par défaut";
-        format = outputDevice.nearestFormat(format);
+        qDebug() << "Format audio non supporté par la sortie, utilisation du format par défaut";
+        return;
     }
 
-    audioInput = new QAudioInput(inputDevice, format, this);
+    audioInput = new QAudioSource(inputDevice, format, this);
     audioInputDevice = audioInput->start();
 
     if (!audioInputDevice) {
-        qWarning() << "Impossible de démarrer la capture audio";
+        qDebug() << "Impossible de démarrer la capture audio";
         return;
     }
     connect(audioInputDevice, &QIODevice::readyRead, this, &Student::onAudioDataCaptured);
 
-    audioOutput = new QAudioOutput(outputDevice, format, this);
+    audioOutput = new QAudioSink(outputDevice, format, this);
     audioOutputDevice = audioOutput->start();
 
     if (!audioOutputDevice) {
-        qWarning() << "Impossible de démarrer la sortie audio";
+        qDebug() << "Impossible de démarrer la sortie audio";
         return;
     }
 
@@ -133,7 +133,7 @@ void Student::onAudioDataCaptured()
     if (!serverAddress.isNull() && serverPort != 0) {
         qint64 sent = udpSocket->writeDatagram(audioData, serverAddress, serverPort);
         if (sent == -1) {
-            qWarning() << "Erreur lors de l'envoi des données audio";
+            qDebug() << "Erreur lors de l'envoi des données audio";
         }
     }
 }

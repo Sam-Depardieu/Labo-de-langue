@@ -1,13 +1,14 @@
 #ifndef STUDENT_H
 #define STUDENT_H
 
-#include "qaudioformat.h"
 #include <QObject>
-#include <QUdpSocket>
-#include <QAudioInput>
-#include <QAudioOutput>
-#include <QIODevice>
 #include <QHostAddress>
+#include <QUdpSocket>
+#include <QAudioSource>
+#include <QAudioSink>
+#include <QAudioDevice>
+#include <QAudioFormat>
+#include <QTimer>
 
 class Student : public QObject
 {
@@ -38,8 +39,8 @@ private:
     QHostAddress serverAddress;
     quint16 serverPort;
 
-    QAudioInput* audioInput;
-    QAudioOutput* audioOutput;
+    QAudioSource* audioInput;
+    QAudioSink* audioOutput;
 
     QIODevice* audioInputDevice;
     QIODevice* audioOutputDevice;
