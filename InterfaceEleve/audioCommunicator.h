@@ -25,6 +25,9 @@ public:
     void startAudio();
     void stopAudio();
 
+    void mute();
+    void unmute();
+
 signals:
     void audioDataReceived(const QByteArray& data);
 
@@ -33,6 +36,8 @@ private slots:
     void onAudioDataCaptured();
 
 private:
+    bool isMuted = false;
+
     QUdpSocket* udpSocket;
     quint16 groupPort;
 

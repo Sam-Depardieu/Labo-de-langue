@@ -125,7 +125,7 @@ void Student::stopAudio()
 
 void Student::onAudioDataCaptured()
 {
-    if (!audioInputDevice)
+    if (!audioInputDevice || isMuted)
         return;
 
     QByteArray audioData = audioInputDevice->readAll();
@@ -137,6 +137,7 @@ void Student::onAudioDataCaptured()
         }
     }
 }
+
 
 void Student::onReadyRead()
 {
@@ -155,4 +156,16 @@ void Student::onReadyRead()
 
         emit audioDataReceived(buffer);
     }
+}
+
+void Student::mute()
+{
+    isMuted = true;
+    qDebug() << "Microphone de l'étudiant MUTED";
+}
+
+void Student::unmute()
+{
+    isMuted = false;
+    qDebug() << "Microphone de l'étudiant UNMUTED";
 }
