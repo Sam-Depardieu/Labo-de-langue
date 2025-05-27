@@ -144,12 +144,12 @@ void MainWindow::handleRestartCommand()
         if (cmd == "mute") {
             qDebug() << "🔇 Commande MUTE reçue";
             // Appelle ta fonction mute audio ici, par exemple :
-            if(currentStudent) currentStudent->muteAudio();
+            if(currentStudent) currentStudent->mute();
         }
         else if (cmd == "unmute") {
             qDebug() << "🔈 Commande DEMUTE reçue";
             // Appelle ta fonction unmute audio ici, par exemple :
-            if(currentStudent) currentStudent->unmuteAudio();
+            if(currentStudent) currentStudent->unmute();
         }
         else if (cmd == "activerSon") {
             qDebug() << "✅ Commande ACTIVER SON reçue";
