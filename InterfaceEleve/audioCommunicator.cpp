@@ -205,6 +205,33 @@ void Student::initializeAudioCommunication()
     qDebug() << "Communication audio initialisée.";
 }
 
+void Student::muteAudio()
+{
+    qDebug() << "🔇 Audio muté pour l'élève";
+
+    if (audioInput) {
+        audioInput->stop();  // Arrêter la capture micro
+    }
+
+    if (audioOutput) {
+        audioOutput->stop(); // Couper la diffusion audio
+    }
+
+    isMuted = true;
+}
+
+void Student::unmuteAudio()
+{
+    qDebug() << "🔊 Audio démuté pour l'élève";  // <-- texte corrigé
+
+    if (audioInput) {
+        audioInput->start();
+    }
+    if (audioOutput) {
+        audioOutput->start();
+    }
+    isMuted = false;
+}
 
 void Student::stopAudio()
 {
