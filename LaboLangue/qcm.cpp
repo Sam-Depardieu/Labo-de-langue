@@ -406,7 +406,7 @@ void QCM::saveQuestions()
 
     if(!mainWindow->runningSession)
     {
-        mainWindow->getGestionSession()->continuerCreationSession();
+        mainWindow->getGestionSession()->continuerCreationSession(true);
         mainWindow->interfaceQCMOpen = false;
     }
     this->close(); // si besoin

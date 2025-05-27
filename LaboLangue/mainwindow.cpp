@@ -70,6 +70,13 @@ MainWindow::MainWindow(QWidget *parent)
     editStatusButton(ui->StatutButton, false);
     editStatusButton(ui->CreationButton, false);
 
+    ui->chronoLabel->setVisible(false);
+    ui->enleveTemps->setVisible(false);
+    ui->ajouterTemps->setVisible(false);
+    ui->tempsChronoLineEdit->setVisible(false);
+
+    ui->tempsChronoLineEdit->setPlaceholderText("00:00");
+
     // Créer le layout principal pour la gestion audio des élèves et des groupes avec les éléments disposés
     QVBoxLayout *layoutParametrageEleve = new QVBoxLayout();
     layoutParametrageEleve->setContentsMargins(8, 8, 15, 8);
@@ -100,7 +107,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->envoyerMessagePersonne->setVisible(false);
     ui->envoyerMessageTextEdit->setVisible(false);
     ui->TableauGroupe->setVisible(false);
-    ui->chronoLabel->setVisible(false);
+
+
     ui->envoyerMessageTextEdit->setPlaceholderText("Ecrire un message...");
     // Appliquez le layout à ParametrageEleve
     ui->ParametrageEleve->setLayout(layoutParametrageEleve);
@@ -1132,6 +1140,7 @@ void MainWindow::on_modeSombreButton_clicked()
     ui->ParametrageSession->setStyleSheet("background-color: rgb(100, 100, 100)");
 
     ui->centralwidget->setStyleSheet("background-color: black; color: white;");
+    ui->tempsChronoLineEdit->setStyleSheet("color-text: white;");
 
     ui->modeClairButton->setVisible(true);
     ui->modeSombreButton->setVisible(false);
@@ -1464,5 +1473,53 @@ void MainWindow::on_PauseStatutButton_clicked()
 void MainWindow::on_AppelButton_clicked()
 {
     prof->setBroadcastEnabled(!prof->getBroadcastEnabled());
+}
+
+
+void MainWindow::on_ajouterTemps_clicked()
+{
+    QTime tempsAjouter = QTime::fromString(ui->tempsChronoLineEdit->text(), "mm:ss");
+    if (!tempsAjouter.isValid()) return;
+
+    int secondesModif = QTime(0, 0).secsTo(tempsAjouter);
+
+    // Mettre à jour remainingTime directement
+    int secondesActuelles = QTime(0, 0).secsTo(remainingTime);
+    int total = secondesActuelles + secondesModif;
+    if (total > 3600) {
+        QMessageBox::warning(this, "Erreur", "Impossible de dépasser une heure !");
+        return;
+    }
+    remainingTime = QTime(0, 0).addSecs(total);
+
+    // Met à jour le label
+    ui->chronoLabel->setText(remainingTime.toString("mm:ss"));
+    for (auto *eleve : listeRasp) {
+        getProf()->sendCommandToStudent(eleve->getIP(), 5558, QString("chrono,%1").arg(remainingTime.toString("mm:ss")));
+    }
+}
+
+void MainWindow::on_enleveTemps_clicked()
+{
+
+    QTime tempsRetirer = QTime::fromString(ui->tempsChronoLineEdit->text(), "mm:ss");
+    if (!tempsRetirer.isValid()) return;
+
+    int secondesModif = QTime(0, 0).secsTo(tempsRetirer);
+
+    // Mettre à jour remainingTime directement
+    int secondesActuelles = QTime(0, 0).secsTo(remainingTime);
+    int total = secondesActuelles - secondesModif;
+    if (secondesModif > secondesActuelles) {
+        QMessageBox::warning(this, "Erreur", "Impossible de retirer plus de temps qu’il n’en reste !");
+        return;
+    }
+    remainingTime = QTime(0, 0).addSecs(total);
+
+    // Met à jour le label
+    ui->chronoLabel->setText(remainingTime.toString("mm:ss"));
+    for (auto *eleve : listeRasp) {
+        getProf()->sendCommandToStudent(eleve->getIP(), 5558, QString("chrono,%1").arg(remainingTime.toString("mm:ss")));
+    }
 }
 

@@ -91,6 +91,9 @@ public:
     QPushButton *LectureStatutButton;
     QLabel *RunningActivite;
     QPushButton *lectureButton;
+    QLineEdit *tempsChronoLineEdit;
+    QPushButton *ajouterTemps;
+    QPushButton *enleveTemps;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -391,7 +394,7 @@ public:
         cadenaCloseButton->setStyleSheet(QString::fromUtf8("background-color: transparent; border: none;"));
         chronoLabel = new QLabel(centralwidget);
         chronoLabel->setObjectName("chronoLabel");
-        chronoLabel->setGeometry(QRect(10, 10, 111, 45));
+        chronoLabel->setGeometry(QRect(10, 7, 111, 45));
         QFont font;
         font.setFamilies({QString::fromUtf8("Segoe UI")});
         font.setBold(true);
@@ -426,7 +429,34 @@ public:
         lectureButton = new QPushButton(centralwidget);
         lectureButton->setObjectName("lectureButton");
         lectureButton->setGeometry(QRect(1100, 230, 171, 24));
+        tempsChronoLineEdit = new QLineEdit(centralwidget);
+        tempsChronoLineEdit->setObjectName("tempsChronoLineEdit");
+        tempsChronoLineEdit->setGeometry(QRect(160, 16, 50, 30));
+        QFont font1;
+        font1.setPointSize(11);
+        font1.setHintingPreference(QFont::PreferFullHinting);
+        tempsChronoLineEdit->setFont(font1);
+        tempsChronoLineEdit->setStyleSheet(QString::fromUtf8("border: 1px solid white;\n"
+"border-radius: 7px;\n"
+"text-color: black;"));
+        ajouterTemps = new QPushButton(centralwidget);
+        ajouterTemps->setObjectName("ajouterTemps");
+        ajouterTemps->setGeometry(QRect(130, 8, 20, 20));
+        ajouterTemps->setStyleSheet(QString::fromUtf8("background-color: #28a745;\n"
+"border-style: outset;\n"
+"border-width: 1px;\n"
+"border-radius: 1px;\n"
+"border-color: beige;		"));
+        enleveTemps = new QPushButton(centralwidget);
+        enleveTemps->setObjectName("enleveTemps");
+        enleveTemps->setGeometry(QRect(130, 32, 20, 20));
+        enleveTemps->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 0, 0);\n"
+"border-style: outset;\n"
+"border-width: 1px;\n"
+"border-radius: 1px;\n"
+"border-color: beige;	"));
         MainWindow->setCentralWidget(centralwidget);
+        LigneHaut->raise();
         AppelerButton->raise();
         redemarrerButton->raise();
         LectureStatutButton->raise();
@@ -437,7 +467,6 @@ public:
         nomCreationGroupeLabel->raise();
         alignerTableau_2->raise();
         StatutTableauGroupe->raise();
-        LigneHaut->raise();
         PresenceButton->raise();
         SessionButton->raise();
         AppelButton->raise();
@@ -489,6 +518,9 @@ public:
         chronoLabel->raise();
         reloadButton->raise();
         lectureButton->raise();
+        tempsChronoLineEdit->raise();
+        enleveTemps->raise();
+        ajouterTemps->raise();
 
         retranslateUi(MainWindow);
 
@@ -555,6 +587,9 @@ public:
         LectureStatutButton->setText(QString());
         RunningActivite->setText(QCoreApplication::translate("MainWindow", "Activit\303\251e en cours :", nullptr));
         lectureButton->setText(QCoreApplication::translate("MainWindow", "Lecture", nullptr));
+        tempsChronoLineEdit->setText(QString());
+        ajouterTemps->setText(QCoreApplication::translate("MainWindow", "+", nullptr));
+        enleveTemps->setText(QCoreApplication::translate("MainWindow", "-", nullptr));
     } // retranslateUi
 
 };
