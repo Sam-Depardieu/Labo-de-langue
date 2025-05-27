@@ -1,19 +1,25 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'interfacevideo.h'
 **
-** Created by: The Qt Meta Object Compiler version 68 (Qt 6.4.2)
+** Created by: The Qt Meta Object Compiler version 68 (Qt 6.7.2)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include <memory>
 #include "../../../interfacevideo.h"
 #include <QtGui/qtextcursor.h>
 #include <QtCore/qmetatype.h>
+
+#include <QtCore/qtmochelpers.h>
+
+#include <memory>
+
+
+#include <QtCore/qxptype_traits.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'interfacevideo.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 68
-#error "This file was generated using the moc from 6.4.2. It"
+#error "This file was generated using the moc from 6.7.2. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -22,54 +28,14 @@
 #define Q_CONSTINIT
 #endif
 
-QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
+QT_WARNING_DISABLE_GCC("-Wuseless-cast")
 namespace {
-struct qt_meta_stringdata_InterfaceVideo_t {
-    uint offsetsAndSizes[36];
-    char stringdata0[15];
-    char stringdata1[34];
-    char stringdata2[1];
-    char stringdata3[30];
-    char stringdata4[27];
-    char stringdata5[28];
-    char stringdata6[30];
-    char stringdata7[19];
-    char stringdata8[13];
-    char stringdata9[4];
-    char stringdata10[35];
-    char stringdata11[27];
-    char stringdata12[40];
-    char stringdata13[6];
-    char stringdata14[26];
-    char stringdata15[18];
-    char stringdata16[20];
-    char stringdata17[11];
-};
-#define QT_MOC_LITERAL(ofs, len) \
-    uint(sizeof(qt_meta_stringdata_InterfaceVideo_t::offsetsAndSizes) + ofs), len 
-Q_CONSTINIT static const qt_meta_stringdata_InterfaceVideo_t qt_meta_stringdata_InterfaceVideo = {
-    {
-        QT_MOC_LITERAL(0, 14),  // "InterfaceVideo"
-        QT_MOC_LITERAL(15, 33),  // "on_pushButton_SelectVideo_cli..."
-        QT_MOC_LITERAL(49, 0),  // ""
-        QT_MOC_LITERAL(50, 29),  // "on_pushButton_Avant10_clicked"
-        QT_MOC_LITERAL(80, 26),  // "on_pushButton_Play_clicked"
-        QT_MOC_LITERAL(107, 27),  // "on_pushButton_Pause_clicked"
-        QT_MOC_LITERAL(135, 29),  // "on_pushButton_Apres10_clicked"
-        QT_MOC_LITERAL(165, 18),  // "animateButtonClick"
-        QT_MOC_LITERAL(184, 12),  // "QPushButton*"
-        QT_MOC_LITERAL(197, 3),  // "btn"
-        QT_MOC_LITERAL(201, 34),  // "on_horizontalSlider_sliderRel..."
-        QT_MOC_LITERAL(236, 26),  // "on_pushButtonReset_clicked"
-        QT_MOC_LITERAL(263, 39),  // "on_verticalSlider_sonVideo_va..."
-        QT_MOC_LITERAL(303, 5),  // "value"
-        QT_MOC_LITERAL(309, 25),  // "on_pushButton_Son_clicked"
-        QT_MOC_LITERAL(335, 17),  // "updateChronoLabel"
-        QT_MOC_LITERAL(353, 19),  // "faireClignoterLabel"
-        QT_MOC_LITERAL(373, 10)   // "receiveCmd"
-    },
+
+#ifdef QT_MOC_HAS_STRINGDATA
+struct qt_meta_stringdata_CLASSInterfaceVideoENDCLASS_t {};
+constexpr auto qt_meta_stringdata_CLASSInterfaceVideoENDCLASS = QtMocHelpers::stringData(
     "InterfaceVideo",
     "on_pushButton_SelectVideo_clicked",
     "",
@@ -88,14 +54,16 @@ Q_CONSTINIT static const qt_meta_stringdata_InterfaceVideo_t qt_meta_stringdata_
     "updateChronoLabel",
     "faireClignoterLabel",
     "receiveCmd"
-};
-#undef QT_MOC_LITERAL
+);
+#else  // !QT_MOC_HAS_STRINGDATA
+#error "qtmochelpers.h not found or too old."
+#endif // !QT_MOC_HAS_STRINGDATA
 } // unnamed namespace
 
-Q_CONSTINIT static const uint qt_meta_data_InterfaceVideo[] = {
+Q_CONSTINIT static const uint qt_meta_data_CLASSInterfaceVideoENDCLASS[] = {
 
  // content:
-      10,       // revision
+      12,       // revision
        0,       // classname
        0,    0, // classinfo
       13,   14, // methods
@@ -140,11 +108,11 @@ Q_CONSTINIT static const uint qt_meta_data_InterfaceVideo[] = {
 
 Q_CONSTINIT const QMetaObject InterfaceVideo::staticMetaObject = { {
     QMetaObject::SuperData::link<QDialog::staticMetaObject>(),
-    qt_meta_stringdata_InterfaceVideo.offsetsAndSizes,
-    qt_meta_data_InterfaceVideo,
+    qt_meta_stringdata_CLASSInterfaceVideoENDCLASS.offsetsAndSizes,
+    qt_meta_data_CLASSInterfaceVideoENDCLASS,
     qt_static_metacall,
     nullptr,
-    qt_incomplete_metaTypeArray<qt_meta_stringdata_InterfaceVideo_t,
+    qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSInterfaceVideoENDCLASS_t,
         // Q_OBJECT / Q_GADGET
         QtPrivate::TypeAndForceComplete<InterfaceVideo, std::true_type>,
         // method 'on_pushButton_SelectVideo_clicked'
@@ -211,7 +179,7 @@ const QMetaObject *InterfaceVideo::metaObject() const
 void *InterfaceVideo::qt_metacast(const char *_clname)
 {
     if (!_clname) return nullptr;
-    if (!strcmp(_clname, qt_meta_stringdata_InterfaceVideo.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_CLASSInterfaceVideoENDCLASS.stringdata0))
         return static_cast<void*>(this);
     return QDialog::qt_metacast(_clname);
 }
@@ -233,4 +201,3 @@ int InterfaceVideo::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     return _id;
 }
 QT_WARNING_POP
-QT_END_MOC_NAMESPACE

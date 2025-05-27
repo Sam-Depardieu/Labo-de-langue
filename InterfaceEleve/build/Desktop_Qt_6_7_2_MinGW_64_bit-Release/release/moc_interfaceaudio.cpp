@@ -1,18 +1,24 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'interfaceaudio.h'
 **
-** Created by: The Qt Meta Object Compiler version 68 (Qt 6.4.2)
+** Created by: The Qt Meta Object Compiler version 68 (Qt 6.7.2)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include <memory>
 #include "../../../interfaceaudio.h"
 #include <QtCore/qmetatype.h>
+
+#include <QtCore/qtmochelpers.h>
+
+#include <memory>
+
+
+#include <QtCore/qxptype_traits.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'interfaceaudio.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 68
-#error "This file was generated using the moc from 6.4.2. It"
+#error "This file was generated using the moc from 6.7.2. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -21,50 +27,14 @@
 #define Q_CONSTINIT
 #endif
 
-QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
+QT_WARNING_DISABLE_GCC("-Wuseless-cast")
 namespace {
-struct qt_meta_stringdata_InterfaceAudio_t {
-    uint offsetsAndSizes[32];
-    char stringdata0[15];
-    char stringdata1[34];
-    char stringdata2[1];
-    char stringdata3[27];
-    char stringdata4[28];
-    char stringdata5[28];
-    char stringdata6[28];
-    char stringdata7[35];
-    char stringdata8[19];
-    char stringdata9[13];
-    char stringdata10[4];
-    char stringdata11[27];
-    char stringdata12[26];
-    char stringdata13[18];
-    char stringdata14[20];
-    char stringdata15[11];
-};
-#define QT_MOC_LITERAL(ofs, len) \
-    uint(sizeof(qt_meta_stringdata_InterfaceAudio_t::offsetsAndSizes) + ofs), len 
-Q_CONSTINIT static const qt_meta_stringdata_InterfaceAudio_t qt_meta_stringdata_InterfaceAudio = {
-    {
-        QT_MOC_LITERAL(0, 14),  // "InterfaceAudio"
-        QT_MOC_LITERAL(15, 33),  // "on_pushButton_SelectAudio_cli..."
-        QT_MOC_LITERAL(49, 0),  // ""
-        QT_MOC_LITERAL(50, 26),  // "on_pushButton_Play_clicked"
-        QT_MOC_LITERAL(77, 27),  // "on_pushButton_Pause_clicked"
-        QT_MOC_LITERAL(105, 27),  // "on_pushButton_Avant_clicked"
-        QT_MOC_LITERAL(133, 27),  // "on_pushButton_Apres_clicked"
-        QT_MOC_LITERAL(161, 34),  // "on_horizontalSlider_sliderRel..."
-        QT_MOC_LITERAL(196, 18),  // "animateButtonClick"
-        QT_MOC_LITERAL(215, 12),  // "QPushButton*"
-        QT_MOC_LITERAL(228, 3),  // "btn"
-        QT_MOC_LITERAL(232, 26),  // "on_pushButtonReset_clicked"
-        QT_MOC_LITERAL(259, 25),  // "on_pushButton_Son_clicked"
-        QT_MOC_LITERAL(285, 17),  // "updateChronoLabel"
-        QT_MOC_LITERAL(303, 19),  // "faireClignoterLabel"
-        QT_MOC_LITERAL(323, 10)   // "receiveCmd"
-    },
+
+#ifdef QT_MOC_HAS_STRINGDATA
+struct qt_meta_stringdata_CLASSInterfaceAudioENDCLASS_t {};
+constexpr auto qt_meta_stringdata_CLASSInterfaceAudioENDCLASS = QtMocHelpers::stringData(
     "InterfaceAudio",
     "on_pushButton_SelectAudio_clicked",
     "",
@@ -81,14 +51,16 @@ Q_CONSTINIT static const qt_meta_stringdata_InterfaceAudio_t qt_meta_stringdata_
     "updateChronoLabel",
     "faireClignoterLabel",
     "receiveCmd"
-};
-#undef QT_MOC_LITERAL
+);
+#else  // !QT_MOC_HAS_STRINGDATA
+#error "qtmochelpers.h not found or too old."
+#endif // !QT_MOC_HAS_STRINGDATA
 } // unnamed namespace
 
-Q_CONSTINIT static const uint qt_meta_data_InterfaceAudio[] = {
+Q_CONSTINIT static const uint qt_meta_data_CLASSInterfaceAudioENDCLASS[] = {
 
  // content:
-      10,       // revision
+      12,       // revision
        0,       // classname
        0,    0, // classinfo
       12,   14, // methods
@@ -131,11 +103,11 @@ Q_CONSTINIT static const uint qt_meta_data_InterfaceAudio[] = {
 
 Q_CONSTINIT const QMetaObject InterfaceAudio::staticMetaObject = { {
     QMetaObject::SuperData::link<QDialog::staticMetaObject>(),
-    qt_meta_stringdata_InterfaceAudio.offsetsAndSizes,
-    qt_meta_data_InterfaceAudio,
+    qt_meta_stringdata_CLASSInterfaceAudioENDCLASS.offsetsAndSizes,
+    qt_meta_data_CLASSInterfaceAudioENDCLASS,
     qt_static_metacall,
     nullptr,
-    qt_incomplete_metaTypeArray<qt_meta_stringdata_InterfaceAudio_t,
+    qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSInterfaceAudioENDCLASS_t,
         // Q_OBJECT / Q_GADGET
         QtPrivate::TypeAndForceComplete<InterfaceAudio, std::true_type>,
         // method 'on_pushButton_SelectAudio_clicked'
@@ -198,7 +170,7 @@ const QMetaObject *InterfaceAudio::metaObject() const
 void *InterfaceAudio::qt_metacast(const char *_clname)
 {
     if (!_clname) return nullptr;
-    if (!strcmp(_clname, qt_meta_stringdata_InterfaceAudio.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_CLASSInterfaceAudioENDCLASS.stringdata0))
         return static_cast<void*>(this);
     return QDialog::qt_metacast(_clname);
 }
@@ -220,4 +192,3 @@ int InterfaceAudio::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     return _id;
 }
 QT_WARNING_POP
-QT_END_MOC_NAMESPACE

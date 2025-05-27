@@ -1,18 +1,24 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'audioCommunicator.h'
 **
-** Created by: The Qt Meta Object Compiler version 68 (Qt 6.4.2)
+** Created by: The Qt Meta Object Compiler version 68 (Qt 6.7.2)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include <memory>
 #include "../../../audioCommunicator.h"
 #include <QtCore/qmetatype.h>
+
+#include <QtCore/qtmochelpers.h>
+
+#include <memory>
+
+
+#include <QtCore/qxptype_traits.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'audioCommunicator.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 68
-#error "This file was generated using the moc from 6.4.2. It"
+#error "This file was generated using the moc from 6.7.2. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -21,46 +27,14 @@
 #define Q_CONSTINIT
 #endif
 
-QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
+QT_WARNING_DISABLE_GCC("-Wuseless-cast")
 namespace {
-struct qt_meta_stringdata_Student_t {
-    uint offsetsAndSizes[28];
-    char stringdata0[8];
-    char stringdata1[20];
-    char stringdata2[1];
-    char stringdata3[13];
-    char stringdata4[17];
-    char stringdata5[13];
-    char stringdata6[11];
-    char stringdata7[8];
-    char stringdata8[26];
-    char stringdata9[14];
-    char stringdata10[9];
-    char stringdata11[29];
-    char stringdata12[10];
-    char stringdata13[12];
-};
-#define QT_MOC_LITERAL(ofs, len) \
-    uint(sizeof(qt_meta_stringdata_Student_t::offsetsAndSizes) + ofs), len 
-Q_CONSTINIT static const qt_meta_stringdata_Student_t qt_meta_stringdata_Student = {
-    {
-        QT_MOC_LITERAL(0, 7),  // "Student"
-        QT_MOC_LITERAL(8, 19),  // "captureAndSendAudio"
-        QT_MOC_LITERAL(28, 0),  // ""
-        QT_MOC_LITERAL(29, 12),  // "receiveAudio"
-        QT_MOC_LITERAL(42, 16),  // "changeAudioGroup"
-        QT_MOC_LITERAL(59, 12),  // "QHostAddress"
-        QT_MOC_LITERAL(72, 10),  // "newAddress"
-        QT_MOC_LITERAL(83, 7),  // "newPort"
-        QT_MOC_LITERAL(91, 25),  // "onAudioSourceStateChanged"
-        QT_MOC_LITERAL(117, 13),  // "QAudio::State"
-        QT_MOC_LITERAL(131, 8),  // "newState"
-        QT_MOC_LITERAL(140, 28),  // "initializeAudioCommunication"
-        QT_MOC_LITERAL(169, 9),  // "muteAudio"
-        QT_MOC_LITERAL(179, 11)   // "unmuteAudio"
-    },
+
+#ifdef QT_MOC_HAS_STRINGDATA
+struct qt_meta_stringdata_CLASSStudentENDCLASS_t {};
+constexpr auto qt_meta_stringdata_CLASSStudentENDCLASS = QtMocHelpers::stringData(
     "Student",
     "captureAndSendAudio",
     "",
@@ -75,14 +49,16 @@ Q_CONSTINIT static const qt_meta_stringdata_Student_t qt_meta_stringdata_Student
     "initializeAudioCommunication",
     "muteAudio",
     "unmuteAudio"
-};
-#undef QT_MOC_LITERAL
+);
+#else  // !QT_MOC_HAS_STRINGDATA
+#error "qtmochelpers.h not found or too old."
+#endif // !QT_MOC_HAS_STRINGDATA
 } // unnamed namespace
 
-Q_CONSTINIT static const uint qt_meta_data_Student[] = {
+Q_CONSTINIT static const uint qt_meta_data_CLASSStudentENDCLASS[] = {
 
  // content:
-      10,       // revision
+      12,       // revision
        0,       // classname
        0,    0, // classinfo
        7,   14, // methods
@@ -115,11 +91,11 @@ Q_CONSTINIT static const uint qt_meta_data_Student[] = {
 
 Q_CONSTINIT const QMetaObject Student::staticMetaObject = { {
     QMetaObject::SuperData::link<QObject::staticMetaObject>(),
-    qt_meta_stringdata_Student.offsetsAndSizes,
-    qt_meta_data_Student,
+    qt_meta_stringdata_CLASSStudentENDCLASS.offsetsAndSizes,
+    qt_meta_data_CLASSStudentENDCLASS,
     qt_static_metacall,
     nullptr,
-    qt_incomplete_metaTypeArray<qt_meta_stringdata_Student_t,
+    qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSStudentENDCLASS_t,
         // Q_OBJECT / Q_GADGET
         QtPrivate::TypeAndForceComplete<Student, std::true_type>,
         // method 'captureAndSendAudio'
@@ -169,7 +145,7 @@ const QMetaObject *Student::metaObject() const
 void *Student::qt_metacast(const char *_clname)
 {
     if (!_clname) return nullptr;
-    if (!strcmp(_clname, qt_meta_stringdata_Student.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_CLASSStudentENDCLASS.stringdata0))
         return static_cast<void*>(this);
     return QObject::qt_metacast(_clname);
 }
@@ -191,4 +167,3 @@ int Student::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     return _id;
 }
 QT_WARNING_POP
-QT_END_MOC_NAMESPACE

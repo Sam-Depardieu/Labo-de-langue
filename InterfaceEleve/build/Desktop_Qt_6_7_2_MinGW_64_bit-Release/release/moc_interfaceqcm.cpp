@@ -1,18 +1,24 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'interfaceqcm.h'
 **
-** Created by: The Qt Meta Object Compiler version 68 (Qt 6.4.2)
+** Created by: The Qt Meta Object Compiler version 68 (Qt 6.7.2)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include <memory>
 #include "../../../interfaceqcm.h"
 #include <QtCore/qmetatype.h>
+
+#include <QtCore/qtmochelpers.h>
+
+#include <memory>
+
+
+#include <QtCore/qxptype_traits.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'interfaceqcm.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 68
-#error "This file was generated using the moc from 6.4.2. It"
+#error "This file was generated using the moc from 6.7.2. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -21,56 +27,14 @@
 #define Q_CONSTINIT
 #endif
 
-QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
+QT_WARNING_DISABLE_GCC("-Wuseless-cast")
 namespace {
-struct qt_meta_stringdata_InterfaceQCM_t {
-    uint offsetsAndSizes[38];
-    char stringdata0[13];
-    char stringdata1[23];
-    char stringdata2[1];
-    char stringdata3[23];
-    char stringdata4[23];
-    char stringdata5[23];
-    char stringdata6[31];
-    char stringdata7[36];
-    char stringdata8[38];
-    char stringdata9[40];
-    char stringdata10[16];
-    char stringdata11[13];
-    char stringdata12[7];
-    char stringdata13[7];
-    char stringdata14[18];
-    char stringdata15[20];
-    char stringdata16[31];
-    char stringdata17[17];
-    char stringdata18[14];
-};
-#define QT_MOC_LITERAL(ofs, len) \
-    uint(sizeof(qt_meta_stringdata_InterfaceQCM_t::offsetsAndSizes) + ofs), len 
-Q_CONSTINIT static const qt_meta_stringdata_InterfaceQCM_t qt_meta_stringdata_InterfaceQCM = {
-    {
-        QT_MOC_LITERAL(0, 12),  // "InterfaceQCM"
-        QT_MOC_LITERAL(13, 22),  // "on_pushButton1_clicked"
-        QT_MOC_LITERAL(36, 0),  // ""
-        QT_MOC_LITERAL(37, 22),  // "on_pushButton2_clicked"
-        QT_MOC_LITERAL(60, 22),  // "on_pushButton3_clicked"
-        QT_MOC_LITERAL(83, 22),  // "on_pushButton4_clicked"
-        QT_MOC_LITERAL(106, 30),  // "on_pushButtonSoumettre_clicked"
-        QT_MOC_LITERAL(137, 35),  // "on_pushButtonEffacerReponse_c..."
-        QT_MOC_LITERAL(173, 37),  // "on_pushButtonQuestionSuivante..."
-        QT_MOC_LITERAL(211, 39),  // "on_pushButtonQuestionPreceden..."
-        QT_MOC_LITERAL(251, 15),  // "onAnswerClicked"
-        QT_MOC_LITERAL(267, 12),  // "QPushButton*"
-        QT_MOC_LITERAL(280, 6),  // "bouton"
-        QT_MOC_LITERAL(287, 6),  // "status"
-        QT_MOC_LITERAL(294, 17),  // "updateChronoLabel"
-        QT_MOC_LITERAL(312, 19),  // "faireClignoterLabel"
-        QT_MOC_LITERAL(332, 30),  // "on_pushButtonAppelProf_clicked"
-        QT_MOC_LITERAL(363, 16),  // "updateAvancement"
-        QT_MOC_LITERAL(380, 13)   // "questionIndex"
-    },
+
+#ifdef QT_MOC_HAS_STRINGDATA
+struct qt_meta_stringdata_CLASSInterfaceQCMENDCLASS_t {};
+constexpr auto qt_meta_stringdata_CLASSInterfaceQCMENDCLASS = QtMocHelpers::stringData(
     "InterfaceQCM",
     "on_pushButton1_clicked",
     "",
@@ -90,14 +54,16 @@ Q_CONSTINIT static const qt_meta_stringdata_InterfaceQCM_t qt_meta_stringdata_In
     "on_pushButtonAppelProf_clicked",
     "updateAvancement",
     "questionIndex"
-};
-#undef QT_MOC_LITERAL
+);
+#else  // !QT_MOC_HAS_STRINGDATA
+#error "qtmochelpers.h not found or too old."
+#endif // !QT_MOC_HAS_STRINGDATA
 } // unnamed namespace
 
-Q_CONSTINIT static const uint qt_meta_data_InterfaceQCM[] = {
+Q_CONSTINIT static const uint qt_meta_data_CLASSInterfaceQCMENDCLASS[] = {
 
  // content:
-      10,       // revision
+      12,       // revision
        0,       // classname
        0,    0, // classinfo
       13,   14, // methods
@@ -142,11 +108,11 @@ Q_CONSTINIT static const uint qt_meta_data_InterfaceQCM[] = {
 
 Q_CONSTINIT const QMetaObject InterfaceQCM::staticMetaObject = { {
     QMetaObject::SuperData::link<QDialog::staticMetaObject>(),
-    qt_meta_stringdata_InterfaceQCM.offsetsAndSizes,
-    qt_meta_data_InterfaceQCM,
+    qt_meta_stringdata_CLASSInterfaceQCMENDCLASS.offsetsAndSizes,
+    qt_meta_data_CLASSInterfaceQCMENDCLASS,
     qt_static_metacall,
     nullptr,
-    qt_incomplete_metaTypeArray<qt_meta_stringdata_InterfaceQCM_t,
+    qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSInterfaceQCMENDCLASS_t,
         // Q_OBJECT / Q_GADGET
         QtPrivate::TypeAndForceComplete<InterfaceQCM, std::true_type>,
         // method 'on_pushButton1_clicked'
@@ -225,7 +191,7 @@ const QMetaObject *InterfaceQCM::metaObject() const
 void *InterfaceQCM::qt_metacast(const char *_clname)
 {
     if (!_clname) return nullptr;
-    if (!strcmp(_clname, qt_meta_stringdata_InterfaceQCM.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_CLASSInterfaceQCMENDCLASS.stringdata0))
         return static_cast<void*>(this);
     return QDialog::qt_metacast(_clname);
 }
@@ -247,4 +213,3 @@ int InterfaceQCM::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     return _id;
 }
 QT_WARNING_POP
-QT_END_MOC_NAMESPACE

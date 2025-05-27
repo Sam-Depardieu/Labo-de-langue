@@ -1,5 +1,5 @@
 #include "interfaceqcm.h"
-#include "build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ui_interfaceqcm.h"
+//#include "build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ui_interfaceqcm.h"
 #include "mainwindow.h"
 #include "avancementqcm.h"
 #include <QStandardItemModel>

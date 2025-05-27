@@ -1,19 +1,25 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'mainwindow.h'
 **
-** Created by: The Qt Meta Object Compiler version 68 (Qt 6.4.2)
+** Created by: The Qt Meta Object Compiler version 68 (Qt 6.7.2)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include <memory>
 #include "../../../mainwindow.h"
 #include <QtGui/qtextcursor.h>
 #include <QtCore/qmetatype.h>
+
+#include <QtCore/qtmochelpers.h>
+
+#include <memory>
+
+
+#include <QtCore/qxptype_traits.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'mainwindow.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 68
-#error "This file was generated using the moc from 6.4.2. It"
+#error "This file was generated using the moc from 6.7.2. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -22,56 +28,14 @@
 #define Q_CONSTINIT
 #endif
 
-QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
+QT_WARNING_DISABLE_GCC("-Wuseless-cast")
 namespace {
-struct qt_meta_stringdata_MainWindow_t {
-    uint offsetsAndSizes[38];
-    char stringdata0[11];
-    char stringdata1[15];
-    char stringdata2[1];
-    char stringdata3[6];
-    char stringdata4[11];
-    char stringdata5[18];
-    char stringdata6[14];
-    char stringdata7[11];
-    char stringdata8[6];
-    char stringdata9[16];
-    char stringdata10[13];
-    char stringdata11[12];
-    char stringdata12[12];
-    char stringdata13[21];
-    char stringdata14[13];
-    char stringdata15[20];
-    char stringdata16[17];
-    char stringdata17[12];
-    char stringdata18[6];
-};
-#define QT_MOC_LITERAL(ofs, len) \
-    uint(sizeof(qt_meta_stringdata_MainWindow_t::offsetsAndSizes) + ofs), len 
-Q_CONSTINIT static const qt_meta_stringdata_MainWindow_t qt_meta_stringdata_MainWindow = {
-    {
-        QT_MOC_LITERAL(0, 10),  // "MainWindow"
-        QT_MOC_LITERAL(11, 14),  // "chronoMisAJour"
-        QT_MOC_LITERAL(26, 0),  // ""
-        QT_MOC_LITERAL(27, 5),  // "temps"
-        QT_MOC_LITERAL(33, 10),  // "chronoFini"
-        QT_MOC_LITERAL(44, 17),  // "connectToDatabase"
-        QT_MOC_LITERAL(62, 13),  // "keyPressEvent"
-        QT_MOC_LITERAL(76, 10),  // "QKeyEvent*"
-        QT_MOC_LITERAL(87, 5),  // "event"
-        QT_MOC_LITERAL(93, 15),  // "keyReleaseEvent"
-        QT_MOC_LITERAL(109, 12),  // "receiveInter"
-        QT_MOC_LITERAL(122, 11),  // "receivePath"
-        QT_MOC_LITERAL(134, 11),  // "receiveInfo"
-        QT_MOC_LITERAL(146, 20),  // "handleRestartCommand"
-        QT_MOC_LITERAL(167, 12),  // "updateChrono"
-        QT_MOC_LITERAL(180, 19),  // "faireClignoterLabel"
-        QT_MOC_LITERAL(200, 16),  // "stopClignotement"
-        QT_MOC_LITERAL(217, 11),  // "startChrono"
-        QT_MOC_LITERAL(229, 5)   // "duree"
-    },
+
+#ifdef QT_MOC_HAS_STRINGDATA
+struct qt_meta_stringdata_CLASSMainWindowENDCLASS_t {};
+constexpr auto qt_meta_stringdata_CLASSMainWindowENDCLASS = QtMocHelpers::stringData(
     "MainWindow",
     "chronoMisAJour",
     "",
@@ -91,14 +55,16 @@ Q_CONSTINIT static const qt_meta_stringdata_MainWindow_t qt_meta_stringdata_Main
     "stopClignotement",
     "startChrono",
     "duree"
-};
-#undef QT_MOC_LITERAL
+);
+#else  // !QT_MOC_HAS_STRINGDATA
+#error "qtmochelpers.h not found or too old."
+#endif // !QT_MOC_HAS_STRINGDATA
 } // unnamed namespace
 
-Q_CONSTINIT static const uint qt_meta_data_MainWindow[] = {
+Q_CONSTINIT static const uint qt_meta_data_CLASSMainWindowENDCLASS[] = {
 
  // content:
-      10,       // revision
+      12,       // revision
        0,       // classname
        0,    0, // classinfo
       13,   14, // methods
@@ -147,11 +113,11 @@ Q_CONSTINIT static const uint qt_meta_data_MainWindow[] = {
 
 Q_CONSTINIT const QMetaObject MainWindow::staticMetaObject = { {
     QMetaObject::SuperData::link<QMainWindow::staticMetaObject>(),
-    qt_meta_stringdata_MainWindow.offsetsAndSizes,
-    qt_meta_data_MainWindow,
+    qt_meta_stringdata_CLASSMainWindowENDCLASS.offsetsAndSizes,
+    qt_meta_data_CLASSMainWindowENDCLASS,
     qt_static_metacall,
     nullptr,
-    qt_incomplete_metaTypeArray<qt_meta_stringdata_MainWindow_t,
+    qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSMainWindowENDCLASS_t,
         // Q_OBJECT / Q_GADGET
         QtPrivate::TypeAndForceComplete<MainWindow, std::true_type>,
         // method 'chronoMisAJour'
@@ -237,7 +203,7 @@ const QMetaObject *MainWindow::metaObject() const
 void *MainWindow::qt_metacast(const char *_clname)
 {
     if (!_clname) return nullptr;
-    if (!strcmp(_clname, qt_meta_stringdata_MainWindow.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_CLASSMainWindowENDCLASS.stringdata0))
         return static_cast<void*>(this);
     return QMainWindow::qt_metacast(_clname);
 }
@@ -272,4 +238,3 @@ void MainWindow::chronoFini()
     QMetaObject::activate(this, &staticMetaObject, 1, nullptr);
 }
 QT_WARNING_POP
-QT_END_MOC_NAMESPACE

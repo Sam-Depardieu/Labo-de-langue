@@ -1,13 +1,13 @@
 /****************************************************************************
 ** Resource object code
 **
-** Created by: The Resource Compiler for Qt version 6.4.2
+** Created by: The Resource Compiler for Qt version 6.7.2
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
 static const unsigned char qt_resource_data[] = {
-  // /home/sam/Documents/Projet/Labo-de-langue/InterfaceEleve/videos/loading.gif
+  // E:/Documents/Projet/Labo-de-langue/InterfaceEleve/videos/loading.gif
   0x0,0x1,0xe6,0xc6,
   0x47,
   0x49,0x46,0x38,0x39,0x61,0xc8,0x0,0xc8,0x0,0x0,0x0,0x0,0x21,0xff,0xb,0x4e,
@@ -7825,7 +7825,7 @@ static const unsigned char qt_resource_struct[] = {
 0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,
   // :/videos/loading.gif
   0x0,0x0,0x0,0x12,0x0,0x0,0x0,0x0,0x0,0x1,0x0,0x0,0x0,0x0,
-0x0,0x0,0x1,0x96,0xf9,0x98,0x2f,0x66,
+0x0,0x0,0x1,0x97,0xc,0x86,0x7d,0x43,
 
 };
 
@@ -7870,9 +7870,18 @@ int QT_RCC_MANGLE_NAMESPACE(qCleanupResources_videos)()
     return 1;
 }
 
+#ifdef __clang__
+#   pragma clang diagnostic push
+#   pragma clang diagnostic ignored "-Wexit-time-destructors"
+#endif
+
 namespace {
    struct initializer {
        initializer() { QT_RCC_MANGLE_NAMESPACE(qInitResources_videos)(); }
        ~initializer() { QT_RCC_MANGLE_NAMESPACE(qCleanupResources_videos)(); }
    } dummy;
 }
+
+#ifdef __clang__
+#   pragma clang diagnostic pop
+#endif

@@ -1,19 +1,25 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'interfaceenregistrement.h'
 **
-** Created by: The Qt Meta Object Compiler version 68 (Qt 6.4.2)
+** Created by: The Qt Meta Object Compiler version 68 (Qt 6.7.2)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include <memory>
 #include "../../../interfaceenregistrement.h"
 #include <QtGui/qtextcursor.h>
 #include <QtCore/qmetatype.h>
+
+#include <QtCore/qtmochelpers.h>
+
+#include <memory>
+
+
+#include <QtCore/qxptype_traits.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'interfaceenregistrement.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 68
-#error "This file was generated using the moc from 6.4.2. It"
+#error "This file was generated using the moc from 6.7.2. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -22,74 +28,14 @@
 #define Q_CONSTINIT
 #endif
 
-QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
+QT_WARNING_DISABLE_GCC("-Wuseless-cast")
 namespace {
-struct qt_meta_stringdata_InterfaceEnregistrement_t {
-    uint offsetsAndSizes[56];
-    char stringdata0[24];
-    char stringdata1[27];
-    char stringdata2[1];
-    char stringdata3[27];
-    char stringdata4[27];
-    char stringdata5[25];
-    char stringdata6[35];
-    char stringdata7[31];
-    char stringdata8[29];
-    char stringdata9[33];
-    char stringdata10[26];
-    char stringdata11[19];
-    char stringdata12[13];
-    char stringdata13[4];
-    char stringdata14[13];
-    char stringdata15[13];
-    char stringdata16[18];
-    char stringdata17[19];
-    char stringdata18[20];
-    char stringdata19[23];
-    char stringdata20[30];
-    char stringdata21[6];
-    char stringdata22[24];
-    char stringdata23[22];
-    char stringdata24[6];
-    char stringdata25[12];
-    char stringdata26[22];
-    char stringdata27[9];
-};
-#define QT_MOC_LITERAL(ofs, len) \
-    uint(sizeof(qt_meta_stringdata_InterfaceEnregistrement_t::offsetsAndSizes) + ofs), len 
-Q_CONSTINIT static const qt_meta_stringdata_InterfaceEnregistrement_t qt_meta_stringdata_InterfaceEnregistrement = {
-    {
-        QT_MOC_LITERAL(0, 23),  // "InterfaceEnregistrement"
-        QT_MOC_LITERAL(24, 26),  // "on_pushButtonSpeak_clicked"
-        QT_MOC_LITERAL(51, 0),  // ""
-        QT_MOC_LITERAL(52, 26),  // "on_pushButtonPause_clicked"
-        QT_MOC_LITERAL(79, 26),  // "on_pushButtonClear_clicked"
-        QT_MOC_LITERAL(106, 24),  // "on_pushButtonSon_clicked"
-        QT_MOC_LITERAL(131, 34),  // "on_pushButtonRetourArriere_cl..."
-        QT_MOC_LITERAL(166, 30),  // "on_pushButtonAppelProf_clicked"
-        QT_MOC_LITERAL(197, 28),  // "on_pushButtonAvancer_clicked"
-        QT_MOC_LITERAL(226, 32),  // "on_pushButtonEnregistrer_clicked"
-        QT_MOC_LITERAL(259, 25),  // "on_pushButtonPlay_clicked"
-        QT_MOC_LITERAL(285, 18),  // "animateButtonClick"
-        QT_MOC_LITERAL(304, 12),  // "QPushButton*"
-        QT_MOC_LITERAL(317, 3),  // "btn"
-        QT_MOC_LITERAL(321, 12),  // "updateChrono"
-        QT_MOC_LITERAL(334, 12),  // "rewindChrono"
-        QT_MOC_LITERAL(347, 17),  // "updateChronoLabel"
-        QT_MOC_LITERAL(365, 18),  // "updateChronoGlobal"
-        QT_MOC_LITERAL(384, 19),  // "faireClignoterLabel"
-        QT_MOC_LITERAL(404, 22),  // "onRecorderStateChanged"
-        QT_MOC_LITERAL(427, 29),  // "QMediaRecorder::RecorderState"
-        QT_MOC_LITERAL(457, 5),  // "state"
-        QT_MOC_LITERAL(463, 23),  // "onRecorderErrorOccurred"
-        QT_MOC_LITERAL(487, 21),  // "QMediaRecorder::Error"
-        QT_MOC_LITERAL(509, 5),  // "error"
-        QT_MOC_LITERAL(515, 11),  // "errorString"
-        QT_MOC_LITERAL(527, 21),  // "checkPlaybackPosition"
-        QT_MOC_LITERAL(549, 8)   // "position"
-    },
+
+#ifdef QT_MOC_HAS_STRINGDATA
+struct qt_meta_stringdata_CLASSInterfaceEnregistrementENDCLASS_t {};
+constexpr auto qt_meta_stringdata_CLASSInterfaceEnregistrementENDCLASS = QtMocHelpers::stringData(
     "InterfaceEnregistrement",
     "on_pushButtonSpeak_clicked",
     "",
@@ -118,14 +64,16 @@ Q_CONSTINIT static const qt_meta_stringdata_InterfaceEnregistrement_t qt_meta_st
     "errorString",
     "checkPlaybackPosition",
     "position"
-};
-#undef QT_MOC_LITERAL
+);
+#else  // !QT_MOC_HAS_STRINGDATA
+#error "qtmochelpers.h not found or too old."
+#endif // !QT_MOC_HAS_STRINGDATA
 } // unnamed namespace
 
-Q_CONSTINIT static const uint qt_meta_data_InterfaceEnregistrement[] = {
+Q_CONSTINIT static const uint qt_meta_data_CLASSInterfaceEnregistrementENDCLASS[] = {
 
  // content:
-      10,       // revision
+      12,       // revision
        0,       // classname
        0,    0, // classinfo
       18,   14, // methods
@@ -180,11 +128,11 @@ Q_CONSTINIT static const uint qt_meta_data_InterfaceEnregistrement[] = {
 
 Q_CONSTINIT const QMetaObject InterfaceEnregistrement::staticMetaObject = { {
     QMetaObject::SuperData::link<QDialog::staticMetaObject>(),
-    qt_meta_stringdata_InterfaceEnregistrement.offsetsAndSizes,
-    qt_meta_data_InterfaceEnregistrement,
+    qt_meta_stringdata_CLASSInterfaceEnregistrementENDCLASS.offsetsAndSizes,
+    qt_meta_data_CLASSInterfaceEnregistrementENDCLASS,
     qt_static_metacall,
     nullptr,
-    qt_incomplete_metaTypeArray<qt_meta_stringdata_InterfaceEnregistrement_t,
+    qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSInterfaceEnregistrementENDCLASS_t,
         // Q_OBJECT / Q_GADGET
         QtPrivate::TypeAndForceComplete<InterfaceEnregistrement, std::true_type>,
         // method 'on_pushButtonSpeak_clicked'
@@ -269,7 +217,7 @@ const QMetaObject *InterfaceEnregistrement::metaObject() const
 void *InterfaceEnregistrement::qt_metacast(const char *_clname)
 {
     if (!_clname) return nullptr;
-    if (!strcmp(_clname, qt_meta_stringdata_InterfaceEnregistrement.stringdata0))
+    if (!strcmp(_clname, qt_meta_stringdata_CLASSInterfaceEnregistrementENDCLASS.stringdata0))
         return static_cast<void*>(this);
     return QDialog::qt_metacast(_clname);
 }
@@ -291,4 +239,3 @@ int InterfaceEnregistrement::qt_metacall(QMetaObject::Call _c, int _id, void **_
     return _id;
 }
 QT_WARNING_POP
-QT_END_MOC_NAMESPACE
