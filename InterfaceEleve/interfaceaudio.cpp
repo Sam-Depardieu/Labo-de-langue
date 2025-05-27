@@ -53,9 +53,6 @@ InterfaceAudio::InterfaceAudio(bool co,MainWindow* parentWindow, QWidget *parent
     }
 
     this->setWindowTitle("Page de Comprehension Orale");
-    if (coMode) {
-        ui->pushButton_SelectAudio->setEnabled(false);
-    }
      player->setAudioOutput(audioOutput);
     QPixmap imagePlay(":/images/Play"); // Charge l'image
     if (imagePlay.isNull()) {
@@ -197,24 +194,6 @@ void InterfaceAudio::on_pushButton_Play_clicked()
 void InterfaceAudio::on_pushButton_Pause_clicked()
 {
     setAudioPause(true); // Mettre en pause
-}
-
-void InterfaceAudio::on_pushButton_SelectAudio_clicked()
-{
-    QString videoPath = "/mnt/Activites";  // Adresse réseau correcte
-
-    QString fileName = QFileDialog::getOpenFileName(
-        this,
-        "Sélectionner une audio",
-        videoPath,  // Ouvre directement le dossier réseau
-        "Audio Files (*.mp3 *.wav *.ogg *.flac *.aac)"
-        );
-    if (!fileName.isEmpty()) {
-        player->setSource(QUrl::fromLocalFile(fileName));  // Charger et lire l'audio
-        player->play();
-        qDebug() << "Fichier sélectionné : " << fileName;
-    }
-
 }
 void InterfaceAudio::on_pushButton_Avant_clicked()
 {
