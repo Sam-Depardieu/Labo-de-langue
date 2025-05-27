@@ -283,19 +283,17 @@ void gestionSession::continuerCreationSession(bool sessionExistante)
             //mainWindow->getProf()->sendCommandToStudent(eleve->getIP(), 5558, "ipProf:"+QString(mainWindow->getIpProf()));
         }
     }
-    if (sessionExistante) {
-        QMap<int, QString> activite {
-            {0, "QCM"},
-            {1, "ecoute"},
-            {2, "ecoute_co"},
-            {3, "video"},
-            {4, "video_co"},
-            {5, "enregistrement"}
-        };
+    QMap<int, QString> activite {
+        {0, "QCM"},
+        {1, "ecoute"},
+        {2, "ecoute_co"},
+        {3, "video"},
+        {4, "video_co"},
+        {5, "enregistrement"}
+    };
 
-        for (auto *eleve : mainWindow->listeParticipant) {
-            mainWindow->getProf()->sendCommandToStudent(eleve->getIP(), 5560, activite[mainWindow->getIdTypeActivite()]);
-        }
+    for (auto *eleve : mainWindow->listeParticipant) {
+        mainWindow->getProf()->sendCommandToStudent(eleve->getIP(), 5560, activite[mainWindow->getIdTypeActivite()]);
     }
 }
 

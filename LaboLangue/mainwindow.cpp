@@ -304,7 +304,7 @@ MainWindow::~MainWindow()
 
         // Création du dossier de session
         QDir dir;
-        if (!dir.exists(sessionFolder) && !dir.mkpath(sessionFolder)) {
+        if (!dir.exists(sessionPATH) && !dir.mkpath(sessionPATH)) {
             qDebug() << "❌ Erreur : Impossible de créer le dossier de session.";
             return;
         }
@@ -314,7 +314,7 @@ MainWindow::~MainWindow()
             {"nomProf", nomProf},
             {"idTypeActivite", idTypeActivite},
             {"idClasse", idClasse},
-            {"fichier", sessionFolder}
+            {"fichier", sessionPATH}
         };
 
         QString generalConfigPath = networkPath + "generalConfig.laboconfig";
@@ -341,7 +341,7 @@ MainWindow::~MainWindow()
             {"participants", participantsArray}
         };
 
-        QString configPath = sessionFolder + "/config.labo";
+        QString configPath = sessionPATH + "/config.labo";
         QFile sessionConfigFile(configPath);
         if (sessionConfigFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
             sessionConfigFile.write(QJsonDocument(sessionConfig).toJson(QJsonDocument::Indented));
@@ -351,7 +351,7 @@ MainWindow::~MainWindow()
         }
 
         // ---------- Écriture de `bilan.txt` ----------
-        QString bilanPath = sessionFolder + "/bilan.txt";
+        QString bilanPath = sessionPATH + "/bilan.txt";
         QFile bilanFile(bilanPath);
         if (bilanFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
             QTextStream stream(&bilanFile);
