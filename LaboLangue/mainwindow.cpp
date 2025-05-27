@@ -70,6 +70,13 @@ MainWindow::MainWindow(QWidget *parent)
     editStatusButtonHeader(ui->StatutButton, false);
     editStatusButtonHeader(ui->CreationButton, false);
 
+    ui->chronoLabel->setVisible(false);
+    ui->enleveTemps->setVisible(false);
+    ui->ajouterTemps->setVisible(false);
+    ui->tempsChronoLineEdit->setVisible(false);
+
+    ui->tempsChronoLineEdit->setPlaceholderText("00:00");
+
     // Créer le layout principal pour la gestion audio des élèves et des groupes avec les éléments disposés
     QVBoxLayout *layoutParametrageEleve = new QVBoxLayout();
     layoutParametrageEleve->setContentsMargins(8, 8, 15, 8);
@@ -101,7 +108,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->envoyerMessagePersonne->setVisible(false);
     ui->envoyerMessageTextEdit->setVisible(false);
     ui->TableauGroupe->setVisible(false);
-    ui->chronoLabel->setVisible(false);
+
+
     ui->envoyerMessageTextEdit->setPlaceholderText("Ecrire un message...");
     // Appliquez le layout à ParametrageEleve
     ui->ParametrageEleve->setLayout(layoutParametrageEleve);
@@ -226,7 +234,7 @@ MainWindow::~MainWindow()
             ui->errorLabel->setText("Veuillez remplir tous les champs !");
             return;
         }
-        if ((nomTypeActivite.contains("video") || nomTypeActivite.contains("ecoute")) && source == nullptr)
+        if ((nomTypeActivite.contains("video") || nomTypeActivite.contains("ecoute")) && (source.isNull() || source != ""))
         {
             ui->errorLabel->setText("Veuillez indiquer un fichier audio ou video.");
             return;
@@ -505,6 +513,7 @@ void MainWindow::updateEleveNom(iconEleveGroup* eleve, const QString& newName) {
     // 1. Met à jour l'objet élève
     eleve->setTextItem(newName);
     eleve->setNom(newName);
+    prof->sendCommandToStudent(eleve->getIP(), 5558, "nomEleve,"+newName);
 
     // 2. Met à jour la base de données
     updateNomDansBDD(eleve->getIDEleve(), newName);
@@ -823,7 +832,11 @@ void MainWindow::on_ChoixActivite_currentIndexChanged(int index)
     QString selectedActivity = ui->ChoixActivite->itemText(index);
     idTypeActivite = index;
     nomTypeActivite = ui->ChoixActivite->currentText();
-    if(nomTypeActivite == "QCM") editStatusButton(ui->SourceButton, false);
+    if(nomTypeActivite == "QCM")
+    {
+        ui->NameSourceLabel->clear();
+        editStatusButton(ui->SourceButton, false);
+    }
     else editStatusButton(ui->SourceButton, true);
     if(nomTypeActivite == "Enregistrement") ui->creerGroupeButton->setEnabled(true);
 }
@@ -1147,6 +1160,7 @@ void MainWindow::on_modeSombreButton_clicked()
     ui->ParametrageSession->setStyleSheet("background-color: rgb(100, 100, 100)");
 
     ui->centralwidget->setStyleSheet("background-color: black; color: white;");
+    ui->tempsChronoLineEdit->setStyleSheet("color-text: white;");
 
     ui->modeClairButton->setVisible(true);
     ui->modeSombreButton->setVisible(false);
@@ -1272,22 +1286,17 @@ void MainWindow::onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve)
 
     // Si le créateur n'a pas encore de groupe assigné
     if (groupe.isEmpty()) {
-        // Prendre la saisie ou générer un nom
         if (!ui->nomGroupeLineEdit->text().isEmpty()) {
             groupe = ui->nomGroupeLineEdit->text().trimmed();
         } else {
             groupe = "Groupe " + eleveActuellementParametre->getNom();
         }
 
-        // Affecter ce groupe au créateur
         eleveActuellementParametre->setNomGroupe(groupe);
-
-        // Ajouter le créateur dans la liste du groupe
         listeGroup[groupe].push_back(eleveActuellementParametre);
 
-        // Si nouveau groupe, créer une couleur et allouer un port audio
         if (!couleursGroup.contains(groupe)) {
-            QColor couleur = couleurDisponible();  // ta fonction pour couleur libre
+            QColor couleur = couleurDisponible();
             couleursGroup[groupe] = couleur;
         }
 
@@ -1295,14 +1304,10 @@ void MainWindow::onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve)
             portsAudioGroupes[groupe] = prochainPortAudioDisponible++;
         }
 
-        // Créer le groupe audio côté serveur professeur s'il n'existe pas
         if (prof && !prof->audioGroupExists(groupe)) {
             prof->addAudioGroup(groupe, portsAudioGroupes[groupe]);
         }
     }
-
-    // ======= Sauvegarder les membres avant modification ========
-    std::vector<iconEleveGroup*> anciensMembres = listeGroup[groupe];
 
     // Affecter le groupe à l'élève cliqué
     eleve->setNomGroupe(groupe);
@@ -1316,7 +1321,6 @@ void MainWindow::onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve)
     int portAudio = portsAudioGroupes[groupe];
     QString commande = "portGroup," + QString::number(portAudio);
 
-    // Mettre à jour la liste des affiliés et couleur
     for (iconEleveGroup* membre : membres) {
         membre->getAffiliate().clear();
         for (iconEleveGroup* autre : membres) {
@@ -1336,15 +1340,16 @@ void MainWindow::onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve)
                 );
         }
 
-        // ======= N'envoyer la commande qu'aux nouveaux membres ========
-        if (prof && std::find(anciensMembres.begin(), anciensMembres.end(), membre) == anciensMembres.end()) {
+        // Envoyer la commande à tous les membres
+        if (prof) {
             prof->sendCommandToStudent(membre->getIP(), 5558, commande);
             qDebug() << "[MainWindow] Commande envoyée à " << membre->getIP() << ":" << commande;
         }
     }
 
-    loadInformationTable(); // Rafraîchir affichage
+    loadInformationTable();
 }
+
 
 
 void MainWindow::on_nomGroupeLineEdit_returnPressed()
@@ -1479,5 +1484,53 @@ void MainWindow::on_PauseStatutButton_clicked()
 void MainWindow::on_AppelButton_clicked()
 {
     prof->setBroadcastEnabled(!prof->getBroadcastEnabled());
+}
+
+
+void MainWindow::on_ajouterTemps_clicked()
+{
+    QTime tempsAjouter = QTime::fromString(ui->tempsChronoLineEdit->text(), "mm:ss");
+    if (!tempsAjouter.isValid()) return;
+
+    int secondesModif = QTime(0, 0).secsTo(tempsAjouter);
+
+    // Mettre à jour remainingTime directement
+    int secondesActuelles = QTime(0, 0).secsTo(remainingTime);
+    int total = secondesActuelles + secondesModif;
+    if (total > 3600) {
+        QMessageBox::warning(this, "Erreur", "Impossible de dépasser une heure !");
+        return;
+    }
+    remainingTime = QTime(0, 0).addSecs(total);
+
+    // Met à jour le label
+    ui->chronoLabel->setText(remainingTime.toString("mm:ss"));
+    for (auto *eleve : listeRasp) {
+        getProf()->sendCommandToStudent(eleve->getIP(), 5558, QString("chrono,%1").arg(remainingTime.toString("mm:ss")));
+    }
+}
+
+void MainWindow::on_enleveTemps_clicked()
+{
+
+    QTime tempsRetirer = QTime::fromString(ui->tempsChronoLineEdit->text(), "mm:ss");
+    if (!tempsRetirer.isValid()) return;
+
+    int secondesModif = QTime(0, 0).secsTo(tempsRetirer);
+
+    // Mettre à jour remainingTime directement
+    int secondesActuelles = QTime(0, 0).secsTo(remainingTime);
+    int total = secondesActuelles - secondesModif;
+    if (secondesModif > secondesActuelles) {
+        QMessageBox::warning(this, "Erreur", "Impossible de retirer plus de temps qu’il n’en reste !");
+        return;
+    }
+    remainingTime = QTime(0, 0).addSecs(total);
+
+    // Met à jour le label
+    ui->chronoLabel->setText(remainingTime.toString("mm:ss"));
+    for (auto *eleve : listeRasp) {
+        getProf()->sendCommandToStudent(eleve->getIP(), 5558, QString("chrono,%1").arg(remainingTime.toString("mm:ss")));
+    }
 }
 
