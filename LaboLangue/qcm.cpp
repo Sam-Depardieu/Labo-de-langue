@@ -404,11 +404,9 @@ void QCM::saveQuestions()
 
     QMessageBox::information(this, "Sauvegarde terminée", "Les questions ont été sauvegardées avec succès dans :\n" + savePath);
 
-    if(!mainWindow->runningSession)
-    {
-        mainWindow->getGestionSession()->continuerCreationSession();
-        mainWindow->interfaceQCMOpen = false;
-    }
+    mainWindow->getGestionSession()->continuerCreationSession(true);
+    mainWindow->interfaceQCMOpen = false;
+
     this->close(); // si besoin
 }
 

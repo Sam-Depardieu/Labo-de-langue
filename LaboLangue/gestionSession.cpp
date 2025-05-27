@@ -32,6 +32,8 @@ gestionSession::gestionSession(MainWindow *mainW, QSqlDatabase db, QObject *pare
     ui->ParametrageSession->setLayout(layoutParametrageSession);
 
     ui->ParametrageSession->setVisible(false);
+    mainWindow->runningSession = true;
+    mainWindow->editStatusButton(mainWindow->ui->SourceButton, false);
 }
 
 
@@ -140,6 +142,7 @@ bool gestionSession::validerEtEnregistrerSession(const QString &nomProf, const Q
         participant->getMicroActiver()->setVisible(true);
         participant->getCasqueActiver()->setVisible(true);
     }
+    mainWindow->ui->NomProfLineEdit->setEnabled(false);
     return true;
 }
 
@@ -207,15 +210,14 @@ void gestionSession::loadSession() {
 void gestionSession::continuerCreationSession(bool sessionExistante)
 {
     unsigned int i = 1;
-
     auto ui = mainWindow->ui;
 
-    mainWindow->editStatusButton(ui->PresenceButton, true);
-    mainWindow->editStatusButton(ui->EnregistrementButton, true);
-    mainWindow->editStatusButton(ui->AppelButton, true);
-    mainWindow->editStatusButton(ui->StatutButton, true);
-    mainWindow->editStatusButton(ui->selectAll, false);
-    mainWindow->editStatusButton(ui->selectManuel, false);
+    mainWindow->editStatusButtonHeader(ui->PresenceButton, true);
+    mainWindow->editStatusButtonHeader(ui->EnregistrementButton, true);
+    mainWindow->editStatusButtonHeader(ui->AppelButton, true);
+    mainWindow->editStatusButtonHeader(ui->StatutButton, true);
+    mainWindow->editStatusButtonHeader(ui->selectAll, false);
+    mainWindow->editStatusButtonHeader(ui->selectManuel, false);
 
     mainWindow->selectionParticipants = false;
     mainWindow->selectAllParticipants = false;
@@ -276,7 +278,6 @@ void gestionSession::continuerCreationSession(bool sessionExistante)
                 mainWindow->getProf()->sendCommandToStudent(eleve->getIP(), 5558, QString("chrono,%1").arg(*mainWindow->getDuree()));
             }
             mainWindow->getProf()->sendCommandToStudent(eleve->getIP(), 5561, QString(mainWindow->getSessionFolder()));
-            QThread::msleep(100);
 
             //qDebug() << mainWindow->getIpProf();
             //mainWindow->getProf()->sendCommandToStudent(eleve->getIP(), 5558, "ipProf:"+QString(mainWindow->getIpProf()));
@@ -382,6 +383,7 @@ void gestionSession::reset()
     mainWindow->ui->envoyerMessageTextEdit->clear();
     mainWindow->ui->TableauGroupe->setVisible(false);
     mainWindow->ui->NameSourceLabel->clear();
+    mainWindow->ui->NomProfLineEdit->setEnabled(true);
 
     // === Réinitialisation des boutons ===
     mainWindow->editStatusButton(mainWindow->ui->PresenceButton, false);

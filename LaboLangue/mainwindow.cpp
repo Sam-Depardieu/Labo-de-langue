@@ -64,17 +64,18 @@ MainWindow::MainWindow(QWidget *parent)
     ui->ParametrageEleve->setVisible(false);
 
     // Désactivation des boutons
-    editStatusButton(ui->PresenceButton, false);
-    editStatusButton(ui->EnregistrementButton, false);
-    editStatusButton(ui->AppelButton, false);
-    editStatusButton(ui->StatutButton, false);
-    editStatusButton(ui->CreationButton, false);
+    editStatusButtonHeader(ui->PresenceButton, false);
+    editStatusButtonHeader(ui->EnregistrementButton, false);
+    editStatusButtonHeader(ui->AppelButton, false);
+    editStatusButtonHeader(ui->StatutButton, false);
+    editStatusButtonHeader(ui->CreationButton, false);
 
     // Créer le layout principal pour la gestion audio des élèves et des groupes avec les éléments disposés
     QVBoxLayout *layoutParametrageEleve = new QVBoxLayout();
     layoutParametrageEleve->setContentsMargins(8, 8, 15, 8);
     layoutParametrageEleve->setAlignment(Qt::AlignCenter | Qt::AlignTop);
     // Ajout des sections dans le layoutParametrageEleve
+    ui->creerGroupeButton->setEnabled(false);
     addHorizontalLayout(layoutParametrageEleve, {ui->nomGroupeLabel, ui->nomEleveLineEdit, ui->Communication});
     addHorizontalLayout(layoutParametrageEleve, {ui->microSonButton, ui->casqueSonButton});
     addHorizontalLayout(layoutParametrageEleve, {ui->creerGroupeButton, ui->pauseButton, ui->lectureButton});
@@ -252,7 +253,7 @@ MainWindow::~MainWindow()
         saveSessionData(!runningSession);
         // Si activité QCM
         if (ui->ChoixActivite->currentText() == "QCM") {
-            editStatusButton(ui->CreationButton, true);
+            editStatusButtonHeader(ui->CreationButton, true);
             on_CreationButton_clicked();
             udpSocketQCM = new QUdpSocket(this);
             udpSocketQCM->bind(45454, QUdpSocket::ShareAddress);
@@ -419,6 +420,19 @@ void MainWindow::setNomEtudiantLineEdit(QString nom)
     ui->nomEleveLineEdit->setText(nom);
 }
 
+void MainWindow::editStatusButtonHeader(QPushButton *button, bool status)
+{
+    button->setEnabled(status);
+    if(status == false)
+    {
+        button->setStyleSheet(
+            "background-color: #cccccc; font: 9pt \"Segoe UI\"; color: #999999; "
+            "border: 1px solid #999999; border-radius: 10px;"
+            );
+    }
+    else button->setStyleSheet("background-color: black;\nfont: 9pt \"Segoe UI\";\ncolor: white;\nborder: 1px solid white;\nborder-radius:10px;");
+}
+
 void MainWindow::editStatusButton(QPushButton *button, bool status)
 {
     button->setEnabled(status);
@@ -431,7 +445,7 @@ void MainWindow::editStatusButton(QPushButton *button, bool status)
     }
     else
     {
-        button->setStyleSheet("background-color: black;\nfont: 9pt \"Segoe UI\";\ncolor: white;\nborder: 1px solid white;\nborder-radius:10px;");
+        button->setStyleSheet("");
     }
 
 }
@@ -809,8 +823,9 @@ void MainWindow::on_ChoixActivite_currentIndexChanged(int index)
     QString selectedActivity = ui->ChoixActivite->itemText(index);
     idTypeActivite = index;
     nomTypeActivite = ui->ChoixActivite->currentText();
-    if(nomTypeActivite == "QCM") ui->SourceButton->setDisabled(true);
-    else ui->SourceButton->setEnabled(true);
+    if(nomTypeActivite == "QCM") editStatusButton(ui->SourceButton, false);
+    else editStatusButton(ui->SourceButton, true);
+    if(nomTypeActivite == "Enregistrement") ui->creerGroupeButton->setEnabled(true);
 }
 
 void MainWindow::on_selectManuel_clicked()
