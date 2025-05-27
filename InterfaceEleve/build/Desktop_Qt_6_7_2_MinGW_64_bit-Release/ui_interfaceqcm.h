@@ -128,7 +128,7 @@ public:
         font.setBold(true);
         chronoLabel->setFont(font);
         chronoLabel->setStyleSheet(QString::fromUtf8("QLabel {\n"
-"    background-color: #0097a7; /* m\303\252me ton bleu-vert que ta barre */\n"
+"    background-color: rgb(0, 151, 178); /* m\303\252me ton bleu-vert que ta barre */\n"
 "    color: white;\n"
 "    border: 2px solid white;\n"
 "    border-radius: 8px;\n"
@@ -171,7 +171,6 @@ public:
         label_3->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 151, 178); /* Fond bleu */\n"
 "    color: white; /* Texte en blanc */\n"
 "    border: none; /* Enlever le contour si n\303\251cessaire */\n"
-"    border-radius: 5px; /* Optionnel : coins arrondis */\n"
 "    font-weight: bold; /* Optionnel : texte en gras */"));
         label_3->raise();
         pushButtonQuestionSuivante->raise();

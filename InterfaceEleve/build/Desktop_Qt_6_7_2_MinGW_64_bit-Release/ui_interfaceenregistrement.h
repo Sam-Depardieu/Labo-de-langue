@@ -49,7 +49,7 @@ public:
         InterfaceEnregistrement->resize(800, 480);
         pushButtonSon = new QPushButton(InterfaceEnregistrement);
         pushButtonSon->setObjectName("pushButtonSon");
-        pushButtonSon->setGeometry(QRect(730, 435, 45, 45));
+        pushButtonSon->setGeometry(QRect(730, 430, 45, 45));
         pushButtonSon->setAutoFillBackground(false);
         pushButtonSon->setStyleSheet(QString::fromUtf8(""));
         pushButtonAvancer = new QPushButton(InterfaceEnregistrement);
@@ -58,7 +58,7 @@ public:
         pushButtonAvancer->setStyleSheet(QString::fromUtf8(""));
         pushButtonClear = new QPushButton(InterfaceEnregistrement);
         pushButtonClear->setObjectName("pushButtonClear");
-        pushButtonClear->setGeometry(QRect(610, 435, 45, 45));
+        pushButtonClear->setGeometry(QRect(610, 430, 45, 45));
         pushButtonClear->setStyleSheet(QString::fromUtf8(""));
         pushButtonAppelProf = new QPushButton(InterfaceEnregistrement);
         pushButtonAppelProf->setObjectName("pushButtonAppelProf");
@@ -70,13 +70,10 @@ public:
         pushButton_2 = new QPushButton(InterfaceEnregistrement);
         pushButton_2->setObjectName("pushButton_2");
         pushButton_2->setGeometry(QRect(0, 425, 801, 61));
-        pushButton_2->setStyleSheet(QString::fromUtf8("QPushButton {\n"
-"    background-color: rgb(0, 151, 178); /* Fond bleu */\n"
+        pushButton_2->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 151, 178); /* Fond bleu */\n"
 "    color: white; /* Texte en blanc */\n"
 "    border: none; /* Enlever le contour si n\303\251cessaire */\n"
-"    border-radius: 5px; /* Optionnel : coins arrondis */\n"
-"    font-weight: bold; /* Optionnel : texte en gras */\n"
-"}"));
+"    font-weight: bold; /* Optionnel : texte en gras */"));
         chrono_enregistrement = new QLabel(InterfaceEnregistrement);
         chrono_enregistrement->setObjectName("chrono_enregistrement");
         chrono_enregistrement->setGeometry(QRect(280, 340, 221, 61));
@@ -99,7 +96,7 @@ public:
         pushButtonRetourArriere->setStyleSheet(QString::fromUtf8(""));
         pushButtonEnregistrer = new QPushButton(InterfaceEnregistrement);
         pushButtonEnregistrer->setObjectName("pushButtonEnregistrer");
-        pushButtonEnregistrer->setGeometry(QRect(540, 435, 45, 45));
+        pushButtonEnregistrer->setGeometry(QRect(540, 430, 45, 45));
         pushButtonEnregistrer->setStyleSheet(QString::fromUtf8(""));
         textEditFeedBack = new QTextEdit(InterfaceEnregistrement);
         textEditFeedBack->setObjectName("textEditFeedBack");
@@ -153,7 +150,7 @@ public:
         font2.setBold(true);
         chronoLabel->setFont(font2);
         chronoLabel->setStyleSheet(QString::fromUtf8("QLabel {\n"
-"    background-color: #0097a7; /* m\303\252me ton bleu-vert que ta barre */\n"
+"    background-color: rgb(0, 151, 178); /* m\303\252me ton bleu-vert que ta barre */\n"
 "    color: white;\n"
 "    border: 2px solid white;\n"
 "    border-radius: 8px;\n"
@@ -170,7 +167,6 @@ public:
         label_3->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 151, 178); /* Fond bleu */\n"
 "    color: white; /* Texte en blanc */\n"
 "    border: none; /* Enlever le contour si n\303\251cessaire */\n"
-"    border-radius: 5px; /* Optionnel : coins arrondis */\n"
 "    font-weight: bold; /* Optionnel : texte en gras */"));
         label_3->setAlignment(Qt::AlignmentFlag::AlignCenter);
         label_3->raise();

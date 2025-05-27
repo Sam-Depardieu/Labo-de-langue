@@ -40,6 +40,11 @@ Student::Student(const QString &groupName, const QHostAddress &groupAddress, qui
     // Timer pour envoyer l'audio régulièrement (toutes les 20ms)
     connect(&sendTimer, &QTimer::timeout, this, &Student::captureAndSendAudio);
     sendTimer.start(20);
+
+    auto inputs = QMediaDevices::audioInputs();
+    for (const auto& dev : inputs) {
+        qDebug() << "🎤 Périphérique audio dispo:" << dev.description();
+    }
 }
 
 Student::~Student()

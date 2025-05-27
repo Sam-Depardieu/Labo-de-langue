@@ -26,22 +26,21 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 namespace {
 struct qt_meta_stringdata_Student_t {
-    uint offsetsAndSizes[30];
+    uint offsetsAndSizes[28];
     char stringdata0[8];
     char stringdata1[20];
     char stringdata2[1];
     char stringdata3[13];
-    char stringdata4[16];
-    char stringdata5[17];
-    char stringdata6[13];
-    char stringdata7[11];
-    char stringdata8[8];
-    char stringdata9[26];
-    char stringdata10[14];
-    char stringdata11[9];
-    char stringdata12[29];
-    char stringdata13[10];
-    char stringdata14[12];
+    char stringdata4[17];
+    char stringdata5[13];
+    char stringdata6[11];
+    char stringdata7[8];
+    char stringdata8[26];
+    char stringdata9[14];
+    char stringdata10[9];
+    char stringdata11[29];
+    char stringdata12[10];
+    char stringdata13[12];
 };
 #define QT_MOC_LITERAL(ofs, len) \
     uint(sizeof(qt_meta_stringdata_Student_t::offsetsAndSizes) + ofs), len 
@@ -51,23 +50,21 @@ Q_CONSTINIT static const qt_meta_stringdata_Student_t qt_meta_stringdata_Student
         QT_MOC_LITERAL(8, 19),  // "captureAndSendAudio"
         QT_MOC_LITERAL(28, 0),  // ""
         QT_MOC_LITERAL(29, 12),  // "receiveAudio"
-        QT_MOC_LITERAL(42, 15),  // "processCommands"
-        QT_MOC_LITERAL(58, 16),  // "changeAudioGroup"
-        QT_MOC_LITERAL(75, 12),  // "QHostAddress"
-        QT_MOC_LITERAL(88, 10),  // "newAddress"
-        QT_MOC_LITERAL(99, 7),  // "newPort"
-        QT_MOC_LITERAL(107, 25),  // "onAudioSourceStateChanged"
-        QT_MOC_LITERAL(133, 13),  // "QAudio::State"
-        QT_MOC_LITERAL(147, 8),  // "newState"
-        QT_MOC_LITERAL(156, 28),  // "initializeAudioCommunication"
-        QT_MOC_LITERAL(185, 9),  // "muteAudio"
-        QT_MOC_LITERAL(195, 11)   // "unmuteAudio"
+        QT_MOC_LITERAL(42, 16),  // "changeAudioGroup"
+        QT_MOC_LITERAL(59, 12),  // "QHostAddress"
+        QT_MOC_LITERAL(72, 10),  // "newAddress"
+        QT_MOC_LITERAL(83, 7),  // "newPort"
+        QT_MOC_LITERAL(91, 25),  // "onAudioSourceStateChanged"
+        QT_MOC_LITERAL(117, 13),  // "QAudio::State"
+        QT_MOC_LITERAL(131, 8),  // "newState"
+        QT_MOC_LITERAL(140, 28),  // "initializeAudioCommunication"
+        QT_MOC_LITERAL(169, 9),  // "muteAudio"
+        QT_MOC_LITERAL(179, 11)   // "unmuteAudio"
     },
     "Student",
     "captureAndSendAudio",
     "",
     "receiveAudio",
-    "processCommands",
     "changeAudioGroup",
     "QHostAddress",
     "newAddress",
@@ -88,7 +85,7 @@ Q_CONSTINIT static const uint qt_meta_data_Student[] = {
       10,       // revision
        0,       // classname
        0,    0, // classinfo
-       8,   14, // methods
+       7,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -96,21 +93,19 @@ Q_CONSTINIT static const uint qt_meta_data_Student[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    0,   62,    2, 0x0a,    1 /* Public */,
-       3,    0,   63,    2, 0x0a,    2 /* Public */,
-       4,    0,   64,    2, 0x0a,    3 /* Public */,
-       5,    2,   65,    2, 0x0a,    4 /* Public */,
-       9,    1,   70,    2, 0x0a,    7 /* Public */,
-      12,    0,   73,    2, 0x0a,    9 /* Public */,
-      13,    0,   74,    2, 0x0a,   10 /* Public */,
-      14,    0,   75,    2, 0x0a,   11 /* Public */,
+       1,    0,   56,    2, 0x0a,    1 /* Public */,
+       3,    0,   57,    2, 0x0a,    2 /* Public */,
+       4,    2,   58,    2, 0x0a,    3 /* Public */,
+       8,    1,   63,    2, 0x0a,    6 /* Public */,
+      11,    0,   66,    2, 0x0a,    8 /* Public */,
+      12,    0,   67,    2, 0x0a,    9 /* Public */,
+      13,    0,   68,    2, 0x0a,   10 /* Public */,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 6, QMetaType::UShort,    7,    8,
-    QMetaType::Void, 0x80000000 | 10,   11,
+    QMetaType::Void, 0x80000000 | 5, QMetaType::UShort,    6,    7,
+    QMetaType::Void, 0x80000000 | 9,   10,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -130,8 +125,6 @@ Q_CONSTINIT const QMetaObject Student::staticMetaObject = { {
         // method 'captureAndSendAudio'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'receiveAudio'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'processCommands'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'changeAudioGroup'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
@@ -158,12 +151,11 @@ void Student::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
         switch (_id) {
         case 0: _t->captureAndSendAudio(); break;
         case 1: _t->receiveAudio(); break;
-        case 2: _t->processCommands(); break;
-        case 3: _t->changeAudioGroup((*reinterpret_cast< std::add_pointer_t<QHostAddress>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<quint16>>(_a[2]))); break;
-        case 4: _t->onAudioSourceStateChanged((*reinterpret_cast< std::add_pointer_t<QAudio::State>>(_a[1]))); break;
-        case 5: _t->initializeAudioCommunication(); break;
-        case 6: _t->muteAudio(); break;
-        case 7: _t->unmuteAudio(); break;
+        case 2: _t->changeAudioGroup((*reinterpret_cast< std::add_pointer_t<QHostAddress>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<quint16>>(_a[2]))); break;
+        case 3: _t->onAudioSourceStateChanged((*reinterpret_cast< std::add_pointer_t<QAudio::State>>(_a[1]))); break;
+        case 4: _t->initializeAudioCommunication(); break;
+        case 5: _t->muteAudio(); break;
+        case 6: _t->unmuteAudio(); break;
         default: ;
         }
     }
@@ -188,13 +180,13 @@ int Student::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 8)
+        if (_id < 7)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 8;
+        _id -= 7;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 8)
+        if (_id < 7)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 8;
+        _id -= 7;
     }
     return _id;
 }
