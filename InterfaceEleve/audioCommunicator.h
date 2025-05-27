@@ -20,6 +20,7 @@ public:
     void handleCommand(const QString& cmd);
 
     void setGroupPort(quint16 port);
+    void configureAudioPorts(quint16 portEnvoyeur, quint16 portReceveur);
     void setServerAddress(const QHostAddress& address, quint16 port);
 
     void startAudio();
@@ -38,17 +39,21 @@ private slots:
 private:
     bool isMuted = false;
 
-    QUdpSocket* udpSocket;
-    quint16 groupPort;
+    QUdpSocket* udpSocketSend = nullptr;      // socket pour ENVOI audio
+    QUdpSocket* udpSocketReceive = nullptr;   // socket pour RECEPTION audio
+
+    quint16 portEnvoyeur = 0;
+    quint16 portReceveur = 0;
+    quint16 groupPort = 0;
 
     QHostAddress serverAddress;
     quint16 serverPort;
 
-    QAudioSource* audioInput;
-    QAudioSink* audioOutput;
+    QAudioSource* audioInput = nullptr;
+    QAudioSink* audioOutput = nullptr;
 
-    QIODevice* audioInputDevice;
-    QIODevice* audioOutputDevice;
+    QIODevice* audioInputDevice = nullptr;
+    QIODevice* audioOutputDevice = nullptr;
 
     QAudioFormat getAudioFormat() const;
 };

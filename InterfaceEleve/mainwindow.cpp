@@ -426,36 +426,34 @@ void MainWindow::receiveInfo() {
         else if (key == "portGroup") {
             bool ok = false;
             int port = value.toInt(&ok);
-            if (!ok || port <= 0 || port > 65535) {
+            if (!ok || port <= 0 || port > 65505) { // max 65505 car +30 plus loin
                 qWarning() << "⛔ Port invalide reçu pour portGroup:" << value;
                 continue;
             }
 
-            qDebug() << "🎧 Changement de groupe, port audio :" << port;
+            qDebug() << "🎧 Changement de groupe, port d'envoi audio :" << port;
 
-            // Supprime l'étudiant courant si existant (stop audio + libération mémoire)
+            // Supprimer l'étudiant courant s'il existe (stop audio + libération mémoire)
             if (currentStudent) {
                 currentStudent->stopAudio();
                 currentStudent->deleteLater();
                 currentStudent = nullptr;
             }
 
-            // Ici tu peux récupérer dynamiquement ipProf s'il est bien renseigné
-            QHostAddress profAddress;
-            if (!ipProf.isEmpty()) {
-                profAddress = QHostAddress(ipProf);
-            } else {
-                qWarning() << "⚠️ IP du prof non définie, utilisation par défaut";
-                profAddress = QHostAddress("127.0.0.1"); // Par défaut loopback
-            }
+            // Adresse du prof (par défaut loopback si non définie)
+            QHostAddress profAddress = ipProf.isEmpty() ? QHostAddress("127.0.0.1") : QHostAddress(ipProf);
 
-            // Crée un nouvel étudiant et initialise la communication audio immédiatement
+            // Calcul des ports
+            quint16 portEnvoyeur = static_cast<quint16>(port);
+            quint16 portReceveur = static_cast<quint16>(port + 30);
+
+            // Initialisation de l'étudiant
             currentStudent = new Student(this);
-            currentStudent->setServerAddress(profAddress, static_cast<quint16>(port));
-            currentStudent->setGroupPort(static_cast<quint16>(port));
+            currentStudent->setServerAddress(profAddress, portEnvoyeur);  // pour envoyer les données au prof
+            currentStudent->configureAudioPorts(portEnvoyeur, portReceveur); // méthode à créer (ou que tu as déjà)
             currentStudent->startAudio();
 
-            qDebug() << "✅ Étudiant initialisé et communication audio démarrée";
+            qDebug() << "✅ Étudiant initialisé, envoi sur" << portEnvoyeur << "réception sur" << portReceveur;
         }
         else {
             qWarning() << "🔍 Clé non reconnue :" << key;

@@ -6,7 +6,7 @@ Professeur::Professeur(QObject* parent)
 {
 }
 
-void Professeur::addAudioGroup(const QString& groupName, quint16 port)
+void Professeur::addAudioGroup(const QString& groupName, quint16 portEnvoyeur, quint16 portReceveur)
 {
     if (groups.contains(groupName)) {
         qDebug() << QString("Le groupe '%1' existe déjà").arg(groupName);
@@ -14,22 +14,23 @@ void Professeur::addAudioGroup(const QString& groupName, quint16 port)
     }
 
     GroupInfo group;
-    group.port = port;
+    group.portEnvoyeur = portEnvoyeur;
+    group.portReceveur = portReceveur;
     group.socket = new QUdpSocket(this);
 
-    // Bind le socket au port attribué pour ce groupe (écoute UDP)
-    if (!group.socket->bind(QHostAddress::AnyIPv4, port)) {
-        qDebug() << QString("Impossible de binder le port %1 pour le groupe %2").arg(port).arg(groupName);
+    if (!group.socket->bind(QHostAddress::AnyIPv4, portEnvoyeur)) {
+        qDebug() << QString("Impossible de binder le port %1 pour le groupe %2").arg(portEnvoyeur).arg(groupName);
         group.socket->deleteLater();
         return;
     }
 
     connect(group.socket, &QUdpSocket::readyRead, this, &Professeur::onAudioDatagramReceived);
-
     groups[groupName] = group;
 
-    qDebug() << QString("Groupe '%1' créé sur le port %2").arg(groupName).arg(port);
+    qDebug() << QString("Groupe '%1' créé. Envoi sur %2, réception sur %3")
+                    .arg(groupName).arg(portEnvoyeur).arg(portReceveur);
 }
+
 
 bool Professeur::audioGroupExists(const QString& groupName) const
 {
@@ -81,12 +82,14 @@ void Professeur::onAudioDatagramReceived()
         }
 
         // Redistribuer à tous les membres sauf l'expéditeur
+        // Lorsqu'on reçoit un paquet audio
         for (const QString& memberStr : group.members) {
             if (memberStr != senderStr) {
                 QHostAddress memberAddress(memberStr);
-                socket->writeDatagram(datagram, memberAddress, group.port); // ✅ ici le bon port
+                socket->writeDatagram(datagram, memberAddress, group.portReceveur); // 👈 ici on redirige vers portReceveur
             }
         }
+
     }
 }
 
@@ -183,4 +186,15 @@ void Professeur::activerSonStudent(const QString& studentIp)
     } else {
         qDebug() << "activerSonStudent: son n'était pas désactivé pour étudiant" << studentIp << "dans le groupe" << groupName;
     }
+}
+
+void Professeur::sendCommandToStudent(const QString& studentIp, quint16 port, const QString& cmd)
+{
+    QUdpSocket socket;
+    QByteArray data = cmd.toUtf8();
+    QHostAddress address(studentIp);
+
+    socket.writeDatagram(data, address, port);
+    // Pas besoin de socket persistant ici, on crée juste pour envoyer
+    qDebug() << "[Professeur] Commande envoyée à" << studentIp << ":" << cmd;
 }
