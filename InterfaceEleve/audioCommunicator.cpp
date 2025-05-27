@@ -11,82 +11,56 @@ Student::Student(const QString &groupName, const QHostAddress &groupAddress, qui
     serverPort(groupPort),
     udpSocket(this)
 {
-    auto inputDevices = QMediaDevices::audioInputs();
-
-    qDebug() << "Périphériques d'entrée disponibles :";
-
-    // Afficher les noms des périphériques d'entrée audio
+    // 🔍 Sélectionner le périphérique USB Audio
+    const auto inputDevices = QMediaDevices::audioInputs();
+    QAudioDevice selectedInputDevice;
     for (const QAudioDevice &device : inputDevices) {
-        qDebug() << "ENTREE :" << device.id() << "," << device.description();
-    }
-    for (const QAudioDevice &device : inputDevices) {
-        qDebug() << "Périphérique d'entrée : " << device.description();
-
-        QAudioDevice deviceInfo(device);
-        QAudioFormat format;
-
-        // Vérification de plusieurs configurations de format
-        QList<QAudioFormat::SampleFormat> formatsToTest = {
-            QAudioFormat::Int16,
-            QAudioFormat::Int32,
-            QAudioFormat::Float,
-            QAudioFormat::UInt8
-        };
-
-        for (QAudioFormat::SampleFormat formatType : formatsToTest) {
-            format.setSampleFormat(formatType);
-            format.setSampleRate(48000);  // Fréquence d'échantillonnage à 44.1 kHz
-            format.setChannelCount(2);    // Mono
-
-            if (deviceInfo.isFormatSupported(format)) {
-                qDebug() << "Format supporté :"
-                         << "SampleRate:" << format.sampleRate()
-                         << "Channels:" << format.channelCount()
-                         << "SampleFormat:" << format.sampleFormat();
-            } else {
-                qDebug() << "Format non supporté :"
-                         << "SampleRate:" << format.sampleRate()
-                         << "Channels:" << format.channelCount()
-                         << "SampleFormat:" << format.sampleFormat();
-            }
+        qDebug() << "🎤 Périphérique audio dispo:" << device.description();
+        if (device.description().contains("USB Audio", Qt::CaseInsensitive)) {
+            selectedInputDevice = device;
+            break;
         }
     }
 
-    // Configuration audio (à adapter si besoin)
+    if (!selectedInputDevice.isNull()) {
+        qDebug() << "✅ Périphérique sélectionné:" << selectedInputDevice.description();
+    } else {
+        qWarning() << "❌ Aucun périphérique USB Audio trouvé.";
+        return;
+    }
+
+    // 🎚 Format audio compatible Raspberry Pi
     QAudioFormat format;
-    format.setSampleRate(44100);
-    format.setChannelCount(2);
-    format.setSampleFormat(QAudioFormat::Float);
+    format.setSampleRate(16000);                  // 16 kHz
+    format.setChannelCount(1);                    // Mono
+    format.setSampleFormat(QAudioFormat::Int16);  // Format standard
 
-    QAudioDevice inputDeviceInfo = QMediaDevices::defaultAudioInput();
-    QAudioDevice outputDeviceInfo = QMediaDevices::defaultAudioOutput();
-
-    if (!inputDeviceInfo.isFormatSupported(format)) {
-        qWarning() << "Format audio en entrée non supporté";
-        return;
-    }
-    if (!outputDeviceInfo.isFormatSupported(format)) {
-        qWarning() << "Format audio en sortie non supporté";
+    if (!selectedInputDevice.isFormatSupported(format)) {
+        qWarning() << "❌ Format audio en entrée non supporté par le périphérique.";
         return;
     }
 
-    audioInput = new QAudioSource(inputDeviceInfo, format, this);
-    audioOutput = new QAudioSink(outputDeviceInfo, format, this);
+    // 🎧 Périphérique de sortie par défaut (optionnel)
+    QAudioDevice outputDevice = QMediaDevices::defaultAudioOutput();
+    if (!outputDevice.isFormatSupported(format)) {
+        qWarning() << "❌ Format audio en sortie non supporté.";
+        return;
+    }
+
+    // 🎤 Instanciation des flux audio
+    audioInput = new QAudioSource(selectedInputDevice, format, this);
+    audioOutput = new QAudioSink(outputDevice, format, this);
 
     connect(audioInput, &QAudioSource::stateChanged, this, &Student::onAudioSourceStateChanged);
 
-    // Connecte la socket UDP au groupe multicast initial
+    // 🌐 Connexion multicast
     connectToGroup();
 
-    // Timer pour envoyer l'audio régulièrement (toutes les 20ms)
+    // ⏱ Timer pour envoyer l'audio toutes les 20ms
     connect(&sendTimer, &QTimer::timeout, this, &Student::captureAndSendAudio);
     sendTimer.start(20);
-
-    auto inputs = QMediaDevices::audioInputs();
-    for (const auto& dev : inputs) {
-        qDebug() << "🎤 Périphérique audio dispo:" << dev.description();
-    }
 }
+
 
 Student::~Student()
 {
