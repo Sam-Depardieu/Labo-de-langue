@@ -1,44 +1,58 @@
 #include "AudioCommunicator.h"
 #include <QDebug>
 
-Professeur::Professeur(QObject *parent)
+Professeur::Professeur(QObject* parent)
     : QObject(parent)
 {
-    // Le serveur ne bind plus un seul socket, mais en crée un par groupe
 }
 
 void Professeur::addAudioGroup(const QString& groupName, quint16 port)
 {
     if (groups.contains(groupName)) {
-        qDebug() << "Le groupe" << groupName << "existe déjà";
+        emit debugMessage(QString("Le groupe '%1' existe déjà").arg(groupName));
         return;
     }
 
-    QUdpSocket* socket = new QUdpSocket(this);
-    bool bindResult = socket->bind(QHostAddress::AnyIPv4, port);
-    if (!bindResult) {
-        qDebug() << "Erreur bind port" << port << "pour groupe" << groupName;
-        delete socket;
+    GroupInfo group;
+    group.port = port;
+    group.socket = new QUdpSocket(this);
+
+    // Bind le socket au port attribué pour ce groupe (écoute UDP)
+    if (!group.socket->bind(QHostAddress::AnyIPv4, port)) {
+        emit debugMessage(QString("Impossible de binder le port %1 pour le groupe %2").arg(port).arg(groupName));
+        group.socket->deleteLater();
         return;
     }
 
-    GroupInfo info;
-    info.socket = socket;
+    connect(group.socket, &QUdpSocket::readyRead, this, &Professeur::onAudioDatagramReceived);
 
-    groups[groupName] = info;
+    groups[groupName] = group;
 
-    connect(socket, &QUdpSocket::readyRead, this, &Professeur::processPendingDatagrams);
-
-    qDebug() << "Groupe audio" << groupName << "créé sur le port" << port;
+    emit debugMessage(QString("Groupe '%1' créé sur le port %2").arg(groupName).arg(port));
 }
 
-void Professeur::processPendingDatagrams()
+bool Professeur::audioGroupExists(const QString& groupName) const
+{
+    return groups.contains(groupName);
+}
+
+void Professeur::sendCommandToStudent(const QString& studentIp, quint16 port, const QString& cmd)
+{
+    QUdpSocket socket;
+    QByteArray data = cmd.toUtf8();
+    QHostAddress address(studentIp);
+
+    socket.writeDatagram(data, address, port);
+    // Pas besoin de socket persistant ici, on crée juste pour envoyer
+    qDebug() << "[Professeur] Commande envoyée à" << studentIp << ":" << cmd;
+}
+
+void Professeur::onAudioDatagramReceived()
 {
     QUdpSocket* socket = qobject_cast<QUdpSocket*>(sender());
     if (!socket)
         return;
 
-    // Trouver le groupe lié à ce socket
     QString groupName;
     for (auto it = groups.begin(); it != groups.end(); ++it) {
         if (it.value().socket == socket) {
@@ -48,83 +62,136 @@ void Professeur::processPendingDatagrams()
     }
 
     if (groupName.isEmpty()) {
-        qDebug() << "[Professeur] Socket inconnu dans processPendingDatagrams";
+        qDebug() << "Impossible d'identifier le groupe pour ce datagramme";
         return;
     }
 
+    GroupInfo& group = groups[groupName];
+
     while (socket->hasPendingDatagrams()) {
+        QByteArray datagram;
+        datagram.resize(int(socket->pendingDatagramSize()));
+
         QHostAddress sender;
         quint16 senderPort;
-        QByteArray buffer;
-        buffer.resize(socket->pendingDatagramSize());
 
-        socket->readDatagram(buffer.data(), buffer.size(), &sender, &senderPort);
+        socket->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
 
-        // Ajout du client s'il est nouveau dans ce groupe
-        if (!groups[groupName].clients.contains(sender)) {
-            groups[groupName].clients.insert(sender);
-            qDebug() << "[Professeur] ➕ Nouveau client" << sender.toString()
-                     << "dans le groupe" << groupName;
+        QString senderStr = sender.toString();  // Convertir en QString pour usage uniforme
+
+        if (!group.members.contains(senderStr)) {
+            group.members.insert(senderStr);
+            studentToGroup[senderStr] = groupName;
+            qDebug() << "Nouvel étudiant" << senderStr << "ajouté au groupe" << groupName;
         }
 
-        qDebug() << "[Professeur] 📥 Données reçues de" << sender.toString()
-                 << "dans le groupe" << groupName << ", taille" << buffer.size();
+        // Si l'expéditeur est muté, ne pas redistribuer son audio
+        if (group.mutedMembers.contains(senderStr)) {
+            qDebug() << "Audio de" << senderStr << "ignoré (muted)";
+            continue; // on ignore ce paquet
+        }
 
-        // Rediffusion
-        if (broadcastEnabled) {
-            // 🔊 Mode broadcast global activé
-            for (auto it = groups.begin(); it != groups.end(); ++it) {
-                QUdpSocket* targetSocket = it.value().socket;
-                for (const QHostAddress& client : it.value().clients) {
-                    if (client != sender) {
-                        targetSocket->writeDatagram(buffer, client, senderPort);
-                        qDebug() << "[Professeur] 📤 Broadcast vers" << client.toString()
-                                 << "dans le groupe" << it.key();
-                    }
-                }
-            }
-        } else {
-            // 🔁 Mode normal : renvoi uniquement dans le groupe d'origine
-            for (const QHostAddress& client : groups[groupName].clients) {
-                if (client != sender) {
-                    socket->writeDatagram(buffer, client, senderPort);
-                    qDebug() << "[Professeur] ↩️ Réponse vers" << client.toString()
-                             << "dans le groupe" << groupName;
-                }
+        // Redistribuer à tous les membres sauf l'expéditeur
+        for (const QString& memberStr : group.members) {
+            if (memberStr != senderStr) {
+                QHostAddress memberAddress(memberStr);
+                socket->writeDatagram(datagram, memberAddress, senderPort);
             }
         }
     }
+
 }
 
-
-void Professeur::broadcast(const QByteArray& audioData, const QHostAddress& excludeAddress, quint16 excludePort)
+void Professeur::muteStudent(const QString& studentIp)
 {
-    for (auto it = groups.begin(); it != groups.end(); ++it) {
-        const QString& groupName = it.key();
-        GroupInfo& groupInfo = it.value();
-        QUdpSocket* socket = groupInfo.socket;
 
-        for (const QHostAddress& client : groupInfo.clients) {
-            if (client != excludeAddress) {
-                bool success = socket->writeDatagram(audioData, client, excludePort);
-                if (success) {
-                    qDebug() << "[Broadcast] vers" << client.toString() << "depuis groupe" << groupName << "- taille:" << audioData.size();
-                } else {
-                    qWarning() << "[Broadcast] échec d'envoi vers" << client.toString() << "dans groupe" << groupName;
-                }
-            }
-        }
+    if (!studentToGroup.contains(studentIp)) {
+        qDebug() << "muteStudent: étudiant" << studentIp << "non trouvé";
+        return;
+    }
+
+    QString groupName = studentToGroup.value(studentIp);
+    GroupInfo& group = groups[groupName];
+
+    if (!group.members.contains(studentIp)) {
+        qDebug() << "muteStudent: étudiant" << studentIp << "n'est pas dans le groupe" << groupName;
+        return;
+    }
+
+    if (!group.mutedMembers.contains(studentIp)) {
+        group.mutedMembers.insert(studentIp);
+        qDebug() << "Étudiant" << studentIp << "muté dans le groupe" << groupName;
+    } else {
+        qDebug() << "muteStudent: étudiant" << studentIp << "est déjà muté dans le groupe" << groupName;
     }
 }
 
-
-
-void Professeur::sendCommandToStudent(const QString& studentIp, int port, const QString& command)
+void Professeur::unmuteStudent(const QString& studentIp)
 {
-    if (command.isEmpty()) return;
 
-    QByteArray datagram = command.toUtf8();
-    QHostAddress addr(studentIp);
-    udpSocket.writeDatagram(datagram, addr, port);
-    qDebug() << "[Command] vers" << studentIp << ":" << command;
+    if (!studentToGroup.contains(studentIp)) {
+        qDebug() << "unmuteStudent: étudiant" << studentIp << "non trouvé";
+        return;
+    }
+
+    QString groupName = studentToGroup.value(studentIp);
+    GroupInfo& group = groups[groupName];
+
+    if (!group.members.contains(studentIp)) {
+        qDebug() << "unmuteStudent: étudiant" << studentIp << "n'est pas dans le groupe" << groupName;
+        return;
+    }
+
+    if (group.mutedMembers.remove(studentIp) > 0) {
+        qDebug() << "Étudiant" << studentIp << "unmuté dans le groupe" << groupName;
+    } else {
+        qDebug() << "unmuteStudent: étudiant" << studentIp << "n'était pas muté dans le groupe" << groupName;
+    }
+}
+
+void Professeur::desactiverSonStudent(const QString& studentIp)
+{
+
+    if (!studentToGroup.contains(studentIp)) {
+        qDebug() << "desactiverSonStudent: étudiant" << studentIp << "non trouvé";
+        return;
+    }
+
+    QString groupName = studentToGroup.value(studentIp);
+    GroupInfo& group = groups[groupName];
+
+    if (!group.members.contains(studentIp)) {
+        qDebug() << "desactiverSonStudent: étudiant" << studentIp << "n'est pas dans le groupe" << groupName;
+        return;
+    }
+
+    if (!group.sonDesactiveMembers.contains(studentIp)) {
+        group.sonDesactiveMembers.insert(studentIp);
+        qDebug() << "Son désactivé pour étudiant" << studentIp << "dans le groupe" << groupName;
+    } else {
+        qDebug() << "desactiverSonStudent: son déjà désactivé pour étudiant" << studentIp << "dans le groupe" << groupName;
+    }
+}
+
+void Professeur::activerSonStudent(const QString& studentIp)
+{
+
+    if (!studentToGroup.contains(studentIp)) {
+        qDebug() << "activerSonStudent: étudiant" << studentIp << "non trouvé";
+        return;
+    }
+
+    QString groupName = studentToGroup.value(studentIp);
+    GroupInfo& group = groups[groupName];
+
+    if (!group.members.contains(studentIp)) {
+        qDebug() << "activerSonStudent: étudiant" << studentIp << "n'est pas dans le groupe" << groupName;
+        return;
+    }
+
+    if (group.sonDesactiveMembers.remove(studentIp) > 0) {
+        qDebug() << "Son activé pour étudiant" << studentIp << "dans le groupe" << groupName;
+    } else {
+        qDebug() << "activerSonStudent: son n'était pas désactivé pour étudiant" << studentIp << "dans le groupe" << groupName;
+    }
 }

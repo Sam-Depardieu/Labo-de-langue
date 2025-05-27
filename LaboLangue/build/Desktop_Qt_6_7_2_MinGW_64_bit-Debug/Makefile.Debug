@@ -288,11 +288,9 @@ debug/moc_AudioCommunicator.cpp: ../../AudioCommunicator.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qset.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qhash.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qvarlengtharray.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QHostAddress \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QMap \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QSet \
-		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QHostAddress \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QVector \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qvector.h \
 		debug/moc_predefs.h \
 		C:/Qt/6.7.2/mingw_64/bin/moc.exe
 	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include E:/Documents/Projet/Labo-de-langue/LaboLangue/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/debug/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IE:/Documents/Projet/Labo-de-langue/LaboLangue -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\AudioCommunicator.h -o debug\moc_AudioCommunicator.cpp
@@ -2703,9 +2701,8 @@ debug/moc_mainwindow.cpp: ../../mainwindow.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qvideowidget.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qtmultimediawidgetsversion.h \
 		../../AudioCommunicator.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QSet \
 		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QHostAddress \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QVector \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QSet \
 		../../qcm.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QDialog \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QVBoxLayout \
@@ -3148,11 +3145,9 @@ debug/AudioCommunicator.o: ../../AudioCommunicator.cpp ../../AudioCommunicator.h
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qset.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qhash.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qvarlengtharray.h \
+		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QHostAddress \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QMap \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QSet \
-		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QHostAddress \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QVector \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/qvector.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\AudioCommunicator.o ..\..\AudioCommunicator.cpp
 
@@ -3825,9 +3820,8 @@ debug/choixsession.o: ../../choixsession.cpp ../../choixsession.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qvideowidget.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qtmultimediawidgetsversion.h \
 		../../AudioCommunicator.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QSet \
 		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QHostAddress \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QVector \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QSet \
 		../../qcm.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QHBoxLayout \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QGridLayout \
@@ -4505,9 +4499,8 @@ debug/gestionSession.o: ../../gestionSession.cpp ../../gestionSession.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QTableWidget \
 		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QUdpSocket \
 		../../AudioCommunicator.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QSet \
 		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QHostAddress \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QVector \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QSet \
 		../../qcm.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QDialog \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QVBoxLayout \
@@ -5430,9 +5423,8 @@ debug/iconEleveGroup.o: ../../iconEleveGroup.cpp ../../iconEleveGroup.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QTableWidget \
 		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QUdpSocket \
 		../../AudioCommunicator.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QSet \
 		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QHostAddress \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QVector \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QSet \
 		../../qcm.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QDialog \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QVBoxLayout \
@@ -6121,9 +6113,8 @@ debug/main.o: ../../main.cpp ../../mainwindow.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qvideowidget.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qtmultimediawidgetsversion.h \
 		../../AudioCommunicator.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QSet \
 		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QHostAddress \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QVector \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QSet \
 		../../qcm.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QDialog \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QVBoxLayout \
@@ -6821,9 +6812,8 @@ debug/mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qvideowidget.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qtmultimediawidgetsversion.h \
 		../../AudioCommunicator.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QSet \
 		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QHostAddress \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QVector \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QSet \
 		../../qcm.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QDialog \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QVBoxLayout \
@@ -7536,9 +7526,8 @@ debug/qcm.o: ../../qcm.cpp ../../qcm.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qvideowidget.h \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets/qtmultimediawidgetsversion.h \
 		../../AudioCommunicator.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QSet \
 		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QHostAddress \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QVector \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QSet \
 		../../choixsession.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QListWidget \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QDir \

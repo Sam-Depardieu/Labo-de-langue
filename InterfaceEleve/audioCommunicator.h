@@ -1,59 +1,50 @@
 #ifndef STUDENT_H
 #define STUDENT_H
 
+#include "qaudioformat.h"
 #include <QObject>
-#include <QHostAddress>
 #include <QUdpSocket>
-#include <QAudioSource>
-#include <QAudioSink>
-#include <QAudioDevice>
-#include <QAudioFormat>
-#include <QTimer>
+#include <QAudioInput>
+#include <QAudioOutput>
+#include <QIODevice>
+#include <QHostAddress>
 
 class Student : public QObject
 {
     Q_OBJECT
 public:
-    explicit Student(const QString &groupName, const QHostAddress &groupAddress, quint16 groupPort, QObject *parent = nullptr);
+    explicit Student(QObject* parent = nullptr);
     ~Student();
 
-    void setProfIp(const QString& ip);  // si besoin, sinon tu peux l'enlever
+    void handleCommand(const QString& cmd);
+
+    void setGroupPort(quint16 port);
+    void setServerAddress(const QHostAddress& address, quint16 port);
+
+    void startAudio();
     void stopAudio();
 
 signals:
+    void audioDataReceived(const QByteArray& data);
 
-public slots:
-    void captureAndSendAudio();
-    void receiveAudio();
-    void changeAudioGroup(const QHostAddress& newAddress, quint16 newPort);
-    void initializeAudioCommunication();
-    void connectToGroup(const QHostAddress& profAddress, quint16 profPort);
-
-    void muteAudio();
-    void unmuteAudio();
+private slots:
+    void onReadyRead();
+    void onAudioDataCaptured();
 
 private:
-    void connectToGroup();
-    void connectToServer();  // si tu utilises encore cette méthode
-
-    QString group;
-    QHostAddress groupAddress;
+    QUdpSocket* udpSocket;
     quint16 groupPort;
 
-    QString serverIp;       // Si tu veux stocker l'IP du prof, ou sinon enlever
-    QHostAddress serverAddress;  // Adresse du serveur / groupe multicast actuel
-    quint16 serverPort;          // Port actuel utilisé
+    QHostAddress serverAddress;
+    quint16 serverPort;
 
-    QUdpSocket udpSocket;
+    QAudioInput* audioInput;
+    QAudioOutput* audioOutput;
 
-    QAudioSource* audioInput = nullptr;
-    QAudioSink* audioOutput = nullptr;
+    QIODevice* audioInputDevice;
+    QIODevice* audioOutputDevice;
 
-    QIODevice* inputDevice = nullptr;
-    QIODevice* outputDevice = nullptr;
-
-    QTimer sendTimer;
-    bool isMuted = false;
+    QAudioFormat getAudioFormat() const;
 };
 
 #endif // STUDENT_H

@@ -176,9 +176,6 @@ private slots:
     void on_LectureStatutButton_clicked();
     void on_PauseStatutButton_clicked();
     void on_lectureButton_clicked();
-
-    void on_AppelButton_clicked();
-
     void on_ajouterTemps_clicked();
 
     void on_enleveTemps_clicked();

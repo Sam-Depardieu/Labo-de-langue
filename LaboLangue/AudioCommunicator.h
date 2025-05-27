@@ -1,45 +1,54 @@
-#ifndef PROFESSOR_H
-#define PROFESSOR_H
+#ifndef AUDIOCOMMUNICATOR_H
+#define AUDIOCOMMUNICATOR_H
 
 #include <QObject>
 #include <QUdpSocket>
+#include <QHostAddress>
 #include <QMap>
 #include <QSet>
-#include <QHostAddress>
-#include <QVector>
 
 class Professeur : public QObject
 {
     Q_OBJECT
 public:
-    explicit Professeur(QObject *parent = nullptr);
+    explicit Professeur(QObject* parent = nullptr);
 
-    // Ajouter un groupe avec un nom et un port
+    // Ajoute un groupe avec son port UDP (unique par groupe)
     void addAudioGroup(const QString& groupName, quint16 port);
-    bool audioGroupExists(const QString& groupName) const{ return groups.contains(groupName); };
-    void sendCommandToStudent(const QString& studentIp, int port, const QString& command);
 
-    void muteStudent(const QString& studentIp) { sendCommandToStudent(studentIp, 5557, "mute"); }
-    void unmuteStudent(const QString& studentIp) { sendCommandToStudent(studentIp, 5557, "unmute"); }
-    void activerSonStudent(const QString& studentIp) { sendCommandToStudent(studentIp, 5557, "activerSon"); }
-    void desactiverSonStudent(const QString& studentIp) { sendCommandToStudent(studentIp, 5557, "desactiverSon"); }
-    void broadcast(const QByteArray& audioData, const QHostAddress& excludeAddress, quint16 excludePort);
+    // Vérifie si un groupe existe déjà
+    bool audioGroupExists(const QString& groupName) const;
 
-    void setBroadcastEnabled(bool enabled) {broadcastEnabled = enabled;};
-    bool getBroadcastEnabled(){return broadcastEnabled;}
+    // Envoie une commande (texte) à un étudiant par IP et port
+    void sendCommandToStudent(const QString& studentIp, quint16 port, const QString& cmd);
+
+    void muteStudent(const QString& studentIp);
+    void unmuteStudent(const QString& studentIp);
+    void activerSonStudent(const QString& studentIp);
+    void desactiverSonStudent(const QString& studentIp);
+
+signals:
+    void debugMessage(const QString& msg);
 
 private slots:
-    void processPendingDatagrams();
+    // Slot appelé quand un datagramme audio est reçu sur un socket groupe
+    void onAudioDatagramReceived();
 
 private:
     struct GroupInfo {
+        quint16 port;
         QUdpSocket* socket = nullptr;
-        QSet<QHostAddress> clients;  // Si besoin plus tard
+        QSet<QString> members;      // Étudiants du groupe
+        QSet<QString> mutedMembers;
+        QSet<QString> sonDesactiveMembers;
     };
 
-    QUdpSocket udpSocket;
-    bool broadcastEnabled;
-    QMap<QString, GroupInfo> groups;  // groupName -> info
+    QMap<QString, GroupInfo> groups;
+
+    // Map d'IP vers groupe pour savoir à quel groupe appartient chaque étudiant
+    QMap<QString, QString> studentToGroup;
+
+    void processIncomingAudio(const QString& groupName, const QByteArray& datagram, const QHostAddress& sender);
 };
 
-#endif // PROFESSOR_H
+#endif // AUDIOCOMMUNICATOR_H
