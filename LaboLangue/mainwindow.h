@@ -56,8 +56,11 @@ public:
     void setIdTypeActivite(unsigned int newId) {idTypeActivite = newId;};
     void setIdProf(unsigned int newId) {idProf = newId;};
     void setIdClasse(unsigned int newId) {idClasse = newId;};
+    void setAddChronoTimer(int temps) {remainingTime.addSecs(temps);}
+
     bool getModeSombre() const { return modeSombre; }
     bool getMovable() const {return movable;};
+
     void afficherEtatEleves();
     void addHorizontalLayout(QVBoxLayout *layout, std::initializer_list<QWidget*> widgets);
     void editStatusButtonHeader(QPushButton *button, bool status);
@@ -175,6 +178,10 @@ private slots:
     void on_lectureButton_clicked();
 
     void on_AppelButton_clicked();
+
+    void on_ajouterTemps_clicked();
+
+    void on_enleveTemps_clicked();
 
 private:
     // === Interface graphique ===

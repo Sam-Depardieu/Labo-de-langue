@@ -28,9 +28,6 @@ InterfaceVideo::InterfaceVideo(bool co, MainWindow *parentWindow, QWidget *paren
         ui->horizontalSlider->setEnabled(true);
         ui->pushButtonReset->setVisible(false);
     }
-    if (coMode) {
-        ui->pushButton_SelectVideo->setEnabled(false);
-    }
     setFixedSize(800,480);
     this->setWindowTitle("Page de Video");
 
@@ -228,26 +225,6 @@ InterfaceVideo::~InterfaceVideo()
 {
     delete ui;
 }
-
-void InterfaceVideo::on_pushButton_SelectVideo_clicked()
-{
-    QString videoPath = "\\\\192.168.64.1\\Activites";  // Chemin réseau de la Raspberry Pi
-
-    QString fileName = QFileDialog::getOpenFileName(
-        this,
-        "Sélectionner une vidéo",
-        videoPath,  // Ouvre directement le dossier réseau
-        "Vidéos (*.mp4 *.avi *.mkv *.mov *.wmv)"  // Filtre les fichiers vidéo
-        );
-
-    if (!fileName.isEmpty()) {
-        player->setSource(QUrl::fromLocalFile(fileName));  // Charger et lire la vidéo
-        player->play();
-        qDebug() << "Fichier sélectionné : " << fileName;
-        ui->pushButton_SelectVideo->setEnabled(false);
-    }
-}
-
 void InterfaceVideo::on_pushButton_Avant10_clicked()
 {
     animateButtonClick(ui->pushButton_Avant10);
