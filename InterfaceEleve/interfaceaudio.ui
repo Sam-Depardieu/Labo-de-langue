@@ -198,6 +198,26 @@
     <string/>
    </property>
   </widget>
+  <widget class="QPushButton" name="pushButtonAppelProf">
+   <property name="geometry">
+    <rect>
+     <x>640</x>
+     <y>430</y>
+     <width>45</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: transparent;
+    border: none;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset theme="call-start"/>
+   </property>
+  </widget>
   <zorder>label_3</zorder>
   <zorder>pushButton_Play</zorder>
   <zorder>pushButton_Avant</zorder>
@@ -210,6 +230,7 @@
   <zorder>graphicsView</zorder>
   <zorder>verticalSlider_sonVideo</zorder>
   <zorder>chronoLabel</zorder>
+  <zorder>pushButtonAppelProf</zorder>
  </widget>
  <resources/>
  <connections/>
