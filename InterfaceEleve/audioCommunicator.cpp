@@ -11,79 +11,46 @@ Student::Student(const QString &groupName, const QHostAddress &groupAddress, qui
     serverPort(groupPort),
     udpSocket(this)
 {
+    auto inputs = QMediaDevices::audioInputs();
+
     qDebug() << "🔍 Recherche des périphériques audio d'entrée disponibles :";
-    const auto inputDevices = QMediaDevices::audioInputs();
-    QAudioDevice selectedInputDevice;
+    for (const auto& device : inputs) {
+        qDebug() << "🎤" << device.description();
+    }
 
-    for (const QAudioDevice &device : inputDevices) {
-        QString idString = QString::fromUtf8(device.id());
-        qDebug() << "🎤 ID:" << idString << "| Description:" << device.description();
-        if (idString.contains("usb", Qt::CaseInsensitive)) {
-            selectedInputDevice = device;
-            qDebug() << "✅ Périphérique USB sélectionné:" << device.description();
+    // Configuration format à 44100 Hz, stéréo, Int16 (conforme à arecord)
+    QAudioFormat format;
+    format.setSampleRate(44100);
+    format.setChannelCount(2);
+    format.setSampleFormat(QAudioFormat::Int16);
+
+    QAudioDevice selectedDevice;
+    for (const auto& device : inputs) {
+        if (device.description().contains("USB Audio")) {
+            selectedDevice = device;
             break;
         }
     }
 
-    if (selectedInputDevice.isNull() && !inputDevices.isEmpty()) {
-        selectedInputDevice = inputDevices.first();
-        qWarning() << "⚠️ Aucun périphérique USB détecté. Fallback sur :" << selectedInputDevice.description();
-    }
-
-    if (selectedInputDevice.isNull()) {
-        qCritical() << "❌ Aucun périphérique audio d'entrée disponible.";
+    if (selectedDevice.isNull()) {
+        qWarning() << "❌ Aucun périphérique USB Audio trouvé.";
         return;
     }
 
-    // Liste des formats à tester
-    QList<QAudioFormat> formatsToTry;
-
-    for (int sampleRate : {16000, 22050, 44100, 48000}) {
-        for (int channels : {1, 2}) {
-            for (QAudioFormat::SampleFormat formatType : {
-                                                          QAudioFormat::Int16, QAudioFormat::Int32,
-                                                          QAudioFormat::UInt8, QAudioFormat::Float}) {
-                QAudioFormat f;
-                f.setSampleRate(sampleRate);
-                f.setChannelCount(channels);
-                f.setSampleFormat(formatType);
-                formatsToTry.append(f);
-            }
-        }
-    }
-
-    QAudioFormat workingFormat;
-    bool formatFound = false;
-    for (const auto &format : formatsToTry) {
-        if (selectedInputDevice.isFormatSupported(format)) {
-            workingFormat = format;
-            formatFound = true;
-            qDebug() << "✅ Format audio compatible trouvé :"
-                     << "Rate:" << format.sampleRate()
-                     << "Ch:" << format.channelCount()
-                     << "Type:" << format.sampleFormat();
-            break;
-        }
-    }
-
-    if (!formatFound) {
-        qCritical() << "❌ Aucun format audio compatible trouvé pour ce périphérique.";
+    if (!selectedDevice.isFormatSupported(format)) {
+        qWarning() << "❌ Format non supporté par le périphérique sélectionné.";
         return;
     }
 
-    QAudioDevice outputDeviceInfo = QMediaDevices::defaultAudioOutput();
-    if (!outputDeviceInfo.isFormatSupported(workingFormat)) {
-        qCritical() << "❌ Format compatible en entrée mais pas en sortie.";
-        return;
-    }
-
-    audioInput = new QAudioSource(selectedInputDevice, workingFormat, this);
-    audioOutput = new QAudioSink(outputDeviceInfo, workingFormat, this);
+    audioInput = new QAudioSource(selectedDevice, format, this);
+    audioOutput = new QAudioSink(QMediaDevices::defaultAudioOutput(), format, this);
 
     connect(audioInput, &QAudioSource::stateChanged, this, &Student::onAudioSourceStateChanged);
 
+    // Connecte la socket UDP au groupe multicast initial
     connectToGroup();
 
+    // Timer pour envoyer l'audio régulièrement (toutes les 20ms)
     connect(&sendTimer, &QTimer::timeout, this, &Student::captureAndSendAudio);
     sendTimer.start(20);
 }
