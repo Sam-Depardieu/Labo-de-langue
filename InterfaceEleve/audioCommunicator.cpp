@@ -35,8 +35,6 @@ Student::Student(const QString &groupName, const QHostAddress &serverAddress, qu
     audioInput = new QAudioSource(inputDeviceInfo, format, this);
     audioOutput = new QAudioSink(outputDeviceInfo, format, this);
 
-    connect(audioInput, &QAudioSource::stateChanged, this, &Student::onAudioSourceStateChanged);
-
     // Bind la socket UDP sur un port local dynamique (0)
     if (!udpSocket.bind(QHostAddress::AnyIPv4, 0,
                         QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint)) {

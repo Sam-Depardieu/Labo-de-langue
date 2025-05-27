@@ -43,10 +43,10 @@ constexpr auto qt_meta_stringdata_CLASSStudentENDCLASS = QtMocHelpers::stringDat
     "QHostAddress",
     "newAddress",
     "newPort",
-    "onAudioSourceStateChanged",
-    "QAudio::State",
-    "newState",
     "initializeAudioCommunication",
+    "connectToGroup",
+    "profAddress",
+    "profPort",
     "muteAudio",
     "unmuteAudio"
 );
@@ -72,17 +72,17 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSStudentENDCLASS[] = {
        1,    0,   56,    2, 0x0a,    1 /* Public */,
        3,    0,   57,    2, 0x0a,    2 /* Public */,
        4,    2,   58,    2, 0x0a,    3 /* Public */,
-       8,    1,   63,    2, 0x0a,    6 /* Public */,
-      11,    0,   66,    2, 0x0a,    8 /* Public */,
-      12,    0,   67,    2, 0x0a,    9 /* Public */,
-      13,    0,   68,    2, 0x0a,   10 /* Public */,
+       8,    0,   63,    2, 0x0a,    6 /* Public */,
+       9,    2,   64,    2, 0x0a,    7 /* Public */,
+      12,    0,   69,    2, 0x0a,   10 /* Public */,
+      13,    0,   70,    2, 0x0a,   11 /* Public */,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, 0x80000000 | 5, QMetaType::UShort,    6,    7,
-    QMetaType::Void, 0x80000000 | 9,   10,
     QMetaType::Void,
+    QMetaType::Void, 0x80000000 | 5, QMetaType::UShort,   10,   11,
     QMetaType::Void,
     QMetaType::Void,
 
@@ -106,11 +106,12 @@ Q_CONSTINIT const QMetaObject Student::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<const QHostAddress &, std::false_type>,
         QtPrivate::TypeAndForceComplete<quint16, std::false_type>,
-        // method 'onAudioSourceStateChanged'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        QtPrivate::TypeAndForceComplete<QAudio::State, std::false_type>,
         // method 'initializeAudioCommunication'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'connectToGroup'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<const QHostAddress &, std::false_type>,
+        QtPrivate::TypeAndForceComplete<quint16, std::false_type>,
         // method 'muteAudio'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'unmuteAudio'
@@ -128,8 +129,8 @@ void Student::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
         case 0: _t->captureAndSendAudio(); break;
         case 1: _t->receiveAudio(); break;
         case 2: _t->changeAudioGroup((*reinterpret_cast< std::add_pointer_t<QHostAddress>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<quint16>>(_a[2]))); break;
-        case 3: _t->onAudioSourceStateChanged((*reinterpret_cast< std::add_pointer_t<QAudio::State>>(_a[1]))); break;
-        case 4: _t->initializeAudioCommunication(); break;
+        case 3: _t->initializeAudioCommunication(); break;
+        case 4: _t->connectToGroup((*reinterpret_cast< std::add_pointer_t<QHostAddress>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<quint16>>(_a[2]))); break;
         case 5: _t->muteAudio(); break;
         case 6: _t->unmuteAudio(); break;
         default: ;
