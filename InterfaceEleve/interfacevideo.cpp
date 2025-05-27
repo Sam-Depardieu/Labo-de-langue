@@ -231,7 +231,7 @@ InterfaceVideo::~InterfaceVideo()
 
 void InterfaceVideo::on_pushButton_SelectVideo_clicked()
 {
-    QString videoPath = "\\\\192.168.64.1\\Activites";  // Chemin réseau de la Raspberry Pi
+    QString videoPath = "/mnt/Activites";  // Chemin réseau de la Raspberry Pi
 
     QString fileName = QFileDialog::getOpenFileName(
         this,
