@@ -390,7 +390,7 @@ void QCM::saveQuestions()
     rootObject["questions"] = questionsArray;
 
     // Chemin du fichier de sauvegarde
-    QString savePath = mainWindow->getSessionFolder() + "/questions.qcmlabo";
+    QString savePath = "\\\\192.168.64.1\\Activites\\" + mainWindow->getSessionFolder() + "/questions.qcmlabo";
     QFile file(savePath);
 
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
