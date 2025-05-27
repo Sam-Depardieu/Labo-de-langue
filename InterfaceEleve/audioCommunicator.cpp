@@ -68,7 +68,12 @@ void Student::captureAndSendAudio()
     while (inputDevice->bytesAvailable() > 0) {
         QByteArray audioData = inputDevice->read(inputDevice->bytesAvailable());
         if (!audioData.isEmpty()) {
-            udpSocket.writeDatagram(audioData, serverAddress, serverPort);
+            qint64 bytesSent = udpSocket.writeDatagram(audioData, serverAddress, serverPort);
+            if (bytesSent == -1) {
+                qWarning() << "Erreur envoi datagram audio";
+            } else {
+                qDebug() << "Audio envoyé vers" << serverAddress.toString() << "port" << serverPort << "- taille" << bytesSent;
+            }
         }
     }
 }
