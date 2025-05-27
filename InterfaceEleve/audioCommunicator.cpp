@@ -15,7 +15,6 @@ Student::Student(const QString &groupName, const QHostAddress &groupAddress, qui
     const auto inputDevices = QMediaDevices::audioInputs();
     QAudioDevice selectedInputDevice;
 
-    // Sélection d'un périphérique USB audio si possible
     for (const QAudioDevice &device : inputDevices) {
         QString idString = QString::fromUtf8(device.id());
         qDebug() << "🎤 ID:" << idString << "| Description:" << device.description();
@@ -26,43 +25,69 @@ Student::Student(const QString &groupName, const QHostAddress &groupAddress, qui
         }
     }
 
-    // Fallback si aucun périphérique USB n'est détecté
     if (selectedInputDevice.isNull() && !inputDevices.isEmpty()) {
         selectedInputDevice = inputDevices.first();
         qWarning() << "⚠️ Aucun périphérique USB détecté. Fallback sur :" << selectedInputDevice.description();
     }
 
-    // Format audio basique et largement supporté sur Raspberry Pi
-    QAudioFormat format;
-    format.setSampleRate(16000);                 // 16 kHz suffisant pour la voix
-    format.setChannelCount(1);                   // Mono
-    format.setSampleFormat(QAudioFormat::Int16); // Compatible ALSA
-
-    // Vérification de la compatibilité
-    if (!selectedInputDevice.isFormatSupported(format)) {
-        qCritical() << "❌ Format audio non supporté par le périphérique sélectionné.";
+    if (selectedInputDevice.isNull()) {
+        qCritical() << "❌ Aucun périphérique audio d'entrée disponible.";
         return;
     }
 
-    // Initialisation des périphériques audio
+    // Liste des formats à tester
+    QList<QAudioFormat> formatsToTry;
+
+    for (int sampleRate : {16000, 22050, 44100, 48000}) {
+        for (int channels : {1, 2}) {
+            for (QAudioFormat::SampleFormat formatType : {
+                                                          QAudioFormat::Int16, QAudioFormat::Int32,
+                                                          QAudioFormat::UInt8, QAudioFormat::Float}) {
+                QAudioFormat f;
+                f.setSampleRate(sampleRate);
+                f.setChannelCount(channels);
+                f.setSampleFormat(formatType);
+                formatsToTry.append(f);
+            }
+        }
+    }
+
+    QAudioFormat workingFormat;
+    bool formatFound = false;
+    for (const auto &format : formatsToTry) {
+        if (selectedInputDevice.isFormatSupported(format)) {
+            workingFormat = format;
+            formatFound = true;
+            qDebug() << "✅ Format audio compatible trouvé :"
+                     << "Rate:" << format.sampleRate()
+                     << "Ch:" << format.channelCount()
+                     << "Type:" << format.sampleFormat();
+            break;
+        }
+    }
+
+    if (!formatFound) {
+        qCritical() << "❌ Aucun format audio compatible trouvé pour ce périphérique.";
+        return;
+    }
+
     QAudioDevice outputDeviceInfo = QMediaDevices::defaultAudioOutput();
-    if (!outputDeviceInfo.isFormatSupported(format)) {
-        qCritical() << "❌ Format audio non supporté en sortie.";
+    if (!outputDeviceInfo.isFormatSupported(workingFormat)) {
+        qCritical() << "❌ Format compatible en entrée mais pas en sortie.";
         return;
     }
 
-    audioInput = new QAudioSource(selectedInputDevice, format, this);
-    audioOutput = new QAudioSink(outputDeviceInfo, format, this);
+    audioInput = new QAudioSource(selectedInputDevice, workingFormat, this);
+    audioOutput = new QAudioSink(outputDeviceInfo, workingFormat, this);
 
     connect(audioInput, &QAudioSource::stateChanged, this, &Student::onAudioSourceStateChanged);
 
-    // Connexion au groupe UDP
     connectToGroup();
 
-    // Timer pour capturer/envoyer l’audio toutes les 20 ms
     connect(&sendTimer, &QTimer::timeout, this, &Student::captureAndSendAudio);
     sendTimer.start(20);
 }
+
 
 Student::~Student()
 {
