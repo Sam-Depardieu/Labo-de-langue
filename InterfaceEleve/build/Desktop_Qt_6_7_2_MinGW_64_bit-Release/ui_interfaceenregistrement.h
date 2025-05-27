@@ -41,6 +41,7 @@ public:
     QSlider *verticalSlider_son;
     QLabel *chronoLabel;
     QLabel *label_3;
+    QSlider *verticalSlider_sonVideo;
 
     void setupUi(QDialog *InterfaceEnregistrement)
     {
@@ -100,7 +101,7 @@ public:
         pushButtonEnregistrer->setStyleSheet(QString::fromUtf8(""));
         textEditFeedBack = new QTextEdit(InterfaceEnregistrement);
         textEditFeedBack->setObjectName("textEditFeedBack");
-        textEditFeedBack->setGeometry(QRect(10, 210, 211, 201));
+        textEditFeedBack->setGeometry(QRect(10, 220, 211, 201));
         textEditFeedBack->setStyleSheet(QString::fromUtf8("QTextEdit {\n"
 "    background-color: #f5f5f5;\n"
 "    border: 2px solid #007a8c;\n"
@@ -117,7 +118,7 @@ public:
         pushButtonPlay->setStyleSheet(QString::fromUtf8(""));
         textEditConsigne = new QTextEdit(InterfaceEnregistrement);
         textEditConsigne->setObjectName("textEditConsigne");
-        textEditConsigne->setGeometry(QRect(580, 210, 211, 201));
+        textEditConsigne->setGeometry(QRect(580, 220, 211, 201));
         textEditConsigne->setStyleSheet(QString::fromUtf8("QTextEdit {\n"
 "    background-color: #f5f5f5;\n"
 "    border: 2px solid #007a8c;\n"
@@ -130,13 +131,13 @@ public:
 ""));
         label = new QLabel(InterfaceEnregistrement);
         label->setObjectName("label");
-        label->setGeometry(QRect(10, 190, 151, 16));
+        label->setGeometry(QRect(10, 200, 151, 16));
         QFont font1;
         font1.setBold(true);
         label->setFont(font1);
         label_2 = new QLabel(InterfaceEnregistrement);
         label_2->setObjectName("label_2");
-        label_2->setGeometry(QRect(590, 190, 151, 16));
+        label_2->setGeometry(QRect(590, 200, 151, 16));
         label_2->setFont(font1);
         verticalSlider_son = new QSlider(InterfaceEnregistrement);
         verticalSlider_son->setObjectName("verticalSlider_son");
@@ -169,6 +170,10 @@ public:
 "    border: none; /* Enlever le contour si n\303\251cessaire */\n"
 "    font-weight: bold; /* Optionnel : texte en gras */"));
         label_3->setAlignment(Qt::AlignmentFlag::AlignCenter);
+        verticalSlider_sonVideo = new QSlider(InterfaceEnregistrement);
+        verticalSlider_sonVideo->setObjectName("verticalSlider_sonVideo");
+        verticalSlider_sonVideo->setGeometry(QRect(780, 60, 16, 160));
+        verticalSlider_sonVideo->setOrientation(Qt::Orientation::Vertical);
         label_3->raise();
         verticalSlider_son->raise();
         pushButton_2->raise();
@@ -187,6 +192,7 @@ public:
         label->raise();
         label_2->raise();
         chronoLabel->raise();
+        verticalSlider_sonVideo->raise();
 
         retranslateUi(InterfaceEnregistrement);
 
