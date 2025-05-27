@@ -11,49 +11,49 @@ Student::Student(const QString &groupName, const QHostAddress &groupAddress, qui
     serverPort(groupPort),
     udpSocket(this)
 {
-    auto inputs = QMediaDevices::audioInputs();
+    auto inputDevices = QMediaDevices::audioInputs();
 
-    qDebug() << "🔍 Recherche des périphériques audio d'entrée disponibles :";
-    for (const auto& device : inputs) {
-        qDebug() << "🎤" << device.description();
+    qDebug() << "Périphériques d'entrée disponibles :";
+    for (const QAudioDevice &device : inputDevices) {
+        qDebug() << "ENTREE :" << device.id() << "," << device.description();
     }
 
-    // Configuration format à 44100 Hz, stéréo, Int16 (conforme à arecord)
     QAudioFormat format;
-    format.setSampleRate(44100);
-    format.setChannelCount(2);
-    format.setSampleFormat(QAudioFormat::Int16);
+    format.setSampleRate(48000);       // 48000 Hz compatible avec ta carte
+    format.setChannelCount(1);         // Mono
+    format.setSampleFormat(QAudioFormat::Int16); // Signed 16 bits
 
-    QAudioDevice selectedDevice;
-    for (const auto& device : inputs) {
-        if (device.description().contains("USB Audio")) {
-            selectedDevice = device;
+    // Trouver la carte USB par description
+    QAudioDevice inputDeviceInfo;
+    bool found = false;
+    for (const QAudioDevice &device : inputDevices) {
+        if (device.description().contains("USB Audio Device")) {
+            inputDeviceInfo = device;
+            found = true;
             break;
         }
     }
 
-    if (selectedDevice.isNull()) {
+    if (!found) {
         qWarning() << "❌ Aucun périphérique USB Audio trouvé.";
         return;
     }
 
-    if (!selectedDevice.isFormatSupported(format)) {
-        qWarning() << "❌ Format non supporté par le périphérique sélectionné.";
+    if (!inputDeviceInfo.isFormatSupported(format)) {
+        qWarning() << "❌ Format audio non supporté par le périphérique sélectionné.";
         return;
     }
 
-    audioInput = new QAudioSource(selectedDevice, format, this);
-    audioOutput = new QAudioSink(QMediaDevices::defaultAudioOutput(), format, this);
+    audioInput = new QAudioSource(inputDeviceInfo, format, this);
 
     connect(audioInput, &QAudioSource::stateChanged, this, &Student::onAudioSourceStateChanged);
 
-    // Connecte la socket UDP au groupe multicast initial
     connectToGroup();
 
-    // Timer pour envoyer l'audio régulièrement (toutes les 20ms)
     connect(&sendTimer, &QTimer::timeout, this, &Student::captureAndSendAudio);
     sendTimer.start(20);
 }
+
 
 
 Student::~Student()
