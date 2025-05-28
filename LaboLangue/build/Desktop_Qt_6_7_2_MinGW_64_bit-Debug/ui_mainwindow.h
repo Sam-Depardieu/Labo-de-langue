@@ -111,7 +111,7 @@ public:
         LigneHaut->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 151, 178);"));
         SessionButton = new QPushButton(centralwidget);
         SessionButton->setObjectName("SessionButton");
-        SessionButton->setGeometry(QRect(395, 10, 91, 41));
+        SessionButton->setGeometry(QRect(345, 5, 101, 51));
         QSizePolicy sizePolicy(QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Ignored);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -124,7 +124,7 @@ public:
 "border-radius: 10px;"));
         AppelButton = new QPushButton(centralwidget);
         AppelButton->setObjectName("AppelButton");
-        AppelButton->setGeometry(QRect(500, 10, 91, 41));
+        AppelButton->setGeometry(QRect(475, 5, 101, 51));
         sizePolicy.setHeightForWidth(AppelButton->sizePolicy().hasHeightForWidth());
         AppelButton->setSizePolicy(sizePolicy);
         AppelButton->setAutoFillBackground(false);
@@ -135,7 +135,7 @@ public:
 "border-radius: 10px;"));
         StatutButton = new QPushButton(centralwidget);
         StatutButton->setObjectName("StatutButton");
-        StatutButton->setGeometry(QRect(605, 10, 91, 41));
+        StatutButton->setGeometry(QRect(605, 5, 101, 51));
         QSizePolicy sizePolicy1(QSizePolicy::Policy::MinimumExpanding, QSizePolicy::Policy::Ignored);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
@@ -149,7 +149,7 @@ public:
 "border-radius: 10px;"));
         AideButton = new QPushButton(centralwidget);
         AideButton->setObjectName("AideButton");
-        AideButton->setGeometry(QRect(710, 10, 91, 41));
+        AideButton->setGeometry(QRect(735, 5, 101, 51));
         QSizePolicy sizePolicy2(QSizePolicy::Policy::Minimum, QSizePolicy::Policy::MinimumExpanding);
         sizePolicy2.setHorizontalStretch(5);
         sizePolicy2.setVerticalStretch(5);
@@ -276,7 +276,7 @@ public:
         ParametrageEleve->setStyleSheet(QString::fromUtf8("background-color: white;"));
         CreationButton = new QPushButton(centralwidget);
         CreationButton->setObjectName("CreationButton");
-        CreationButton->setGeometry(QRect(810, 10, 91, 41));
+        CreationButton->setGeometry(QRect(865, 5, 101, 51));
         sizePolicy.setHeightForWidth(CreationButton->sizePolicy().hasHeightForWidth());
         CreationButton->setSizePolicy(sizePolicy);
         CreationButton->setStyleSheet(QString::fromUtf8("background-color: black;\n"

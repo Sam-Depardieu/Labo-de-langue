@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
+<<<<<<< HEAD
 <!-- Written by QtCreator 13.0.2, 2025-05-28T17:03:38. -->
+=======
+<<<<<<< HEAD
+<!-- Written by QtCreator 13.0.2, 2025-05-28T12:25:04. -->
+=======
+<!-- Written by QtCreator 13.0.2, 2025-05-28T12:30:29. -->
+>>>>>>> 2a72ce4e2b4854111b2bf5d54b0d45d9a6e59170
+>>>>>>> 9db47d701dbcf59b546fa6c4e40cc060df27e339
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -103,7 +111,7 @@
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">QtProjectManager.QMakeBuildStep</value>
-      <value type="bool" key="QtProjectManager.QMakeBuildStep.QMakeForced">false</value>
+      <value type="bool" key="QtProjectManager.QMakeBuildStep.QMakeForced">true</value>
       <valuelist type="QVariantList" key="QtProjectManager.QMakeBuildStep.SelectedAbis"/>
      </valuemap>
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.1">
@@ -142,7 +150,11 @@
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">QtProjectManager.QMakeBuildStep</value>
+<<<<<<< HEAD
       <value type="bool" key="QtProjectManager.QMakeBuildStep.QMakeForced">false</value>
+=======
+      <value type="bool" key="QtProjectManager.QMakeBuildStep.QMakeForced">true</value>
+>>>>>>> 9db47d701dbcf59b546fa6c4e40cc060df27e339
       <valuelist type="QVariantList" key="QtProjectManager.QMakeBuildStep.SelectedAbis"/>
      </valuemap>
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.1">
@@ -183,7 +195,11 @@
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">QtProjectManager.QMakeBuildStep</value>
+<<<<<<< HEAD
       <value type="bool" key="QtProjectManager.QMakeBuildStep.QMakeForced">false</value>
+=======
+      <value type="bool" key="QtProjectManager.QMakeBuildStep.QMakeForced">true</value>
+>>>>>>> 9db47d701dbcf59b546fa6c4e40cc060df27e339
       <valuelist type="QVariantList" key="QtProjectManager.QMakeBuildStep.SelectedAbis"/>
      </valuemap>
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.1">

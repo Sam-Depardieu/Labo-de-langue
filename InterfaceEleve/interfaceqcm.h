@@ -31,6 +31,7 @@ public:
     ~InterfaceQCM();
     void receiveResponse();
     QString getConsigne() { return consigne; }
+    QString getipProf() {return ipProf;}
 
 
 private slots:
@@ -75,6 +76,8 @@ private:
     void loadConsigneJson(QString &filePath);
     QUdpSocket udpSocketConsigne;
     quint16 consignePort = 5558;
+    QUdpSocket udpSocketAppelProf;
+    quint16 HelpPort = 5557;
     void showCurrentQuestion();
     QUdpSocket udpChrono;
     quint16 chronoPort = 5558;

@@ -19,36 +19,20 @@
     {
       "nom": "Aide",
       "utilisation": "Vous savez donc à quoi sert ce bouton."
-    },
-    {
-      "nom": "Importation fichier .labo",
-      "utilisation": "Charge une session existante à partir d’un fichier JSON avec la configuration (participants, consignes, etc.)."
-    },
-    {
-      "nom": "Déplacement élève",
-      "utilisation": "Permet de repositionner les élèves sur l’IHM si le verrouillage est désactivé."
-    },
-    {
-      "nom": "Sélection manuelle",
-      "utilisation": "Active la sélection un par un des élèves présents dans la salle."
-    },
-    {
-      "nom": "Sélection complète",
-      "utilisation": "Sélectionne ou désélectionne tous les élèves visibles sur l’IHM."
     }
   ],
   "QCM": [
     {
-      "nom": "Ajout de questions",
+      "N°": "Numéro de la question.",
       "utilisation": "Permet d'ajouter des questions à choix multiples pour une activité donnée."
     },
     {
-      "nom": "Lancement QCM",
-      "utilisation": "Lance l’activité QCM pour les élèves sélectionnés, qui recevront les questions sur leur interface."
+      "nom": "Question.",
+      "utilisation": "Entrez la question qui va être posé à l'élève."
     },
     {
-      "nom": "Correction automatique",
-      "utilisation": "Affiche les résultats des élèves après envoi des réponses, avec les bonnes réponses mises en évidence."
+      "nom": "Nombre de choix possibles.",
+      "utilisation": "Choisissez le nombre de réponse possible à une question.(Minimum 1)"
     }
   ],
   "ChoixSession": [

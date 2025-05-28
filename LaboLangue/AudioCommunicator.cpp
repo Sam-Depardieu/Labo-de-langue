@@ -148,17 +148,6 @@ void Professeur::configureReceptionFromStudent(quint16 port) //Test
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
 void Professeur::addAudioGroup(const QString& groupName, quint16 portEnvoyeur, quint16 portReceveur)
 {
     if (groups.contains(groupName)) {
@@ -183,8 +172,6 @@ void Professeur::addAudioGroup(const QString& groupName, quint16 portEnvoyeur, q
     qDebug() << QString("Groupe '%1' créé. Envoi sur %2, réception sur %3")
                     .arg(groupName).arg(portEnvoyeur).arg(portReceveur);
 }
-
-
 
 void Professeur::appelerTous(){
     //MULTICAST
@@ -310,7 +297,6 @@ void Professeur::unmuteStudent(const QString& studentIp)
 
 void Professeur::desactiverSonStudent(const QString& studentIp)
 {
-
     if (!studentToGroup.contains(studentIp)) {
         qDebug() << "desactiverSonStudent: étudiant" << studentIp << "non trouvé";
         return;
@@ -334,7 +320,6 @@ void Professeur::desactiverSonStudent(const QString& studentIp)
 
 void Professeur::activerSonStudent(const QString& studentIp)
 {
-
     if (!studentToGroup.contains(studentIp)) {
         qDebug() << "activerSonStudent: étudiant" << studentIp << "non trouvé";
         return;

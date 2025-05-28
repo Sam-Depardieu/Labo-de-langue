@@ -6,14 +6,6 @@ Student::Student(QObject* parent)
     : QObject(parent),
     udpSocketReceive(new QUdpSocket(this)),
     udpSocketSend(new QUdpSocket(this)),
-    portEnvoyeur(0),
-    portReceveur(0),
-    groupPort(0),
-    serverPort(0),
-    audioInput(nullptr),
-    audioOutput(nullptr),
-    audioInputDevice(nullptr),
-    audioOutputDevice(nullptr),
     isMuted(false)
 {
     connect(udpSocketReceive, &QUdpSocket::readyRead, this, &Student::onReadyRead);
@@ -85,7 +77,7 @@ QAudioFormat Student::getAudioFormat() const
 {
     QAudioFormat format;
     format.setSampleRate(44100);              // 44.1 kHz
-    format.setChannelCount(1);                // Mono
+    format.setChannelCount(2);                // Mono
     format.setSampleFormat(QAudioFormat::Int16); // 16 bits int
     return format;
 }
@@ -128,6 +120,20 @@ void Student::startAudio()
     }
 
     qDebug() << "[Student] Capture et lecture audio démarrées";
+}
+
+void Student::configureWithTeacher(const QHostAddress& teacherAddress, quint16 teacherReceivePort) //Test
+{
+    // Prof envoie sur 5999 → élève reçoit sur 5999
+    // Prof reçoit sur 5998 ← élève envoie vers 5998
+
+    quint16 receivePort = 5999;
+    quint16 sendPort = teacherReceivePort; // 5998 en général
+
+    setServerAddress(teacherAddress, sendPort);
+    configureAudioPorts(sendPort, receivePort);
+
+    qDebug() << "[Student] Connexion configurée avec le professeur : envoyer vers" << teacherAddress.toString() << ":" << sendPort << ", écouter sur port" << receivePort;
 }
 
 void Student::stopAudio()

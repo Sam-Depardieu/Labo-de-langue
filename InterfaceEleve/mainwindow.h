@@ -46,6 +46,7 @@ public:
     QString getSessionPATH() {return sessionPATH;};
     QString getIpProf() {return ipProf;}
     QString getNomFichier() {return nomFichier;}
+    void AppelProf(const QString& ipProf);
 
     void sendCommandToProf(const QString& ipProf, int port, const QString& command);
 
@@ -74,6 +75,7 @@ private:
     bool isF1Pressed = false;
     bool actionDone  = false;
 
+
     QString nomEleve = "";
     QString nomProf = "";
     QString ipProf = "";
@@ -82,6 +84,9 @@ private:
     QMap<int, Student*> students;
     Student* currentStudent = nullptr;  // membre de la classe MainWindow
     QUdpSocket *udpSocket;
+
+    QUdpSocket udpSocketAppelProf;
+    quint16 HelpPort = 5557;
 
     QUdpSocket *udpSocketEnd;
     quint16 EndPort = 5557;
@@ -120,7 +125,13 @@ private:
 
     void startLoading();
     void stopLoading();
+<<<<<<< HEAD
     void mountNetworkDrive();
+=======
+
+
+
+>>>>>>> 9db47d701dbcf59b546fa6c4e40cc060df27e339
 signals:
     void chronoMisAJour(const QString &temps);
     void chronoFini();

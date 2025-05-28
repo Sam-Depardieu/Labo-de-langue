@@ -234,7 +234,7 @@ MainWindow::~MainWindow()
             ui->errorLabel->setText("Veuillez remplir tous les champs !");
             return;
         }
-        if ((nomTypeActivite.contains("video") || nomTypeActivite.contains("ecoute")) && (source.isNull() || source != ""))
+        if ((nomTypeActivite.contains("Video") || nomTypeActivite.contains("Ecoute")) && (source.isNull() || source == ""))
         {
             ui->errorLabel->setText("Veuillez indiquer un fichier audio ou video.");
             return;
@@ -1536,6 +1536,7 @@ void MainWindow::on_enleveTemps_clicked()
 
 void MainWindow::on_AppelerButton_clicked()
 {
+    prof->sendCommandToStudent(eleveActuellementParametre->getIP(), 5557, "appelProf");
     prof->callStudent(QHostAddress(eleveActuellementParametre->getIP()), 5999);
 }
 
