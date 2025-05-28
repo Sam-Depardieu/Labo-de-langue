@@ -32,7 +32,6 @@ gestionSession::gestionSession(MainWindow *mainW, QSqlDatabase db, QObject *pare
     ui->ParametrageSession->setLayout(layoutParametrageSession);
 
     ui->ParametrageSession->setVisible(false);
-    mainWindow->runningSession = true;
     mainWindow->editStatusButton(mainWindow->ui->SourceButton, false);
 }
 
@@ -276,10 +275,7 @@ void gestionSession::continuerCreationSession(bool sessionExistante)
             QFileInfo fileInfo(mainWindow->getSource());
             QString finalName = mainWindow->getNewName().isEmpty() ? fileInfo.fileName() : mainWindow->getNewName();
             mainWindow->getProf()->sendCommandToStudent(eleve->getIP(), 5558, QString("nomFichier,"+mainWindow->getNewName()));
-
-            if (!mainWindow->getDuree()->isEmpty() && *mainWindow->getDuree() != QString("00:00")) {
-                mainWindow->getProf()->sendCommandToStudent(eleve->getIP(), 5558, QString("chrono,%1").arg(*mainWindow->getDuree()));
-            }
+            mainWindow->getProf()->sendCommandToStudent(eleve->getIP(), 5558, QString("chrono,%1").arg(*mainWindow->getDuree()));
             mainWindow->getProf()->sendCommandToStudent(eleve->getIP(), 5561, QString(mainWindow->getSessionFolder()));
 
             //qDebug() << mainWindow->getIpProf();

@@ -411,7 +411,6 @@ void QCM::saveQuestions()
     this->close(); // si besoin
 }
 
-
 QCM::~QCM()
 {
     delete ui;
