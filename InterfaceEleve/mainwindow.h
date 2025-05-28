@@ -47,7 +47,7 @@ public:
     QString getIpProf() {return ipProf;}
     QString getNomFichier() {return nomFichier;}
 
-    void sendCommandToProf(const QString& ipProf, int port, const QString& command);
+    void sendCommandToProf(const QString &ipProf, quint16 port, const QString &message);
 
 
     ~MainWindow();

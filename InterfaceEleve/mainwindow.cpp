@@ -576,15 +576,22 @@ void MainWindow::stopClignotement()
     clignotementEtat = false;
 }
 
-void MainWindow::sendCommandToProf(const QString& ipProf, int port, const QString& command)
+void MainWindow::sendCommandToProf(const QString &ipProf, quint16 port, const QString &message)
 {
-    if (command.isEmpty()) return;
+    qDebug() << "[sendCommandToProf] Envoi du message:" << message << "à l'adresse IP:" << ipProf << "sur le port:" << port;
 
-    QByteArray datagram = command.toUtf8();
-    QHostAddress addr(ipProf);
-    udpSocket->writeDatagram(datagram, addr, port);
-    qDebug() << "[Command] vers" << ipProf << ":" << command;
+    QUdpSocket socket;
+    QByteArray data = message.toUtf8();
+
+    qint64 bytesSent = socket.writeDatagram(data, QHostAddress(ipProf), port);
+
+    if (bytesSent == -1) {
+        qDebug() << "[sendCommandToProf] Erreur d'envoi:" << socket.errorString();
+    } else {
+        qDebug() << "[sendCommandToProf] Message envoyé avec succès (" << bytesSent << " octets)";
+    }
 }
+
 void MainWindow::receiveEndMessage()
 {
     QByteArray datagram;

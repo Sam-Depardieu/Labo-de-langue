@@ -86,8 +86,6 @@ private:
     QTimer* clignotementTimer;
     QMap<int, QVector<bool>> userAnswers;
 
-    void sendCommandToProf(const QString &ip, quint16 port, const QString &message);
-
 
 };
 

@@ -486,33 +486,19 @@ void InterfaceQCM::on_pushButtonSoumettre_clicked()
     accept();
 }
 
-void InterfaceQCM::sendCommandToProf(const QString &ip, quint16 port, const QString &message)
-{
-    qDebug() << "[sendCommandToProf] Envoi du message:" << message << "à l'adresse IP:" << ip << "sur le port:" << port;
-
-    QUdpSocket socket;
-    QByteArray data = message.toUtf8();
-    qint64 bytesSent = socket.writeDatagram(data, QHostAddress(ip), port);
-
-    if (bytesSent == -1) {
-        qDebug() << "[sendCommandToProf] Erreur d'envoi:" << socket.errorString();
-    } else {
-        qDebug() << "[sendCommandToProf] Message envoyé avec succès (" << bytesSent << "octets)";
-    }
-}
 
 void InterfaceQCM::on_pushButtonAppelProf_clicked()
 {
-    ui->pushButtonAppelProf->setEnabled(false); // désactive le bouton
-    ui->pushButtonAppelProf->setStyleSheet("border:1px solid white; border-radius:20px;");
+    QString ipProf = "192.168.1.100"; // ou récupère dynamiquement
+    quint16 port = 5557;
+    QString message = "help";
 
-    QString ipProf = mainWindow->getIpProf();
-    qDebug() << "[on_pushButtonAppelProf_clicked] IP du professeur récupérée:" << ipProf;
-
-    sendCommandToProf(ipProf, 5557, "help");
-    // Envoyer le message "help" à l'adresse IP du professeur
-    mainWindow->sendCommandToProf(ipProf, 5557, "help");
-    qDebug() << "Appel prof envoyé à l'adresse IP : " << ipProf;
+    if (mainWindow) {
+        mainWindow->sendCommandToProf(ipProf, port, message);
+    } else {
+        qDebug() << "[InterfaceQCM] mainWindow est null, impossible d'envoyer le message";
+    }
 }
+
 
 
