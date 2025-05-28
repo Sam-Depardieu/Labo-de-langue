@@ -66,8 +66,7 @@ private slots:
     void stopClignotement();
     void startChrono(const QTime &duree);
     void receiveEndMessage(); // Slot pour recevoir le message "END"
-    void moveAndRenameFolder();
-
+    void moveAndSendFiles();
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db;
@@ -121,7 +120,7 @@ private:
 
     void startLoading();
     void stopLoading();
-
+    void mountNetworkDrive();
 signals:
     void chronoMisAJour(const QString &temps);
     void chronoFini();

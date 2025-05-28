@@ -13,6 +13,9 @@
 #include <QHostAddress>
 #include <QSqlQuery>
 #include <QSqlError>
+#include <QProcess>
+#include <QDebug>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -23,6 +26,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 {
     ui->setupUi(this);
+    mountNetworkDrive();
+
     //Affiche juste la barre de titre, sans les boutons Fermer, Minimiser, Maximiser
     //setWindowFlags(Qt::Dialog | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
 
@@ -591,30 +596,24 @@ void MainWindow::receiveEndMessage()
     datagram.resize(udpSocketEnd->pendingDatagramSize());
     QHostAddress sender;
     quint16 senderPort;
-
     // Lire le message reçu
     udpSocketEnd->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
-
     // Vérifier si le message reçu est "END"
     QString message = QString::fromUtf8(datagram);
     if (message.trimmed() == "END") {
         // Lancer le processus de renommage et de déplacement du dossier
-        moveAndRenameFolder();
+        moveAndSendFiles();
     }
 }
-
-void MainWindow::moveAndRenameFolder()
-{
-    // Assurez-vous que sessionPATH contient bien le chemin de session reçu via UDP
+void MainWindow::moveAndSendFiles() {
+    // Étape 1: Vérifier si le chemin de session est défini
     if (sessionPATH.isEmpty()) {
         qWarning() << "Le chemin de session n'est pas défini.";
-        QMessageBox::critical(this, "Erreur", "Le chemin de session est vide !");
         return;
     }
-
     qDebug() << "Chemin de session reçu : " << sessionPATH;
 
-    // Chemin du dossier à envoyer (dossier Travail)
+    // Chemin du dossier à envoyer (dossier "Travail")
     const QString folderPath = QDir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).filePath("Travail");
 
     // Vérifier si le dossier source existe
@@ -623,37 +622,73 @@ void MainWindow::moveAndRenameFolder()
         QMessageBox::critical(this, "Erreur", "Le dossier source à envoyer n'existe pas.");
         return;
     }
-
-    // Renommer le dossier "Travail" en "Rendu_nomEleve"
-    QString newFolderName = "Rendu_" + nomEleve;
-    QString newFolderPath = sessionPATH + "/" + newFolderName;
-
-    // Vérifier si le dossier de destination existe, sinon le créer
-    if (!QDir(sessionPATH).exists()) {
-        if (!QDir().mkpath(sessionPATH)) {
-            qDebug() << "Impossible de créer le dossier de destination : " << sessionPATH;
-            QMessageBox::critical(this, "Erreur", "Impossible de créer le dossier de destination.");
+    // Créer le dossier "Rendus" dans le dossier de session
+    QString renduFolderPath = sessionPATH + "/Rendus";
+    if (!QDir(renduFolderPath).exists()) {
+        if (!QDir().mkpath(renduFolderPath)) {
+            qDebug() << "Impossible de créer le dossier Rendus dans la session : " << renduFolderPath;
+            QMessageBox::critical(this, "Erreur", "Impossible de créer le dossier Rendus.");
             return;
         }
     }
 
-    // Déplacer et renommer le dossier "Travail"
-    if (QDir().rename(folderPath, newFolderPath)) {
-        qDebug() << "Dossier renommé et déplacé avec succès : " << newFolderPath;
+    // Étape 2: Récupérer tous les fichiers du dossier "Travail" et les renommer
+    QDir dir(folderPath);
+    QStringList files = dir.entryList(QDir::Files); // Récupérer la liste des fichiers dans "Travail"
 
-        // Message pour informer l'utilisateur
-        QMessageBox::information(this, "Transfert réussi", "Le dossier a été envoyé avec succès.");
+    foreach (const QString &fileName, files) {
+        // Construire le chemin du fichier
+        QString filePath = folderPath + "/" + fileName;
 
-    } else {
-        qDebug() << "Erreur lors du déplacement et du renommage du dossier.";
-        QMessageBox::critical(this, "Erreur", "Le dossier n'a pas pu être déplacé et renommé.");
+        // Créer le nom du fichier avec le nom de l'élève
+        QString newFileName = nomEleve + "_" + fileName;
+        QString newFilePath = renduFolderPath + "/" + newFileName;
+
+        // Étape 3: Renommer et déplacer le fichier vers le dossier "Rendus"
+        if (QFile::rename(filePath, newFilePath)) {
+            qDebug() << "Fichier déplacé et renommé avec succès : " << newFilePath;
+        } else {
+            qDebug() << "Erreur lors du déplacement et du renommage du fichier : " << fileName;
+        }
     }
 
-    // Optionnel : Supprimer le dossier source après le transfert
-    QDir dir(folderPath);
-    if (dir.exists()) {
-        dir.removeRecursively();
-        qDebug() << "Le dossier source a été supprimé.";
+    // Étape 4: Supprimer les fichiers dans "Travail" après l'envoi
+    QDir folder(folderPath);
+    if (folder.exists()) {
+        if (folder.removeRecursively()) {
+            qDebug() << "Tous les fichiers du dossier source ont été supprimés.";
+        } else {
+            qDebug() << "Échec de la suppression du dossier source.";
+        }
     }
 }
+void MainWindow::mountNetworkDrive()
+{
+    QProcess process;
 
+    QStringList args;
+    args << "-S"  // Lire mot de passe depuis stdin (inutile ici car pas de mot de passe si sudoers OK)
+         << "mount"
+         << "-t" << "cifs"
+         << "//192.168.64.1/Activites"
+         << "/mnt/partage"
+         << "-o"
+         << QString("username=ciel2,password=ciel2,uid=%1,gid=%2,cache=none")
+                .arg(QString::number(getpid()))
+                .arg(QString::number(getpid()));
+
+    process.start("sudo", args);
+    process.waitForFinished();
+
+    QString output = process.readAllStandardOutput();
+    QString error = process.readAllStandardError();
+
+    if (!output.isEmpty()) {
+        qDebug() << "✅ Montage réussi : " << output;
+    }
+
+    if (!error.isEmpty()) {
+        qDebug() << "❌ Erreur de montage : " << error;
+        QMessageBox::critical(this, "Erreur de montage", "Une erreur est survenue lors du montage du partage réseau :\n" + error);
+    }
+}

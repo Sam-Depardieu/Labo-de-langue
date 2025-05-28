@@ -160,20 +160,6 @@ void InterfaceEnregistrement::on_pushButtonSpeak_clicked()
         qDebug() << "🛑 Enregistrement existant stoppé via Speak.";
     }
 
-    QString sessionFolderPath = sessionPATH;
-    QString studentFolderName = "Rendu_" + nomEleve;
-    QString fullFolderPath = sessionFolderPath + "/" + studentFolderName;
-
-    // Vérifier si le dossier existe, sinon le créer
-    QDir dir(fullFolderPath);
-    if (!dir.exists()) {
-        if (dir.mkpath(fullFolderPath)) {
-            qDebug() << "📂 Dossier de session créé pour l'élève : " << fullFolderPath;
-        } else {
-            qWarning() << "Impossible de créer le dossier de session pour l'élève : " << fullFolderPath;
-            return;
-        }
-    }
 
     // --- 4) Préparer le dossier Travail et le nom de fichier fixe ---
     const QString docs = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
