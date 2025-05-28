@@ -8,6 +8,7 @@
 iconEleveGroup::iconEleveGroup(int IDEleve, QString ipEleve, QGraphicsTextItem* text, MainWindow* parentWindow) : QGraphicsItemGroup(), mainWindow(parentWindow), nom(QString::number(IDEleve)), IP(ipEleve), ID(IDEleve), textItem(text) {
     setFlag(QGraphicsItem::ItemSendsGeometryChanges);
     //setFlag(QGraphicsItem::ItemIsSelectable, true);
+    socket = new QUdpSocket(this);
 }
 
 void iconEleveGroup::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {

@@ -180,6 +180,10 @@ private slots:
 
     void on_enleveTemps_clicked();
 
+    void on_AppelerButton_clicked();
+
+    void on_AppelButton_clicked();
+
 private:
     // === Interface graphique ===
 
