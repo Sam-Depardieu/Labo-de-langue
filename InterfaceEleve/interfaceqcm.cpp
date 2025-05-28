@@ -216,7 +216,7 @@ void InterfaceQCM::loadConsigneJson(QString &filePath)
         qWarning() << "Erreur Impossible d'ouvrir le fichier consigne JSON.";
         ui->pushButtonQuestionSuivante->hide();
         ui->pushButtonSoumettre->hide();
-        ui->pushButtonAppelProf->hide();
+        //ui->pushButtonAppelProf->hide();
 
         return;
     }
@@ -486,6 +486,13 @@ void InterfaceQCM::on_pushButtonSoumettre_clicked()
     accept();
 }
 
+void InterfaceQCM::sendCommandToProf(const QString &ip, quint16 port, const QString &message)
+{
+    QUdpSocket socket;
+    QByteArray data = message.toUtf8();
+    socket.writeDatagram(data, QHostAddress(ip), port);
+}
+
 
 void InterfaceQCM::on_pushButtonAppelProf_clicked()
 {
@@ -496,8 +503,9 @@ void InterfaceQCM::on_pushButtonAppelProf_clicked()
     QString ipProf = mainWindow->getIpProf();
 
     // Envoyer le message "help" à l'adresse IP du professeur
-    mainWindow->sendCommandToProf(ipProf, 5557, "help");
-    qDebug() << "Appel prof envoyé à l'adresse IP : " << ipProf;
+    // Par exemple en utilisant une classe utilitaire réseau :
+    sendCommandToProf(ipProf, 5557, "help");
 }
+
 
 
