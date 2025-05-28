@@ -1,5 +1,6 @@
 #include "interfaceqcm.h"
 //#include "build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ui_interfaceqcm.h"
+#include "build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ui_interfaceqcm.h"
 #include "mainwindow.h"
 #include "avancementqcm.h"
 #include <QStandardItemModel>
@@ -49,6 +50,9 @@ InterfaceQCM::InterfaceQCM(MainWindow *parentWindow ,QWidget *parent)
 
     clignotementTimer = new QTimer(this);
     connect(clignotementTimer, &QTimer::timeout, this, &InterfaceQCM::faireClignoterLabel);
+
+    connect(ui->pushButtonAppelProf, &QPushButton::clicked, this, &InterfaceQCM::on_pushButtonAppelProf_clicked);
+
 
     clignotementEtat = false;
 
@@ -488,23 +492,26 @@ void InterfaceQCM::on_pushButtonSoumettre_clicked()
 
 void InterfaceQCM::on_pushButtonAppelProf_clicked()
 {
-    if (!mainWindow) {
-        qDebug() << "[InterfaceQCM] mainWindow est null, impossible d'envoyer le message";
-        return;
-    }
+    qDebug() << "🔔 Bouton Appel Professeur cliqué.";
 
-    QString ipProf = mainWindow->getIpProf(); // Récupérer l'adresse IP du professeur
-    qDebug() << "[InterfaceQCM] Adresse IP prof récupérée :" << ipProf; // Log pour vérifier l'adresse IP du professeur
     if (ipProf.isEmpty()) {
-        qDebug() << "[InterfaceQCM] IP Prof vide, envoi annulé";
+        QMessageBox::warning(this, "Erreur", "L'adresse IP du professeur n'est pas définie.");
         return;
     }
 
-    quint16 port = 5557;
-    QString message = "help"; // Message à envoyer
+    QByteArray message = "help"; // Message à envoyer
 
-    mainWindow->sendCommandToProf(ipProf, port, message);
+    // Envoi UDP à ipProf sur le port 5557
+    qint64 bytesSent = udpSocketAppelProf.writeDatagram(message, QHostAddress(ipProf), 5557);
+
+    if (bytesSent == -1) {
+        QMessageBox::warning(this, "Erreur", "Impossible d'envoyer la demande : " + udpSocketAppelProf.errorString());
+    } else {
+        QMessageBox::information(this, "Appel Professeur", "Votre demande a été envoyée à " + ipProf + " sur le port 5557.");
+    }
 }
+
+
 
 
 
