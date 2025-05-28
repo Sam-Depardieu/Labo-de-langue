@@ -95,12 +95,13 @@ MainWindow::MainWindow(QWidget *parent)
     ui->casqueSonButton->setStyleSheet("background-color: rgb(255, 0, 0)");
     ui->microSonButton->setStyleSheet("background-color: rgb(255, 0, 0)");
     ui->Communication->setStyleSheet("background-color: gray;");
-    ui->creerGroupeButton->setStyleSheet("background-color: gray;");
     ui->redemarrerButton->setStyleSheet("background-color: orange;");
+    ui->creerGroupeButton->setStyleSheet("background-color: gray;");
     ui->AppelerButton->setStyleSheet("background-color: #28a745;");
     ui->pauseButton->setStyleSheet("background-color: rgb(255, 0, 0)");
     ui->lectureButton->setStyleSheet("background-color: #28a745;");
     // Cacher les boutons de la page
+    editStatusButtonHeader(ui->creerGroupeButton, false);
     ui->lectureButton->setVisible(false);
     ui->nomCreationGroupeLabel->setVisible(false);
     ui->nomGroupeLineEdit->setVisible(false);
@@ -838,7 +839,8 @@ void MainWindow::on_ChoixActivite_currentIndexChanged(int index)
         editStatusButton(ui->SourceButton, false);
     }
     else editStatusButton(ui->SourceButton, true);
-    if(nomTypeActivite == "Enregistrement") ui->creerGroupeButton->setEnabled(true);
+    if(nomTypeActivite == "Enregistrement") editStatusButton(ui->creerGroupeButton, true);
+    ui->creerGroupeButton->setStyleSheet("background-color: gray;");
 }
 
 void MainWindow::on_selectManuel_clicked()
@@ -1043,7 +1045,10 @@ void MainWindow::loadInformationTable()
         }
         QTableWidgetItem *nomGroupe = new QTableWidgetItem(listeParticipant[row]->getNomGroupe());
         nomGroupe->setTextAlignment(Qt::AlignCenter);
-        nomGroupe->setFlags(nomGroupe->flags() & ~Qt::ItemIsEditable);    // Désactiver l'édition de cette cellule
+        nomGroupe->setFlags(nomGroupe->flags() & ~Qt::ItemIsEditable);  // Désactiver l'édition de cette cellule
+        if(!(listeParticipant[row]->getgroupColor() == nullptr)){
+            nomGroupe->setBackground(listeParticipant[row]->getgroupColor()->brush());
+        }
         TableauGroupe->setItem(row, 3, nomGroupe);
     }
     connect(TableauGroupe, &QTableWidget::itemChanged, this, &MainWindow::changeNameTable);
@@ -1160,7 +1165,7 @@ void MainWindow::on_modeSombreButton_clicked()
     ui->ParametrageSession->setStyleSheet("background-color: rgb(100, 100, 100)");
 
     ui->centralwidget->setStyleSheet("background-color: black; color: white;");
-    ui->tempsChronoLineEdit->setStyleSheet("color-text: white;");
+    ui->tempsChronoLineEdit->setStyleSheet("text-color: white;");
 
     ui->modeClairButton->setVisible(true);
     ui->modeSombreButton->setVisible(false);
