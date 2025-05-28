@@ -501,7 +501,7 @@ void InterfaceQCM::on_pushButtonAppelProf_clicked()
     }
 
     quint16 port = 5557;
-    QString message = "appelProf"; // Message à envoyer
+    QString message = "help"; // Message à envoyer
 
     mainWindow->sendCommandToProf(ipProf, port, message);
 }

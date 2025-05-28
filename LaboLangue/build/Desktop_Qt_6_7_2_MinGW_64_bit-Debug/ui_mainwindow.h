@@ -113,7 +113,7 @@ public:
         LigneHaut->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 151, 178);"));
         PresenceButton = new QPushButton(centralwidget);
         PresenceButton->setObjectName("PresenceButton");
-        PresenceButton->setGeometry(QRect(350, 10, 91, 41));
+        PresenceButton->setGeometry(QRect(305, 10, 91, 41));
         QSizePolicy sizePolicy(QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Ignored);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -126,7 +126,7 @@ public:
 "border-radius: 10px;"));
         SessionButton = new QPushButton(centralwidget);
         SessionButton->setObjectName("SessionButton");
-        SessionButton->setGeometry(QRect(450, 10, 91, 41));
+        SessionButton->setGeometry(QRect(405, 10, 91, 41));
         sizePolicy.setHeightForWidth(SessionButton->sizePolicy().hasHeightForWidth());
         SessionButton->setSizePolicy(sizePolicy);
         SessionButton->setStyleSheet(QString::fromUtf8("background-color: black;\n"
@@ -136,7 +136,7 @@ public:
 "border-radius: 10px;"));
         AppelButton = new QPushButton(centralwidget);
         AppelButton->setObjectName("AppelButton");
-        AppelButton->setGeometry(QRect(650, 10, 91, 41));
+        AppelButton->setGeometry(QRect(605, 10, 91, 41));
         sizePolicy.setHeightForWidth(AppelButton->sizePolicy().hasHeightForWidth());
         AppelButton->setSizePolicy(sizePolicy);
         AppelButton->setAutoFillBackground(false);
@@ -147,7 +147,7 @@ public:
 "border-radius: 10px;"));
         StatutButton = new QPushButton(centralwidget);
         StatutButton->setObjectName("StatutButton");
-        StatutButton->setGeometry(QRect(750, 10, 91, 41));
+        StatutButton->setGeometry(QRect(705, 10, 91, 41));
         QSizePolicy sizePolicy1(QSizePolicy::Policy::MinimumExpanding, QSizePolicy::Policy::Ignored);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
@@ -161,7 +161,7 @@ public:
 "border-radius: 10px;"));
         AideButton = new QPushButton(centralwidget);
         AideButton->setObjectName("AideButton");
-        AideButton->setGeometry(QRect(850, 10, 91, 41));
+        AideButton->setGeometry(QRect(805, 10, 91, 41));
         QSizePolicy sizePolicy2(QSizePolicy::Policy::Minimum, QSizePolicy::Policy::MinimumExpanding);
         sizePolicy2.setHorizontalStretch(5);
         sizePolicy2.setVerticalStretch(5);
@@ -175,7 +175,7 @@ public:
 "border-radius: 10px;"));
         EnregistrementButton = new QPushButton(centralwidget);
         EnregistrementButton->setObjectName("EnregistrementButton");
-        EnregistrementButton->setGeometry(QRect(550, 10, 91, 41));
+        EnregistrementButton->setGeometry(QRect(505, 10, 91, 41));
         sizePolicy.setHeightForWidth(EnregistrementButton->sizePolicy().hasHeightForWidth());
         EnregistrementButton->setSizePolicy(sizePolicy);
         EnregistrementButton->setStyleSheet(QString::fromUtf8("background-color: black;\n"
@@ -298,7 +298,7 @@ public:
         ParametrageEleve->setStyleSheet(QString::fromUtf8("background-color: white;"));
         CreationButton = new QPushButton(centralwidget);
         CreationButton->setObjectName("CreationButton");
-        CreationButton->setGeometry(QRect(950, 10, 91, 41));
+        CreationButton->setGeometry(QRect(905, 10, 91, 41));
         sizePolicy.setHeightForWidth(CreationButton->sizePolicy().hasHeightForWidth());
         CreationButton->setSizePolicy(sizePolicy);
         CreationButton->setStyleSheet(QString::fromUtf8("background-color: black;\n"
@@ -554,7 +554,7 @@ public:
         SourceButton->setText(QCoreApplication::translate("MainWindow", "Selection fichier", nullptr));
         NameSourceLabel->setText(QString());
         loadSession->setText(QCoreApplication::translate("MainWindow", "Charger une session", nullptr));
-        CreationButton->setText(QCoreApplication::translate("MainWindow", "Creation", nullptr));
+        CreationButton->setText(QCoreApplication::translate("MainWindow", "Creation QCM", nullptr));
         microSonButton->setText(QCoreApplication::translate("MainWindow", "Couper le micro", nullptr));
         casqueSonButton->setText(QCoreApplication::translate("MainWindow", "Couper le son", nullptr));
         nomGroupeLabel->setText(QCoreApplication::translate("MainWindow", "Poste s\303\251l\303\251ction\303\251 :", nullptr));
