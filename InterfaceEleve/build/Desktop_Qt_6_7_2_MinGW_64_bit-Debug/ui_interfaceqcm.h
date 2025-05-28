@@ -66,7 +66,7 @@ public:
         pushButton1->setObjectName("pushButton1");
         pushButton1->setGeometry(QRect(150, 230, 241, 91));
         pushButton1->setStyleSheet(QString::fromUtf8("QPushButton {\n"
-"    background-color:blue; /* Fond bleu */\n"
+"    background-color:rgb(44,206,193); /* Fond bleu */\n"
 "    border-radius: 20px; /* Optionnel : coins arrondis */\n"
 "}"));
         pushButton2 = new QPushButton(InterfaceQCM);

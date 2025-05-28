@@ -88,7 +88,7 @@
    </property>
    <property name="styleSheet">
     <string notr="true">QPushButton {
-    background-color:blue; /* Fond bleu */
+    background-color:rgb(44,206,193); /* Fond bleu */
     border-radius: 20px; /* Optionnel : coins arrondis */
 }</string>
    </property>

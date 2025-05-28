@@ -190,7 +190,7 @@ void InterfaceQCM::showCurrentQuestion()
     isButton3Image = (reponses.size() > 2) ? reponses[2] : false;
     isButton4Image = (reponses.size() > 3) ? reponses[3] : false;
 
-    ui->pushButton1->setStyleSheet(isButton1Image ? "background-color:blue; border:3px solid rgb(95,97,95); border-radius:20px;" : "background-color:blue; border-radius:20px;");
+    ui->pushButton1->setStyleSheet(isButton1Image ? "background-color:rgb(44,206,193); border:3px solid rgb(95,97,95); border-radius:20px;" : "background-color:rgb(44,206,193); border-radius:20px;");
     ui->pushButton2->setStyleSheet(isButton2Image ? "background-color:green; border:3px solid rgb(95,97,95); border-radius:20px;" : "background-color:green; border-radius:20px;");
     ui->pushButton3->setStyleSheet(isButton3Image ? "background-color:red; border:3px solid rgb(95,97,95); border-radius:20px;" : "background-color:red; border-radius:20px;");
     ui->pushButton4->setStyleSheet(isButton4Image ? "background-color:orange; border:3px solid rgb(95,97,95); border-radius:20px;" : "background-color:orange; border-radius:20px;");
@@ -274,7 +274,7 @@ void InterfaceQCM::onAnswerClicked(QPushButton *bouton, bool /*status*/)
     bool *isButtonImage = nullptr;
 
     if (bouton == ui->pushButton1) {
-        color = "blue";
+        color = "rgb(44,206,193)";
         isButtonImage = &isButton1Image;
     }
     else if (bouton == ui->pushButton2) {
@@ -364,7 +364,7 @@ void InterfaceQCM::on_pushButton4_clicked()
 
 void InterfaceQCM::on_pushButtonEffacerReponse_clicked()
 {
-    ui->pushButton1->setStyleSheet("background-color:blue; border-radius:20px;");
+    ui->pushButton1->setStyleSheet("background-color:rgb(44,206,193); border-radius:20px;");
     ui->pushButton2->setStyleSheet("background-color:green; border-radius:20px;");
     ui->pushButton3->setStyleSheet("background-color:red; border-radius:20px;");
     ui->pushButton4->setStyleSheet("background-color:orange; border-radius:20px;");
