@@ -72,7 +72,7 @@ public:
 "    font-weight: bold; /* Optionnel : texte en gras */"));
         chrono_enregistrement = new QLabel(InterfaceEnregistrement);
         chrono_enregistrement->setObjectName("chrono_enregistrement");
-        chrono_enregistrement->setGeometry(QRect(320, 340, 221, 61));
+        chrono_enregistrement->setGeometry(QRect(300, 340, 221, 61));
         QFont font;
         font.setPointSize(20);
         font.setBold(true);
@@ -80,15 +80,15 @@ public:
         chrono_enregistrement->setAlignment(Qt::AlignmentFlag::AlignCenter);
         pushButtonSpeak = new QPushButton(InterfaceEnregistrement);
         pushButtonSpeak->setObjectName("pushButtonSpeak");
-        pushButtonSpeak->setGeometry(QRect(390, 240, 81, 81));
+        pushButtonSpeak->setGeometry(QRect(370, 240, 81, 81));
         pushButtonSpeak->setStyleSheet(QString::fromUtf8(""));
         pushButtonPause = new QPushButton(InterfaceEnregistrement);
         pushButtonPause->setObjectName("pushButtonPause");
-        pushButtonPause->setGeometry(QRect(390, 90, 81, 81));
+        pushButtonPause->setGeometry(QRect(370, 90, 81, 81));
         pushButtonPause->setStyleSheet(QString::fromUtf8(""));
         pushButtonRetourArriere = new QPushButton(InterfaceEnregistrement);
         pushButtonRetourArriere->setObjectName("pushButtonRetourArriere");
-        pushButtonRetourArriere->setGeometry(QRect(210, 90, 81, 81));
+        pushButtonRetourArriere->setGeometry(QRect(190, 90, 81, 81));
         pushButtonRetourArriere->setStyleSheet(QString::fromUtf8(""));
         pushButtonEnregistrer = new QPushButton(InterfaceEnregistrement);
         pushButtonEnregistrer->setObjectName("pushButtonEnregistrer");
@@ -109,7 +109,7 @@ public:
 ""));
         pushButtonPlay = new QPushButton(InterfaceEnregistrement);
         pushButtonPlay->setObjectName("pushButtonPlay");
-        pushButtonPlay->setGeometry(QRect(390, 90, 81, 81));
+        pushButtonPlay->setGeometry(QRect(370, 90, 81, 81));
         pushButtonPlay->setStyleSheet(QString::fromUtf8(""));
         textEditConsigne = new QTextEdit(InterfaceEnregistrement);
         textEditConsigne->setObjectName("textEditConsigne");
