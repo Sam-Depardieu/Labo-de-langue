@@ -17,7 +17,10 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , udpSocket(new QUdpSocket(this))
+    , udpSocketEnd(new QUdpSocket(this))  // Initialisation de udpSocket
     , loadingMovie(new QMovie(":/videos/loading.gif"))
+
 {
     ui->setupUi(this);
     //Affiche juste la barre de titre, sans les boutons Fermer, Minimiser, Maximiser
@@ -66,9 +69,15 @@ MainWindow::MainWindow(QWidget *parent)
     udpSocketInfo.bind(QHostAddress::AnyIPv4, infoPort);
     connect(&udpSocketInfo, &QUdpSocket::readyRead, this, &MainWindow::receiveInfo);
 
+    udpSocketEnd = new QUdpSocket(this);
+    udpSocketEnd->bind(EndPort, QUdpSocket::ShareAddress);
+    connect(udpSocketEnd, &QUdpSocket::readyRead, this, &MainWindow::receiveEndMessage);
+
     udpSocketNomFichier = new QUdpSocket(this);
     udpSocketNomFichier->bind(QHostAddress::Any, portNomFichier);
     connect(udpSocketNomFichier, &QUdpSocket::readyRead, this, &MainWindow::receivePath);
+    udpSocket->bind(QHostAddress::AnyIPv4, 5558);  // Initialise le port pour udpSocket
+    connect(udpSocket, &QUdpSocket::readyRead, this, &MainWindow::receiveInfo);
 
     // DEBUG socket bind + connect
     bool ok = udpSocketInter.bind(QHostAddress::AnyIPv4, 5560); // QHostAddress::AnyIPv4 = 0.0.0.0
@@ -87,9 +96,6 @@ MainWindow::MainWindow(QWidget *parent)
                 &MainWindow::handleRestartCommand);
         qDebug() << "✅ En écoute RESTART sur 5557";
     }
-
-
-
 }
 
 bool MainWindow::connectToDatabase() {
@@ -107,14 +113,12 @@ bool MainWindow::connectToDatabase() {
     }
     return true;
 }
-
-
 MainWindow::~MainWindow()
 {
     delete ui;
     delete loadingMovie;
+    delete udpSocketEnd;
 }
-
 void MainWindow::startLoading()
 {
     ui->label_Loading->setVisible(true);
@@ -125,7 +129,6 @@ void MainWindow::stopLoading()
     ui->label_Loading->setVisible(false);
     loadingMovie->stop();
 }
-
 void MainWindow::handleRestartCommand()
 {
     while (udpSocketRestart->hasPendingDatagrams()) {
@@ -180,8 +183,6 @@ void MainWindow::handleRestartCommand()
         }
     }
 }
-
-
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Control) isCtrlPressed = true;
@@ -316,9 +317,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                                          : tr("Nouveau Raspberry inséré avec succès."));
         }
     }
-
-
-
     // Ouvrir interfaces selon touche 1, 2, 3, 4
     switch (event->key()) {
     case Qt::Key_1: {
@@ -584,6 +582,76 @@ void MainWindow::sendCommandToProf(const QString& ipProf, int port, const QStrin
 
     QByteArray datagram = command.toUtf8();
     QHostAddress addr(ipProf);
-    udpSocket.writeDatagram(datagram, addr, port);
+    udpSocket->writeDatagram(datagram, addr, port);
     qDebug() << "[Command] vers" << ipProf << ":" << command;
+}
+void MainWindow::receiveEndMessage()
+{
+    QByteArray datagram;
+    datagram.resize(udpSocketEnd->pendingDatagramSize());
+    QHostAddress sender;
+    quint16 senderPort;
+
+    // Lire le message reçu
+    udpSocketEnd->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
+
+    // Vérifier si le message reçu est "END"
+    QString message = QString::fromUtf8(datagram);
+    if (message.trimmed() == "END") {
+        // Lancer le processus de copie du dossier
+        copyFolderToShare();
+    }
+}
+
+void MainWindow::copyFolderToShare()
+{
+    // Chemin du dossier à envoyer (dossier Travail)
+    const QString folderPath = QDir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).filePath("Travail");
+
+    // Chemin de destination (le dossier de partage sur le PC du professeur)
+    const QString destinationPath = "/mnt/partage"; // Assurez-vous que ce dossier est monté
+
+    // Vérifier si le dossier source existe
+    if (!QDir(folderPath).exists()) {
+        qDebug() << "Le dossier source n'existe pas: " << folderPath;
+        QMessageBox::critical(this, "Erreur", "Le dossier source à envoyer n'existe pas.");
+        return;
+    }
+
+    // Vérifier si le dossier de destination existe
+    if (!QDir(destinationPath).exists()) {
+        qDebug() << "Le dossier de destination n'existe pas: " << destinationPath;
+        QMessageBox::critical(this, "Erreur", "Le dossier de destination n'existe pas.");
+        return;
+    }
+
+    // Créer le processus pour exécuter la commande cp
+    QProcess process;
+
+    // Commande à exécuter : copier le dossier
+    QStringList arguments;
+    arguments << "-r" // -r pour envoyer un dossier
+              << folderPath // Chemin source sur le Raspberry Pi
+              << destinationPath; // Dossier de destination sur le PC du professeur
+
+    // Lancer la commande cp pour copier le dossier
+    process.start("cp", arguments);
+
+    // Attendre que la commande se termine
+    if (!process.waitForFinished()) {
+        qDebug() << "Erreur lors du transfert : " << process.errorString();
+        QMessageBox::critical(this, "Erreur", "Le transfert a échoué !");
+    } else {
+        qDebug() << "Dossier copié avec succès de " << folderPath << " à " << destinationPath;
+
+        // Message pour informer l'utilisateur
+        QMessageBox::information(this, "Transfert réussi", "Le dossier a été envoyé avec succès.");
+    }
+
+    // Optionnel : Supprimer le dossier source après le transfert
+    QDir dir(folderPath);
+    if (dir.exists()) {
+        dir.removeRecursively();
+        qDebug() << "Le dossier source a été supprimé.";
+    }
 }
