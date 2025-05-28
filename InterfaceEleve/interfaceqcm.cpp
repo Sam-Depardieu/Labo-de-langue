@@ -499,15 +499,14 @@ void InterfaceQCM::on_pushButtonAppelProf_clicked() {
     }
 
     QByteArray message = "help";  // Message simple
-    quint16 HelpPort = 5557;          // Port d’écoute du prof
 
-    qint64 bytesSent = udpSocketAppelProf.writeDatagram(message, QHostAddress(ipProf), HelpPort);
+    quint16 bytesSent = static_cast<quint16>(udpSocketAppelProf.writeDatagram(message, QHostAddress(ipProf), HelpPort));
 
-    if (bytesSent == -1) {
-        qWarning() << "Erreur envoi appel prof à" << ipProf << ":" << udpSocketAppelProf.errorString();
-        QMessageBox::warning(this, "Erreur", "Échec de l'envoi de la demande d'aide.");
+    if (bytesSent == 0) {
+        qWarning() << "Erreur potentielle envoi appel prof à" << ipProf << ":" << udpSocketAppelProf.errorString();
+        QMessageBox::warning(this, "Erreur", "Échec possible de l'envoi de la demande d'aide.");
     } else {
-        qDebug() << "Demande d'aide envoyée à" << ipProf;
+        qDebug() << "Demande d'aide envoyée à" << ipProf << ", octets envoyés:" << bytesSent;
         QMessageBox::information(this, "Demande envoyée", "Votre demande d'aide a été transmise au professeur.");
     }
 }
