@@ -111,20 +111,21 @@ Installer MSYS2 (si ce n'est pas encore fait)
 
 Ajoutez un montage fichier sur les raspberry :
 
- - sudo mount -t cifs //{ip_prof}/Activites /mnt/partage -o username=$usr,password=$passwd,uid=$(id -u),gid=$(id -g),cache=none
- - mdkir /Documents/Projet
- - git clone [https://github.com/Sam-Depardieu/Labo-de-langue.git]
- - cd Documents/projet/Labo-de-Langue/InterfaceEleve/build
- - sudo apt update && sudo apt upgrade
- - sudo apt install qt6-base-dev qt6-multimedia-dev qt6-websockets-dev libqt6multimedia6 libqt6multimediawidgets6
- - sudo apt install -y libmariadb-dev libqt6sql6-mysql
- - qmake6 ../InterfaceEleve.pro
- - cmake .. -DCMAKE_BUILD_TYPE=Debug
- - make -j1
- - ./InterfaceEleve
+ - Montage du partage :
+	 - mkdir /mnt/partage 
+	 - (avec mot de passe) sudo mount -t cifs //{ip_prof}/Activites /mnt/partage -o username=$usr,password=$passwd,uid=$(id -u),gid=$(id -g),cache=none
+	 - (sans mot de passe) sudo mount -t cifs //{ip_prof}/Activites /mnt/partage -o guest,uid=$(id -u),gid=$(id -g),cache=none
 
- - Ce donner accès a un dossier
- - sudo chown quentin:quentin /chemin/vers/mon_fichier
+ - Initialisation raspberry pi :
+	 - mdkir /Documents/Projet
+	 - git clone [https://github.com/Sam-Depardieu/Labo-de-langue.git]
+	 - cd Documents/projet/Labo-de-Langue/InterfaceEleve/build
+	 - sudo apt update && sudo apt upgrade
+	 - sudo apt install qt6-base-dev qt6-multimedia-dev qt6-websockets-dev libqt6multimedia6 libqt6multimediawidgets6
+	 - sudo apt install -y libmariadb-dev libqt6sql6-mysql
+	 - make clean 				//Si besoin
+	 - cmake --build .
+	 - ./InterfaceEleve
 
 
 
