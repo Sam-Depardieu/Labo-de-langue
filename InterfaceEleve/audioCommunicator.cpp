@@ -77,7 +77,7 @@ QAudioFormat Student::getAudioFormat() const
 {
     QAudioFormat format;
     format.setSampleRate(44100);              // 44.1 kHz
-    format.setChannelCount(1);                // Mono
+    format.setChannelCount(2);                // Mono
     format.setSampleFormat(QAudioFormat::Int16); // 16 bits int
     return format;
 }
