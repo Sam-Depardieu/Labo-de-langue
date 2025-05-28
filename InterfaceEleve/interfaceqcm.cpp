@@ -486,7 +486,6 @@ void InterfaceQCM::on_pushButtonSoumettre_clicked()
     accept();
 }
 
-<<<<<<< HEAD
 void InterfaceQCM::sendCommandToProf(const QString &ip, quint16 port, const QString &message)
 {
     qDebug() << "[sendCommandToProf] Envoi du message:" << message << "à l'adresse IP:" << ip << "sur le port:" << port;
@@ -502,10 +501,6 @@ void InterfaceQCM::sendCommandToProf(const QString &ip, quint16 port, const QStr
     }
 }
 
-=======
->>>>>>> 85c209180b8d6dd4c2ff3ee5179827b7d7b065ea
-
-
 void InterfaceQCM::on_pushButtonAppelProf_clicked()
 {
     ui->pushButtonAppelProf->setEnabled(false); // désactive le bouton
@@ -514,13 +509,10 @@ void InterfaceQCM::on_pushButtonAppelProf_clicked()
     QString ipProf = mainWindow->getIpProf();
     qDebug() << "[on_pushButtonAppelProf_clicked] IP du professeur récupérée:" << ipProf;
 
-<<<<<<< HEAD
     sendCommandToProf(ipProf, 5557, "help");
-=======
     // Envoyer le message "help" à l'adresse IP du professeur
     mainWindow->sendCommandToProf(ipProf, 5557, "help");
     qDebug() << "Appel prof envoyé à l'adresse IP : " << ipProf;
->>>>>>> 85c209180b8d6dd4c2ff3ee5179827b7d7b065ea
 }
 
 
