@@ -483,7 +483,8 @@ void MainWindow::receivePath(){
     }
 }
 
-void MainWindow::receiveInter(){
+void MainWindow::receiveInter()
+{
     while (udpSocketInter.hasPendingDatagrams()) {
         QByteArray datagram;
         datagram.resize(udpSocketInter.pendingDatagramSize());
@@ -504,7 +505,7 @@ void MainWindow::receiveInter(){
         }
 
         if (response == "QCM") {
-            currentChild = new InterfaceQCM(this);
+            currentChild = new InterfaceQCM(this, this); // Passer MainWindow à InterfaceQCM
         }
         else if (response == "ecoute") {
             interAudio = new InterfaceAudio(false, this);
@@ -532,6 +533,7 @@ void MainWindow::receiveInter(){
         }
     }
 }
+
 
 void MainWindow::startChrono(const QTime &duree)
 {

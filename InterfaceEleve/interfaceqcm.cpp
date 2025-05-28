@@ -486,19 +486,25 @@ void InterfaceQCM::on_pushButtonSoumettre_clicked()
     accept();
 }
 
-
 void InterfaceQCM::on_pushButtonAppelProf_clicked()
 {
-    QString ipProf = "192.168.1.100"; // ou récupère dynamiquement
-    quint16 port = 5557;
-    QString message = "help";
-
-    if (mainWindow) {
-        mainWindow->sendCommandToProf(ipProf, port, message);
-    } else {
+    if (!mainWindow) {
         qDebug() << "[InterfaceQCM] mainWindow est null, impossible d'envoyer le message";
+        return;
     }
+
+    QString ipProf = mainWindow->getIpProf(); // Récupérer l'adresse IP du professeur
+    if (ipProf.isEmpty()) {
+        qDebug() << "[InterfaceQCM] IP Prof vide, envoi annulé";
+        return;
+    }
+
+    quint16 port = 5557;
+    QString message = "appelProf"; // Message à envoyer
+
+    mainWindow->sendCommandToProf(ipProf, port, message);
 }
+
 
 
 
