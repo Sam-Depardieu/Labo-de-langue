@@ -441,7 +441,7 @@ void MainWindow::receiveInfo() {
             }
 
             // Adresse du prof (par défaut loopback si non définie)
-            QHostAddress profAddress = ipProf.isEmpty() ? QHostAddress("127.0.0.1") : QHostAddress(ipProf);
+            QHostAddress profAddress = ipProf.isEmpty() ? QHostAddress("192.168.64.1") : QHostAddress(ipProf);
 
             // Calcul des ports
             quint16 portEnvoyeur = static_cast<quint16>(port);
