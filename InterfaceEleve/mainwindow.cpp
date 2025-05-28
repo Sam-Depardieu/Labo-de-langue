@@ -599,17 +599,19 @@ void MainWindow::receiveEndMessage()
     QString message = QString::fromUtf8(datagram);
     if (message.trimmed() == "END") {
         // Lancer le processus de copie du dossier
-        copyFolderToShare();
+        copyFolderToSession();
     }
 }
-
-void MainWindow::copyFolderToShare()
+void MainWindow::copyFolderToSession()
 {
+    // Assurez-vous que sessionPATH contient bien le chemin de session reçu via UDP
+    if (sessionPATH.isEmpty()) {
+        qWarning() << "Le chemin de session n'est pas défini.";
+        return;
+    }
+
     // Chemin du dossier à envoyer (dossier Travail)
     const QString folderPath = QDir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).filePath("Travail");
-
-    // Chemin de destination (le dossier de partage sur le PC du professeur)
-    const QString destinationPath = "/mnt/partage"; // Assurez-vous que ce dossier est monté
 
     // Vérifier si le dossier source existe
     if (!QDir(folderPath).exists()) {
@@ -617,6 +619,9 @@ void MainWindow::copyFolderToShare()
         QMessageBox::critical(this, "Erreur", "Le dossier source à envoyer n'existe pas.");
         return;
     }
+
+    // Chemin de destination (le dossier de session sur le PC du professeur)
+    const QString destinationPath = sessionPATH; // Utilisation du chemin de session reçu
 
     // Vérifier si le dossier de destination existe
     if (!QDir(destinationPath).exists()) {
