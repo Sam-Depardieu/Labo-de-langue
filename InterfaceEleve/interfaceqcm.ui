@@ -270,10 +270,10 @@ li.checked::marker { content: &quot;\2612&quot;; }
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>195</y>
-     <width>81</width>
-     <height>31</height>
+     <x>30</x>
+     <y>190</y>
+     <width>91</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="font">

@@ -141,7 +141,7 @@ public:
 ""));
         label = new QLabel(InterfaceQCM);
         label->setObjectName("label");
-        label->setGeometry(QRect(40, 195, 81, 31));
+        label->setGeometry(QRect(30, 190, 91, 41));
         QFont font1;
         font1.setBold(true);
         label->setFont(font1);
