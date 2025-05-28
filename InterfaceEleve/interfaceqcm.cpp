@@ -100,6 +100,7 @@ void InterfaceQCM::updateChronoLabel()
     if (remainingTime == QTime(0, 0)) {
         chronoTimer->stop();
         ui->chronoLabel->setText("00:00");
+        ui->chronoLabel->hide();
         ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: red; border: 2px solid red; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
         QMessageBox::information(this, "Fin de l'activité", "Pensez à mettre fin à l'activité en cours !");
     }
@@ -212,7 +213,11 @@ void InterfaceQCM::loadConsigneJson(QString &filePath)
     QFile file(cheminConsigne);
 
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QMessageBox::warning(this, "Erreur", "Impossible d'ouvrir le fichier consigne JSON.");
+        qWarning() << "Erreur Impossible d'ouvrir le fichier consigne JSON.";
+        ui->pushButtonQuestionSuivante->hide();
+        ui->pushButtonSoumettre->hide();
+        ui->pushButtonAppelProf->hide();
+
         return;
     }
 
@@ -221,7 +226,7 @@ void InterfaceQCM::loadConsigneJson(QString &filePath)
 
     QJsonDocument doc = QJsonDocument::fromJson(jsonData);
     if (doc.isNull() || !doc.isObject()) {
-        QMessageBox::warning(this, "Erreur", "Le fichier consigne JSON n'est pas valide.");
+        qWarning() << "Erreur Le fichier consigne JSON n'est pas valide.";
         return;
     }
 
