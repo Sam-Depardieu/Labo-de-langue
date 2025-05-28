@@ -170,6 +170,12 @@ void MainWindow::handleRestartCommand()
             qDebug() << "🛑 Fin de la session reçue";
             // Traite la fin de session (fermeture, nettoyage, etc.)
         }
+        else if (cmd == "appelProf") {
+            qDebug() << "Appel du prof demandé";
+            currentStudent = new Student(this);
+            currentStudent->configureWithTeacher(QHostAddress("192.168.1.100"), 5998); // Adresse IP du prof
+            currentStudent->startAudio();
+        }
         else if (cmd == "pause") {
             if(interAudio) interAudio->setAudioPause(true);
             if(interVideo) interVideo->setVideoPause(true);
