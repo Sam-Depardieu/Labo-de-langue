@@ -41,36 +41,10 @@ color: black;
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="PresenceButton">
-    <property name="geometry">
-     <rect>
-      <x>305</x>
-      <y>10</y>
-      <width>91</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Preferred" vsizetype="Ignored">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: black;
-font: 9pt &quot;Segoe UI&quot;;
-color: white;
-border: 1px solid white;
-border-radius: 10px;</string>
-    </property>
-    <property name="text">
-     <string>Présence</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="SessionButton">
     <property name="geometry">
      <rect>
-      <x>405</x>
+      <x>395</x>
       <y>10</y>
       <width>91</width>
       <height>41</height>
@@ -96,7 +70,7 @@ border-radius: 10px;</string>
    <widget class="QPushButton" name="AppelButton">
     <property name="geometry">
      <rect>
-      <x>605</x>
+      <x>500</x>
       <y>10</y>
       <width>91</width>
       <height>41</height>
@@ -125,7 +99,7 @@ border-radius: 10px;</string>
    <widget class="QPushButton" name="StatutButton">
     <property name="geometry">
      <rect>
-      <x>705</x>
+      <x>605</x>
       <y>10</y>
       <width>91</width>
       <height>41</height>
@@ -154,7 +128,7 @@ border-radius: 10px;</string>
    <widget class="QPushButton" name="AideButton">
     <property name="geometry">
      <rect>
-      <x>805</x>
+      <x>710</x>
       <y>10</y>
       <width>91</width>
       <height>41</height>
@@ -178,32 +152,6 @@ border-radius: 10px;</string>
     </property>
     <property name="text">
      <string>Aide</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="EnregistrementButton">
-    <property name="geometry">
-     <rect>
-      <x>505</x>
-      <y>10</y>
-      <width>91</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Preferred" vsizetype="Ignored">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: black;
-font: 9pt &quot;Segoe UI&quot;;
-color: white;
-border: 1px solid white;
-border-radius: 10px;</string>
-    </property>
-    <property name="text">
-     <string>Enregistrement</string>
     </property>
    </widget>
    <widget class="QGraphicsView" name="PlanClasse">
@@ -623,7 +571,7 @@ border-radius: 10px;</string>
    <widget class="QPushButton" name="CreationButton">
     <property name="geometry">
      <rect>
-      <x>905</x>
+      <x>810</x>
       <y>10</y>
       <width>91</width>
       <height>41</height>
@@ -1163,12 +1111,10 @@ border-color: beige;	</string>
    <zorder>nomCreationGroupeLabel</zorder>
    <zorder>alignerTableau_2</zorder>
    <zorder>StatutTableauGroupe</zorder>
-   <zorder>PresenceButton</zorder>
    <zorder>SessionButton</zorder>
    <zorder>AppelButton</zorder>
    <zorder>StatutButton</zorder>
    <zorder>AideButton</zorder>
-   <zorder>EnregistrementButton</zorder>
    <zorder>PlanClasse</zorder>
    <zorder>NomProfLabel</zorder>
    <zorder>NomProfLineEdit</zorder>

@@ -1,16 +1,24 @@
 {
   "MainWindow": [
     {
-      "nom": "Verrouillage / Déverrouillage",
+      "nom": "Cadena (clickable)",
       "utilisation": "Empêche ou autorise le déplacement des icônes des élèves sur l'IHM."
     },
     {
-      "nom": "Mode sombre / clair",
+      "nom": "Soleil/Lune (clickable)",
       "utilisation": "Change l'apparence visuelle de l'interface entre un thème clair et un thème sombre."
     },
     {
-      "nom": "Création de session",
+      "nom": "Nouv. Session",
       "utilisation": "Démarre une nouvelle session d'activité avec les élèves sélectionnés, et enregistre la configuration."
+    },
+    {
+      "nom": "Icones Personnage",
+      "utilisation": "Une icone représente un poste d'élève enregistré, si aucune n'est présente appeler un technicien."
+    },
+    {
+      "nom": "Aide",
+      "utilisation": "Vous savez donc à quoi sert ce bouton."
     },
     {
       "nom": "Importation fichier .labo",
