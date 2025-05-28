@@ -1536,6 +1536,7 @@ void MainWindow::on_enleveTemps_clicked()
 
 void MainWindow::on_AppelerButton_clicked()
 {
+    prof->sendCommandToStudent(eleveActuellementParametre->getIP(), 5557, "appelProf");
     prof->callStudent(QHostAddress(eleveActuellementParametre->getIP()), 5999);
 }
 

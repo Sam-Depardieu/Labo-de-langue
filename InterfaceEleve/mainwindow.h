@@ -46,8 +46,9 @@ public:
     QString getSessionPATH() {return sessionPATH;};
     QString getIpProf() {return ipProf;}
     QString getNomFichier() {return nomFichier;}
+    void AppelProf(const QString& ipProf);
 
-    void sendCommandToProf(const QString &ipProf, quint16 port, const QString &message);
+    void sendCommandToProf(const QString& ipProf, int port, const QString& command);
 
 
     ~MainWindow();
@@ -66,7 +67,7 @@ private slots:
     void stopClignotement();
     void startChrono(const QTime &duree);
     void receiveEndMessage(); // Slot pour recevoir le message "END"
-    void copyFolderToSession();
+    void moveAndRenameFolder();
 
 private:
     Ui::MainWindow *ui;
@@ -74,6 +75,7 @@ private:
     bool isCtrlPressed = false;  // 🔹 Stocke l'état de Ctrl
     bool isF1Pressed = false;
     bool actionDone  = false;
+
 
     QString nomEleve = "";
     QString nomProf = "";
@@ -83,6 +85,9 @@ private:
     QMap<int, Student*> students;
     Student* currentStudent = nullptr;  // membre de la classe MainWindow
     QUdpSocket *udpSocket;
+
+    QUdpSocket udpSocketAppelProf;
+    quint16 HelpPort = 5557;
 
     QUdpSocket *udpSocketEnd;
     quint16 EndPort = 5557;
@@ -121,6 +126,7 @@ private:
 
     void startLoading();
     void stopLoading();
+
 
 
 signals:

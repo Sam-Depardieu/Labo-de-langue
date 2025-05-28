@@ -23,6 +23,8 @@ public:
     void configureAudioPorts(quint16 portEnvoyeur, quint16 portReceveur);
     void setServerAddress(const QHostAddress& address, quint16 port);
 
+    void configureWithTeacher(const QHostAddress& teacherAddress, quint16 teacherReceivePort); //Test
+
     void startAudio();
     void stopAudio();
 

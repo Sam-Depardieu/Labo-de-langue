@@ -6,14 +6,6 @@ Student::Student(QObject* parent)
     : QObject(parent),
     udpSocketReceive(new QUdpSocket(this)),
     udpSocketSend(new QUdpSocket(this)),
-    portEnvoyeur(0),
-    portReceveur(0),
-    groupPort(0),
-    serverPort(0),
-    audioInput(nullptr),
-    audioOutput(nullptr),
-    audioInputDevice(nullptr),
-    audioOutputDevice(nullptr),
     isMuted(false)
 {
     connect(udpSocketReceive, &QUdpSocket::readyRead, this, &Student::onReadyRead);
@@ -98,24 +90,43 @@ void Student::startAudio()
 
     QAudioFormat format = getAudioFormat();
 
-    QAudioDevice inputDevice = QMediaDevices::defaultAudioInput();
-    QAudioDevice outputDevice = QMediaDevices::defaultAudioOutput();
+    // === Sélection du périphérique USB ===
+    QAudioDevice inputDevice, outputDevice;
 
-    if (!inputDevice.isFormatSupported(format)) {
-        qDebug() << "[Student] Format audio non supporté par l'entrée, utilisation par défaut";
-        // Tu peux choisir un format alternatif ou arrêter ici
+    for (const QAudioDevice &device : QMediaDevices::audioInputs()) {
+        if (device.description().contains("USB", Qt::CaseInsensitive)) {
+            inputDevice = device;
+            break;
+        }
+    }
+
+    for (const QAudioDevice &device : QMediaDevices::audioOutputs()) {
+        if (device.description().contains("USB", Qt::CaseInsensitive)) {
+            outputDevice = device;
+            break;
+        }
+    }
+
+    if (!inputDevice.isNull() && !inputDevice.isFormatSupported(format)) {
+        qDebug() << "[Student] Format audio non supporté par l'entrée USB.";
         return;
     }
 
-    if (!outputDevice.isFormatSupported(format)) {
-        qDebug() << "[Student] Format audio non supporté par la sortie, utilisation par défaut";
+    if (!outputDevice.isNull() && !outputDevice.isFormatSupported(format)) {
+        qDebug() << "[Student] Format audio non supporté par la sortie USB.";
         return;
     }
 
+    if (inputDevice.isNull() || outputDevice.isNull()) {
+        qDebug() << "[Student] Périphérique USB non trouvé pour l'entrée ou la sortie.";
+        return;
+    }
+
+    // === Démarrer audio ===
     audioInput = new QAudioSource(inputDevice, format, this);
     audioInputDevice = audioInput->start();
     if (!audioInputDevice) {
-        qDebug() << "[Student] Impossible de démarrer la capture audio";
+        qDebug() << "[Student] Impossible de démarrer la capture audio.";
         return;
     }
     connect(audioInputDevice, &QIODevice::readyRead, this, &Student::onAudioDataCaptured);
@@ -123,11 +134,27 @@ void Student::startAudio()
     audioOutput = new QAudioSink(outputDevice, format, this);
     audioOutputDevice = audioOutput->start();
     if (!audioOutputDevice) {
-        qDebug() << "[Student] Impossible de démarrer la sortie audio";
+        qDebug() << "[Student] Impossible de démarrer la sortie audio.";
         return;
     }
 
-    qDebug() << "[Student] Capture et lecture audio démarrées";
+    qDebug() << "[Student] Audio démarré avec périphérique USB.";
+}
+
+
+
+void Student::configureWithTeacher(const QHostAddress& teacherAddress, quint16 teacherReceivePort) //Test
+{
+    // Prof envoie sur 5999 → élève reçoit sur 5999
+    // Prof reçoit sur 5998 ← élève envoie vers 5998
+
+    quint16 receivePort = 5999;
+    quint16 sendPort = teacherReceivePort; // 5998 en général
+
+    setServerAddress(teacherAddress, sendPort);
+    configureAudioPorts(sendPort, receivePort);
+
+    qDebug() << "[Student] Connexion configurée avec le professeur : envoyer vers" << teacherAddress.toString() << ":" << sendPort << ", écouter sur port" << receivePort;
 }
 
 void Student::stopAudio()

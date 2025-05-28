@@ -350,7 +350,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     QMainWindow::keyPressEvent(event);
 }
 
-
 void MainWindow::keyReleaseEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Control) {
@@ -374,6 +373,7 @@ void MainWindow::receiveInfo() {
 
         QHostAddress sender;
         quint16 senderPort;
+        ipProf = sender.toString();
 
         udpSocketInfo.readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
 
@@ -440,7 +440,7 @@ void MainWindow::receiveInfo() {
             }
 
             // Adresse du prof (par défaut loopback si non définie)
-            QHostAddress profAddress = ipProf.isEmpty() ? QHostAddress("192.168.64.1") : QHostAddress(ipProf);
+            QHostAddress profAddress = ipProf.isEmpty() ? QHostAddress("127.0.0.1") : QHostAddress(ipProf);
 
             // Calcul des ports
             quint16 portEnvoyeur = static_cast<quint16>(port);
@@ -484,8 +484,7 @@ void MainWindow::receivePath(){
     }
 }
 
-void MainWindow::receiveInter()
-{
+void MainWindow::receiveInter(){
     while (udpSocketInter.hasPendingDatagrams()) {
         QByteArray datagram;
         datagram.resize(udpSocketInter.pendingDatagramSize());
@@ -506,8 +505,7 @@ void MainWindow::receiveInter()
         }
 
         if (response == "QCM") {
-            qDebug() << "👤 Adresse IP prof passée à InterfaceQCM :" << ipProf; // Log pour vérifier l'adresse IP du professeur
-            currentChild = new InterfaceQCM(this); // Passer l'adresse IP du professeur
+            currentChild = new InterfaceQCM(this);
         }
         else if (response == "ecoute") {
             interAudio = new InterfaceAudio(false, this);
@@ -535,8 +533,6 @@ void MainWindow::receiveInter()
         }
     }
 }
-
-
 
 void MainWindow::startChrono(const QTime &duree)
 {
@@ -581,21 +577,18 @@ void MainWindow::stopClignotement()
     clignotementEtat = false;
 }
 
-void MainWindow::sendCommandToProf(const QString &ipProf, quint16 port, const QString &message)
+void MainWindow::sendCommandToProf(const QString& ipProf, int port, const QString& command)
 {
-    qDebug() << "[sendCommandToProf] Envoi du message:" << message << "à l'adresse IP:" << ipProf << "sur le port:" << port;
-
     QUdpSocket socket;
-    QByteArray data = message.toUtf8();
+    QByteArray data = command.toUtf8();
+    QHostAddress address(ipProf);
 
-    qint64 bytesSent = socket.writeDatagram(data, QHostAddress(ipProf), port);
+    socket.writeDatagram(data, address, port);
+    // Pas besoin de socket persistant ici, on crée juste pour envoyer
+    qDebug() << "[Eleve] Commande envoyée à" << ipProf << ":" << command;
 
-    if (bytesSent == -1) {
-        qDebug() << "[sendCommandToProf] Erreur d'envoi:" << socket.errorString();
-    } else {
-        qDebug() << "[sendCommandToProf] Message envoyé avec succès (" << bytesSent << " octets)";
-    }
 }
+
 
 void MainWindow::receiveEndMessage()
 {
@@ -610,17 +603,21 @@ void MainWindow::receiveEndMessage()
     // Vérifier si le message reçu est "END"
     QString message = QString::fromUtf8(datagram);
     if (message.trimmed() == "END") {
-        // Lancer le processus de copie du dossier
-        copyFolderToSession();
+        // Lancer le processus de renommage et de déplacement du dossier
+        moveAndRenameFolder();
     }
 }
-void MainWindow::copyFolderToSession()
+
+void MainWindow::moveAndRenameFolder()
 {
     // Assurez-vous que sessionPATH contient bien le chemin de session reçu via UDP
     if (sessionPATH.isEmpty()) {
         qWarning() << "Le chemin de session n'est pas défini.";
+        QMessageBox::critical(this, "Erreur", "Le chemin de session est vide !");
         return;
     }
+
+    qDebug() << "Chemin de session reçu : " << sessionPATH;
 
     // Chemin du dossier à envoyer (dossier Travail)
     const QString folderPath = QDir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).filePath("Travail");
@@ -632,37 +629,29 @@ void MainWindow::copyFolderToSession()
         return;
     }
 
-    // Chemin de destination (le dossier de session sur le PC du professeur)
-    const QString destinationPath = sessionPATH; // Utilisation du chemin de session reçu
+    // Renommer le dossier "Travail" en "Rendu_nomEleve"
+    QString newFolderName = "Rendu_" + nomEleve;
+    QString newFolderPath = sessionPATH + "/" + newFolderName;
 
-    // Vérifier si le dossier de destination existe
-    if (!QDir(destinationPath).exists()) {
-        qDebug() << "Le dossier de destination n'existe pas: " << destinationPath;
-        QMessageBox::critical(this, "Erreur", "Le dossier de destination n'existe pas.");
-        return;
+    // Vérifier si le dossier de destination existe, sinon le créer
+    if (!QDir(sessionPATH).exists()) {
+        if (!QDir().mkpath(sessionPATH)) {
+            qDebug() << "Impossible de créer le dossier de destination : " << sessionPATH;
+            QMessageBox::critical(this, "Erreur", "Impossible de créer le dossier de destination.");
+            return;
+        }
     }
 
-    // Créer le processus pour exécuter la commande cp
-    QProcess process;
-
-    // Commande à exécuter : copier le dossier
-    QStringList arguments;
-    arguments << "-r" // -r pour envoyer un dossier
-              << folderPath // Chemin source sur le Raspberry Pi
-              << destinationPath; // Dossier de destination sur le PC du professeur
-
-    // Lancer la commande cp pour copier le dossier
-    process.start("cp", arguments);
-
-    // Attendre que la commande se termine
-    if (!process.waitForFinished()) {
-        qDebug() << "Erreur lors du transfert : " << process.errorString();
-        QMessageBox::critical(this, "Erreur", "Le transfert a échoué !");
-    } else {
-        qDebug() << "Dossier copié avec succès de " << folderPath << " à " << destinationPath;
+    // Déplacer et renommer le dossier "Travail"
+    if (QDir().rename(folderPath, newFolderPath)) {
+        qDebug() << "Dossier renommé et déplacé avec succès : " << newFolderPath;
 
         // Message pour informer l'utilisateur
         QMessageBox::information(this, "Transfert réussi", "Le dossier a été envoyé avec succès.");
+
+    } else {
+        qDebug() << "Erreur lors du déplacement et du renommage du dossier.";
+        QMessageBox::critical(this, "Erreur", "Le dossier n'a pas pu être déplacé et renommé.");
     }
 
     // Optionnel : Supprimer le dossier source après le transfert
@@ -672,3 +661,25 @@ void MainWindow::copyFolderToSession()
         qDebug() << "Le dossier source a été supprimé.";
     }
 }
+
+void MainWindow::AppelProf(const QString& ipProf)
+{
+    if (ipProf.isEmpty()) {
+        qDebug() << "AppelProf: adresse IP du prof vide";
+        return;
+    }
+
+    QByteArray message = "help";
+    quint16 HelpPort = 5557;  // ou le port que tu utilises pour communiquer
+
+    qint64 bytesSent = udpSocketAppelProf.writeDatagram(message, QHostAddress(ipProf), HelpPort);
+
+    if (bytesSent == -1) {
+        qWarning() << "Erreur envoi message help à" << ipProf << ":" << udpSocketAppelProf.errorString();
+        QMessageBox::warning(this, "Erreur", "Impossible d'envoyer la demande : " + udpSocketAppelProf.errorString());
+    } else {
+        qDebug() << "Message help envoyé à" << ipProf << "sur le port" << HelpPort;
+        QMessageBox::information(this, "Appel", "Votre demande a été envoyée à " + ipProf + ".");
+    }
+}
+
