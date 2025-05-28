@@ -100,6 +100,7 @@ void InterfaceQCM::updateChronoLabel()
     if (remainingTime == QTime(0, 0)) {
         chronoTimer->stop();
         ui->chronoLabel->setText("00:00");
+        ui->chronoLabel->hide();
         ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: red; border: 2px solid red; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
         QMessageBox::information(this, "Fin de l'activité", "Pensez à mettre fin à l'activité en cours !");
     }
@@ -212,7 +213,11 @@ void InterfaceQCM::loadConsigneJson(QString &filePath)
     QFile file(cheminConsigne);
 
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QMessageBox::warning(this, "Erreur", "Impossible d'ouvrir le fichier consigne JSON.");
+        qWarning() << "Erreur Impossible d'ouvrir le fichier consigne JSON.";
+        ui->pushButtonQuestionSuivante->hide();
+        ui->pushButtonSoumettre->hide();
+        ui->pushButtonAppelProf->hide();
+
         return;
     }
 
@@ -221,7 +226,7 @@ void InterfaceQCM::loadConsigneJson(QString &filePath)
 
     QJsonDocument doc = QJsonDocument::fromJson(jsonData);
     if (doc.isNull() || !doc.isObject()) {
-        QMessageBox::warning(this, "Erreur", "Le fichier consigne JSON n'est pas valide.");
+        qWarning() << "Erreur Le fichier consigne JSON n'est pas valide.";
         return;
     }
 
@@ -481,18 +486,25 @@ void InterfaceQCM::on_pushButtonSoumettre_clicked()
     accept();
 }
 
-
 void InterfaceQCM::on_pushButtonAppelProf_clicked()
 {
-    ui->pushButtonAppelProf->setEnabled(false); // désactive le bouton
-    ui->pushButtonAppelProf->setStyleSheet("border:1px solid white; border-radius:20px;");
+    if (!mainWindow) {
+        qDebug() << "[InterfaceQCM] mainWindow est null, impossible d'envoyer le message";
+        return;
+    }
 
-    // Récupérer l'adresse IP du professeur depuis MainWindow
-    QString ipProf = mainWindow->getIpProf();
+    QString ipProf = mainWindow->getIpProf(); // Récupérer l'adresse IP du professeur
+    if (ipProf.isEmpty()) {
+        qDebug() << "[InterfaceQCM] IP Prof vide, envoi annulé";
+        return;
+    }
 
-    // Envoyer le message "help" à l'adresse IP du professeur
-    mainWindow->sendCommandToProf(ipProf, 5557, "help");
-    qDebug() << "Appel prof envoyé à l'adresse IP : " << ipProf;
+    quint16 port = 5557;
+    QString message = "appelProf"; // Message à envoyer
+
+    mainWindow->sendCommandToProf(ipProf, port, message);
 }
+
+
 
 

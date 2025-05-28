@@ -56,6 +56,40 @@
       "nom": "Suppression de session",
       "utilisation": "Supprime une session existante de la liste."
     }
+  ],
+  "GestionEleve": [
+      {
+          "nom": "Couper le micro",
+          "utilisation": "Une fois cliqué : devient \"Activer le micro\". Coupe le micro de l'élève séléctionné, l'empêchant de parler."
+      },
+      {
+          "nom": "Activer le micro",
+          "utilisation": "Une fois cliqué : devient \"Couper le micro\". Active le micro de l'élève séléctionné, lui permettant de parler."
+      },
+      {
+          "nom": "Couper le son",
+          "utilisation": "Une fois cliqué : devient \"Activer le son\". Coupe le casque de l'élève séléctionné, l'empêchant d'entendre les autres élèves."
+      },
+      {
+          "nom": "Activer le son",
+          "utilisation": "Une fois cliqué : devient \"Couper le son\". Active le casque de l'élève séléctionné, lui permettant d'entendre les autres élèves."
+      },
+      {
+          "nom": "Creer un groupe",
+          "utilisation": "Permet d'afficher l'interface permettant de choisir un nom de groupe pour l'élève séléctionné. Les élèves rajoutés dans le groupe via le tableau seront ajouté automatiquement au groupe de l'élève séléctionné."
+      },
+      {
+          "nom": "Pause",
+          "utilisation": "Met en pause le document mis en source (vidéo ou audio)"
+      },
+      {
+          "nom": "Lecture",
+          "utilisation": ""
+      },
+      {
+          "nom": "Redémarrer l'appareil",
+          "utilisation": ""
+      }
   ]
 }
 

@@ -94,7 +94,15 @@ void HelpWindow::on_qcmButton_clicked()
     afficherFonctionnalites("QCM");
 }
 
+void HelpWindow::on_gestionStudentButton_clicked()
+{
+    afficherFonctionnalites("GestionEleve");
+}
+
+
 HelpWindow::~HelpWindow()
 {
     delete ui;
 }
+
+

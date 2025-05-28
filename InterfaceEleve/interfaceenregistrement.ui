@@ -90,7 +90,7 @@
   <widget class="QLabel" name="chrono_enregistrement">
    <property name="geometry">
     <rect>
-     <x>320</x>
+     <x>300</x>
      <y>340</y>
      <width>221</width>
      <height>61</height>
@@ -112,7 +112,7 @@
   <widget class="QPushButton" name="pushButtonSpeak">
    <property name="geometry">
     <rect>
-     <x>390</x>
+     <x>370</x>
      <y>240</y>
      <width>81</width>
      <height>81</height>
@@ -128,7 +128,7 @@
   <widget class="QPushButton" name="pushButtonPause">
    <property name="geometry">
     <rect>
-     <x>390</x>
+     <x>370</x>
      <y>90</y>
      <width>81</width>
      <height>81</height>
@@ -144,7 +144,7 @@
   <widget class="QPushButton" name="pushButtonRetourArriere">
    <property name="geometry">
     <rect>
-     <x>210</x>
+     <x>190</x>
      <y>90</y>
      <width>81</width>
      <height>81</height>
@@ -208,7 +208,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
   <widget class="QPushButton" name="pushButtonPlay">
    <property name="geometry">
     <rect>
-     <x>390</x>
+     <x>370</x>
      <y>90</y>
      <width>81</width>
      <height>81</height>

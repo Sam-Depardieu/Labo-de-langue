@@ -1,10 +1,163 @@
 #include "AudioCommunicator.h"
+#include <QMediaDevices>
 #include <QDebug>
 
 Professeur::Professeur(QObject* parent)
-    : QObject(parent)
+    : QObject(parent),
+    //Test udpSocketReceive(new QUdpSocket(this)),
+    udpSocketSend(new QUdpSocket(this)),
+    audioInput(nullptr),    //Test
+    audioInputDevice(nullptr),     //Test
+    destinationPort(0),    //Test
+    isGroupCall(false)     //Test
 {
 }
+
+Professeur::~Professeur() //Test
+{
+    stopAudio();
+    if (udpSocketSend->isOpen()) {
+        udpSocketSend->close();
+    }
+}
+
+QAudioFormat Professeur::getAudioFormat() const //Test
+{
+    QAudioFormat format;
+    format.setSampleRate(44100);
+    format.setChannelCount(1);
+    format.setSampleFormat(QAudioFormat::Int16);
+    return format;
+}
+
+void Professeur::startAudio() //Test
+{
+    QAudioFormat format = getAudioFormat();
+    QAudioDevice inputDevice = QMediaDevices::defaultAudioInput();
+
+    if (!inputDevice.isFormatSupported(format)) {
+        qDebug() << "[Prof] Format audio non supporté";
+        return;
+    }
+
+    audioInput = new QAudioSource(inputDevice, format, this);
+    audioInputDevice = audioInput->start();
+
+    if (!audioInputDevice) {
+        qDebug() << "[Prof] Impossible de démarrer la capture audio";
+        return;
+    }
+
+    connect(audioInputDevice, &QIODevice::readyRead, this, &Professeur::onAudioDataCaptured);
+    qDebug() << "[Prof] Capture audio démarrée";
+}
+
+void Professeur::callStudent(const QHostAddress& address, quint16 port) //Test
+{
+    destinationAddress = address;
+    destinationPort = port;
+    isGroupCall = false;
+    startAudio();
+    startAudioOutput();
+    configureReceptionFromStudent(5999);
+    qDebug() << "[Prof] Appel un élève à" << address.toString() << ":" << port;
+}
+
+/*
+void Professeur::appeler (quint16 portReceveur){
+
+}*/
+
+void Professeur::callGroup(const QHostAddress& groupAddress, quint16 port) //Test
+{
+    destinationAddress = groupAddress;
+    destinationPort = port;
+    isGroupCall = true;
+
+    udpSocketSend->setSocketOption(QAbstractSocket::MulticastTtlOption, 1);
+    startAudio();
+    qDebug() << "[Prof] Appel groupe à" << groupAddress.toString() << ":" << port;
+}
+
+void Professeur::onAudioDataCaptured() //Test
+{
+    if (!audioInputDevice)
+        return;
+
+    QByteArray audioData = audioInputDevice->readAll();
+
+    qint64 sent = udpSocketSend->writeDatagram(audioData, destinationAddress, destinationPort);
+    if (sent == -1) {
+        qDebug() << "[Prof] Erreur lors de l'envoi des données audio";
+    }
+}
+void Professeur::stopAudio() //Test
+{
+    if (audioInput) {
+        audioInput->stop();
+        audioInput->deleteLater();
+        audioInput = nullptr;
+    }
+    audioInputDevice = nullptr;
+}
+void Professeur::startAudioOutput() //Test
+{
+    QAudioFormat format;
+    format.setSampleRate(44100);
+    format.setChannelCount(1);
+    format.setSampleFormat(QAudioFormat::Int16);
+
+    QAudioDevice outputDevice = QMediaDevices::defaultAudioOutput();
+    if (!outputDevice.isFormatSupported(format)) {
+        qDebug() << "[Prof] Format audio non supporté en sortie";
+        return;
+    }
+
+    audioOutput = new QAudioSink(outputDevice, format, this);
+    audioOutputDevice = audioOutput->start();
+    if (!audioOutputDevice) {
+        qDebug() << "[Prof] Erreur de démarrage du haut-parleur";
+    }
+}
+void Professeur::onReadyReadFromStudent() //Test
+{
+    while (udpSocketReceive->hasPendingDatagrams()) {
+        QByteArray buffer;
+        buffer.resize(int(udpSocketReceive->pendingDatagramSize()));
+        udpSocketReceive->readDatagram(buffer.data(), buffer.size());
+
+        if (audioOutputDevice) {
+            audioOutputDevice->write(buffer);
+        }
+    }
+}
+void Professeur::configureReceptionFromStudent(quint16 port) //Test
+{
+    portReceptionEleve = port;
+
+    if (!udpSocketReceive) {
+        udpSocketReceive = new QUdpSocket(this);
+        connect(udpSocketReceive, &QUdpSocket::readyRead, this, &Professeur::onReadyReadFromStudent);
+    }
+
+    bool ok = udpSocketReceive->bind(QHostAddress::AnyIPv4, portReceptionEleve);
+    if (!ok) {
+        qDebug() << "[Prof] Erreur: Impossible de binder sur le port" << portReceptionEleve;
+    } else {
+        qDebug() << "[Prof] En écoute sur le port" << portReceptionEleve << " pour les élèves";
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
 
 void Professeur::addAudioGroup(const QString& groupName, quint16 portEnvoyeur, quint16 portReceveur)
 {
@@ -31,6 +184,11 @@ void Professeur::addAudioGroup(const QString& groupName, quint16 portEnvoyeur, q
                     .arg(groupName).arg(portEnvoyeur).arg(portReceveur);
 }
 
+
+
+void Professeur::appelerTous(){
+    //MULTICAST
+}
 
 bool Professeur::audioGroupExists(const QString& groupName) const
 {

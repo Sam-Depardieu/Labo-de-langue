@@ -483,7 +483,8 @@ void MainWindow::receivePath(){
     }
 }
 
-void MainWindow::receiveInter(){
+void MainWindow::receiveInter()
+{
     while (udpSocketInter.hasPendingDatagrams()) {
         QByteArray datagram;
         datagram.resize(udpSocketInter.pendingDatagramSize());
@@ -504,7 +505,7 @@ void MainWindow::receiveInter(){
         }
 
         if (response == "QCM") {
-            currentChild = new InterfaceQCM(this);
+            currentChild = new InterfaceQCM(this, this); // Passer MainWindow à InterfaceQCM
         }
         else if (response == "ecoute") {
             interAudio = new InterfaceAudio(false, this);
@@ -532,6 +533,7 @@ void MainWindow::receiveInter(){
         }
     }
 }
+
 
 void MainWindow::startChrono(const QTime &duree)
 {
@@ -576,15 +578,22 @@ void MainWindow::stopClignotement()
     clignotementEtat = false;
 }
 
-void MainWindow::sendCommandToProf(const QString& ipProf, int port, const QString& command)
+void MainWindow::sendCommandToProf(const QString &ipProf, quint16 port, const QString &message)
 {
-    if (command.isEmpty()) return;
+    qDebug() << "[sendCommandToProf] Envoi du message:" << message << "à l'adresse IP:" << ipProf << "sur le port:" << port;
 
-    QByteArray datagram = command.toUtf8();
-    QHostAddress addr(ipProf);
-    udpSocket->writeDatagram(datagram, addr, port);
-    qDebug() << "[Command] vers" << ipProf << ":" << command;
+    QUdpSocket socket;
+    QByteArray data = message.toUtf8();
+
+    qint64 bytesSent = socket.writeDatagram(data, QHostAddress(ipProf), port);
+
+    if (bytesSent == -1) {
+        qDebug() << "[sendCommandToProf] Erreur d'envoi:" << socket.errorString();
+    } else {
+        qDebug() << "[sendCommandToProf] Message envoyé avec succès (" << bytesSent << " octets)";
+    }
 }
+
 void MainWindow::receiveEndMessage()
 {
     QByteArray datagram;
@@ -599,17 +608,19 @@ void MainWindow::receiveEndMessage()
     QString message = QString::fromUtf8(datagram);
     if (message.trimmed() == "END") {
         // Lancer le processus de copie du dossier
-        copyFolderToShare();
+        copyFolderToSession();
     }
 }
-
-void MainWindow::copyFolderToShare()
+void MainWindow::copyFolderToSession()
 {
+    // Assurez-vous que sessionPATH contient bien le chemin de session reçu via UDP
+    if (sessionPATH.isEmpty()) {
+        qWarning() << "Le chemin de session n'est pas défini.";
+        return;
+    }
+
     // Chemin du dossier à envoyer (dossier Travail)
     const QString folderPath = QDir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).filePath("Travail");
-
-    // Chemin de destination (le dossier de partage sur le PC du professeur)
-    const QString destinationPath = "/mnt/partage"; // Assurez-vous que ce dossier est monté
 
     // Vérifier si le dossier source existe
     if (!QDir(folderPath).exists()) {
@@ -617,6 +628,9 @@ void MainWindow::copyFolderToShare()
         QMessageBox::critical(this, "Erreur", "Le dossier source à envoyer n'existe pas.");
         return;
     }
+
+    // Chemin de destination (le dossier de session sur le PC du professeur)
+    const QString destinationPath = sessionPATH; // Utilisation du chemin de session reçu
 
     // Vérifier si le dossier de destination existe
     if (!QDir(destinationPath).exists()) {

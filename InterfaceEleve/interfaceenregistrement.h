@@ -131,6 +131,8 @@ private:
     QTimer *chronoTimer;
     QTime remainingTime;
     QTimer* clignotementTimer;
+    QString sessionPATH = "";
+    QString nomEleve = "";
 
 };
 
