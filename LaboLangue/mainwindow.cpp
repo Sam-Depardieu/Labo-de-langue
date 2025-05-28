@@ -63,8 +63,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->ParametrageEleve->setVisible(false);
 
     // Désactivation des boutons
-    editStatusButtonHeader(ui->PresenceButton, false);
-    editStatusButtonHeader(ui->EnregistrementButton, false);
     editStatusButtonHeader(ui->AppelButton, false);
     editStatusButtonHeader(ui->StatutButton, false);
     editStatusButtonHeader(ui->CreationButton, false);
@@ -1092,7 +1090,7 @@ void MainWindow::on_Communication_clicked()
 
 void MainWindow::on_nomEleveLineEdit_editingFinished()
 {
-    prof->sendCommandToStudent(eleveActuellementParametre->getIP(), 5560, "nomEleve," + ui->nomEleveLineEdit->text());
+    prof->sendCommandToStudent(eleveActuellementParametre->getIP(), 5558, "nomEleve," + ui->nomEleveLineEdit->text());
     updateEleveNom(eleveActuellementParametre, ui->nomEleveLineEdit->text());
 }
 
@@ -1546,4 +1544,3 @@ void MainWindow::on_AppelButton_clicked()
 {
     prof->callGroup(QHostAddress("239.255.43.21"), 5000);
 }
-

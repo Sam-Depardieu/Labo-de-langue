@@ -211,8 +211,6 @@ void gestionSession::continuerCreationSession(bool sessionExistante)
     unsigned int i = 1;
     auto ui = mainWindow->ui;
 
-    mainWindow->editStatusButtonHeader(ui->PresenceButton, true);
-    mainWindow->editStatusButtonHeader(ui->EnregistrementButton, true);
     mainWindow->editStatusButtonHeader(ui->AppelButton, true);
     mainWindow->editStatusButtonHeader(ui->StatutButton, true);
     mainWindow->editStatusButtonHeader(ui->selectAll, false);
@@ -386,8 +384,6 @@ void gestionSession::reset()
     mainWindow->ui->NomProfLineEdit->setEnabled(true);
 
     // === Réinitialisation des boutons ===
-    mainWindow->editStatusButton(mainWindow->ui->PresenceButton, false);
-    mainWindow->editStatusButton(mainWindow->ui->EnregistrementButton, false);
     mainWindow->editStatusButton(mainWindow->ui->AppelButton, false);
     mainWindow->editStatusButton(mainWindow->ui->StatutButton, false);
     mainWindow->editStatusButton(mainWindow->ui->selectAll, true);

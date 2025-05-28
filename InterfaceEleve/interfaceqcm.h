@@ -75,6 +75,8 @@ private:
     void loadConsigneJson(QString &filePath);
     QUdpSocket udpSocketConsigne;
     quint16 consignePort = 5558;
+    QUdpSocket udpSocketAppelProf;
+    quint16 appelPort = 5557;
     void showCurrentQuestion();
     QUdpSocket udpChrono;
     quint16 chronoPort = 5558;

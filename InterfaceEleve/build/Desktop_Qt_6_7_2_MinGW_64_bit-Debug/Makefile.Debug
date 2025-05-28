@@ -2925,6 +2925,7 @@ debug/interfaceqcm.o: ../../interfaceqcm.cpp ../../interfaceqcm.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qstandardpaths.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QString \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QWidget \
+		ui_interfaceqcm.h \
 		../../mainwindow.h \
 		../../audioCommunicator.h \
 		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QHostAddress \
@@ -2993,8 +2994,7 @@ debug/interfaceqcm.o: ../../interfaceqcm.cpp ../../interfaceqcm.h \
 		C:/Qt/6.7.2/mingw_64/include/QtGui/QPainter \
 		C:/Qt/6.7.2/mingw_64/include/QtGui/qpainter.h \
 		C:/Qt/6.7.2/mingw_64/include/QtGui/QStandardItemModel \
-		C:/Qt/6.7.2/mingw_64/include/QtGui/qstandarditemmodel.h \
-		ui_interfaceqcm.h
+		C:/Qt/6.7.2/mingw_64/include/QtGui/qstandarditemmodel.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\interfaceqcm.o ..\..\interfaceqcm.cpp
 
 debug/interfacevideo.o: ../../interfacevideo.cpp ../../interfacevideo.h \
