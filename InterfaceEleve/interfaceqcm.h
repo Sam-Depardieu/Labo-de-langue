@@ -14,6 +14,7 @@
 #include <QDir>
 #include <QStandardPaths>
 #include <QString>
+#include <QWidget>
 
 class MainWindow;
 namespace Ui {
@@ -85,6 +86,8 @@ private:
     QTime remainingTime;
     QTimer* clignotementTimer;
     QMap<int, QVector<bool>> userAnswers;
+
+    QString ipProf;
 
 
 };

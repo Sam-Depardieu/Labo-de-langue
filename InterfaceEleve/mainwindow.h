@@ -122,6 +122,7 @@ private:
     void startLoading();
     void stopLoading();
 
+
 signals:
     void chronoMisAJour(const QString &temps);
     void chronoFini();
