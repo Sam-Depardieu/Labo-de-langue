@@ -234,7 +234,7 @@ MainWindow::~MainWindow()
             ui->errorLabel->setText("Veuillez remplir tous les champs !");
             return;
         }
-        if ((nomTypeActivite.contains("video") || nomTypeActivite.contains("ecoute")) && (source.isNull() || source != ""))
+        if ((nomTypeActivite.contains("Video") || nomTypeActivite.contains("Ecoute")) && (source.isNull() || source == ""))
         {
             ui->errorLabel->setText("Veuillez indiquer un fichier audio ou video.");
             return;
