@@ -9,6 +9,47 @@ Student::Student(QObject* parent)
     isMuted(false)
 {
     connect(udpSocketReceive, &QUdpSocket::readyRead, this, &Student::onReadyRead);
+
+    auto inputDevices = QMediaDevices::audioInputs();
+
+    qDebug() << "Périphériques d'entrée disponibles :";
+
+    // Afficher les noms des périphériques d'entrée audio
+    for (const QAudioDevice &device : inputDevices) {
+        qDebug() << "ENTREE :" << device.id() << "," << device.description();
+    }
+    for (const QAudioDevice &device : inputDevices) {
+        qDebug() << "Périphérique d'entrée : " << device.description();
+
+        QAudioDevice deviceInfo(device);
+        QAudioFormat format;
+
+        // Vérification de plusieurs configurations de format
+        QList<QAudioFormat::SampleFormat> formatsToTest = {
+            QAudioFormat::Int16,
+            QAudioFormat::Int32,
+            QAudioFormat::Float,
+            QAudioFormat::UInt8
+        };
+
+        for (QAudioFormat::SampleFormat formatType : formatsToTest) {
+            format.setSampleFormat(formatType);
+            format.setSampleRate(44100);  // Fréquence d'échantillonnage à 44.1 kHz
+            format.setChannelCount(2);    // Mono
+
+            if (deviceInfo.isFormatSupported(format)) {
+                qDebug() << "Format supporté :"
+                         << "SampleRate:" << format.sampleRate()
+                         << "Channels:" << format.channelCount()
+                         << "SampleFormat:" << format.sampleFormat();
+            } else {
+                qDebug() << "Format non supporté :"
+                         << "SampleRate:" << format.sampleRate()
+                         << "Channels:" << format.channelCount()
+                         << "SampleFormat:" << format.sampleFormat();
+            }
+        }
+    }
 }
 
 Student::~Student()
@@ -77,7 +118,7 @@ QAudioFormat Student::getAudioFormat() const
 {
     QAudioFormat format;
     format.setSampleRate(44100);              // 44.1 kHz
-    format.setChannelCount(1);                // Mono
+    format.setChannelCount(2);                // Mono
     format.setSampleFormat(QAudioFormat::Int16); // 16 bits int
     return format;
 }
@@ -90,43 +131,24 @@ void Student::startAudio()
 
     QAudioFormat format = getAudioFormat();
 
-    // === Sélection du périphérique USB ===
-    QAudioDevice inputDevice, outputDevice;
+    QAudioDevice inputDevice = QMediaDevices::defaultAudioInput();
+    QAudioDevice outputDevice = QMediaDevices::defaultAudioOutput();
 
-    for (const QAudioDevice &device : QMediaDevices::audioInputs()) {
-        if (device.description().contains("USB", Qt::CaseInsensitive)) {
-            inputDevice = device;
-            break;
-        }
-    }
-
-    for (const QAudioDevice &device : QMediaDevices::audioOutputs()) {
-        if (device.description().contains("USB", Qt::CaseInsensitive)) {
-            outputDevice = device;
-            break;
-        }
-    }
-
-    if (!inputDevice.isNull() && !inputDevice.isFormatSupported(format)) {
-        qDebug() << "[Student] Format audio non supporté par l'entrée USB.";
+    if (!inputDevice.isFormatSupported(format)) {
+        qDebug() << "[Student] Format audio non supporté par l'entrée, utilisation par défaut";
+        // Tu peux choisir un format alternatif ou arrêter ici
         return;
     }
 
-    if (!outputDevice.isNull() && !outputDevice.isFormatSupported(format)) {
-        qDebug() << "[Student] Format audio non supporté par la sortie USB.";
+    if (!outputDevice.isFormatSupported(format)) {
+        qDebug() << "[Student] Format audio non supporté par la sortie, utilisation par défaut";
         return;
     }
 
-    if (inputDevice.isNull() || outputDevice.isNull()) {
-        qDebug() << "[Student] Périphérique USB non trouvé pour l'entrée ou la sortie.";
-        return;
-    }
-
-    // === Démarrer audio ===
     audioInput = new QAudioSource(inputDevice, format, this);
     audioInputDevice = audioInput->start();
     if (!audioInputDevice) {
-        qDebug() << "[Student] Impossible de démarrer la capture audio.";
+        qDebug() << "[Student] Impossible de démarrer la capture audio";
         return;
     }
     connect(audioInputDevice, &QIODevice::readyRead, this, &Student::onAudioDataCaptured);
@@ -134,14 +156,12 @@ void Student::startAudio()
     audioOutput = new QAudioSink(outputDevice, format, this);
     audioOutputDevice = audioOutput->start();
     if (!audioOutputDevice) {
-        qDebug() << "[Student] Impossible de démarrer la sortie audio.";
+        qDebug() << "[Student] Impossible de démarrer la sortie audio";
         return;
     }
 
-    qDebug() << "[Student] Audio démarré avec périphérique USB.";
+    qDebug() << "[Student] Capture et lecture audio démarrées";
 }
-
-
 
 void Student::configureWithTeacher(const QHostAddress& teacherAddress, quint16 teacherReceivePort) //Test
 {
