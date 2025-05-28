@@ -1113,6 +1113,7 @@ debug/moc_interfaceqcm.cpp: ../../interfaceqcm.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QStandardPaths \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qstandardpaths.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QString \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QWidget \
 		debug/moc_predefs.h \
 		C:/Qt/6.7.2/mingw_64/bin/moc.exe
 	C:\Qt\6.7.2\mingw_64\bin\moc.exe $(DEFINES) --include C:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve/build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/debug/moc_predefs.h -IC:/Qt/6.7.2/mingw_64/mkspecs/win32-g++ -IC:/Users/Quentin/Documents/Projet/Labo-de-langue/InterfaceEleve -IC:/Qt/6.7.2/mingw_64/include -IC:/Qt/6.7.2/mingw_64/include/QtMultimediaWidgets -IC:/Qt/6.7.2/mingw_64/include/QtMultimedia -IC:/Qt/6.7.2/mingw_64/include/QtWidgets -IC:/Qt/6.7.2/mingw_64/include/QtGui -IC:/Qt/6.7.2/mingw_64/include/QtSql -IC:/Qt/6.7.2/mingw_64/include/QtWebSockets -IC:/Qt/6.7.2/mingw_64/include/QtNetwork -IC:/Qt/6.7.2/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\interfaceqcm.h -o debug\moc_interfaceqcm.cpp
@@ -2923,6 +2924,7 @@ debug/interfaceqcm.o: ../../interfaceqcm.cpp ../../interfaceqcm.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QStandardPaths \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qstandardpaths.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QString \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QWidget \
 		../../mainwindow.h \
 		../../audioCommunicator.h \
 		C:/Qt/6.7.2/mingw_64/include/QtNetwork/QHostAddress \
@@ -3894,6 +3896,7 @@ debug/mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qpushbutton.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qabstractbutton.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QString \
+		C:/Qt/6.7.2/mingw_64/include/QtWidgets/QWidget \
 		../../interfacevideo.h \
 		C:/Qt/6.7.2/mingw_64/include/QtWidgets/qgraphicsscene.h \
 		C:/Qt/6.7.2/mingw_64/include/QtGui/QCloseEvent \

@@ -24,6 +24,8 @@ private slots:
     void on_choixSessionButton_clicked();
     void on_qcmButton_clicked();
 
+    void on_gestionStudentButton_clicked();
+
 private:
     void chargerJSON();
     void afficherFonctionnalites(const QString &categorie);

@@ -1305,14 +1305,15 @@ void MainWindow::onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve)
             couleursGroup[groupe] = couleur;
         }
 
+        // Audio pour les groupes
         if (!portsAudioGroupes.contains(groupe)) {
             portsAudioGroupes[groupe] = prochainPortAudioDisponible;
             prochainPortAudioDisponible += 1;
         }
 
         if (prof && !prof->audioGroupExists(groupe)) {
-            int portEnvoyeur = portsAudioGroupes[groupe];
-            int portReceveur = portEnvoyeur + 30;
+            unsigned short portEnvoyeur = portsAudioGroupes[groupe];
+            unsigned short portReceveur = portEnvoyeur + 30;
             prof->addAudioGroup(groupe, portEnvoyeur, portReceveur);
         }
     }
@@ -1531,5 +1532,17 @@ void MainWindow::on_enleveTemps_clicked()
     for (auto *eleve : listeRasp) {
         getProf()->sendCommandToStudent(eleve->getIP(), 5558, QString("chrono,%1").arg(remainingTime.toString("mm:ss")));
     }
+}
+
+
+
+void MainWindow::on_AppelerButton_clicked()
+{
+    prof->callStudent(QHostAddress(eleveActuellementParametre->getIP()), 5999);
+}
+
+void MainWindow::on_AppelButton_clicked()
+{
+    prof->callGroup(QHostAddress("239.255.43.21"), 5000);
 }
 
