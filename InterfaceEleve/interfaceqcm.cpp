@@ -499,9 +499,9 @@ void InterfaceQCM::on_pushButtonAppelProf_clicked() {
     }
 
     QByteArray message = "help";  // Message simple
-    quint16 port = 5557;          // Port d’écoute du prof
+    quint16 HelpPort = 5557;          // Port d’écoute du prof
 
-    qint64 bytesSent = udpSocketAppelProf.writeDatagram(message, QHostAddress(ipProf), port);
+    qint64 bytesSent = udpSocketAppelProf.writeDatagram(message, QHostAddress(ipProf), HelpPort);
 
     if (bytesSent == -1) {
         qWarning() << "Erreur envoi appel prof à" << ipProf << ":" << udpSocketAppelProf.errorString();

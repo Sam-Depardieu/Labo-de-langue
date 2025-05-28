@@ -31,6 +31,7 @@ public:
     ~InterfaceQCM();
     void receiveResponse();
     QString getConsigne() { return consigne; }
+    QString getipProf() {return ipProf;}
 
 
 private slots:
