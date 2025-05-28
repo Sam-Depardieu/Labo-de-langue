@@ -53,9 +53,6 @@ InterfaceAudio::InterfaceAudio(bool co,MainWindow* parentWindow, QWidget *parent
     }
 
     this->setWindowTitle("Page de Comprehension Orale");
-    if (coMode) {
-        ui->pushButton_SelectAudio->setEnabled(false);
-    }
      player->setAudioOutput(audioOutput);
     QPixmap imagePlay(":/images/Play"); // Charge l'image
     if (imagePlay.isNull()) {
@@ -197,24 +194,6 @@ void InterfaceAudio::on_pushButton_Play_clicked()
 void InterfaceAudio::on_pushButton_Pause_clicked()
 {
     setAudioPause(true); // Mettre en pause
-}
-
-void InterfaceAudio::on_pushButton_SelectAudio_clicked()
-{
-    QString videoPath = "/mnt/Activites";  // Adresse réseau correcte
-
-    QString fileName = QFileDialog::getOpenFileName(
-        this,
-        "Sélectionner une audio",
-        videoPath,  // Ouvre directement le dossier réseau
-        "Audio Files (*.mp3 *.wav *.ogg *.flac *.aac)"
-        );
-    if (!fileName.isEmpty()) {
-        player->setSource(QUrl::fromLocalFile(fileName));  // Charger et lire l'audio
-        player->play();
-        qDebug() << "Fichier sélectionné : " << fileName;
-    }
-
 }
 void InterfaceAudio::on_pushButton_Avant_clicked()
 {
@@ -368,7 +347,12 @@ void InterfaceAudio::on_pushButtonAppelProf_clicked()
 {
     ui->pushButtonAppelProf->setEnabled(false); // désactive le bouton
     ui->pushButtonAppelProf->setStyleSheet("border:1px solid white; border-radius:20px;");
-    mainWindow->sendCommandToProf(mainWindow->getIpProf(), 5557, "help");
-    qDebug() << "appel prof envoyer";
+
+    // Récupérer l'adresse IP du professeur depuis MainWindow
+    QString ipProf = mainWindow->getIpProf();
+
+    // Envoyer le message "help" à l'adresse IP du professeur
+    mainWindow->sendCommandToProf(ipProf, 5557, "help");
+    qDebug() << "Appel prof envoyé à l'adresse IP : " << ipProf;
 }
 

@@ -1864,9 +1864,9 @@ release/audioCommunicator.o: ../../audioCommunicator.cpp ../../audioCommunicator
 		C:/Qt/6.7.2/mingw_64/include/QtCore/QTimer \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qtimer.h \
 		C:/Qt/6.7.2/mingw_64/include/QtCore/qbasictimer.h \
+		C:/Qt/6.7.2/mingw_64/include/QtCore/QDebug \
 		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/QMediaDevices \
-		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qmediadevices.h \
-		C:/Qt/6.7.2/mingw_64/include/QtCore/QDebug
+		C:/Qt/6.7.2/mingw_64/include/QtMultimedia/qmediadevices.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\audioCommunicator.o ..\..\audioCommunicator.cpp
 
 release/avancementqcm.o: ../../avancementqcm.cpp ../../avancementqcm.h \

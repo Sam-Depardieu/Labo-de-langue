@@ -1289,7 +1289,6 @@ void MainWindow::onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve)
 
     QString groupe = eleveActuellementParametre->getNomGroupe();
 
-    // Si le créateur n'a pas encore de groupe assigné
     if (groupe.isEmpty()) {
         if (!ui->nomGroupeLineEdit->text().isEmpty()) {
             groupe = ui->nomGroupeLineEdit->text().trimmed();
@@ -1306,25 +1305,26 @@ void MainWindow::onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve)
         }
 
         if (!portsAudioGroupes.contains(groupe)) {
-            portsAudioGroupes[groupe] = prochainPortAudioDisponible++;
+            portsAudioGroupes[groupe] = prochainPortAudioDisponible;
+            prochainPortAudioDisponible += 1;
         }
 
         if (prof && !prof->audioGroupExists(groupe)) {
-            prof->addAudioGroup(groupe, portsAudioGroupes[groupe]);
+            int portEnvoyeur = portsAudioGroupes[groupe];
+            int portReceveur = portEnvoyeur + 30;
+            prof->addAudioGroup(groupe, portEnvoyeur, portReceveur);
         }
     }
 
-    // Affecter le groupe à l'élève cliqué
     eleve->setNomGroupe(groupe);
 
-    // Ajouter l'élève s'il n'est pas déjà membre
     std::vector<iconEleveGroup*>& membres = listeGroup[groupe];
     if (std::find(membres.begin(), membres.end(), eleve) == membres.end()) {
         membres.push_back(eleve);
     }
 
-    int portAudio = portsAudioGroupes[groupe];
-    QString commande = "portGroup," + QString::number(portAudio);
+    int portEnvoyeur = portsAudioGroupes[groupe];
+    QString commande = QString("portGroup,%1").arg(portEnvoyeur);
 
     for (iconEleveGroup* membre : membres) {
         membre->getAffiliate().clear();
@@ -1345,7 +1345,6 @@ void MainWindow::onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve)
                 );
         }
 
-        // Envoyer la commande à tous les membres
         if (prof) {
             prof->sendCommandToStudent(membre->getIP(), 5558, commande);
             qDebug() << "[MainWindow] Commande envoyée à " << membre->getIP() << ":" << commande;
@@ -1354,6 +1353,7 @@ void MainWindow::onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve)
 
     loadInformationTable();
 }
+
 
 
 
@@ -1484,11 +1484,6 @@ void MainWindow::on_PauseStatutButton_clicked()
     {
         prof->sendCommandToStudent(listeParticipant[i]->getIP(), 5557, "pause");
     }
-}
-
-void MainWindow::on_AppelButton_clicked()
-{
-    prof->setBroadcastEnabled(!prof->getBroadcastEnabled());
 }
 
 

@@ -190,10 +190,10 @@ void InterfaceQCM::showCurrentQuestion()
     isButton3Image = (reponses.size() > 2) ? reponses[2] : false;
     isButton4Image = (reponses.size() > 3) ? reponses[3] : false;
 
-    ui->pushButton1->setStyleSheet(isButton1Image ? "background-color:blue; border:3px solid white; border-radius:20px;" : "background-color:blue; border-radius:20px;");
-    ui->pushButton2->setStyleSheet(isButton2Image ? "background-color:green; border:3px solid white; border-radius:20px;" : "background-color:green; border-radius:20px;");
-    ui->pushButton3->setStyleSheet(isButton3Image ? "background-color:red; border:3px solid white; border-radius:20px;" : "background-color:red; border-radius:20px;");
-    ui->pushButton4->setStyleSheet(isButton4Image ? "background-color:orange; border:3px solid white; border-radius:20px;" : "background-color:orange; border-radius:20px;");
+    ui->pushButton1->setStyleSheet(isButton1Image ? "background-color:blue; border:3px solid rgb(95,97,95); border-radius:20px;" : "background-color:blue; border-radius:20px;");
+    ui->pushButton2->setStyleSheet(isButton2Image ? "background-color:green; border:3px solid rgb(95,97,95); border-radius:20px;" : "background-color:green; border-radius:20px;");
+    ui->pushButton3->setStyleSheet(isButton3Image ? "background-color:red; border:3px solid rgb(95,97,95); border-radius:20px;" : "background-color:red; border-radius:20px;");
+    ui->pushButton4->setStyleSheet(isButton4Image ? "background-color:orange; border:3px solid rgb(95,97,95); border-radius:20px;" : "background-color:orange; border-radius:20px;");
 
     if (currentQuestionIndex == questionArray.size() - 1) {
         ui->pushButtonSoumettre->show();
@@ -296,7 +296,7 @@ void InterfaceQCM::onAnswerClicked(QPushButton *bouton, bool /*status*/)
 
         // Appliquer style selon la nouvelle valeur
         if (*isButtonImage) {
-            bouton->setStyleSheet(QString("background-color:%1; border:3px solid white; border-radius:20px;").arg(color));
+            bouton->setStyleSheet(QString("background-color:%1; border:3px solid rgb(95,97,95); border-radius:20px;").arg(color));
         } else {
             bouton->setStyleSheet(QString("background-color:%1; border-radius:20px;").arg(color));
         }
@@ -486,8 +486,13 @@ void InterfaceQCM::on_pushButtonAppelProf_clicked()
 {
     ui->pushButtonAppelProf->setEnabled(false); // désactive le bouton
     ui->pushButtonAppelProf->setStyleSheet("border:1px solid white; border-radius:20px;");
-    mainWindow->sendCommandToProf(mainWindow->getIpProf(), 5557, "help");
-    qDebug() << "appel prof envoyer";
+
+    // Récupérer l'adresse IP du professeur depuis MainWindow
+    QString ipProf = mainWindow->getIpProf();
+
+    // Envoyer le message "help" à l'adresse IP du professeur
+    mainWindow->sendCommandToProf(ipProf, 5557, "help");
+    qDebug() << "Appel prof envoyé à l'adresse IP : " << ipProf;
 }
 
 

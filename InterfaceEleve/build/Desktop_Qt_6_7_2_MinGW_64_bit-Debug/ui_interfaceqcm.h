@@ -141,7 +141,7 @@ public:
 ""));
         label = new QLabel(InterfaceQCM);
         label->setObjectName("label");
-        label->setGeometry(QRect(10, 210, 141, 16));
+        label->setGeometry(QRect(40, 195, 81, 31));
         QFont font1;
         font1.setBold(true);
         label->setFont(font1);
@@ -224,7 +224,7 @@ public:
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", nullptr));
         pushButtonSoumettre->setText(QString());
         chronoLabel->setText(QCoreApplication::translate("InterfaceQCM", "00:00", nullptr));
-        label->setText(QCoreApplication::translate("InterfaceQCM", "Messages du professeur", nullptr));
+        label->setText(QCoreApplication::translate("InterfaceQCM", "<p>Messages du <br>professeur</p>", nullptr));
         label_2->setText(QCoreApplication::translate("InterfaceQCM", "Avancement", nullptr));
         pushButtonAppelProf->setText(QString());
         label_3->setText(QString());

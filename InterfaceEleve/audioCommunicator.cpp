@@ -1,271 +1,193 @@
 #include "audioCommunicator.h"
-#include <QMediaDevices>
 #include <QDebug>
+#include <QMediaDevices>
 
-Student::Student(const QString &groupName, const QHostAddress &groupAddress, quint16 groupPort, QObject *parent)
+Student::Student(QObject* parent)
     : QObject(parent),
-    group(groupName),
-    groupAddress(groupAddress),
-    groupPort(groupPort),
-    serverAddress(groupAddress),
-    serverPort(groupPort),
-    udpSocket(this)
+    udpSocketReceive(new QUdpSocket(this)),
+    udpSocketSend(new QUdpSocket(this)),
+    portEnvoyeur(0),
+    portReceveur(0),
+    groupPort(0),
+    serverPort(0),
+    audioInput(nullptr),
+    audioOutput(nullptr),
+    audioInputDevice(nullptr),
+    audioOutputDevice(nullptr),
+    isMuted(false)
 {
-    auto inputDevices = QMediaDevices::audioInputs();
-
-    qDebug() << "Périphériques d'entrée disponibles :";
-    for (const QAudioDevice &device : inputDevices) {
-        qDebug() << "ENTREE :" << device.id() << "," << device.description();
-    }
-
-    // Config audio mono 48kHz 16 bits signé (compatible USB audio mono)
-    QAudioFormat format;
-    format.setSampleRate(48000);
-    format.setChannelCount(1);
-    format.setSampleFormat(QAudioFormat::Int16);
-
-    // Recherche périphérique USB correspondant (ex: "Audio Adapter")
-    QAudioDevice inputDeviceInfo;
-    bool found = false;
-    for (const QAudioDevice &device : inputDevices) {
-        if (device.description().contains("Audio Adapter")) {
-            inputDeviceInfo = device;
-            found = true;
-            break;
-        }
-    }
-
-    if (!found) {
-        qWarning() << "❌ Aucun périphérique USB Audio trouvé.";
-        return;
-    }
-
-    if (!inputDeviceInfo.isFormatSupported(format)) {
-        qWarning() << "❌ Format audio non supporté par le périphérique sélectionné.";
-        return;
-    }
-
-    audioInput = new QAudioSource(inputDeviceInfo, format, this);
-
-    // Initialisation sortie audio avec le même format
-    QAudioDevice outputDeviceInfo = QMediaDevices::defaultAudioOutput();
-    if (!outputDeviceInfo.isFormatSupported(format)) {
-        qWarning() << "❌ Format audio non supporté par le périphérique de sortie.";
-        return;
-    }
-    audioOutput = new QAudioSink(outputDeviceInfo, format, this);
-
-    connect(audioInput, &QAudioSource::stateChanged, this, &Student::onAudioSourceStateChanged);
-
-    connectToGroup();
-
-    initializeAudioCommunication();
-
-    connect(&sendTimer, &QTimer::timeout, this, &Student::captureAndSendAudio);
-    sendTimer.start(20);
-}
-
-void Student::initializeAudioCommunication()
-{
-    if (audioInput) {
-        if (inputDevice) {
-            inputDevice->close();
-            inputDevice = nullptr;
-        }
-        inputDevice = audioInput->start();
-        if (!inputDevice) {
-            qWarning() << "Impossible de démarrer la capture audio";
-            return;
-        }
-    }
-
-    if (audioOutput) {
-        if (outputDevice) {
-            outputDevice->close();
-            outputDevice = nullptr;
-        }
-        outputDevice = audioOutput->start();
-        if (!outputDevice) {
-            qWarning() << "Impossible de démarrer la sortie audio";
-            return;
-        }
-    }
-
-    connect(&udpSocket, &QUdpSocket::readyRead, this, &Student::receiveAudio);
-
-    if (!sendTimer.isActive()) {
-        sendTimer.start(20);
-    }
-
-    qDebug() << "Communication audio initialisée.";
+    connect(udpSocketReceive, &QUdpSocket::readyRead, this, &Student::onReadyRead);
 }
 
 Student::~Student()
 {
     stopAudio();
 
-    if (audioInput) {
-        delete audioInput;
-        audioInput = nullptr;
+    if (udpSocketSend->isOpen()) {
+        udpSocketSend->close();
     }
-    if (audioOutput) {
-        delete audioOutput;
-        audioOutput = nullptr;
+    if (udpSocketReceive->isOpen()) {
+        udpSocketReceive->close();
     }
 }
 
-void Student::connectToGroup()
+// Configure les ports UDP envoyeur et receveur (receveur = envoyeur + 30)
+void Student::configureAudioPorts(quint16 portEnvoyeur, quint16 portReceveur)
 {
-    if (udpSocket.state() == QAbstractSocket::BoundState) {
-        udpSocket.leaveMulticastGroup(serverAddress);
-        udpSocket.close();
-    }
+    // Ferme les sockets si déjà ouvertes
+    if (udpSocketSend->isOpen()) udpSocketSend->close();
+    if (udpSocketReceive->isOpen()) udpSocketReceive->close();
 
-    if (!udpSocket.bind(QHostAddress::AnyIPv4, serverPort,
-                        QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint)) {
-        qWarning() << "Échec de la liaison UDP sur le port multicast:" << serverPort;
+    this->portEnvoyeur = portEnvoyeur;
+    this->portReceveur = portReceveur;
+
+    // Bind uniquement la réception
+    bool bindOk = udpSocketReceive->bind(QHostAddress::AnyIPv4, portReceveur);
+    if (!bindOk) {
+        qDebug() << "[Student] Échec du bind UDP réception sur port" << portReceveur;
         return;
     }
 
-    if (!udpSocket.joinMulticastGroup(serverAddress)) {
-        qWarning() << "Échec de la jointure du groupe multicast:" << serverAddress.toString()
-                   << "| Erreur socket:" << udpSocket.errorString();
-        return;
-    }
-
-    qDebug() << "Connecté au groupe multicast" << group << "@" << serverAddress.toString() << ":" << serverPort;
+    qDebug() << "[Student] Ports configurés - Envoi:" << portEnvoyeur << " Réception:" << portReceveur;
 }
 
-void Student::captureAndSendAudio()
+void Student::handleCommand(const QString& cmd)
 {
-    if (!audioInput)
-        return;
-
-    if (!inputDevice) {
-        inputDevice = audioInput->start();
-        if (!inputDevice) {
-            qWarning() << "Impossible de démarrer la capture audio";
-            return;
-        }
-    }
-
-    while (inputDevice->bytesAvailable() > 0) {
-        QByteArray audioData = inputDevice->read(inputDevice->bytesAvailable());
-        if (!audioData.isEmpty()) {
-            udpSocket.writeDatagram(audioData, serverAddress, serverPort);
+    if (cmd.startsWith("portGroup,")) {
+        bool ok = false;
+        quint16 port = cmd.mid(QString("portGroup,").length()).toUShort(&ok);
+        if (ok) {
+            setGroupPort(port);
+        } else {
+            qDebug() << "[Student] Port invalide dans commande portGroup:" << cmd;
         }
     }
 }
 
-void Student::receiveAudio()
+void Student::setGroupPort(quint16 port)
 {
-    while (udpSocket.hasPendingDatagrams()) {
-        QByteArray datagram;
-        datagram.resize(int(udpSocket.pendingDatagramSize()));
-        QHostAddress sender;
-        quint16 senderPort;
-        udpSocket.readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
+    // groupPort = port envoyeur, port receveur = port + 30
+    groupPort = port;
+    quint16 portReceive = port + 30;
 
-        qDebug() << "📥 Réception audio de" << sender.toString() << ":" << senderPort
-                 << "| taille:" << datagram.size();
+    configureAudioPorts(groupPort, portReceive);
 
-        if (!audioOutput) return;
-
-        if (audioOutput->state() != QAudio::ActiveState) {
-            outputDevice = audioOutput->start();
-        }
-
-        if (outputDevice) {
-            outputDevice->write(datagram);
-        }
-    }
+    qDebug() << "[Student] Groupe port défini. Envoi =" << groupPort << ", Réception =" << portReceive;
 }
 
-void Student::changeAudioGroup(const QHostAddress& newAddress, quint16 newPort)
+void Student::setServerAddress(const QHostAddress& address, quint16 port)
 {
-    if (udpSocket.state() == QAbstractSocket::BoundState) {
-        udpSocket.leaveMulticastGroup(serverAddress);
-        udpSocket.close();
+    serverAddress = address;
+    serverPort = port;
+}
+
+QAudioFormat Student::getAudioFormat() const
+{
+    QAudioFormat format;
+    format.setSampleRate(44100);              // 44.1 kHz
+    format.setChannelCount(1);                // Mono
+    format.setSampleFormat(QAudioFormat::Int16); // 16 bits int
+    return format;
+}
+
+void Student::startAudio()
+{
+    if (audioInput || audioOutput) {
+        stopAudio();
     }
 
-    serverAddress = newAddress;
-    serverPort = newPort;
+    QAudioFormat format = getAudioFormat();
 
-    if (!udpSocket.bind(QHostAddress::AnyIPv4, serverPort,
-                        QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint)) {
-        qWarning() << "Erreur de liaison UDP sur le port multicast:" << serverPort;
+    QAudioDevice inputDevice = QMediaDevices::defaultAudioInput();
+    QAudioDevice outputDevice = QMediaDevices::defaultAudioOutput();
+
+    if (!inputDevice.isFormatSupported(format)) {
+        qDebug() << "[Student] Format audio non supporté par l'entrée, utilisation par défaut";
+        // Tu peux choisir un format alternatif ou arrêter ici
         return;
     }
 
-    if (!udpSocket.joinMulticastGroup(serverAddress)) {
-        qWarning() << "Erreur lors de la jointure du groupe multicast:" << serverAddress.toString();
+    if (!outputDevice.isFormatSupported(format)) {
+        qDebug() << "[Student] Format audio non supporté par la sortie, utilisation par défaut";
         return;
     }
 
-    qDebug() << "Rejoint le groupe multicast" << serverAddress.toString() << "port" << serverPort;
+    audioInput = new QAudioSource(inputDevice, format, this);
+    audioInputDevice = audioInput->start();
+    if (!audioInputDevice) {
+        qDebug() << "[Student] Impossible de démarrer la capture audio";
+        return;
+    }
+    connect(audioInputDevice, &QIODevice::readyRead, this, &Student::onAudioDataCaptured);
+
+    audioOutput = new QAudioSink(outputDevice, format, this);
+    audioOutputDevice = audioOutput->start();
+    if (!audioOutputDevice) {
+        qDebug() << "[Student] Impossible de démarrer la sortie audio";
+        return;
+    }
+
+    qDebug() << "[Student] Capture et lecture audio démarrées";
 }
-
-void Student::onAudioSourceStateChanged(QAudio::State newState)
-{
-    switch (newState) {
-    case QAudio::StoppedState:
-        qWarning() << "La capture audio est arrêtée.";
-        break;
-    case QAudio::IdleState:
-        qDebug() << "La capture audio est inactive.";
-        break;
-    case QAudio::ActiveState:
-        qDebug() << "La capture audio est active.";
-        break;
-    default:
-        qWarning() << "État inconnu de la capture audio.";
-        break;
-    }
-}
-
-void Student::muteAudio()
-{
-    qDebug() << "🔇 Audio muté pour l'élève";
-
-    if (audioInput) {
-        audioInput->stop();  // Arrêter la capture micro
-    }
-
-    if (audioOutput) {
-        audioOutput->stop(); // Couper la diffusion audio
-    }
-
-    isMuted = true;
-}
-
-void Student::unmuteAudio()
-{
-    qDebug() << "🔊 Audio démuté pour l'élève";  // <-- texte corrigé
-
-    if (audioInput) {
-        audioInput->start();
-    }
-    if (audioOutput) {
-        audioOutput->start();
-    }
-    isMuted = false;
-}
-
 
 void Student::stopAudio()
 {
     if (audioInput) {
         audioInput->stop();
+        audioInput->deleteLater();
+        audioInput = nullptr;
     }
     if (audioOutput) {
         audioOutput->stop();
+        audioOutput->deleteLater();
+        audioOutput = nullptr;
     }
-    if (inputDevice) {
-        inputDevice->close();
-        inputDevice = nullptr;
+    audioInputDevice = nullptr;
+    audioOutputDevice = nullptr;
+}
+
+void Student::onAudioDataCaptured()
+{
+    if (!audioInputDevice || isMuted)
+        return;
+
+    QByteArray audioData = audioInputDevice->readAll();
+
+    if (!serverAddress.isNull() && portEnvoyeur != 0) {
+        qint64 sent = udpSocketSend->writeDatagram(audioData, serverAddress, portEnvoyeur);
+        if (sent == -1) {
+            qDebug() << "[Student] Erreur lors de l'envoi des données audio";
+        }
     }
-    if (outputDevice) {
-        outputDevice->close();
-        outputDevice = nullptr;
+}
+
+void Student::onReadyRead()
+{
+    while (udpSocketReceive->hasPendingDatagrams()) {
+        QByteArray buffer;
+        buffer.resize(int(udpSocketReceive->pendingDatagramSize()));
+
+        QHostAddress sender;
+        quint16 senderPort;
+
+        udpSocketReceive->readDatagram(buffer.data(), buffer.size(), &sender, &senderPort);
+
+        if (audioOutputDevice) {
+            audioOutputDevice->write(buffer);
+        }
+
+        emit audioDataReceived(buffer);
     }
+}
+
+void Student::mute()
+{
+    isMuted = true;
+    qDebug() << "[Student] Microphone MUTED";
+}
+
+void Student::unmute()
+{
+    isMuted = false;
+    qDebug() << "[Student] Microphone UNMUTED";
 }

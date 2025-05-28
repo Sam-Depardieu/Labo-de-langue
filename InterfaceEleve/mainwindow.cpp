@@ -63,7 +63,7 @@ MainWindow::MainWindow(QWidget *parent)
     connectToDatabase();
 
 
-    udpSocketInfo.bind(QHostAddress::Any, infoPort);
+    udpSocketInfo.bind(QHostAddress::AnyIPv4, infoPort);
     connect(&udpSocketInfo, &QUdpSocket::readyRead, this, &MainWindow::receiveInfo);
 
     udpSocketNomFichier = new QUdpSocket(this);
@@ -144,12 +144,12 @@ void MainWindow::handleRestartCommand()
         if (cmd == "mute") {
             qDebug() << "🔇 Commande MUTE reçue";
             // Appelle ta fonction mute audio ici, par exemple :
-            if(currentStudent) currentStudent->muteAudio();
+            if(currentStudent) currentStudent->mute();
         }
         else if (cmd == "unmute") {
             qDebug() << "🔈 Commande DEMUTE reçue";
             // Appelle ta fonction unmute audio ici, par exemple :
-            if(currentStudent) currentStudent->unmuteAudio();
+            if(currentStudent) currentStudent->unmute();
         }
         else if (cmd == "activerSon") {
             qDebug() << "✅ Commande ACTIVER SON reçue";
@@ -379,92 +379,88 @@ void MainWindow::receiveInfo() {
         udpSocketInfo.readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
 
         QString response = QString::fromUtf8(datagram).trimmed();
-        qDebug() << "📢 Message reçu de" << sender.toString() << ":" << response;
+        qDebug() << "📢 Message reçu de" << sender.toString();
 
-        if (sender.protocol() == QAbstractSocket::IPv4Protocol) {
-            ipProf = sender.toString();
-            qDebug() << "📡 Adresse IPv4 de l'expéditeur :" << ipProf;
-        } else {
+        // On ne traite que les IPv4 (à adapter si besoin IPv6)
+        if (sender.protocol() != QAbstractSocket::IPv4Protocol) {
             qDebug() << "🌐 Adresse non IPv4 reçue, ignorée :" << sender.toString();
-        }
-
-        if (response.isEmpty())
-            continue;
-
-        if (!response.contains(",")) {
-            qWarning() << "⛔ Format invalide (attendu clé,valeur)";
             continue;
         }
 
-        QStringList parts = response.split(",");
+        // Format attendu : clé,valeur
+        if (response.isEmpty() || !response.contains(",")) {
+            qWarning() << "⛔ Format invalide (attendu clé,valeur) : " << response;
+            continue;
+        }
+
+        QStringList parts = response.split(",", Qt::SkipEmptyParts);
         if (parts.size() != 2) {
-            qWarning() << "⛔ Format invalide (attendu clé,valeur)";
+            qWarning() << "⛔ Format invalide (attendu clé,valeur) : " << response;
             continue;
         }
 
         QString key = parts[0].trimmed();
         QString value = parts[1].trimmed();
 
+        // Gestion des clés classiques (nomProf, ipProf, etc.)
         if (key == "nomProf") {
             nomProf = value;
             qDebug() << "👤 Nom du prof reçu :" << nomProf;
-
         } else if (key == "ipProf") {
             ipProf = value;
-            qDebug() << "👤 Adresse ip prof reçu :" << ipProf;
-
-        }else if (key == "nomEleve") {
+            qDebug() << "👤 Adresse IP prof reçue :" << ipProf;
+        } else if (key == "nomEleve") {
             nomEleve = value;
             qDebug() << "👤 Nom de l'élève reçu :" << nomEleve;
-
         } else if (key == "chrono") {
             remainingTime = QTime::fromString(value, "mm:ss");
             qDebug() << "⏳ Temps restant :" << value;
-
         } else if (key == "consigne") {
             consigne = value;
             qDebug() << "📝 Consigne :" << consigne;
-
-        }
-        else if (key == "nomFichier") {
+        } else if (key == "nomFichier") {
             nomFichier = value;
-            qDebug() << "📝 nom du fichier :" << nomFichier;
-
-        } else if (key == "portGroup") {
-            bool ok;
+            qDebug() << "📝 Nom du fichier :" << nomFichier;
+        }
+        // === CIBLE PRINCIPALE ===
+        else if (key == "portGroup") {
+            bool ok = false;
             int port = value.toInt(&ok);
-            if (!ok || port <= 0 || port > 65535) {
-                qWarning() << "Port invalide reçu pour portGroup:" << value;
-                return;
+            if (!ok || port <= 0 || port > 65505) { // max 65505 car +30 plus loin
+                qWarning() << "⛔ Port invalide reçu pour portGroup:" << value;
+                continue;
             }
 
-            qDebug() << "🎧 Changement de groupe, port audio :" << port;
+            qDebug() << "🎧 Changement de groupe, port d'envoi audio :" << port;
 
-            // Supprimer l'étudiant courant si existant (arrêt audio, libération)
+            // Supprimer l'étudiant courant s'il existe (stop audio + libération mémoire)
             if (currentStudent) {
                 currentStudent->stopAudio();
                 currentStudent->deleteLater();
                 currentStudent = nullptr;
             }
 
-            // Créer l'étudiant avec le port reçu (on ne crée que là)
-            // À adapter : ici on passe groupe, adresse, port selon ton constructeur Student
-            QString groupName = "defaultGroup"; // à remplacer si tu as le nom du groupe
-            QHostAddress profAddress("192.168.64.1"); // IP du prof à configurer dynamiquement si besoin
+            // Adresse du prof (par défaut loopback si non définie)
+            QHostAddress profAddress = ipProf.isEmpty() ? QHostAddress("192.168.64.1") : QHostAddress(ipProf);
 
-            currentStudent = new Student(groupName, profAddress, static_cast<quint16>(port), this);
-            // currentStudent->setProfIp("192.168.64.1"); // Si tu as encore cette méthode, sinon passe via constructeur
-            // currentStudent->setGroupPort(port); // Idem, si constructeur gère déjà le port
+            // Calcul des ports
+            quint16 portEnvoyeur = static_cast<quint16>(port);
+            quint16 portReceveur = static_cast<quint16>(port + 30);
 
-            currentStudent->initializeAudioCommunication();
+            // Initialisation de l'étudiant
+            currentStudent = new Student(this);
+            currentStudent->setServerAddress(profAddress, portEnvoyeur);  // pour envoyer les données au prof
+            currentStudent->configureAudioPorts(portEnvoyeur, portReceveur); // méthode à créer (ou que tu as déjà)
+            currentStudent->startAudio();
 
-            qDebug() << "✅ Étudiant initialisé pour le groupe audio";
+            qDebug() << "✅ Étudiant initialisé, envoi sur" << portEnvoyeur << "réception sur" << portReceveur;
         }
         else {
             qWarning() << "🔍 Clé non reconnue :" << key;
         }
     }
 }
+
 
 
 void MainWindow::receivePath(){
@@ -582,12 +578,12 @@ void MainWindow::stopClignotement()
     clignotementEtat = false;
 }
 
-void MainWindow::sendCommandToProf(const QString& profIp, int port, const QString& command)
+void MainWindow::sendCommandToProf(const QString& ipProf, int port, const QString& command)
 {
     if (command.isEmpty()) return;
 
     QByteArray datagram = command.toUtf8();
-    QHostAddress addr(profIp);
+    QHostAddress addr(ipProf);
     udpSocket.writeDatagram(datagram, addr, port);
-    qDebug() << "[Command] vers" << profIp << ":" << command;
+    qDebug() << "[Command] vers" << ipProf << ":" << command;
 }

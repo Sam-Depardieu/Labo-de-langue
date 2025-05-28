@@ -28,9 +28,6 @@ InterfaceVideo::InterfaceVideo(bool co, MainWindow *parentWindow, QWidget *paren
         ui->horizontalSlider->setEnabled(true);
         ui->pushButtonReset->setVisible(false);
     }
-    if (coMode) {
-        ui->pushButton_SelectVideo->setEnabled(false);
-    }
     setFixedSize(800,480);
     this->setWindowTitle("Page de Video");
 
@@ -228,26 +225,6 @@ InterfaceVideo::~InterfaceVideo()
 {
     delete ui;
 }
-
-void InterfaceVideo::on_pushButton_SelectVideo_clicked()
-{
-    QString videoPath = "\\\\192.168.64.1\\Activites";  // Chemin réseau de la Raspberry Pi
-
-    QString fileName = QFileDialog::getOpenFileName(
-        this,
-        "Sélectionner une vidéo",
-        videoPath,  // Ouvre directement le dossier réseau
-        "Vidéos (*.mp4 *.avi *.mkv *.mov *.wmv)"  // Filtre les fichiers vidéo
-        );
-
-    if (!fileName.isEmpty()) {
-        player->setSource(QUrl::fromLocalFile(fileName));  // Charger et lire la vidéo
-        player->play();
-        qDebug() << "Fichier sélectionné : " << fileName;
-        ui->pushButton_SelectVideo->setEnabled(false);
-    }
-}
-
 void InterfaceVideo::on_pushButton_Avant10_clicked()
 {
     animateButtonClick(ui->pushButton_Avant10);
@@ -399,7 +376,12 @@ void InterfaceVideo::on_pushButtonAppelProf_clicked()
 {
     ui->pushButtonAppelProf->setEnabled(false); // désactive le bouton
     ui->pushButtonAppelProf->setStyleSheet("border:1px solid white; border-radius:20px;");
-    mainWindow->sendCommandToProf(mainWindow->getIpProf(), 5557, "help");
-    qDebug() << "appel prof envoyer";
+
+    // Récupérer l'adresse IP du professeur depuis MainWindow
+    QString ipProf = mainWindow->getIpProf();
+
+    // Envoyer le message "help" à l'adresse IP du professeur
+    mainWindow->sendCommandToProf(ipProf, 5557, "help");
+    qDebug() << "Appel prof envoyé à l'adresse IP : " << ipProf;
 }
 

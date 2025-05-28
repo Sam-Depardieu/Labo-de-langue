@@ -24,7 +24,6 @@ class Ui_InterfaceEnregistrement
 {
 public:
     QPushButton *pushButtonSon;
-    QPushButton *pushButtonAvancer;
     QPushButton *pushButtonClear;
     QPushButton *pushButtonAppelProf;
     QPushButton *pushButton_2;
@@ -53,10 +52,6 @@ public:
         pushButtonSon->setGeometry(QRect(730, 430, 45, 45));
         pushButtonSon->setAutoFillBackground(false);
         pushButtonSon->setStyleSheet(QString::fromUtf8(""));
-        pushButtonAvancer = new QPushButton(InterfaceEnregistrement);
-        pushButtonAvancer->setObjectName("pushButtonAvancer");
-        pushButtonAvancer->setGeometry(QRect(500, 90, 81, 81));
-        pushButtonAvancer->setStyleSheet(QString::fromUtf8(""));
         pushButtonClear = new QPushButton(InterfaceEnregistrement);
         pushButtonClear->setObjectName("pushButtonClear");
         pushButtonClear->setGeometry(QRect(610, 430, 45, 45));
@@ -77,7 +72,7 @@ public:
 "    font-weight: bold; /* Optionnel : texte en gras */"));
         chrono_enregistrement = new QLabel(InterfaceEnregistrement);
         chrono_enregistrement->setObjectName("chrono_enregistrement");
-        chrono_enregistrement->setGeometry(QRect(280, 340, 221, 61));
+        chrono_enregistrement->setGeometry(QRect(320, 340, 221, 61));
         QFont font;
         font.setPointSize(20);
         font.setBold(true);
@@ -85,15 +80,15 @@ public:
         chrono_enregistrement->setAlignment(Qt::AlignmentFlag::AlignCenter);
         pushButtonSpeak = new QPushButton(InterfaceEnregistrement);
         pushButtonSpeak->setObjectName("pushButtonSpeak");
-        pushButtonSpeak->setGeometry(QRect(350, 250, 81, 81));
+        pushButtonSpeak->setGeometry(QRect(390, 240, 81, 81));
         pushButtonSpeak->setStyleSheet(QString::fromUtf8(""));
         pushButtonPause = new QPushButton(InterfaceEnregistrement);
         pushButtonPause->setObjectName("pushButtonPause");
-        pushButtonPause->setGeometry(QRect(350, 90, 81, 81));
+        pushButtonPause->setGeometry(QRect(390, 90, 81, 81));
         pushButtonPause->setStyleSheet(QString::fromUtf8(""));
         pushButtonRetourArriere = new QPushButton(InterfaceEnregistrement);
         pushButtonRetourArriere->setObjectName("pushButtonRetourArriere");
-        pushButtonRetourArriere->setGeometry(QRect(200, 90, 81, 81));
+        pushButtonRetourArriere->setGeometry(QRect(210, 90, 81, 81));
         pushButtonRetourArriere->setStyleSheet(QString::fromUtf8(""));
         pushButtonEnregistrer = new QPushButton(InterfaceEnregistrement);
         pushButtonEnregistrer->setObjectName("pushButtonEnregistrer");
@@ -114,7 +109,7 @@ public:
 ""));
         pushButtonPlay = new QPushButton(InterfaceEnregistrement);
         pushButtonPlay->setObjectName("pushButtonPlay");
-        pushButtonPlay->setGeometry(QRect(350, 90, 81, 81));
+        pushButtonPlay->setGeometry(QRect(390, 90, 81, 81));
         pushButtonPlay->setStyleSheet(QString::fromUtf8(""));
         textEditConsigne = new QTextEdit(InterfaceEnregistrement);
         textEditConsigne->setObjectName("textEditConsigne");
@@ -131,7 +126,7 @@ public:
 ""));
         label = new QLabel(InterfaceEnregistrement);
         label->setObjectName("label");
-        label->setGeometry(QRect(10, 200, 151, 16));
+        label->setGeometry(QRect(40, 185, 151, 31));
         QFont font1;
         font1.setBold(true);
         label->setFont(font1);
@@ -178,7 +173,6 @@ public:
         verticalSlider_son->raise();
         pushButton_2->raise();
         pushButtonSon->raise();
-        pushButtonAvancer->raise();
         pushButtonClear->raise();
         chrono_enregistrement->raise();
         pushButtonSpeak->raise();
@@ -203,7 +197,6 @@ public:
     {
         InterfaceEnregistrement->setWindowTitle(QCoreApplication::translate("InterfaceEnregistrement", "Dialog", nullptr));
         pushButtonSon->setText(QString());
-        pushButtonAvancer->setText(QString());
         pushButtonClear->setText(QString());
         pushButtonAppelProf->setText(QString());
         pushButton_2->setText(QString());
@@ -229,7 +222,7 @@ public:
 "li.checked::marker { content: \"\\2612\"; }\n"
 "</style></head><body style=\" font-family:'Segoe UI','sans-serif'; font-size:14px; font-weight:400; font-style:normal;\">\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", nullptr));
-        label->setText(QCoreApplication::translate("InterfaceEnregistrement", "Messages du professeur", nullptr));
+        label->setText(QCoreApplication::translate("InterfaceEnregistrement", "<p><center>Messages du professeur</center></p>", nullptr));
         label_2->setText(QCoreApplication::translate("InterfaceEnregistrement", "Consignes", nullptr));
         chronoLabel->setText(QCoreApplication::translate("InterfaceEnregistrement", "00:00", nullptr));
         label_3->setText(QCoreApplication::translate("InterfaceEnregistrement", "Interface Enregistrement", nullptr));

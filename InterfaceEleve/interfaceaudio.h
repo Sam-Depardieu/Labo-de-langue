@@ -31,7 +31,6 @@ public:
 
     ~InterfaceAudio();
 private slots:
-    void on_pushButton_SelectAudio_clicked();
     void on_pushButton_Play_clicked();
     void on_pushButton_Pause_clicked();
     void on_pushButton_Avant_clicked();

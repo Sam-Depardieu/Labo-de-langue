@@ -36,19 +36,11 @@ namespace {
 struct qt_meta_stringdata_CLASSStudentENDCLASS_t {};
 constexpr auto qt_meta_stringdata_CLASSStudentENDCLASS = QtMocHelpers::stringData(
     "Student",
-    "captureAndSendAudio",
+    "audioDataReceived",
     "",
-    "receiveAudio",
-    "changeAudioGroup",
-    "QHostAddress",
-    "newAddress",
-    "newPort",
-    "onAudioSourceStateChanged",
-    "QAudio::State",
-    "newState",
-    "initializeAudioCommunication",
-    "muteAudio",
-    "unmuteAudio"
+    "data",
+    "onReadyRead",
+    "onAudioDataCaptured"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
 #error "qtmochelpers.h not found or too old."
@@ -61,28 +53,24 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSStudentENDCLASS[] = {
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-       7,   14, // methods
+       3,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       0,       // signalCount
+       1,       // signalCount
+
+ // signals: name, argc, parameters, tag, flags, initial metatype offsets
+       1,    1,   32,    2, 0x06,    1 /* Public */,
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    0,   56,    2, 0x0a,    1 /* Public */,
-       3,    0,   57,    2, 0x0a,    2 /* Public */,
-       4,    2,   58,    2, 0x0a,    3 /* Public */,
-       8,    1,   63,    2, 0x0a,    6 /* Public */,
-      11,    0,   66,    2, 0x0a,    8 /* Public */,
-      12,    0,   67,    2, 0x0a,    9 /* Public */,
-      13,    0,   68,    2, 0x0a,   10 /* Public */,
+       4,    0,   35,    2, 0x08,    3 /* Private */,
+       5,    0,   36,    2, 0x08,    4 /* Private */,
+
+ // signals: parameters
+    QMetaType::Void, QMetaType::QByteArray,    3,
 
  // slots: parameters
-    QMetaType::Void,
-    QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 5, QMetaType::UShort,    6,    7,
-    QMetaType::Void, 0x80000000 | 9,   10,
-    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
 
@@ -98,22 +86,12 @@ Q_CONSTINIT const QMetaObject Student::staticMetaObject = { {
     qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSStudentENDCLASS_t,
         // Q_OBJECT / Q_GADGET
         QtPrivate::TypeAndForceComplete<Student, std::true_type>,
-        // method 'captureAndSendAudio'
+        // method 'audioDataReceived'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'receiveAudio'
+        QtPrivate::TypeAndForceComplete<const QByteArray &, std::false_type>,
+        // method 'onReadyRead'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'changeAudioGroup'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        QtPrivate::TypeAndForceComplete<const QHostAddress &, std::false_type>,
-        QtPrivate::TypeAndForceComplete<quint16, std::false_type>,
-        // method 'onAudioSourceStateChanged'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        QtPrivate::TypeAndForceComplete<QAudio::State, std::false_type>,
-        // method 'initializeAudioCommunication'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'muteAudio'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'unmuteAudio'
+        // method 'onAudioDataCaptured'
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
@@ -125,14 +103,19 @@ void Student::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
         auto *_t = static_cast<Student *>(_o);
         (void)_t;
         switch (_id) {
-        case 0: _t->captureAndSendAudio(); break;
-        case 1: _t->receiveAudio(); break;
-        case 2: _t->changeAudioGroup((*reinterpret_cast< std::add_pointer_t<QHostAddress>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<quint16>>(_a[2]))); break;
-        case 3: _t->onAudioSourceStateChanged((*reinterpret_cast< std::add_pointer_t<QAudio::State>>(_a[1]))); break;
-        case 4: _t->initializeAudioCommunication(); break;
-        case 5: _t->muteAudio(); break;
-        case 6: _t->unmuteAudio(); break;
+        case 0: _t->audioDataReceived((*reinterpret_cast< std::add_pointer_t<QByteArray>>(_a[1]))); break;
+        case 1: _t->onReadyRead(); break;
+        case 2: _t->onAudioDataCaptured(); break;
         default: ;
+        }
+    } else if (_c == QMetaObject::IndexOfMethod) {
+        int *result = reinterpret_cast<int *>(_a[0]);
+        {
+            using _t = void (Student::*)(const QByteArray & );
+            if (_t _q_method = &Student::audioDataReceived; *reinterpret_cast<_t *>(_a[1]) == _q_method) {
+                *result = 0;
+                return;
+            }
         }
     }
 }
@@ -156,14 +139,21 @@ int Student::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 7)
+        if (_id < 3)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 7;
+        _id -= 3;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 7)
+        if (_id < 3)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 7;
+        _id -= 3;
     }
     return _id;
+}
+
+// SIGNAL 0
+void Student::audioDataReceived(const QByteArray & _t1)
+{
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))) };
+    QMetaObject::activate(this, &staticMetaObject, 0, _a);
 }
 QT_WARNING_POP

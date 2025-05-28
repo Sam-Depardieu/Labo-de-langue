@@ -32,22 +32,6 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButtonAvancer">
-   <property name="geometry">
-    <rect>
-     <x>500</x>
-     <y>90</y>
-     <width>81</width>
-     <height>81</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
   <widget class="QPushButton" name="pushButtonClear">
    <property name="geometry">
     <rect>
@@ -106,7 +90,7 @@
   <widget class="QLabel" name="chrono_enregistrement">
    <property name="geometry">
     <rect>
-     <x>280</x>
+     <x>320</x>
      <y>340</y>
      <width>221</width>
      <height>61</height>
@@ -128,8 +112,8 @@
   <widget class="QPushButton" name="pushButtonSpeak">
    <property name="geometry">
     <rect>
-     <x>350</x>
-     <y>250</y>
+     <x>390</x>
+     <y>240</y>
      <width>81</width>
      <height>81</height>
     </rect>
@@ -144,7 +128,7 @@
   <widget class="QPushButton" name="pushButtonPause">
    <property name="geometry">
     <rect>
-     <x>350</x>
+     <x>390</x>
      <y>90</y>
      <width>81</width>
      <height>81</height>
@@ -160,7 +144,7 @@
   <widget class="QPushButton" name="pushButtonRetourArriere">
    <property name="geometry">
     <rect>
-     <x>200</x>
+     <x>210</x>
      <y>90</y>
      <width>81</width>
      <height>81</height>
@@ -224,7 +208,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
   <widget class="QPushButton" name="pushButtonPlay">
    <property name="geometry">
     <rect>
-     <x>350</x>
+     <x>390</x>
      <y>90</y>
      <width>81</width>
      <height>81</height>
@@ -272,10 +256,10 @@ li.checked::marker { content: &quot;\2612&quot;; }
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>200</y>
+     <x>40</x>
+     <y>185</y>
      <width>151</width>
-     <height>16</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="font">
@@ -284,7 +268,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
     </font>
    </property>
    <property name="text">
-    <string>Messages du professeur</string>
+    <string>&lt;p&gt;&lt;center&gt;Messages du professeur&lt;/center&gt;&lt;/p&gt;</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_2">
@@ -391,7 +375,6 @@ li.checked::marker { content: &quot;\2612&quot;; }
   <zorder>verticalSlider_son</zorder>
   <zorder>pushButton_2</zorder>
   <zorder>pushButtonSon</zorder>
-  <zorder>pushButtonAvancer</zorder>
   <zorder>pushButtonClear</zorder>
   <zorder>chrono_enregistrement</zorder>
   <zorder>pushButtonSpeak</zorder>

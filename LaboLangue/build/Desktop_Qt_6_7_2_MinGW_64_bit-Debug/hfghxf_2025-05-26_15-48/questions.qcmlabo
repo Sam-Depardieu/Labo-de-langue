@@ -1,0 +1,19 @@
+{
+    "questions": [
+        {
+            "answers": [
+                {
+                    "isCorrect": false,
+                    "text": "c"
+                },
+                {
+                    "isCorrect": false,
+                    "text": "c"
+                }
+            ],
+            "choicesAllowed": 2,
+            "number": 1,
+            "text": "c"
+        }
+    ]
+}
