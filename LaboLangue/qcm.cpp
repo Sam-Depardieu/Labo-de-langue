@@ -123,6 +123,10 @@ void QCM::importQCM()
             return;
         }
 
+        if (rootObj.contains("nom") && rootObj["nom"].isString()) {
+            nomQCM->setText(rootObj["nom"].toString());
+        }
+
         QJsonArray questionsArray = rootObj.value("questions").toArray();
 
         for (const QJsonValue &questionValue : questionsArray) {
