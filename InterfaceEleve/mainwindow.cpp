@@ -602,7 +602,6 @@ void MainWindow::receiveEndMessage()
         copyFolderToSession();
     }
 }
-
 void MainWindow::copyFolderToSession()
 {
     // Assurez-vous que sessionPATH contient bien le chemin de session reçu via UDP
