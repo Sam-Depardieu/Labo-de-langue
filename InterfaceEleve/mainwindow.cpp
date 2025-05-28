@@ -440,7 +440,7 @@ void MainWindow::receiveInfo() {
             }
 
             // Adresse du prof (par défaut loopback si non définie)
-            QHostAddress profAddress = ipProf.isEmpty() ? QHostAddress("192.168.64.1") : QHostAddress(ipProf);
+            QHostAddress profAddress = ipProf.isEmpty() ? QHostAddress("127.0.0.1") : QHostAddress(ipProf);
 
             // Calcul des ports
             quint16 portEnvoyeur = static_cast<quint16>(port);
@@ -659,6 +659,27 @@ void MainWindow::moveAndRenameFolder()
     if (dir.exists()) {
         dir.removeRecursively();
         qDebug() << "Le dossier source a été supprimé.";
+    }
+}
+
+void MainWindow::AppelProf(const QString& ipProf)
+{
+    if (ipProf.isEmpty()) {
+        qDebug() << "AppelProf: adresse IP du prof vide";
+        return;
+    }
+
+    QByteArray message = "help";
+    quint16 HelpPort = 5557;  // ou le port que tu utilises pour communiquer
+
+    qint64 bytesSent = udpSocketAppelProf.writeDatagram(message, QHostAddress(ipProf), HelpPort);
+
+    if (bytesSent == -1) {
+        qWarning() << "Erreur envoi message help à" << ipProf << ":" << udpSocketAppelProf.errorString();
+        QMessageBox::warning(this, "Erreur", "Impossible d'envoyer la demande : " + udpSocketAppelProf.errorString());
+    } else {
+        qDebug() << "Message help envoyé à" << ipProf << "sur le port" << HelpPort;
+        QMessageBox::information(this, "Appel", "Votre demande a été envoyée à " + ipProf + ".");
     }
 }
 

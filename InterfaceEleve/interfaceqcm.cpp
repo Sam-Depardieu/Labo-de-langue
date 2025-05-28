@@ -490,24 +490,25 @@ void InterfaceQCM::on_pushButtonSoumettre_clicked()
     accept();
 }
 
-void InterfaceQCM::on_pushButtonAppelProf_clicked()
-{
-    qDebug() << "🔔 Bouton Appel Professeur cliqué.";
+void InterfaceQCM::on_pushButtonAppelProf_clicked() {
 
     if (ipProf.isEmpty()) {
-        QMessageBox::warning(this, "Erreur", "L'adresse IP du professeur n'est pas définie.");
+        qDebug() << "AppelProf: IP du professeur est vide.";
+        QMessageBox::warning(this, "Erreur", "Impossible d'envoyer la demande d'aide : IP du professeur manquante.");
         return;
     }
 
-    QByteArray message = "help"; // Message à envoyer
+    QByteArray message = "help";  // Message simple
+    quint16 port = 5557;          // Port d’écoute du prof
 
-    // Envoi UDP à ipProf sur le port 5557
-    qint64 bytesSent = udpSocketAppelProf.writeDatagram(message, QHostAddress(ipProf), 5557);
+    qint64 bytesSent = udpSocketAppelProf.writeDatagram(message, QHostAddress(ipProf), port);
 
     if (bytesSent == -1) {
-        QMessageBox::warning(this, "Erreur", "Impossible d'envoyer la demande : " + udpSocketAppelProf.errorString());
+        qWarning() << "Erreur envoi appel prof à" << ipProf << ":" << udpSocketAppelProf.errorString();
+        QMessageBox::warning(this, "Erreur", "Échec de l'envoi de la demande d'aide.");
     } else {
-        QMessageBox::information(this, "Appel Professeur", "Votre demande a été envoyée à " + ipProf + " sur le port 5557.");
+        qDebug() << "Demande d'aide envoyée à" << ipProf;
+        QMessageBox::information(this, "Demande envoyée", "Votre demande d'aide a été transmise au professeur.");
     }
 }
 

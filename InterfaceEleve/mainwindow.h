@@ -46,6 +46,7 @@ public:
     QString getSessionPATH() {return sessionPATH;};
     QString getIpProf() {return ipProf;}
     QString getNomFichier() {return nomFichier;}
+    void AppelProf(const QString& ipProf);
 
     void sendCommandToProf(const QString& ipProf, int port, const QString& command);
 
@@ -84,6 +85,9 @@ private:
     QMap<int, Student*> students;
     Student* currentStudent = nullptr;  // membre de la classe MainWindow
     QUdpSocket *udpSocket;
+
+    QUdpSocket udpSocketAppelProf;
+    quint16 HelpPort = 5557;
 
     QUdpSocket *udpSocketEnd;
     quint16 EndPort = 5557;
