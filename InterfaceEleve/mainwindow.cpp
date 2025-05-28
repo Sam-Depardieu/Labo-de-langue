@@ -378,7 +378,6 @@ void MainWindow::receiveInfo() {
 
         QHostAddress sender;
         quint16 senderPort;
-        ipProf = sender.toString();
 
         udpSocketInfo.readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
 
@@ -445,7 +444,7 @@ void MainWindow::receiveInfo() {
             }
 
             // Adresse du prof (par défaut loopback si non définie)
-            QHostAddress profAddress = ipProf.isEmpty() ? QHostAddress("127.0.0.1") : QHostAddress(ipProf);
+            QHostAddress profAddress = ipProf.isEmpty() ? QHostAddress("192.168.64.1") : QHostAddress(ipProf);
 
             // Calcul des ports
             quint16 portEnvoyeur = static_cast<quint16>(port);
@@ -584,17 +583,13 @@ void MainWindow::stopClignotement()
 
 void MainWindow::sendCommandToProf(const QString& ipProf, int port, const QString& command)
 {
-    QUdpSocket socket;
-    QByteArray data = command.toUtf8();
-    QHostAddress address(ipProf);
+    if (command.isEmpty()) return;
 
-    socket.writeDatagram(data, address, port);
-    // Pas besoin de socket persistant ici, on crée juste pour envoyer
-    qDebug() << "[Eleve] Commande envoyée à" << ipProf << ":" << command;
-
+    QByteArray datagram = command.toUtf8();
+    QHostAddress addr(ipProf);
+    udpSocket->writeDatagram(datagram, addr, port);
+    qDebug() << "[Command] vers" << ipProf << ":" << command;
 }
-
-
 void MainWindow::receiveEndMessage()
 {
     QByteArray datagram;
@@ -671,7 +666,6 @@ void MainWindow::mountNetworkDrive()
 {
     QProcess process;
 
-<<<<<<< HEAD
     QStringList args;
     args << "-S"  // Lire mot de passe depuis stdin (inutile ici car pas de mot de passe si sudoers OK)
          << "mount"
@@ -680,8 +674,8 @@ void MainWindow::mountNetworkDrive()
          << "/mnt/partage"
          << "-o"
          << QString("username=ciel2,password=ciel2,uid=%1,gid=%2,cache=none")
-                .arg(QString::number(getpid()))
-                .arg(QString::number(getpid()));
+                .arg(QString::number(getuid()))
+                .arg(QString::number(getgid()));
 
     process.start("sudo", args);
     process.waitForFinished();
@@ -698,26 +692,3 @@ void MainWindow::mountNetworkDrive()
         QMessageBox::critical(this, "Erreur de montage", "Une erreur est survenue lors du montage du partage réseau :\n" + error);
     }
 }
-=======
-void MainWindow::AppelProf(const QString& ipProf)
-{
-    if (ipProf.isEmpty()) {
-        qDebug() << "AppelProf: adresse IP du prof vide";
-        return;
-    }
-
-    QByteArray message = "help";
-    quint16 HelpPort = 5557;  // ou le port que tu utilises pour communiquer
-
-    qint64 bytesSent = udpSocketAppelProf.writeDatagram(message, QHostAddress(ipProf), HelpPort);
-
-    if (bytesSent == -1) {
-        qWarning() << "Erreur envoi message help à" << ipProf << ":" << udpSocketAppelProf.errorString();
-        QMessageBox::warning(this, "Erreur", "Impossible d'envoyer la demande : " + udpSocketAppelProf.errorString());
-    } else {
-        qDebug() << "Message help envoyé à" << ipProf << "sur le port" << HelpPort;
-        QMessageBox::information(this, "Appel", "Votre demande a été envoyée à " + ipProf + ".");
-    }
-}
-
->>>>>>> 9db47d701dbcf59b546fa6c4e40cc060df27e339

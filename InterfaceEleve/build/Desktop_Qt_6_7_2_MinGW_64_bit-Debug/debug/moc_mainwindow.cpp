@@ -56,7 +56,7 @@ constexpr auto qt_meta_stringdata_CLASSMainWindowENDCLASS = QtMocHelpers::string
     "startChrono",
     "duree",
     "receiveEndMessage",
-    "moveAndSendFiles"
+    "moveAndRenameFolder"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
 #error "qtmochelpers.h not found or too old."
@@ -158,7 +158,7 @@ Q_CONSTINIT const QMetaObject MainWindow::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<const QTime &, std::false_type>,
         // method 'receiveEndMessage'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'moveAndSendFiles'
+        // method 'moveAndRenameFolder'
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
@@ -185,7 +185,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 11: _t->stopClignotement(); break;
         case 12: _t->startChrono((*reinterpret_cast< std::add_pointer_t<QTime>>(_a[1]))); break;
         case 13: _t->receiveEndMessage(); break;
-        case 14: _t->moveAndSendFiles(); break;
+        case 14: _t->moveAndRenameFolder(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {

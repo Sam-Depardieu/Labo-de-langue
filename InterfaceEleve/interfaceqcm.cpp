@@ -1,6 +1,5 @@
 #include "interfaceqcm.h"
 //#include "build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ui_interfaceqcm.h"
-#include "build/Desktop_Qt_6_7_2_MinGW_64_bit-Debug/ui_interfaceqcm.h"
 #include "mainwindow.h"
 #include "avancementqcm.h"
 #include <QStandardItemModel>
@@ -50,9 +49,6 @@ InterfaceQCM::InterfaceQCM(MainWindow *parentWindow ,QWidget *parent)
 
     clignotementTimer = new QTimer(this);
     connect(clignotementTimer, &QTimer::timeout, this, &InterfaceQCM::faireClignoterLabel);
-
-    connect(ui->pushButtonAppelProf, &QPushButton::clicked, this, &InterfaceQCM::on_pushButtonAppelProf_clicked);
-
 
     clignotementEtat = false;
 
@@ -490,28 +486,25 @@ void InterfaceQCM::on_pushButtonSoumettre_clicked()
     accept();
 }
 
-void InterfaceQCM::on_pushButtonAppelProf_clicked() {
-
-    if (ipProf.isEmpty()) {
-        qDebug() << "AppelProf: IP du professeur est vide.";
-        QMessageBox::warning(this, "Erreur", "Impossible d'envoyer la demande d'aide : IP du professeur manquante.");
+void InterfaceQCM::on_pushButtonAppelProf_clicked()
+{
+    if (!mainWindow) {
+        qDebug() << "[InterfaceQCM] mainWindow est null, impossible d'envoyer le message";
         return;
     }
 
-    QByteArray message = "help";  // Message simple
-
-    quint16 bytesSent = static_cast<quint16>(udpSocketAppelProf.writeDatagram(message, QHostAddress(ipProf), HelpPort));
-
-    if (bytesSent == 0) {
-        qWarning() << "Erreur potentielle envoi appel prof à" << ipProf << ":" << udpSocketAppelProf.errorString();
-        QMessageBox::warning(this, "Erreur", "Échec possible de l'envoi de la demande d'aide.");
-    } else {
-        qDebug() << "Demande d'aide envoyée à" << ipProf << ", octets envoyés:" << bytesSent;
-        QMessageBox::information(this, "Demande envoyée", "Votre demande d'aide a été transmise au professeur.");
+    QString ipProf = mainWindow->getIpProf(); // Récupérer l'adresse IP du professeur
+    qDebug() << "[InterfaceQCM] Adresse IP prof récupérée :" << ipProf; // Log pour vérifier l'adresse IP du professeur
+    if (ipProf.isEmpty()) {
+        qDebug() << "[InterfaceQCM] IP Prof vide, envoi annulé";
+        return;
     }
+
+    quint16 port = 5557;
+    QString message = "help"; // Message à envoyer
+
+    mainWindow->sendCommandToProf(ipProf, port, message);
 }
-
-
 
 
 
