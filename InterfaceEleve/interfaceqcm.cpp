@@ -216,7 +216,7 @@ void InterfaceQCM::loadConsigneJson(QString &filePath)
         qWarning() << "Erreur Impossible d'ouvrir le fichier consigne JSON.";
         ui->pushButtonQuestionSuivante->hide();
         ui->pushButtonSoumettre->hide();
-        //ui->pushButtonAppelProf->hide();
+        ui->pushButtonAppelProf->hide();
 
         return;
     }
@@ -488,10 +488,19 @@ void InterfaceQCM::on_pushButtonSoumettre_clicked()
 
 void InterfaceQCM::sendCommandToProf(const QString &ip, quint16 port, const QString &message)
 {
+    qDebug() << "[sendCommandToProf] Envoi du message:" << message << "à l'adresse IP:" << ip << "sur le port:" << port;
+
     QUdpSocket socket;
     QByteArray data = message.toUtf8();
-    socket.writeDatagram(data, QHostAddress(ip), port);
+    qint64 bytesSent = socket.writeDatagram(data, QHostAddress(ip), port);
+
+    if (bytesSent == -1) {
+        qDebug() << "[sendCommandToProf] Erreur d'envoi:" << socket.errorString();
+    } else {
+        qDebug() << "[sendCommandToProf] Message envoyé avec succès (" << bytesSent << "octets)";
+    }
 }
+
 
 
 void InterfaceQCM::on_pushButtonAppelProf_clicked()
@@ -499,11 +508,9 @@ void InterfaceQCM::on_pushButtonAppelProf_clicked()
     ui->pushButtonAppelProf->setEnabled(false); // désactive le bouton
     ui->pushButtonAppelProf->setStyleSheet("border:1px solid white; border-radius:20px;");
 
-    // Récupérer l'adresse IP du professeur depuis MainWindow
     QString ipProf = mainWindow->getIpProf();
+    qDebug() << "[on_pushButtonAppelProf_clicked] IP du professeur récupérée:" << ipProf;
 
-    // Envoyer le message "help" à l'adresse IP du professeur
-    // Par exemple en utilisant une classe utilitaire réseau :
     sendCommandToProf(ipProf, 5557, "help");
 }
 
