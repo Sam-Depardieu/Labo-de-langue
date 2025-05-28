@@ -24,6 +24,9 @@ public:
     void callStudent(const QHostAddress& address, quint16 port);    //Test
     void callGroup(const QHostAddress& groupAddress, quint16 groupPort);    //Test
     void stopAudio();   //Test
+    void startAudioOutput(); //Test
+    void onReadyReadFromStudent(); //Test
+    void configureReceptionFromStudent(quint16 port); //Test
 
 
     //Gestion Audio
@@ -63,12 +66,16 @@ private:
     QHostAddress destinationAddress;    //Test
     quint16 destinationPort;    //Test
     bool isGroupCall;   //Test
+    QUdpSocket* udpSocketReceive; //Test
+    QAudioSink* audioOutput; //Test
+    QIODevice* audioOutputDevice; //Test
+    quint16 portReceptionEleve; //Test
 
 
 
     quint16 portEnvoyeur = 9999;
     quint16 portReceveur = 9998;
-    QUdpSocket udpSocketReceive;
+    //Test QUdpSocket udpSocketReceive;
     //Test QUdpSocket udpSocketSend;
 
     struct GroupInfo {

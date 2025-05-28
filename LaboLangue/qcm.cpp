@@ -123,6 +123,10 @@ void QCM::importQCM()
             return;
         }
 
+        if (rootObj.contains("nom") && rootObj["nom"].isString()) {
+            nomQCM->setText(rootObj["nom"].toString());
+        }
+
         QJsonArray questionsArray = rootObj.value("questions").toArray();
 
         for (const QJsonValue &questionValue : questionsArray) {
@@ -366,27 +370,27 @@ void QCM::saveQuestions()
         }
 
         QJsonObject questionData;
-        questionData["number"] = question->questionNumberSpin->value(); // Numéro de la question
-        questionData["text"] = question->questionEdit->text();          // Texte de la question
-        questionData["choicesAllowed"] = question->choiceCountSpin->value(); // Nombre de choix possibles
+        questionData["number"] = question->questionNumberSpin->value();
+        questionData["text"] = question->questionEdit->text();
+        questionData["choicesAllowed"] = question->choiceCountSpin->value();
 
-        QJsonArray answersArray; // Contient les réponses (avec "text" et "isCorrect")
-
+        QJsonArray answersArray;
         for (int i = 0; i < question->answerFields.size(); i++) {
             if (!question->answerFields[i]->text().isEmpty()) {
                 QJsonObject answerData;
-                answerData["isCorrect"] = question->correctAnswers[i]->isChecked(); // Bonne réponse ou non
-                answerData["text"] = question->answerFields[i]->text();             // Texte de la réponse
-                answersArray.append(answerData); // Ajoute la réponse au tableau
+                answerData["isCorrect"] = question->correctAnswers[i]->isChecked();
+                answerData["text"] = question->answerFields[i]->text();
+                answersArray.append(answerData);
             }
         }
 
-        questionData["answers"] = answersArray; // Ajoute les réponses à la question
-        questionsArray.append(questionData);   // Ajoute la question au tableau des questions
+        questionData["answers"] = answersArray;
+        questionsArray.append(questionData);
     }
 
-    // Crée un objet principal pour inclure les questions
+    // Objet racine qui contient le nom + les questions
     QJsonObject rootObject;
+    rootObject["nom"] = nomQCM->text(); // le nom du QCM
     rootObject["questions"] = questionsArray;
 
     // Chemin du fichier de sauvegarde

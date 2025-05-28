@@ -100,6 +100,7 @@ void InterfaceQCM::updateChronoLabel()
     if (remainingTime == QTime(0, 0)) {
         chronoTimer->stop();
         ui->chronoLabel->setText("00:00");
+        ui->chronoLabel->hide();
         ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: red; border: 2px solid red; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
         QMessageBox::information(this, "Fin de l'activité", "Pensez à mettre fin à l'activité en cours !");
     }
@@ -190,7 +191,7 @@ void InterfaceQCM::showCurrentQuestion()
     isButton3Image = (reponses.size() > 2) ? reponses[2] : false;
     isButton4Image = (reponses.size() > 3) ? reponses[3] : false;
 
-    ui->pushButton1->setStyleSheet(isButton1Image ? "background-color:blue; border:3px solid rgb(95,97,95); border-radius:20px;" : "background-color:blue; border-radius:20px;");
+    ui->pushButton1->setStyleSheet(isButton1Image ? "background-color:rgb(44,206,193); border:3px solid rgb(95,97,95); border-radius:20px;" : "background-color:rgb(44,206,193); border-radius:20px;");
     ui->pushButton2->setStyleSheet(isButton2Image ? "background-color:green; border:3px solid rgb(95,97,95); border-radius:20px;" : "background-color:green; border-radius:20px;");
     ui->pushButton3->setStyleSheet(isButton3Image ? "background-color:red; border:3px solid rgb(95,97,95); border-radius:20px;" : "background-color:red; border-radius:20px;");
     ui->pushButton4->setStyleSheet(isButton4Image ? "background-color:orange; border:3px solid rgb(95,97,95); border-radius:20px;" : "background-color:orange; border-radius:20px;");
@@ -212,7 +213,11 @@ void InterfaceQCM::loadConsigneJson(QString &filePath)
     QFile file(cheminConsigne);
 
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QMessageBox::warning(this, "Erreur", "Impossible d'ouvrir le fichier consigne JSON.");
+        qWarning() << "Erreur Impossible d'ouvrir le fichier consigne JSON.";
+        ui->pushButtonQuestionSuivante->hide();
+        ui->pushButtonSoumettre->hide();
+        ui->pushButtonAppelProf->hide();
+
         return;
     }
 
@@ -221,7 +226,7 @@ void InterfaceQCM::loadConsigneJson(QString &filePath)
 
     QJsonDocument doc = QJsonDocument::fromJson(jsonData);
     if (doc.isNull() || !doc.isObject()) {
-        QMessageBox::warning(this, "Erreur", "Le fichier consigne JSON n'est pas valide.");
+        qWarning() << "Erreur Le fichier consigne JSON n'est pas valide.";
         return;
     }
 
@@ -274,7 +279,7 @@ void InterfaceQCM::onAnswerClicked(QPushButton *bouton, bool /*status*/)
     bool *isButtonImage = nullptr;
 
     if (bouton == ui->pushButton1) {
-        color = "blue";
+        color = "rgb(44,206,193)";
         isButtonImage = &isButton1Image;
     }
     else if (bouton == ui->pushButton2) {
@@ -364,7 +369,7 @@ void InterfaceQCM::on_pushButton4_clicked()
 
 void InterfaceQCM::on_pushButtonEffacerReponse_clicked()
 {
-    ui->pushButton1->setStyleSheet("background-color:blue; border-radius:20px;");
+    ui->pushButton1->setStyleSheet("background-color:rgb(44,206,193); border-radius:20px;");
     ui->pushButton2->setStyleSheet("background-color:green; border-radius:20px;");
     ui->pushButton3->setStyleSheet("background-color:red; border-radius:20px;");
     ui->pushButton4->setStyleSheet("background-color:orange; border-radius:20px;");
@@ -484,15 +489,16 @@ void InterfaceQCM::on_pushButtonSoumettre_clicked()
 
 void InterfaceQCM::on_pushButtonAppelProf_clicked()
 {
-    ui->pushButtonAppelProf->setEnabled(false); // désactive le bouton
-    ui->pushButtonAppelProf->setStyleSheet("border:1px solid white; border-radius:20px;");
+    QString ipProf = "192.168.1.100"; // ou récupère dynamiquement
+    quint16 port = 5557;
+    QString message = "help";
 
-    // Récupérer l'adresse IP du professeur depuis MainWindow
-    QString ipProf = mainWindow->getIpProf();
-
-    // Envoyer le message "help" à l'adresse IP du professeur
-    mainWindow->sendCommandToProf(ipProf, 5557, "help");
-    qDebug() << "Appel prof envoyé à l'adresse IP : " << ipProf;
+    if (mainWindow) {
+        mainWindow->sendCommandToProf(ipProf, port, message);
+    } else {
+        qDebug() << "[InterfaceQCM] mainWindow est null, impossible d'envoyer le message";
+    }
 }
+
 
 

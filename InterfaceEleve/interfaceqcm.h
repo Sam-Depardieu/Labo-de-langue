@@ -63,12 +63,9 @@ private:
     bool isButtonAppelProfImage;
     void setButtonIcons();
 
-
-
     QString consigne = "";
     bool Professor = false;
     bool clignotementEtat;
-
 
     QJsonArray questionArray;
     int currentQuestionIndex;
@@ -87,7 +84,7 @@ private:
     QTimer *chronoTimer;
     QTime remainingTime;
     QTimer* clignotementTimer;
-    QMap<int, QVector<bool>> userAnswers;  // Index de la question → [état bouton1, bouton2, bouton3, bouton4]
+    QMap<int, QVector<bool>> userAnswers;
 
 
 };
