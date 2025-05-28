@@ -494,6 +494,7 @@ void InterfaceQCM::on_pushButtonAppelProf_clicked()
     }
 
     QString ipProf = mainWindow->getIpProf(); // Récupérer l'adresse IP du professeur
+    qDebug() << "[InterfaceQCM] Adresse IP prof récupérée :" << ipProf; // Log pour vérifier l'adresse IP du professeur
     if (ipProf.isEmpty()) {
         qDebug() << "[InterfaceQCM] IP Prof vide, envoi annulé";
         return;
@@ -504,6 +505,7 @@ void InterfaceQCM::on_pushButtonAppelProf_clicked()
 
     mainWindow->sendCommandToProf(ipProf, port, message);
 }
+
 
 
 

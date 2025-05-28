@@ -350,6 +350,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     QMainWindow::keyPressEvent(event);
 }
 
+
 void MainWindow::keyReleaseEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Control) {
@@ -505,7 +506,8 @@ void MainWindow::receiveInter()
         }
 
         if (response == "QCM") {
-            currentChild = new InterfaceQCM(this, this); // Passer MainWindow à InterfaceQCM
+            qDebug() << "👤 Adresse IP prof passée à InterfaceQCM :" << ipProf; // Log pour vérifier l'adresse IP du professeur
+            currentChild = new InterfaceQCM(this); // Passer l'adresse IP du professeur
         }
         else if (response == "ecoute") {
             interAudio = new InterfaceAudio(false, this);
@@ -533,6 +535,7 @@ void MainWindow::receiveInter()
         }
     }
 }
+
 
 
 void MainWindow::startChrono(const QTime &duree)
