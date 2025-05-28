@@ -373,6 +373,7 @@ void MainWindow::receiveInfo() {
 
         QHostAddress sender;
         quint16 senderPort;
+        ipProf = sender.toString();
 
         udpSocketInfo.readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
 
@@ -578,13 +579,17 @@ void MainWindow::stopClignotement()
 
 void MainWindow::sendCommandToProf(const QString& ipProf, int port, const QString& command)
 {
-    if (command.isEmpty()) return;
+    QUdpSocket socket;
+    QByteArray data = command.toUtf8();
+    QHostAddress address(ipProf);
 
-    QByteArray datagram = command.toUtf8();
-    QHostAddress addr(ipProf);
-    udpSocket->writeDatagram(datagram, addr, port);
-    qDebug() << "[Command] vers" << ipProf << ":" << command;
+    socket.writeDatagram(data, address, port);
+    // Pas besoin de socket persistant ici, on crée juste pour envoyer
+    qDebug() << "[Eleve] Commande envoyée à" << ipProf << ":" << command;
+
 }
+
+
 void MainWindow::receiveEndMessage()
 {
     QByteArray datagram;

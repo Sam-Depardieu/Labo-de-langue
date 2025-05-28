@@ -75,6 +75,7 @@ private:
     bool isF1Pressed = false;
     bool actionDone  = false;
 
+
     QString nomEleve = "";
     QString nomProf = "";
     QString ipProf = "";
@@ -121,6 +122,8 @@ private:
 
     void startLoading();
     void stopLoading();
+
+
 
 signals:
     void chronoMisAJour(const QString &temps);
