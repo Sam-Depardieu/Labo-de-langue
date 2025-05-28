@@ -66,7 +66,7 @@ private slots:
     void stopClignotement();
     void startChrono(const QTime &duree);
     void receiveEndMessage(); // Slot pour recevoir le message "END"
-    void copyFolderToShare();
+    void copyFolderToSession();
 
 private:
     Ui::MainWindow *ui;

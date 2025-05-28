@@ -599,11 +599,11 @@ void MainWindow::receiveEndMessage()
     QString message = QString::fromUtf8(datagram);
     if (message.trimmed() == "END") {
         // Lancer le processus de copie du dossier
-        copyFolderToShare();
+        copyFolderToSession();
     }
 }
 
-void MainWindow::copyFolderToShare()
+void MainWindow::copyFolderToSession()
 {
     // Chemin du dossier à envoyer (dossier Travail)
     const QString folderPath = QDir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).filePath("Travail");
