@@ -30,12 +30,10 @@ class Ui_MainWindow
 public:
     QWidget *centralwidget;
     QPushButton *LigneHaut;
-    QPushButton *PresenceButton;
     QPushButton *SessionButton;
     QPushButton *AppelButton;
     QPushButton *StatutButton;
     QPushButton *AideButton;
-    QPushButton *EnregistrementButton;
     QGraphicsView *PlanClasse;
     QGraphicsView *ParametrageSession;
     QLabel *NomProfLabel;
@@ -111,22 +109,12 @@ public:
         LigneHaut->setGeometry(QRect(-40, -40, 1641, 101));
         LigneHaut->setAutoFillBackground(false);
         LigneHaut->setStyleSheet(QString::fromUtf8("background-color: rgb(0, 151, 178);"));
-        PresenceButton = new QPushButton(centralwidget);
-        PresenceButton->setObjectName("PresenceButton");
-        PresenceButton->setGeometry(QRect(305, 10, 91, 41));
+        SessionButton = new QPushButton(centralwidget);
+        SessionButton->setObjectName("SessionButton");
+        SessionButton->setGeometry(QRect(395, 10, 91, 41));
         QSizePolicy sizePolicy(QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Ignored);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(PresenceButton->sizePolicy().hasHeightForWidth());
-        PresenceButton->setSizePolicy(sizePolicy);
-        PresenceButton->setStyleSheet(QString::fromUtf8("background-color: black;\n"
-"font: 9pt \"Segoe UI\";\n"
-"color: white;\n"
-"border: 1px solid white;\n"
-"border-radius: 10px;"));
-        SessionButton = new QPushButton(centralwidget);
-        SessionButton->setObjectName("SessionButton");
-        SessionButton->setGeometry(QRect(405, 10, 91, 41));
         sizePolicy.setHeightForWidth(SessionButton->sizePolicy().hasHeightForWidth());
         SessionButton->setSizePolicy(sizePolicy);
         SessionButton->setStyleSheet(QString::fromUtf8("background-color: black;\n"
@@ -136,7 +124,7 @@ public:
 "border-radius: 10px;"));
         AppelButton = new QPushButton(centralwidget);
         AppelButton->setObjectName("AppelButton");
-        AppelButton->setGeometry(QRect(605, 10, 91, 41));
+        AppelButton->setGeometry(QRect(500, 10, 91, 41));
         sizePolicy.setHeightForWidth(AppelButton->sizePolicy().hasHeightForWidth());
         AppelButton->setSizePolicy(sizePolicy);
         AppelButton->setAutoFillBackground(false);
@@ -147,7 +135,7 @@ public:
 "border-radius: 10px;"));
         StatutButton = new QPushButton(centralwidget);
         StatutButton->setObjectName("StatutButton");
-        StatutButton->setGeometry(QRect(705, 10, 91, 41));
+        StatutButton->setGeometry(QRect(605, 10, 91, 41));
         QSizePolicy sizePolicy1(QSizePolicy::Policy::MinimumExpanding, QSizePolicy::Policy::Ignored);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
@@ -161,7 +149,7 @@ public:
 "border-radius: 10px;"));
         AideButton = new QPushButton(centralwidget);
         AideButton->setObjectName("AideButton");
-        AideButton->setGeometry(QRect(805, 10, 91, 41));
+        AideButton->setGeometry(QRect(710, 10, 91, 41));
         QSizePolicy sizePolicy2(QSizePolicy::Policy::Minimum, QSizePolicy::Policy::MinimumExpanding);
         sizePolicy2.setHorizontalStretch(5);
         sizePolicy2.setVerticalStretch(5);
@@ -169,16 +157,6 @@ public:
         AideButton->setSizePolicy(sizePolicy2);
         AideButton->setAutoFillBackground(false);
         AideButton->setStyleSheet(QString::fromUtf8("background-color: black;\n"
-"font: 9pt \"Segoe UI\";\n"
-"color: white;\n"
-"border: 1px solid white;\n"
-"border-radius: 10px;"));
-        EnregistrementButton = new QPushButton(centralwidget);
-        EnregistrementButton->setObjectName("EnregistrementButton");
-        EnregistrementButton->setGeometry(QRect(505, 10, 91, 41));
-        sizePolicy.setHeightForWidth(EnregistrementButton->sizePolicy().hasHeightForWidth());
-        EnregistrementButton->setSizePolicy(sizePolicy);
-        EnregistrementButton->setStyleSheet(QString::fromUtf8("background-color: black;\n"
 "font: 9pt \"Segoe UI\";\n"
 "color: white;\n"
 "border: 1px solid white;\n"
@@ -298,7 +276,7 @@ public:
         ParametrageEleve->setStyleSheet(QString::fromUtf8("background-color: white;"));
         CreationButton = new QPushButton(centralwidget);
         CreationButton->setObjectName("CreationButton");
-        CreationButton->setGeometry(QRect(905, 10, 91, 41));
+        CreationButton->setGeometry(QRect(810, 10, 91, 41));
         sizePolicy.setHeightForWidth(CreationButton->sizePolicy().hasHeightForWidth());
         CreationButton->setSizePolicy(sizePolicy);
         CreationButton->setStyleSheet(QString::fromUtf8("background-color: black;\n"
@@ -467,12 +445,10 @@ public:
         nomCreationGroupeLabel->raise();
         alignerTableau_2->raise();
         StatutTableauGroupe->raise();
-        PresenceButton->raise();
         SessionButton->raise();
         AppelButton->raise();
         StatutButton->raise();
         AideButton->raise();
-        EnregistrementButton->raise();
         PlanClasse->raise();
         NomProfLabel->raise();
         NomProfLineEdit->raise();
@@ -531,12 +507,10 @@ public:
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
         LigneHaut->setText(QString());
-        PresenceButton->setText(QCoreApplication::translate("MainWindow", "Pr\303\251sence", nullptr));
         SessionButton->setText(QCoreApplication::translate("MainWindow", "Nouv. Session", nullptr));
         AppelButton->setText(QCoreApplication::translate("MainWindow", "Appeler tous", nullptr));
         StatutButton->setText(QCoreApplication::translate("MainWindow", "Statut", nullptr));
         AideButton->setText(QCoreApplication::translate("MainWindow", "Aide", nullptr));
-        EnregistrementButton->setText(QCoreApplication::translate("MainWindow", "Enregistrement", nullptr));
         NomProfLabel->setText(QCoreApplication::translate("MainWindow", "Votre Nom :", nullptr));
         ChoixActLabel->setText(QCoreApplication::translate("MainWindow", "Type activit\303\251 :", nullptr));
         DureeLabel->setText(QCoreApplication::translate("MainWindow", "Dur\303\251e activit\303\251 :", nullptr));

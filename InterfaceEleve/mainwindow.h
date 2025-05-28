@@ -47,7 +47,7 @@ public:
     QString getIpProf() {return ipProf;}
     QString getNomFichier() {return nomFichier;}
 
-    void sendCommandToProf(const QString &ipProf, quint16 port, const QString &message);
+    void sendCommandToProf(const QString& ipProf, int port, const QString& command);
 
 
     ~MainWindow();
@@ -66,7 +66,7 @@ private slots:
     void stopClignotement();
     void startChrono(const QTime &duree);
     void receiveEndMessage(); // Slot pour recevoir le message "END"
-    void copyFolderToSession();
+    void moveAndRenameFolder();
 
 private:
     Ui::MainWindow *ui;
@@ -121,7 +121,6 @@ private:
 
     void startLoading();
     void stopLoading();
-
 
 signals:
     void chronoMisAJour(const QString &temps);
