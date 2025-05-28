@@ -27,7 +27,6 @@ public:
     QPushButton *pushButton_Play;
     QPushButton *pushButton_Pause;
     QPushButton *pushButton_Avant10;
-    QPushButton *pushButton_SelectVideo;
     QSlider *horizontalSlider;
     QPushButton *pushButtonReset;
     QLabel *chronoLabel;
@@ -54,26 +53,20 @@ public:
         pushButton_Avant10 = new QPushButton(InterfaceVideo);
         pushButton_Avant10->setObjectName("pushButton_Avant10");
         pushButton_Avant10->setGeometry(QRect(300, 430, 45, 45));
-        pushButton_SelectVideo = new QPushButton(InterfaceVideo);
-        pushButton_SelectVideo->setObjectName("pushButton_SelectVideo");
-        pushButton_SelectVideo->setGeometry(QRect(10, 0, 141, 24));
-        QFont font;
-        font.setPointSize(11);
-        pushButton_SelectVideo->setFont(font);
         horizontalSlider = new QSlider(InterfaceVideo);
         horizontalSlider->setObjectName("horizontalSlider");
         horizontalSlider->setGeometry(QRect(10, 410, 763, 15));
-        horizontalSlider->setOrientation(Qt::Orientation::Horizontal);
+        horizontalSlider->setOrientation(Qt::Horizontal);
         pushButtonReset = new QPushButton(InterfaceVideo);
         pushButtonReset->setObjectName("pushButtonReset");
         pushButtonReset->setGeometry(QRect(20, 430, 45, 45));
         chronoLabel = new QLabel(InterfaceVideo);
         chronoLabel->setObjectName("chronoLabel");
         chronoLabel->setGeometry(QRect(120, 430, 111, 45));
-        QFont font1;
-        font1.setFamilies({QString::fromUtf8("Segoe UI")});
-        font1.setBold(true);
-        chronoLabel->setFont(font1);
+        QFont font;
+        font.setFamilies({QString::fromUtf8("Segoe UI")});
+        font.setBold(true);
+        chronoLabel->setFont(font);
         chronoLabel->setStyleSheet(QString::fromUtf8("QLabel {\n"
 "	background-color: rgb(0, 151, 178);\n"
 "    color: white;\n"
@@ -90,7 +83,7 @@ public:
         verticalSlider_sonVideo = new QSlider(InterfaceVideo);
         verticalSlider_sonVideo->setObjectName("verticalSlider_sonVideo");
         verticalSlider_sonVideo->setGeometry(QRect(770, 250, 16, 160));
-        verticalSlider_sonVideo->setOrientation(Qt::Orientation::Vertical);
+        verticalSlider_sonVideo->setOrientation(Qt::Vertical);
         pushButton_Son = new QPushButton(InterfaceVideo);
         pushButton_Son->setObjectName("pushButton_Son");
         pushButton_Son->setGeometry(QRect(745, 430, 45, 45));
@@ -117,7 +110,6 @@ public:
         pushButton_Play->raise();
         pushButton_Pause->raise();
         pushButton_Avant10->raise();
-        pushButton_SelectVideo->raise();
         horizontalSlider->raise();
         pushButtonReset->raise();
         chronoLabel->raise();
@@ -137,7 +129,6 @@ public:
         pushButton_Play->setText(QString());
         pushButton_Pause->setText(QString());
         pushButton_Avant10->setText(QString());
-        pushButton_SelectVideo->setText(QCoreApplication::translate("InterfaceVideo", "Selectionner Video", nullptr));
         pushButtonReset->setText(QString());
         chronoLabel->setText(QCoreApplication::translate("InterfaceVideo", "00:00", nullptr));
         pushButton_Son->setText(QString());

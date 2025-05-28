@@ -65,24 +65,6 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_SelectVideo">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>0</y>
-     <width>141</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>11</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Selectionner Video</string>
-   </property>
-  </widget>
   <widget class="QSlider" name="horizontalSlider">
    <property name="geometry">
     <rect>
@@ -93,7 +75,7 @@
     </rect>
    </property>
    <property name="orientation">
-    <enum>Qt::Orientation::Horizontal</enum>
+    <enum>Qt::Horizontal</enum>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButtonReset">
@@ -154,7 +136,7 @@
     </rect>
    </property>
    <property name="orientation">
-    <enum>Qt::Orientation::Vertical</enum>
+    <enum>Qt::Vertical</enum>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton_Son">
@@ -225,7 +207,6 @@
   <zorder>pushButton_Play</zorder>
   <zorder>pushButton_Pause</zorder>
   <zorder>pushButton_Avant10</zorder>
-  <zorder>pushButton_SelectVideo</zorder>
   <zorder>horizontalSlider</zorder>
   <zorder>pushButtonReset</zorder>
   <zorder>chronoLabel</zorder>
