@@ -113,7 +113,8 @@ Ajoutez un montage fichier sur les raspberry :
 
  - Montage du partage :
 	 - mkdir /mnt/partage 
-	 - sudo mount -t cifs //{ip_prof}/Activites /mnt/partage -o username=$usr,password=$passwd,uid=$(id -u),gid=$(id -g),cache=none
+	 - (avec mot de passe) sudo mount -t cifs //{ip_prof}/Activites /mnt/partage -o username=$usr,password=$passwd,uid=$(id -u),gid=$(id -g),cache=none
+	 - (sans mot de passe) sudo mount -t cifs //{ip_prof}/Activites /mnt/partage -o guest,uid=$(id -u),gid=$(id -g),cache=none
 
  - Initialisation raspberry pi :
 	 - mdkir /Documents/Projet
