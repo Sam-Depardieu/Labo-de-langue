@@ -1092,7 +1092,7 @@ void MainWindow::on_Communication_clicked()
 
 void MainWindow::on_nomEleveLineEdit_editingFinished()
 {
-    prof->sendCommandToStudent(eleveActuellementParametre->getIP(), 5560, "nomEleve," + ui->nomEleveLineEdit->text());
+    prof->sendCommandToStudent(eleveActuellementParametre->getIP(), 5558, "nomEleve," + ui->nomEleveLineEdit->text());
     updateEleveNom(eleveActuellementParametre, ui->nomEleveLineEdit->text());
 }
 

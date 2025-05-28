@@ -44,7 +44,7 @@ color: black;
    <widget class="QPushButton" name="PresenceButton">
     <property name="geometry">
      <rect>
-      <x>350</x>
+      <x>305</x>
       <y>10</y>
       <width>91</width>
       <height>41</height>
@@ -70,7 +70,7 @@ border-radius: 10px;</string>
    <widget class="QPushButton" name="SessionButton">
     <property name="geometry">
      <rect>
-      <x>450</x>
+      <x>405</x>
       <y>10</y>
       <width>91</width>
       <height>41</height>
@@ -96,7 +96,7 @@ border-radius: 10px;</string>
    <widget class="QPushButton" name="AppelButton">
     <property name="geometry">
      <rect>
-      <x>650</x>
+      <x>605</x>
       <y>10</y>
       <width>91</width>
       <height>41</height>
@@ -125,7 +125,7 @@ border-radius: 10px;</string>
    <widget class="QPushButton" name="StatutButton">
     <property name="geometry">
      <rect>
-      <x>750</x>
+      <x>705</x>
       <y>10</y>
       <width>91</width>
       <height>41</height>
@@ -154,7 +154,7 @@ border-radius: 10px;</string>
    <widget class="QPushButton" name="AideButton">
     <property name="geometry">
      <rect>
-      <x>850</x>
+      <x>805</x>
       <y>10</y>
       <width>91</width>
       <height>41</height>
@@ -183,7 +183,7 @@ border-radius: 10px;</string>
    <widget class="QPushButton" name="EnregistrementButton">
     <property name="geometry">
      <rect>
-      <x>550</x>
+      <x>505</x>
       <y>10</y>
       <width>91</width>
       <height>41</height>
@@ -623,7 +623,7 @@ border-radius: 10px;</string>
    <widget class="QPushButton" name="CreationButton">
     <property name="geometry">
      <rect>
-      <x>950</x>
+      <x>905</x>
       <y>10</y>
       <width>91</width>
       <height>41</height>
@@ -643,7 +643,7 @@ border: 1px solid white;
 border-radius: 10px;</string>
     </property>
     <property name="text">
-     <string>Creation</string>
+     <string>Creation QCM</string>
     </property>
    </widget>
    <widget class="QPushButton" name="microSonButton">
