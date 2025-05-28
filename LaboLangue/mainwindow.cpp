@@ -60,7 +60,6 @@ MainWindow::MainWindow(QWidget *parent)
     scene = new QGraphicsScene(0, 0, 631, 681, this);
     ui->PlanClasse->setScene(scene);
 
-
     ui->ParametrageEleve->setVisible(false);
 
     // Désactivation des boutons
@@ -174,6 +173,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     udpSocketAppel = new QUdpSocket(this);
     connect(udpSocketAppel, &QUdpSocket::readyRead, this, &MainWindow::demandeAide);
+
+    on_modeSombreButton_clicked();
 }
 
 void MainWindow::demandeAide()

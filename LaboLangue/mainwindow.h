@@ -192,7 +192,7 @@ private:
     QString nomProf;
     int idProf = -1;
     int idClasse = -1;
-    int idTypeActivite = -1;
+    int idTypeActivite = 0;
     QString duree = "00:00";
     QString nomTypeActivite;
     QString ip;
