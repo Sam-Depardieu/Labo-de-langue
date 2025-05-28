@@ -126,7 +126,7 @@ public:
 ""));
         label = new QLabel(InterfaceEnregistrement);
         label->setObjectName("label");
-        label->setGeometry(QRect(40, 185, 151, 31));
+        label->setGeometry(QRect(30, 171, 171, 31));
         QFont font1;
         font1.setBold(true);
         label->setFont(font1);

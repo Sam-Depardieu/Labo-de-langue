@@ -66,7 +66,7 @@ public:
         pushButton1->setObjectName("pushButton1");
         pushButton1->setGeometry(QRect(150, 230, 241, 91));
         pushButton1->setStyleSheet(QString::fromUtf8("QPushButton {\n"
-"    background-color:blue; /* Fond bleu */\n"
+"    background-color:rgb(44,206,193); /* Fond bleu */\n"
 "    border-radius: 20px; /* Optionnel : coins arrondis */\n"
 "}"));
         pushButton2 = new QPushButton(InterfaceQCM);
@@ -141,7 +141,7 @@ public:
 ""));
         label = new QLabel(InterfaceQCM);
         label->setObjectName("label");
-        label->setGeometry(QRect(40, 195, 81, 31));
+        label->setGeometry(QRect(30, 190, 91, 41));
         QFont font1;
         font1.setBold(true);
         label->setFont(font1);

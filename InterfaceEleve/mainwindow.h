@@ -22,6 +22,7 @@
 #include <QDialog>
 #include <QMovie>
 
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -64,6 +65,8 @@ private slots:
     void faireClignoterLabel();   // gère le clignotement
     void stopClignotement();
     void startChrono(const QTime &duree);
+    void receiveEndMessage(); // Slot pour recevoir le message "END"
+    void copyFolderToShare();
 
 private:
     Ui::MainWindow *ui;
@@ -79,8 +82,10 @@ private:
     QString sessionPATH = "";
     QMap<int, Student*> students;
     Student* currentStudent = nullptr;  // membre de la classe MainWindow
+    QUdpSocket *udpSocket;
 
-    QUdpSocket udpSocket;
+    QUdpSocket *udpSocketEnd;
+    quint16 EndPort = 5557;
 
     QUdpSocket udpSocketInfo;
     quint16 infoPort = 5558;
