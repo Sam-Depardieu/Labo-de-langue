@@ -58,6 +58,8 @@ void Professeur::callStudent(const QHostAddress& address, quint16 port) //Test
     destinationPort = port;
     isGroupCall = false;
     startAudio();
+    startAudioOutput();
+    configureReceptionFromStudent(5999);
     qDebug() << "[Prof] Appel un élève à" << address.toString() << ":" << port;
 }
 
@@ -98,6 +100,63 @@ void Professeur::stopAudio() //Test
     }
     audioInputDevice = nullptr;
 }
+void Professeur::startAudioOutput() //Test
+{
+    QAudioFormat format;
+    format.setSampleRate(44100);
+    format.setChannelCount(1);
+    format.setSampleFormat(QAudioFormat::Int16);
+
+    QAudioDevice outputDevice = QMediaDevices::defaultAudioOutput();
+    if (!outputDevice.isFormatSupported(format)) {
+        qDebug() << "[Prof] Format audio non supporté en sortie";
+        return;
+    }
+
+    audioOutput = new QAudioSink(outputDevice, format, this);
+    audioOutputDevice = audioOutput->start();
+    if (!audioOutputDevice) {
+        qDebug() << "[Prof] Erreur de démarrage du haut-parleur";
+    }
+}
+void Professeur::onReadyReadFromStudent() //Test
+{
+    while (udpSocketReceive->hasPendingDatagrams()) {
+        QByteArray buffer;
+        buffer.resize(int(udpSocketReceive->pendingDatagramSize()));
+        udpSocketReceive->readDatagram(buffer.data(), buffer.size());
+
+        if (audioOutputDevice) {
+            audioOutputDevice->write(buffer);
+        }
+    }
+}
+void Professeur::configureReceptionFromStudent(quint16 port) //Test
+{
+    portReceptionEleve = port;
+
+    if (!udpSocketReceive) {
+        udpSocketReceive = new QUdpSocket(this);
+        connect(udpSocketReceive, &QUdpSocket::readyRead, this, &Professeur::onReadyReadFromStudent);
+    }
+
+    bool ok = udpSocketReceive->bind(QHostAddress::AnyIPv4, portReceptionEleve);
+    if (!ok) {
+        qDebug() << "[Prof] Erreur: Impossible de binder sur le port" << portReceptionEleve;
+    } else {
+        qDebug() << "[Prof] En écoute sur le port" << portReceptionEleve << " pour les élèves";
+    }
+}
+
+
+
+
+
+
+
+
+
+
 
 
 void Professeur::addAudioGroup(const QString& groupName, quint16 portEnvoyeur, quint16 portReceveur)
