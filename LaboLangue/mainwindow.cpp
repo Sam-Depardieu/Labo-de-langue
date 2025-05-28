@@ -1350,8 +1350,6 @@ void MainWindow::onClicked_itemBoutonAjouterGroupe(iconEleveGroup* eleve)
 }
 
 
-
-
 void MainWindow::on_nomGroupeLineEdit_returnPressed()
 {
     eleveActuellementParametre->setNomGroupe(ui->nomGroupeLineEdit->text());
