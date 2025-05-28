@@ -9,47 +9,6 @@ Student::Student(QObject* parent)
     isMuted(false)
 {
     connect(udpSocketReceive, &QUdpSocket::readyRead, this, &Student::onReadyRead);
-
-    auto inputDevices = QMediaDevices::audioInputs();
-
-    qDebug() << "Périphériques d'entrée disponibles :";
-
-    // Afficher les noms des périphériques d'entrée audio
-    for (const QAudioDevice &device : inputDevices) {
-        qDebug() << "ENTREE :" << device.id() << "," << device.description();
-    }
-    for (const QAudioDevice &device : inputDevices) {
-        qDebug() << "Périphérique d'entrée : " << device.description();
-
-        QAudioDevice deviceInfo(device);
-        QAudioFormat format;
-
-        // Vérification de plusieurs configurations de format
-        QList<QAudioFormat::SampleFormat> formatsToTest = {
-            QAudioFormat::Int16,
-            QAudioFormat::Int32,
-            QAudioFormat::Float,
-            QAudioFormat::UInt8
-        };
-
-        for (QAudioFormat::SampleFormat formatType : formatsToTest) {
-            format.setSampleFormat(formatType);
-            format.setSampleRate(44100);  // Fréquence d'échantillonnage à 44.1 kHz
-            format.setChannelCount(2);    // Mono
-
-            if (deviceInfo.isFormatSupported(format)) {
-                qDebug() << "Format supporté :"
-                         << "SampleRate:" << format.sampleRate()
-                         << "Channels:" << format.channelCount()
-                         << "SampleFormat:" << format.sampleFormat();
-            } else {
-                qDebug() << "Format non supporté :"
-                         << "SampleRate:" << format.sampleRate()
-                         << "Channels:" << format.channelCount()
-                         << "SampleFormat:" << format.sampleFormat();
-            }
-        }
-    }
 }
 
 Student::~Student()
@@ -118,7 +77,7 @@ QAudioFormat Student::getAudioFormat() const
 {
     QAudioFormat format;
     format.setSampleRate(44100);              // 44.1 kHz
-    format.setChannelCount(2);                // Mono
+    format.setChannelCount(1);                // Mono
     format.setSampleFormat(QAudioFormat::Int16); // 16 bits int
     return format;
 }
