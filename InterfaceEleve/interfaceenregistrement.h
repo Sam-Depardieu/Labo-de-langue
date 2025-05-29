@@ -48,24 +48,23 @@ public:
     ~InterfaceEnregistrement();
     void receiveResponse();
 
-private slots:
-    void on_pushButtonSpeak_clicked();
-    void on_pushButtonPause_clicked();
-    void on_pushButtonClear_clicked();
+private slots: 
     void on_pushButtonSon_clicked();
-    void on_pushButtonRetourArriere_clicked();
     void on_pushButtonAppelProf_clicked();
     void on_pushButtonEnregistrer_clicked();
+    void on_pushButtonSpeak_clicked();
     void on_pushButtonPlay_clicked();
+    void on_pushButtonRetourArriere_clicked();
+    void on_pushButtonClear_clicked();
+    void on_pushButtonPause_clicked();
     void animateButtonClick(QPushButton* btn);
     void updateChrono();
     void rewindChrono();
     void updateChronoLabel();
     void updateChronoGlobal();
     void faireClignoterLabel();
-
-    void onRecorderStateChanged(QMediaRecorder::RecorderState state);
     void onRecorderErrorOccurred(QMediaRecorder::Error error, const QString &errorString);
+    void onRecorderStateChanged(QMediaRecorder::RecorderState state);
     void checkPlaybackPosition(qint64 position);
 
 
@@ -76,7 +75,6 @@ private:
 
     bool isButtonAppelProfImage;
 
-    // Audio/vidéo
     QMediaRecorder *mediaRecorder;
     QMediaPlayer *player;
     QAudioOutput *audioOutput;

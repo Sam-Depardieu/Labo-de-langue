@@ -144,7 +144,6 @@ void InterfaceEnregistrement::setButtonIcons()
     setIcon(ui->pushButtonAppelProf, ":/images/CallProf");
     setIcon(ui->pushButtonPlay,":/images/Play");
 }
-
 void InterfaceEnregistrement::on_pushButtonSpeak_clicked()
 {
     if (timer->isActive()) {
@@ -380,15 +379,12 @@ void InterfaceEnregistrement::on_pushButtonAppelProf_clicked()
     quint16 profPort = 45454;
     udpSocket->writeDatagram(data, profAddress, profPort);
 }
-
 void InterfaceEnregistrement::checkPlaybackPosition(qint64 position)
 {
-    if (position / 1000 >= totalSecondes) {
+    if( position /1000 >= totalSecondes){
         player->stop();
-        qDebug() << "Lecture arrêtée car elle a dépassé le temps du chronomètre";
     }
 }
-
 void InterfaceEnregistrement::onRecorderStateChanged(QMediaRecorder::RecorderState state)
 {
     switch (state) {
