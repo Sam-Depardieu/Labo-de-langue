@@ -123,36 +123,3 @@ QRectF iconEleveGroup::boundingRect() const {
 
     return baseRect;
 }
-
-QColor iconEleveGroup::couleurDepuisEtat(CouleurEtat etat) {
-    switch (etat) {
-    case CouleurEtat::Rouge:      return Qt::red;
-    case CouleurEtat::Vert:       return Qt::green;
-    case CouleurEtat::Bleu:       return Qt::blue;
-    case CouleurEtat::Jaune:      return Qt::yellow;
-    case CouleurEtat::Orange:     return QColor(255, 165, 0);
-    case CouleurEtat::Violet:     return QColor(128, 0, 128);
-    case CouleurEtat::Rose:       return QColor(255, 105, 180);
-    case CouleurEtat::Marron:     return QColor(139, 69, 19);
-    case CouleurEtat::Cyan:       return Qt::cyan;
-    case CouleurEtat::Magenta:    return Qt::magenta;
-    case CouleurEtat::Turquoise:  return QColor(64, 224, 208);
-    case CouleurEtat::Olive:      return QColor(128, 128, 0);
-    case CouleurEtat::Corail:     return QColor(255, 127, 80);
-    case CouleurEtat::Indigo:     return QColor(75, 0, 130);
-    case CouleurEtat::Menthe:     return QColor(152, 255, 152);
-    default:                      return Qt::gray;
-    }
-}
-
-void iconEleveGroup::setEtatCouleurEnum(CouleurEtat etat) {
-    setCouleurGroup(couleurDepuisEtat(etat));
-    etatActuel = etat;
-}
-
-void iconEleveGroup::setCouleurGroup(const QColor &couleur) {
-    if (groupColor) {
-        groupColor->setBrush(couleur);
-        groupColor->setVisible(true); // Affiche la pastille si elle ne l'était pas
-    }
-}
