@@ -121,8 +121,8 @@ Ajoutez un montage fichier sur les raspberry :
 	 - git clone [https://github.com/Sam-Depardieu/Labo-de-langue.git]
 	 - cd Documents/projet/Labo-de-Langue/InterfaceEleve/build
 	 - sudo apt update && sudo apt upgrade
-         - sudo apt install build-essential cmake
-	 - sudo apt install qt6-base-dev qt6-multimedia-dev qt6-websockets-dev libqt6multimedia6 libqt6multimediawidgets6
+	 - sudo apt install build-essential cmake
+  	 - sudo apt install qt6-base-dev qt6-multimedia-dev qt6-websockets-dev libqt6multimedia6 libqt6multimediawidgets6 qt6-wayland
 	 - sudo apt install -y libmariadb-dev libqt6sql6-mysql
 	 - make clean 				//Si besoin
 	 - cmake --build .
