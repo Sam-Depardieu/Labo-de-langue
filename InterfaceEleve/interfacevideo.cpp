@@ -345,6 +345,18 @@ void InterfaceVideo::on_pushButtonReset_clicked()
                                  .arg(resetCount)
                                  .arg(maxResets));
 }
+void InterfaceVideo::on_pushButtonAppelProf_clicked()
+{
+    ui->pushButtonAppelProf->setEnabled(false); // désactive le bouton
+    ui->pushButtonAppelProf->setStyleSheet("border:1px solid white; border-radius:20px;");
+
+    // Récupérer l'adresse IP du professeur depuis MainWindow
+    QString ipProf = mainWindow->getIpProf();
+
+    // Envoyer le message "help" à l'adresse IP du professeur
+    mainWindow->sendCommandToProf(ipProf, 5557, "help");
+    qDebug() << "Appel prof envoyé à l'adresse IP : " << ipProf;
+}
 void InterfaceVideo::on_pushButton_Son_clicked()
 {
     // 1. Afficher ou cacher le slider de volume
@@ -371,17 +383,4 @@ void InterfaceVideo::on_pushButton_Son_clicked()
     }
 }
 
-
-void InterfaceVideo::on_pushButtonAppelProf_clicked()
-{
-    ui->pushButtonAppelProf->setEnabled(false); // désactive le bouton
-    ui->pushButtonAppelProf->setStyleSheet("border:1px solid white; border-radius:20px;");
-
-    // Récupérer l'adresse IP du professeur depuis MainWindow
-    QString ipProf = mainWindow->getIpProf();
-
-    // Envoyer le message "help" à l'adresse IP du professeur
-    mainWindow->sendCommandToProf(ipProf, 5557, "help");
-    qDebug() << "Appel prof envoyé à l'adresse IP : " << ipProf;
-}
 

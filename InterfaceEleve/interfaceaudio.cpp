@@ -53,7 +53,7 @@ InterfaceAudio::InterfaceAudio(bool co,MainWindow* parentWindow, QWidget *parent
     }
 
     this->setWindowTitle("Page de Comprehension Orale");
-     player->setAudioOutput(audioOutput);
+    player->setAudioOutput(audioOutput);
     QPixmap imagePlay(":/images/Play"); // Charge l'image
     if (imagePlay.isNull()) {
         qWarning() << "Erreur : image non trouvée !";

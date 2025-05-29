@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 {
     ui->setupUi(this);
-    mountNetworkDrive();
+   // mountNetworkDrive();
 
     //Affiche juste la barre de titre, sans les boutons Fermer, Minimiser, Maximiser
     //setWindowFlags(Qt::Dialog | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
@@ -39,14 +39,14 @@ MainWindow::MainWindow(QWidget *parent)
     connect(shortcut, &QShortcut::activated, this, [this]() {
         auto *rec = new InterfaceEnregistrement(this);
         rec->setAttribute(Qt::WA_DeleteOnClose);
-        rec->show();
+        rec->showFullScreen();
         interface = "rec";
     });
     shortcutQcm = new QShortcut(QKeySequence(Qt::Key_2), this);
     connect(shortcutQcm, &QShortcut::activated, this, [this]() {
         auto *qcm = new InterfaceQCM(this);
         qcm->setAttribute(Qt::WA_DeleteOnClose);
-        qcm->show();
+        qcm->showFullScreen();
         interface = "qcm";
     });
 
@@ -55,7 +55,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(shortcutAudio, &QShortcut::activated, this, [this]() {
         auto *audio = new InterfaceAudio(false, this);
         audio->setAttribute(Qt::WA_DeleteOnClose);
-        audio->show();
+        audio->showFullScreen();
         interface = "audio";
     });
 
@@ -64,7 +64,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(shortcutVideo, &QShortcut::activated, this, [this]() {
         auto *video = new InterfaceVideo(false, this);
         video->setAttribute(Qt::WA_DeleteOnClose);
-        video->show();
+        video->showFullScreen();
         interface = "video";
     });
     this->setWindowTitle("Page de Connexion");
@@ -662,7 +662,7 @@ void MainWindow::moveAndSendFiles() {
         }
     }
 }
-
+/*
 void MainWindow::mountNetworkDrive()
 {
     // Vérifie si le dossier est déjà monté
@@ -703,3 +703,4 @@ void MainWindow::mountNetworkDrive()
         QMessageBox::critical(this, "Erreur de montage", "Une erreur est survenue lors du montage du partage réseau :\n" + error);
     }
 }
+*/
