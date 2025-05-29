@@ -662,12 +662,23 @@ void MainWindow::moveAndSendFiles() {
         }
     }
 }
+
 void MainWindow::mountNetworkDrive()
 {
+    // Vérifie si le dossier est déjà monté
+    QProcess checkMount;
+    checkMount.start("mountpoint", QStringList() << "-q" << "/mnt/partage");
+    checkMount.waitForFinished();
+
+    if (checkMount.exitStatus() == QProcess::NormalExit && checkMount.exitCode() == 0) {
+        qDebug() << "🔒 Le dossier est déjà monté.";
+        return;
+    }
+
     QProcess process;
 
     QStringList args;
-    args << "-S"  // Lire mot de passe depuis stdin (inutile ici car pas de mot de passe si sudoers OK)
+    args << "-S"
          << "mount"
          << "-t" << "cifs"
          << "//192.168.64.1/Activites"
