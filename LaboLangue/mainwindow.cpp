@@ -712,12 +712,12 @@ bool MainWindow::connectToDatabase() {
     }
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("192.168.64.1");
+    db.setHostName("localhost");
     db.setDatabaseName("LaboLangue");
     db.setPort(3306);
     db.setUserName("prof"); // Remplacez par votre nom d'utilisateur
     db.setPassword("okokok"); // Remplacez par votre mot de passe
-    db.setConnectOptions("UNIX_SOCKET=/opt/lampp/var/mysql/mysql.sock");        //Pour dev avec Base sous linux
+    //db.setConnectOptions("UNIX_SOCKET=/opt/lampp/var/mysql/mysql.sock");        //Pour dev avec Base sous linux
 
     if (!db.open()) {
         qDebug() << "Impossible de se connecter à la base de données :" << db.lastError();
@@ -822,11 +822,6 @@ void MainWindow::on_delButton_clicked()
     }
 }
 
-void MainWindow::on_PlanButton_clicked()
-{
-    ui->PlanClasse->setVisible(!ui->PlanClasse->isVisible());
-}
-
 void MainWindow::on_ChoixActivite_currentIndexChanged(int index)
 {
     QString selectedActivity = ui->ChoixActivite->itemText(index);
@@ -860,7 +855,7 @@ void MainWindow::on_selectManuel_clicked()
 void MainWindow::on_selectAll_clicked()
 {
     // Vérification de la couleur du bouton pour désélectionner
-    if (listeParticipant.size() == listeRasp.size() && !selectionParticipants) { // Si tout est déjà sélectionné, on désélectionne
+    if (listeParticipant.size() == listeRasp.size() && selectAllParticipants) { // Si tout est déjà sélectionné, on désélectionne
         ui->selectAll->setStyleSheet("background-color: gray;");
 
         for (unsigned int i = 0; i < listeRasp.size(); i++) {

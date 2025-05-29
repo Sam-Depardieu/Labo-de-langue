@@ -119,7 +119,6 @@ public:
 
 private slots:
     // === Boutons principaux ===
-    void on_PlanButton_clicked();
     void on_SessionButton_clicked();
     void on_CreationButton_clicked();
     void on_StatutButton_clicked();
