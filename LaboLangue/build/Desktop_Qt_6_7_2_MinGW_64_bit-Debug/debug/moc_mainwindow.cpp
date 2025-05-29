@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'mainwindow.h'
 **
-** Created by: The Qt Meta Object Compiler version 69 (Qt 6.9.0)
+** Created by: The Qt Meta Object Compiler version 68 (Qt 6.7.2)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -21,8 +21,8 @@
 #include <QtCore/qxptype_traits.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'mainwindow.h' doesn't include <QObject>."
-#elif Q_MOC_OUTPUT_REVISION != 69
-#error "This file was generated using the moc from 6.9.0. It"
+#elif Q_MOC_OUTPUT_REVISION != 68
+#error "This file was generated using the moc from 6.7.2. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -35,197 +35,300 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 QT_WARNING_DISABLE_GCC("-Wuseless-cast")
 namespace {
-struct qt_meta_tag_ZN10MainWindowE_t {};
+
+#ifdef QT_MOC_HAS_STRINGDATA
+struct qt_meta_stringdata_CLASSMainWindowENDCLASS_t {};
+constexpr auto qt_meta_stringdata_CLASSMainWindowENDCLASS = QtMocHelpers::stringData(
+    "MainWindow",
+    "on_SessionButton_clicked",
+    "",
+    "on_CreationButton_clicked",
+    "on_StatutButton_clicked",
+    "on_loadSession_clicked",
+    "saveSessionData",
+    "isNewSession",
+    "resetSession",
+    "setupActivitiesComboBox",
+    "setupClassesComboBox",
+    "on_ChoixActivite_currentIndexChanged",
+    "index",
+    "on_selectAll_clicked",
+    "on_selectManuel_clicked",
+    "on_validButton_clicked",
+    "on_SourceButton_clicked",
+    "on_delButton_clicked",
+    "on_echapButton_clicked",
+    "on_casqueSonButton_clicked",
+    "on_microSonButton_clicked",
+    "on_Communication_clicked",
+    "on_envoyerMessagePersonne_clicked",
+    "on_envoyerMessageGroupe_clicked",
+    "on_creerGroupeButton_clicked",
+    "on_nomGroupeLineEdit_returnPressed",
+    "on_nomEleveLineEdit_editingFinished",
+    "on_pauseButton_clicked",
+    "onClicked_itemBoutonAjouterGroupe",
+    "iconEleveGroup*",
+    "eleve",
+    "on_modeClairButton_clicked",
+    "on_modeSombreButton_clicked",
+    "on_cacheButton_clicked",
+    "majStatusQCM",
+    "changeNameTable",
+    "QTableWidgetItem*",
+    "item",
+    "loadInformationTable",
+    "on_redemarrerButton_clicked",
+    "on_AideButton_clicked",
+    "on_cadenaCloseButton_clicked",
+    "on_cadenaOpenButton_clicked",
+    "errorBdd",
+    "QSqlQuery&",
+    "query",
+    "listeCouleursDisponibles",
+    "QList<QColor>",
+    "couleurDisponible",
+    "on_reloadButton_clicked",
+    "on_LectureStatutButton_clicked",
+    "on_PauseStatutButton_clicked",
+    "on_lectureButton_clicked",
+    "on_ajouterTemps_clicked",
+    "on_enleveTemps_clicked",
+    "on_AppelerButton_clicked",
+    "on_AppelButton_clicked"
+);
+#else  // !QT_MOC_HAS_STRINGDATA
+#error "qtmochelpers.h not found or too old."
+#endif // !QT_MOC_HAS_STRINGDATA
 } // unnamed namespace
 
-template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_tag_ZN10MainWindowE_t>()
-{
-    namespace QMC = QtMocConstants;
-    QtMocHelpers::StringRefStorage qt_stringData {
-        "MainWindow",
-        "on_SessionButton_clicked",
-        "",
-        "on_CreationButton_clicked",
-        "on_StatutButton_clicked",
-        "on_loadSession_clicked",
-        "saveSessionData",
-        "isNewSession",
-        "resetSession",
-        "setupActivitiesComboBox",
-        "setupClassesComboBox",
-        "on_ChoixActivite_currentIndexChanged",
-        "index",
-        "on_selectAll_clicked",
-        "on_selectManuel_clicked",
-        "on_validButton_clicked",
-        "on_SourceButton_clicked",
-        "on_delButton_clicked",
-        "on_echapButton_clicked",
-        "on_casqueSonButton_clicked",
-        "on_microSonButton_clicked",
-        "on_Communication_clicked",
-        "on_envoyerMessagePersonne_clicked",
-        "on_envoyerMessageGroupe_clicked",
-        "on_creerGroupeButton_clicked",
-        "on_nomGroupeLineEdit_returnPressed",
-        "on_nomEleveLineEdit_editingFinished",
-        "on_pauseButton_clicked",
-        "onClicked_itemBoutonAjouterGroupe",
-        "iconEleveGroup*",
-        "eleve",
-        "on_modeClairButton_clicked",
-        "on_modeSombreButton_clicked",
-        "on_cacheButton_clicked",
-        "majStatusQCM",
-        "changeNameTable",
-        "QTableWidgetItem*",
-        "item",
-        "loadInformationTable",
-        "on_redemarrerButton_clicked",
-        "on_AideButton_clicked",
-        "on_cadenaCloseButton_clicked",
-        "on_cadenaOpenButton_clicked",
-        "errorBdd",
-        "QSqlQuery&",
-        "query",
-        "listeCouleursDisponibles",
-        "QList<QColor>",
-        "couleurDisponible",
-        "on_reloadButton_clicked",
-        "on_LectureStatutButton_clicked",
-        "on_PauseStatutButton_clicked",
-        "on_lectureButton_clicked",
-        "on_ajouterTemps_clicked",
-        "on_enleveTemps_clicked",
-        "on_AppelerButton_clicked",
-        "on_AppelButton_clicked"
-    };
+Q_CONSTINIT static const uint qt_meta_data_CLASSMainWindowENDCLASS[] = {
 
-    QtMocHelpers::UintData qt_methods {
-        // Slot 'on_SessionButton_clicked'
-        QtMocHelpers::SlotData<void()>(1, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_CreationButton_clicked'
-        QtMocHelpers::SlotData<void()>(3, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_StatutButton_clicked'
-        QtMocHelpers::SlotData<void()>(4, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_loadSession_clicked'
-        QtMocHelpers::SlotData<void()>(5, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'saveSessionData'
-        QtMocHelpers::SlotData<void(bool)>(6, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::Bool, 7 },
-        }}),
-        // Slot 'resetSession'
-        QtMocHelpers::SlotData<void()>(8, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'setupActivitiesComboBox'
-        QtMocHelpers::SlotData<void()>(9, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'setupClassesComboBox'
-        QtMocHelpers::SlotData<void()>(10, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_ChoixActivite_currentIndexChanged'
-        QtMocHelpers::SlotData<void(int)>(11, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::Int, 12 },
-        }}),
-        // Slot 'on_selectAll_clicked'
-        QtMocHelpers::SlotData<void()>(13, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_selectManuel_clicked'
-        QtMocHelpers::SlotData<void()>(14, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_validButton_clicked'
-        QtMocHelpers::SlotData<void()>(15, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_SourceButton_clicked'
-        QtMocHelpers::SlotData<void()>(16, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_delButton_clicked'
-        QtMocHelpers::SlotData<void()>(17, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_echapButton_clicked'
-        QtMocHelpers::SlotData<void()>(18, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_casqueSonButton_clicked'
-        QtMocHelpers::SlotData<void()>(19, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_microSonButton_clicked'
-        QtMocHelpers::SlotData<void()>(20, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_Communication_clicked'
-        QtMocHelpers::SlotData<void()>(21, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_envoyerMessagePersonne_clicked'
-        QtMocHelpers::SlotData<void()>(22, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_envoyerMessageGroupe_clicked'
-        QtMocHelpers::SlotData<void()>(23, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_creerGroupeButton_clicked'
-        QtMocHelpers::SlotData<void()>(24, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_nomGroupeLineEdit_returnPressed'
-        QtMocHelpers::SlotData<void()>(25, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_nomEleveLineEdit_editingFinished'
-        QtMocHelpers::SlotData<void()>(26, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_pauseButton_clicked'
-        QtMocHelpers::SlotData<void()>(27, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'onClicked_itemBoutonAjouterGroupe'
-        QtMocHelpers::SlotData<void(iconEleveGroup *)>(28, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { 0x80000000 | 29, 30 },
-        }}),
-        // Slot 'on_modeClairButton_clicked'
-        QtMocHelpers::SlotData<void()>(31, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_modeSombreButton_clicked'
-        QtMocHelpers::SlotData<void()>(32, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_cacheButton_clicked'
-        QtMocHelpers::SlotData<void()>(33, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'majStatusQCM'
-        QtMocHelpers::SlotData<void()>(34, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'changeNameTable'
-        QtMocHelpers::SlotData<void(QTableWidgetItem *)>(35, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { 0x80000000 | 36, 37 },
-        }}),
-        // Slot 'loadInformationTable'
-        QtMocHelpers::SlotData<void()>(38, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_redemarrerButton_clicked'
-        QtMocHelpers::SlotData<void()>(39, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_AideButton_clicked'
-        QtMocHelpers::SlotData<void()>(40, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_cadenaCloseButton_clicked'
-        QtMocHelpers::SlotData<void()>(41, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_cadenaOpenButton_clicked'
-        QtMocHelpers::SlotData<void()>(42, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'errorBdd'
-        QtMocHelpers::SlotData<bool(QSqlQuery &)>(43, 2, QMC::AccessPrivate, QMetaType::Bool, {{
-            { 0x80000000 | 44, 45 },
-        }}),
-        // Slot 'listeCouleursDisponibles'
-        QtMocHelpers::SlotData<QList<QColor>()>(46, 2, QMC::AccessPrivate, 0x80000000 | 47),
-        // Slot 'couleurDisponible'
-        QtMocHelpers::SlotData<QColor()>(48, 2, QMC::AccessPrivate, QMetaType::QColor),
-        // Slot 'on_reloadButton_clicked'
-        QtMocHelpers::SlotData<void()>(49, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_LectureStatutButton_clicked'
-        QtMocHelpers::SlotData<void()>(50, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_PauseStatutButton_clicked'
-        QtMocHelpers::SlotData<void()>(51, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_lectureButton_clicked'
-        QtMocHelpers::SlotData<void()>(52, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_ajouterTemps_clicked'
-        QtMocHelpers::SlotData<void()>(53, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_enleveTemps_clicked'
-        QtMocHelpers::SlotData<void()>(54, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_AppelerButton_clicked'
-        QtMocHelpers::SlotData<void()>(55, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_AppelButton_clicked'
-        QtMocHelpers::SlotData<void()>(56, 2, QMC::AccessPrivate, QMetaType::Void),
-    };
-    QtMocHelpers::UintData qt_properties {
-    };
-    QtMocHelpers::UintData qt_enums {
-    };
-    return QtMocHelpers::metaObjectData<MainWindow, qt_meta_tag_ZN10MainWindowE_t>(QMC::MetaObjectFlag{}, qt_stringData,
-            qt_methods, qt_properties, qt_enums);
-}
+ // content:
+      12,       // revision
+       0,       // classname
+       0,    0, // classinfo
+      46,   14, // methods
+       0,    0, // properties
+       0,    0, // enums/sets
+       0,    0, // constructors
+       0,       // flags
+       0,       // signalCount
+
+ // slots: name, argc, parameters, tag, flags, initial metatype offsets
+       1,    0,  290,    2, 0x08,    1 /* Private */,
+       3,    0,  291,    2, 0x08,    2 /* Private */,
+       4,    0,  292,    2, 0x08,    3 /* Private */,
+       5,    0,  293,    2, 0x08,    4 /* Private */,
+       6,    1,  294,    2, 0x08,    5 /* Private */,
+       8,    0,  297,    2, 0x08,    7 /* Private */,
+       9,    0,  298,    2, 0x08,    8 /* Private */,
+      10,    0,  299,    2, 0x08,    9 /* Private */,
+      11,    1,  300,    2, 0x08,   10 /* Private */,
+      13,    0,  303,    2, 0x08,   12 /* Private */,
+      14,    0,  304,    2, 0x08,   13 /* Private */,
+      15,    0,  305,    2, 0x08,   14 /* Private */,
+      16,    0,  306,    2, 0x08,   15 /* Private */,
+      17,    0,  307,    2, 0x08,   16 /* Private */,
+      18,    0,  308,    2, 0x08,   17 /* Private */,
+      19,    0,  309,    2, 0x08,   18 /* Private */,
+      20,    0,  310,    2, 0x08,   19 /* Private */,
+      21,    0,  311,    2, 0x08,   20 /* Private */,
+      22,    0,  312,    2, 0x08,   21 /* Private */,
+      23,    0,  313,    2, 0x08,   22 /* Private */,
+      24,    0,  314,    2, 0x08,   23 /* Private */,
+      25,    0,  315,    2, 0x08,   24 /* Private */,
+      26,    0,  316,    2, 0x08,   25 /* Private */,
+      27,    0,  317,    2, 0x08,   26 /* Private */,
+      28,    1,  318,    2, 0x08,   27 /* Private */,
+      31,    0,  321,    2, 0x08,   29 /* Private */,
+      32,    0,  322,    2, 0x08,   30 /* Private */,
+      33,    0,  323,    2, 0x08,   31 /* Private */,
+      34,    0,  324,    2, 0x08,   32 /* Private */,
+      35,    1,  325,    2, 0x08,   33 /* Private */,
+      38,    0,  328,    2, 0x08,   35 /* Private */,
+      39,    0,  329,    2, 0x08,   36 /* Private */,
+      40,    0,  330,    2, 0x08,   37 /* Private */,
+      41,    0,  331,    2, 0x08,   38 /* Private */,
+      42,    0,  332,    2, 0x08,   39 /* Private */,
+      43,    1,  333,    2, 0x08,   40 /* Private */,
+      46,    0,  336,    2, 0x08,   42 /* Private */,
+      48,    0,  337,    2, 0x08,   43 /* Private */,
+      49,    0,  338,    2, 0x08,   44 /* Private */,
+      50,    0,  339,    2, 0x08,   45 /* Private */,
+      51,    0,  340,    2, 0x08,   46 /* Private */,
+      52,    0,  341,    2, 0x08,   47 /* Private */,
+      53,    0,  342,    2, 0x08,   48 /* Private */,
+      54,    0,  343,    2, 0x08,   49 /* Private */,
+      55,    0,  344,    2, 0x08,   50 /* Private */,
+      56,    0,  345,    2, 0x08,   51 /* Private */,
+
+ // slots: parameters
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::Bool,    7,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::Int,   12,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void, 0x80000000 | 29,   30,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void, 0x80000000 | 36,   37,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Bool, 0x80000000 | 44,   45,
+    0x80000000 | 47,
+    QMetaType::QColor,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+
+       0        // eod
+};
+
 Q_CONSTINIT const QMetaObject MainWindow::staticMetaObject = { {
     QMetaObject::SuperData::link<QMainWindow::staticMetaObject>(),
-    qt_staticMetaObjectStaticContent<qt_meta_tag_ZN10MainWindowE_t>.stringdata,
-    qt_staticMetaObjectStaticContent<qt_meta_tag_ZN10MainWindowE_t>.data,
+    qt_meta_stringdata_CLASSMainWindowENDCLASS.offsetsAndSizes,
+    qt_meta_data_CLASSMainWindowENDCLASS,
     qt_static_metacall,
     nullptr,
-    qt_staticMetaObjectRelocatingContent<qt_meta_tag_ZN10MainWindowE_t>.metaTypes,
+    qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSMainWindowENDCLASS_t,
+        // Q_OBJECT / Q_GADGET
+        QtPrivate::TypeAndForceComplete<MainWindow, std::true_type>,
+        // method 'on_SessionButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_CreationButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_StatutButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_loadSession_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'saveSessionData'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<bool, std::false_type>,
+        // method 'resetSession'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'setupActivitiesComboBox'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'setupClassesComboBox'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_ChoixActivite_currentIndexChanged'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<int, std::false_type>,
+        // method 'on_selectAll_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_selectManuel_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_validButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_SourceButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_delButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_echapButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_casqueSonButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_microSonButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_Communication_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_envoyerMessagePersonne_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_envoyerMessageGroupe_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_creerGroupeButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_nomGroupeLineEdit_returnPressed'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_nomEleveLineEdit_editingFinished'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_pauseButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'onClicked_itemBoutonAjouterGroupe'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<iconEleveGroup *, std::false_type>,
+        // method 'on_modeClairButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_modeSombreButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_cacheButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'majStatusQCM'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'changeNameTable'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<QTableWidgetItem *, std::false_type>,
+        // method 'loadInformationTable'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_redemarrerButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_AideButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_cadenaCloseButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_cadenaOpenButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'errorBdd'
+        QtPrivate::TypeAndForceComplete<bool, std::false_type>,
+        QtPrivate::TypeAndForceComplete<QSqlQuery &, std::false_type>,
+        // method 'listeCouleursDisponibles'
+        QtPrivate::TypeAndForceComplete<QList<QColor>, std::false_type>,
+        // method 'couleurDisponible'
+        QtPrivate::TypeAndForceComplete<QColor, std::false_type>,
+        // method 'on_reloadButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_LectureStatutButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_PauseStatutButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_lectureButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_ajouterTemps_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_enleveTemps_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_AppelerButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_AppelButton_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>
+    >,
     nullptr
 } };
 
 void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
-    auto *_t = static_cast<MainWindow *>(_o);
     if (_c == QMetaObject::InvokeMetaMethod) {
+        auto *_t = static_cast<MainWindow *>(_o);
+        (void)_t;
         switch (_id) {
         case 0: _t->on_SessionButton_clicked(); break;
         case 1: _t->on_CreationButton_clicked(); break;
@@ -278,8 +381,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 45: _t->on_AppelButton_clicked(); break;
         default: ;
         }
-    }
-    if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
+    } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
         switch (_id) {
         default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
         case 24:
@@ -301,7 +403,7 @@ const QMetaObject *MainWindow::metaObject() const
 void *MainWindow::qt_metacast(const char *_clname)
 {
     if (!_clname) return nullptr;
-    if (!strcmp(_clname, qt_staticMetaObjectStaticContent<qt_meta_tag_ZN10MainWindowE_t>.strings))
+    if (!strcmp(_clname, qt_meta_stringdata_CLASSMainWindowENDCLASS.stringdata0))
         return static_cast<void*>(this);
     return QMainWindow::qt_metacast(_clname);
 }
@@ -315,8 +417,7 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         if (_id < 46)
             qt_static_metacall(this, _c, _id, _a);
         _id -= 46;
-    }
-    if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
+    } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
         if (_id < 46)
             qt_static_metacall(this, _c, _id, _a);
         _id -= 46;

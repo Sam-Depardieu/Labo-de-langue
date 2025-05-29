@@ -273,7 +273,7 @@ void gestionSession::continuerCreationSession(bool sessionExistante)
             QFileInfo fileInfo(mainWindow->getSource());
             QString finalName = mainWindow->getNewName().isEmpty() ? fileInfo.fileName() : mainWindow->getNewName();
             if(!mainWindow->getNewName().isNull()) mainWindow->getProf()->sendCommandToStudent(eleve->getIP(), 5558, QString("nomFichier,"+mainWindow->getNewName()));
-            if(!mainWindow->getDuree()->isNull()) mainWindow->getProf()->sendCommandToStudent(eleve->getIP(), 5558, QString("chrono,%1").arg(*mainWindow->getDuree()));
+            if(!mainWindow->getDuree()->isNull()) mainWindow->getProf()->sendCommandToStudent(eleve->getIP(), 5558, QString("chrono,%1").arg(mainWindow->ui->DureeActivite->dateTime().time().toString("mm:ss")));
             if(!mainWindow->getSessionFolder().isNull()) mainWindow->getProf()->sendCommandToStudent(eleve->getIP(), 5561, QString(mainWindow->getSessionFolder()));
         }
     }
