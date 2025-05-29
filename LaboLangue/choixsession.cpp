@@ -14,7 +14,7 @@ choixSession::choixSession(MainWindow* parentWindow)
     ui->sortAZButton->setVisible(false);
     ui->sortZAButton->setVisible(true);
 
-    basePath = R"(//CIEL-T171-05/Activites)";
+    basePath = R"(//localhost/Activites)";
     QDir dir(basePath);
     QStringList sessionDirs = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
 

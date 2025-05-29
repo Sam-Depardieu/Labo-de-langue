@@ -228,7 +228,7 @@ void gestionSession::continuerCreationSession(bool sessionExistante)
 
     mainWindow->runningSession = true;
 
-    QString sessionSave = "\\\\CIEL-T171-05\\Activites\\" + mainWindow->getSessionFolder() + "\\";
+    QString sessionSave = "\\\\localhost\\Activites\\" + mainWindow->getSessionFolder() + "\\";
 
     if (!mainWindow->getSource().isEmpty()) {
         QFileInfo fileInfo(mainWindow->getSource());
@@ -272,12 +272,9 @@ void gestionSession::continuerCreationSession(bool sessionExistante)
             mainWindow->updateEleveNom(eleve, nomAuto);
             QFileInfo fileInfo(mainWindow->getSource());
             QString finalName = mainWindow->getNewName().isEmpty() ? fileInfo.fileName() : mainWindow->getNewName();
-            mainWindow->getProf()->sendCommandToStudent(eleve->getIP(), 5558, QString("nomFichier,"+mainWindow->getNewName()));
-            mainWindow->getProf()->sendCommandToStudent(eleve->getIP(), 5558, QString("chrono,%1").arg(*mainWindow->getDuree()));
-            mainWindow->getProf()->sendCommandToStudent(eleve->getIP(), 5561, QString(mainWindow->getSessionFolder()));
-
-            //qDebug() << mainWindow->getIpProf();
-            //mainWindow->getProf()->sendCommandToStudent(eleve->getIP(), 5558, "ipProf:"+QString(mainWindow->getIpProf()));
+            if(!mainWindow->getNewName().isNull()) mainWindow->getProf()->sendCommandToStudent(eleve->getIP(), 5558, QString("nomFichier,"+mainWindow->getNewName()));
+            if(!mainWindow->getDuree()->isNull()) mainWindow->getProf()->sendCommandToStudent(eleve->getIP(), 5558, QString("chrono,%1").arg(*mainWindow->getDuree()));
+            if(!mainWindow->getSessionFolder().isNull()) mainWindow->getProf()->sendCommandToStudent(eleve->getIP(), 5561, QString(mainWindow->getSessionFolder()));
         }
     }
     QMap<int, QString> activite {

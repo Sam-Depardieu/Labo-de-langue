@@ -1112,29 +1112,72 @@ void MainWindow::on_envoyerMessagePersonne_clicked()
         "Message envoyé",
         "✔ Le message à bien été envoyé au poste séléctionné.\n"
     );
+    ui->envoyerMessageTextEdit->clear();
+
 }
 
 void MainWindow::on_envoyerMessageGroupe_clicked()
 {
-    if(ui->envoyerMessageTextEdit->toPlainText() == ""){
+    QString message = ui->envoyerMessageTextEdit->toPlainText().trimmed();
+
+    if (message.isEmpty()) {
         qDebug() << "Le message est vide !";
         QMessageBox::critical(
-            nullptr,
+            this,
             "Le message n'a pas pu être envoyé",
-            "Le message est vide est n'a donc pas pu être envoyé.\n"
+            "Le message est vide et n'a donc pas pu être envoyé.\n"
+            );
+        return;
+    }
+
+    if (!eleveActuellementParametre) {
+        qDebug() << "Aucun élève sélectionné !";
+        QMessageBox::warning(
+            this,
+            "Aucun élève sélectionné",
+            "Veuillez sélectionner un élève appartenant à un groupe."
+            );
+        return;
+    }
+
+    const std::vector<iconEleveGroup*>& groupe = eleveActuellementParametre->getAffiliate();
+
+    if (groupe.empty()) {
+        qDebug() << "Le groupe de l'élève est vide.";
+        QMessageBox::warning(
+            this,
+            "Groupe vide",
+            "Le groupe de cet élève est vide ou non défini."
             );
         return;
     }
 
     qDebug() << "Envoyer le message au groupe de :" << eleveActuellementParametre->getIP();
-    //Code fonction
-    qDebug() << "Le message à été envoyé";
+
+    // Envoi du message à tous les élèves du groupe (affiliés)
+    for (iconEleveGroup* eleve : groupe) {
+        if (!eleve) continue;
+
+        QString ip = eleve->getIP();
+        QHostAddress addr;
+        if (!addr.setAddress(ip)) {
+            qDebug() << "IP invalide pour un élève du groupe :" << ip;
+            continue;
+        }
+
+        prof->sendCommandToStudent(ip, 5559, message);
+        qDebug() << "Message envoyé à :" << ip;
+    }
+
     QMessageBox::information(
-        nullptr,
+        this,
         "Message envoyé",
-        "✔ Le message à bien été envoyé au groupe du poste séléctionné.\n"
-    );
+        "✔ Le message a bien été envoyé au groupe du poste sélectionné.\n"
+        );
+
+    ui->envoyerMessageTextEdit->clear();
 }
+
 
 void MainWindow::on_modeClairButton_clicked()
 {
@@ -1442,7 +1485,6 @@ QList<QColor> MainWindow::listeCouleursDisponibles() {
     };
 }
 
-
 QColor MainWindow::couleurDisponible() {
     QList<QColor> toutes = listeCouleursDisponibles();
 
@@ -1526,8 +1568,6 @@ void MainWindow::on_enleveTemps_clicked()
         getProf()->sendCommandToStudent(eleve->getIP(), 5558, QString("chrono,%1").arg(remainingTime.toString("mm:ss")));
     }
 }
-
-
 
 void MainWindow::on_AppelerButton_clicked()
 {
