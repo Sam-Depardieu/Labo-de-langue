@@ -49,6 +49,8 @@ void Student::configureAudioPorts(quint16 portEnvoyeur, quint16 portReceveur)
     }
 
     qDebug() << "[Student] Ports configurés - Envoi:" << portEnvoyeur << " Réception:" << portReceveur;
+
+    startAudio();
 }
 
 void Student::handleCommand(const QString& cmd)

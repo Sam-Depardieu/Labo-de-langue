@@ -206,43 +206,40 @@ void Professeur::onAudioDatagramReceived()
     while (socket->hasPendingDatagrams()) {
         QByteArray datagram;
         datagram.resize(int(socket->pendingDatagramSize()));
-
-        QHostAddress sender;
+        QHostAddress senderIp;
         quint16 senderPort;
+        socket->readDatagram(datagram.data(), datagram.size(),
+                             &senderIp, &senderPort);
 
-        socket->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
+        QString senderStr = senderIp.toString();
 
-        QString senderStr = sender.toString();
-
-        qDebug() << QString("[Professeur][Groupe %1] Datagram reçu de %2:%3, taille %4 octets")
-                        .arg(groupName).arg(senderStr).arg(senderPort).arg(datagram.size());
-
+        // Si nouveau membre, on l’ajoute
         if (!group.members.contains(senderStr)) {
             group.members.insert(senderStr);
-            studentToGroup[senderStr] = groupName;
-            qDebug() << QString("[Professeur][Groupe %1] Nouvel étudiant %2 ajouté au groupe")
-                            .arg(groupName).arg(senderStr);
+            studentToGroup.insert(senderStr, groupName);
+            qDebug() << "[Prof][Groupe" << groupName
+                     << "] Nouvel étudiant :" << senderStr;
         }
 
+        // Si muté, on ignore
         if (group.mutedMembers.contains(senderStr)) {
-            qDebug() << QString("[Professeur][Groupe %1] Audio de %2 ignoré (muted)")
-                            .arg(groupName).arg(senderStr);
+            qDebug() << "[Prof][Groupe" << groupName
+                     << "] Audio de" << senderStr
+                     << "ignoré (muted)";
             continue;
         }
 
-        // Redistribution à tous les membres sauf l'expéditeur
-        for (const QString& memberStr : group.members) {
-            if (memberStr != senderStr) {
-                QHostAddress memberAddress(memberStr);
+        // **Ici, on envoie à tous les membres (sauf expéditeur) SUR portReceveur :**
+        for (const QString& membreIp : group.members) {
+            if (membreIp == senderStr) continue;
 
-                qint64 sent = socket->writeDatagram(datagram, memberAddress, group.portReceveur);
-                if (sent == -1) {
-                    qDebug() << QString("[Professeur][Groupe %1] Erreur en envoyant audio à %2:%3")
-                                    .arg(groupName).arg(memberStr).arg(group.portReceveur);
-                } else {
-                    qDebug() << QString("[Professeur][Groupe %1] Datagram audio envoyé à %2:%3, taille %4 octets")
-                                    .arg(groupName).arg(memberStr).arg(group.portReceveur).arg(datagram.size());
-                }
+            QHostAddress dest(membreIp);
+            qint64 sent = socket->writeDatagram(
+                datagram, dest, group.portReceveur);
+            if (sent == -1) {
+                qDebug() << "[Prof][Groupe" << groupName
+                         << "] Erreur en envoyant à"
+                         << membreIp << ":" << group.portReceveur;
             }
         }
     }
