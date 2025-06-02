@@ -37,15 +37,15 @@ namespace {
 struct qt_meta_stringdata_CLASSInterfaceEnregistrementENDCLASS_t {};
 constexpr auto qt_meta_stringdata_CLASSInterfaceEnregistrementENDCLASS = QtMocHelpers::stringData(
     "InterfaceEnregistrement",
-    "on_pushButtonSpeak_clicked",
-    "",
-    "on_pushButtonPause_clicked",
-    "on_pushButtonClear_clicked",
     "on_pushButtonSon_clicked",
-    "on_pushButtonRetourArriere_clicked",
+    "",
     "on_pushButtonAppelProf_clicked",
     "on_pushButtonEnregistrer_clicked",
+    "on_pushButtonSpeak_clicked",
     "on_pushButtonPlay_clicked",
+    "on_pushButtonRetourArriere_clicked",
+    "on_pushButtonClear_clicked",
+    "on_pushButtonPause_clicked",
     "animateButtonClick",
     "QPushButton*",
     "btn",
@@ -54,13 +54,13 @@ constexpr auto qt_meta_stringdata_CLASSInterfaceEnregistrementENDCLASS = QtMocHe
     "updateChronoLabel",
     "updateChronoGlobal",
     "faireClignoterLabel",
-    "onRecorderStateChanged",
-    "QMediaRecorder::RecorderState",
-    "state",
     "onRecorderErrorOccurred",
     "QMediaRecorder::Error",
     "error",
     "errorString",
+    "onRecorderStateChanged",
+    "QMediaRecorder::RecorderState",
+    "state",
     "checkPlaybackPosition",
     "position"
 );
@@ -97,8 +97,8 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSInterfaceEnregistrementENDCLASS[
       15,    0,  129,    2, 0x08,   13 /* Private */,
       16,    0,  130,    2, 0x08,   14 /* Private */,
       17,    0,  131,    2, 0x08,   15 /* Private */,
-      18,    1,  132,    2, 0x08,   16 /* Private */,
-      21,    2,  135,    2, 0x08,   18 /* Private */,
+      18,    2,  132,    2, 0x08,   16 /* Private */,
+      22,    1,  137,    2, 0x08,   19 /* Private */,
       25,    1,  140,    2, 0x08,   21 /* Private */,
 
  // slots: parameters
@@ -116,8 +116,8 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSInterfaceEnregistrementENDCLASS[
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, 0x80000000 | 19,   20,
-    QMetaType::Void, 0x80000000 | 22, QMetaType::QString,   23,   24,
+    QMetaType::Void, 0x80000000 | 19, QMetaType::QString,   20,   21,
+    QMetaType::Void, 0x80000000 | 23,   24,
     QMetaType::Void, QMetaType::LongLong,   26,
 
        0        // eod
@@ -132,21 +132,21 @@ Q_CONSTINIT const QMetaObject InterfaceEnregistrement::staticMetaObject = { {
     qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSInterfaceEnregistrementENDCLASS_t,
         // Q_OBJECT / Q_GADGET
         QtPrivate::TypeAndForceComplete<InterfaceEnregistrement, std::true_type>,
-        // method 'on_pushButtonSpeak_clicked'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'on_pushButtonPause_clicked'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'on_pushButtonClear_clicked'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_pushButtonSon_clicked'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'on_pushButtonRetourArriere_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_pushButtonAppelProf_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_pushButtonEnregistrer_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_pushButtonSpeak_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'on_pushButtonPlay_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_pushButtonRetourArriere_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_pushButtonClear_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'on_pushButtonPause_clicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'animateButtonClick'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
@@ -161,13 +161,13 @@ Q_CONSTINIT const QMetaObject InterfaceEnregistrement::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         // method 'faireClignoterLabel'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'onRecorderStateChanged'
-        QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        QtPrivate::TypeAndForceComplete<QMediaRecorder::RecorderState, std::false_type>,
         // method 'onRecorderErrorOccurred'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<QMediaRecorder::Error, std::false_type>,
         QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
+        // method 'onRecorderStateChanged'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        QtPrivate::TypeAndForceComplete<QMediaRecorder::RecorderState, std::false_type>,
         // method 'checkPlaybackPosition'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<qint64, std::false_type>
@@ -181,22 +181,22 @@ void InterfaceEnregistrement::qt_static_metacall(QObject *_o, QMetaObject::Call 
         auto *_t = static_cast<InterfaceEnregistrement *>(_o);
         (void)_t;
         switch (_id) {
-        case 0: _t->on_pushButtonSpeak_clicked(); break;
-        case 1: _t->on_pushButtonPause_clicked(); break;
-        case 2: _t->on_pushButtonClear_clicked(); break;
-        case 3: _t->on_pushButtonSon_clicked(); break;
-        case 4: _t->on_pushButtonRetourArriere_clicked(); break;
-        case 5: _t->on_pushButtonAppelProf_clicked(); break;
-        case 6: _t->on_pushButtonEnregistrer_clicked(); break;
-        case 7: _t->on_pushButtonPlay_clicked(); break;
+        case 0: _t->on_pushButtonSon_clicked(); break;
+        case 1: _t->on_pushButtonAppelProf_clicked(); break;
+        case 2: _t->on_pushButtonEnregistrer_clicked(); break;
+        case 3: _t->on_pushButtonSpeak_clicked(); break;
+        case 4: _t->on_pushButtonPlay_clicked(); break;
+        case 5: _t->on_pushButtonRetourArriere_clicked(); break;
+        case 6: _t->on_pushButtonClear_clicked(); break;
+        case 7: _t->on_pushButtonPause_clicked(); break;
         case 8: _t->animateButtonClick((*reinterpret_cast< std::add_pointer_t<QPushButton*>>(_a[1]))); break;
         case 9: _t->updateChrono(); break;
         case 10: _t->rewindChrono(); break;
         case 11: _t->updateChronoLabel(); break;
         case 12: _t->updateChronoGlobal(); break;
         case 13: _t->faireClignoterLabel(); break;
-        case 14: _t->onRecorderStateChanged((*reinterpret_cast< std::add_pointer_t<QMediaRecorder::RecorderState>>(_a[1]))); break;
-        case 15: _t->onRecorderErrorOccurred((*reinterpret_cast< std::add_pointer_t<QMediaRecorder::Error>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2]))); break;
+        case 14: _t->onRecorderErrorOccurred((*reinterpret_cast< std::add_pointer_t<QMediaRecorder::Error>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2]))); break;
+        case 15: _t->onRecorderStateChanged((*reinterpret_cast< std::add_pointer_t<QMediaRecorder::RecorderState>>(_a[1]))); break;
         case 16: _t->checkPlaybackPosition((*reinterpret_cast< std::add_pointer_t<qint64>>(_a[1]))); break;
         default: ;
         }
