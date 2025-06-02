@@ -146,6 +146,7 @@ release/qrc_ressource.cpp: ../../ressources/ressource.qrc \
 		../../ressources/cross.png \
 		../../ressources/check.png \
 		../../ressources/cross-qcm.png \
+		../../ressources/remettre.png \
 		../../ressources/micro.png \
 		../../ressources/pause.png \
 		../../ressources/cadenasClose.png \

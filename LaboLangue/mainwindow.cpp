@@ -170,39 +170,43 @@ MainWindow::MainWindow(QWidget *parent)
     connect(clignotementTimer, &QTimer::timeout, this, &MainWindow::faireClignoterLabel);
 
     udpSocketAppel = new QUdpSocket(this);
-    connect(udpSocketAppel, &QUdpSocket::readyRead, this, &MainWindow::demandeAide);
+    if (!udpSocketAppel->bind(QHostAddress::AnyIPv4, 5557, QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint)) {
+        qWarning() << "❌ Impossible de lier le socket au port 5557";
+    } else {
+        connect(udpSocketAppel, &QUdpSocket::readyRead, this, &MainWindow::demandeAide);
+        qDebug() << "✅ En écoute sur le port 5557";
+    }
 
     on_modeSombreButton_clicked();
 }
 
 void MainWindow::demandeAide()
 {
-
+    qDebug() << "demandeAide appelé";
     while (udpSocketAppel->hasPendingDatagrams()) {
         QByteArray datagram;
         datagram.resize(udpSocketAppel->pendingDatagramSize());
         QHostAddress sender;
         quint16 senderPort;
 
-        udpSocketAppel->readDatagram(datagram.data(),
-                                       datagram.size(),
-                                       &sender,
-                                       &senderPort);
-        QString cmd = QString::fromUtf8(datagram).trimmed().toUtf8();
+        udpSocketAppel->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
+        QString cmd = QString::fromUtf8(datagram).trimmed();
         qDebug() << "📢 RECV:" << cmd << "depuis" << sender.toString();
 
         if (cmd == "help") {
-            qDebug() << "🔇 Commande MUTE reçue";
-            for(unsigned int i=0; i!=listeParticipant.size(); i++)
-            {
-                if(listeParticipant[i]->getIP() == sender.toString())
-                {
+            qDebug() << "🔇 Commande HELP reçue";
+            for (unsigned int i = 0; i < listeParticipant.size(); i++) {
+                if (listeParticipant[i]->getIP() == sender.toString()) {
                     listeParticipant[i]->getLeveMain()->setVisible(true);
+                    qDebug() << "LeveMain affiché pour l'élève avec l'IP : " << sender.toString();
+                    break;
                 }
             }
         }
     }
 }
+
+
 
 // DESTRUCTEUR
 MainWindow::~MainWindow()
@@ -576,7 +580,7 @@ void MainWindow::loadImagesFromDB()
     QPixmap casqueDesactiverPixmap(":/img/earRed.png");
     QPixmap leveLaMainPixmap(":/img/remettre.png");
 
-    if (personPixmap.isNull() || checkPixmap.isNull() || microActiverPixmap.isNull()) {
+    if (personPixmap.isNull() || checkPixmap.isNull() || microActiverPixmap.isNull() || leveLaMainPixmap.isNull()) {
         qWarning("❌ Une ou plusieurs images n'ont pas pu être chargées. Vérifiez les chemins.");
         return;
     }
@@ -618,12 +622,12 @@ void MainWindow::loadImagesFromDB()
             return item;
         };
 
-        QGraphicsPixmapItem* checkItem           = makeIcon(checkPixmap, 0, 0);
-        QGraphicsPixmapItem* microActiver        = makeIcon(microActiverPixmap, -7, 0);
-        QGraphicsPixmapItem* microDesactiver     = makeIcon(microDesactiverPixmap, -7, 0);
-        QGraphicsPixmapItem* casqueActiver       = makeIcon(casqueActiverPixmap, 42, 0);
-        QGraphicsPixmapItem* casqueDesactiver    = makeIcon(casqueDesactiverPixmap, 42, 0);
-        QGraphicsPixmapItem* leveLaMain          = makeIcon(leveLaMainPixmap, 19, -10);
+        QGraphicsPixmapItem* checkItem = makeIcon(checkPixmap, 0, 0);
+        QGraphicsPixmapItem* microActiver = makeIcon(microActiverPixmap, -7, 0);
+        QGraphicsPixmapItem* microDesactiver = makeIcon(microDesactiverPixmap, -7, 0);
+        QGraphicsPixmapItem* casqueActiver = makeIcon(casqueActiverPixmap, 42, 0);
+        QGraphicsPixmapItem* casqueDesactiver = makeIcon(casqueDesactiverPixmap, 42, 0);
+        QGraphicsPixmapItem* leveLaMain = makeIcon(leveLaMainPixmap, 19, -10);
 
         group->setCheckItem(checkItem);
         group->setMicroActiver(microActiver);
@@ -632,23 +636,8 @@ void MainWindow::loadImagesFromDB()
         group->setCasqueDesactiver(casqueDesactiver);
         group->setLeveLaMain(leveLaMain);
 
-        // === Ajout du rond d'état (pastille) ===
-        QGraphicsEllipseItem* groupEtat = new QGraphicsEllipseItem(0, 0, 15, 15); // taille de la pastille
-        groupEtat->setBrush(Qt::gray);
-        groupEtat->setPen(Qt::NoPen);
-        groupEtat->setVisible(false);
-
-        // Positionner à droite de l'image, centré verticalement
-        QRectF imageRect = imageItem->boundingRect();
-        qreal pastilleW = 15;
-        groupEtat->setPos(
-            -pastilleW + 50, // 5 pixels à gauche de l'image
-            (imageRect.height() - pastilleW) / 2 // centré verticalement
-            );
-
-
-        group->addToGroup(groupEtat);
-        group->setgroupColor(groupEtat);
+        // Ajouter le groupe à la liste des participants
+        listeParticipant.push_back(group);
 
         // Positionner et ajouter à la scène
         group->setX(x);
@@ -670,6 +659,7 @@ void MainWindow::loadImagesFromDB()
 
     ui->PlanClasse->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
 }
+
 
 
 void MainWindow::mettreAJourAudioPourGroupe(const QString& groupe)
