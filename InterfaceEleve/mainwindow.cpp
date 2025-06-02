@@ -360,6 +360,8 @@ void MainWindow::receiveInfo() {
         QHostAddress sender;
         quint16 senderPort;
 
+        ipProf = sender.toString();
+
         udpSocketInfo.readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
 
         QString response = QString::fromUtf8(datagram).trimmed();
