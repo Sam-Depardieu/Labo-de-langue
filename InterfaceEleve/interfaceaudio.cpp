@@ -317,11 +317,21 @@ void InterfaceAudio::on_pushButtonAppelProf_clicked()
     ui->pushButtonAppelProf->setEnabled(false); // désactive le bouton
     ui->pushButtonAppelProf->setStyleSheet("border:1px solid white; border-radius:20px;");
 
-    // Récupérer l'adresse IP du professeur depuis MainWindow
-    QString ipProf = mainWindow->getIpProf();
+    if (!mainWindow) {
+        qDebug() << "[InterfaceAudio] mainWindow est null, impossible d'envoyer le message";
+        return;
+    }
 
-    // Envoyer le message "help" à l'adresse IP du professeur
-    mainWindow->sendCommandToProf(ipProf, 5557, "help");
-    qDebug() << "Appel prof envoyé à l'adresse IP : " << ipProf;
+    QString ipProf = mainWindow->getIpProf(); // Récupérer l'adresse IP du professeur
+    qDebug() << "[InterfaceAudio] Adresse IP prof récupérée :" << ipProf; // Log pour vérifier l'adresse IP du professeur
+    if (ipProf.isEmpty()) {
+        qDebug() << "[InterfaceAudio] IP Prof vide, envoi annulé";
+        return;
+    }
+
+    quint16 port = 5557;
+    QString message = "help"; // Message à envoyer
+
+    mainWindow->sendCommandToProf(ipProf, port, message);
 }
 

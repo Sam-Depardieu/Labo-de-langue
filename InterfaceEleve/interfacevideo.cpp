@@ -326,9 +326,22 @@ void InterfaceVideo::on_pushButtonAppelProf_clicked()
 {
     ui->pushButtonAppelProf->setEnabled(false);
     ui->pushButtonAppelProf->setStyleSheet("border:1px solid white; border-radius:20px;");
-    QString ipProf = mainWindow->getIpProf();
-    mainWindow->sendCommandToProf(ipProf, 5557, "help");
-    qDebug() << "Appel prof envoyé à l'adresse IP : " << ipProf;
+    if (!mainWindow) {
+        qDebug() << "[InterfaceVideo] mainWindow est null, impossible d'envoyer le message";
+        return;
+    }
+
+    QString ipProf = mainWindow->getIpProf(); // Récupérer l'adresse IP du professeur
+    qDebug() << "[InterfaceVideo] Adresse IP prof récupérée :" << ipProf; // Log pour vérifier l'adresse IP du professeur
+    if (ipProf.isEmpty()) {
+        qDebug() << "[InterfaceVideo] IP Prof vide, envoi annulé";
+        return;
+    }
+
+    quint16 port = 5557;
+    QString message = "help"; // Message à envoyer
+
+    mainWindow->sendCommandToProf(ipProf, port, message);
 }
 void InterfaceVideo::on_pushButton_Son_clicked()
 {

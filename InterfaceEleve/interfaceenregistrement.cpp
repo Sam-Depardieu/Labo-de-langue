@@ -307,15 +307,22 @@ void InterfaceEnregistrement::on_pushButtonAppelProf_clicked()
     ui->pushButtonAppelProf->setStyleSheet(" border:1px solid white; border-radius:20px;");
     isButtonAppelProfImage = false;
 
-    QUdpSocket *udpSocket = new QUdpSocket(this);
-    QJsonObject message;
-    message["type"] = "call_request";
-    message["id_eleve"] = studentId;
-    QJsonDocument doc(message);
-    QByteArray data = doc.toJson();
-    QHostAddress profAddress("192.168.88.216");
-    quint16 profPort = 45454;
-    udpSocket->writeDatagram(data, profAddress, profPort);
+    if (!mainWindow) {
+        qDebug() << "[InterfaceEnregistrement] mainWindow est null, impossible d'envoyer le message";
+        return;
+    }
+
+    QString ipProf = mainWindow->getIpProf(); // Récupérer l'adresse IP du professeur
+    qDebug() << "[InterfaceEnregistrement] Adresse IP prof récupérée :" << ipProf; // Log pour vérifier l'adresse IP du professeur
+    if (ipProf.isEmpty()) {
+        qDebug() << "[InterfaceEnregistrement] IP Prof vide, envoi annulé";
+        return;
+    }
+
+    quint16 port = 5557;
+    QString message = "help"; // Message à envoyer
+
+    mainWindow->sendCommandToProf(ipProf, port, message);
 }
 
 void InterfaceEnregistrement::checkPlaybackPosition(qint64 position)
