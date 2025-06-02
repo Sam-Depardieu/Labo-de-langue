@@ -489,6 +489,9 @@ void InterfaceQCM::on_pushButtonSoumettre_clicked()
 
 void InterfaceQCM::on_pushButtonAppelProf_clicked()
 {
+    ui->pushButtonAppelProf->setStyleSheet(" border:1px solid white; border-radius:20px;");
+    isButtonAppelProfImage = false;
+
     if (!mainWindow) {
         qDebug() << "[InterfaceQCM] mainWindow est null, impossible d'envoyer le message";
         return;
