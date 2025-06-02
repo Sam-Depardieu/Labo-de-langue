@@ -520,7 +520,7 @@ void MainWindow::receiveInter(){
 
         if (currentChild) {
             currentChild->setAttribute(Qt::WA_DeleteOnClose);
-            currentChild->show();
+            currentChild->showFullScreen();
         }
     }
 }
