@@ -92,6 +92,8 @@ InterfaceEnregistrement::InterfaceEnregistrement(MainWindow* parentWindow, QWidg
         chronoTimer->start(1000);
     } else {
         ui->chronoLabel->setText("00:00");
+        ui->chronoLabel->setVisible(false);
+
     }
 }
 

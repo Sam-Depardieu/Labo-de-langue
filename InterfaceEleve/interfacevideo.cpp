@@ -156,6 +156,8 @@ InterfaceVideo::InterfaceVideo(bool co, MainWindow *parentWindow, QWidget *paren
         chronoTimer->start(1000);
     } else {
         ui->chronoLabel->setText("00:00");
+        ui->chronoLabel->setVisible(false);
+
     }
 
 
