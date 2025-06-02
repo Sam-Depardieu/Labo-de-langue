@@ -378,7 +378,10 @@ MainWindow::~MainWindow()
         }
     }
 
-    void MainWindow::resetSession(){ gestion_Session->reset();}
+    void MainWindow::resetSession(){
+        gestion_Session->reset();
+        delete prof;
+    }
 
 
 void MainWindow::faireClignoterLabel()

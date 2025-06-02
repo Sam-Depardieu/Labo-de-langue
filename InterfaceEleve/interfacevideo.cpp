@@ -57,6 +57,8 @@ InterfaceVideo::InterfaceVideo(bool co, MainWindow *parentWindow, QWidget *paren
     ui->verticalSlider_sonVideo->raise();
 
 
+
+
     connect(player,&QMediaPlayer::durationChanged,this,[=](qint64 duration){
         ui->horizontalSlider->setRange(0, static_cast<int>(duration));
     });

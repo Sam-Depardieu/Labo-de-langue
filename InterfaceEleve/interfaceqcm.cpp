@@ -43,6 +43,8 @@ InterfaceQCM::InterfaceQCM(MainWindow *parentWindow ,QWidget *parent)
 
     remainingTime = parentWindow->getTime();
 
+
+    connect(ui->pushButtonAppelProf, &QPushButton::clicked, this, &InterfaceQCM::on_pushButtonAppelProf_clicked);
     // Initialisation des timers
     chronoTimer = new QTimer(this);
     connect(chronoTimer, &QTimer::timeout, this, &InterfaceQCM::updateChronoLabel);
@@ -489,6 +491,10 @@ void InterfaceQCM::on_pushButtonSoumettre_clicked()
 
 void InterfaceQCM::on_pushButtonAppelProf_clicked()
 {
+    // Mettre à jour le style du bouton
+    ui->pushButtonAppelProf->setStyleSheet("border:1px solid white; border-radius:20px;");
+    isButtonAppelProfImage = false;
+
     if (!mainWindow) {
         qDebug() << "[InterfaceQCM] mainWindow est null, impossible d'envoyer le message";
         return;
@@ -504,8 +510,23 @@ void InterfaceQCM::on_pushButtonAppelProf_clicked()
     quint16 port = 5557;
     QString message = "help"; // Message à envoyer
 
+    // Envoyer le message "help" en utilisant la méthode sendCommandToProf de MainWindow
     mainWindow->sendCommandToProf(ipProf, port, message);
+
+    // Envoyer le message "help" en utilisant un QUdpSocket
+    QUdpSocket socket;
+    QByteArray data = message.toUtf8();
+    QHostAddress addr(ipProf);
+
+    qint64 bytesSent = socket.writeDatagram(data, addr, port);
+
+    if (bytesSent == -1) {
+        qDebug() << "Erreur d'envoi:" << socket.errorString();
+    } else {
+        qDebug() << "Message envoyé avec succès (" << bytesSent << " octets)";
+    }
 }
+
 
 
 

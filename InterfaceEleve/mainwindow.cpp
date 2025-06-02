@@ -585,8 +585,43 @@ void MainWindow::receiveEndMessage()
     quint16 senderPort;
     udpSocketEnd->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
     QString message = QString::fromUtf8(datagram);
+
     if (message.trimmed() == "END") {
         moveAndSendFiles();
+        if (currentChild) {
+            currentChild->close();
+            delete currentChild;
+            currentChild = nullptr;
+        }
+
+        if (currentStudent) {
+            currentStudent->stopAudio();
+            currentStudent->deleteLater();
+            currentStudent = nullptr;
+        }
+        if (interAudio) {
+            interAudio->close();
+            interAudio->deleteLater();
+            interAudio = nullptr;
+        }
+        if (interVideo) {
+            interVideo->close();
+            interVideo->deleteLater();
+            interVideo = nullptr;
+        }
+        isCtrlPressed = false;
+        isF1Pressed = false;
+        actionDone = false;
+        sessionPATH.clear();
+        nomEleve.clear();
+        consigne.clear();
+        nomFichier.clear();
+        remainingTime = QTime(0, 0);
+        if (chronoTimer && chronoTimer->isActive()) {
+            chronoTimer->stop();
+        }
+        stopClignotement();
+        qDebug() << "[RESET] Session terminée et interface réinitialisée.";
     }
 }
 void MainWindow::moveAndSendFiles() {

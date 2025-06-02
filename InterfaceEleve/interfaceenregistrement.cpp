@@ -121,7 +121,7 @@ void InterfaceEnregistrement::setButtonIcons()
         }
     };
 
-    setIcon(ui->pushButtonSon, ":/images/Son");
+    setIcon(ui->pushButtonSon, ":/images/sonVid");
     setIcon(ui->pushButtonEnregistrer, ":/images/Enregistrer");
     setIcon(ui->pushButtonRetourArriere, ":/images/RevenirArriere");
     setIcon(ui->pushButtonPause, ":/images/Pause");
