@@ -510,9 +510,6 @@ void InterfaceQCM::on_pushButtonAppelProf_clicked()
     quint16 port = 5557;
     QString message = "help"; // Message à envoyer
 
-    // Envoyer le message "help" en utilisant la méthode sendCommandToProf de MainWindow
-    mainWindow->sendCommandToProf(ipProf, port, message);
-
     // Envoyer le message "help" en utilisant un QUdpSocket
     QUdpSocket socket;
     QByteArray data = message.toUtf8();
@@ -526,6 +523,7 @@ void InterfaceQCM::on_pushButtonAppelProf_clicked()
         qDebug() << "Message envoyé avec succès (" << bytesSent << " octets)";
     }
 }
+
 
 
 

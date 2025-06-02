@@ -1033,7 +1033,7 @@ void MainWindow::loadInformationTable()
         QTableWidgetItem *nomGroupe = new QTableWidgetItem(listeParticipant[row]->getNomGroupe());
         nomGroupe->setTextAlignment(Qt::AlignCenter);
         nomGroupe->setFlags(nomGroupe->flags() & ~Qt::ItemIsEditable);  // Désactiver l'édition de cette cellule
-        if(!(listeParticipant[row]->getgroupColor() == nullptr)){
+        if(!(listeParticipant[row]->getgroupColor()->brush() == QBrush(Qt::gray))){
             nomGroupe->setBackground(listeParticipant[row]->getgroupColor()->brush());
         }
         TableauGroupe->setItem(row, 3, nomGroupe);
