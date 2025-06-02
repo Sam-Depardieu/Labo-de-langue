@@ -45,6 +45,8 @@ public:
     void unmuteStudent(const QString& studentIp);
     void activerSonStudent(const QString& studentIp);
     void desactiverSonStudent(const QString& studentIp);
+    void stopAllAudioCommunication();
+
 
 signals:
     void debugMessage(const QString& msg);

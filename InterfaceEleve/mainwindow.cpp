@@ -587,6 +587,7 @@ void MainWindow::receiveEndMessage()
     QString message = QString::fromUtf8(datagram);
     if (message.trimmed() == "END") {
         moveAndSendFiles();
+        delete currentChild;
     }
 }
 void MainWindow::moveAndSendFiles() {

@@ -340,6 +340,65 @@ void Professeur::activerSonStudent(const QString& studentIp)
     }
 }
 
+void Professeur::stopAllAudioCommunication()
+{
+    // Stopper la capture audio
+    if (audioInput) {
+        audioInput->stop();
+        delete audioInput;
+        audioInput = nullptr;
+    }
+
+    if (audioInputDevice) {
+        audioInputDevice->close();
+        audioInputDevice = nullptr;
+    }
+
+    // Stopper la sortie audio
+    if (audioOutput) {
+        audioOutput->stop();
+        delete audioOutput;
+        audioOutput = nullptr;
+    }
+
+    if (audioOutputDevice) {
+        audioOutputDevice->close();
+        audioOutputDevice = nullptr;
+    }
+
+    // Fermer et supprimer le socket d'envoi
+    if (udpSocketSend) {
+        udpSocketSend->close();
+        delete udpSocketSend;
+        udpSocketSend = nullptr;
+    }
+
+    // Fermer et supprimer le socket de réception
+    if (udpSocketReceive) {
+        udpSocketReceive->close();
+        delete udpSocketReceive;
+        udpSocketReceive = nullptr;
+    }
+
+    // Fermer tous les sockets des groupes
+    for (auto& group : groups) {
+        if (group.socket) {
+            group.socket->close();
+            delete group.socket;
+            group.socket = nullptr;
+        }
+    }
+
+    // Nettoyage des groupes et associations
+    groups.clear();
+    studentToGroup.clear();
+
+    emit debugMessage("Toutes les communications audio ont été arrêtées.");
+}
+
+
+
+
 void Professeur::sendCommandToStudent(const QString& studentIp, quint16 port, const QString& cmd)
 {
     QUdpSocket socket;
