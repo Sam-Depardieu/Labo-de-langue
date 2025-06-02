@@ -49,8 +49,6 @@ MainWindow::MainWindow(QWidget *parent)
         qcm->showFullScreen();
         interface = "qcm";
     });
-
-    // Raccourci Touche 3 → Audio (écoute simple)
     shortcutAudio = new QShortcut(QKeySequence(Qt::Key_3), this);
     connect(shortcutAudio, &QShortcut::activated, this, [this]() {
         auto *audio = new InterfaceAudio(false, this);
@@ -58,8 +56,6 @@ MainWindow::MainWindow(QWidget *parent)
         audio->showFullScreen();
         interface = "audio";
     });
-
-    // Raccourci Touche 4 → Vidéo (lecture simple)
     shortcutVideo = new QShortcut(QKeySequence(Qt::Key_4), this);
     connect(shortcutVideo, &QShortcut::activated, this, [this]() {
         auto *video = new InterfaceVideo(false, this);
@@ -81,31 +77,30 @@ MainWindow::MainWindow(QWidget *parent)
     udpSocketNomFichier = new QUdpSocket(this);
     udpSocketNomFichier->bind(QHostAddress::Any, portNomFichier);
     connect(udpSocketNomFichier, &QUdpSocket::readyRead, this, &MainWindow::receivePath);
-    udpSocket->bind(QHostAddress::AnyIPv4, 5558);  // Initialise le port pour udpSocket
+    udpSocket->bind(QHostAddress::AnyIPv4, 5558);
     connect(udpSocket, &QUdpSocket::readyRead, this, &MainWindow::receiveInfo);
 
-    // DEBUG socket bind + connect
-    bool ok = udpSocketInter.bind(QHostAddress::AnyIPv4, 5560); // QHostAddress::AnyIPv4 = 0.0.0.0
-    qDebug() << "📡 BIND udpSocketInter ok ? " << ok;
+    bool ok = udpSocketInter.bind(QHostAddress::AnyIPv4, 5560);
+    qDebug() << " BIND udpSocketInter ok ? " << ok;
     connect(&udpSocketInter, &QUdpSocket::readyRead, this, &MainWindow::receiveInter);
 
 
     udpSocketRestart = new QUdpSocket(this);
 
     if (!udpSocketRestart->bind(QHostAddress::Any, 5557)) {
-        qWarning() << "❌ Impossible de binder le port 5557";
+        qWarning() << " Impossible de binder le port 5557";
     } else {
         connect(udpSocketRestart,
                 &QUdpSocket::readyRead,
                 this,
                 &MainWindow::handleRestartCommand);
-        qDebug() << "✅ En écoute RESTART sur 5557";
+        qDebug() << " En écoute RESTART sur 5557";
     }
 }
 
 bool MainWindow::connectToDatabase() {
     if (QSqlDatabase::contains("qt_sql_default_connection")) {
-        return true; // La connexion existe déjà
+        return true;
     }
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
     db.setHostName("192.168.64.1");
@@ -147,33 +142,33 @@ void MainWindow::handleRestartCommand()
                                        &sender,
                                        &senderPort);
         QString cmd = QString::fromUtf8(datagram).trimmed().toUtf8();
-        qDebug() << "📢 RECV:" << cmd << "depuis" << sender.toString();
+        qDebug() << " RECV:" << cmd << "depuis" << sender.toString();
 
         if (cmd == "mute") {
-            qDebug() << "🔇 Commande MUTE reçue";
-            // Appelle ta fonction mute audio ici, par exemple :
+            qDebug() << " Commande MUTE reçue";
+
             if(currentStudent) currentStudent->mute();
         }
         else if (cmd == "unmute") {
-            qDebug() << "🔈 Commande DEMUTE reçue";
-            // Appelle ta fonction unmute audio ici, par exemple :
+            qDebug() << " Commande DEMUTE reçue";
+
             if(currentStudent) currentStudent->unmute();
         }
         else if (cmd == "activerSon") {
-            qDebug() << "✅ Commande ACTIVER SON reçue";
-            // Active la diffusion sonore
+            qDebug() << " Commande ACTIVER SON reçue";
+
         }
         else if (cmd == "desactionSon") {
-            qDebug() << "🚫 Commande DESACTIVER SON reçue";
-            // Désactive la diffusion sonore
+            qDebug() << " Commande DESACTIVER SON reçue";
+
         }
         else if (cmd == "RESTART") {
-            qDebug() << "♻️ Redémarrage imminent…";
-            // Effectue l'opération de redémarrage
+            qDebug() << " Redémarrage imminent…";
+
         }
         else if (cmd == "END") {
-            qDebug() << "🛑 Fin de la session reçue";
-            // Traite la fin de session (fermeture, nettoyage, etc.)
+            qDebug() << " Fin de la session reçue";
+
         }
         else if (cmd == "pause") {
             if(interAudio) interAudio->setAudioPause(true);
@@ -184,7 +179,7 @@ void MainWindow::handleRestartCommand()
             if(interVideo) interVideo->setVideoPause(false);
         }
         else {
-            qDebug() << "⚠️ Commande inconnue reçue :" << cmd;
+            qDebug() << " Commande inconnue reçue :" << cmd;
         }
     }
 }
@@ -194,9 +189,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     if (event->key() == Qt::Key_F1)     isF1Pressed   = true;
 
     if (isCtrlPressed && isF1Pressed && !actionDone) {
-        actionDone = true;  // empêcher la répétition
+        actionDone = true;
 
-        // 1) Récupère IP & MAC
         QString ipAddress, macAddress;
         for (auto iface : QNetworkInterface::allInterfaces()) {
             if (!(iface.flags() & QNetworkInterface::IsUp) ||
@@ -218,8 +212,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                                  tr("Impossible de récupérer IP/MAC."));
             return;
         }
-
-        // 2) Vérifie si la MAC existe déjà → update IP uniquement
         QSqlQuery checkMac;
         checkMac.prepare("SELECT COUNT(*) FROM Raspberry WHERE mac = :mac");
         checkMac.bindValue(":mac", macAddress);
@@ -240,8 +232,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             }
             return;
         }
-
-        // 3) Sinon, si l’IP existe déjà → override ou abort
         QSqlQuery checkIp;
         checkIp.prepare("SELECT COUNT(*) FROM Raspberry WHERE ip = :ip");
         checkIp.bindValue(":ip", ipAddress);
@@ -257,8 +247,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 != QMessageBox::Yes)
                 return;
         }
-
-        // 4) Recherche du plus petit ID libre
         QSqlQuery idQuery("SELECT id_raspberry FROM Raspberry ORDER BY id_raspberry");
         if (!idQuery.isActive()) {
             QMessageBox::critical(this, tr("Erreur BDD"), idQuery.lastError().text());
@@ -270,8 +258,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             if (existingId == nextId) ++nextId;
             else if (existingId > nextId) break;
         }
-
-        // 5) Saisie de l’ID (override ou nouveau)
         bool ok = false;
         int id_raspberry = QInputDialog::getInt(
             this,
@@ -281,8 +267,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 : tr("Entrez l'ID Raspberry à utiliser :"),
             nextId, 1, 1000, 1, &ok);
         if (!ok) return;
-
-        // 6) Calcul des coordonnées X/Y
         const int maxPerRow = 7, spacing = 50;
         int column = (id_raspberry - 1) % maxPerRow;
         int row    = (id_raspberry - 1) / maxPerRow;
@@ -322,7 +306,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                                          : tr("Nouveau Raspberry inséré avec succès."));
         }
     }
-    // Ouvrir interfaces selon touche 1, 2, 3, 4
     switch (event->key()) {
     case Qt::Key_1: {
         auto *rec = new InterfaceEnregistrement(this);
@@ -363,10 +346,6 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
     if (event->key() == Qt::Key_F1) {
         isF1Pressed = false;
     }
-
-    // Réinitialise le flag si tu veux permettre une nouvelle action après un certain temps ou événement
-    // actionDone = false; // Par exemple, tu pourrais mettre ceci ici pour que l'action puisse être répétée plus tard
-
     QMainWindow::keyReleaseEvent(event);
 }
 
@@ -382,84 +361,75 @@ void MainWindow::receiveInfo() {
         udpSocketInfo.readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
 
         QString response = QString::fromUtf8(datagram).trimmed();
-        qDebug() << "📢 Message reçu de" << sender.toString();
+        qDebug() << " Message reçu de" << sender.toString();
 
         // On ne traite que les IPv4 (à adapter si besoin IPv6)
         if (sender.protocol() != QAbstractSocket::IPv4Protocol) {
-            qDebug() << "🌐 Adresse non IPv4 reçue, ignorée :" << sender.toString();
+            qDebug() << " Adresse non IPv4 reçue, ignorée :" << sender.toString();
             continue;
         }
 
         // Format attendu : clé,valeur
         if (response.isEmpty() || !response.contains(",")) {
-            qWarning() << "⛔ Format invalide (attendu clé,valeur) : " << response;
+            qWarning() << " Format invalide (attendu clé,valeur) : " << response;
             continue;
         }
 
         QStringList parts = response.split(",", Qt::SkipEmptyParts);
         if (parts.size() != 2) {
-            qWarning() << "⛔ Format invalide (attendu clé,valeur) : " << response;
+            qWarning() << " Format invalide (attendu clé,valeur) : " << response;
             continue;
         }
 
         QString key = parts[0].trimmed();
         QString value = parts[1].trimmed();
-
-        // Gestion des clés classiques (nomProf, ipProf, etc.)
         if (key == "nomProf") {
             nomProf = value;
-            qDebug() << "👤 Nom du prof reçu :" << nomProf;
+            qDebug() << " Nom du prof reçu :" << nomProf;
         } else if (key == "ipProf") {
             ipProf = value;
-            qDebug() << "👤 Adresse IP prof reçue :" << ipProf;
+            qDebug() << " Adresse IP prof reçue :" << ipProf;
         } else if (key == "nomEleve") {
             nomEleve = value;
-            qDebug() << "👤 Nom de l'élève reçu :" << nomEleve;
+            qDebug() << " Nom de l'élève reçu :" << nomEleve;
         } else if (key == "chrono") {
             remainingTime = QTime::fromString(value, "mm:ss");
             qDebug() << "⏳ Temps restant :" << value;
         } else if (key == "consigne") {
             consigne = value;
-            qDebug() << "📝 Consigne :" << consigne;
+            qDebug() << " Consigne :" << consigne;
         } else if (key == "nomFichier") {
             nomFichier = value;
-            qDebug() << "📝 Nom du fichier :" << nomFichier;
+            qDebug() << " Nom du fichier :" << nomFichier;
         }
-        // === CIBLE PRINCIPALE ===
         else if (key == "portGroup") {
             bool ok = false;
             int port = value.toInt(&ok);
-            if (!ok || port <= 0 || port > 65505) { // max 65505 car +30 plus loin
-                qWarning() << "⛔ Port invalide reçu pour portGroup:" << value;
+            if (!ok || port <= 0 || port > 65505) {
+                qWarning() << " Port invalide reçu pour portGroup:" << value;
                 continue;
             }
 
-            qDebug() << "🎧 Changement de groupe, port d'envoi audio :" << port;
-
-            // Supprimer l'étudiant courant s'il existe (stop audio + libération mémoire)
+            qDebug() << " Changement de groupe, port d'envoi audio :" << port;
             if (currentStudent) {
                 currentStudent->stopAudio();
                 currentStudent->deleteLater();
                 currentStudent = nullptr;
             }
-
-            // Adresse du prof (par défaut loopback si non définie)
             QHostAddress profAddress = ipProf.isEmpty() ? QHostAddress("192.168.64.1") : QHostAddress(ipProf);
 
             // Calcul des ports
             quint16 portEnvoyeur = static_cast<quint16>(port);
             quint16 portReceveur = static_cast<quint16>(port + 30);
-
-            // Initialisation de l'étudiant
             currentStudent = new Student(this);
-            currentStudent->setServerAddress(profAddress, portEnvoyeur);  // pour envoyer les données au prof
-            currentStudent->configureAudioPorts(portEnvoyeur, portReceveur); // méthode à créer (ou que tu as déjà)
+            currentStudent->setServerAddress(profAddress, portEnvoyeur);
+            currentStudent->configureAudioPorts(portEnvoyeur, portReceveur);
             currentStudent->startAudio();
 
-            qDebug() << "✅ Étudiant initialisé, envoi sur" << portEnvoyeur << "réception sur" << portReceveur;
+            qDebug() << " Étudiant initialisé, envoi sur" << portEnvoyeur << "réception sur" << portReceveur;
         }
         else {
-            qWarning() << "🔍 Clé non reconnue :" << key;
+            qWarning() << " Clé non reconnue :" << key;
         }
     }
 }
@@ -476,7 +446,7 @@ void MainWindow::receivePath(){
         udpSocketNomFichier->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
 
         QString cheminFichier = QString("/mnt/partage/"+QString::fromUtf8(datagram).trimmed());
-        qDebug() << "📄 Chemin reçu :" << cheminFichier;
+        qDebug() << " Chemin reçu :" << cheminFichier;
 
         if (currentChild) {
             currentChild->close();
@@ -498,7 +468,7 @@ void MainWindow::receiveInter(){
         udpSocketInter.readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
 
         QString response = QString::fromUtf8(datagram).trimmed();
-        qDebug() << "📢 Interface reçue :" << response;
+        qDebug() << " Interface reçue :" << response;
 
         if (response.isEmpty())
             continue;
@@ -556,7 +526,7 @@ void MainWindow::updateChrono()
     remainingTime = remainingTime.addSecs(-1);
     QString temps = remainingTime.toString("mm:ss");
 
-    emit chronoMisAJour(temps); // 🔔 toutes les interfaces reçoivent
+    emit chronoMisAJour(temps);
 
     if (remainingTime <= QTime(0, 0, 30)) {
         faireClignoterLabel();
@@ -565,7 +535,7 @@ void MainWindow::updateChrono()
     if (remainingTime == QTime(0, 0)) {
         chronoTimer->stop();
         stopClignotement();
-        emit chronoFini(); // 🔔 on notifie la fin
+        emit chronoFini();
     }
 }
 
@@ -596,33 +566,25 @@ void MainWindow::receiveEndMessage()
     datagram.resize(udpSocketEnd->pendingDatagramSize());
     QHostAddress sender;
     quint16 senderPort;
-    // Lire le message reçu
     udpSocketEnd->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
-    // Vérifier si le message reçu est "END"
     QString message = QString::fromUtf8(datagram);
     if (message.trimmed() == "END") {
-        // Lancer le processus de renommage et de déplacement du dossier
         moveAndSendFiles();
     }
 }
 void MainWindow::moveAndSendFiles() {
-    // Étape 1: Vérifier si le chemin de session est défini
     if (sessionPATH.isEmpty()) {
         qWarning() << "Le chemin de session n'est pas défini.";
         return;
     }
     qDebug() << "Chemin de session reçu : " << sessionPATH;
-
-    // Chemin du dossier à envoyer (dossier "Travail")
     const QString folderPath = QDir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).filePath("Travail");
 
-    // Vérifier si le dossier source existe
     if (!QDir(folderPath).exists()) {
         qDebug() << "Le dossier source n'existe pas: " << folderPath;
         QMessageBox::critical(this, "Erreur", "Le dossier source à envoyer n'existe pas.");
         return;
     }
-    // Créer le dossier "Rendus" dans le dossier de session
     QString renduFolderPath = sessionPATH + "/Rendus";
     if (!QDir(renduFolderPath).exists()) {
         if (!QDir().mkpath(renduFolderPath)) {
@@ -631,28 +593,19 @@ void MainWindow::moveAndSendFiles() {
             return;
         }
     }
-
-    // Étape 2: Récupérer tous les fichiers du dossier "Travail" et les renommer
     QDir dir(folderPath);
-    QStringList files = dir.entryList(QDir::Files); // Récupérer la liste des fichiers dans "Travail"
+    QStringList files = dir.entryList(QDir::Files);
 
     foreach (const QString &fileName, files) {
-        // Construire le chemin du fichier
         QString filePath = folderPath + "/" + fileName;
-
-        // Créer le nom du fichier avec le nom de l'élève
         QString newFileName = nomEleve + "_" + fileName;
         QString newFilePath = renduFolderPath + "/" + newFileName;
-
-        // Étape 3: Renommer et déplacer le fichier vers le dossier "Rendus"
         if (QFile::rename(filePath, newFilePath)) {
             qDebug() << "Fichier déplacé et renommé avec succès : " << newFilePath;
         } else {
             qDebug() << "Erreur lors du déplacement et du renommage du fichier : " << fileName;
         }
     }
-
-    // Étape 4: Supprimer les fichiers dans "Travail" après l'envoi
     QDir folder(folderPath);
     if (folder.exists()) {
         if (folder.removeRecursively()) {
@@ -665,7 +618,6 @@ void MainWindow::moveAndSendFiles() {
 /*
 void MainWindow::mountNetworkDrive()
 {
-    // Vérifie si le dossier est déjà monté
     QProcess checkMount;
     checkMount.start("mountpoint", QStringList() << "-q" << "/mnt/partage");
     checkMount.waitForFinished();
@@ -695,11 +647,11 @@ void MainWindow::mountNetworkDrive()
     QString error = process.readAllStandardError();
 
     if (!output.isEmpty()) {
-        qDebug() << "✅ Montage réussi : " << output;
+        qDebug() << " Montage réussi : " << output;
     }
 
     if (!error.isEmpty()) {
-        qDebug() << "❌ Erreur de montage : " << error;
+        qDebug() << " Erreur de montage : " << error;
         QMessageBox::critical(this, "Erreur de montage", "Une erreur est survenue lors du montage du partage réseau :\n" + error);
     }
 }
