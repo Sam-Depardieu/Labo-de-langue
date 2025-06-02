@@ -95,6 +95,9 @@ InterfaceEnregistrement::InterfaceEnregistrement(MainWindow* parentWindow, QWidg
         ui->chronoLabel->setVisible(false);
 
     }
+
+    loadConsigneJson(sessionPATH);
+
 }
 
 InterfaceEnregistrement::~InterfaceEnregistrement()
@@ -107,6 +110,50 @@ InterfaceEnregistrement::~InterfaceEnregistrement()
     delete timer;
     delete rewindTimer;
 }
+
+void InterfaceEnregistrement::loadConsigneJson(QString &filePath)
+{
+    QString cheminConsigne = QString("%1/config.labo").arg(filePath);
+    QFile file(cheminConsigne);
+
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qWarning() << "Erreur Impossible d'ouvrir le fichier consigne JSON.";
+        ui->pushButtonAppelProf->hide();
+
+        return;
+    }
+
+    QByteArray jsonData = file.readAll();
+    file.close();
+
+    QJsonDocument doc = QJsonDocument::fromJson(jsonData);
+    if (doc.isNull() || !doc.isObject()) {
+        qWarning() << "Erreur Le fichier consigne JSON n'est pas valide.";
+        return;
+    }
+
+    QJsonObject obj = doc.object();
+
+    // Extraction du port
+    QString portStr = obj.value("port").toString();
+    bool ok;
+    quint16 portNum = portStr.toUShort(&ok);
+    if (ok) {
+        consignePort = portNum;
+        qDebug() << "Port consigne chargé:" << consignePort;
+    } /*else {
+        qWarning() << "Conversion du port consigne impossible, valeur par défaut utilisée:" << consignePort;
+    }*/
+
+    // Extraction de la consigne
+    consigne = obj.value("consigne").toString();
+
+    // Affichage dans le textEditConsigne avec "Consigne :"
+    QString currentText = ui->textEditConsigne->toPlainText(); // Conserve l'ancien texte
+    currentText += QString(" %1\n").arg(consigne);   // Ajoute la nouvelle consigne formatée
+    ui->textEditConsigne->setPlainText(currentText);           // Met à jour le champ texte
+}
+
 
 
 void InterfaceEnregistrement::setButtonIcons()
@@ -419,5 +466,14 @@ void InterfaceEnregistrement::receiveResponse() {
                 ui->textEditFeedBack->setText(contenu);
             }
         }
+    }
+    while (udpSocketConsigne.hasPendingDatagrams()) {
+        QByteArray datagram;
+        datagram.resize(udpSocketConsigne.pendingDatagramSize());
+        QHostAddress sender;
+        quint16 port;
+        udpSocketConsigne.readDatagram(datagram.data(), datagram.size(), &sender, &port);
+        QString response = QString::fromUtf8(datagram).trimmed();
+        qDebug() << "📢 Reçu :" << response;
     }
 }

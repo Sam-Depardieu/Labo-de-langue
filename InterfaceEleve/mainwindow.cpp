@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 {
     ui->setupUi(this);
-    mountNetworkDrive();
+   // mountNetworkDrive();
 
     //Affiche juste la barre de titre, sans les boutons Fermer, Minimiser, Maximiser
     //setWindowFlags(Qt::Dialog | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
@@ -667,7 +667,7 @@ void MainWindow::moveAndSendFiles() {
         }
     }
 }
-
+/*
 void MainWindow::mountNetworkDrive()
 {
     QProcess checkMount;
@@ -707,4 +707,4 @@ void MainWindow::mountNetworkDrive()
         QMessageBox::critical(this, "Erreur de montage", "Une erreur est survenue lors du montage du partage réseau :\n" + error);
     }
 }
-
+*/

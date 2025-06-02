@@ -47,6 +47,7 @@ public:
     explicit InterfaceEnregistrement(MainWindow* parentWindow, QWidget *parent = nullptr);
     ~InterfaceEnregistrement();
     void receiveResponse();
+    QString getConsigne() { return consigne; }
 
 private slots: 
     void on_pushButtonSon_clicked();
@@ -131,6 +132,11 @@ private:
     QTimer* clignotementTimer;
     QString sessionPATH = "";
     QString nomEleve = "";
+
+    void loadConsigneJson(QString &filePath);
+    QUdpSocket udpSocketConsigne;
+    quint16 consignePort = 5558;
+    QString consigne = "";
 
 };
 

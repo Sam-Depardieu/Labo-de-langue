@@ -120,7 +120,7 @@ private:
 
     void startLoading();
     void stopLoading();
-    void mountNetworkDrive();
+    //void mountNetworkDrive();
 signals:
     void chronoMisAJour(const QString &temps);
     void chronoFini();
