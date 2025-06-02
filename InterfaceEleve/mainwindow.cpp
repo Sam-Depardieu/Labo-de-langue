@@ -350,6 +350,8 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
 }
 
 
+
+
 void MainWindow::receiveInfo() {
     while (udpSocketInfo.hasPendingDatagrams()) {
         QByteArray datagram;
