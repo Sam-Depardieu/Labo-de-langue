@@ -128,6 +128,10 @@ Ajoutez un montage fichier sur les raspberry :
 	 - cmake --build .
 	 - ./InterfaceEleve
 
+  - Commande pour lancer QtCreator en admin
+  - sudo QT_X11_NO_MITSHM=1 DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY /home/quentin/Qt/Tools/QtCreator/bin/qtcreator
+
+
 
 
 
