@@ -15,8 +15,8 @@ InterfaceAudio::InterfaceAudio(bool co,MainWindow* parentWindow, QWidget *parent
     , ui(new Ui::InterfaceAudio)
     , mainWindow(parentWindow)
     , player(new QMediaPlayer(this))
-    , audioOutput(new QAudioOutput(this))  // 🔹 Initialisation de player
-    , CO(co) // 🔹 Initialisation de audioOutput
+    , audioOutput(new QAudioOutput(this))
+    , CO(co)
     , coMode(co)
 {
     ui->setupUi(this);
@@ -33,84 +33,80 @@ InterfaceAudio::InterfaceAudio(bool co,MainWindow* parentWindow, QWidget *parent
     ui->pushButton_Play->setVisible(false);
     setFixedSize(800,480);
     if (CO) {
-        // mode "écoute_co" : on verrouille les contrôles
         ui->pushButton_Avant->setEnabled(false);
         ui->pushButton_Pause->setEnabled(false);
         ui->pushButton_Apres->setEnabled(false);
         ui->horizontalSlider->setEnabled(false);
 
-        // on cache le bouton Reset
         ui->pushButtonReset->setVisible(true);
     } else {
-        // mode normal : tout est actif
         ui->pushButton_Avant->setEnabled(true);
         ui->pushButton_Pause->setEnabled(true);
         ui->pushButton_Apres->setEnabled(true);
         ui->horizontalSlider->setEnabled(true);
 
-        // on affiche le bouton Reset
         ui->pushButtonReset->setVisible(false);
     }
 
     this->setWindowTitle("Page de Comprehension Orale");
     player->setAudioOutput(audioOutput);
-    QPixmap imagePlay(":/images/Play"); // Charge l'image
+    QPixmap imagePlay(":/images/Play");
     if (imagePlay.isNull()) {
         qWarning() << "Erreur : image non trouvée !";
     } else {
-        QIcon icone(imagePlay); // Crée une icône
-        ui->pushButton_Play->setIcon(icone); // Définit l'icône du bouton
-        ui->pushButton_Play->setIconSize(ui->pushButton_Play->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
+        QIcon icone(imagePlay);
+        ui->pushButton_Play->setIcon(icone);
+        ui->pushButton_Play->setIconSize(ui->pushButton_Play->size());
     }
-    QPixmap imagePause(":/images/Pause"); // Charge l'image
+    QPixmap imagePause(":/images/Pause");
     if (imagePause.isNull()) {
         qWarning() << "Erreur : image non trouvée !";
     } else {
-        QIcon icone(imagePause); // Crée une icône
-        ui->pushButton_Pause->setIcon(icone); // Définit l'icône du bouton
-        ui->pushButton_Pause->setIconSize(ui->pushButton_Pause->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
+        QIcon icone(imagePause);
+        ui->pushButton_Pause->setIcon(icone);
+        ui->pushButton_Pause->setIconSize(ui->pushButton_Pause->size());
     }
-    QPixmap imageAvant10(":/images/Avant10"); // Charge l'image
+    QPixmap imageAvant10(":/images/Avant10");
     if (imageAvant10.isNull()) {
         qWarning() << "Erreur : image non trouvée !";
     } else {
-        QIcon icone(imageAvant10); // Crée une icône
-        ui->pushButton_Avant->setIcon(icone); // Définit l'icône du bouton
-        ui->pushButton_Avant->setIconSize(ui->pushButton_Avant->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
+        QIcon icone(imageAvant10);
+        ui->pushButton_Avant->setIcon(icone);
+        ui->pushButton_Avant->setIconSize(ui->pushButton_Avant->size());
     }
-    QPixmap imageApres10(":/images/Apres10"); // Charge l'image
+    QPixmap imageApres10(":/images/Apres10");
     if (imageApres10.isNull()) {
         qWarning() << "Erreur : image non trouvée !";
     } else {
-        QIcon icone(imageApres10); // Crée une icône
-        ui->pushButton_Apres->setIcon(icone); // Définit l'icône du bouton
-        ui->pushButton_Apres->setIconSize(ui->pushButton_Apres->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
+        QIcon icone(imageApres10);
+        ui->pushButton_Apres->setIcon(icone);
+        ui->pushButton_Apres->setIconSize(ui->pushButton_Apres->size());
     }
     QPixmap imageReset(":/images/Repeter");
     if (imageReset.isNull()){
         qWarning() << "Erreur : image non trouvée !";
     } else {
-        QIcon icone(imageReset); // Crée une icône
-        ui->pushButtonReset->setIcon(icone); // Définit l'icône du bouton
+        QIcon icone(imageReset);
+        ui->pushButtonReset->setIcon(icone);
         ui->pushButtonReset->setIconSize(ui->pushButtonReset->size());
 
     };
-    QPixmap sonVid(":/images/sonVid"); // Charge l'image
+    QPixmap sonVid(":/images/sonVid");
     if (sonVid.isNull()) {
         qWarning() << "Erreur : image non trouvée !";
     } else {
-        QIcon icone(sonVid); // Crée une icône
-        ui->pushButton_Son->setIcon(icone); // Définit l'icône du bouton
-        ui->pushButton_Son->setIconSize(ui->pushButton_Son->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
+        QIcon icone(sonVid);
+        ui->pushButton_Son->setIcon(icone);
+        ui->pushButton_Son->setIconSize(ui->pushButton_Son->size());
     }
 
-    QPixmap AppelProf(":/images/CallProf"); // Charge l'image
+    QPixmap AppelProf(":/images/CallProf");
     if (AppelProf.isNull()) {
         qWarning() << "Erreur : image non trouvée !";
     } else {
-        QIcon icone(AppelProf); // Crée une icône
-        ui->pushButtonAppelProf->setIcon(icone); // Définit l'icône du bouton
-        ui->pushButtonAppelProf->setIconSize(ui->pushButtonAppelProf->size()); // Ajuste la taille de l'icône pour qu'elle corresponde à la taille du bouton
+        QIcon icone(AppelProf);
+        ui->pushButtonAppelProf->setIcon(icone);
+        ui->pushButtonAppelProf->setIconSize(ui->pushButtonAppelProf->size());
     }
 
     ui->verticalSlider_sonVideo->setVisible(false);
@@ -130,11 +126,9 @@ InterfaceAudio::InterfaceAudio(bool co,MainWindow* parentWindow, QWidget *parent
 
     clignotementEtat = false;
 
-    // Style initial du label
     ui->chronoLabel->setVisible(true);
     ui->chronoLabel->setStyleSheet("background-color: #0097a7; color: white; border: 2px solid white; border-radius: 8px; font-family: 'Segoe UI', 'Arial', sans-serif; font-weight: bold; font-size: 28px; padding: 5px 15px; qproperty-alignment: 'AlignCenter';");
 
-    // Affichage du temps initial et démarrage du chrono
     if (remainingTime.isValid() && remainingTime != QTime(0, 0)) {
         ui->chronoLabel->setText(remainingTime.toString("mm:ss"));
         chronoTimer->start(1000);
@@ -145,7 +139,7 @@ InterfaceAudio::InterfaceAudio(bool co,MainWindow* parentWindow, QWidget *parent
     QFile file(mainWindow->getSessionPATH() + "/" + mainWindow->getNomFichier());
 
     if (mainWindow->getNomFichier() != nullptr) {
-        player->setSource(QUrl::fromLocalFile(file.fileName()));  // Charger et lire l'audio
+        player->setSource(QUrl::fromLocalFile(file.fileName()));
         player->play();
         qDebug() << "Fichier sélectionné : " << file.fileName() << file.exists();
     }
@@ -188,20 +182,18 @@ void InterfaceAudio::setAudioPause(bool pause)
 
 void InterfaceAudio::on_pushButton_Play_clicked()
 {
-    setAudioPause(false); // Jouer
+    setAudioPause(false);
 }
 
 void InterfaceAudio::on_pushButton_Pause_clicked()
 {
-    setAudioPause(true); // Mettre en pause
+    setAudioPause(true);
 }
 void InterfaceAudio::on_pushButton_Avant_clicked()
 {
     animateButtonClick(ui->pushButton_Avant);
     qint64 currentPosition = player->position();
     qint64 newPosition = currentPosition - 10000;
-
-    // Ensure we don't go below 0 (start of the video)
     if (newPosition < 0)
         newPosition = 0;
     player->setPosition(newPosition);
@@ -211,18 +203,16 @@ void InterfaceAudio::on_pushButton_Apres_clicked()
     animateButtonClick(ui->pushButton_Apres);
     qint64 currentPosition = player->position();
     qint64 newPosition = currentPosition + 10000;
-
-    // Set the new position
     player->setPosition(newPosition);
 }
 
 void InterfaceAudio::closeEvent(QCloseEvent *event) {
     if (player) {
-        player->stop();  // 🔹 Arrêter la lecture
-        delete player;   // 🔹 Libérer la mémoire
+        player->stop();
+        delete player;
         player = nullptr;
     }
-    event->accept();  // Accepter la fermeture
+    event->accept();
 }
 
 void InterfaceAudio::on_horizontalSlider_sliderReleased()
@@ -232,54 +222,38 @@ void InterfaceAudio::on_horizontalSlider_sliderReleased()
     player->setPosition(position);
 }
 void InterfaceAudio::animateButtonClick(QPushButton* btn) {
-    // 1) on prend la géométrie d'origine
     const QRect orig = btn->geometry();
     const QRect small = orig.adjusted(5, 5, -5, -5);
-
-    // 2) animation pour rétrécir
     auto *shrink = new QPropertyAnimation(btn, "geometry");
     shrink->setDuration(60);
     shrink->setStartValue(orig);
     shrink->setEndValue(small);
-
-    // 3) animation pour réagrandir
     auto *expand = new QPropertyAnimation(btn, "geometry");
     expand->setDuration(60);
     expand->setStartValue(small);
     expand->setEndValue(orig);
-
-    // 4) on les enchaîne
     auto *seq = new QSequentialAnimationGroup(btn);
     seq->addAnimation(shrink);
     seq->addAnimation(expand);
-
-    // 5) on lance et on supprime l’objet à la fin
     seq->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
 void InterfaceAudio::on_pushButtonReset_clicked()
 {
-    // 1) Si on a déjà reset 3 fois, on bloque
     if (resetCount >= maxResets) {
         QMessageBox::warning(this,
                              "Limite atteinte",
                              "Vous ne pouvez réinitialiser l'audio que 3 fois.");
         return;
     }
-
-    // 2) N'autoriser le reset que si la lecture est terminée
     if (player->playbackState() != QMediaPlayer::StoppedState) {
         QMessageBox::information(this,
                                  "Lecture en cours",
                                  "Veuillez attendre la fin de la lecture avant de réinitialiser.");
         return;
     }
-
-    // 3) On remet la position à 0 et on relance
     player->setPosition(0);
     player->play();
-
-    // 4) Comptabiliser un reset, et informer l’utilisateur
     resetCount++;
     QMessageBox::information(this,
                              "Réinitialisation",
@@ -290,19 +264,12 @@ void InterfaceAudio::on_pushButtonReset_clicked()
 
 void InterfaceAudio::on_pushButton_Son_clicked()
 {
-    // 1. Afficher ou cacher le slider de volume
     bool visible = ui->verticalSlider_sonVideo->isVisible();
     ui->verticalSlider_sonVideo->setVisible(!visible);
-
-    // 2. Si on l'affiche pour la première fois, on initialise
     if (!visible) {
         ui->verticalSlider_sonVideo->setRange(0, 100);
-
-        // 🔄 Corrigé : récupérer correctement le volume actuel
         int volume = static_cast<int>(audioOutput->volume() * 50);
         ui->verticalSlider_sonVideo->setValue(volume);
-
-        // 3. Connecter une seule fois le signal du slider
         static bool sliderConnected = false;
         if (!sliderConnected) {
             connect(ui->verticalSlider_sonVideo, &QSlider::valueChanged, this, [=](int value) {
@@ -331,7 +298,7 @@ void InterfaceAudio::updateChronoLabel()
 
     if (remainingTime.minute() == 0 && remainingTime.second() < 31) {
         if (!clignotementTimer->isActive())
-            clignotementTimer->start(500); // clignote toutes les 500 ms
+            clignotementTimer->start(500);
     }
 
     if (remainingTime == QTime(0, 0)) {
