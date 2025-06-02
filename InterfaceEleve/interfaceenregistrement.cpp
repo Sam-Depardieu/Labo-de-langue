@@ -108,6 +108,7 @@ InterfaceEnregistrement::~InterfaceEnregistrement()
     delete rewindTimer;
 }
 
+
 void InterfaceEnregistrement::setButtonIcons()
 {
     auto setIcon = [&](QPushButton *button, const QString &imagePath) {
