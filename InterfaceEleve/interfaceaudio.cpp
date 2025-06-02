@@ -243,25 +243,17 @@ void InterfaceAudio::animateButtonClick(QPushButton* btn) {
 void InterfaceAudio::on_pushButtonReset_clicked()
 {
     if (resetCount >= maxResets) {
-        QMessageBox::warning(this,
-                             "Limite atteinte",
-                             "Vous ne pouvez réinitialiser l'audio que 3 fois.");
+        QMessageBox::warning(this,"Limite atteinte","Vous ne pouvez réinitialiser l'audio que 3 fois.");
         return;
     }
     if (player->playbackState() != QMediaPlayer::StoppedState) {
-        QMessageBox::information(this,
-                                 "Lecture en cours",
-                                 "Veuillez attendre la fin de la lecture avant de réinitialiser.");
+        QMessageBox::information(this,"Lecture en cours","Veuillez attendre la fin de la lecture avant de réinitialiser.");
         return;
     }
     player->setPosition(0);
     player->play();
     resetCount++;
-    QMessageBox::information(this,
-                             "Réinitialisation",
-                             QString("Remise à zéro effectuée (%1/%2).")
-                                 .arg(resetCount)
-                                 .arg(maxResets));
+    QMessageBox::information(this,"Réinitialisation",QString("Remise à zéro effectuée (%1/%2).").arg(resetCount).arg(maxResets));
 }
 
 void InterfaceAudio::on_pushButton_Son_clicked()
